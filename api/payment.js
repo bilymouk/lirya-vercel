@@ -27,8 +27,8 @@ module.exports = async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.VERCEL_URL || 'https://lirya-vercel.vercel.app'}/success.html`,
-      cancel_url: `${process.env.VERCEL_URL || 'https://lirya-vercel.vercel.app'}`,
+      success_url: `https://${process.env.VERCEL_URL || 'lirya-vercel.vercel.app'}/success.html`,
+      cancel_url: `https://${process.env.VERCEL_URL || 'lirya-vercel.vercel.app'}`,
       metadata: {
         recipientName: formData.recipientName,
         yourName: formData.yourName,
