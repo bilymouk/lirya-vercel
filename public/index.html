@@ -1725,12 +1725,18 @@
                     body: JSON.stringify({ formData }),
                 });
                 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
                 
-                if (data.sessionId) {
-                    // Redirigir a Stripe Checkout
-                    const stripe = Stripe('pk_test_51SgUupC9ZAiICMcP3OfhdQCwbSLwNhqfLMPHqnqJHBEbxPjmyBpJc2Qx9UGCZxwOdCOWuWBxTHdSHxLXmDMZJRcZ00W0cUhDlz');
-                    stripe.redirectToCheckout({ sessionId: data.sessionId });
+                if (data.url) {
+                    // Redirigir directamente a Stripe Checkout
+                    window.location.href = data.url;
+                } else if (data.error) {
+                    console.error('Error de la API:', data.error, data.details);
+                    alert('Error al crear la sesión de pago: ' + (data.details || data.error));
                 } else {
                     alert('Error al crear la sesión de pago. Por favor, inténtalo de nuevo.');
                 }
