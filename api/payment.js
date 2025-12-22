@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: 'price_1Qg2NpC9ZAiICMcPdmxnT5Uj', // Price ID correcto
+          price: 'price_1SgZIwC9ZAiICMcPbj7tDXxj', // Price ID correcto
           quantity: 1,
         },
       ],
