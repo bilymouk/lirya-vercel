@@ -1701,7 +1701,7 @@
         }
 
         // Enviar pago (Stripe)
-        function submitPayment() {
+        async function submitPayment() {
             // Recopilar datos del formulario
             const formData = {
                 recipient_name: document.getElementById('recipient-name').value,
@@ -1714,12 +1714,30 @@
                 email: document.getElementById('email').value,
                 whatsapp: document.getElementById('whatsapp-yes').checked ? document.getElementById('whatsapp-number').value : null
             };
-            // IMPORTANTE: Reemplaza 'TU_STRIPE_CHECKOUT_ID' con tu ID real de Stripe
-            const stripeCheckoutId = 'TU_STRIPE_CHECKOUT_ID';
-            // Construir URL de Stripe Checkout con los datos del cliente
-            const stripeCheckoutUrl = `https://checkout.stripe.com/pay/${stripeCheckoutId}?client_reference_id=${JSON.stringify(formData)}`;
-            // Redirigir a Stripe Checkout
-            window.location.href = stripeCheckoutUrl;
+            
+            try {
+                // Llamar a la API para crear sesión de Stripe
+                const response = await fetch('/api/payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ formData }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.sessionId) {
+                    // Redirigir a Stripe Checkout
+                    const stripe = Stripe('pk_test_51SgUupC9ZAiICMcP3OfhdQCwbSLwNhqfLMPHqnqJHBEbxPjmyBpJc2Qx9UGCZxwOdCOWuWBxTHdSHxLXmDMZJRcZ00W0cUhDlz');
+                    stripe.redirectToCheckout({ sessionId: data.sessionId });
+                } else {
+                    alert('Error al crear la sesión de pago. Por favor, inténtalo de nuevo.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al procesar el pago. Por favor, inténtalo de nuevo.');
+            }
         }
 
         // Validar formulario en tiempo real

@@ -19,19 +19,12 @@ module.exports = async (req, res) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { formData } = req.body;
 
-    // Crear sesión de Stripe Checkout
+    // Crear sesión de Stripe Checkout usando el Price ID del producto "Canción"
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
-          price_data: {
-            currency: 'eur',
-            product_data: {
-              name: 'Canción Personalizada Lirya',
-              description: `Para ${formData.recipientName} de ${formData.yourName}`,
-            },
-            unit_amount: 4900, // 49€ en centavos
-          },
+          price: 'price_1SgZIwC9ZAiICMcPbj7tDXxj', // Price ID del producto "Canción" (€19.99)
           quantity: 1,
         },
       ],
@@ -40,6 +33,16 @@ module.exports = async (req, res) => {
       cancel_url: `${process.env.VERCEL_URL || 'https://lirya-vercel.vercel.app'}/`,
       client_reference_id: JSON.stringify(formData),
       customer_email: formData.email,
+      metadata: {
+        recipient_name: formData.recipient_name,
+        your_name: formData.your_name,
+        how_met: formData.how_met,
+        special_moment: formData.special_moment,
+        three_words: formData.three_words,
+        song_style: formData.song_style,
+        dedication: formData.dedication,
+        email: formData.email,
+      },
     });
 
     return res.status(200).json({ sessionId: session.id });
