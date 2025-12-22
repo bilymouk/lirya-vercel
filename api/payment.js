@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { formData } = req.body;
+    const formData = req.body;
 
     console.log('Datos recibidos del formulario:', formData);
 
