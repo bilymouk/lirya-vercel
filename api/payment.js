@@ -1,45 +1,56 @@
 const Stripe = require('stripe');
-const { Resend } = require('resend');
 
-module.exports = async function handler(req, res) {
-  if (req.method === 'POST') {
+export default {
+  async fetch(request) {
+    // Solo aceptar POST
+    if (request.method !== 'POST') {
+      return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+        status: 405,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     try {
-      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      
-      const { amount, email, formData } = req.body;
+      // Parsear el body
+      const body = await request.json();
+      const { formData } = body;
 
-      // Crear sesión de pago con Stripe
+      // Inicializar Stripe
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+      // Crear sesión de Stripe Checkout
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
           {
             price_data: {
-              currency: 'usd',
+              currency: 'eur',
               product_data: {
-                name: 'Canción Personalizada - Lirya',
-                description: 'Tu canción personalizada creada con Lirya',
+                name: 'Canción Personalizada',
+                description: `Para ${formData.recipient_name} de ${formData.your_name}`,
               },
-              unit_amount: Math.round(amount * 100), // Convertir a centavos
+              unit_amount: 9900, // 99€ en centavos
             },
             quantity: 1,
           },
         ],
         mode: 'payment',
-        success_url: `https://lirya-vercel.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `https://lirya-vercel.vercel.app/cancel`,
-        metadata: {
-          email: email,
-          formData: JSON.stringify(formData),
-        },
+        success_url: `${process.env.VERCEL_URL || 'https://lirya-vercel.vercel.app'}/success`,
+        cancel_url: `${process.env.VERCEL_URL || 'https://lirya-vercel.vercel.app'}/cancel`,
+        client_reference_id: JSON.stringify(formData),
+        customer_email: formData.email,
       });
 
-      res.status(200).json({ sessionId: session.id });
+      return new Response(JSON.stringify({ sessionId: session.id }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
     } catch (error) {
-      console.error('Error en payment:', error);
-      res.status(500).json({ error: error.message });
+      console.error('Error creating Stripe session:', error);
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
   }
 };
