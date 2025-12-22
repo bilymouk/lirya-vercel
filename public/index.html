@@ -1701,7 +1701,7 @@
         }
 
         // Enviar pago (Stripe)
-        async function submitPayment() {
+        function submitPayment() {
             // Recopilar datos del formulario
             const formData = {
                 recipient_name: document.getElementById('recipient-name').value,
@@ -1714,56 +1714,12 @@
                 email: document.getElementById('email').value,
                 whatsapp: document.getElementById('whatsapp-yes').checked ? document.getElementById('whatsapp-number').value : null
             };
-
-            const payBtn = document.getElementById('payBtn');
-            payBtn.disabled = true;
-            payBtn.textContent = 'Procesando...';
-
-            try {
-                // Llamar a la API /api/payment para crear la sesión de Stripe
-                const response = await fetch('/api/payment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        amount: 49.99,
-                        email: formData.email,
-                        formData: formData,
-                    }),
-                });
-
-                const data = await response.json();
-
-                if (data.error) {
-                    alert('Error: ' + data.error);
-                    payBtn.disabled = false;
-                    payBtn.textContent = 'Crear mi canción';
-                    return;
-                }
-
-                if (data.sessionId) {
-                    console.log('Sesión de Stripe creada:', data.sessionId);
-                    
-                    // Redirigir a Stripe Checkout usando stripe.redirectToCheckout
-                    stripe.redirectToCheckout({ sessionId: data.sessionId }).then(function(result) {
-                        if (result.error) {
-                            alert('Error: ' + result.error.message);
-                            payBtn.disabled = false;
-                            payBtn.textContent = 'Crear mi canción';
-                        }
-                    });
-                } else {
-                    alert('Error al procesar el pago: No se recibió sessionId');
-                    payBtn.disabled = false;
-                    payBtn.textContent = 'Crear mi canción';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al procesar el pago: ' + error.message);
-                payBtn.disabled = false;
-                payBtn.textContent = 'Crear mi canción';
-            }
+            // IMPORTANTE: Reemplaza 'TU_STRIPE_CHECKOUT_ID' con tu ID real de Stripe
+            const stripeCheckoutId = 'TU_STRIPE_CHECKOUT_ID';
+            // Construir URL de Stripe Checkout con los datos del cliente
+            const stripeCheckoutUrl = `https://checkout.stripe.com/pay/${stripeCheckoutId}?client_reference_id=${JSON.stringify(formData)}`;
+            // Redirigir a Stripe Checkout
+            window.location.href = stripeCheckoutUrl;
         }
 
         // Validar formulario en tiempo real
