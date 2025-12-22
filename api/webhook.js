@@ -3,6 +3,23 @@ const { Resend } = require('resend');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Configuración para Vercel: desactivar el parsing automático del body
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+// Función para leer el body raw como buffer
+const getRawBody = (req) => {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', (chunk) => chunks.push(chunk));
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+};
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido' });
@@ -14,8 +31,11 @@ module.exports = async (req, res) => {
   let event;
 
   try {
-    // Verificar la firma del webhook de Stripe
-    event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    // Leer el body raw como buffer
+    const rawBody = await getRawBody(req);
+    
+    // Verificar la firma del webhook de Stripe con el body raw
+    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
   } catch (err) {
     console.error('Error al verificar webhook:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
