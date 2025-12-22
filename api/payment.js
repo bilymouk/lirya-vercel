@@ -15,32 +15,37 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const formData = req.body;
+    const { formData } = req.body;
+
+    console.log('Datos recibidos del formulario:', formData);
 
     // Crear sesión de Stripe Checkout
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
-          price: 'price_1SgZIwC9ZAiICMcPbj7tDXxj', // Price ID real de Stripe
+          price: 'price_1Qg2NpC9ZAiICMcPdmxnT5Uj', // Price ID correcto
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: `https://${process.env.VERCEL_URL || 'lirya-vercel.vercel.app'}/success.html`,
-      cancel_url: `https://${process.env.VERCEL_URL || 'lirya-vercel.vercel.app'}`,
+      success_url: `https://${process.env.VERCEL_URL || 'lirya-vercel.vercel.app'}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://${process.env.VERCEL_URL || 'lirya-vercel.vercel.app'}/cancel.html`,
       metadata: {
-        recipientName: formData.recipientName,
-        yourName: formData.yourName,
-        howMet: formData.howMet,
-        specialMoment: formData.specialMoment,
-        threeWords: formData.threeWords,
-        style: formData.style,
-        dedication: formData.dedication,
-        email: formData.email,
-        whatsapp: formData.whatsapp,
+        recipient_name: formData.recipient_name || '',
+        your_name: formData.your_name || '',
+        how_met: formData.how_met || '',
+        special_moment: formData.special_moment || '',
+        three_words: formData.three_words || '',
+        song_style: formData.song_style || '',
+        dedication: formData.dedication || '',
+        email: formData.email || '',
+        whatsapp: formData.whatsapp || '',
       },
     });
+
+    console.log('Sesión de Stripe creada:', session.id);
+    console.log('Metadata guardado:', session.metadata);
 
     res.status(200).json({ url: session.url });
   } catch (error) {
