@@ -68,7 +68,7 @@ if (payBtn) {
       if (data.sessionId) {
         console.log('Sesión de Stripe creada:', data.sessionId);
         
-        // Redirigir a Stripe Checkout
+        // Usar el método moderno de Stripe para redirigir a Checkout
         const result = await stripe.redirectToCheckout({
           sessionId: data.sessionId,
         });

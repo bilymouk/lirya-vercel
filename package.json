@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Plataforma para crear canciones personalizadas",
   "main": "index.html",
-  "type": "module",
   "scripts": {
     "build": "echo 'Build complete'",
     "start": "node server.js"

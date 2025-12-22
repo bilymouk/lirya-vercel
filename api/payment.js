@@ -1,12 +1,12 @@
-import Stripe from 'stripe';
-import { Resend } from 'resend';
+const Stripe = require('stripe');
+const { Resend } = require('resend');
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === 'POST') {
     try {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      
       const { amount, email, formData } = req.body;
 
       // Crear sesión de pago con Stripe
@@ -26,8 +26,8 @@ export default async function handler(req, res) {
           },
         ],
         mode: 'payment',
-        success_url: `${process.env.VERCEL_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.VERCEL_URL}/cancel`,
+        success_url: `https://lirya-vercel.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `https://lirya-vercel.vercel.app/cancel`,
         metadata: {
           email: email,
           formData: JSON.stringify(formData),
@@ -42,4 +42,4 @@ export default async function handler(req, res) {
   } else {
     res.status(405).json({ error: 'Method not allowed' });
   }
-}
+};
