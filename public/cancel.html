@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Cancelado - Lirya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            background: #ffffff;
+            padding: 0.3rem 2rem;
+            border-bottom: 1px solid rgba(212, 165, 116, 0.15);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4a574 0%, #e8c896 50%, #d4a574 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Fondo animado */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: wave 20s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        .cancel-container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .cancel-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .cancel-icon svg {
+            width: 45px;
+            height: 45px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4a574 0%, #e8c896 50%, #d4a574 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .cancel-message {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .info-box {
+            background: rgba(212, 165, 116, 0.05);
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .info-box h3 {
+            font-family: 'Playfair Display', serif;
+            color: #d4a574;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-box p {
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .info-box li {
+            padding: 0.5rem 0;
+            color: #b0b0b0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-box li::before {
+            content: "•";
+            color: #d4a574;
+            font-weight: bold;
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #d4a574;
+            border: 1px solid #d4a574;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(212, 165, 116, 0.1);
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(20, 20, 20, 0.95);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(212, 165, 116, 0.15);
+        }
+
+        footer p {
+            color: #808080;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .cancel-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .cancel-message {
+                font-size: 1rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="wave"></div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">LIRYA</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="cancel-container">
+            <div class="cancel-icon">
+                <svg viewBox="0 0 52 52">
+                    <line x1="16" y1="16" x2="36" y2="36"/>
+                    <line x1="36" y1="16" x2="16" y2="36"/>
+                </svg>
+            </div>
+
+            <h1>Pago Cancelado</h1>
+            
+            <p class="cancel-message">
+                Has cancelado el proceso de pago. No te preocupes, no se ha realizado ningún cargo a tu tarjeta.
+            </p>
+
+            <div class="info-box">
+                <h3>¿Necesitas ayuda?</h3>
+                <p>
+                    Si has tenido algún problema durante el proceso de pago o tienes dudas sobre nuestro servicio, estamos aquí para ayudarte.
+                </p>
+                <ul>
+                    <li>Puedes intentar realizar el pago nuevamente cuando estés listo</li>
+                    <li>Todos tus datos del formulario se han guardado</li>
+                    <li>No se ha realizado ningún cargo a tu tarjeta</li>
+                    <li>Si necesitas ayuda, contáctanos por email</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <a href="/" class="btn btn-primary">Intentar de Nuevo</a>
+                <a href="/" class="btn btn-secondary">Volver al Inicio</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2024 Lirya. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
