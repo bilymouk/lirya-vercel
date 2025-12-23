@@ -54,7 +54,7 @@
 
     .header-container {
       width: 100%;
-      padding: 6px 12px; /* 25% más fino y más a los bordes */
+      padding: 5px 20px; /* 20% más fino real + margen equilibrado */
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -62,21 +62,19 @@
 
     .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 31px;
+      font-size: 26px; /* -15% */
       font-weight: 600;
       letter-spacing: 2px;
       color: var(--gold);
-      margin-left: 0;
     }
 
     .cta-header {
-      padding: 6px 14px; /* más fino */
+      padding: 9px 22px; /* botón 20% más grande */
       background: var(--orange);
       color: #ffffff;
       font-weight: 600;
-      font-size: 0.75rem; /* 30% más pequeño */
-      border-radius: 6px; /* más elegante */
-      margin-right: 0;
+      font-size: 0.75rem; /* solo la letra pequeña */
+      border-radius: 8px;
       transition: background 0.25s ease, transform 0.25s ease;
     }
 
@@ -87,12 +85,12 @@
 
     @media (max-width: 768px) {
       .logo {
-        font-size: 26px;
+        font-size: 22px;
       }
 
       .cta-header {
+        padding: 8px 18px;
         font-size: 0.7rem;
-        padding: 5px 12px;
       }
     }
   </style>
@@ -107,7 +105,7 @@
       <a href="#formulario" class="cta-header">Empezar</a>
     </div>
   </header>
-  
+
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-overlay"></div>
@@ -922,6 +920,7 @@ form.addEventListener("input", () => {
     }
   }
 </style>
+
 
 
 
