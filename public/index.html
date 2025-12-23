@@ -241,125 +241,88 @@
   }
 }
 </style>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-
+<section class="seccion-regalo-lirya">
     <style>
-        /* BASE */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f7f4f0; /* Fondo crema suave */
-            font-family: 'Montserrat', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Montserrat:wght@400&display=swap');
 
-        /* SECCIÓN CONTENEDORA */
-        .seccion-especial {
-            text-align: center;
+        .seccion-regalo-lirya {
+            background-color: #f7f4f0; /* Fondo crema de la imagen */
             padding: 80px 20px;
-            max-width: 1200px;
-            width: 100%;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        /* TÍTULO PRINCIPAL (Más grueso y color beige dorado) */
-        .titulo-principal {
+        .lirya-titulo-grueso {
             font-family: 'Cormorant Garamond', serif;
             color: #a68b67; /* Beige dorado suave */
-            font-size: 3.2rem;
-            font-weight: 700; /* Letra más "gorda" como pediste */
-            margin-bottom: 60px;
-            letter-spacing: 1px;
+            font-size: 45px;
+            font-weight: 700; /* Letra gorda como pediste */
+            margin-bottom: 50px;
         }
 
-        /* CONTENEDOR DE TARJETAS */
-        .grid-regalo {
+        .lirya-grid-cards {
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 20px;
             flex-wrap: wrap;
-        }
-
-        /* TARJETAS CON SOMBRA SUTIL */
-        .tarjeta-regalo {
-            background-color: #f7f4f0; 
-            border-radius: 20px; /* Bordes redondeados suaves */
-            padding: 60px 35px;
-            width: 320px;
-            border: 1px solid rgba(166, 139, 103, 0.1); /* Borde casi invisible */
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06); /* Sombra suave de la foto */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 0.3s ease;
-        }
-
-        /* TÍTULOS DE TARJETAS */
-        .tarjeta-regalo h3 {
-            font-family: 'Cormorant Garamond', serif;
-            color: #a68b67;
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        /* TEXTO DE LAS TARJETAS (Más pequeño) */
-        .tarjeta-regalo p {
-            color: #666666;
-            font-size: 0.95rem; /* Letra un poco más pequeña */
-            line-height: 1.6;
-            font-weight: 400;
-            max-width: 250px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* RESPONSIVE */
+        .lirya-card-item {
+            background-color: #f7f4f0;
+            border-radius: 25px; /* Bordes redondeados */
+            padding: 50px 30px;
+            width: 320px;
+            /* Sombra sutil pero visible */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(166, 139, 103, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lirya-card-item h3 {
+            font-family: 'Cormorant Garamond', serif;
+            color: #a68b67;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .lirya-card-item p {
+            color: #666;
+            font-size: 14px; /* Letra del texto más pequeña */
+            line-height: 1.6;
+            max-width: 260px;
+        }
+
+        /* Ajuste para móviles */
         @media (max-width: 768px) {
-            .titulo-principal {
-                font-size: 2.5rem;
-            }
-            .grid-regalo {
-                flex-direction: column;
-                align-items: center;
-            }
+            .lirya-titulo-grueso { font-size: 32px; }
+            .lirya-grid-cards { flex-direction: column; align-items: center; }
         }
     </style>
-</head>
-<body>
 
-    <section class="seccion-especial">
-        <h2 class="titulo-principal">Por qué es un regalo especial</h2>
-        
-        <div class="grid-regalo">
-            <div class="tarjeta-regalo">
-                <h3>Único</h3>
-                <p>No existe otra canción igual. Creada solo para vuestra historia.</p>
-            </div>
+    <h2 class="lirya-titulo-grueso">Por qué es un regalo especial</h2>
 
-            <div class="tarjeta-regalo">
-                <h3>Emocional</h3>
-                <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
-            </div>
-
-            <div class="tarjeta-regalo">
-                <h3>Premium</h3>
-                <p>Pensada para regalar. Hecha para conservarla para siempre.</p>
-            </div>
+    <div class="lirya-grid-cards">
+        <div class="lirya-card-item">
+            <h3>Único</h3>
+            <p>No existe otra canción igual. Creada solo para vuestra historia.</p>
         </div>
-    </section>
 
-</body>
-</html>
+        <div class="lirya-card-item">
+            <h3>Emocional</h3>
+            <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
+        </div>
 
-
+        <div class="lirya-card-item">
+            <h3>Premium</h3>
+            <p>Pensada para regalar. Hecha para conservarla para siempre.</p>
+        </div>
+    </div>
+</section>
 
 
 
