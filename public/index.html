@@ -380,11 +380,10 @@
 
 .examples {
   position: relative;
-  padding: 70px 20px 90px; /* 🔽 sección más baja */
+  padding: 80px 20px; /* ⬅️ margen arriba y abajo equilibrado */
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
 }
 
-/* Overlay */
 .examples-overlay {
   position: absolute;
   inset: 0;
@@ -399,7 +398,6 @@
   margin: 0 auto;
   text-align: center;
 
-  /* 🔹 centra todo verticalmente dentro de la sección */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -407,7 +405,7 @@
 
 /* Header */
 .examples-header {
-  margin-bottom: 30px; /* menos aire */
+  margin-bottom: 40px; /* ⬅️ espacio claro antes de tarjetas */
 }
 
 /* Título */
@@ -417,7 +415,7 @@
   font-weight: 600;
   color: #c7b58a;
   letter-spacing: 0.3px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 /* Subtítulo */
@@ -431,8 +429,10 @@
 .examples-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 26px; /* tarjetas más juntas */
+  gap: 34px; /* ⬅️ tarjetas un poco más separadas */
   justify-items: center;
+
+  margin-top: 10px; /* ⬅️ baja ligeramente las tarjetas */
 }
 
 /* Tarjetas */
@@ -457,12 +457,13 @@
 /* Responsive */
 @media (max-width: 900px) {
   .examples {
-    padding: 60px 20px 80px;
+    padding: 70px 20px;
   }
 
   .examples-cards {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 30px;
+    margin-top: 20px;
   }
 
   .example-card {
@@ -470,7 +471,6 @@
   }
 }
 </style>
-
 
 
 
