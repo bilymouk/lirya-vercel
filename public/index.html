@@ -1,196 +1,230 @@
-<!-- HEADER -->
-<header>
-  <div class="header-container">
-    <div class="logo">LIRYA</div>
-    <a href="#formulario" class="cta-header">Empezar</a>
-  </div>
-</header>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LIRYA — Canciones personalizadas</title>
 
-<!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="hero-overlay"></div>
+  <!-- SEO -->
+  <meta name="description" content="Crea una canción personalizada a partir de vuestra historia. Un regalo único, emocional e inolvidable." />
 
-  <div class="hero-content">
-    <!-- MÓVIL -->
-    <div class="hero-left">
-      <img
-        src="/mockup-phone-final.png"
-        alt="Canción personalizada LIRYA"
-        class="hero-phone"
-      />
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #d4b483;
+      --orange: #ff8a2a;
+      --orange-hover: #f07818;
+      --dark: #0b0b0b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #111;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ================= HEADER ================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+
+    .cta-header {
+      background: var(--orange);
+      color: #fff;
+      padding: 10px 28px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .cta-header:hover {
+      background: var(--orange-hover);
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      position: relative;
+      background: url('/cascos-neon.png') center / cover no-repeat;
+      color: #fff;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 120px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-image {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-image img {
+      width: 340px;
+      animation: floatPhone 5s ease-in-out infinite;
+    }
+
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.4rem;
+      line-height: 1.15;
+      margin-bottom: 22px;
+    }
+
+    .hero-text p {
+      font-size: 1.18rem;
+      max-width: 520px;
+      margin-bottom: 32px;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      background: #f97316;
+      padding: 14px 36px;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .hero-note {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    @keyframes floatPhone {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 768px) {
+
+      .header-container {
+        padding: 12px 18px;
+      }
+
+      .logo {
+        font-size: 24px;
+      }
+
+      .cta-header {
+        padding: 9px 22px;
+        font-size: 0.85rem;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 70px 20px 80px;
+        gap: 32px;
+        text-align: center;
+      }
+
+      .hero-image img {
+        width: 260px;
+      }
+
+      .hero-text h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero-text p {
+        font-size: 1.05rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <div class="logo">LIRYA</div>
+      <a href="#formulario" class="cta-header">Empezar</a>
     </div>
+  </header>
 
-    <!-- TEXTO -->
-    <div class="hero-right">
-      <h1>Una canción creada a partir de vuestra historia</h1>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
 
-      <p>
-        Transformamos historias reales en canciones únicas.
-        Un regalo emocional que se escucha y se recuerda.
-      </p>
+    <div class="hero-inner">
+      <div class="hero-image">
+        <img src="/mockup-phone-final.png" alt="Canción personalizada LIRYA">
+      </div>
 
-      <a href="#formulario" class="hero-btn">EMPEZAR</a>
-      <span class="hero-note">Cada canción es única</span>
+      <div class="hero-text">
+        <h1>Una canción creada a partir de vuestra historia</h1>
+
+        <p>
+          Transformamos historias reales en canciones únicas.
+          Un regalo emocional que se escucha y se recuerda.
+        </p>
+
+        <a href="#formulario" class="hero-btn">EMPEZAR</a>
+        <span class="hero-note">Cada canción es única</span>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<style>
-/* ===== HEADER ===== */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #ffffff;
-  border-bottom: 1px solid #eaeaea;
-}
-
-.header-container {
-  width: 100%;
-  padding: 10px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  color: #d4b483;
-}
-
-.cta-header {
-  padding: 10px 32px;
-  background: #ff8a2a;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.9rem;
-  border-radius: 8px;
-}
-
-/* ===== HERO ===== */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  background: url('/cascos-neon.png') center / cover no-repeat;
-  display: flex;
-  align-items: center;
-  color: #ffffff;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 120px 40px 80px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 80px;
-}
-
-/* Imagen */
-.hero-left {
-  display: flex;
-  justify-content: center;
-}
-
-.hero-phone {
-  width: 340px;
-  animation: floatPhone 5s ease-in-out infinite;
-}
-
-/* Texto */
-.hero-right h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.4rem;
-  line-height: 1.15;
-  margin-bottom: 22px;
-}
-
-.hero-right p {
-  font-size: 1.18rem;
-  max-width: 540px;
-  margin-bottom: 36px;
-}
-
-.hero-btn {
-  display: inline-block;
-  background: #f97316;
-  color: #ffffff;
-  padding: 14px 36px;
-  border-radius: 6px;
-  font-weight: 600;
-}
-
-.hero-note {
-  display: block;
-  margin-top: 14px;
-  font-size: 0.9rem;
-  opacity: 0.95;
-}
-
-/* Animación */
-@keyframes floatPhone {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
-  100% { transform: translateY(0); }
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-
-  /* Header móvil más visible */
-  .logo {
-    font-size: 24px;
-  }
-
-  .cta-header {
-    padding: 10px 26px;
-    font-size: 0.85rem;
-  }
-
-  /* Hero móvil */
-  .hero {
-    min-height: auto;
-  }
-
-  .hero-content {
-    grid-template-columns: 1fr;
-    padding: 80px 20px 60px;
-    text-align: center;
-    gap: 40px;
-  }
-
-  .hero-left {
-    order: -1;
-    margin-top: 10px;
-  }
-
-  .hero-phone {
-    width: 280px;
-  }
-
-  .hero-right h1 {
-    font-size: 2.4rem;
-  }
-
-  .hero-right p {
-    font-size: 1.05rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-</style>
+</body>
+</html>
 
 <!-- ===== POR QUE ES UN REGALO ESPECIAL ===== -->
 <section class="lirya-premium-final">
@@ -422,6 +456,7 @@ header {
   }
 }
 </style>
+
 
 
 
