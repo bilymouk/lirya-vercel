@@ -241,104 +241,102 @@
   }
 }
 </style>
-<section class="lirya-final-section">
+<section class="lirya-refined-section">
     <style>
-        /* Importamos las fuentes necesarias */
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Montserrat:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;800&family=Montserrat:wght@300;400&display=swap');
 
-        .lirya-final-section {
-            background-color: #ffffff; /* Fondo de la sección totalmente blanco */
-            padding: 100px 20px;
+        .lirya-refined-section {
+            background-color: #ffffff;
+            /* 1. Menos margen arriba y abajo */
+            padding: 40px 20px; 
             text-align: center;
             font-family: 'Montserrat', sans-serif;
         }
 
-        .lirya-titulo-suave {
+        .titulo-lirya-v4 {
             font-family: 'Cormorant Garamond', serif;
-            color: #bfa67a; /* Dorado beige más suave y elegante */
-            font-size: 48px;
-            font-weight: 700; /* Letra gorda/gruesa */
-            margin-bottom: 60px;
-            letter-spacing: 0.5px;
+            /* 2. Color más suave tirando a blanco */
+            color: #e2d9c8; 
+            /* 3. Letra un 10% más pequeña (de 48px a 43px) */
+            font-size: 43px; 
+            /* 4. Letra más gorda */
+            font-weight: 800; 
+            /* 5. Letras más juntas */
+            letter-spacing: -1.5px; 
+            margin-bottom: 40px;
         }
 
-        .lirya-grid-dinamico {
+        .grid-lirya-v4 {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .lirya-card-animada {
-            background-color: #f9f7f2; /* Color beige muy suave para el interior de la tarjeta */
-            border-radius: 30px;
-            padding: 60px 40px;
-            width: 320px;
-            border: 1px solid rgba(191, 166, 122, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* Sombra inicial muy ligera */
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave */
-            cursor: default;
+        .tarjeta-lirya-v4 {
+            background-color: #fcfaf7;
+            /* 6. Bordes menos redondeados (antes 30px, ahora 15px) */
+            border-radius: 15px; 
+            padding: 50px 30px;
+            width: 310px;
+            border: 1px solid rgba(191, 166, 122, 0.08);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* EFECTO ANIMADO: Al pasar el ratón (Hover) */
-        .lirya-card-animada:hover {
-            transform: translateY(-15px); /* Se eleva hacia arriba */
-            background-color: #ffffff; /* Se ilumina un poco cambiando a blanco */
-            box-shadow: 0 20px 40px rgba(191, 166, 122, 0.15); /* La sombra crece y se aclara */
-            border: 1px solid rgba(191, 166, 122, 0.3);
+        /* Efecto hover solicitado */
+        .tarjeta-lirya-v4:hover {
+            transform: translateY(-10px);
+            background-color: #ffffff;
+            box-shadow: 0 15px 35px rgba(191, 166, 122, 0.12);
         }
 
-        .lirya-card-animada h3 {
+        .tarjeta-lirya-v4 h3 {
             font-family: 'Cormorant Garamond', serif;
-            color: #bfa67a; /* Dorado beige suave */
-            font-size: 28px;
+            color: #bfa67a;
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
-        .lirya-card-animada p {
-            color: #777777;
-            font-size: 14px; /* Texto pequeño y elegante */
-            line-height: 1.7;
-            font-weight: 300;
-            max-width: 250px;
-            margin: 0;
+        .tarjeta-lirya-v4 p {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.6;
+            font-weight: 400;
         }
 
-        /* Optimización para móviles */
         @media (max-width: 768px) {
-            .lirya-titulo-suave { font-size: 36px; }
-            .lirya-grid-dinamico { flex-direction: column; align-items: center; }
-            .lirya-card-animada { width: 100%; max-width: 350px; }
+            .titulo-lirya-v4 { font-size: 34px; }
+            .grid-lirya-v4 { flex-direction: column; align-items: center; }
         }
     </style>
 
-    <h2 class="lirya-titulo-suave">Por qué es un regalo especial</h2>
+    <h2 class="titulo-lirya-v4">Por qué es un regalo especial</h2>
 
-    <div class="lirya-grid-dinamico">
-        <div class="lirya-card-animada">
+    <div class="grid-lirya-v4">
+        <div class="tarjeta-lirya-v4">
             <h3>Único</h3>
             <p>No existe otra canción igual. Cada letra se crea exclusivamente a partir de vuestra historia.</p>
         </div>
 
-        <div class="lirya-card-animada">
+        <div class="tarjeta-lirya-v4">
             <h3>Emocional</h3>
             <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
         </div>
 
-        <div class="lirya-card-animada">
+        <div class="tarjeta-lirya-v4">
             <h3>Premium</h3>
             <p>Pensada para regalar. Hecha para conservarla y recordarla para siempre.</p>
         </div>
     </div>
 </section>
   
-
 
 
 
