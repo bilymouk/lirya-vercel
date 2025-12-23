@@ -276,7 +276,41 @@
 </section>
 
 <style>
-/* ===== BLOQUE 3 · POR QUÉ ES UN REGALO ESPECIAL ===== */
+<!-- ===== BLOQUE 3 · POR QUÉ ES UN REGALO ESPECIAL ===== -->
+<section class="why-special">
+  <div class="why-container">
+    <h2 class="why-title">Por qué es un regalo especial</h2>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <h3>Único</h3>
+        <p>
+          No existe otra canción igual.  
+          Cada letra se crea exclusivamente a partir de vuestra historia.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <h3>Emocional</h3>
+        <p>
+          No es una canción genérica.  
+          Es vuestra historia convertida en letra y música.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <h3>Premium</h3>
+        <p>
+          Pensada para regalar.  
+          Diseñada para conservarla y recordarla para siempre.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ===== BLOQUE 3 · ESTILO ELEGANTE ===== */
 
 .why-special {
   background: #ffffff;
@@ -289,61 +323,57 @@
   text-align: center;
 }
 
-/* TÍTULO */
-.why-container h2 {
-  font-size: 2.4rem;
+/* TÍTULO PRINCIPAL */
+.why-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem;
   font-weight: 500;
-  color: #c7a46a; /* dorado suave elegante */
+  color: #c7a46a; /* dorado suave */
   margin-bottom: 80px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
 /* GRID */
 .why-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  gap: 42px;
 }
 
 /* TARJETAS */
 .why-card {
-  background: #fafafa;
-  padding: 50px 36px;
-  border-radius: 18px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #fbfbfb;
+  padding: 56px 38px;
+  border-radius: 20px;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.06);
 }
 
-.why-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 45px rgba(0,0,0,0.08);
-}
-
-/* TITULOS TARJETA */
+/* TÍTULOS TARJETA */
 .why-card h3 {
-  font-size: 1.3rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
   font-weight: 500;
-  color: #c7a46a; /* mismo dorado */
-  margin-bottom: 18px;
-  letter-spacing: 0.4px;
+  color: #c7a46a;
+  margin-bottom: 20px;
+  letter-spacing: 0.3px;
 }
 
 /* TEXTO TARJETA */
 .why-card p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #555555;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #555;
 }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .why-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 34px;
   }
 
-  .why-container h2 {
-    font-size: 2rem;
+  .why-title {
+    font-size: 2.1rem;
     margin-bottom: 60px;
   }
 }
@@ -960,6 +990,7 @@ form.addEventListener("input", () => {
     }
   }
 </style>
+
 
 
 
