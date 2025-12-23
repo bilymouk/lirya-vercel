@@ -241,6 +241,109 @@
   }
 }
 </style>
+<!-- ===== POR QUE ES UN REGALO ESPECIAL ===== -->
+<section class="lirya-premium-final">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
+
+        .lirya-premium-final {
+            background-color: #ffffff;
+            padding: 80px 20px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* === TÍTULO (8% MÁS GRANDE) === */
+        .titulo-premium-brillante {
+            font-family: "Georgia", "Times New Roman", serif;
+            color: #c7b58a;
+            font-size: 35px; /* ⬅️ +8% */
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-bottom: 60px;
+            line-height: 1.15;
+        }
+
+        .grid-premium-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tarjeta-premium-estilo {
+            background-color: #fcfaf7;
+            border-radius: 12px;
+            padding: 60px 35px;
+            width: 320px;
+            border: 1px solid rgba(199, 181, 138, 0.35);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tarjeta-premium-estilo:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
+        }
+
+        /* === TÍTULOS TARJETAS (5% MÁS PEQUEÑOS) === */
+        .tarjeta-premium-estilo h3 {
+            font-family: "Georgia", "Times New Roman", serif;
+            color: #c7b58a;
+            font-size: 26.5px; /* ⬅️ -5% */
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .tarjeta-premium-estilo p {
+            color: #1a1a1a;
+            font-size: 14.5px;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .titulo-premium-brillante {
+                font-size: 30px;
+            }
+
+            .grid-premium-cards {
+                gap: 30px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tarjeta-premium-estilo {
+                width: 95%;
+            }
+        }
+    </style>
+
+    <h2 class="titulo-premium-brillante">Por qué es un regalo especial</h2>
+
+    <div class="grid-premium-cards">
+        <div class="tarjeta-premium-estilo">
+            <h3>Único</h3>
+            <p>No existe otra canción igual. Cada letra se crea exclusivamente a partir de vuestra historia.</p>
+        </div>
+
+        <div class="tarjeta-premium-estilo">
+            <h3>Emocional</h3>
+            <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
+        </div>
+
+        <div class="tarjeta-premium-estilo">
+            <h3>Premium</h3>
+            <p>Pensada para regalar. Hecha para conservarla y recordarla para siempre.</p>
+        </div>
+    </div>
+</section>
+
 
 
 
