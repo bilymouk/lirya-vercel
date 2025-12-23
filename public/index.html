@@ -228,21 +228,7 @@
 @media (max-width: 900px) {
   .hero-content {
     grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .hero-left {
-    order: -1;
-  }
-
-  .hero-right p {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-</style>
-
-<!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
+    text-align: center;<!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <section class="why-special">
   <div class="why-container">
     <h2 class="why-title">Por qué es un regalo especial</h2>
@@ -278,9 +264,13 @@
 <style>
 /* ===== POR QUÉ ES UN REGALO ESPECIAL ===== */
 
+:root {
+  --beige-gold: #c2ad82; /* dorado beige suave y elegante */
+}
+
 .why-special {
   background: #f7f7f5;
-  padding: 70px 0; /* menos margen vertical */
+  padding: 60px 0; /* márgenes más equilibrados */
 }
 
 .why-container {
@@ -292,38 +282,38 @@
 
 .why-title {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: 2.1rem; /* más pequeño y elegante */
-  font-weight: 500;
-  color: #b08a4a; /* dorado suave */
-  margin-bottom: 50px;
+  font-size: 2.1rem;
+  font-weight: 600; /* más gordita */
+  color: var(--beige-gold);
+  margin-bottom: 45px;
 }
 
 .why-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 36px;
+  gap: 32px;
 }
 
 .why-card {
   background: #fafafa;
-  padding: 44px 36px;
-  border-radius: 14px;
-  border: 1px solid rgba(176, 138, 74, 0.45); /* línea dorada visible */
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06); /* sombra suave premium */
+  padding: 36px 30px; /* tarjetas más finas */
+  border-radius: 8px; /* más cuadradas */
+  border: 1.5px solid var(--beige-gold); /* mismo color que títulos */
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
 }
 
 .why-card h3 {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: 1.45rem; /* títulos más grandes */
-  font-weight: 500;
-  color: #b08a4a;
-  margin-bottom: 18px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--beige-gold);
+  margin-bottom: 14px;
 }
 
 .why-card p {
-  font-size: 1.05rem; /* texto interior más grande */
-  line-height: 1.7;
-  color: #4a4a4a;
+  font-size: 0.95rem; /* texto más pequeño */
+  line-height: 1.6;
+  color: #4f4f4f;
 }
 
 /* Responsive */
@@ -333,7 +323,20 @@
   }
 
   .why-special {
-    padding: 60px 0;
+    padding: 55px 0;
+  }
+}
+</style>
+
+  }
+
+  .hero-left {
+    order: -1;
+  }
+
+  .hero-right p {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 </style>
@@ -919,6 +922,7 @@ form.addEventListener("input", () => {
     }
   }
 </style>
+
 
 
 
