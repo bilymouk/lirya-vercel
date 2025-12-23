@@ -15,7 +15,6 @@
       --gold: #d4b483;
       --orange: #ff8a2a;
       --orange-hover: #f07818;
-      --dark: #0b0e1a;
     }
 
     * {
@@ -31,7 +30,7 @@
     }
 
     a {
-      text-decoration: none; /* QUITA SUBRAYADO */
+      text-decoration: none;
       color: inherit;
     }
 
@@ -56,7 +55,7 @@
 
     .logo {
       font-family: 'Playfair Display', serif;
-      font-weight: 800; /* PESO 800 */
+      font-weight: 800;
       font-size: 26px;
       letter-spacing: 2px;
       color: var(--gold);
@@ -94,11 +93,11 @@
       z-index: 2;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 72px 32px 72px; /* DESKTOP: -10% arriba y abajo */
+      padding: 64px 32px 64px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
-      gap: 64px;
+      gap: 48px;
     }
 
     /* ===== IMAGEN ===== */
@@ -116,18 +115,22 @@
 
     /* ===== TEXTO ===== */
 
+    .hero-right {
+      margin-top: -40px; /* 🔥 SUBE EL TEXTO EN DESKTOP */
+    }
+
     .hero-right h1 {
       font-family: 'Playfair Display', serif;
       font-size: 3.6rem;
       line-height: 1.12;
       font-weight: 600;
-      margin-bottom: 20px;
+      margin-bottom: 14px; /* menos aire */
     }
 
     .hero-right p {
       font-size: 1.15rem;
       max-width: 520px;
-      margin-bottom: 32px;
+      margin-bottom: 26px;
       opacity: 0.95;
     }
 
@@ -143,7 +146,7 @@
 
     .hero-note {
       display: block;
-      margin-top: 14px;
+      margin-top: 12px;
       font-size: 0.9rem;
       opacity: 0.9;
     }
@@ -159,40 +162,30 @@
 
     @media (max-width: 900px) {
 
-      .logo {
-        font-size: 24px;
-      }
-
-      .cta-header {
-        font-size: 0.9rem;
-        padding: 10px 26px;
-      }
-
       .hero-content {
         grid-template-columns: 1fr;
-        padding: 56px 22px 64px;
-        gap: 24px; /* TEXTO MÁS CERCA DEL MÓVIL */
+        padding: 48px 22px 60px;
+        gap: 14px; /* 🔥 MUCHÍSIMO MÁS CERCA */
         text-align: center;
       }
 
-      .hero-left {
-        margin-top: 10px;
+      .hero-phone {
+        width: 420px;
+        margin-bottom: 6px; /* 🔥 reduce espacio con texto */
       }
 
-      .hero-phone {
-        width: 415px; /* +15% */
-        margin: 0 auto;
+      .hero-right {
+        margin-top: -28px; /* 🔥 SUBE TEXTO HACIA EL MÓVIL */
       }
 
       .hero-right h1 {
         font-size: 2.7rem;
-        margin-top: 8px;
-        margin-bottom: 18px;
+        margin-bottom: 12px;
       }
 
       .hero-right p {
         font-size: 1.05rem;
-        margin-bottom: 28px;
+        margin-bottom: 22px;
       }
     }
   </style>
@@ -464,6 +457,7 @@
   }
 }
 </style>
+
 
 
 
