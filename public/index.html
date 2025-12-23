@@ -380,10 +380,11 @@
 
 .examples {
   position: relative;
-  padding: 80px 20px; /* ⬅️ margen arriba y abajo equilibrado */
+  padding: 80px 20px; /* margen arriba y abajo equilibrado */
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
 }
 
+/* Overlay */
 .examples-overlay {
   position: absolute;
   inset: 0;
@@ -405,7 +406,7 @@
 
 /* Header */
 .examples-header {
-  margin-bottom: 40px; /* ⬅️ espacio claro antes de tarjetas */
+  margin-bottom: 40px;
 }
 
 /* Título */
@@ -429,10 +430,9 @@
 .examples-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 34px; /* ⬅️ tarjetas un poco más separadas */
+  gap: 56px; /* ⬅️ tarjetas MUCHO más separadas */
   justify-items: center;
-
-  margin-top: 10px; /* ⬅️ baja ligeramente las tarjetas */
+  margin-top: 20px;
 }
 
 /* Tarjetas */
@@ -462,8 +462,8 @@
 
   .examples-cards {
     grid-template-columns: 1fr;
-    gap: 30px;
-    margin-top: 20px;
+    gap: 34px;
+    margin-top: 25px;
   }
 
   .example-card {
@@ -471,7 +471,6 @@
   }
 }
 </style>
-
 
 
 
