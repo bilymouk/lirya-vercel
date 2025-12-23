@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>LIRYA — Canciones personalizadas creadas con IA</title>
 
   <!-- Tipografías -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet" />
 
   <style>
     :root {
       --gold: #d4b483;
       --orange: #ff8a2a;
       --orange-hover: #f07818;
-      --bg-light: #ffffff;
     }
 
     * {
@@ -26,7 +26,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
+      background: #ffffff;
       color: #111;
     }
 
@@ -35,28 +35,29 @@
       color: inherit;
     }
 
-    /* ===== HEADER ===== */
+    /* ================= HEADER ================= */
 
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
       background: #ffffff;
+      border-bottom: 1px solid #eee;
     }
 
     .header-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 12px 24px;
+      padding: 14px 28px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
 
     .logo {
       font-family: 'Playfair Display', serif;
       font-size: 26px;
-      font-weight: 800;
+      font-weight: 800; /* ✔ peso 800 */
       letter-spacing: 2px;
       color: var(--gold);
     }
@@ -64,19 +65,23 @@
     .cta-header {
       background: var(--orange);
       color: #fff;
-      padding: 10px 28px;
-      border-radius: 10px;
+      padding: 12px 34px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      border-radius: 10px;
     }
 
-    /* ===== HERO ===== */
+    .cta-header:hover {
+      background: var(--orange-hover);
+    }
+
+    /* ================= HERO ================= */
 
     .hero {
       position: relative;
       background: url('/cascos-neon.png') center / cover no-repeat;
-      color: #fff;
-      padding: 90px 20px; /* desktop más compacto */
+      padding: 80px 20px; /* desktop más compacto */
+      color: #ffffff;
     }
 
     .hero::before {
@@ -111,13 +116,14 @@
     .hero-right h1 {
       font-family: 'Playfair Display', serif;
       font-size: 3.6rem;
+      font-weight: 600;
       line-height: 1.12;
-      margin-bottom: 28px; /* MÁS separación título → texto */
+      margin-bottom: 38px; /* ✔ más separación */
     }
 
     .hero-right p {
       font-size: 1.2rem;
-      max-width: 520px;
+      max-width: 540px;
       margin-bottom: 36px;
       opacity: 0.95;
     }
@@ -125,11 +131,11 @@
     .hero-btn {
       display: inline-block;
       background: var(--orange);
-      color: #fff;
-      padding: 16px 40px;
-      border-radius: 8px;
+      color: #ffffff;
+      padding: 16px 44px;
+      border-radius: 10px;
       font-weight: 600;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
 
     .hero-note {
@@ -139,32 +145,49 @@
       opacity: 0.9;
     }
 
-    /* ===== RESPONSIVE MÓVIL ===== */
+    /* ================= MOBILE ================= */
 
     @media (max-width: 900px) {
+
+      .header-container {
+        padding: 14px 20px;
+      }
+
+      .logo {
+        font-size: 24px;
+      }
+
+      .cta-header {
+        padding: 12px 30px;
+        font-size: 0.9rem;
+      }
+
       .hero {
-        padding: 55px 20px 65px; /* menos aire vertical */
+        padding: 50px 20px 60px;
       }
 
       .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: 35px;
+        gap: 10px; /* ✔ menos aire */
       }
 
       .hero-phone {
-        width: 415px; /* +15% impacto */
+        width: 420px; /* ✔ móvil +15% */
+      }
+
+      .hero-right {
+        margin-top: -70px; /* ✔ sube texto REAL */
       }
 
       .hero-right h1 {
-        font-size: 2.6rem;
-        margin-top: -10px;  /* SUBE el texto hacia el móvil */
-        margin-bottom: 32px; /* más separación con el párrafo */
+        font-size: 3.1rem; /* ✔ título más grande */
+        margin-bottom: 42px; /* ✔ más aire con el párrafo */
       }
 
       .hero-right p {
-        font-size: 1.05rem;
-        margin-bottom: 32px;
+        font-size: 1.1rem;
+        margin-bottom: 36px;
         padding: 0 6px;
       }
     }
@@ -173,30 +196,40 @@
 
 <body>
 
-<header>
-  <div class="header-container">
-    <div class="logo">LIRYA</div>
-    <a href="#formulario" class="cta-header">Empezar</a>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-left">
-      <img src="/mockup-phone-final.png" alt="Canción personalizada LIRYA" class="hero-phone" />
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <div class="logo">LIRYA</div>
+      <a href="#formulario" class="cta-header">Empezar</a>
     </div>
+  </header>
 
-    <div class="hero-right">
-      <h1>Una canción creada a partir de vuestra historia</h1>
-      <p>
-        Transformamos historias reales en canciones únicas.
-        Un regalo emocional que se escucha y se recuerda.
-      </p>
-      <a href="#formulario" class="hero-btn">EMPEZAR</a>
-      <span class="hero-note">Cada canción es única</span>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+
+      <div class="hero-left">
+        <img
+          src="/mockup-phone-final.png"
+          alt="Canción personalizada LIRYA"
+          class="hero-phone"
+        />
+      </div>
+
+      <div class="hero-right">
+        <h1>Una canción creada a partir de vuestra historia</h1>
+
+        <p>
+          Transformamos historias reales en canciones únicas.
+          Un regalo emocional que se escucha y se recuerda.
+        </p>
+
+        <a href="#formulario" class="hero-btn">EMPEZAR</a>
+        <span class="hero-note">Cada canción es única</span>
+      </div>
+
     </div>
-  </div>
-</section>
+  </section>
 
 </body>
 </html>
@@ -431,6 +464,7 @@
   }
 }
 </style>
+
 
 
 
