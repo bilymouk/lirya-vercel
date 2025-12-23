@@ -54,7 +54,7 @@
 
     .header-container {
       width: 100%;
-      padding: 5px 20px; /* 20% más fino real + margen equilibrado */
+      padding: 5px 32px; /* más margen lateral */
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -62,19 +62,19 @@
 
     .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 26px; /* -15% */
+      font-size: 26px;
       font-weight: 600;
       letter-spacing: 2px;
       color: var(--gold);
     }
 
     .cta-header {
-      padding: 9px 22px; /* botón 20% más grande */
+      padding: 9px 30px; /* más largo horizontal */
       background: var(--orange);
       color: #ffffff;
       font-weight: 600;
-      font-size: 0.75rem; /* solo la letra pequeña */
-      border-radius: 8px;
+      font-size: 0.85rem; /* +13% */
+      border-radius: 12px; /* menos cuadrado */
       transition: background 0.25s ease, transform 0.25s ease;
     }
 
@@ -84,13 +84,17 @@
     }
 
     @media (max-width: 768px) {
+      .header-container {
+        padding: 5px 20px;
+      }
+
       .logo {
         font-size: 22px;
       }
 
       .cta-header {
-        padding: 8px 18px;
-        font-size: 0.7rem;
+        padding: 8px 24px;
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -920,6 +924,7 @@ form.addEventListener("input", () => {
     }
   }
 </style>
+
 
 
 
