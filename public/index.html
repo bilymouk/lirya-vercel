@@ -276,10 +276,46 @@
 
 <style>
 <style>
+<section class="why-special">
+  <div class="why-container">
+    <h2 class="why-title">Por qué es un regalo especial</h2>
+
+    <div class="why-cards">
+      <div class="why-card">
+        <h3>Único</h3>
+        <p>
+          No existe otra canción igual.
+          Cada letra se crea exclusivamente
+          a partir de vuestra historia.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <h3>Emocional</h3>
+        <p>
+          No es una canción genérica.
+          Es vuestra historia convertida
+          en letra y música.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <h3>Premium</h3>
+        <p>
+          Pensada para regalar.
+          Hecha para conservarla
+          y recordarla para siempre.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
 /* ===== POR QUÉ ES UN REGALO ESPECIAL ===== */
 
 :root {
-  --beige-gold: #d4c6a3; /* dorado beige premium y suave */
+  --beige-gold: #d6c7a1; /* beige dorado suave y premium */
 }
 
 .why-special {
@@ -296,7 +332,7 @@
 
 .why-title {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: 2rem;
+  font-size: 1.95rem;
   font-weight: 600;
   color: var(--beige-gold);
   margin-bottom: 42px;
@@ -305,15 +341,15 @@
 .why-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 32px;
 }
 
 .why-card {
   background: #ffffff;
-  padding: 34px 28px;
-  border-radius: 6px; /* más cuadradas */
+  padding: 34px 30px;
+  border-radius: 10px; /* cuadradas pero elegantes */
   border: 1.5px solid var(--beige-gold);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08); /* sombra elegante */
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
 }
 
 .why-card h3 {
@@ -325,9 +361,9 @@
 }
 
 .why-card p {
-  font-size: 0.66rem; /* ~30% más pequeño */
+  font-size: 0.65rem; /* texto más pequeño */
   line-height: 1.6;
-  color: #4f4f4f;
+  color: #555;
 }
 
 /* Responsive */
