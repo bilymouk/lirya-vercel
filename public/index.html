@@ -241,102 +241,105 @@
   }
 }
 </style>
-<section class="lirya-final-balanced">
+  <!-- ===== POR QUE ES UN REGALO ESPECIAL ===== -->
+<section class="lirya-premium-final">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;800&family=Montserrat:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;800&family=Montserrat:wght@300;400;500&display=swap');
 
-        .lirya-final-balanced {
+        .lirya-premium-final {
             background-color: #ffffff;
-            /* Margen superior e inferior equilibrado */
-            padding: 50px 20px; 
+            /* 1. Más margen arriba y abajo para mayor elegancia */
+            padding: 80px 20px; 
             text-align: center;
             font-family: 'Montserrat', sans-serif;
         }
 
-        .titulo-v5-brillante {
+        .titulo-premium-brillante {
             font-family: 'Cormorant Garamond', serif;
-            /* Beige dorado con un toque más brillante */
-            color: #d1b68a; 
-            font-size: 43px; 
+            /* 2. Color dorado beige más vibrante y premium */
+            color: #d4b483; 
+            /* 3. Tamaño 10% más grande (de 43px a 48px) */
+            font-size: 48px; 
             font-weight: 800; 
-            letter-spacing: -1.8px; /* Letras más juntas */
-            margin-bottom: 50px;
+            letter-spacing: -2px; 
+            margin-bottom: 60px;
             line-height: 1.1;
         }
 
-        .grid-v5-separado {
+        .grid-premium-cards {
             display: flex;
             justify-content: center;
-            /* Más separación entre tarjetas */
             gap: 40px; 
             flex-wrap: wrap;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .tarjeta-v5-estilo {
+        .tarjeta-premium-estilo {
             background-color: #fcfaf7;
-            /* Bordes menos redondeados */
             border-radius: 12px; 
-            padding: 55px 35px;
+            padding: 60px 35px;
             width: 320px;
-            border: 1px solid rgba(191, 166, 122, 0.06);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(212, 180, 131, 0.15);
+            /* 4. Sombra sutil en los bordes para dar profundidad */
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05); 
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Efecto de iluminación y movimiento */
-        .tarjeta-v5-estilo:hover {
-            transform: translateY(-12px);
+        /* Efecto hover: se eleva e ilumina */
+        .tarjeta-premium-estilo:hover {
+            transform: translateY(-15px);
             background-color: #ffffff;
-            box-shadow: 0 20px 45px rgba(209, 182, 138, 0.18);
-            border: 1px solid rgba(209, 182, 138, 0.2);
+            box-shadow: 0 25px 50px rgba(212, 180, 131, 0.2);
+            border: 1px solid rgba(212, 180, 131, 0.4);
         }
 
-        .tarjeta-v5-estilo h3 {
+        .tarjeta-premium-estilo h3 {
             font-family: 'Cormorant Garamond', serif;
             color: #bfa67a;
-            font-size: 27px;
+            font-size: 28px;
             font-weight: 700;
             margin-bottom: 15px;
         }
 
-        .tarjeta-v5-estilo p {
-            color: #777;
-            font-size: 14px;
+        .tarjeta-premium-estilo p {
+            /* 5. Texto de las tarjetas más negro/oscuro */
+            color: #1a1a1a; 
+            font-size: 14.5px;
             line-height: 1.7;
             font-weight: 400;
         }
 
         @media (max-width: 768px) {
-            .titulo-v5-brillante { font-size: 34px; letter-spacing: -1px; }
-            .grid-v5-separado { gap: 25px; flex-direction: column; align-items: center; }
-            .tarjeta-v5-estilo { width: 90%; }
+            .titulo-premium-brillante { font-size: 38px; letter-spacing: -1px; }
+            .grid-premium-cards { gap: 30px; flex-direction: column; align-items: center; }
+            .tarjeta-premium-estilo { width: 95%; }
         }
     </style>
 
-    <h2 class="titulo-v5-brillante">Por qué es un regalo especial</h2>
+    <h2 class="titulo-premium-brillante">Por qué es un regalo especial</h2>
 
-    <div class="grid-v5-separado">
-        <div class="tarjeta-v5-estilo">
+    <div class="grid-premium-cards">
+        <div class="tarjeta-premium-estilo">
             <h3>Único</h3>
             <p>No existe otra canción igual. Cada letra se crea exclusivamente a partir de vuestra historia.</p>
         </div>
 
-        <div class="tarjeta-v5-estilo">
+        <div class="tarjeta-premium-estilo">
             <h3>Emocional</h3>
             <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
         </div>
 
-        <div class="tarjeta-v5-estilo">
+        <div class="tarjeta-premium-estilo">
             <h3>Premium</h3>
             <p>Pensada para regalar. Hecha para conservarla y recordarla para siempre.</p>
         </div>
     </div>
 </section>
+
 
 
 
