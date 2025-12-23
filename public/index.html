@@ -245,64 +245,33 @@
 <!-- ===== BLOQUE 3 · POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <section class="why-special">
   <div class="why-container">
-    <h2>Por qué es un regalo especial</h2>
-
-    <div class="why-grid">
-      <div class="why-card">
-        <h3>Único</h3>
-        <p>
-          No existe otra canción igual.  
-          Cada letra se crea exclusivamente a partir de vuestra historia.
-        </p>
-      </div>
-
-      <div class="why-card">
-        <h3>Emocional</h3>
-        <p>
-          No es una canción genérica.  
-          Es un recuerdo convertido en música que emociona de verdad.
-        </p>
-      </div>
-
-      <div class="why-card">
-        <h3>Premium</h3>
-        <p>
-          Pensada para regalar.  
-          Diseñada para conservarla y recordarla para siempre.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-<!-- ===== BLOQUE 3 · POR QUÉ ES UN REGALO ESPECIAL ===== -->
-<section class="why-special">
-  <div class="why-container">
     <h2 class="why-title">Por qué es un regalo especial</h2>
 
-    <div class="why-grid">
+    <div class="why-cards">
       <div class="why-card">
         <h3>Único</h3>
         <p>
-          No existe otra canción igual.  
-          Cada letra se crea exclusivamente a partir de vuestra historia.
+          No existe otra canción igual.
+          Cada letra se crea exclusivamente
+          a partir de vuestra historia.
         </p>
       </div>
 
       <div class="why-card">
         <h3>Emocional</h3>
         <p>
-          No es una canción genérica.  
-          Es vuestra historia convertida en letra y música.
+          No es una canción genérica.
+          Es un recuerdo convertido en música
+          que emociona de verdad.
         </p>
       </div>
 
       <div class="why-card">
         <h3>Premium</h3>
         <p>
-          Pensada para regalar.  
-          Diseñada para conservarla y recordarla para siempre.
+          Pensada para regalar.
+          Diseñada para conservarla
+          y recordarla para siempre.
         </p>
       </div>
     </div>
@@ -310,66 +279,70 @@
 </section>
 
 <style>
-/* ===== BLOQUE 3 · ESTILO ELEGANTE ===== */
+/* ===== BLOQUE 3 ===== */
 
 .why-special {
   background: #ffffff;
-  padding: 120px 24px;
+  padding: 140px 0 140px;
 }
 
 .why-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 40px;
   text-align: center;
 }
 
-/* TÍTULO PRINCIPAL */
+/* TÍTULO */
 .why-title {
-  font-family: 'Playfair Display', serif;
   font-size: 2.6rem;
-  font-weight: 500;
-  color: #c7a46a; /* dorado suave */
+  font-weight: 600;
+  color: #b08a55; /* dorado suave elegante */
   margin-bottom: 80px;
   letter-spacing: 0.4px;
 }
 
 /* GRID */
-.why-grid {
+.why-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 42px;
+  gap: 40px;
 }
 
 /* TARJETAS */
 .why-card {
-  background: #fbfbfb;
-  padding: 56px 38px;
-  border-radius: 20px;
-  box-shadow: 0 14px 34px rgba(0,0,0,0.06);
+  background: #fafafa;
+  border: 1.5px solid rgba(176, 138, 85, 0.35);
+  border-radius: 18px;
+  padding: 50px 35px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* TÍTULOS TARJETA */
+.why-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+/* TÍTULOS DE TARJETA */
 .why-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.45rem;
-  font-weight: 500;
-  color: #c7a46a;
-  margin-bottom: 20px;
-  letter-spacing: 0.3px;
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: #b08a55;
+  margin-bottom: 18px;
 }
 
-/* TEXTO TARJETA */
+/* TEXTO */
 .why-card p {
   font-size: 1.05rem;
   line-height: 1.75;
-  color: #555;
+  color: #4a4a4a;
 }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .why-grid {
+  .why-cards {
     grid-template-columns: 1fr;
-    gap: 34px;
+    gap: 30px;
   }
 
   .why-title {
@@ -990,6 +963,7 @@ form.addEventListener("input", () => {
     }
   }
 </style>
+
 
 
 
