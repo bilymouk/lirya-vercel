@@ -1,116 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LIRYA — Canciones personalizadas creadas con IA</title>
+<!-- HEADER -->
+<header>
+  <div class="header-container">
+    <div class="logo">LIRYA</div>
+    <a href="#formulario" class="cta-header">Empezar</a>
+  </div>
+</header>
 
-  <!-- SEO -->
-  <meta name="description" content="Crea una canción personalizada con IA a partir de vuestra historia. Un regalo único, emocional e inolvidable." />
-  <meta name="keywords" content="canción personalizada, regalo romántico, san valentín, canción con IA, regalo original" />
-
-  <!-- Tipografías -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet" />
-
-  <style>
-    :root {
-      --gold: #d4b483;
-      --orange: #ff8a2a;
-      --orange-hover: #f07818;
-      --text-dark: #111;
-      --bg-light: #ffffff;
-      --border-light: #eaeaea;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
-      color: var(--text-dark);
-      line-height: 1.6;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* ===== HEADER LIRYA ===== */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: #ffffff;
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .header-container {
-      width: 100%;
-      padding: 5px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: var(--gold);
-    }
-
-    .cta-header {
-      padding: 8px 30px;       /* 12% más fino vertical */
-      background: var(--orange);
-      color: #ffffff;
-      font-weight: 600;
-      font-size: 0.85rem;      /* se mantiene */
-      border-radius: 8px;      /* menos redondeado */
-      transition: background 0.25s ease, transform 0.25s ease;
-    }
-
-    .cta-header:hover {
-      background: var(--orange-hover);
-      transform: translateY(-1px);
-    }
-
-    @media (max-width: 768px) {
-      .header-container {
-        padding: 5px 20px;
-      }
-
-      .logo {
-        font-size: 22px;
-      }
-
-      .cta-header {
-        padding: 7px 24px;
-        font-size: 0.8rem;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- HEADER -->
-  <header>
-    <div class="header-container">
-      <div class="logo">LIRYA</div>
-      <a href="#formulario" class="cta-header">Empezar</a>
-    </div>
-  </header>
-
-  <!-- ===== HERO ===== -->
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-overlay"></div>
 
@@ -140,8 +36,41 @@
 </section>
 
 <style>
-/* ===== HERO ===== */
+/* ===== HEADER ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+}
 
+.header-container {
+  width: 100%;
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #d4b483;
+}
+
+.cta-header {
+  padding: 10px 32px;
+  background: #ff8a2a;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 8px;
+}
+
+/* ===== HERO ===== */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -162,14 +91,14 @@
   z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 120px 40px 80px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 80px;
 }
 
-/* MÓVIL */
+/* Imagen */
 .hero-left {
   display: flex;
   justify-content: center;
@@ -180,34 +109,27 @@
   animation: floatPhone 5s ease-in-out infinite;
 }
 
-/* TEXTO */
+/* Texto */
 .hero-right h1 {
   font-family: 'Playfair Display', serif;
   font-size: 3.4rem;
-  font-weight: 600;
   line-height: 1.15;
   margin-bottom: 22px;
-  color: #ffffff;
 }
 
 .hero-right p {
-  font-family: 'Inter', sans-serif;
   font-size: 1.18rem;
-  font-weight: 400;
   max-width: 540px;
   margin-bottom: 36px;
-  color: #ffffff;
 }
 
 .hero-btn {
   display: inline-block;
   background: #f97316;
   color: #ffffff;
-  padding: 14px 34px;
+  padding: 14px 36px;
   border-radius: 6px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  text-decoration: none;
 }
 
 .hero-note {
@@ -217,30 +139,59 @@
   opacity: 0.95;
 }
 
-/* ANIMACIÓN */
+/* Animación */
 @keyframes floatPhone {
   0% { transform: translateY(0); }
   50% { transform: translateY(-14px); }
   100% { transform: translateY(0); }
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+  /* Header móvil más visible */
+  .logo {
+    font-size: 24px;
+  }
+
+  .cta-header {
+    padding: 10px 26px;
+    font-size: 0.85rem;
+  }
+
+  /* Hero móvil */
+  .hero {
+    min-height: auto;
+  }
+
   .hero-content {
     grid-template-columns: 1fr;
+    padding: 80px 20px 60px;
     text-align: center;
+    gap: 40px;
   }
 
   .hero-left {
     order: -1;
+    margin-top: 10px;
+  }
+
+  .hero-phone {
+    width: 280px;
+  }
+
+  .hero-right h1 {
+    font-size: 2.4rem;
   }
 
   .hero-right p {
+    font-size: 1.05rem;
     margin-left: auto;
     margin-right: auto;
   }
 }
 </style>
+
 <!-- ===== POR QUE ES UN REGALO ESPECIAL ===== -->
 <section class="lirya-premium-final">
     <style>
@@ -471,6 +422,7 @@
   }
 }
 </style>
+
 
 
 
