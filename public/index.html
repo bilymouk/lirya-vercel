@@ -115,18 +115,18 @@
   <div class="hero-overlay"></div>
 
   <div class="hero-content">
-
     <!-- MÓVIL -->
     <div class="hero-left">
-      <img src="/mockup-phone-final.png" alt="Canción personalizada" class="hero-phone" />
+      <img
+        src="/mockup-phone-final.png"
+        alt="Canción personalizada LIRYA"
+        class="hero-phone"
+      />
     </div>
 
     <!-- TEXTO -->
     <div class="hero-right">
-      <h1>
-        Una canción creada<br>
-        a partir de vuestra historia
-      </h1>
+      <h1>Una canción creada a partir de vuestra historia</h1>
 
       <p>
         Transformamos historias reales en canciones únicas.
@@ -136,7 +136,6 @@
       <a href="#formulario" class="hero-btn">EMPEZAR</a>
       <span class="hero-note">Cada canción es única</span>
     </div>
-
   </div>
 </section>
 
@@ -149,7 +148,7 @@
   background: url('/cascos-neon.png') center / cover no-repeat;
   display: flex;
   align-items: center;
-  color: #f5f5f5;
+  color: #ffffff;
 }
 
 .hero-overlay {
@@ -170,41 +169,6 @@
   gap: 80px;
 }
 
-/* TEXTO */
-.hero-right h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.2rem;
-  font-weight: 500;
-  line-height: 1.15;
-  margin-bottom: 22px;
-}
-
-.hero-right p {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 400;
-  max-width: 520px;
-  margin-bottom: 34px;
-  color: #e6e6e6;
-}
-
-.hero-btn {
-  display: inline-block;
-  background: #f97316;
-  color: #ffffff;
-  padding: 14px 34px;
-  border-radius: 6px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.hero-note {
-  display: block;
-  margin-top: 14px;
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
 /* MÓVIL */
 .hero-left {
   display: flex;
@@ -216,6 +180,44 @@
   animation: floatPhone 5s ease-in-out infinite;
 }
 
+/* TEXTO */
+.hero-right h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.4rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 22px;
+  color: #ffffff;
+}
+
+.hero-right p {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.18rem;
+  font-weight: 400;
+  max-width: 540px;
+  margin-bottom: 36px;
+  color: #ffffff;
+}
+
+.hero-btn {
+  display: inline-block;
+  background: #f97316;
+  color: #ffffff;
+  padding: 14px 34px;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+
+.hero-note {
+  display: block;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+/* ANIMACIÓN */
 @keyframes floatPhone {
   0% { transform: translateY(0); }
   50% { transform: translateY(-14px); }
@@ -942,6 +944,7 @@ form.addEventListener("input", () => {
     }
   }
 </style>
+
 
 
 
