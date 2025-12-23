@@ -348,15 +348,51 @@
 </section>
 
 <style>
+<section class="why-special">
+  <div class="why-container">
+    <h2 class="why-title">Por qué es un regalo especial</h2>
+
+    <div class="why-cards">
+      <div class="why-card">
+        <h3>Único</h3>
+        <p>
+          No existe otra canción igual.
+          Creada solo para vuestra historia.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <h3>Emocional</h3>
+        <p>
+          No es una canción genérica.
+          Es vuestra historia convertida
+          en letra y música.
+        </p>
+      </div>
+
+      <div class="why-card">
+        <h3>Premium</h3>
+        <p>
+          Pensada para regalar.
+          Hecha para conservarla
+          para siempre.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
 /* ===== POR QUÉ ES UN REGALO ESPECIAL ===== */
 
-:root {
-  --beige-gold: #d6c7a1; /* beige dorado suave y premium */
+.why-special {
+  background: #f6f6f4;
+  padding: 50px 0;
 }
 
+/* COLOR BEIGE DORADO REAL (como en la foto) */
 .why-special {
-  background: #f7f7f5;
-  padding: 55px 0;
+  --gold-soft: #c9b892;
 }
 
 .why-container {
@@ -366,53 +402,59 @@
   text-align: center;
 }
 
+/* TÍTULO */
 .why-title {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: 1.95rem;
+  font-size: 1.85rem;
   font-weight: 600;
-  color: var(--beige-gold);
-  margin-bottom: 42px;
+  color: var(--gold-soft) !important;
+  margin-bottom: 38px;
 }
 
+/* GRID */
 .why-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 30px;
 }
 
+/* TARJETAS */
 .why-card {
-  background: #ffffff;
-  padding: 34px 30px;
-  border-radius: 10px; /* cuadradas pero elegantes */
-  border: 1.5px solid var(--beige-gold);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+  background: #fafafa;
+  padding: 32px 28px;
+  border-radius: 10px; /* cuadradas elegantes */
+  border: 1.6px solid var(--gold-soft);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
 }
 
+/* TÍTULOS TARJETA */
 .why-card h3 {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  color: var(--beige-gold);
-  margin-bottom: 14px;
+  color: var(--gold-soft) !important;
+  margin-bottom: 12px;
 }
 
+/* TEXTO */
 .why-card p {
-  font-size: 0.65rem; /* texto más pequeño */
+  font-size: 0.65rem;
   line-height: 1.6;
   color: #555;
 }
 
-/* Responsive */
+/* RESPONSIVE */
 @media (max-width: 900px) {
   .why-cards {
     grid-template-columns: 1fr;
   }
 
   .why-special {
-    padding: 50px 0;
+    padding: 45px 0;
   }
 }
 </style>
+
 
 
 
