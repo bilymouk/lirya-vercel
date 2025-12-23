@@ -241,35 +241,33 @@
   }
 }
 </style>
-  <!-- ===== POR QUE ES UN REGALO ESPECIAL ===== -->
+<!-- ===== POR QUE ES UN REGALO ESPECIAL ===== -->
 <section class="lirya-premium-final">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;800&family=Montserrat:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
 
         .lirya-premium-final {
             background-color: #ffffff;
-            /* 1. Más margen arriba y abajo para mayor elegancia */
-            padding: 80px 20px; 
+            padding: 80px 20px;
             text-align: center;
             font-family: 'Montserrat', sans-serif;
         }
 
+        /* === TÍTULO IGUAL QUE "EJEMPLOS REALES" === */
         .titulo-premium-brillante {
-            font-family: 'Cormorant Garamond', serif;
-            /* 2. Color dorado beige más vibrante y premium */
-            color: #d4b483; 
-            /* 3. Tamaño 10% más grande (de 43px a 48px) */
-            font-size: 48px; 
-            font-weight: 800; 
-            letter-spacing: -2px; 
+            font-family: "Georgia", "Times New Roman", serif;
+            color: #c7b58a; /* beige dorado suave */
+            font-size: 42px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
             margin-bottom: 60px;
-            line-height: 1.1;
+            line-height: 1.15;
         }
 
         .grid-premium-cards {
             display: flex;
             justify-content: center;
-            gap: 40px; 
+            gap: 40px;
             flex-wrap: wrap;
             max-width: 1200px;
             margin: 0 auto;
@@ -277,46 +275,51 @@
 
         .tarjeta-premium-estilo {
             background-color: #fcfaf7;
-            border-radius: 12px; 
+            border-radius: 12px;
             padding: 60px 35px;
             width: 320px;
-            border: 1px solid rgba(212, 180, 131, 0.15);
-            /* 4. Sombra sutil en los bordes para dar profundidad */
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05); 
-            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(199, 181, 138, 0.35);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Efecto hover: se eleva e ilumina */
         .tarjeta-premium-estilo:hover {
-            transform: translateY(-15px);
-            background-color: #ffffff;
-            box-shadow: 0 25px 50px rgba(212, 180, 131, 0.2);
-            border: 1px solid rgba(212, 180, 131, 0.4);
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
         }
 
         .tarjeta-premium-estilo h3 {
-            font-family: 'Cormorant Garamond', serif;
-            color: #bfa67a;
+            font-family: "Georgia", "Times New Roman", serif;
+            color: #c7b58a;
             font-size: 28px;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 15px;
         }
 
         .tarjeta-premium-estilo p {
-            /* 5. Texto de las tarjetas más negro/oscuro */
-            color: #1a1a1a; 
+            color: #1a1a1a;
             font-size: 14.5px;
             line-height: 1.7;
             font-weight: 400;
         }
 
         @media (max-width: 768px) {
-            .titulo-premium-brillante { font-size: 38px; letter-spacing: -1px; }
-            .grid-premium-cards { gap: 30px; flex-direction: column; align-items: center; }
-            .tarjeta-premium-estilo { width: 95%; }
+            .titulo-premium-brillante {
+                font-size: 36px;
+            }
+
+            .grid-premium-cards {
+                gap: 30px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tarjeta-premium-estilo {
+                width: 95%;
+            }
         }
     </style>
 
@@ -339,6 +342,7 @@
         </div>
     </div>
 </section>
+
 <!-- ===== EJEMPLOS REALES ===== -->
 <section class="examples">
   <div class="examples-overlay"></div>
@@ -447,6 +451,7 @@
   }
 }
 </style>
+
 
 
 
