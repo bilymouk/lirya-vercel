@@ -339,6 +339,106 @@
         </div>
     </div>
 </section>
+<!-- ===== EJEMPLOS REALES ===== -->
+<section class="examples">
+  <div class="examples-overlay"></div>
+
+  <div class="examples-container">
+    <h2>Ejemplos reales</h2>
+
+    <div class="examples-cards">
+      <div class="example-card">
+        <img src="/eres-mi-amor-card.jpg" alt="Ejemplo canción pareja">
+        <h3>Eres mi amor</h3>
+        <p>Canción creada a partir de una historia real de pareja.</p>
+      </div>
+
+      <div class="example-card">
+        <img src="/papa-card.jpg" alt="Ejemplo canción padre">
+        <h3>Papá</h3>
+        <p>Un homenaje convertido en música para toda la vida.</p>
+      </div>
+
+      <div class="example-card">
+        <img src="/amigas-card.jpg" alt="Ejemplo canción amigas">
+        <h3>Amigas por siempre</h3>
+        <p>Una historia de amistad transformada en canción.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ===== EJEMPLOS REALES ===== */
+.examples {
+  position: relative;
+  padding: 120px 20px;
+  background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
+  color: #fff;
+}
+
+.examples-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 6, 20, 0.75);
+}
+
+.examples-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.examples h2 {
+  font-size: 2.4rem;
+  margin-bottom: 60px;
+}
+
+.examples-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.example-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.example-card:hover {
+  transform: translateY(-8px);
+}
+
+.example-card img {
+  width: 100%;
+  display: block;
+}
+
+.example-card h3 {
+  margin: 20px 0 10px;
+  font-size: 1.3rem;
+}
+
+.example-card p {
+  padding: 0 20px 25px;
+  font-size: 0.95rem;
+  color: #ddd;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .examples-cards {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 
 
 
