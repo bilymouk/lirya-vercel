@@ -241,102 +241,102 @@
   }
 }
 </style>
-<section class="lirya-refined-section">
+<section class="lirya-final-balanced">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;800&family=Montserrat:wght@300;400&display=swap');
 
-        .lirya-refined-section {
+        .lirya-final-balanced {
             background-color: #ffffff;
-            /* 1. Menos margen arriba y abajo */
-            padding: 40px 20px; 
+            /* Margen superior e inferior equilibrado */
+            padding: 50px 20px; 
             text-align: center;
             font-family: 'Montserrat', sans-serif;
         }
 
-        .titulo-lirya-v4 {
+        .titulo-v5-brillante {
             font-family: 'Cormorant Garamond', serif;
-            /* 2. Color más suave tirando a blanco */
-            color: #e2d9c8; 
-            /* 3. Letra un 10% más pequeña (de 48px a 43px) */
+            /* Beige dorado con un toque más brillante */
+            color: #d1b68a; 
             font-size: 43px; 
-            /* 4. Letra más gorda */
             font-weight: 800; 
-            /* 5. Letras más juntas */
-            letter-spacing: -1.5px; 
-            margin-bottom: 40px;
+            letter-spacing: -1.8px; /* Letras más juntas */
+            margin-bottom: 50px;
+            line-height: 1.1;
         }
 
-        .grid-lirya-v4 {
+        .grid-v5-separado {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            /* Más separación entre tarjetas */
+            gap: 40px; 
             flex-wrap: wrap;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .tarjeta-lirya-v4 {
+        .tarjeta-v5-estilo {
             background-color: #fcfaf7;
-            /* 6. Bordes menos redondeados (antes 30px, ahora 15px) */
-            border-radius: 15px; 
-            padding: 50px 30px;
-            width: 310px;
-            border: 1px solid rgba(191, 166, 122, 0.08);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
-            transition: all 0.4s ease;
+            /* Bordes menos redondeados */
+            border-radius: 12px; 
+            padding: 55px 35px;
+            width: 320px;
+            border: 1px solid rgba(191, 166, 122, 0.06);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Efecto hover solicitado */
-        .tarjeta-lirya-v4:hover {
-            transform: translateY(-10px);
+        /* Efecto de iluminación y movimiento */
+        .tarjeta-v5-estilo:hover {
+            transform: translateY(-12px);
             background-color: #ffffff;
-            box-shadow: 0 15px 35px rgba(191, 166, 122, 0.12);
+            box-shadow: 0 20px 45px rgba(209, 182, 138, 0.18);
+            border: 1px solid rgba(209, 182, 138, 0.2);
         }
 
-        .tarjeta-lirya-v4 h3 {
+        .tarjeta-v5-estilo h3 {
             font-family: 'Cormorant Garamond', serif;
             color: #bfa67a;
-            font-size: 26px;
+            font-size: 27px;
             font-weight: 700;
             margin-bottom: 15px;
         }
 
-        .tarjeta-lirya-v4 p {
+        .tarjeta-v5-estilo p {
             color: #777;
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.7;
             font-weight: 400;
         }
 
         @media (max-width: 768px) {
-            .titulo-lirya-v4 { font-size: 34px; }
-            .grid-lirya-v4 { flex-direction: column; align-items: center; }
+            .titulo-v5-brillante { font-size: 34px; letter-spacing: -1px; }
+            .grid-v5-separado { gap: 25px; flex-direction: column; align-items: center; }
+            .tarjeta-v5-estilo { width: 90%; }
         }
     </style>
 
-    <h2 class="titulo-lirya-v4">Por qué es un regalo especial</h2>
+    <h2 class="titulo-v5-brillante">Por qué es un regalo especial</h2>
 
-    <div class="grid-lirya-v4">
-        <div class="tarjeta-lirya-v4">
+    <div class="grid-v5-separado">
+        <div class="tarjeta-v5-estilo">
             <h3>Único</h3>
             <p>No existe otra canción igual. Cada letra se crea exclusivamente a partir de vuestra historia.</p>
         </div>
 
-        <div class="tarjeta-lirya-v4">
+        <div class="tarjeta-v5-estilo">
             <h3>Emocional</h3>
             <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
         </div>
 
-        <div class="tarjeta-lirya-v4">
+        <div class="tarjeta-v5-estilo">
             <h3>Premium</h3>
             <p>Pensada para regalar. Hecha para conservarla y recordarla para siempre.</p>
         </div>
     </div>
 </section>
-  
 
 
 
