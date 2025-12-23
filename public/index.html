@@ -20,7 +20,6 @@
       --orange: #f47b20;
       --orange-hover: #e56f18;
       --text-dark: #111;
-      --text-muted: #555;
       --bg-light: #ffffff;
       --border-light: #eaeaea;
       --max-width: 1200px;
@@ -57,7 +56,7 @@
     .header-container {
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 14px 24px;
+      padding: 10px 24px; /* ↓ 25% menos alto */
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -65,18 +64,19 @@
 
     .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 22px;
+      font-size: 26px; /* +20% */
       font-weight: 600;
       letter-spacing: 2px;
       color: var(--gold);
     }
 
     .cta-header {
-      padding: 10px 22px;
+      padding: 7px 16px; /* ↓ 25% */
       background: var(--orange);
       color: #ffffff;
       font-weight: 600;
-      border-radius: 10px;
+      font-size: 0.9rem; /* ↓ 25% */
+      border-radius: 8px;
       transition: background 0.25s ease, transform 0.25s ease;
     }
 
@@ -87,12 +87,12 @@
 
     @media (max-width: 768px) {
       .logo {
-        font-size: 18px;
+        font-size: 22px;
       }
 
       .cta-header {
-        padding: 8px 16px;
-        font-size: 14px;
+        padding: 6px 14px;
+        font-size: 0.85rem;
       }
     }
   </style>
@@ -922,6 +922,7 @@ form.addEventListener("input", () => {
     }
   }
 </style>
+
 
 
 
