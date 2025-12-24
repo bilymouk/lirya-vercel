@@ -560,6 +560,294 @@ header{
     </div>
   </div>
 </section>
+<!-- ===== CUÉNTANOS VUESTRA HISTORIA (MULTIPASO) ===== -->
+<section class="lirya-form-section">
+  <div class="lirya-form-overlay"></div>
+
+  <div class="lirya-form-container">
+    <h2 class="lirya-form-title">Cuéntanos vuestra historia</h2>
+    <p class="lirya-form-subtitle">
+      Cuéntanos los detalles que harán vuestra canción única
+    </p>
+
+    <!-- PROGRESO -->
+    <div class="progress-bar">
+      <span class="progress-step active"></span>
+      <span class="progress-step"></span>
+      <span class="progress-step"></span>
+      <span class="progress-step"></span>
+      <span class="progress-step"></span>
+    </div>
+
+    <form id="multiStepForm">
+
+      <!-- PASO 1 -->
+      <div class="form-step active">
+        <h3>Paso 1 de 5: Personas</h3>
+
+        <label>Nombre de quien recibirá la canción</label>
+        <input type="text" required>
+
+        <label>Tu nombre (quien regala)</label>
+        <input type="text" required>
+
+        <button type="button" class="btn-next">Siguiente →</button>
+      </div>
+
+      <!-- PASO 2 -->
+      <div class="form-step">
+        <h3>Paso 2 de 5: Historia</h3>
+
+        <label>¿Cómo os conocisteis? (una frase)</label>
+        <input type="text" required>
+
+        <label>Un momento especial que recuerdes</label>
+        <textarea rows="3" required></textarea>
+
+        <div class="form-nav">
+          <button type="button" class="btn-back">← Atrás</button>
+          <button type="button" class="btn-next">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 3 -->
+      <div class="form-step">
+        <h3>Paso 3 de 5: Emoción</h3>
+
+        <label>Tres palabras que definan a esa persona</label>
+        <input type="text" required>
+
+        <label>Una frase que te gustaría decirle</label>
+        <input type="text" required>
+
+        <div class="form-nav">
+          <button type="button" class="btn-back">← Atrás</button>
+          <button type="button" class="btn-next">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 4 -->
+      <div class="form-step">
+        <h3>Paso 4 de 5: Música</h3>
+
+        <label>Estilo musical</label>
+        <select required>
+          <option value="">Selecciona</option>
+          <option>Balada romántica</option>
+          <option>Pop romántico</option>
+          <option>Indie / acústico</option>
+          <option>R&B / Soul</option>
+        </select>
+
+        <label>Tipo de voz</label>
+        <select required>
+          <option value="">Selecciona</option>
+          <option>Voz masculina</option>
+          <option>Voz femenina</option>
+          <option>Dúo</option>
+        </select>
+
+        <div class="form-nav">
+          <button type="button" class="btn-back">← Atrás</button>
+          <button type="button" class="btn-next">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 5 -->
+      <div class="form-step">
+        <h3>Paso 5 de 5: Entrega</h3>
+
+        <label>Email donde enviaremos la canción</label>
+        <input type="email" required>
+
+        <label class="checkbox-line">
+          <input type="checkbox" id="legalCheck" required>
+          Entiendo que es una canción personalizada y no reembolsable
+        </label>
+
+        <div class="form-nav">
+          <button type="button" class="btn-back">← Atrás</button>
+          <button type="submit" class="btn-submit" disabled>
+            Crear mi canción
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+<style>
+/* ===== FORMULARIO LIRYA ===== */
+
+.lirya-form-section {
+  position: relative;
+  padding: 140px 20px;
+  background: url("/musica-neon.png") center / cover no-repeat;
+  color: #fff;
+}
+
+.lirya-form-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 7, 30, 0.75);
+}
+
+.lirya-form-container {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.lirya-form-title {
+  text-align: center;
+  font-family: Georgia, serif;
+  color: #c7b58a;
+  font-size: 2.6rem;
+  margin-bottom: 8px;
+}
+
+.lirya-form-subtitle {
+  text-align: center;
+  margin-bottom: 35px;
+  opacity: 0.9;
+}
+
+.progress-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.progress-step {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+}
+
+.progress-step.active {
+  background: #c7b58a;
+}
+
+.form-step {
+  display: none;
+}
+
+.form-step.active {
+  display: block;
+}
+
+.form-step h3 {
+  color: #c7b58a;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+}
+
+.form-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.btn-next,
+.btn-back {
+  padding: 14px 26px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-next {
+  background: #ff8a1f;
+  border: none;
+}
+
+.btn-submit {
+  padding: 16px 36px;
+  border-radius: 50px;
+  border: none;
+  font-size: 1.05rem;
+  font-weight: bold;
+  background: #2ecc71;
+  color: #fff;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-submit.active {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.checkbox-line {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+</style>
+
+<script>
+const steps = document.querySelectorAll(".form-step");
+const nextBtns = document.querySelectorAll(".btn-next");
+const backBtns = document.querySelectorAll(".btn-back");
+const progress = document.querySelectorAll(".progress-step");
+const submitBtn = document.querySelector(".btn-submit");
+const form = document.getElementById("multiStepForm");
+
+let currentStep = 0;
+
+function updateSteps() {
+  steps.forEach((s, i) => s.classList.toggle("active", i === currentStep));
+  progress.forEach((p, i) => p.classList.toggle("active", i <= currentStep));
+}
+
+nextBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (steps[currentStep].querySelector(":invalid")) return;
+    currentStep++;
+    updateSteps();
+  });
+});
+
+backBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentStep--;
+    updateSteps();
+  });
+});
+
+form.addEventListener("input", () => {
+  if (form.checkValidity()) {
+    submitBtn.classList.add("active");
+    submitBtn.disabled = false;
+  }
+});
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  // 🔗 AQUÍ VA TU STRIPE
+  window.location.href = "https://checkout.stripe.com/XXXXXXXX";
+});
+</script>
+
 
 
 
