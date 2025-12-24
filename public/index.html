@@ -60,7 +60,7 @@ header{
 .hero{
   position:relative;
   min-height:100vh;
-  padding:80px 0;
+  padding:70px 0; /* ⬅️ un poco menos de padding vertical */
   background:url('/cascos-neon.png') center/cover no-repeat;
   display:flex;
   align-items:center;
@@ -86,18 +86,20 @@ header{
   align-items:center;
 }
 
-/* Teléfono */
+/* ===== TELÉFONO ===== */
 .hero-left{
   display:flex;
   justify-content:center;
 }
 
+/* 🖥️ Desktop: 5% más grande + bajado */
 .hero-phone{
-  width:340px;
+  width:357px; /* +5% respecto a 340px */
+  margin-top:40px; /* ⬅️ BAJAMOS el móvil */
   animation:floatPhone 5s ease-in-out infinite;
 }
 
-/* Texto */
+/* ===== TEXTO ===== */
 .hero-right h1{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
@@ -122,11 +124,11 @@ header{
 
 .hero-note{
   display:block;
-  margin-top:28px; /* ⬅️ MÁS SEPARADO DEL BOTÓN */
+  margin-top:28px;
   font-size:.9rem;
 }
 
-/* Animación */
+/* ===== ANIMACIÓN ===== */
 @keyframes floatPhone{
   0%{transform:translateY(0)}
   50%{transform:translateY(-14px)}
@@ -135,21 +137,26 @@ header{
 
 /* ===== MOBILE ===== */
 @media (max-width:900px){
+
+  .hero{
+    padding-top:30px; /* ⬅️ MUCHO MENOS margen entre header y móvil */
+  }
+
   .hero-content{
     grid-template-columns:1fr;
     text-align:center;
   }
 
-  /* 📱 Teléfono 10% MÁS GRANDE */
+  /* 📱 Teléfono móvil */
   .hero-phone{
-    width:101%;
-    max-width:400px;
-    margin-top:40px;
+    width:105%;        /* se mantiene grande */
+    max-width:420px;
+    margin-top:10px;   /* ⬅️ pegado al header */
   }
 
-  /* Subimos el texto hacia la imagen */
+  /* Texto subido hacia el móvil */
   .hero-right{
-    margin-top:-120px;
+    margin-top:-110px;
   }
 
   .hero-right h1{
@@ -158,11 +165,11 @@ header{
 
   .hero-right p{
     font-size:1.05rem;
-    margin-top:36px; /* más aire entre título y frase */
+    margin-top:36px;
   }
 
   .hero-note{
-    margin-top:32px; /* ⬅️ más bajo en móvil también */
+    margin-top:32px;
   }
 }
 </style>
@@ -428,6 +435,7 @@ header{
   }
 }
 </style>
+
 
 
 
