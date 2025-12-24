@@ -309,400 +309,532 @@ header{
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>LIRYA – Cuéntanos vuestra historia</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LIRYA · Cuéntanos vuestra historia</title>
 
 <style>
-/* ===== FONDO ===== */
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: url('/public/musica-neon.png') center/cover no-repeat fixed;
-  color: #fff;
-}
-.overlay {
-  background: rgba(0,0,0,0.55);
-  min-height: 100vh;
+/* =========================
+   RESET & BASE
+========================= */
+* {
+  box-sizing: border-box;
+  font-family: "Georgia", "Times New Roman", serif;
 }
 
-/* ===== HEADER ===== */
+body {
+  margin: 0;
+  background: #111;
+  color: #fff;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+.page {
+  min-height: 100vh;
+  background: 
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url("musica-neon.png") center / cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+/* =========================
+   HEADER
+========================= */
 .header {
   text-align: center;
-  padding: 50px 20px 30px;
+  margin-bottom: 30px;
 }
+
 .header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 34px;
-  color: #f5c77a;
+  font-size: 36px;
+  color: #f2c98a;
+  margin-bottom: 8px;
 }
+
 .header p {
-  opacity: 0.9;
+  font-size: 16px;
+  opacity: 0.85;
 }
+
+/* =========================
+   PROGRESS BAR
+========================= */
 .progress {
   display: flex;
   gap: 10px;
-  max-width: 320px;
-  margin: 20px auto 0;
+  margin: 25px 0 35px;
 }
+
 .progress span {
-  flex: 1;
-  height: 3px;
-  background: rgba(255,255,255,0.3);
+  width: 40px;
+  height: 4px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 2px;
 }
+
 .progress span.active {
-  background: #F28C28;
+  background: #f2c98a;
 }
 
-/* ===== CONTENEDOR ===== */
-.container {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 60px;
-}
-
-/* ===== CARD ===== */
+/* =========================
+   CARD
+========================= */
 .card {
-  background: rgba(20,20,20,0.85);
-  border-radius: 18px;
-  padding: 32px;
   width: 100%;
   max-width: 520px;
+  background: rgba(0,0,0,0.65);
+  border-radius: 18px;
+  padding: 28px;
 }
 
-/* ===== PASOS ===== */
-.step { display: none; }
-.step.active { display: block; }
-
+/* =========================
+   STEP TITLE
+========================= */
 .step-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  color: #f5c77a;
-  margin-bottom: 24px;
+  font-size: 22px;
+  color: #f2c98a;
+  margin-bottom: 18px;
 }
 
-/* ===== FORM ===== */
-.question { margin-bottom: 18px; }
-label {
+/* =========================
+   QUESTIONS
+========================= */
+.question {
+  margin-bottom: 18px;
+}
+
+.question label {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
+  opacity: 0.9;
 }
 
-/* INPUTS (escritura) */
-input, textarea {
-  width: 100%;
-  padding: 13px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  font-size: 14px;
-}
-
-::placeholder {
-  color: rgba(255,255,255,0.55);
-  font-style: italic;
-}
-
+/* =========================
+   INPUTS / TEXTAREA
+========================= */
+input[type="text"],
+input[type="email"],
 textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-/* SELECT (desplegable blanco opaco) */
-select {
   width: 100%;
-  padding: 13px 14px;
+  padding: 14px 16px;
   border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: none;
   background: rgba(255,255,255,0.85);
   color: #000;
   font-size: 14px;
-  appearance: none;
 }
 
-select option {
-  background: #fff;
-  color: #000;
+textarea {
+  resize: none;
+  height: 90px;
 }
 
-/* ===== BOTONES ===== */
-.actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 26px;
+/* =========================
+   DROPDOWN PREMIUM
+========================= */
+.dropdown {
+  position: relative;
 }
-.btn {
-  flex: 1;
-  padding: 12px;
+
+.dropdown-toggle {
+  width: 100%;
+  padding: 14px 16px;
   border-radius: 10px;
   border: none;
-  font-family: 'Playfair Display', serif;
-  font-size: 15px;
+  background: rgba(255,255,255,0.85);
+  color: #9aa3ab;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  padding: 10px 0;
+  display: none;
+  z-index: 50;
+}
+
+.dropdown-menu.open {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 12px 18px;
+  font-size: 14px;
+  color: #7a7a7a;
   cursor: pointer;
 }
-.btn-next { background: #F28C28; color: #fff; }
-.btn-back { background: rgba(255,255,255,0.2); color: #fff; }
-.btn-pay { background: #7ED957; color: #fff; }
+
+.dropdown-item + .dropdown-item {
+  margin-top: 4px;
+}
+
+.dropdown-item:hover {
+  background: #f5f8fb;
+  color: #333;
+}
+
+/* =========================
+   NAV BUTTONS
+========================= */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 12px;
+}
+
+button {
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.btn-back {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.btn-next {
+  background: #f28c28;
+  color: #fff;
+  flex: 1;
+}
+
+.btn-submit {
+  background: #4caf50;
+  color: #fff;
+  flex: 1;
+}
+
+/* =========================
+   HIDE STEPS
+========================= */
+.step {
+  display: none;
+}
+.step.active {
+  display: block;
+}
 </style>
 </head>
 
 <body>
-<div class="overlay">
+<div class="page">
 
-<div class="header">
-  <h1>Cuéntanos vuestra historia</h1>
-  <p>Cuéntanos los detalles que harán vuestra canción única</p>
-  <div class="progress">
-    <span class="active"></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-</div>
-
-<div class="container">
-<div class="card">
-
-<!-- PASO 1 -->
-<div class="step active">
-  <div class="step-title">Paso 1 de 6 — Personas</div>
-
-  <div class="question">
-    <label>Nombre de quien recibirá la canción</label>
-    <input placeholder="Ej: Laura, Mi amor, Cariño…">
+  <div class="header">
+    <h1>Cuéntanos vuestra historia</h1>
+    <p>Cuéntanos los detalles que harán vuestra canción única</p>
   </div>
 
-  <div class="question">
-    <label>Tu nombre (quien regala)</label>
-    <input placeholder="Ej: Juan">
+  <div class="progress" id="progress"></div>
+
+  <div class="card">
+
+    <!-- PASO 1 -->
+    <div class="step active">
+      <div class="step-title">Paso 1 de 6 — Personas</div>
+
+      <div class="question">
+        <label>Nombre de quien recibirá la canción</label>
+        <input type="text" placeholder="Ej: Laura, Mi amor, Cariño…" />
+      </div>
+
+      <div class="question">
+        <label>Tu nombre (quien regala)</label>
+        <input type="text" placeholder="Ej: Juan" />
+      </div>
+
+      <div class="question">
+        <label>Tipo de relación</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Pareja</div>
+            <div class="dropdown-item">Matrimonio</div>
+            <div class="dropdown-item">Ex pareja (reconciliación)</div>
+            <div class="dropdown-item">Amor secreto</div>
+            <div class="dropdown-item">Familiar</div>
+            <div class="dropdown-item">Amistad especial</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn-next">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="step">
+      <div class="step-title">Paso 2 de 6 — Origen de la historia</div>
+
+      <div class="question">
+        <label>¿Cómo os conocisteis?</label>
+        <textarea placeholder="Ej: En una cafetería por casualidad…"></textarea>
+      </div>
+
+      <div class="question">
+        <label>Un momento que lo cambió todo</label>
+        <textarea placeholder="Ej: Nuestro primer beso en aquel viaje…"></textarea>
+      </div>
+
+      <div class="question">
+        <label>¿Por qué esta canción es importante ahora?</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Aniversario</div>
+            <div class="dropdown-item">Cumpleaños</div>
+            <div class="dropdown-item">Reconciliación</div>
+            <div class="dropdown-item">San Valentín</div>
+            <div class="dropdown-item">Sorpresa sin motivo</div>
+            <div class="dropdown-item">Otro</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn-back">← Atrás</button>
+        <button class="btn-next">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="step">
+      <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
+
+      <div class="question">
+        <label>Tres palabras que definan a esa persona</label>
+        <input type="text" placeholder="Ej: intensa, dulce, valiente" />
+      </div>
+
+      <div class="question">
+        <label>Una frase que te gustaría decirle</label>
+        <textarea placeholder="Ej: Siempre estaré a tu lado pase lo que pase…"></textarea>
+      </div>
+
+      <div class="question">
+        <label>¿Qué emoción debe sentir al escucharla?</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Amor profundo</div>
+            <div class="dropdown-item">Nostalgia</div>
+            <div class="dropdown-item">Alegría</div>
+            <div class="dropdown-item">Emoción intensa</div>
+            <div class="dropdown-item">Calma y ternura</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn-back">← Atrás</button>
+        <button class="btn-next">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 4 -->
+    <div class="step">
+      <div class="step-title">Paso 4 de 6 — Música</div>
+
+      <div class="question">
+        <label>Estilo musical principal</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Balada romántica</div>
+            <div class="dropdown-item">Pop emocional</div>
+            <div class="dropdown-item">Indie acústico</div>
+            <div class="dropdown-item">R&B / Soul</div>
+            <div class="dropdown-item">Rock suave</div>
+            <div class="dropdown-item">Electrónica chill</div>
+            <div class="dropdown-item">Reggaetón lento</div>
+            <div class="dropdown-item">Cinematográfico</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question">
+        <label>Ritmo</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Lento</div>
+            <div class="dropdown-item">Medio</div>
+            <div class="dropdown-item">Progresivo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question">
+        <label>Tipo de voz</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Masculina</div>
+            <div class="dropdown-item">Femenina</div>
+            <div class="dropdown-item">Dúo</div>
+            <div class="dropdown-item">Me da igual</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question">
+        <label>Idioma</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Español</div>
+            <div class="dropdown-item">Inglés</div>
+            <div class="dropdown-item">Spanglish</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn-back">← Atrás</button>
+        <button class="btn-next">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 5 -->
+    <div class="step">
+      <div class="step-title">Paso 5 de 6 — Detalles finales</div>
+
+      <div class="question">
+        <label>¿Quieres que aparezca su nombre en la letra?</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Sí</div>
+            <div class="dropdown-item">No</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question">
+        <label>¿Algo que NO deba mencionarse?</label>
+        <textarea placeholder="Opcional"></textarea>
+      </div>
+
+      <div class="question">
+        <label>Nivel de intensidad emocional</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Suave</div>
+            <div class="dropdown-item">Emotiva</div>
+            <div class="dropdown-item">Muy intensa</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn-back">← Atrás</button>
+        <button class="btn-next">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 6 -->
+    <div class="step">
+      <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+
+      <div class="question">
+        <label>Email donde recibirás la canción</label>
+        <input type="email" placeholder="ejemplo@email.com" />
+      </div>
+
+      <div class="question">
+        <label>¿Quieres recibirla también por WhatsApp?</label>
+        <div class="dropdown">
+          <div class="dropdown-toggle">Elige una opción ▾</div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item">Sí</div>
+            <div class="dropdown-item">No</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn-back">← Atrás</button>
+        <button class="btn-submit">Crear mi canción</button>
+      </div>
+    </div>
+
   </div>
-
-  <div class="question">
-    <label>Tipo de relación</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Pareja</option>
-      <option>Matrimonio</option>
-      <option>Ex pareja (reconciliación)</option>
-      <option>Amor secreto</option>
-      <option>Familiar</option>
-      <option>Amistad especial</option>
-    </select>
-  </div>
-
-  <div class="actions">
-    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
-  </div>
-</div>
-
-<!-- PASO 2 -->
-<div class="step">
-  <div class="step-title">Paso 2 de 6 — Origen de la historia</div>
-
-  <div class="question">
-    <label>¿Cómo os conocisteis?</label>
-    <textarea placeholder="Ej: En la universidad, en una cafetería…"></textarea>
-  </div>
-
-  <div class="question">
-    <label>Un momento que lo cambió todo</label>
-    <textarea placeholder="Ej: Nuestro primer beso, una despedida…"></textarea>
-  </div>
-
-  <div class="question">
-    <label>¿Por qué esta canción es importante ahora?</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Aniversario</option>
-      <option>Cumpleaños</option>
-      <option>Reconciliación</option>
-      <option>San Valentín</option>
-      <option>Sorpresa sin motivo</option>
-      <option>Otro</option>
-    </select>
-  </div>
-
-  <div class="actions">
-    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
-    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
-  </div>
-</div>
-
-<!-- PASO 3 -->
-<div class="step">
-  <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
-
-  <div class="question">
-    <label>Tres palabras que definan a esa persona</label>
-    <input placeholder="Ej: intensa, dulce, valiente">
-  </div>
-
-  <div class="question">
-    <label>Una frase que te gustaría decirle</label>
-    <textarea placeholder="Ej: Gracias por estar siempre a mi lado…"></textarea>
-  </div>
-
-  <div class="question">
-    <label>Emoción principal</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Amor profundo</option>
-      <option>Nostalgia</option>
-      <option>Alegría</option>
-      <option>Emoción intensa</option>
-      <option>Calma y ternura</option>
-    </select>
-  </div>
-
-  <div class="actions">
-    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
-    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
-  </div>
-</div>
-
-<!-- PASO 4 -->
-<div class="step">
-  <div class="step-title">Paso 4 de 6 — Música</div>
-
-  <div class="question">
-    <label>Estilo musical principal</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Balada romántica</option>
-      <option>Pop emocional</option>
-      <option>Indie acústico</option>
-      <option>R&B / Soul</option>
-      <option>Rock suave</option>
-      <option>Electrónica chill</option>
-      <option>Reggaetón lento</option>
-      <option>Cinematográfico</option>
-    </select>
-  </div>
-
-  <div class="question">
-    <label>Ritmo de la canción</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Lento</option>
-      <option>Medio</option>
-      <option>Progresivo</option>
-    </select>
-  </div>
-
-  <div class="question">
-    <label>Tipo de voz</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Masculina</option>
-      <option>Femenina</option>
-      <option>Dúo</option>
-      <option>Me da igual</option>
-    </select>
-  </div>
-
-  <div class="question">
-    <label>Idioma</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Español</option>
-      <option>Inglés</option>
-      <option>Spanglish</option>
-    </select>
-  </div>
-
-  <div class="actions">
-    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
-    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
-  </div>
-</div>
-
-<!-- PASO 5 -->
-<div class="step">
-  <div class="step-title">Paso 5 de 6 — Detalles finales</div>
-
-  <div class="question">
-    <label>¿Quieres que aparezca su nombre en la letra?</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Sí</option>
-      <option>No</option>
-    </select>
-  </div>
-
-  <div class="question">
-    <label>¿Algo que NO deba mencionarse?</label>
-    <textarea placeholder="Opcional: evita recuerdos delicados…"></textarea>
-  </div>
-
-  <div class="question">
-    <label>Nivel de intensidad emocional</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Suave</option>
-      <option>Emotiva</option>
-      <option>Muy intensa</option>
-    </select>
-  </div>
-
-  <div class="actions">
-    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
-    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
-  </div>
-</div>
-
-<!-- PASO 6 -->
-<div class="step">
-  <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
-
-  <div class="question">
-    <label>Email donde recibirás la canción</label>
-    <input placeholder="Ej: tuemail@gmail.com">
-  </div>
-
-  <div class="question">
-    <label>¿Quieres recibirla también por WhatsApp?</label>
-    <select>
-      <option disabled selected>Elige una opción</option>
-      <option>Sí</option>
-      <option>No</option>
-    </select>
-  </div>
-
-  <div class="actions">
-    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
-    <button class="btn btn-pay">Crear mi canción</button>
-  </div>
-</div>
-
-</div>
-</div>
 </div>
 
 <script>
-let currentStep = 0;
-const steps = document.querySelectorAll('.step');
-const bars = document.querySelectorAll('.progress span');
+const steps = document.querySelectorAll(".step");
+let current = 0;
 
-function updateSteps() {
-  steps.forEach((s,i)=>s.classList.toggle('active', i === currentStep));
-  bars.forEach((b,i)=>b.classList.toggle('active', i <= currentStep));
+/* progress */
+const progress = document.getElementById("progress");
+steps.forEach((_, i) => {
+  const span = document.createElement("span");
+  if (i === 0) span.classList.add("active");
+  progress.appendChild(span);
+});
+
+function updateStep() {
+  steps.forEach((s, i) => s.classList.toggle("active", i === current));
+  document.querySelectorAll(".progress span")
+    .forEach((p, i) => p.classList.toggle("active", i <= current));
 }
 
-function nextStep() {
-  if (currentStep < steps.length - 1) {
-    currentStep++;
-    updateSteps();
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("btn-next")) {
+    current++;
+    updateStep();
   }
-}
-
-function prevStep() {
-  if (currentStep > 0) {
-    currentStep--;
-    updateSteps();
+  if (e.target.classList.contains("btn-back")) {
+    current--;
+    updateStep();
   }
-}
+});
+
+/* dropdown logic */
+document.querySelectorAll(".dropdown").forEach(d => {
+  const toggle = d.querySelector(".dropdown-toggle");
+  const menu = d.querySelector(".dropdown-menu");
+
+  toggle.addEventListener("click", e => {
+    e.stopPropagation();
+    document.querySelectorAll(".dropdown-menu").forEach(m => m.classList.remove("open"));
+    menu.classList.toggle("open");
+  });
+
+  d.querySelectorAll(".dropdown-item").forEach(item => {
+    item.addEventListener("click", () => {
+      toggle.textContent = item.textContent;
+      toggle.style.color = "#333";
+      menu.classList.remove("open");
+    });
+  });
+});
+
+document.addEventListener("click", () =>
+  document.querySelectorAll(".dropdown-menu").forEach(m => m.classList.remove("open"))
+);
 </script>
-
 </body>
 </html>
+
+
