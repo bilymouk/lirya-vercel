@@ -305,207 +305,162 @@ header{
   </div>
 </section>
   
-<!-- ===== CUÉNTANOS VUESTRA HISTORIA (MULTI-STEP / SUNO READY) ===== -->
+<!-- ===== CUÉNTANOS VUESTRA HISTORIA ===== -->
 <section class="story-section" id="formulario">
   <div class="story-overlay"></div>
 
   <div class="story-container">
+
+    <!-- HEADER -->
     <header class="story-header">
       <h2>Cuéntanos vuestra historia</h2>
-      <p class="story-subtitle">Cada detalle nos ayuda a crear una canción única y emocionante.</p>
+      <p>Cada detalle nos ayuda a crear una canción única y emocionante</p>
 
-      <nav class="progress">
-        <div class="progress-bar">
-          <span class="prog-seg"></span>
-          <span class="prog-seg"></span>
-          <span class="prog-seg"></span>
-          <span class="prog-seg"></span>
-          <span class="prog-seg"></span>
-          <span class="prog-seg"></span>
-        </div>
-      </nav>
+      <div class="progress-bar">
+        <span class="prog active"></span>
+        <span class="prog"></span>
+        <span class="prog"></span>
+        <span class="prog"></span>
+        <span class="prog"></span>
+        <span class="prog"></span>
+      </div>
     </header>
 
-    <form id="songForm" class="story-form" novalidate>
+    <!-- FORM -->
+    <form id="songForm" novalidate>
 
       <!-- STEP 1 -->
-      <fieldset class="step">
-        <h3 class="step-title">Paso 1 de 6: Personas</h3>
+      <fieldset class="step active">
+        <h3>Paso 1 de 6 · Personas</h3>
 
-        <label>Nombre de quien recibirá la canción *
-          <input type="text" name="receiver_name" required>
-        </label>
+        <label>Nombre de quien recibirá la canción *</label>
+        <input type="text" name="receiver_name" required placeholder="Ej: María">
 
-        <label>Tu nombre (quien regala) *
-          <input type="text" name="sender_name" required>
-        </label>
+        <label>Tu nombre (quien regala) *</label>
+        <input type="text" name="sender_name" required placeholder="Ej: Juan">
 
-        <label>Tipo de relación *
-          <select name="relationship" required>
-            <option value="">Selecciona</option>
-            <option>Pareja</option>
-            <option>Amigas/os</option>
-            <option>Familiar</option>
-            <option>Amor secreto</option>
-            <option>Relación a distancia</option>
-            <option>Otro</option>
-          </select>
-        </label>
+        <label>Tipo de relación *</label>
+        <select name="relationship" required>
+          <option value="">Selecciona una opción</option>
+          <option>Pareja</option>
+          <option>Amigas/os</option>
+          <option>Familiar</option>
+          <option>Amor secreto</option>
+          <option>Relación a distancia</option>
+          <option>Otro</option>
+        </select>
 
-        <div class="actions single">
-          <button type="button" class="btn next full">Siguiente →</button>
-        </div>
+        <button type="button" class="btn next">Siguiente →</button>
       </fieldset>
 
       <!-- STEP 2 -->
       <fieldset class="step">
-        <h3 class="step-title">Paso 2 de 6: Ocasión & recuerdos</h3>
+        <h3>Paso 2 de 6 · Historia</h3>
 
-        <label>Motivo / ocasión *
-          <select name="occasion" required>
-            <option value="">Selecciona</option>
-            <option>San Valentín</option>
-            <option>Aniversario</option>
-            <option>Cumpleaños</option>
-            <option>Sorpresa</option>
-            <option>Regalo personal</option>
-            <option>Otro</option>
-          </select>
-        </label>
+        <label>¿Cómo os conocisteis? *</label>
+        <input type="text" name="how_met" required placeholder="Ej: En la universidad, en una cafetería…">
 
-        <label>Un momento inolvidable *
-          <textarea name="memory" required></textarea>
-        </label>
+        <label>Un momento especial que recuerdes *</label>
+        <textarea name="memory" required placeholder="Cuéntanos un momento que os haya marcado…"></textarea>
 
-        <label>¿Cómo os conocisteis? *
-          <input type="text" name="how_met" required>
-        </label>
-
-        <div class="actions split">
-          <button type="button" class="btn back half">← Atrás</button>
-          <button type="button" class="btn next half">Siguiente →</button>
+        <div class="actions">
+          <button type="button" class="btn back">← Atrás</button>
+          <button type="button" class="btn next">Siguiente →</button>
         </div>
       </fieldset>
 
       <!-- STEP 3 -->
       <fieldset class="step">
-        <h3 class="step-title">Paso 3 de 6: Letra</h3>
+        <h3>Paso 3 de 6 · Letra</h3>
 
-        <label>Frase o estribillo *
-          <input type="text" name="hook_phrase" required>
-        </label>
+        <label>Frase o estribillo clave *</label>
+        <input type="text" name="hook_phrase" required placeholder="Una frase que quieras que se repita">
 
-        <label>Tres palabras que definan a la persona *
-          <input type="text" name="keywords" required>
-        </label>
+        <label>Tres palabras que definan a la persona *</label>
+        <input type="text" name="keywords" required placeholder="Ej: cariñosa, valiente, divertida">
 
-        <label>Perspectiva *
-          <select name="perspective" required>
-            <option value="">Selecciona</option>
-            <option>Primera persona</option>
-            <option>Tercera persona</option>
-            <option>Dúo</option>
-          </select>
-        </label>
+        <label>Perspectiva *</label>
+        <select name="perspective" required>
+          <option value="">Selecciona</option>
+          <option>Primera persona</option>
+          <option>Tercera persona</option>
+          <option>Dúo</option>
+        </select>
 
-        <div class="actions split">
-          <button type="button" class="btn back half">← Atrás</button>
-          <button type="button" class="btn next half">Siguiente →</button>
+        <div class="actions">
+          <button type="button" class="btn back">← Atrás</button>
+          <button type="button" class="btn next">Siguiente →</button>
         </div>
       </fieldset>
 
       <!-- STEP 4 -->
       <fieldset class="step">
-        <h3 class="step-title">Paso 4 de 6: Música</h3>
+        <h3>Paso 4 de 6 · Música</h3>
 
-        <label>Estilo musical *
-          <select name="music_style" required>
-            <option value="">Selecciona</option>
-            <option>Pop</option>
-            <option>Balada</option>
-            <option>Indie</option>
-            <option>R&B</option>
-            <option>Electrónica</option>
-            <option>Reggaetón</option>
-            <option>Cinemático</option>
-          </select>
-        </label>
+        <label>Estilo musical *</label>
+        <select name="music_style" required>
+          <option value="">Selecciona</option>
+          <option>Pop</option>
+          <option>Balada</option>
+          <option>Indie</option>
+          <option>R&B / Soul</option>
+          <option>Electrónica</option>
+          <option>Reggaetón</option>
+          <option>Orquestal</option>
+        </select>
 
-        <label>Instrumentos
-          <input type="text" name="instruments">
-        </label>
+        <label>Instrumentos (opcional)</label>
+        <input type="text" name="instruments" placeholder="Ej: piano, guitarra, cuerdas">
 
-        <label>Tempo
-          <input type="text" name="tempo">
-        </label>
-
-        <label>Referencias
-          <input type="text" name="artist_refs">
-        </label>
-
-        <div class="actions split">
-          <button type="button" class="btn back half">← Atrás</button>
-          <button type="button" class="btn next half">Siguiente →</button>
+        <div class="actions">
+          <button type="button" class="btn back">← Atrás</button>
+          <button type="button" class="btn next">Siguiente →</button>
         </div>
       </fieldset>
 
       <!-- STEP 5 -->
       <fieldset class="step">
-        <h3 class="step-title">Paso 5 de 6: Voz</h3>
+        <h3>Paso 5 de 6 · Voz</h3>
 
-        <label>Tipo de voz *
-          <select name="voice_type" required>
-            <option value="">Selecciona</option>
-            <option>Femenina</option>
-            <option>Masculina</option>
-            <option>Dúo</option>
-            <option>Instrumental</option>
-          </select>
-        </label>
+        <label>Tipo de voz *</label>
+        <select name="voice_type" required>
+          <option value="">Selecciona</option>
+          <option>Voz femenina</option>
+          <option>Voz masculina</option>
+          <option>Dúo</option>
+          <option>Instrumental</option>
+        </select>
 
-        <label>Idioma *
-          <select name="language" required>
-            <option value="">Selecciona</option>
-            <option>Español</option>
-            <option>Inglés</option>
-            <option>Spanglish</option>
-          </select>
-        </label>
+        <label>Idioma *</label>
+        <select name="language" required>
+          <option value="">Selecciona</option>
+          <option>Español</option>
+          <option>Inglés</option>
+          <option>Spanglish</option>
+        </select>
 
-        <label>Notas adicionales
-          <textarea name="notes"></textarea>
-        </label>
-
-        <div class="actions split">
-          <button type="button" class="btn back half">← Atrás</button>
-          <button type="button" class="btn next half">Siguiente →</button>
+        <div class="actions">
+          <button type="button" class="btn back">← Atrás</button>
+          <button type="button" class="btn next">Siguiente →</button>
         </div>
       </fieldset>
 
       <!-- STEP 6 -->
       <fieldset class="step">
-        <h3 class="step-title">Paso 6 de 6: Entrega</h3>
+        <h3>Paso 6 de 6 · Entrega</h3>
 
-        <label>Email *
-          <input type="email" name="email" required>
-        </label>
+        <label>Email *</label>
+        <input type="email" name="email" required placeholder="tu@email.com">
 
-        <label>¿WhatsApp?
-          <select name="whatsapp_opt">
-            <option value="">No</option>
-            <option value="yes">Sí</option>
-          </select>
-        </label>
+        <label>¿Recibir también por WhatsApp?</label>
+        <select name="whatsapp">
+          <option>No</option>
+          <option>Sí</option>
+        </select>
 
-        <label>Duración
-          <input type="text" name="duration">
-        </label>
-
-        <div class="actions split final-actions">
-          <button type="button" class="btn back half">← Atrás</button>
-          <button type="button" id="createSongBtn" class="btn create half" disabled>
-            Crear mi canción
-          </button>
+        <div class="actions">
+          <button type="button" class="btn back">← Atrás</button>
+          <button type="button" class="btn final">Crear mi canción</button>
         </div>
       </fieldset>
 
@@ -513,36 +468,104 @@ header{
   </div>
 </section>
 
+<style>
+.story-section{
+  position:relative;
+  background:url('/musica-neon.png') center/cover no-repeat;
+  padding:100px 20px;
+  color:#fff;
+}
+.story-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(5,7,20,.55);
+}
+.story-container{
+  position:relative;
+  max-width:720px;
+  margin:auto;
+}
+.story-header h2{
+  font-family:"Playfair Display",serif;
+  font-size:2.6rem;
+  color:#f1c77a;
+  text-align:center;
+}
+.story-header p{
+  text-align:center;
+  opacity:.9;
+  margin:12px 0 26px;
+}
+.progress-bar{
+  display:flex;
+  gap:10px;
+}
+.prog{
+  flex:1;
+  height:5px;
+  background:rgba(255,255,255,.2);
+  border-radius:6px;
+}
+.prog.active{
+  background:linear-gradient(90deg,#ffc36a,#ff7a2a);
+}
+form{
+  background:rgba(0,0,0,.35);
+  border-radius:20px;
+  padding:40px;
+}
+fieldset{border:none;display:none}
+fieldset.active{display:block}
+h3{
+  font-family:"Playfair Display",serif;
+  color:#f1c77a;
+  margin-bottom:20px;
+}
+label{display:block;margin:16px 0 6px}
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:none;
+}
+textarea{min-height:90px}
+.actions{
+  display:flex;
+  justify-content:space-between;
+  margin-top:30px;
+}
+.btn{
+  padding:14px 28px;
+  border-radius:10px;
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+}
+.btn.next,.btn.final{
+  background:linear-gradient(180deg,#ff8a2a,#f97316);
+  color:#fff;
+}
+.btn.back{
+  background:rgba(255,255,255,.1);
+  color:#fff;
+}
+@media(max-width:768px){
+  form{padding:26px}
+}
+</style>
+
 <script>
 (function(){
-  const form = document.getElementById('songForm');
-  const steps = [...form.querySelectorAll('.step')];
-  const segs = document.querySelectorAll('.prog-seg');
-  const btnCreate = document.getElementById('createSongBtn');
-  let current = 0;
-
-  function showStep(i){
-    steps.forEach((s,idx)=>s.style.display = idx===i ? 'block':'none');
-    segs.forEach((s,idx)=>s.classList.toggle('active', idx<=i));
-    current = i;
-    validate();
-  }
-
-  function validate(){
-    const required = steps[current].querySelectorAll('[required]');
-    const ok = [...required].every(i=>i.value.trim());
-    btnCreate.disabled = !(current===steps.length-1 && ok);
-  }
-
-  form.addEventListener('click', e=>{
-    if(e.target.classList.contains('next')) showStep(current+1);
-    if(e.target.classList.contains('back')) showStep(current-1);
-  });
-
-  form.addEventListener('input', validate);
-  showStep(0);
+  const steps=document.querySelectorAll('.step');
+  const bars=document.querySelectorAll('.prog');
+  let i=0;
+  const show=()=>{steps.forEach(s=>s.classList.remove('active'));steps[i].classList.add('active');bars.forEach((b,idx)=>b.classList.toggle('active',idx<=i));}
+  document.querySelectorAll('.next').forEach(b=>b.onclick=()=>{i++;show()});
+  document.querySelectorAll('.back').forEach(b=>b.onclick=()=>{i--;show()});
+  show();
 })();
 </script>
+
 
 
 
