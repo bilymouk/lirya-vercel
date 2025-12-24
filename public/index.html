@@ -54,8 +54,6 @@ header{
   text-decoration:none;
 }
 
-.cta-header:hover{background:var(--orange-hover)}
-
 /* ===== HERO BASE ===== */
 .hero{
   position:relative;
@@ -78,7 +76,7 @@ header{
   padding:60px 40px;
 }
 
-/* ===== DESKTOP HERO ===== */
+/* ===== DESKTOP ===== */
 .hero-desktop{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -110,7 +108,7 @@ header{
 
 .hero-note{
   display:block;
-  margin-top:22px;
+  margin-top:20px;
   font-size:.9rem;
   font-style:italic;
   opacity:.85;
@@ -121,7 +119,7 @@ header{
   animation:floatPhone 5s ease-in-out infinite;
 }
 
-/* ===== MOBILE HERO ===== */
+/* ===== MOBILE ===== */
 .hero-mobile{
   display:none;
   text-align:center;
@@ -131,28 +129,35 @@ header{
   font-family:'Playfair Display',serif;
   font-size:3.1rem;
   line-height:1.15;
-  margin-bottom:10px; /* MENOS ESPACIO CON LA IMAGEN */
+  margin-bottom:6px;
 }
 
+/* IMAGEN: QUITAMOS ESPACIO REAL */
 .hero-mobile img{
   width:85%;
   max-width:340px;
-  margin:12px auto 10px; /* SUBE LA FOTO + PEGA TEXTO */
+  margin:0 auto;
+  display:block;
   animation:floatPhone 5s ease-in-out infinite;
 }
 
+/* TEXTO: LO SUBIMOS FORZADO */
 .hero-mobile p{
   font-family:'Playfair Display',serif;
   font-size:1.15rem;
   line-height:1.6;
-  font-weight:400;
   opacity:.95;
-  margin-top:6px;   /* CLAVE: acerca el texto a la imagen */
+  margin-top:0;
   margin-bottom:22px;
+  transform:translateY(-38px); /* 🔥 ESTO ES LA CLAVE */
+}
+
+.hero-mobile .hero-btn{
+  transform:translateY(-30px);
 }
 
 .hero-mobile .hero-note{
-  margin-top:16px;
+  transform:translateY(-28px);
 }
 
 /* ===== ANIMATION ===== */
@@ -166,7 +171,7 @@ header{
 @media (max-width:900px){
 
   .hero-inner{
-    padding:30px 20px; /* menos aire vertical */
+    padding:28px 20px;
   }
 
   .hero-desktop{
@@ -212,14 +217,11 @@ header{
     <!-- MOBILE -->
     <div class="hero-mobile">
       <h1>Una canción creada a partir de vuestra historia</h1>
-
       <img src="/mockup-phone-final.png" alt="Canción personalizada">
-
       <p>
         Transformamos historias reales en canciones únicas.
         Un regalo emocional que se escucha y se recuerda.
       </p>
-
       <a href="#formulario" class="hero-btn">EMPEZAR</a>
       <span class="hero-note">Cada canción es única</span>
     </div>
@@ -770,6 +772,7 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
 
