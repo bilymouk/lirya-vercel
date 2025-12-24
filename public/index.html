@@ -59,8 +59,7 @@ header{
 /* ===== HERO ===== */
 .hero{
   position:relative;
-  min-height:100vh;
-  padding:60px 0;
+  padding:70px 0;            /* 🔽 margen reducido arriba y abajo */
   background:url('/cascos-neon.png') center/cover no-repeat;
   display:flex;
   align-items:center;
@@ -82,7 +81,7 @@ header{
   padding:0 40px;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:80px;
+  gap:70px;                  /* 🔽 un poco más compacto */
   align-items:center;
 }
 
@@ -93,27 +92,27 @@ header{
 }
 
 .hero-phone{
-  width:357px;
-  margin-top:40px;
+  width:340px;               /* 🔽 ligeramente más compacto */
+  margin-top:20px;
   animation:floatPhone 5s ease-in-out infinite;
 }
 
 /* ===== TEXTO ===== */
 .hero-right{
-  margin-top:-20px;
+  margin-top:0;              /* ❌ quitamos empujes raros */
 }
 
 .hero-right h1{
   font-family:'Playfair Display',serif;
-  font-size:3.6rem;
+  font-size:3.4rem;
   line-height:1.15;
-  margin-bottom:28px;
+  margin-bottom:24px;
 }
 
 .hero-right p{
   font-size:1.15rem;
   max-width:540px;
-  margin-bottom:44px;
+  margin-bottom:36px;
 }
 
 .hero-btn{
@@ -127,7 +126,7 @@ header{
 
 .hero-note{
   display:block;
-  margin-top:28px;
+  margin-top:22px;
   font-size:.9rem;
 }
 
@@ -142,35 +141,32 @@ header{
 @media (max-width:900px){
 
   .hero{
-    padding-top:60px;
+    padding:60px 0;          /* 🔽 margen mobile equilibrado */
   }
 
   .hero-content{
     grid-template-columns:1fr;
     text-align:center;
+    gap:40px;
   }
 
   .hero-phone{
-    width:105%;
-    max-width:420px;
-    margin-top:30px;
-  }
-
-  .hero-right{
-    margin-top:-90px;
+    width:100%;
+    max-width:360px;
+    margin-top:10px;
   }
 
   .hero-right h1{
-    font-size:2.9rem;
+    font-size:2.7rem;
   }
 
   .hero-right p{
     font-size:1.05rem;
-    margin-top:36px;
+    margin-bottom:30px;
   }
 
   .hero-note{
-    margin-top:32px;
+    margin-top:26px;
   }
 }
 </style>
@@ -181,7 +177,7 @@ header{
 <header>
   <div class="header-container">
     <div class="logo">LIRYA</div>
-    <a href="#formulario" class="cta-header">Empezar</a>
+    <a href="#formulario-lirya" class="cta-header">Empezar</a>
   </div>
 </header>
 
@@ -197,11 +193,12 @@ header{
         Transformamos historias reales en canciones únicas.
         Un regalo emocional que se escucha y se recuerda.
       </p>
-      <a href="#formulario" class="hero-btn">EMPEZAR</a>
+      <a href="#formulario-lirya" class="hero-btn">EMPEZAR</a>
       <span class="hero-note">Cada canción es única</span>
     </div>
   </div>
 </section>
+
 <!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <style>
 /* ===== POR QUÉ ES UN REGALO ESPECIAL ===== */
@@ -742,5 +739,6 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
