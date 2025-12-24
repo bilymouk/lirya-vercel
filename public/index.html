@@ -442,8 +442,8 @@ header{
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
 
     .lirya-como-funciona {
-      background-color: #f8f8f8;
-      padding: 90px 20px 100px;
+      background-color: #ffffff;
+      padding: 90px 20px;
       text-align: center;
       font-family: 'Montserrat', sans-serif;
     }
@@ -451,15 +451,14 @@ header{
     /* === TÍTULO SECCIÓN === */
     .como-funciona-titulo {
       font-family: "Georgia", "Times New Roman", serif;
-      color: #c7b58a;
+      color: #c7b58a; /* mismo dorado-beige */
       font-size: 36px;
       font-weight: 600;
       letter-spacing: 0.3px;
       margin-bottom: 70px;
-      line-height: 1.15;
     }
 
-    /* === GRID PASOS === */
+    /* === GRID TARJETAS === */
     .como-funciona-grid {
       display: flex;
       justify-content: center;
@@ -469,68 +468,63 @@ header{
       margin: 0 auto;
     }
 
-    /* === TARJETA PASO === */
-    .paso-card {
-      background-color: #ffffff;
+    /* === TARJETA === */
+    .como-funciona-card {
+      background-color: #f6f3ee; /* beige suave (NO blanco) */
       border-radius: 14px;
       padding: 55px 35px;
       width: 320px;
-      border: 1px solid rgba(199, 181, 138, 0.25);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      border: 1px solid rgba(199, 181, 138, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      transition: all 0.4s ease;
     }
 
-    .paso-card:hover {
+    .como-funciona-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 22px 45px rgba(199, 181, 138, 0.25);
+      box-shadow: 0 25px 45px rgba(199, 181, 138, 0.25);
     }
 
     /* === NÚMERO === */
-    .paso-numero {
+    .como-numero {
       font-family: "Georgia", "Times New Roman", serif;
-      font-size: 42px;
+      font-size: 34px;
       font-weight: 600;
       color: #c7b58a;
-      margin-bottom: 18px;
+      margin-bottom: 12px;
     }
 
-    /* === TÍTULO PASO === */
-    .paso-card h3 {
+    /* === TÍTULO TARJETA === */
+    .como-funciona-card h3 {
       font-family: "Georgia", "Times New Roman", serif;
-      color: #111;
-      font-size: 22px;
+      color: #c7b58a; /* mismo color que título sección */
+      font-size: 26px;
       font-weight: 600;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    /* === TEXTO PASO === */
-    .paso-card p {
+    /* === TEXTO === */
+    .como-funciona-card p {
+      color: #2a2a2a;
       font-size: 14.5px;
       line-height: 1.7;
-      color: #444;
       font-weight: 400;
     }
 
     /* === RESPONSIVE === */
     @media (max-width: 768px) {
-      .lirya-como-funciona {
-        padding: 70px 20px 80px;
-      }
-
       .como-funciona-titulo {
         font-size: 30px;
         margin-bottom: 50px;
       }
 
       .como-funciona-grid {
-        gap: 28px;
+        gap: 30px;
         flex-direction: column;
         align-items: center;
       }
 
-      .paso-card {
+      .como-funciona-card {
         width: 95%;
-        padding: 45px 28px;
       }
     }
   </style>
@@ -538,24 +532,26 @@ header{
   <h2 class="como-funciona-titulo">Cómo funciona</h2>
 
   <div class="como-funciona-grid">
-    <div class="paso-card">
-      <div class="paso-numero">1</div>
+    <div class="como-funciona-card">
+      <div class="como-numero">1</div>
       <h3>Cuéntanos vuestra historia</h3>
       <p>
-        Rellena el formulario con los detalles que hacen vuestra historia única y especial.
+        Rellena el formulario con los detalles que hacen vuestra historia única
+        y especial.
       </p>
     </div>
 
-    <div class="paso-card">
-      <div class="paso-numero">2</div>
+    <div class="como-funciona-card">
+      <div class="como-numero">2</div>
       <h3>Creamos la canción</h3>
       <p>
-        Convertimos vuestra historia en una canción personalizada con letra y música.
+        Convertimos vuestra historia en una canción personalizada con letra y
+        música.
       </p>
     </div>
 
-    <div class="paso-card">
-      <div class="paso-numero">3</div>
+    <div class="como-funciona-card">
+      <div class="como-numero">3</div>
       <h3>La recibes en 24h</h3>
       <p>
         Descárgala en MP3, compártela y revive el regalo siempre que quieras.
@@ -563,8 +559,6 @@ header{
     </div>
   </div>
 </section>
-
-
 
 
 
