@@ -308,108 +308,84 @@ header{
 <!-- ===== cuentanos vuestra historia ===== -->
 <!-- ================== FORMULARIO LIRYA ================== -->
 <section id="formulario-lirya">
+
 <style>
-#formulario-lirya *{
-  box-sizing:border-box;
-  font-family:Georgia,serif;
-}
+#formulario-lirya *{box-sizing:border-box;font-family:Georgia,serif}
 
 #formulario-lirya{
   background:
     linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
     url("musica-neon.png") center/cover no-repeat;
-  padding:22px 20px; /* 👈 margen vertical MUY reducido */
-  display:flex;
-  justify-content:center;
+  padding:50px 20px;
   color:#fff;
 }
 
 #formulario-lirya .wrapper{
-  width:100%;
   max-width:520px;
+  margin:0 auto;
 }
 
-/* ===== TITULO ===== */
 #formulario-lirya h1{
   text-align:center;
   color:#f2c98a;
-  margin-bottom:18px;
-  font-size:34px;
+  font-size:36px;
+  margin-bottom:16px;
 }
 
 #formulario-lirya .subtitle{
   text-align:center;
   opacity:.85;
-  margin-bottom:22px;
+  margin-bottom:28px;
 }
 
-/* ===== PROGRESO ===== */
 #formulario-lirya .progress{
   display:flex;
   gap:10px;
   justify-content:center;
-  margin-bottom:18px;
+  margin-bottom:28px;
 }
 #formulario-lirya .progress span{
-  width:38px;
-  height:4px;
+  width:36px;height:4px;
   background:rgba(255,255,255,.25);
 }
-#formulario-lirya .progress span.active{
-  background:#f2c98a;
-}
+#formulario-lirya .progress span.active{background:#f2c98a}
 
-/* ===== CARD ===== */
 #formulario-lirya .card{
-  background:rgba(255,255,255,.09); /* opaco claro */
-  border-radius:16px;
-  padding:22px;
+  background:rgba(255,255,255,.10);
+  border-radius:18px;
+  padding:26px;
 }
 
-/* ===== PASOS ===== */
 #formulario-lirya .step{display:none}
 #formulario-lirya .step.active{display:block}
 
 #formulario-lirya .step-title{
   font-size:26px;
   color:#f2c98a;
-  margin-bottom:16px;
+  margin-bottom:18px;
 }
 
-/* ===== CAMPOS ===== */
-#formulario-lirya .question{
-  margin-bottom:16px;
-}
-#formulario-lirya label{
-  display:block;
-  margin-bottom:6px;
-  font-size:14px;
-}
+#formulario-lirya .question{margin-bottom:18px}
+#formulario-lirya label{display:block;margin-bottom:6px;font-size:14px}
 
 #formulario-lirya input,
 #formulario-lirya textarea{
   width:100%;
-  padding:13px 16px;
+  padding:14px 16px;
   border:none;
   border-radius:10px;
-  background:rgba(255,255,255,.92);
+  background:rgba(255,255,255,.88);
   font-size:14px;
 }
+#formulario-lirya textarea{height:90px;resize:none}
 
-#formulario-lirya textarea{
-  height:80px;
-  resize:none;
-}
-
-/* ===== DROPDOWN PREMIUM ===== */
-#formulario-lirya .dropdown{
-  position:relative;
-}
+/* ===== DROPDOWN ===== */
+#formulario-lirya .dropdown{position:relative}
 
 #formulario-lirya .dropdown-btn{
   width:100%;
-  padding:13px 16px;
-  background:rgba(255,255,255,.92);
+  padding:14px 16px;
+  background:rgba(255,255,255,.88);
   border-radius:10px;
   border:none;
   display:flex;
@@ -421,69 +397,48 @@ header{
 
 #formulario-lirya .dropdown-menu{
   position:absolute;
-  top:calc(100% + 8px);
-  left:0;
-  right:0;
-  background:rgba(255,255,255,.97);
+  top:calc(100% + 10px);
+  left:0;right:0;
+  background:rgba(255,255,255,.96);
   border-radius:14px;
   box-shadow:0 18px 40px rgba(0,0,0,.25);
-  padding:8px 0;
+  padding:10px 0;
   display:none;
-  z-index:300;
+  z-index:50;
 }
 
-#formulario-lirya .dropdown-menu.open{
-  display:block;
-}
+#formulario-lirya .dropdown-menu.open{display:block}
 
 #formulario-lirya .dropdown-item{
-  padding:11px 18px;
+  padding:12px 18px;
   color:#7a7a7a;
   font-size:14px;
   cursor:pointer;
 }
-
 #formulario-lirya .dropdown-item:hover{
   background:#f4f7fb;
   color:#333;
 }
 
-/* ===== BOTONES ===== */
+/* ===== NAV ===== */
 #formulario-lirya .nav{
   display:flex;
   gap:12px;
-  margin-top:20px;
+  margin-top:22px;
 }
-
 #formulario-lirya button{
-  padding:13px;
+  padding:14px;
   border-radius:10px;
   border:none;
   cursor:pointer;
   font-size:15px;
 }
+#formulario-lirya .back{background:rgba(255,255,255,.2);color:#fff}
+#formulario-lirya .next{background:#f28c28;color:#fff;flex:1}
+#formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
 
-#formulario-lirya .back{
-  background:rgba(255,255,255,.22);
-  color:#fff;
-}
-
-#formulario-lirya .next{
-  background:#f28c28;
-  color:#fff;
-  flex:1;
-}
-
-#formulario-lirya .submit{
-  background:#4caf50;
-  color:#fff;
-  flex:1;
-}
-
-/* ===== TELÉFONO ===== */
-#telefono{
-  display:none;
-}
+/* Teléfono oculto */
+#telefono-box{display:none}
 </style>
 
 <div class="wrapper">
@@ -711,16 +666,16 @@ header{
 
 <div class="question">
 <label>¿También por WhatsApp?</label>
-<div class="dropdown">
-<button class="dropdown-btn" id="whatsapp-btn">Elige una opción ▾</button>
+<div class="dropdown" id="whatsapp-dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
 <div class="dropdown-menu">
-<div class="dropdown-item" data-value="si">Sí</div>
-<div class="dropdown-item" data-value="no">No</div>
+<div class="dropdown-item" data-whatsapp="si">Sí</div>
+<div class="dropdown-item" data-whatsapp="no">No</div>
 </div>
 </div>
 </div>
 
-<div class="question" id="telefono">
+<div class="question" id="telefono-box">
 <label>Número de teléfono</label>
 <input placeholder="Escribir número de teléfono">
 </div>
@@ -755,15 +710,16 @@ document.addEventListener("click",e=>{
   if(e.target.classList.contains("back")){i--;render()}
 });
 
+/* dropdowns */
 document.querySelectorAll("#formulario-lirya .dropdown").forEach(d=>{
   const btn=d.querySelector(".dropdown-btn");
   const menu=d.querySelector(".dropdown-menu");
 
-  btn.onclick=e=>{
+  btn.addEventListener("click",e=>{
     e.stopPropagation();
-    document.querySelectorAll("#formulario-lirya .dropdown-menu").forEach(m=>m.classList.remove("open"));
+    document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
     menu.classList.toggle("open");
-  };
+  });
 
   d.querySelectorAll(".dropdown-item").forEach(it=>{
     it.onclick=()=>{
@@ -771,17 +727,20 @@ document.querySelectorAll("#formulario-lirya .dropdown").forEach(d=>{
       btn.style.color="#333";
       menu.classList.remove("open");
 
-      if(it.dataset.value==="si") document.getElementById("telefono").style.display="block";
-      if(it.dataset.value==="no") document.getElementById("telefono").style.display="none";
-    };
+      if(it.dataset.whatsapp){
+        document.getElementById("telefono-box").style.display =
+          it.dataset.whatsapp==="si" ? "block" : "none";
+      }
+    }
   });
 });
 
 document.addEventListener("click",()=>{
-  document.querySelectorAll("#formulario-lirya .dropdown-menu").forEach(m=>m.classList.remove("open"));
+  document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
 });
 </script>
+
 </section>
-<!-- ================== FIN FORMULARIO ================== -->
+<!-- ================== FIN FORMULARIO LIRYA ================== -->
 
 
