@@ -54,18 +54,12 @@ header{
   text-decoration:none;
 }
 
-.cta-header:hover{
-  background:var(--orange-hover);
-}
+.cta-header:hover{background:var(--orange-hover)}
 
-/* ===== HERO ===== */
+/* ===== HERO BASE ===== */
 .hero{
   position:relative;
-  min-height:calc(100vh - 70px);
-  padding:40px 0;
   background:url('/cascos-neon.png') center/cover no-repeat;
-  display:flex;
-  align-items:center;
   color:#fff;
 }
 
@@ -76,57 +70,48 @@ header{
   background:rgba(0,0,0,.55);
 }
 
-.hero-content{
+.hero-inner{
   position:relative;
   z-index:2;
   max-width:1200px;
   margin:0 auto;
-  padding:0 40px;
+  padding:60px 40px;
+}
+
+/* ===== DESKTOP HERO ===== */
+.hero-desktop{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:80px;
   align-items:center;
 }
 
-/* ===== TEXTO ===== */
-.hero-text{
-  display:flex;
-  flex-direction:column;
-}
-
-.hero-text h1{
+.hero-desktop h1{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
-  line-height:1.15;
   margin-bottom:24px;
 }
 
-.hero-text p{
+.hero-desktop p{
   font-size:1.15rem;
+  margin-bottom:36px;
   max-width:540px;
-  margin-bottom:34px;
 }
 
 .hero-btn{
-  align-self:flex-start;
   background:var(--orange);
   color:#fff;
   padding:14px 36px;
   border-radius:10px;
   font-weight:600;
   text-decoration:none;
+  display:inline-block;
 }
 
 .hero-note{
+  display:block;
   margin-top:22px;
   font-size:.9rem;
-  opacity:.9;
-}
-
-/* ===== IMAGEN ===== */
-.hero-image{
-  display:flex;
-  justify-content:center;
 }
 
 .hero-phone{
@@ -134,50 +119,54 @@ header{
   animation:floatPhone 5s ease-in-out infinite;
 }
 
-/* ===== ANIMACIÓN ===== */
+/* ===== MOBILE HERO ===== */
+.hero-mobile{
+  display:none;
+  text-align:center;
+}
+
+.hero-mobile h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.6rem;
+  margin-bottom:24px;
+}
+
+.hero-mobile img{
+  width:85%;
+  max-width:340px;
+  margin:30px auto;
+  animation:floatPhone 5s ease-in-out infinite;
+}
+
+.hero-mobile p{
+  font-size:1.05rem;
+  margin-bottom:28px;
+}
+
+.hero-mobile .hero-note{
+  margin-top:18px;
+}
+
+/* ===== ANIMATION ===== */
 @keyframes floatPhone{
   0%{transform:translateY(0)}
   50%{transform:translateY(-14px)}
   100%{transform:translateY(0)}
 }
 
-/* ===== MOBILE (SOLO MÓVIL CAMBIA ORDEN) ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width:900px){
 
-  .hero{
-    padding:30px 0;
+  .hero-inner{
+    padding:40px 20px;
   }
 
-  .hero-content{
-    grid-template-columns:1fr;
-    gap:36px;
-    text-align:center;
+  .hero-desktop{
+    display:none;
   }
 
-  /* ORDEN CORRECTO */
-  .hero-text{order:1}
-  .hero-image{order:2}
-
-  .hero-text h1{
-    font-size:2.6rem;
-  }
-
-  .hero-text p{
-    font-size:1.05rem;
-    margin-bottom:28px;
-  }
-
-  .hero-btn{
-    align-self:center;
-  }
-
-  .hero-note{
-    margin-top:18px;
-  }
-
-  .hero-phone{
-    width:85%;
-    max-width:360px;
+  .hero-mobile{
+    display:block;
   }
 }
 </style>
@@ -193,22 +182,38 @@ header{
 </header>
 
 <section class="hero">
-  <div class="hero-content">
+  <div class="hero-inner">
 
-    <!-- TEXTO -->
-    <div class="hero-text">
+    <!-- DESKTOP -->
+    <div class="hero-desktop">
+      <div>
+        <h1>Una canción creada a partir de vuestra historia</h1>
+        <p>
+          Transformamos historias reales en canciones únicas.
+          Un regalo emocional que se escucha y se recuerda.
+        </p>
+        <a href="#formulario" class="hero-btn">EMPEZAR</a>
+        <span class="hero-note">Cada canción es única</span>
+      </div>
+
+      <div style="display:flex;justify-content:center">
+        <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada">
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="hero-mobile">
       <h1>Una canción creada a partir de vuestra historia</h1>
+
+      <img src="/mockup-phone-final.png" alt="Canción personalizada">
+
       <p>
         Transformamos historias reales en canciones únicas.
         Un regalo emocional que se escucha y se recuerda.
       </p>
+
       <a href="#formulario" class="hero-btn">EMPEZAR</a>
       <span class="hero-note">Cada canción es única</span>
-    </div>
-
-    <!-- IMAGEN -->
-    <div class="hero-image">
-      <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada LIRYA">
     </div>
 
   </div>
@@ -757,6 +762,7 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
 
