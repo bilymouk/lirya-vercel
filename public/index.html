@@ -316,141 +316,108 @@ header{
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-/* ===== FONDO ===== */
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background: url('/public/musica-neon.png') center/cover no-repeat fixed;
   color: #fff;
 }
-
 .overlay {
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.6);
   min-height: 100vh;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 .header {
   text-align: center;
   padding: 50px 20px 30px;
 }
-
 .header h1 {
   font-family: 'Playfair Display', serif;
   font-size: 34px;
   color: #f5c77a;
-  margin-bottom: 8px;
 }
-
 .header p {
-  font-size: 15px;
   opacity: 0.9;
 }
-
 .progress {
   display: flex;
   gap: 10px;
   max-width: 320px;
   margin: 20px auto 0;
 }
-
 .progress span {
   flex: 1;
   height: 3px;
   background: rgba(255,255,255,0.25);
 }
-
 .progress span.active {
   background: #F28C28;
 }
 
-/* ===== CONTENEDOR ===== */
+/* CARD */
 .container {
   display: flex;
   justify-content: center;
-  padding: 20px 20px 60px;
+  padding-bottom: 60px;
 }
-
-/* ===== CARD ===== */
 .card {
-  background: rgba(20,20,20,0.85);
+  background: rgba(20,20,20,0.9);
   border-radius: 18px;
   padding: 30px;
   width: 100%;
   max-width: 520px;
 }
 
-/* ===== PASOS ===== */
-.step {
-  display: none;
-}
-.step.active {
-  display: block;
-}
+/* STEPS */
+.step { display: none; }
+.step.active { display: block; }
 
 .step-title {
   font-family: 'Playfair Display', serif;
-  font-size: 26px; /* 🔥 +30% */
+  font-size: 26px;
   color: #f5c77a;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
-/* ===== FORM ===== */
-.question {
-  margin-bottom: 18px;
-}
-
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-}
+/* FORM */
+.question { margin-bottom: 18px; }
+label { margin-bottom: 6px; display: block; }
 
 /* INPUTS GLASS */
 input, textarea, select {
   width: 100%;
   padding: 13px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.15);
-  font-size: 14px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
   color: #fff;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  backdrop-filter: blur(6px);
 }
 
 /* PLACEHOLDER */
 ::placeholder {
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.5);
   font-style: italic;
 }
 
-/* FOCUS / SELECCIONADO */
-input:focus,
-textarea:focus,
-select:focus,
-select:not([value=""]) {
-  background: rgba(255,255,255,0.85);
-  color: #000;
-  outline: none;
+/* SELECT PREMIUM */
+select {
+  appearance: none;
+  background-color: rgba(20,20,20,0.9);
+}
+select option {
+  background: #1c1c1c;
+  color: #fff;
 }
 
-/* SELECT OPCIÓN POR DEFECTO */
-select option[value=""] {
-  color: #999;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-/* ===== BOTONES ===== */
+/* BOTONES */
 .actions {
   display: flex;
   gap: 12px;
   margin-top: 24px;
 }
-
 .btn {
   flex: 1;
   padding: 12px;
@@ -460,78 +427,82 @@ textarea {
   font-size: 15px;
   cursor: pointer;
 }
-
-.btn-next {
-  background: #F28C28;
-  color: #fff;
-}
-
-.btn-back {
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-}
-
-.btn-pay {
-  background: #7ED957;
-  color: #fff;
-}
+.btn-next { background: #F28C28; color: #fff; }
+.btn-back { background: rgba(255,255,255,0.15); color: #fff; }
+.btn-pay { background: #7ED957; color: #fff; }
 </style>
 </head>
 
 <body>
-
 <div class="overlay">
 
-  <!-- HEADER -->
-  <div class="header">
-    <h1>Cuéntanos vuestra historia</h1>
-    <p>Cuéntanos los detalles que harán vuestra canción única</p>
-    <div class="progress">
-      <span class="active"></span><span></span><span></span><span></span><span></span><span></span>
-    </div>
+<div class="header">
+  <h1>Cuéntanos vuestra historia</h1>
+  <p>Cuéntanos los detalles que harán vuestra canción única</p>
+  <div class="progress">
+    <span class="active"></span><span></span><span></span><span></span><span></span><span></span>
   </div>
+</div>
 
-  <!-- FORM -->
-  <div class="container">
-    <div class="card">
+<div class="container">
+<div class="card">
 
-      <!-- PASO 1 -->
-      <div class="step active">
-        <div class="step-title">Paso 1 de 6 — Personas</div>
-
-        <div class="question">
-          <label>Nombre de quien recibirá la canción</label>
-          <input placeholder="Ej: Laura, Mi amor, Cariño…">
-        </div>
-
-        <div class="question">
-          <label>Tu nombre (quien regala)</label>
-          <input placeholder="Ej: Juan">
-        </div>
-
-        <div class="question">
-          <label>Tipo de relación</label>
-          <select>
-            <option value="" disabled selected>Elige una opción</option>
-            <option>Pareja</option>
-            <option>Matrimonio</option>
-            <option>Ex pareja (reconciliación)</option>
-            <option>Amor secreto</option>
-            <option>Familiar</option>
-            <option>Amistad especial</option>
-          </select>
-        </div>
-
-        <div class="actions">
-          <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
-        </div>
-      </div>
-
-      <!-- (Los demás pasos mantienen exactamente este estilo) -->
-
-    </div>
+<!-- PASOS -->
+<div class="step active"><div class="step-title">Paso 1 de 6 — Personas</div>
+  <div class="question"><label>Nombre de quien recibirá la canción</label><input placeholder="Ej: Laura, Mi amor…"></div>
+  <div class="question"><label>Tu nombre</label><input placeholder="Ej: Juan"></div>
+  <div class="question"><label>Tipo de relación</label>
+    <select>
+      <option disabled selected>Elige una opción</option>
+      <option>Pareja</option><option>Matrimonio</option><option>Ex pareja</option>
+      <option>Amor secreto</option><option>Familiar</option><option>Amistad especial</option>
+    </select>
   </div>
+  <div class="actions"><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div>
+</div>
 
+<div class="step"><div class="step-title">Paso 2 de 6 — Historia</div>
+  <div class="question"><textarea placeholder="¿Cómo os conocisteis?"></textarea></div>
+  <div class="actions">
+    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+  </div>
+</div>
+
+<div class="step"><div class="step-title">Paso 3 de 6 — Emoción</div>
+  <div class="question"><input placeholder="Tres palabras que la definan"></div>
+  <div class="actions">
+    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+  </div>
+</div>
+
+<div class="step"><div class="step-title">Paso 4 de 6 — Música</div>
+  <div class="question"><select><option disabled selected>Elige estilo</option><option>Balada</option></select></div>
+  <div class="actions">
+    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+  </div>
+</div>
+
+<div class="step"><div class="step-title">Paso 5 de 6 — Detalles</div>
+  <div class="question"><select><option disabled selected>Intensidad emocional</option><option>Suave</option></select></div>
+  <div class="actions">
+    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+    <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+  </div>
+</div>
+
+<div class="step"><div class="step-title">Paso 6 de 6 — Pago</div>
+  <div class="question"><input placeholder="Email"></div>
+  <div class="actions">
+    <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+    <button class="btn btn-pay">Crear mi canción</button>
+  </div>
+</div>
+
+</div>
+</div>
 </div>
 
 <script>
@@ -543,19 +514,11 @@ function updateSteps() {
   steps.forEach((s,i)=>s.classList.toggle('active', i === currentStep));
   bars.forEach((b,i)=>b.classList.toggle('active', i <= currentStep));
 }
-
 function nextStep() {
-  if (currentStep < steps.length - 1) {
-    currentStep++;
-    updateSteps();
-  }
+  if (currentStep < steps.length - 1) { currentStep++; updateSteps(); }
 }
-
 function prevStep() {
-  if (currentStep > 0) {
-    currentStep--;
-    updateSteps();
-  }
+  if (currentStep > 0) { currentStep--; updateSteps(); }
 }
 </script>
 
