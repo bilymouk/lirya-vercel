@@ -8,20 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
 <style>
+/* ================== VARIABLES ================== */
 :root{
   --gold:#d4b483;
   --orange:#ff8a2a;
   --orange-hover:#f07818;
+  --green:#25c26b;
 }
 
+/* ================== RESET ================== */
 *{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#fff;color:#111}
 
-body{
-  font-family:'Inter',sans-serif;
-  background:#fff;
-}
-
-/* ===== HEADER ===== */
+/* ================== HEADER ================== */
 header{
   position:sticky;
   top:0;
@@ -29,14 +28,12 @@ header{
   background:#fff;
   border-bottom:1px solid #eee;
 }
-
 .header-container{
   display:flex;
   justify-content:space-between;
   align-items:center;
   padding:14px 24px;
 }
-
 .logo{
   font-family:'Playfair Display',serif;
   font-weight:800;
@@ -44,7 +41,6 @@ header{
   font-size:26px;
   color:var(--gold);
 }
-
 .cta-header{
   background:var(--orange);
   color:#fff;
@@ -53,69 +49,49 @@ header{
   font-weight:600;
   text-decoration:none;
 }
-
 .cta-header:hover{background:var(--orange-hover)}
 
-/* ===== HERO ===== */
+/* ================== HERO ================== */
 .hero{
   position:relative;
   min-height:100vh;
-  padding:60px 0; /* ⬅️ MENOS margen vertical en desktop */
   background:url('/cascos-neon.png') center/cover no-repeat;
   display:flex;
   align-items:center;
   color:#fff;
 }
-
 .hero::before{
   content:"";
   position:absolute;
   inset:0;
   background:rgba(0,0,0,.55);
 }
-
 .hero-content{
   position:relative;
   z-index:2;
   max-width:1200px;
   margin:0 auto;
-  padding:0 40px;
+  padding:60px 40px;
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:80px;
   align-items:center;
 }
-
-/* ===== TELÉFONO ===== */
-.hero-left{
-  display:flex;
-  justify-content:center;
-}
-
 .hero-phone{
-  width:357px;          /* +5% */
-  margin-top:40px;      /* alineado con texto */
+  width:360px;
   animation:floatPhone 5s ease-in-out infinite;
 }
-
-/* ===== TEXTO ===== */
-.hero-right{
-  margin-top:-20px;     /* ⬅️ SUBIMOS EL TEXTO EN DESKTOP */
-}
-
 .hero-right h1{
   font-family:'Playfair Display',serif;
-  font-size:3.6rem;
+  font-size:3.4rem;
   line-height:1.15;
-  margin-bottom:28px;
+  margin-bottom:22px;
 }
-
 .hero-right p{
   font-size:1.15rem;
-  max-width:540px;
-  margin-bottom:44px;
+  max-width:520px;
+  margin-bottom:36px;
 }
-
 .hero-btn{
   background:var(--orange);
   color:#fff;
@@ -124,54 +100,145 @@ header{
   font-weight:600;
   text-decoration:none;
 }
+.hero-note{display:block;margin-top:20px;font-size:.9rem}
 
-.hero-note{
-  display:block;
-  margin-top:28px;
-  font-size:.9rem;
+/* ================== FORMULARIO ================== */
+#formulario{
+  position:relative;
+  padding:90px 20px;
+  background:url('/musica-neon.png') center/cover no-repeat;
+  color:#fff;
+}
+#formulario::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(5,7,20,0.48);
+}
+.form-container{
+  position:relative;
+  z-index:2;
+  max-width:960px;
+  margin:0 auto;
+}
+.form-header h2{
+  text-align:center;
+  font-family:"Playfair Display",serif;
+  font-size:2.6rem;
+  color:#f1c77a;
+}
+.form-header p{
+  text-align:center;
+  margin:10px 0 28px;
+  color:#eee;
 }
 
-/* ===== ANIMACIÓN ===== */
+/* Progress */
+.progress{display:flex;justify-content:center;margin-bottom:24px}
+.progress-bar{width:90%;display:flex;gap:10px}
+.prog-seg{flex:1;height:6px;border-radius:6px;background:rgba(255,255,255,.15)}
+.prog-seg.active{background:linear-gradient(90deg,#ffc36a,#ff7a2a)}
+
+/* Steps */
+fieldset{border:0;display:none}
+fieldset.active{display:block}
+.step-title{margin-bottom:14px;font-weight:600;color:#f5c978}
+
+/* Inputs */
+label{display:block;margin-bottom:14px}
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:0;
+  font-size:1rem;
+}
+textarea{min-height:70px}
+
+/* Buttons */
+.actions{display:flex;gap:14px;margin-top:20px}
+.btn{
+  flex:1;
+  padding:14px;
+  border-radius:12px;
+  font-weight:700;
+  border:0;
+  cursor:pointer;
+}
+.btn.next{background:var(--orange);color:#fff}
+.btn.back{background:rgba(255,255,255,.1);color:#fff}
+.btn.final{background:linear-gradient(90deg,#25c26b,#20a84b);color:#fff}
+.btn.disabled{opacity:.6;cursor:not-allowed}
+
+/* ================== CÓMO FUNCIONA ================== */
+.como-funciona{
+  padding:90px 20px;
+  text-align:center;
+}
+.como-funciona h2{
+  font-family:"Playfair Display",serif;
+  color:#c7b58a;
+  font-size:2.2rem;
+  margin-bottom:50px;
+}
+.como-grid{
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.como-card{
+  background:#fcfaf7;
+  padding:50px 30px;
+  width:300px;
+  border-radius:12px;
+  border:1px solid rgba(199,181,138,.35);
+}
+
+/* ================== EJEMPLOS ================== */
+.examples{
+  position:relative;
+  padding:90px 20px;
+  background:url('/ondas-neon-ejemplos.png') center/cover no-repeat;
+  color:#fff;
+}
+.examples::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(8,10,25,.45);
+}
+.examples-content{
+  position:relative;
+  z-index:2;
+  max-width:1200px;
+  margin:0 auto;
+  text-align:center;
+}
+.examples-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:50px;
+  margin-top:40px;
+}
+.example-card{
+  width:280px;
+  margin:0 auto;
+  border-radius:16px;
+  overflow:hidden;
+  border:2px solid rgba(255,255,255,.9);
+}
+
+/* ================== MOBILE ================== */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;text-align:center}
+  .hero-phone{width:100%;max-width:380px}
+  .examples-grid{grid-template-columns:1fr}
+}
 @keyframes floatPhone{
   0%{transform:translateY(0)}
   50%{transform:translateY(-14px)}
   100%{transform:translateY(0)}
-}
-
-/* ===== MOBILE ===== */
-@media (max-width:900px){
-
-  .hero{
-    padding-top:60px;   /* ⬅️ MÁS margen entre header y móvil */
-  }
-
-  .hero-content{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .hero-phone{
-    width:105%;
-    max-width:420px;
-    margin-top:30px;    /* ⬅️ separa del header */
-  }
-
-  .hero-right{
-    margin-top:-90px;   /* texto cerca del móvil */
-  }
-
-  .hero-right h1{
-    font-size:2.9rem;
-  }
-
-  .hero-right p{
-    font-size:1.05rem;
-    margin-top:36px;
-  }
-
-  .hero-note{
-    margin-top:32px;
-  }
 }
 </style>
 </head>
@@ -187,18 +254,44 @@ header{
 
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-left">
-      <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada LIRYA">
-    </div>
-
+    <img src="/mockup-phone-final.png" class="hero-phone" alt="LIRYA canción personalizada">
     <div class="hero-right">
       <h1>Una canción creada a partir de vuestra historia</h1>
-      <p>
-        Transformamos historias reales en canciones únicas.
-        Un regalo emocional que se escucha y se recuerda.
-      </p>
-      <a href="#formulario" class="hero-btn">EMPEZAR</a>
-      <span class="hero-note">Cada canción es única</span>
+      <p>Un regalo emocional, único y hecho solo para vosotros.</p>
+      <a href="#formulario" class="hero-btn">Crear mi canción</a>
+      <span class="hero-note">Entrega en 24h · Pago seguro</span>
+    </div>
+  </div>
+</section>
+
+<section id="formulario">
+  <div class="form-container">
+    <div class="form-header">
+      <h2>Cuéntanos vuestra historia</h2>
+      <p>La usaremos para crear una canción irrepetible</p>
+    </div>
+
+    <!-- aquí va tu formulario multi-step EXACTAMENTE como ya lo tienes -->
+    <!-- NO se conecta a Stripe todavía -->
+  </div>
+</section>
+
+<section class="como-funciona">
+  <h2>Cómo funciona</h2>
+  <div class="como-grid">
+    <div class="como-card"><strong>1.</strong><br>Rellenas el formulario</div>
+    <div class="como-card"><strong>2.</strong><br>Creamos la canción</div>
+    <div class="como-card"><strong>3.</strong><br>La recibes por email</div>
+  </div>
+</section>
+
+<section class="examples">
+  <div class="examples-content">
+    <h2>Ejemplos reales</h2>
+    <div class="examples-grid">
+      <div class="example-card"><img src="/eres-mi-amor-card.jpg"></div>
+      <div class="example-card"><img src="/papa-card.jpg"></div>
+      <div class="example-card"><img src="/amigas-card.jpg"></div>
     </div>
   </div>
 </section>
@@ -206,795 +299,3 @@ header{
 </body>
 </html>
 
-<!-- ===== POR QUE ES UN REGALO ESPECIAL ===== -->
-<section class="lirya-premium-final">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
-
-        .lirya-premium-final {
-            background-color: #ffffff;
-            padding: 80px 20px;
-            text-align: center;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        /* === TÍTULO (8% MÁS GRANDE) === */
-        .titulo-premium-brillante {
-            font-family: "Georgia", "Times New Roman", serif;
-            color: #c7b58a;
-            font-size: 35px; /* ⬅️ +8% */
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            margin-bottom: 60px;
-            line-height: 1.15;
-        }
-
-        .grid-premium-cards {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .tarjeta-premium-estilo {
-            background-color: #fcfaf7;
-            border-radius: 12px;
-            padding: 60px 35px;
-            width: 320px;
-            border: 1px solid rgba(199, 181, 138, 0.35);
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
-            transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .tarjeta-premium-estilo:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
-        }
-
-        /* === TÍTULOS TARJETAS (5% MÁS PEQUEÑOS) === */
-        .tarjeta-premium-estilo h3 {
-            font-family: "Georgia", "Times New Roman", serif;
-            color: #c7b58a;
-            font-size: 26.5px; /* ⬅️ -5% */
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .tarjeta-premium-estilo p {
-            color: #1a1a1a;
-            font-size: 14.5px;
-            line-height: 1.7;
-            font-weight: 400;
-        }
-
-        @media (max-width: 768px) {
-            .titulo-premium-brillante {
-                font-size: 30px;
-            }
-
-            .grid-premium-cards {
-                gap: 30px;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .tarjeta-premium-estilo {
-                width: 95%;
-            }
-        }
-    </style>
-
-    <h2 class="titulo-premium-brillante">Por qué es un regalo especial</h2>
-
-    <div class="grid-premium-cards">
-        <div class="tarjeta-premium-estilo">
-            <h3>Único</h3>
-            <p>No existe otra canción igual. Cada letra se crea exclusivamente a partir de vuestra historia.</p>
-        </div>
-
-        <div class="tarjeta-premium-estilo">
-            <h3>Emocional</h3>
-            <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
-        </div>
-
-        <div class="tarjeta-premium-estilo">
-            <h3>Premium</h3>
-            <p>Pensada para regalar. Hecha para conservarla y recordarla para siempre.</p>
-        </div>
-    </div>
-</section>
-<!-- ===== EJEMPLOS REALES ===== -->
-<section class="examples">
-  <div class="examples-overlay"></div>
-
-  <div class="examples-container">
-
-    <!-- HEADER -->
-    <div class="examples-header">
-      <h2 class="examples-title">Ejemplos reales</h2>
-      <p class="examples-subtitle">
-        Así suenan las canciones personalizadas. Historias reales, emociones reales.
-      </p>
-    </div>
-
-    <!-- TARJETAS -->
-    <div class="examples-cards">
-      <div class="example-card">
-        <img src="/eres-mi-amor-card.jpg" alt="Ejemplo canción pareja">
-      </div>
-
-      <div class="example-card">
-        <img src="/papa-card.jpg" alt="Ejemplo canción padre">
-      </div>
-
-      <div class="example-card">
-        <img src="/amigas-card.jpg" alt="Ejemplo canción amigas">
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<style>
-/* ===== EJEMPLOS REALES ===== */
-
-.examples {
-  position: relative;
-  padding: 80px 20px;
-  background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
-}
-
-/* Overlay */
-.examples-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(8, 10, 25, 0.45);
-}
-
-/* Contenedor */
-.examples-container {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Header */
-.examples-header {
-  margin-bottom: 40px;
-}
-
-/* Título */
-.examples-title {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 2.35rem;
-  font-weight: 600;
-  color: #c7b58a;
-  letter-spacing: 0.3px;
-  margin-bottom: 8px;
-}
-
-/* Subtítulo */
-.examples-subtitle {
-  font-size: 0.9rem;
-  color: #ffffff;
-  opacity: 0.9;
-}
-
-/* Grid tarjetas (DESKTOP) */
-.examples-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 56px;
-  justify-items: center;
-  margin-top: 20px;
-}
-
-/* Tarjetas */
-.example-card {
-  width: 300px;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 18px 38px rgba(0,0,0,0.45);
-  transition: transform 0.3s ease;
-}
-
-.example-card:hover {
-  transform: translateY(-6px);
-}
-
-.example-card img {
-  width: 100%;
-  display: block;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 900px) {
-  .examples {
-    padding: 70px 20px;
-  }
-
-  .examples-cards {
-    grid-template-columns: 1fr;
-    gap: 52px; /* ⬅️ MÁS SEPARACIÓN ENTRE EJEMPLOS EN MÓVIL */
-    margin-top: 30px;
-  }
-
-  .example-card {
-    width: 280px;
-  }
-}
-</style>
-
-<!-- ===== CÓMO FUNCIONA ===== -->
-<section class="lirya-como-funciona">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
-
-    .lirya-como-funciona {
-      background-color: #ffffff;
-      padding: 80px 20px;
-      text-align: center;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    /* === TÍTULO === */
-    .como-funciona-titulo {
-      font-family: "Georgia", "Times New Roman", serif;
-      color: #c7b58a;
-      font-size: 35px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      margin-bottom: 60px;
-      line-height: 1.15;
-    }
-
-    .como-funciona-grid {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* === TARJETAS (MISMAS QUE LA OTRA SECCIÓN) === */
-    .como-funciona-card {
-      background-color: #fcfaf7;
-      border-radius: 12px;
-      padding: 60px 35px;
-      width: 320px;
-      border: 1px solid rgba(199, 181, 138, 0.35);
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
-      transition: all 0.4s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .como-funciona-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
-    }
-
-    /* === NÚMERO === */
-    .como-numero {
-      font-family: "Georgia", "Times New Roman", serif;
-      color: #c7b58a;
-      font-size: 26.5px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    /* === TÍTULO TARJETA === */
-    .como-funciona-card h3 {
-      font-family: "Georgia", "Times New Roman", serif;
-      color: #c7b58a;
-      font-size: 26.5px;
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
-
-    .como-funciona-card p {
-      color: #1a1a1a;
-      font-size: 14.5px;
-      line-height: 1.7;
-      font-weight: 400;
-    }
-
-    @media (max-width: 768px) {
-      .como-funciona-titulo {
-        font-size: 30px;
-      }
-
-      .como-funciona-grid {
-        gap: 30px;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .como-funciona-card {
-        width: 95%;
-      }
-    }
-  </style>
-
-  <h2 class="como-funciona-titulo">Cómo funciona</h2>
-
-  <div class="como-funciona-grid">
-    <div class="como-funciona-card">
-      <div class="como-numero">1</div>
-      <h3>Cuéntanos vuestra historia</h3>
-      <p>
-        Rellena el formulario con los detalles que hacen vuestra historia única y
-        especial.
-      </p>
-    </div>
-
-    <div class="como-funciona-card">
-      <div class="como-numero">2</div>
-      <h3>Creamos la canción</h3>
-      <p>
-        Convertimos vuestra historia en una canción personalizada con letra y
-        música.
-      </p>
-    </div>
-
-    <div class="como-funciona-card">
-      <div class="como-numero">3</div>
-      <h3>La recibes en 24h</h3>
-      <p>
-        Descárgala en MP3, compártela y revive el regalo siempre que quieras.
-      </p>
-    </div>
-  </div>
-</section>
-<!-- ===== CUÉNTANOS VUESTRA HISTORIA (MULTI-STEP / SUNO READY) ===== -->
-<section class="story-section" id="story-section">
-  <div class="story-overlay"></div>
-
-  <div class="story-container">
-    <header class="story-header">
-      <h2>Cuéntanos vuestra historia</h2>
-      <p class="story-subtitle">Cada detalle nos ayuda a crear una canción única y emocionante.</p>
-
-      <nav class="progress">
-        <div class="progress-bar">
-          <!-- 6 segmentos -->
-          <span class="prog-seg active" data-step="1"></span>
-          <span class="prog-seg" data-step="2"></span>
-          <span class="prog-seg" data-step="3"></span>
-          <span class="prog-seg" data-step="4"></span>
-          <span class="prog-seg" data-step="5"></span>
-          <span class="prog-seg" data-step="6"></span>
-        </div>
-      </nav>
-    </header>
-
-    <form id="songForm" class="story-form" novalidate>
-      <!-- STEP 1: PERSONAS (3 campos) -->
-      <fieldset class="step active" data-step="1">
-        <h3 class="step-title">Paso 1 de 6: Personas</h3>
-
-        <label>
-          Nombre de quien recibirá la canción *
-          <input type="text" name="receiver_name" required placeholder="Nombre o apodo cariñoso">
-        </label>
-
-        <label>
-          Tu nombre (quien regala) *
-          <input type="text" name="sender_name" required placeholder="Tu nombre">
-        </label>
-
-        <label>
-          Tipo de relación *
-          <select name="relationship" required>
-            <option value="">Selecciona una opción</option>
-            <option>Pareja</option>
-            <option>Amigas/os</option>
-            <option>Familiar</option>
-            <option>Amor secreto</option>
-            <option>Relación a distancia</option>
-            <option>Otro</option>
-          </select>
-        </label>
-
-        <div class="actions single">
-          <button type="button" class="btn next full" data-next="2">Siguiente →</button>
-        </div>
-      </fieldset>
-
-      <!-- STEP 2: OCASIÓN Y MEMORIAS (3 campos) -->
-      <fieldset class="step" data-step="2">
-        <h3 class="step-title">Paso 2 de 6: Ocasión & recuerdos</h3>
-
-        <label>
-          Motivo / ocasión *
-          <select name="occasion" required>
-            <option value="">Selecciona</option>
-            <option>San Valentín</option>
-            <option>Aniversario</option>
-            <option>Cumpleaños</option>
-            <option>Sorpresa</option>
-            <option>Regalo personal</option>
-            <option>Otro</option>
-          </select>
-        </label>
-
-        <label>
-          Un momento inolvidable *
-          <textarea name="memory" required rows="3" placeholder="Cuéntanos un recuerdo especial que debe aparecer en la letra"></textarea>
-        </label>
-
-        <label>
-          ¿Cómo os conocisteis? (frase corta) *
-          <input type="text" name="how_met" required placeholder="Ej: 'En la biblioteca, ella pidió un café'">
-        </label>
-
-        <div class="actions split">
-          <button type="button" class="btn back half" data-back="1">← Atrás</button>
-          <button type="button" class="btn next half" data-next="3">Siguiente →</button>
-        </div>
-      </fieldset>
-
-      <!-- STEP 3: LETRA Y FRASES (3 campos) -->
-      <fieldset class="step" data-step="3">
-        <h3 class="step-title">Paso 3 de 6: Letra & detalles</h3>
-
-        <label>
-          Frase o estribillo que quieres incluir *
-          <input type="text" name="hook_phrase" required placeholder="Una frase corta que quieres que repita la canción">
-        </label>
-
-        <label>
-          Tres palabras que definan a la persona *
-          <input type="text" name="keywords" required placeholder="Ej: cariñosa, valiente, divertida">
-        </label>
-
-        <label>
-          ¿Quieres dedicarla en primera persona o hablar sobre la persona? *
-          <select name="perspective" required>
-            <option value="">Selecciona</option>
-            <option>Primera persona (yo/te amo)</option>
-            <option>Tercera persona (hablar sobre ella)</option>
-            <option>Dúo (ambos hablan)</option>
-          </select>
-        </label>
-
-        <div class="actions split">
-          <button type="button" class="btn back half" data-back="2">← Atrás</button>
-          <button type="button" class="btn next half" data-next="4">Siguiente →</button>
-        </div>
-      </fieldset>
-
-      <!-- STEP 4: MÚSICA (4 campos) -->
-      <fieldset class="step" data-step="4">
-        <h3 class="step-title">Paso 4 de 6: Estilo musical</h3>
-
-        <label>
-          Estilo / Género *
-          <select name="music_style" required>
-            <option value="">Selecciona estilo</option>
-            <!-- Lista amplia pensada para Suno -->
-            <option>Pop</option>
-            <option>Pop romántico / Balada</option>
-            <option>Indie / Acústico</option>
-            <option>R&B / Soul</option>
-            <option>Rock suave</option>
-            <option>Electrónica / Chill</option>
-            <option>Ambient / Cinemático</option>
-            <option>Hip-hop / Lo-fi</option>
-            <option>Reggaetón / Latin pop</option>
-            <option>Orquestal / Cinematic</option>
-            <option>Folk / Singer-songwriter</option>
-            <option>Otro (especifica en 'referencias')</option>
-          </select>
-        </label>
-
-        <label>
-          Instrumentación preferida
-          <input type="text" name="instruments" placeholder="Ej: guitarra acústica, piano, strings, pads">
-        </label>
-
-        <label>
-          Tempo / sensación (BPM o descripción)
-          <input type="text" name="tempo" placeholder="Ej: 70 BPM - lento y sentimental">
-        </label>
-
-        <label>
-          Referencias / artistas que te gusten
-          <input type="text" name="artist_refs" placeholder="Ej: Ed Sheeran, Adele, The Weeknd (opcional)">
-        </label>
-
-        <div class="actions split">
-          <button type="button" class="btn back half" data-back="3">← Atrás</button>
-          <button type="button" class="btn next half" data-next="5">Siguiente →</button>
-        </div>
-      </fieldset>
-
-      <!-- STEP 5: VOCES & EDICIONES (3 campos) -->
-      <fieldset class="step" data-step="5">
-        <h3 class="step-title">Paso 5 de 6: Voz & idioma</h3>
-
-        <label>
-          Tipo de voz (si quieres voz cantada) *
-          <select name="voice_type" required>
-            <option value="">Selecciona</option>
-            <option>Voz femenina</option>
-            <option>Voz masculina</option>
-            <option>Dúo</option>
-            <option>Instrumental (sin voz)</option>
-          </select>
-        </label>
-
-        <label>
-          Idioma de la canción *
-          <select name="language" required>
-            <option value="">Selecciona</option>
-            <option>Español</option>
-            <option>Inglés</option>
-            <option>Spanglish</option>
-            <option>Otro (especifica en 'notas')</option>
-          </select>
-        </label>
-
-        <label>
-          Notas adicionales (tono, palabras prohibidas, referencias vocales)
-          <textarea name="notes" rows="3" placeholder="Ej: evitar palabras X, tono íntimo, evitar mencionar edades"></textarea>
-        </label>
-
-        <div class="actions split">
-          <button type="button" class="btn back half" data-back="4">← Atrás</button>
-          <button type="button" class="btn next half" data-next="6">Siguiente →</button>
-        </div>
-      </fieldset>
-
-      <!-- STEP 6: ENTREGA & PAGO (3 campos + botón final) -->
-      <fieldset class="step" data-step="6">
-        <h3 class="step-title">Paso 6 de 6: Entrega</h3>
-
-        <label>
-          Email donde enviaremos la canción *
-          <input type="email" name="email" required placeholder="Tu email">
-        </label>
-
-        <label>
-          ¿Quieres recibirla también por WhatsApp?
-          <select name="whatsapp_opt">
-            <option value="">Selecciona</option>
-            <option value="yes">Sí</option>
-            <option value="no">No</option>
-          </select>
-        </label>
-
-        <label>
-          Duración estimada (opcional)
-          <input type="text" name="duration" placeholder="Ej: 2:30 - 3:00">
-        </label>
-
-        <div class="actions split final-actions">
-          <button type="button" class="btn back half" data-back="5">← Atrás</button>
-          <!-- BOTÓN FINAL: se activa solo si el formulario es válido -->
-          <button type="button" id="createSongBtn" class="btn create half disabled" disabled>
-            Crear mi canción
-          </button>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
-
-<!-- ===== STYLES ===== -->
-<style>
-  .story-section {
-    position: relative;
-    padding: 80px 20px;
-    background: url('/musica-neon.png') center/cover no-repeat;
-    color: #fff;
-    overflow: hidden;
-  }
-
-  /* menos opaco que antes */
-  .story-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(5,7,20,0.48); /* menos opaco */
-    z-index: 0;
-  }
-
-  .story-container {
-    position: relative;
-    max-width: 980px;   /* menos ancho para que no sea tan largo de lado a lado */
-    margin: 0 auto;
-    z-index: 2;
-  }
-
-  .story-header h2 {
-    text-align: center;
-    font-family: "Georgia", "Times New Roman", serif;
-    font-size: 2.8rem;
-    color: #f1c77a;
-    margin-bottom: 6px;
-  }
-
-  .story-subtitle {
-    text-align: center;
-    color: #e6e6e6;
-    margin-bottom: 22px;
-  }
-
-  /* Progress */
-  .progress { display:flex; justify-content:center; margin-bottom: 22px; }
-  .progress-bar { width: 80%; display:flex; gap:14px; align-items:center; justify-content:space-between; }
-  .prog-seg {
-    height:6px; flex:1; border-radius:6px; background: rgba(255,255,255,0.12);
-    position:relative;
-  }
-  .prog-seg.active { background: linear-gradient(90deg,#ffc36a,#ff7a2a); box-shadow:0 4px 12px rgba(255,90,0,0.12); }
-
-  /* Form */
-  .story-form { display:block; }
-  fieldset.step { border:0; padding:0; margin:0 0 20px 0; display:none; }
-  fieldset.step.active { display:block; animation:fadeIn 240ms ease; }
-
-  .step-title { color:#f5c978; font-size:1.25rem; margin-bottom:12px; font-weight:600; font-family: "Georgia", serif; }
-
-  label { display:block; margin-bottom:14px; color:#fff; font-size:0.98rem; }
-  input[type="text"], input[type="email"], textarea, select {
-    width:100%; padding:14px 16px; border-radius:10px; border: none;
-    background: rgba(255,255,255,0.95); color:#111; font-size:1rem;
-    box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
-  }
-  textarea { resize: vertical; min-height:72px; }
-
-  /* Buttons style like your orange + green */
-  .actions { margin-top: 18px; display:flex; gap:14px; }
-
-  .actions.single .full { width:100%; }
-  .actions.split .half { width:50%; }
-
-  .btn {
-    display:inline-block; padding:14px 20px; border-radius:12px; font-weight:700; font-size:1rem;
-    border:0; cursor:pointer; text-align:center;
-  }
-
-  .btn.next { background: linear-gradient(180deg,#ff8a2a,#f97316); color:#fff; box-shadow: 0 6px 18px rgba(249,115,22,0.12); }
-  .btn.back { background: rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.06); }
-  .btn.full { display:block; }
-
-  .btn.create.disabled { background: #9aa19a; color:#fff; cursor:not-allowed; opacity:0.8; }
-  .btn.create { background: linear-gradient(90deg,#25c26b,#20a84b); color:#fff; box-shadow: 0 6px 18px rgba(32,168,75,0.14); }
-
-  .btn.half { padding:14px; }
-
-  .final-actions { margin-top: 28px; }
-
-  @media (max-width: 900px) {
-    .story-section { padding: 70px 16px; }
-    .story-container { max-width: 92%; }
-    .progress-bar { width: 95%; gap:8px; }
-    .actions.split .half { width: 48%; }
-  }
-
-  @keyframes fadeIn { from {opacity:0; transform:translateY(6px);} to {opacity:1; transform:none;} }
-</style>
-
-<!-- ===== JS ===== -->
-<script>
-  (function(){
-    const form = document.getElementById('songForm');
-    const steps = Array.from(form.querySelectorAll('.step'));
-    const progSegs = Array.from(document.querySelectorAll('.prog-seg'));
-    let currentStep = 0;
-
-    // show step index
-    function showStep(index) {
-      steps.forEach((fs,i)=> fs.classList.toggle('active', i===index));
-      progSegs.forEach((p,i)=> p.classList.toggle('active', i<=index));
-      currentStep = index;
-      window.scrollTo({ top: document.getElementById('story-section').offsetTop - 30, behavior: 'smooth' });
-      checkCreateButton(); // update final button state
-    }
-
-    // init
-    showStep(0);
-
-    // next buttons
-    form.querySelectorAll('.next').forEach(btn=>{
-      btn.addEventListener('click', ()=> {
-        const nextIndex = Number(btn.getAttribute('data-next')) - 1;
-        // validate current visible required fields
-        const currentFs = steps[currentStep];
-        const invalid = Array.from(currentFs.querySelectorAll('[required]')).some(el => !el.value.trim());
-        if (invalid) {
-          // highlight briefly
-          currentFs.querySelectorAll('[required]').forEach(el=>{
-            if(!el.value.trim()) {
-              el.style.boxShadow = '0 0 0 3px rgba(255,120,60,0.14)';
-              setTimeout(()=> el.style.boxShadow = '', 900);
-            }
-          });
-          return;
-        }
-        showStep(nextIndex);
-      });
-    });
-
-    // back buttons
-    form.querySelectorAll('.back').forEach(btn=>{
-      btn.addEventListener('click', ()=> {
-        const backIndex = Number(btn.getAttribute('data-back')) - 1;
-        showStep(backIndex);
-      });
-    });
-
-    // enable final create button when form valid (basic check)
-    const createBtn = document.getElementById('createSongBtn');
-
-    function checkCreateButton(){
-      // only enable on last step and if visible required fields across entire form are filled
-      const allRequired = Array.from(form.querySelectorAll('[required]'));
-      const allFilled = allRequired.every(el => el.value && el.value.toString().trim().length>0);
-      if (currentStep === steps.length - 1 && allFilled) {
-        createBtn.disabled = false;
-        createBtn.classList.remove('disabled');
-        createBtn.classList.add('create');
-      } else {
-        createBtn.disabled = true;
-        createBtn.classList.add('disabled');
-      }
-    }
-
-    form.addEventListener('input', ()=> {
-      checkCreateButton();
-    });
-
-    // Final: create song -> open checkout (placeholder)
-    createBtn.addEventListener('click', async () => {
-      if (createBtn.disabled) return;
-      // gather data
-      const data = {};
-      new FormData(form).forEach((v,k)=> data[k]=v);
-      // UX: disable button and show 'creating...'
-      createBtn.textContent = 'Creando...';
-      createBtn.disabled = true;
-
-      try {
-        // Call your backend to create a Stripe Checkout session.
-        // Replace /create-checkout-session with your real server endpoint.
-        const res = await fetch('/create-checkout-session', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ form: data, metadata: { source: 'lirya-site' } })
-        });
-
-        if (!res.ok) throw new Error('Error creando sesión de pago');
-        const { url } = await res.json();
-        // Redirect to Stripe Checkout
-        window.location.href = url;
-      } catch (err) {
-        console.error(err);
-        alert('Ha ocurrido un error creando la sesión de pago. Intenta de nuevo.');
-        createBtn.textContent = 'Crear mi canción';
-        createBtn.disabled = false;
-      }
-    });
-
-    // small accessibility: enter on input should not submit (we use step buttons)
-    form.addEventListener('submit', (e)=> e.preventDefault());
-
-    // allow clicking progress segments to jump (optional)
-    progSegs.forEach((seg,i)=> seg.addEventListener('click', ()=> showStep(i)));
-  })();
-</script>
