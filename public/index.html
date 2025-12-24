@@ -443,22 +443,22 @@ header{
 
     .lirya-como-funciona {
       background-color: #ffffff;
-      padding: 90px 20px;
+      padding: 80px 20px;
       text-align: center;
       font-family: 'Montserrat', sans-serif;
     }
 
-    /* === TÍTULO SECCIÓN === */
+    /* === TÍTULO === */
     .como-funciona-titulo {
       font-family: "Georgia", "Times New Roman", serif;
-      color: #c7b58a; /* mismo dorado-beige */
-      font-size: 36px;
+      color: #c7b58a;
+      font-size: 35px;
       font-weight: 600;
       letter-spacing: 0.3px;
-      margin-bottom: 70px;
+      margin-bottom: 60px;
+      line-height: 1.15;
     }
 
-    /* === GRID TARJETAS === */
     .como-funciona-grid {
       display: flex;
       justify-content: center;
@@ -468,53 +468,53 @@ header{
       margin: 0 auto;
     }
 
-    /* === TARJETA === */
+    /* === TARJETAS (MISMAS QUE LA OTRA SECCIÓN) === */
     .como-funciona-card {
-      background-color: #f6f3ee; /* beige suave (NO blanco) */
-      border-radius: 14px;
-      padding: 55px 35px;
+      background-color: #fcfaf7;
+      border-radius: 12px;
+      padding: 60px 35px;
       width: 320px;
       border: 1px solid rgba(199, 181, 138, 0.35);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
       transition: all 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .como-funciona-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 25px 45px rgba(199, 181, 138, 0.25);
+      transform: translateY(-12px);
+      box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
     }
 
     /* === NÚMERO === */
     .como-numero {
       font-family: "Georgia", "Times New Roman", serif;
-      font-size: 34px;
-      font-weight: 600;
       color: #c7b58a;
-      margin-bottom: 12px;
+      font-size: 26.5px;
+      font-weight: 600;
+      margin-bottom: 10px;
     }
 
     /* === TÍTULO TARJETA === */
     .como-funciona-card h3 {
       font-family: "Georgia", "Times New Roman", serif;
-      color: #c7b58a; /* mismo color que título sección */
-      font-size: 26px;
+      color: #c7b58a;
+      font-size: 26.5px;
       font-weight: 600;
-      margin-bottom: 16px;
+      margin-bottom: 15px;
     }
 
-    /* === TEXTO === */
     .como-funciona-card p {
-      color: #2a2a2a;
+      color: #1a1a1a;
       font-size: 14.5px;
       line-height: 1.7;
       font-weight: 400;
     }
 
-    /* === RESPONSIVE === */
     @media (max-width: 768px) {
       .como-funciona-titulo {
         font-size: 30px;
-        margin-bottom: 50px;
       }
 
       .como-funciona-grid {
@@ -536,8 +536,8 @@ header{
       <div class="como-numero">1</div>
       <h3>Cuéntanos vuestra historia</h3>
       <p>
-        Rellena el formulario con los detalles que hacen vuestra historia única
-        y especial.
+        Rellena el formulario con los detalles que hacen vuestra historia única y
+        especial.
       </p>
     </div>
 
@@ -559,7 +559,6 @@ header{
     </div>
   </div>
 </section>
-
 
 
 
