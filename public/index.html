@@ -358,7 +358,7 @@ body {
   flex: 1;
   height: 3px;
   background: rgba(255,255,255,0.3);
-  border-radius: 10px;
+  border-radius: 3px;
 }
 
 .progress span.active {
@@ -375,8 +375,8 @@ body {
 /* ===== CARD ===== */
 .card {
   background: #1c1c1c;
-  border-radius: 20px;
-  padding: 30px;
+  border-radius: 18px;
+  padding: 28px;
   width: 100%;
   max-width: 520px;
 }
@@ -387,7 +387,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* ===== FORM ===== */
+/* ===== PASOS ===== */
 .step {
   display: none;
 }
@@ -396,8 +396,9 @@ body {
   display: block;
 }
 
+/* ===== FORM ===== */
 .question {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 label {
@@ -408,8 +409,8 @@ label {
 
 input, select {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
   border: none;
   font-size: 14px;
 }
@@ -423,16 +424,16 @@ input, select {
 .actions {
   display: flex;
   gap: 12px;
-  margin-top: 25px;
+  margin-top: 22px;
 }
 
 .btn {
   flex: 1;
-  padding: 16px;
-  border-radius: 30px;
+  padding: 12px;
+  border-radius: 12px; /* 🔥 MENOS REDONDEADO */
   border: none;
   font-family: 'Playfair Display', serif;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -442,7 +443,7 @@ input, select {
 }
 
 .btn-back {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.15);
   color: #fff;
 }
 
@@ -505,21 +506,19 @@ input, select {
         </div>
       </div>
 
-      <!-- PASO 6 (ejemplo final) -->
+      <!-- PASOS 2–5 (placeholder estructural, NO se saltan) -->
+      <div class="step"><div class="step-title">Paso 2 de 6 — Historia</div><div class="actions"><button class="btn btn-back" onclick="prevStep()">← Atrás</button><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div></div>
+      <div class="step"><div class="step-title">Paso 3 de 6 — Emoción</div><div class="actions"><button class="btn btn-back" onclick="prevStep()">← Atrás</button><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div></div>
+      <div class="step"><div class="step-title">Paso 4 de 6 — Música</div><div class="actions"><button class="btn btn-back" onclick="prevStep()">← Atrás</button><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div></div>
+      <div class="step"><div class="step-title">Paso 5 de 6 — Detalles</div><div class="actions"><button class="btn btn-back" onclick="prevStep()">← Atrás</button><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div></div>
+
+      <!-- PASO 6 -->
       <div class="step">
         <div class="step-title">Paso 6 de 6 — Entrega</div>
 
         <div class="question">
           <label>Email donde enviaremos la canción</label>
           <input placeholder="Ej: tuemail@gmail.com">
-        </div>
-
-        <div class="question">
-          <label>¿Quieres recibirla también por WhatsApp?</label>
-          <select>
-            <option>No</option>
-            <option>Sí</option>
-          </select>
         </div>
 
         <div class="actions">
@@ -560,5 +559,4 @@ function prevStep() {
 
 </body>
 </html>
-
 
