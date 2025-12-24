@@ -324,7 +324,7 @@ body {
   color: #fff;
 }
 
-.bg-overlay {
+.overlay {
   background: rgba(0,0,0,0.55);
   min-height: 100vh;
 }
@@ -358,7 +358,7 @@ body {
   flex: 1;
   height: 3px;
   background: rgba(255,255,255,0.3);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .progress span.active {
@@ -381,19 +381,18 @@ body {
   max-width: 520px;
 }
 
-.step-title {
-  font-family: 'Playfair Display', serif;
-  color: #f5c77a;
-  margin-bottom: 20px;
-}
-
 /* ===== PASOS ===== */
 .step {
   display: none;
 }
-
 .step.active {
   display: block;
+}
+
+.step-title {
+  font-family: 'Playfair Display', serif;
+  color: #f5c77a;
+  margin-bottom: 20px;
 }
 
 /* ===== FORM ===== */
@@ -407,12 +406,17 @@ label {
   font-size: 14px;
 }
 
-input, select {
+input, textarea, select {
   width: 100%;
   padding: 12px 14px;
   border-radius: 10px;
   border: none;
   font-size: 14px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
 ::placeholder {
@@ -430,7 +434,7 @@ input, select {
 .btn {
   flex: 1;
   padding: 12px;
-  border-radius: 12px; /* 🔥 MENOS REDONDEADO */
+  border-radius: 10px;
   border: none;
   font-family: 'Playfair Display', serif;
   font-size: 15px;
@@ -449,30 +453,25 @@ input, select {
 
 .btn-pay {
   background: #7ED957;
-  color: #000;
+  color: #fff; /* TEXTO BLANCO */
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg-overlay">
+<div class="overlay">
 
   <!-- HEADER -->
   <div class="header">
     <h1>Cuéntanos vuestra historia</h1>
     <p>Cuéntanos los detalles que harán vuestra canción única</p>
     <div class="progress">
-      <span class="active"></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+      <span class="active"></span><span></span><span></span><span></span><span></span><span></span>
     </div>
   </div>
 
-  <!-- FORMULARIO -->
+  <!-- FORM -->
   <div class="container">
     <div class="card">
 
@@ -486,7 +485,7 @@ input, select {
         </div>
 
         <div class="question">
-          <label>Tu nombre</label>
+          <label>Tu nombre (quien regala)</label>
           <input placeholder="Ej: Juan">
         </div>
 
@@ -495,7 +494,8 @@ input, select {
           <select>
             <option>Pareja</option>
             <option>Matrimonio</option>
-            <option>Ex pareja</option>
+            <option>Ex pareja (reconciliación)</option>
+            <option>Amor secreto</option>
             <option>Familiar</option>
             <option>Amistad especial</option>
           </select>
@@ -506,24 +506,173 @@ input, select {
         </div>
       </div>
 
-      <!-- PASOS 2–5 (placeholder estructural, NO se saltan) -->
-      <div class="step"><div class="step-title">Paso 2 de 6 — Historia</div><div class="actions"><button class="btn btn-back" onclick="prevStep()">← Atrás</button><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div></div>
-      <div class="step"><div class="step-title">Paso 3 de 6 — Emoción</div><div class="actions"><button class="btn btn-back" onclick="prevStep()">← Atrás</button><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div></div>
-      <div class="step"><div class="step-title">Paso 4 de 6 — Música</div><div class="actions"><button class="btn btn-back" onclick="prevStep()">← Atrás</button><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div></div>
-      <div class="step"><div class="step-title">Paso 5 de 6 — Detalles</div><div class="actions"><button class="btn btn-back" onclick="prevStep()">← Atrás</button><button class="btn btn-next" onclick="nextStep()">Siguiente →</button></div></div>
-
-      <!-- PASO 6 -->
+      <!-- PASO 2 -->
       <div class="step">
-        <div class="step-title">Paso 6 de 6 — Entrega</div>
+        <div class="step-title">Paso 2 de 6 — Origen de la historia</div>
 
         <div class="question">
-          <label>Email donde enviaremos la canción</label>
-          <input placeholder="Ej: tuemail@gmail.com">
+          <label>¿Cómo os conocisteis?</label>
+          <textarea placeholder="Ej: En la universidad, en una cafetería…"></textarea>
+        </div>
+
+        <div class="question">
+          <label>Un momento que lo cambió todo</label>
+          <textarea placeholder="Ej: Nuestro primer viaje juntos…"></textarea>
+        </div>
+
+        <div class="question">
+          <label>¿Por qué esta canción es importante ahora?</label>
+          <select>
+            <option>Aniversario</option>
+            <option>Cumpleaños</option>
+            <option>Reconciliación</option>
+            <option>San Valentín</option>
+            <option>Sorpresa sin motivo</option>
+            <option>Otro</option>
+          </select>
         </div>
 
         <div class="actions">
           <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
-          <button class="btn btn-pay">Crear mi canción</button>
+          <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 3 -->
+      <div class="step">
+        <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
+
+        <div class="question">
+          <label>Tres palabras que definan a esa persona</label>
+          <input placeholder="Ej: intensa, dulce, valiente">
+        </div>
+
+        <div class="question">
+          <label>Una frase que te gustaría decirle</label>
+          <textarea placeholder="Ej: Gracias por estar siempre a mi lado…"></textarea>
+        </div>
+
+        <div class="question">
+          <label>Emoción principal</label>
+          <select>
+            <option>Amor profundo</option>
+            <option>Nostalgia</option>
+            <option>Alegría</option>
+            <option>Emoción intensa</option>
+            <option>Calma y ternura</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 4 -->
+      <div class="step">
+        <div class="step-title">Paso 4 de 6 — Música</div>
+
+        <div class="question">
+          <label>Estilo musical</label>
+          <select>
+            <option>Balada romántica</option>
+            <option>Pop emocional</option>
+            <option>Indie acústico</option>
+            <option>R&B / Soul</option>
+            <option>Rock suave</option>
+            <option>Electrónica chill</option>
+            <option>Reggaetón lento</option>
+            <option>Cinematográfico</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label>Ritmo</label>
+          <select>
+            <option>Lento</option>
+            <option>Medio</option>
+            <option>Progresivo</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label>Tipo de voz</label>
+          <select>
+            <option>Masculina</option>
+            <option>Femenina</option>
+            <option>Dúo</option>
+            <option>Me da igual</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label>Idioma</label>
+          <select>
+            <option>Español</option>
+            <option>Inglés</option>
+            <option>Spanglish</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 5 -->
+      <div class="step">
+        <div class="step-title">Paso 5 de 6 — Detalles finales</div>
+
+        <div class="question">
+          <label>¿Quieres que aparezca su nombre en la letra?</label>
+          <select>
+            <option>Sí</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label>¿Algo que NO deba mencionarse?</label>
+          <textarea placeholder="Opcional: evita recuerdos delicados…"></textarea>
+        </div>
+
+        <div class="question">
+          <label>Intensidad emocional</label>
+          <select>
+            <option>Suave</option>
+            <option>Emotiva</option>
+            <option>Muy intensa</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- PASO 6 -->
+      <div class="step">
+        <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+
+        <div class="question">
+          <label>Email donde recibirás la canción</label>
+          <input placeholder="Ej: tuemail@gmail.com">
+        </div>
+
+        <div class="question">
+          <label>¿Recibir también por WhatsApp?</label>
+          <select>
+            <option>No</option>
+            <option>Sí</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn-pay" onclick="goToStripe()">Crear mi canción</button>
         </div>
       </div>
 
@@ -554,6 +703,11 @@ function prevStep() {
     currentStep--;
     updateSteps();
   }
+}
+
+function goToStripe() {
+  // TODO: Reemplazar por tu enlace real de Stripe Checkout
+  window.location.href = "https://checkout.stripe.com/XXXXXXXX";
 }
 </script>
 
