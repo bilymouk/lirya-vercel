@@ -345,7 +345,7 @@ header{
 
 .examples {
   position: relative;
-  padding: 80px 20px; /* margen arriba y abajo equilibrado */
+  padding: 80px 20px;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
 }
 
@@ -391,11 +391,11 @@ header{
   opacity: 0.9;
 }
 
-/* Grid tarjetas */
+/* Grid tarjetas (DESKTOP) */
 .examples-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 56px; /* ⬅️ tarjetas MUCHO más separadas */
+  gap: 56px;
   justify-items: center;
   margin-top: 20px;
 }
@@ -419,7 +419,7 @@ header{
   display: block;
 }
 
-/* Responsive */
+/* ===== MOBILE ===== */
 @media (max-width: 900px) {
   .examples {
     padding: 70px 20px;
@@ -427,8 +427,8 @@ header{
 
   .examples-cards {
     grid-template-columns: 1fr;
-    gap: 34px;
-    margin-top: 25px;
+    gap: 52px; /* ⬅️ MÁS SEPARACIÓN ENTRE EJEMPLOS EN MÓVIL */
+    margin-top: 30px;
   }
 
   .example-card {
@@ -436,6 +436,7 @@ header{
   }
 }
 </style>
+
 <!-- ===== CÓMO FUNCIONA ===== -->
 <section class="lirya-como-funciona">
   <style>
@@ -559,6 +560,7 @@ header{
     </div>
   </div>
 </section>
+
 
 
 
