@@ -92,12 +92,19 @@ header{
   margin-bottom:24px;
 }
 
-.hero-desktop p{
-  font-size:1.15rem;
-  margin-bottom:36px;
+/* TEXTO ELEGANTE PRINCIPAL */
+.hero-description{
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;
+  line-height:1.55;
+  letter-spacing:.3px;
+  font-weight:500;
+  opacity:.92;
   max-width:540px;
+  margin-bottom:36px;
 }
 
+/* CTA */
 .hero-btn{
   background:var(--orange);
   color:#fff;
@@ -108,12 +115,18 @@ header{
   display:inline-block;
 }
 
+/* FIRMA ELEGANTE */
 .hero-note{
   display:block;
   margin-top:22px;
-  font-size:.9rem;
+  font-family:'Playfair Display',serif;
+  font-size:.95rem;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  opacity:.65;
 }
 
+/* IMAGEN */
 .hero-phone{
   width:360px;
   animation:floatPhone 5s ease-in-out infinite;
@@ -129,19 +142,19 @@ header{
   font-family:'Playfair Display',serif;
   font-size:3.1rem;
   line-height:1.15;
-  margin-bottom:14px; /* MENOS MARGEN CON LA FOTO */
+  margin-bottom:14px;
 }
 
 .hero-mobile img{
   width:85%;
   max-width:340px;
-  margin:18px auto 26px; /* SUBE LA FOTO */
+  margin:18px auto 26px;
   animation:floatPhone 5s ease-in-out infinite;
 }
 
-.hero-mobile p{
-  font-size:1.05rem;
-  margin-bottom:24px;
+.hero-mobile .hero-description{
+  font-size:1.15rem;
+  margin-bottom:26px;
 }
 
 .hero-mobile .hero-note{
@@ -159,7 +172,7 @@ header{
 @media (max-width:900px){
 
   .hero-inner{
-    padding:34px 20px; /* MENOS ESPACIO ARRIBA/ABAJO */
+    padding:34px 20px;
   }
 
   .hero-desktop{
@@ -189,10 +202,12 @@ header{
     <div class="hero-desktop">
       <div>
         <h1>Una canción creada a partir de vuestra historia</h1>
-        <p>
+
+        <p class="hero-description">
           Transformamos historias reales en canciones únicas.
           Un regalo emocional que se escucha y se recuerda.
         </p>
+
         <a href="#formulario" class="hero-btn">EMPEZAR</a>
         <span class="hero-note">Cada canción es única</span>
       </div>
@@ -208,7 +223,7 @@ header{
 
       <img src="/mockup-phone-final.png" alt="Canción personalizada">
 
-      <p>
+      <p class="hero-description">
         Transformamos historias reales en canciones únicas.
         Un regalo emocional que se escucha y se recuerda.
       </p>
@@ -763,6 +778,7 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
 
