@@ -60,7 +60,7 @@ header{
 .hero{
   position:relative;
   min-height:100vh;
-  padding:70px 0; /* ⬅️ un poco menos de padding vertical */
+  padding:60px 0; /* ⬅️ MENOS margen vertical en desktop */
   background:url('/cascos-neon.png') center/cover no-repeat;
   display:flex;
   align-items:center;
@@ -92,14 +92,17 @@ header{
   justify-content:center;
 }
 
-/* 🖥️ Desktop: 5% más grande + bajado */
 .hero-phone{
-  width:357px; /* +5% respecto a 340px */
-  margin-top:40px; /* ⬅️ BAJAMOS el móvil */
+  width:357px;          /* +5% */
+  margin-top:40px;      /* alineado con texto */
   animation:floatPhone 5s ease-in-out infinite;
 }
 
 /* ===== TEXTO ===== */
+.hero-right{
+  margin-top:-20px;     /* ⬅️ SUBIMOS EL TEXTO EN DESKTOP */
+}
+
 .hero-right h1{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
@@ -139,7 +142,7 @@ header{
 @media (max-width:900px){
 
   .hero{
-    padding-top:30px; /* ⬅️ MUCHO MENOS margen entre header y móvil */
+    padding-top:60px;   /* ⬅️ MÁS margen entre header y móvil */
   }
 
   .hero-content{
@@ -147,16 +150,14 @@ header{
     text-align:center;
   }
 
-  /* 📱 Teléfono móvil */
   .hero-phone{
-    width:105%;        /* se mantiene grande */
+    width:105%;
     max-width:420px;
-    margin-top:10px;   /* ⬅️ pegado al header */
+    margin-top:30px;    /* ⬅️ separa del header */
   }
 
-  /* Texto subido hacia el móvil */
   .hero-right{
-    margin-top:-110px;
+    margin-top:-90px;   /* texto cerca del móvil */
   }
 
   .hero-right h1{
@@ -435,6 +436,7 @@ header{
   }
 }
 </style>
+
 
 
 
