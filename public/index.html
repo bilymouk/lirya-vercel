@@ -560,310 +560,441 @@ header{
     </div>
   </div>
 </section>
-<!-- ===== CUÉNTANOS VUESTRA HISTORIA (MULTIPASO) ===== -->
-<section class="lirya-form-section">
-  <div class="lirya-form-overlay"></div>
+<!-- ===== CUÉNTANOS VUESTRA HISTORIA (MULTI-STEP / SUNO READY) ===== -->
+<section class="story-section" id="story-section">
+  <div class="story-overlay"></div>
 
-  <div class="lirya-form-container">
-    <h2 class="lirya-form-title">Cuéntanos vuestra historia</h2>
-    <p class="lirya-form-subtitle">
-      Cuéntanos los detalles que harán vuestra canción única
-    </p>
+  <div class="story-container">
+    <header class="story-header">
+      <h2>Cuéntanos vuestra historia</h2>
+      <p class="story-subtitle">Cada detalle nos ayuda a crear una canción única y emocionante.</p>
 
-    <!-- PROGRESO -->
-    <div class="progress-bar">
-      <span class="progress-step active"></span>
-      <span class="progress-step"></span>
-      <span class="progress-step"></span>
-      <span class="progress-step"></span>
-      <span class="progress-step"></span>
-    </div>
-
-    <form id="multiStepForm">
-
-      <!-- PASO 1 -->
-      <div class="form-step active">
-        <h3>Paso 1 de 5: Personas</h3>
-
-        <label>Nombre de quien recibirá la canción</label>
-        <input type="text" required>
-
-        <label>Tu nombre (quien regala)</label>
-        <input type="text" required>
-
-        <button type="button" class="btn-next">Siguiente →</button>
-      </div>
-
-      <!-- PASO 2 -->
-      <div class="form-step">
-        <h3>Paso 2 de 5: Historia</h3>
-
-        <label>¿Cómo os conocisteis? (una frase)</label>
-        <input type="text" required>
-
-        <label>Un momento especial que recuerdes</label>
-        <textarea rows="3" required></textarea>
-
-        <div class="form-nav">
-          <button type="button" class="btn-back">← Atrás</button>
-          <button type="button" class="btn-next">Siguiente →</button>
+      <nav class="progress">
+        <div class="progress-bar">
+          <!-- 6 segmentos -->
+          <span class="prog-seg active" data-step="1"></span>
+          <span class="prog-seg" data-step="2"></span>
+          <span class="prog-seg" data-step="3"></span>
+          <span class="prog-seg" data-step="4"></span>
+          <span class="prog-seg" data-step="5"></span>
+          <span class="prog-seg" data-step="6"></span>
         </div>
-      </div>
+      </nav>
+    </header>
 
-      <!-- PASO 3 -->
-      <div class="form-step">
-        <h3>Paso 3 de 5: Emoción</h3>
+    <form id="songForm" class="story-form" novalidate>
+      <!-- STEP 1: PERSONAS (3 campos) -->
+      <fieldset class="step active" data-step="1">
+        <h3 class="step-title">Paso 1 de 6: Personas</h3>
 
-        <label>Tres palabras que definan a esa persona</label>
-        <input type="text" required>
-
-        <label>Una frase que te gustaría decirle</label>
-        <input type="text" required>
-
-        <div class="form-nav">
-          <button type="button" class="btn-back">← Atrás</button>
-          <button type="button" class="btn-next">Siguiente →</button>
-        </div>
-      </div>
-
-      <!-- PASO 4 -->
-      <div class="form-step">
-        <h3>Paso 4 de 5: Música</h3>
-
-        <label>Estilo musical</label>
-        <select required>
-          <option value="">Selecciona</option>
-          <option>Balada romántica</option>
-          <option>Pop romántico</option>
-          <option>Indie / acústico</option>
-          <option>R&B / Soul</option>
-        </select>
-
-        <label>Tipo de voz</label>
-        <select required>
-          <option value="">Selecciona</option>
-          <option>Voz masculina</option>
-          <option>Voz femenina</option>
-          <option>Dúo</option>
-        </select>
-
-        <div class="form-nav">
-          <button type="button" class="btn-back">← Atrás</button>
-          <button type="button" class="btn-next">Siguiente →</button>
-        </div>
-      </div>
-
-      <!-- PASO 5 -->
-      <div class="form-step">
-        <h3>Paso 5 de 5: Entrega</h3>
-
-        <label>Email donde enviaremos la canción</label>
-        <input type="email" required>
-
-        <label class="checkbox-line">
-          <input type="checkbox" id="legalCheck" required>
-          Entiendo que es una canción personalizada y no reembolsable
+        <label>
+          Nombre de quien recibirá la canción *
+          <input type="text" name="receiver_name" required placeholder="Nombre o apodo cariñoso">
         </label>
 
-        <div class="form-nav">
-          <button type="button" class="btn-back">← Atrás</button>
-          <button type="submit" class="btn-submit" disabled>
+        <label>
+          Tu nombre (quien regala) *
+          <input type="text" name="sender_name" required placeholder="Tu nombre">
+        </label>
+
+        <label>
+          Tipo de relación *
+          <select name="relationship" required>
+            <option value="">Selecciona una opción</option>
+            <option>Pareja</option>
+            <option>Amigas/os</option>
+            <option>Familiar</option>
+            <option>Amor secreto</option>
+            <option>Relación a distancia</option>
+            <option>Otro</option>
+          </select>
+        </label>
+
+        <div class="actions single">
+          <button type="button" class="btn next full" data-next="2">Siguiente →</button>
+        </div>
+      </fieldset>
+
+      <!-- STEP 2: OCASIÓN Y MEMORIAS (3 campos) -->
+      <fieldset class="step" data-step="2">
+        <h3 class="step-title">Paso 2 de 6: Ocasión & recuerdos</h3>
+
+        <label>
+          Motivo / ocasión *
+          <select name="occasion" required>
+            <option value="">Selecciona</option>
+            <option>San Valentín</option>
+            <option>Aniversario</option>
+            <option>Cumpleaños</option>
+            <option>Sorpresa</option>
+            <option>Regalo personal</option>
+            <option>Otro</option>
+          </select>
+        </label>
+
+        <label>
+          Un momento inolvidable *
+          <textarea name="memory" required rows="3" placeholder="Cuéntanos un recuerdo especial que debe aparecer en la letra"></textarea>
+        </label>
+
+        <label>
+          ¿Cómo os conocisteis? (frase corta) *
+          <input type="text" name="how_met" required placeholder="Ej: 'En la biblioteca, ella pidió un café'">
+        </label>
+
+        <div class="actions split">
+          <button type="button" class="btn back half" data-back="1">← Atrás</button>
+          <button type="button" class="btn next half" data-next="3">Siguiente →</button>
+        </div>
+      </fieldset>
+
+      <!-- STEP 3: LETRA Y FRASES (3 campos) -->
+      <fieldset class="step" data-step="3">
+        <h3 class="step-title">Paso 3 de 6: Letra & detalles</h3>
+
+        <label>
+          Frase o estribillo que quieres incluir *
+          <input type="text" name="hook_phrase" required placeholder="Una frase corta que quieres que repita la canción">
+        </label>
+
+        <label>
+          Tres palabras que definan a la persona *
+          <input type="text" name="keywords" required placeholder="Ej: cariñosa, valiente, divertida">
+        </label>
+
+        <label>
+          ¿Quieres dedicarla en primera persona o hablar sobre la persona? *
+          <select name="perspective" required>
+            <option value="">Selecciona</option>
+            <option>Primera persona (yo/te amo)</option>
+            <option>Tercera persona (hablar sobre ella)</option>
+            <option>Dúo (ambos hablan)</option>
+          </select>
+        </label>
+
+        <div class="actions split">
+          <button type="button" class="btn back half" data-back="2">← Atrás</button>
+          <button type="button" class="btn next half" data-next="4">Siguiente →</button>
+        </div>
+      </fieldset>
+
+      <!-- STEP 4: MÚSICA (4 campos) -->
+      <fieldset class="step" data-step="4">
+        <h3 class="step-title">Paso 4 de 6: Estilo musical</h3>
+
+        <label>
+          Estilo / Género *
+          <select name="music_style" required>
+            <option value="">Selecciona estilo</option>
+            <!-- Lista amplia pensada para Suno -->
+            <option>Pop</option>
+            <option>Pop romántico / Balada</option>
+            <option>Indie / Acústico</option>
+            <option>R&B / Soul</option>
+            <option>Rock suave</option>
+            <option>Electrónica / Chill</option>
+            <option>Ambient / Cinemático</option>
+            <option>Hip-hop / Lo-fi</option>
+            <option>Reggaetón / Latin pop</option>
+            <option>Orquestal / Cinematic</option>
+            <option>Folk / Singer-songwriter</option>
+            <option>Otro (especifica en 'referencias')</option>
+          </select>
+        </label>
+
+        <label>
+          Instrumentación preferida
+          <input type="text" name="instruments" placeholder="Ej: guitarra acústica, piano, strings, pads">
+        </label>
+
+        <label>
+          Tempo / sensación (BPM o descripción)
+          <input type="text" name="tempo" placeholder="Ej: 70 BPM - lento y sentimental">
+        </label>
+
+        <label>
+          Referencias / artistas que te gusten
+          <input type="text" name="artist_refs" placeholder="Ej: Ed Sheeran, Adele, The Weeknd (opcional)">
+        </label>
+
+        <div class="actions split">
+          <button type="button" class="btn back half" data-back="3">← Atrás</button>
+          <button type="button" class="btn next half" data-next="5">Siguiente →</button>
+        </div>
+      </fieldset>
+
+      <!-- STEP 5: VOCES & EDICIONES (3 campos) -->
+      <fieldset class="step" data-step="5">
+        <h3 class="step-title">Paso 5 de 6: Voz & idioma</h3>
+
+        <label>
+          Tipo de voz (si quieres voz cantada) *
+          <select name="voice_type" required>
+            <option value="">Selecciona</option>
+            <option>Voz femenina</option>
+            <option>Voz masculina</option>
+            <option>Dúo</option>
+            <option>Instrumental (sin voz)</option>
+          </select>
+        </label>
+
+        <label>
+          Idioma de la canción *
+          <select name="language" required>
+            <option value="">Selecciona</option>
+            <option>Español</option>
+            <option>Inglés</option>
+            <option>Spanglish</option>
+            <option>Otro (especifica en 'notas')</option>
+          </select>
+        </label>
+
+        <label>
+          Notas adicionales (tono, palabras prohibidas, referencias vocales)
+          <textarea name="notes" rows="3" placeholder="Ej: evitar palabras X, tono íntimo, evitar mencionar edades"></textarea>
+        </label>
+
+        <div class="actions split">
+          <button type="button" class="btn back half" data-back="4">← Atrás</button>
+          <button type="button" class="btn next half" data-next="6">Siguiente →</button>
+        </div>
+      </fieldset>
+
+      <!-- STEP 6: ENTREGA & PAGO (3 campos + botón final) -->
+      <fieldset class="step" data-step="6">
+        <h3 class="step-title">Paso 6 de 6: Entrega</h3>
+
+        <label>
+          Email donde enviaremos la canción *
+          <input type="email" name="email" required placeholder="Tu email">
+        </label>
+
+        <label>
+          ¿Quieres recibirla también por WhatsApp?
+          <select name="whatsapp_opt">
+            <option value="">Selecciona</option>
+            <option value="yes">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </label>
+
+        <label>
+          Duración estimada (opcional)
+          <input type="text" name="duration" placeholder="Ej: 2:30 - 3:00">
+        </label>
+
+        <div class="actions split final-actions">
+          <button type="button" class="btn back half" data-back="5">← Atrás</button>
+          <!-- BOTÓN FINAL: se activa solo si el formulario es válido -->
+          <button type="button" id="createSongBtn" class="btn create half disabled" disabled>
             Crear mi canción
           </button>
         </div>
-      </div>
-
+      </fieldset>
     </form>
   </div>
 </section>
 
+<!-- ===== STYLES ===== -->
 <style>
-/* ===== FORMULARIO LIRYA ===== */
+  .story-section {
+    position: relative;
+    padding: 80px 20px;
+    background: url('/musica-neon.png') center/cover no-repeat;
+    color: #fff;
+    overflow: hidden;
+  }
 
-.lirya-form-section {
-  position: relative;
-  padding: 140px 20px;
-  background: url("/musica-neon.png") center / cover no-repeat;
-  color: #fff;
-}
+  /* menos opaco que antes */
+  .story-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(5,7,20,0.48); /* menos opaco */
+    z-index: 0;
+  }
 
-.lirya-form-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(5, 7, 30, 0.75);
-}
+  .story-container {
+    position: relative;
+    max-width: 980px;   /* menos ancho para que no sea tan largo de lado a lado */
+    margin: 0 auto;
+    z-index: 2;
+  }
 
-.lirya-form-container {
-  position: relative;
-  z-index: 2;
-  max-width: 720px;
-  margin: 0 auto;
-}
+  .story-header h2 {
+    text-align: center;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 2.8rem;
+    color: #f1c77a;
+    margin-bottom: 6px;
+  }
 
-.lirya-form-title {
-  text-align: center;
-  font-family: Georgia, serif;
-  color: #c7b58a;
-  font-size: 2.6rem;
-  margin-bottom: 8px;
-}
+  .story-subtitle {
+    text-align: center;
+    color: #e6e6e6;
+    margin-bottom: 22px;
+  }
 
-.lirya-form-subtitle {
-  text-align: center;
-  margin-bottom: 35px;
-  opacity: 0.9;
-}
+  /* Progress */
+  .progress { display:flex; justify-content:center; margin-bottom: 22px; }
+  .progress-bar { width: 80%; display:flex; gap:14px; align-items:center; justify-content:space-between; }
+  .prog-seg {
+    height:6px; flex:1; border-radius:6px; background: rgba(255,255,255,0.12);
+    position:relative;
+  }
+  .prog-seg.active { background: linear-gradient(90deg,#ffc36a,#ff7a2a); box-shadow:0 4px 12px rgba(255,90,0,0.12); }
 
-.progress-bar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 40px;
-}
+  /* Form */
+  .story-form { display:block; }
+  fieldset.step { border:0; padding:0; margin:0 0 20px 0; display:none; }
+  fieldset.step.active { display:block; animation:fadeIn 240ms ease; }
 
-.progress-step {
-  flex: 1;
-  height: 4px;
-  background: rgba(255,255,255,0.2);
-}
+  .step-title { color:#f5c978; font-size:1.25rem; margin-bottom:12px; font-weight:600; font-family: "Georgia", serif; }
 
-.progress-step.active {
-  background: #c7b58a;
-}
+  label { display:block; margin-bottom:14px; color:#fff; font-size:0.98rem; }
+  input[type="text"], input[type="email"], textarea, select {
+    width:100%; padding:14px 16px; border-radius:10px; border: none;
+    background: rgba(255,255,255,0.95); color:#111; font-size:1rem;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
+  }
+  textarea { resize: vertical; min-height:72px; }
 
-.form-step {
-  display: none;
-}
+  /* Buttons style like your orange + green */
+  .actions { margin-top: 18px; display:flex; gap:14px; }
 
-.form-step.active {
-  display: block;
-}
+  .actions.single .full { width:100%; }
+  .actions.split .half { width:50%; }
 
-.form-step h3 {
-  color: #c7b58a;
-  margin-bottom: 20px;
-}
+  .btn {
+    display:inline-block; padding:14px 20px; border-radius:12px; font-weight:700; font-size:1rem;
+    border:0; cursor:pointer; text-align:center;
+  }
 
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-}
+  .btn.next { background: linear-gradient(180deg,#ff8a2a,#f97316); color:#fff; box-shadow: 0 6px 18px rgba(249,115,22,0.12); }
+  .btn.back { background: rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.06); }
+  .btn.full { display:block; }
 
-input, textarea, select {
-  width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-  margin-bottom: 18px;
-  font-size: 0.95rem;
-}
+  .btn.create.disabled { background: #9aa19a; color:#fff; cursor:not-allowed; opacity:0.8; }
+  .btn.create { background: linear-gradient(90deg,#25c26b,#20a84b); color:#fff; box-shadow: 0 6px 18px rgba(32,168,75,0.14); }
 
-.form-nav {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
+  .btn.half { padding:14px; }
 
-.btn-next,
-.btn-back {
-  padding: 14px 26px;
-  border-radius: 50px;
-  border: 1px solid rgba(255,255,255,0.4);
-  background: transparent;
-  color: #fff;
-  cursor: pointer;
-}
+  .final-actions { margin-top: 28px; }
 
-.btn-next {
-  background: #ff8a1f;
-  border: none;
-}
+  @media (max-width: 900px) {
+    .story-section { padding: 70px 16px; }
+    .story-container { max-width: 92%; }
+    .progress-bar { width: 95%; gap:8px; }
+    .actions.split .half { width: 48%; }
+  }
 
-.btn-submit {
-  padding: 16px 36px;
-  border-radius: 50px;
-  border: none;
-  font-size: 1.05rem;
-  font-weight: bold;
-  background: #2ecc71;
-  color: #fff;
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-submit.active {
-  opacity: 1;
-  cursor: pointer;
-}
-
-.checkbox-line {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  font-size: 0.85rem;
-}
+  @keyframes fadeIn { from {opacity:0; transform:translateY(6px);} to {opacity:1; transform:none;} }
 </style>
 
+<!-- ===== JS ===== -->
 <script>
-const steps = document.querySelectorAll(".form-step");
-const nextBtns = document.querySelectorAll(".btn-next");
-const backBtns = document.querySelectorAll(".btn-back");
-const progress = document.querySelectorAll(".progress-step");
-const submitBtn = document.querySelector(".btn-submit");
-const form = document.getElementById("multiStepForm");
+  (function(){
+    const form = document.getElementById('songForm');
+    const steps = Array.from(form.querySelectorAll('.step'));
+    const progSegs = Array.from(document.querySelectorAll('.prog-seg'));
+    let currentStep = 0;
 
-let currentStep = 0;
+    // show step index
+    function showStep(index) {
+      steps.forEach((fs,i)=> fs.classList.toggle('active', i===index));
+      progSegs.forEach((p,i)=> p.classList.toggle('active', i<=index));
+      currentStep = index;
+      window.scrollTo({ top: document.getElementById('story-section').offsetTop - 30, behavior: 'smooth' });
+      checkCreateButton(); // update final button state
+    }
 
-function updateSteps() {
-  steps.forEach((s, i) => s.classList.toggle("active", i === currentStep));
-  progress.forEach((p, i) => p.classList.toggle("active", i <= currentStep));
-}
+    // init
+    showStep(0);
 
-nextBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (steps[currentStep].querySelector(":invalid")) return;
-    currentStep++;
-    updateSteps();
-  });
-});
+    // next buttons
+    form.querySelectorAll('.next').forEach(btn=>{
+      btn.addEventListener('click', ()=> {
+        const nextIndex = Number(btn.getAttribute('data-next')) - 1;
+        // validate current visible required fields
+        const currentFs = steps[currentStep];
+        const invalid = Array.from(currentFs.querySelectorAll('[required]')).some(el => !el.value.trim());
+        if (invalid) {
+          // highlight briefly
+          currentFs.querySelectorAll('[required]').forEach(el=>{
+            if(!el.value.trim()) {
+              el.style.boxShadow = '0 0 0 3px rgba(255,120,60,0.14)';
+              setTimeout(()=> el.style.boxShadow = '', 900);
+            }
+          });
+          return;
+        }
+        showStep(nextIndex);
+      });
+    });
 
-backBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    currentStep--;
-    updateSteps();
-  });
-});
+    // back buttons
+    form.querySelectorAll('.back').forEach(btn=>{
+      btn.addEventListener('click', ()=> {
+        const backIndex = Number(btn.getAttribute('data-back')) - 1;
+        showStep(backIndex);
+      });
+    });
 
-form.addEventListener("input", () => {
-  if (form.checkValidity()) {
-    submitBtn.classList.add("active");
-    submitBtn.disabled = false;
-  }
-});
+    // enable final create button when form valid (basic check)
+    const createBtn = document.getElementById('createSongBtn');
 
-form.addEventListener("submit", e => {
-  e.preventDefault();
-  // 🔗 AQUÍ VA TU STRIPE
-  window.location.href = "https://checkout.stripe.com/XXXXXXXX";
-});
+    function checkCreateButton(){
+      // only enable on last step and if visible required fields across entire form are filled
+      const allRequired = Array.from(form.querySelectorAll('[required]'));
+      const allFilled = allRequired.every(el => el.value && el.value.toString().trim().length>0);
+      if (currentStep === steps.length - 1 && allFilled) {
+        createBtn.disabled = false;
+        createBtn.classList.remove('disabled');
+        createBtn.classList.add('create');
+      } else {
+        createBtn.disabled = true;
+        createBtn.classList.add('disabled');
+      }
+    }
+
+    form.addEventListener('input', ()=> {
+      checkCreateButton();
+    });
+
+    // Final: create song -> open checkout (placeholder)
+    createBtn.addEventListener('click', async () => {
+      if (createBtn.disabled) return;
+      // gather data
+      const data = {};
+      new FormData(form).forEach((v,k)=> data[k]=v);
+      // UX: disable button and show 'creating...'
+      createBtn.textContent = 'Creando...';
+      createBtn.disabled = true;
+
+      try {
+        // Call your backend to create a Stripe Checkout session.
+        // Replace /create-checkout-session with your real server endpoint.
+        const res = await fetch('/create-checkout-session', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ form: data, metadata: { source: 'lirya-site' } })
+        });
+
+        if (!res.ok) throw new Error('Error creando sesión de pago');
+        const { url } = await res.json();
+        // Redirect to Stripe Checkout
+        window.location.href = url;
+      } catch (err) {
+        console.error(err);
+        alert('Ha ocurrido un error creando la sesión de pago. Intenta de nuevo.');
+        createBtn.textContent = 'Crear mi canción';
+        createBtn.disabled = false;
+      }
+    });
+
+    // small accessibility: enter on input should not submit (we use step buttons)
+    form.addEventListener('submit', (e)=> e.preventDefault());
+
+    // allow clicking progress segments to jump (optional)
+    progSegs.forEach((seg,i)=> seg.addEventListener('click', ()=> showStep(i)));
+  })();
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
