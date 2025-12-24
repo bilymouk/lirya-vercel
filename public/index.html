@@ -306,137 +306,184 @@ header{
 <section id="formulario" class="lirya-form-scope">
 
 <!-- ===== cuentanos vuestra historia ===== -->
-<section id="formulario" class="lirya-form-scope">
-
+<!-- ================== FORMULARIO LIRYA ================== -->
+<section id="formulario-lirya">
 <style>
-.lirya-form-scope *{box-sizing:border-box;font-family:Georgia,serif}
+#formulario-lirya *{
+  box-sizing:border-box;
+  font-family:Georgia,serif;
+}
 
-.lirya-form-scope{
+#formulario-lirya{
   background:
-    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
     url("musica-neon.png") center/cover no-repeat;
-  padding:90px 20px;
+  padding:22px 20px; /* 👈 margen vertical MUY reducido */
+  display:flex;
+  justify-content:center;
   color:#fff;
 }
 
-.lirya-form-scope .wrapper{
+#formulario-lirya .wrapper{
+  width:100%;
   max-width:520px;
-  margin:0 auto;
 }
 
-.lirya-form-scope h1{
+/* ===== TITULO ===== */
+#formulario-lirya h1{
   text-align:center;
   color:#f2c98a;
   margin-bottom:18px;
-  font-size:36px;
+  font-size:34px;
 }
 
-.lirya-form-scope .subtitle{
+#formulario-lirya .subtitle{
   text-align:center;
   opacity:.85;
-  margin-bottom:36px;
+  margin-bottom:22px;
 }
 
-.progress{
+/* ===== PROGRESO ===== */
+#formulario-lirya .progress{
   display:flex;
   gap:10px;
   justify-content:center;
-  margin-bottom:28px;
-}
-.progress span{
-  width:40px;height:4px;
-  background:rgba(255,255,255,.35);
-}
-.progress span.active{background:#f2c98a}
-
-.card{
-  background:rgba(255,255,255,.08);
-  backdrop-filter:blur(4px);
-  border-radius:18px;
-  padding:28px;
-}
-
-.step{display:none}
-.step.active{display:block}
-
-.step-title{
-  font-size:26px;
-  color:#f2c98a;
   margin-bottom:18px;
 }
+#formulario-lirya .progress span{
+  width:38px;
+  height:4px;
+  background:rgba(255,255,255,.25);
+}
+#formulario-lirya .progress span.active{
+  background:#f2c98a;
+}
 
-.question{margin-bottom:18px}
-label{display:block;margin-bottom:6px;font-size:14px}
+/* ===== CARD ===== */
+#formulario-lirya .card{
+  background:rgba(255,255,255,.09); /* opaco claro */
+  border-radius:16px;
+  padding:22px;
+}
 
-input,textarea{
-  width:100%;
-  padding:14px 16px;
-  border:none;
-  border-radius:10px;
-  background:rgba(255,255,255,.88);
+/* ===== PASOS ===== */
+#formulario-lirya .step{display:none}
+#formulario-lirya .step.active{display:block}
+
+#formulario-lirya .step-title{
+  font-size:26px;
+  color:#f2c98a;
+  margin-bottom:16px;
+}
+
+/* ===== CAMPOS ===== */
+#formulario-lirya .question{
+  margin-bottom:16px;
+}
+#formulario-lirya label{
+  display:block;
+  margin-bottom:6px;
   font-size:14px;
 }
 
-textarea{height:90px;resize:none}
-
-/* DROPDOWN */
-.dropdown{position:relative}
-
-.dropdown-btn{
+#formulario-lirya input,
+#formulario-lirya textarea{
   width:100%;
-  padding:14px 16px;
-  background:rgba(255,255,255,.88);
+  padding:13px 16px;
+  border:none;
+  border-radius:10px;
+  background:rgba(255,255,255,.92);
+  font-size:14px;
+}
+
+#formulario-lirya textarea{
+  height:80px;
+  resize:none;
+}
+
+/* ===== DROPDOWN PREMIUM ===== */
+#formulario-lirya .dropdown{
+  position:relative;
+}
+
+#formulario-lirya .dropdown-btn{
+  width:100%;
+  padding:13px 16px;
+  background:rgba(255,255,255,.92);
   border-radius:10px;
   border:none;
   display:flex;
   justify-content:space-between;
   color:#9aa3ab;
   cursor:pointer;
+  font-size:14px;
 }
 
-.dropdown-menu{
+#formulario-lirya .dropdown-menu{
   position:absolute;
-  top:calc(100% + 10px);
-  left:0;right:0;
-  background:rgba(255,255,255,.96);
+  top:calc(100% + 8px);
+  left:0;
+  right:0;
+  background:rgba(255,255,255,.97);
   border-radius:14px;
   box-shadow:0 18px 40px rgba(0,0,0,.25);
-  padding:10px 0;
+  padding:8px 0;
   display:none;
-  z-index:999;
+  z-index:300;
 }
 
-.dropdown-menu.open{display:block}
+#formulario-lirya .dropdown-menu.open{
+  display:block;
+}
 
-.dropdown-item{
-  padding:12px 18px;
+#formulario-lirya .dropdown-item{
+  padding:11px 18px;
   color:#7a7a7a;
+  font-size:14px;
   cursor:pointer;
 }
-.dropdown-item + .dropdown-item{margin-top:4px}
-.dropdown-item:hover{
+
+#formulario-lirya .dropdown-item:hover{
   background:#f4f7fb;
   color:#333;
 }
 
-/* NAV */
-.nav{
+/* ===== BOTONES ===== */
+#formulario-lirya .nav{
   display:flex;
   gap:12px;
-  margin-top:24px;
+  margin-top:20px;
 }
 
-button{
-  padding:14px;
+#formulario-lirya button{
+  padding:13px;
   border-radius:10px;
   border:none;
   cursor:pointer;
   font-size:15px;
 }
 
-.back{background:rgba(255,255,255,.15);color:#fff}
-.next{background:#f28c28;color:#fff;flex:1}
-.submit{background:#4caf50;color:#fff;flex:1}
+#formulario-lirya .back{
+  background:rgba(255,255,255,.22);
+  color:#fff;
+}
+
+#formulario-lirya .next{
+  background:#f28c28;
+  color:#fff;
+  flex:1;
+}
+
+#formulario-lirya .submit{
+  background:#4caf50;
+  color:#fff;
+  flex:1;
+}
+
+/* ===== TELÉFONO ===== */
+#telefono{
+  display:none;
+}
 </style>
 
 <div class="wrapper">
@@ -664,18 +711,18 @@ button{
 
 <div class="question">
 <label>¿También por WhatsApp?</label>
-<div class="dropdown" id="whatsappDropdown">
-<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown">
+<button class="dropdown-btn" id="whatsapp-btn">Elige una opción ▾</button>
 <div class="dropdown-menu">
-<div class="dropdown-item" data-show="true">Sí</div>
-<div class="dropdown-item" data-show="false">No</div>
+<div class="dropdown-item" data-value="si">Sí</div>
+<div class="dropdown-item" data-value="no">No</div>
 </div>
 </div>
 </div>
 
-<div class="question" id="whatsappInput" style="display:none;">
+<div class="question" id="telefono">
 <label>Número de teléfono</label>
-<input type="tel" placeholder="Escribir número de teléfono">
+<input placeholder="Escribir número de teléfono">
 </div>
 
 <div class="nav">
@@ -688,7 +735,7 @@ button{
 </div>
 
 <script>
-const steps=[...document.querySelectorAll(".lirya-form-scope .step")];
+const steps=[...document.querySelectorAll("#formulario-lirya .step")];
 let i=0;
 
 const progress=document.getElementById("progress");
@@ -708,16 +755,15 @@ document.addEventListener("click",e=>{
   if(e.target.classList.contains("back")){i--;render()}
 });
 
-/* DROPDOWNS */
-document.querySelectorAll(".dropdown").forEach(d=>{
+document.querySelectorAll("#formulario-lirya .dropdown").forEach(d=>{
   const btn=d.querySelector(".dropdown-btn");
   const menu=d.querySelector(".dropdown-menu");
 
-  btn.addEventListener("click",e=>{
+  btn.onclick=e=>{
     e.stopPropagation();
-    document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
+    document.querySelectorAll("#formulario-lirya .dropdown-menu").forEach(m=>m.classList.remove("open"));
     menu.classList.toggle("open");
-  });
+  };
 
   d.querySelectorAll(".dropdown-item").forEach(it=>{
     it.onclick=()=>{
@@ -725,20 +771,17 @@ document.querySelectorAll(".dropdown").forEach(d=>{
       btn.style.color="#333";
       menu.classList.remove("open");
 
-      if(it.dataset.show){
-        document.getElementById("whatsappInput").style.display =
-          it.dataset.show === "true" ? "block" : "none";
-      }
-    }
+      if(it.dataset.value==="si") document.getElementById("telefono").style.display="block";
+      if(it.dataset.value==="no") document.getElementById("telefono").style.display="none";
+    };
   });
 });
 
 document.addEventListener("click",()=>{
-  document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
+  document.querySelectorAll("#formulario-lirya .dropdown-menu").forEach(m=>m.classList.remove("open"));
 });
 </script>
-
 </section>
-
+<!-- ================== FIN FORMULARIO ================== -->
 
 
