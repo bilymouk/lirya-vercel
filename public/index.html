@@ -305,42 +305,40 @@ header{
   </div>
 </section>
   
-<!-- ===== FORMULARIO LIRYA DEFINITIVO ===== -->
-<section id="formulario" class="lirya-section">
-  <div class="lirya-bg-overlay"></div>
+<!-- ===== FORMULARIO LIRYA NUEVO ===== -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-  <div class="lirya-container">
+<section id="lirya-form">
+  <div class="overlay"></div>
 
-    <!-- TÍTULO -->
-    <header class="lirya-header">
+  <div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
       <h2>Cuéntanos vuestra historia</h2>
       <p>Cuéntanos los detalles que harán vuestra canción única</p>
 
-      <div class="lirya-progress">
+      <div class="progress">
         <span class="active"></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span><span></span><span></span>
       </div>
     </header>
 
     <!-- FORM -->
-    <form id="liryaForm">
+    <form id="songForm">
 
       <!-- PASO 1 -->
       <fieldset class="step active">
         <h3>Paso 1 de 6 · Personas</h3>
 
         <label>Nombre de quien recibirá la canción</label>
-        <input type="text" placeholder="Nombre o apodo cariñoso" required>
+        <input name="receiver_name" placeholder="Nombre o apodo cariñoso" required>
 
         <label>Tu nombre (quien regala)</label>
-        <input type="text" placeholder="Tu nombre" required>
+        <input name="sender_name" placeholder="Tu nombre" required>
 
         <label>Tipo de relación</label>
-        <select required>
+        <select name="relationship" required>
           <option value="">Selecciona una opción</option>
           <option>Pareja</option>
           <option>Matrimonio</option>
@@ -350,21 +348,21 @@ header{
           <option>Amistad especial</option>
         </select>
 
-        <button type="button" class="btn primary full next">Siguiente →</button>
+        <button type="button" class="btn next full">Siguiente →</button>
       </fieldset>
 
       <!-- PASO 2 -->
       <fieldset class="step">
-        <h3>Paso 2 de 6 · Historia</h3>
+        <h3>Paso 2 de 6 · Origen</h3>
 
         <label>¿Cómo os conocisteis?</label>
-        <input type="text" placeholder="Ej: En la universidad, en una cafetería…" required>
+        <input name="how_met" placeholder="Una frase, sin pensar demasiado" required>
 
         <label>Un momento que lo cambió todo</label>
-        <textarea placeholder="Primer beso, despedida, sorpresa…" required></textarea>
+        <textarea name="key_moment" placeholder="Primer beso, despedida, sorpresa…" required></textarea>
 
         <label>¿Por qué esta canción es importante ahora?</label>
-        <select required>
+        <select name="occasion" required>
           <option>Aniversario</option>
           <option>Cumpleaños</option>
           <option>Reconciliación</option>
@@ -373,28 +371,116 @@ header{
           <option>Otro</option>
         </select>
 
-        <div class="btn-row">
+        <div class="row">
           <button type="button" class="btn ghost back">← Atrás</button>
-          <button type="button" class="btn primary next">Siguiente →</button>
+          <button type="button" class="btn next">Siguiente →</button>
         </div>
       </fieldset>
 
-      <!-- PASO 6 (ejemplo final) -->
+      <!-- PASO 3 -->
       <fieldset class="step">
-        <h3>Paso 6 de 6 · Entrega</h3>
+        <h3>Paso 3 de 6 · Emoción</h3>
 
-        <label>Email donde recibirás la canción</label>
-        <input type="email" placeholder="tu@email.com" required>
+        <label>Tres palabras que definan a esa persona</label>
+        <input name="keywords" placeholder="Ej: intensa, dulce, valiente" required>
 
-        <label>¿Quieres recibirla también por WhatsApp?</label>
-        <select required>
+        <label>Una frase que te gustaría decirle</label>
+        <input name="hook_phrase" placeholder="Puede ir al estribillo" required>
+
+        <label>¿Qué emoción debe sentir al escucharla?</label>
+        <select name="emotion" required>
+          <option>Amor profundo</option>
+          <option>Nostalgia</option>
+          <option>Alegría</option>
+          <option>Emoción intensa</option>
+          <option>Calma y ternura</option>
+        </select>
+
+        <div class="row">
+          <button class="btn ghost back">← Atrás</button>
+          <button class="btn next">Siguiente →</button>
+        </div>
+      </fieldset>
+
+      <!-- PASO 4 -->
+      <fieldset class="step">
+        <h3>Paso 4 de 6 · Música</h3>
+
+        <label>Estilo musical</label>
+        <select name="music_style" required>
+          <option>Balada romántica</option>
+          <option>Pop emocional</option>
+          <option>Indie acústico</option>
+          <option>R&B / Soul</option>
+          <option>Rock suave</option>
+          <option>Electrónica chill</option>
+          <option>Reggaetón lento</option>
+          <option>Cinematográfico</option>
+        </select>
+
+        <label>Ritmo</label>
+        <select name="tempo" required>
+          <option>Lento</option>
+          <option>Medio</option>
+          <option>Progresivo</option>
+        </select>
+
+        <label>Tipo de voz</label>
+        <select name="voice" required>
+          <option>Masculina</option>
+          <option>Femenina</option>
+          <option>Dúo</option>
+          <option>Me da igual</option>
+        </select>
+
+        <div class="row">
+          <button class="btn ghost back">← Atrás</button>
+          <button class="btn next">Siguiente →</button>
+        </div>
+      </fieldset>
+
+      <!-- PASO 5 -->
+      <fieldset class="step">
+        <h3>Paso 5 de 6 · Detalles</h3>
+
+        <label>¿Quieres que aparezca su nombre en la letra?</label>
+        <select name="use_name" required>
           <option>Sí</option>
           <option>No</option>
         </select>
 
-        <div class="btn-row">
-          <button type="button" class="btn ghost back">← Atrás</button>
-          <button type="submit" class="btn success">Crear mi canción</button>
+        <label>¿Algo que NO deba mencionarse?</label>
+        <textarea name="avoid" placeholder="Opcional"></textarea>
+
+        <label>Nivel de intensidad emocional</label>
+        <select name="intensity" required>
+          <option>Suave</option>
+          <option>Emotiva</option>
+          <option>Muy intensa</option>
+        </select>
+
+        <div class="row">
+          <button class="btn ghost back">← Atrás</button>
+          <button class="btn next">Siguiente →</button>
+        </div>
+      </fieldset>
+
+      <!-- PASO 6 -->
+      <fieldset class="step">
+        <h3>Paso 6 de 6 · Entrega</h3>
+
+        <label>Email donde recibirás la canción</label>
+        <input type="email" name="email" required>
+
+        <label>¿Quieres recibirla también por WhatsApp?</label>
+        <select name="whatsapp" required>
+          <option>Sí</option>
+          <option>No</option>
+        </select>
+
+        <div class="row">
+          <button class="btn ghost back">← Atrás</button>
+          <button class="btn success">Crear mi canción</button>
         </div>
       </fieldset>
 
@@ -403,128 +489,71 @@ header{
 </section>
 
 <style>
-/* === FONDO === */
-.lirya-section{
+#lirya-form{
   position:relative;
   padding:120px 20px;
   background:url('/musica-neon.png') center/cover no-repeat;
+  font-family:'Inter',sans-serif;
 }
-.lirya-bg-overlay{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.32);
+.overlay{
+  position:absolute; inset:0;
+  background:rgba(0,0,0,.35);
 }
-
-/* === CONTENEDOR === */
-.lirya-container{
+.container{
   position:relative;
-  max-width:720px;
-  margin:0 auto;
+  max-width:760px;
+  margin:auto;
   color:#fff;
 }
-
-/* === HEADER === */
-.lirya-header{
-  text-align:center;
-  margin-bottom:50px;
-}
-.lirya-header h2{
+.header{text-align:center;margin-bottom:40px}
+.header h2{
   font-family:'Playfair Display',serif;
-  font-size:2.8rem;
   color:#d4b483;
-  margin-bottom:6px;
+  font-size:2.6rem;
 }
-.lirya-header p{
-  font-family:'Inter',sans-serif;
-  font-size:1rem;
-  color:rgba(255,255,255,.85);
-}
-
-/* === PROGRESS === */
-.lirya-progress{
-  display:flex;
-  gap:10px;
-  margin-top:22px;
-}
-.lirya-progress span{
-  flex:1;
-  height:4px;
+.header p{opacity:.85}
+.progress{display:flex;gap:8px;margin-top:20px}
+.progress span{
+  flex:1;height:4px;
   background:rgba(255,255,255,.25);
-  border-radius:4px;
+  border-radius:4px
 }
-.lirya-progress span.active{
-  background:#d4b483;
-}
+.progress .active{background:#d4b483}
 
-/* === FORM === */
 form{
   background:rgba(0,0,0,.35);
   padding:40px;
-  border-radius:16px;
+  border-radius:18px;
   backdrop-filter:blur(6px);
 }
 .step{display:none}
 .step.active{display:block}
-
-h3{
-  font-family:'Playfair Display',serif;
-  color:#f1c77a;
-  margin-bottom:20px;
-}
-
-label{
-  display:block;
-  margin:18px 0 6px;
-  font-size:.95rem;
-}
-
+h3{color:#f1c77a;margin-bottom:20px}
+label{margin-top:16px;display:block}
 input,select,textarea{
-  width:100%;
-  padding:14px;
-  border-radius:10px;
-  border:none;
-  font-size:1rem;
+  width:100%;padding:14px;
+  border-radius:10px;border:none;
+  margin-top:6px
 }
 textarea{min-height:90px}
-
-/* === BOTONES === */
+.row{display:flex;gap:14px;margin-top:30px}
 .btn{
-  padding:14px;
-  border-radius:10px;
-  border:none;
-  font-weight:600;
-  cursor:pointer;
+  padding:14px;border-radius:10px;
+  border:none;font-weight:600;cursor:pointer
 }
 .full{width:100%}
-
-.btn-row{
-  display:flex;
-  gap:14px;
-  margin-top:30px;
-}
-
-.primary{
-  background:#ff8a2a;
-  color:#fff;
-}
-.ghost{
-  background:rgba(255,255,255,.1);
-  color:#fff;
-}
-.success{
-  background:#2ecc71;
-  color:#fff;
-}
+.next{background:#ff8a2a;color:#fff}
+.ghost{background:rgba(255,255,255,.1);color:#fff}
+.success{background:#2ecc71;color:#fff}
 
 @media(max-width:768px){
   form{padding:30px}
-  .lirya-container{max-width:100%}
 }
 </style>
 
 <script>
-const steps=document.querySelectorAll('.step')
-const bars=document.querySelectorAll('.lirya-progress span')
+const steps=[...document.querySelectorAll('.step')]
+const bars=[...document.querySelectorAll('.progress span')]
 let i=0
 function render(){
   steps.forEach((s,idx)=>s.classList.toggle('active',idx===i))
@@ -536,7 +565,6 @@ document.addEventListener('click',e=>{
 })
 render()
 </script>
-
 
 
 
