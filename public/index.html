@@ -305,11 +305,11 @@ header{
 </section>
 <section id="formulario" class="lirya-form-scope">
 
+<!-- ===== cuentanos vuestra historia ===== -->
+<section id="formulario" class="lirya-form-scope">
+
 <style>
-.lirya-form-scope *{
-  box-sizing:border-box;
-  font-family:Georgia,serif;
-}
+.lirya-form-scope *{box-sizing:border-box;font-family:Georgia,serif}
 
 .lirya-form-scope{
   background:
@@ -317,12 +317,9 @@ header{
     url("musica-neon.png") center/cover no-repeat;
   padding:90px 20px;
   color:#fff;
-  position:relative;
-  z-index:2000;
 }
 
 .lirya-form-scope .wrapper{
-  width:100%;
   max-width:520px;
   margin:0 auto;
 }
@@ -330,7 +327,7 @@ header{
 .lirya-form-scope h1{
   text-align:center;
   color:#f2c98a;
-  margin-bottom:16px;
+  margin-bottom:18px;
   font-size:36px;
 }
 
@@ -340,49 +337,38 @@ header{
   margin-bottom:36px;
 }
 
-.lirya-form-scope .progress{
+.progress{
   display:flex;
   gap:10px;
   justify-content:center;
   margin-bottom:28px;
 }
-
-.lirya-form-scope .progress span{
-  width:40px;
-  height:4px;
+.progress span{
+  width:40px;height:4px;
   background:rgba(255,255,255,.35);
 }
+.progress span.active{background:#f2c98a}
 
-.lirya-form-scope .progress span.active{
-  background:#f2c98a;
-}
-
-.lirya-form-scope .card{
+.card{
   background:rgba(255,255,255,.08);
   backdrop-filter:blur(4px);
   border-radius:18px;
   padding:28px;
 }
 
-.lirya-form-scope .step{display:none}
-.lirya-form-scope .step.active{display:block}
+.step{display:none}
+.step.active{display:block}
 
-.lirya-form-scope .step-title{
+.step-title{
   font-size:26px;
   color:#f2c98a;
   margin-bottom:18px;
 }
 
-.lirya-form-scope .question{margin-bottom:18px}
+.question{margin-bottom:18px}
+label{display:block;margin-bottom:6px;font-size:14px}
 
-.lirya-form-scope label{
-  display:block;
-  margin-bottom:6px;
-  font-size:14px;
-}
-
-.lirya-form-scope input,
-.lirya-form-scope textarea{
+input,textarea{
   width:100%;
   padding:14px 16px;
   border:none;
@@ -391,14 +377,12 @@ header{
   font-size:14px;
 }
 
-.lirya-form-scope textarea{
-  height:90px;
-  resize:none;
-}
+textarea{height:90px;resize:none}
 
-.lirya-form-scope .dropdown{position:relative}
+/* DROPDOWN */
+.dropdown{position:relative}
 
-.lirya-form-scope .dropdown-btn{
+.dropdown-btn{
   width:100%;
   padding:14px 16px;
   background:rgba(255,255,255,.88);
@@ -410,7 +394,7 @@ header{
   cursor:pointer;
 }
 
-.lirya-form-scope .dropdown-menu{
+.dropdown-menu{
   position:absolute;
   top:calc(100% + 10px);
   left:0;right:0;
@@ -419,33 +403,30 @@ header{
   box-shadow:0 18px 40px rgba(0,0,0,.25);
   padding:10px 0;
   display:none;
-  z-index:9999;
+  z-index:999;
 }
 
-.lirya-form-scope .dropdown-menu.open{display:block}
+.dropdown-menu.open{display:block}
 
-.lirya-form-scope .dropdown-item{
+.dropdown-item{
   padding:12px 18px;
   color:#7a7a7a;
   cursor:pointer;
 }
-
-.lirya-form-scope .dropdown-item + .dropdown-item{
-  margin-top:4px;
-}
-
-.lirya-form-scope .dropdown-item:hover{
+.dropdown-item + .dropdown-item{margin-top:4px}
+.dropdown-item:hover{
   background:#f4f7fb;
   color:#333;
 }
 
-.lirya-form-scope .nav{
+/* NAV */
+.nav{
   display:flex;
   gap:12px;
   margin-top:24px;
 }
 
-.lirya-form-scope button{
+button{
   padding:14px;
   border-radius:10px;
   border:none;
@@ -453,22 +434,9 @@ header{
   font-size:15px;
 }
 
-.lirya-form-scope .back{
-  background:rgba(255,255,255,.15);
-  color:#fff;
-}
-
-.lirya-form-scope .next{
-  background:#f28c28;
-  color:#fff;
-  flex:1;
-}
-
-.lirya-form-scope .submit{
-  background:#4caf50;
-  color:#fff;
-  flex:1;
-}
+.back{background:rgba(255,255,255,.15);color:#fff}
+.next{background:#f28c28;color:#fff;flex:1}
+.submit{background:#4caf50;color:#fff;flex:1}
 </style>
 
 <div class="wrapper">
@@ -476,7 +444,7 @@ header{
 <h1>Cuéntanos vuestra historia</h1>
 <div class="subtitle">Cuéntanos los detalles que harán vuestra canción única</div>
 
-<div class="progress" id="lf-progress"></div>
+<div class="progress" id="progress"></div>
 
 <div class="card">
 
@@ -696,18 +664,18 @@ header{
 
 <div class="question">
 <label>¿También por WhatsApp?</label>
-<div class="dropdown" data-whatsapp>
+<div class="dropdown" id="whatsappDropdown">
 <button class="dropdown-btn">Elige una opción ▾</button>
 <div class="dropdown-menu">
-<div class="dropdown-item" data-value="si">Sí</div>
-<div class="dropdown-item" data-value="no">No</div>
+<div class="dropdown-item" data-show="true">Sí</div>
+<div class="dropdown-item" data-show="false">No</div>
 </div>
 </div>
 </div>
 
-<div class="question" id="whatsapp-phone" style="display:none;">
-<label>Número de WhatsApp</label>
-<input type="tel" placeholder="Ej: +34 612 345 678">
+<div class="question" id="whatsappInput" style="display:none;">
+<label>Número de teléfono</label>
+<input type="tel" placeholder="Escribir número de teléfono">
 </div>
 
 <div class="nav">
@@ -720,60 +688,57 @@ header{
 </div>
 
 <script>
-(() => {
-  const scope = document.querySelector('.lirya-form-scope');
-  const steps = [...scope.querySelectorAll('.step')];
-  let i = 0;
+const steps=[...document.querySelectorAll(".lirya-form-scope .step")];
+let i=0;
 
-  const progress = scope.querySelector('#lf-progress');
-  steps.forEach((_,x)=>{
-    const s=document.createElement('span');
-    if(x===0)s.classList.add('active');
-    progress.appendChild(s);
+const progress=document.getElementById("progress");
+steps.forEach((_,x)=>{
+  const s=document.createElement("span");
+  if(x===0)s.classList.add("active");
+  progress.appendChild(s);
+});
+
+function render(){
+  steps.forEach((s,x)=>s.classList.toggle("active",x===i));
+  [...progress.children].forEach((p,x)=>p.classList.toggle("active",x<=i));
+}
+
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("next")){i++;render()}
+  if(e.target.classList.contains("back")){i--;render()}
+});
+
+/* DROPDOWNS */
+document.querySelectorAll(".dropdown").forEach(d=>{
+  const btn=d.querySelector(".dropdown-btn");
+  const menu=d.querySelector(".dropdown-menu");
+
+  btn.addEventListener("click",e=>{
+    e.stopPropagation();
+    document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
+    menu.classList.toggle("open");
   });
 
-  function render(){
-    steps.forEach((s,x)=>s.classList.toggle('active',x===i));
-    [...progress.children].forEach((p,x)=>p.classList.toggle('active',x<=i));
-  }
+  d.querySelectorAll(".dropdown-item").forEach(it=>{
+    it.onclick=()=>{
+      btn.textContent=it.textContent;
+      btn.style.color="#333";
+      menu.classList.remove("open");
 
-  scope.addEventListener('click',e=>{
-    if(e.target.classList.contains('next')){i++;render()}
-    if(e.target.classList.contains('back')){i--;render()}
-  });
-
-  scope.querySelectorAll('.dropdown').forEach(d=>{
-    const btn=d.querySelector('.dropdown-btn');
-    const menu=d.querySelector('.dropdown-menu');
-
-    btn.addEventListener('click',e=>{
-      e.stopPropagation();
-      scope.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
-      menu.classList.toggle('open');
-    });
-
-    d.querySelectorAll('.dropdown-item').forEach(it=>{
-      it.onclick=()=>{
-        btn.textContent=it.textContent;
-        btn.style.color='#333';
-        menu.classList.remove('open');
-
-        if(d.dataset.whatsapp){
-          document.getElementById('whatsapp-phone').style.display =
-            it.dataset.value === 'si' ? 'block' : 'none';
-        }
+      if(it.dataset.show){
+        document.getElementById("whatsappInput").style.display =
+          it.dataset.show === "true" ? "block" : "none";
       }
-    });
+    }
   });
+});
 
-  document.addEventListener('click',()=>{
-    scope.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
-  });
-})();
+document.addEventListener("click",()=>{
+  document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
+});
 </script>
 
 </section>
-
 
 
 
