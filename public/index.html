@@ -54,18 +54,11 @@ header{
   text-decoration:none;
 }
 
-.cta-header:hover{
-  background:var(--orange-hover);
-}
-
 /* ===== HERO ===== */
 .hero{
   position:relative;
-  min-height:85vh;
   padding:40px 0;
   background:url('/cascos-neon.png') center/cover no-repeat;
-  display:flex;
-  align-items:center;
   color:#fff;
 }
 
@@ -88,29 +81,20 @@ header{
   align-items:center;
 }
 
-/* ===== IMAGEN ===== */
-.hero-left{
-  display:flex;
-  justify-content:center;
-}
-
-.hero-phone{
-  width:357px;
-  animation:floatPhone 5s ease-in-out infinite;
-}
-
-/* ===== TEXTO ===== */
-.hero-right h1{
+/* ===== BLOQUES ===== */
+.hero-title{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
   line-height:1.15;
-  margin-bottom:22px;
 }
 
-.hero-right p{
+.hero-text{
   font-size:1.15rem;
   max-width:540px;
-  margin-bottom:26px;
+}
+
+.hero-cta{
+  margin-top:10px;
 }
 
 .hero-btn{
@@ -124,13 +108,22 @@ header{
 }
 
 .hero-note{
-  display:block;
-  margin-top:18px;
+  margin-top:16px;
   font-size:.9rem;
   opacity:.9;
 }
 
-/* ===== ANIMACIÓN ===== */
+/* ===== IMAGEN ===== */
+.hero-image{
+  display:flex;
+  justify-content:center;
+}
+
+.hero-phone{
+  width:360px;
+  animation:floatPhone 5s ease-in-out infinite;
+}
+
 @keyframes floatPhone{
   0%{transform:translateY(0)}
   50%{transform:translateY(-14px)}
@@ -140,36 +133,23 @@ header{
 /* ===== MOBILE ===== */
 @media (max-width:900px){
 
-  .hero{
-    min-height:auto;
-    padding:36px 0;
-  }
-
   .hero-content{
     grid-template-columns:1fr;
-    gap:28px;
+    gap:26px;
     text-align:center;
   }
 
-  /* ORDEN MOBILE EXACTO */
-  .hero-right h1{ order:1; }
-  .hero-left{ order:2; }
-  .hero-right p{ order:3; }
-  .hero-btn{ order:4; }
-  .hero-note{ order:5; }
+  /* ORDEN EXACTO EN MÓVIL */
+  .hero-title{order:1;font-size:2.6rem;}
+  .hero-image{order:2;}
+  .hero-text{order:3;font-size:1.05rem;}
+  .hero-cta{order:4;}
+  .hero-note{order:5;}
 
   .hero-phone{
     width:100%;
     max-width:360px;
     margin:0 auto;
-  }
-
-  .hero-right h1{
-    font-size:2.6rem;
-  }
-
-  .hero-right p{
-    font-size:1.05rem;
   }
 }
 </style>
@@ -187,20 +167,25 @@ header{
 <section class="hero">
   <div class="hero-content">
 
-    <div class="hero-left">
-      <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada LIRYA">
-    </div>
+    <!-- COLUMNA TEXTO -->
+    <div>
+      <h1 class="hero-title">Una canción creada a partir de vuestra historia</h1>
 
-    <div class="hero-right">
-      <h1>Una canción creada a partir de vuestra historia</h1>
-
-      <p>
+      <div class="hero-text">
         Transformamos historias reales en canciones únicas.
         Un regalo emocional que se escucha y se recuerda.
-      </p>
+      </div>
 
-      <a href="#formulario" class="hero-btn">EMPEZAR</a>
-      <span class="hero-note">Cada canción es única</span>
+      <div class="hero-cta">
+        <a href="#formulario" class="hero-btn">EMPEZAR</a>
+      </div>
+
+      <div class="hero-note">Cada canción es única</div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div class="hero-image">
+      <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada LIRYA">
     </div>
 
   </div>
@@ -749,6 +734,7 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
 
