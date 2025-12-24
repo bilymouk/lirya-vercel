@@ -116,7 +116,7 @@ header{
 
 .hero-phone{
   width:360px;
-  animation:floatPhone 5s ease-in-out infinite;
+  animation:floatPhoneDesktop 5s ease-in-out infinite;
 }
 
 /* ===== MOBILE ===== */
@@ -132,24 +132,23 @@ header{
   margin-bottom:6px;
 }
 
-/* IMAGEN: QUITAMOS ESPACIO REAL */
+/* 🔥 IMAGEN MÓVIL AJUSTADA */
 .hero-mobile img{
   width:85%;
   max-width:340px;
   margin:0 auto;
   display:block;
-  animation:floatPhone 5s ease-in-out infinite;
+  animation:floatPhoneMobile 5s ease-in-out infinite;
 }
 
-/* TEXTO: LO SUBIMOS FORZADO */
+/* TEXTO */
 .hero-mobile p{
   font-family:'Playfair Display',serif;
   font-size:1.15rem;
   line-height:1.6;
   opacity:.95;
-  margin-top:0;
   margin-bottom:22px;
-  transform:translateY(-38px); /* 🔥 ESTO ES LA CLAVE */
+  transform:translateY(-38px);
 }
 
 .hero-mobile .hero-btn{
@@ -160,11 +159,18 @@ header{
   transform:translateY(-28px);
 }
 
-/* ===== ANIMATION ===== */
-@keyframes floatPhone{
+/* ===== ANIMATIONS ===== */
+@keyframes floatPhoneDesktop{
   0%{transform:translateY(0)}
   50%{transform:translateY(-14px)}
   100%{transform:translateY(0)}
+}
+
+/* 🔥 BAJAMOS LA FOTO EN MÓVIL */
+@keyframes floatPhoneMobile{
+  0%{transform:translateY(12px)}
+  50%{transform:translateY(-2px)}
+  100%{transform:translateY(12px)}
 }
 
 /* ===== RESPONSIVE ===== */
@@ -772,6 +778,7 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
 
