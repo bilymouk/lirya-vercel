@@ -1,840 +1,440 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LIRYA — Canciones personalizadas</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIRYA · Formulario</title>
 
 <style>
-:root{
-  --gold:#d4b483;
-  --orange:#ff8a2a;
-  --orange-hover:#f07818;
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;font-family:Georgia,serif}
 
 body{
-  font-family:'Inter',sans-serif;
-  background:#fff;
-}
-
-/* ===== HEADER ===== */
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:#fff;
-  border-bottom:1px solid #eee;
-}
-
-.header-container{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 24px;
-}
-
-.logo{
-  font-family:'Playfair Display',serif;
-  font-weight:800;
-  letter-spacing:2px;
-  font-size:26px;
-  color:var(--gold);
-}
-
-.cta-header{
-  background:var(--orange);
+  margin:0;
+  background:#111;
   color:#fff;
-  padding:10px 26px;
-  border-radius:10px;
-  font-weight:600;
-  text-decoration:none;
 }
 
-.cta-header:hover{background:var(--orange-hover)}
-
-/* ===== HERO ===== */
-.hero{
-  position:relative;
+.page{
   min-height:100vh;
-  padding:60px 0;
-  background:url('/cascos-neon.png') center/cover no-repeat;
-  display:flex;
-  align-items:center;
-  color:#fff;
-}
-
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.55);
-}
-
-.hero-content{
-  position:relative;
-  z-index:2;
-  max-width:1200px;
-  margin:0 auto;
-  padding:0 40px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
-  align-items:center;
-}
-
-/* ===== TELÉFONO ===== */
-.hero-left{
+  background:
+    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+    url("musica-neon.png") center/cover no-repeat;
+  padding:60px 20px;
   display:flex;
   justify-content:center;
 }
 
-.hero-phone{
-  width:357px;
-  margin-top:40px;
-  animation:floatPhone 5s ease-in-out infinite;
+.wrapper{
+  width:100%;
+  max-width:520px;
 }
 
-/* ===== TEXTO ===== */
-.hero-right{
-  margin-top:-20px;
+h1{
+  text-align:center;
+  color:#f2c98a;
+  margin-bottom:6px;
+  font-size:36px;
+}
+.subtitle{
+  text-align:center;
+  opacity:.85;
+  margin-bottom:24px;
 }
 
-.hero-right h1{
-  font-family:'Playfair Display',serif;
-  font-size:3.6rem;
-  line-height:1.15;
+.progress{
+  display:flex;
+  gap:10px;
+  justify-content:center;
   margin-bottom:28px;
 }
+.progress span{
+  width:40px;height:4px;
+  background:rgba(255,255,255,.25);
+}
+.progress span.active{background:#f2c98a}
 
-.hero-right p{
-  font-size:1.15rem;
-  max-width:540px;
-  margin-bottom:44px;
+.card{
+  background:rgba(0,0,0,.65);
+  border-radius:18px;
+  padding:28px;
 }
 
-.hero-btn{
-  background:var(--orange);
-  color:#fff;
-  padding:14px 36px;
+.step{display:none}
+.step.active{display:block}
+
+.step-title{
+  font-size:26px;
+  color:#f2c98a;
+  margin-bottom:18px;
+}
+
+.question{margin-bottom:18px}
+label{display:block;margin-bottom:6px;font-size:14px}
+
+input,textarea{
+  width:100%;
+  padding:14px 16px;
+  border:none;
   border-radius:10px;
-  font-weight:600;
-  text-decoration:none;
+  background:rgba(255,255,255,.88);
+  font-size:14px;
+}
+textarea{height:90px;resize:none}
+
+/* ===== DROPDOWN PREMIUM ===== */
+.dropdown{position:relative}
+
+.dropdown-btn{
+  width:100%;
+  padding:14px 16px;
+  background:rgba(255,255,255,.88);
+  border-radius:10px;
+  border:none;
+  display:flex;
+  justify-content:space-between;
+  color:#9aa3ab;
+  cursor:pointer;
+  font-size:14px;
 }
 
-.hero-note{
-  display:block;
-  margin-top:28px;
-  font-size:.9rem;
+.dropdown-menu{
+  position:absolute;
+  top:calc(100% + 10px);
+  left:0;right:0;
+  background:rgba(255,255,255,.96);
+  border-radius:14px;
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
+  padding:10px 0;
+  display:none;
+  z-index:100;
 }
 
-/* ===== ANIMACIÓN ===== */
-@keyframes floatPhone{
-  0%{transform:translateY(0)}
-  50%{transform:translateY(-14px)}
-  100%{transform:translateY(0)}
+.dropdown-menu.open{display:block}
+
+.dropdown-item{
+  padding:12px 18px;
+  color:#7a7a7a;
+  font-size:14px;
+  cursor:pointer;
+}
+.dropdown-item + .dropdown-item{margin-top:4px}
+.dropdown-item:hover{
+  background:#f4f7fb;
+  color:#333;
 }
 
-/* ===== MOBILE ===== */
-@media (max-width:900px){
-
-  .hero{
-    padding-top:60px;
-  }
-
-  .hero-content{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .hero-phone{
-    width:105%;
-    max-width:420px;
-    margin-top:30px;
-  }
-
-  .hero-right{
-    margin-top:-90px;
-  }
-
-  .hero-right h1{
-    font-size:2.9rem;
-  }
-
-  .hero-right p{
-    font-size:1.05rem;
-    margin-top:36px;
-  }
-
-  .hero-note{
-    margin-top:32px;
-  }
+/* ===== NAV ===== */
+.nav{
+  display:flex;
+  gap:12px;
+  margin-top:24px;
 }
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="header-container">
-    <div class="logo">LIRYA</div>
-    <a href="#formulario" class="cta-header">Empezar</a>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-left">
-      <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada LIRYA">
-    </div>
-
-    <div class="hero-right">
-      <h1>Una canción creada a partir de vuestra historia</h1>
-      <p>
-        Transformamos historias reales en canciones únicas.
-        Un regalo emocional que se escucha y se recuerda.
-      </p>
-      <a href="#formulario" class="hero-btn">EMPEZAR</a>
-      <span class="hero-note">Cada canción es única</span>
-    </div>
-  </div>
-</section>
-  
-<!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
-<style>
-/* ===== POR QUÉ ES UN REGALO ESPECIAL ===== */
-
-.lirya-premium-final {
-  background-color: #ffffff;
-  padding: 80px 20px;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
+button{
+  padding:14px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-size:15px;
 }
-
-/* === TÍTULO === */
-.titulo-premium-brillante {
-  font-family: "Georgia", "Times New Roman", serif;
-  color: #c7b58a;
-  font-size: 35px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  margin-bottom: 60px;
-  line-height: 1.15;
-}
-
-.grid-premium-cards {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.tarjeta-premium-estilo {
-  background-color: #fcfaf7;
-  border-radius: 12px;
-  padding: 60px 35px;
-  width: 320px;
-  border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
-  transition: all 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.tarjeta-premium-estilo:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
-}
-
-.tarjeta-premium-estilo h3 {
-  font-family: "Georgia", "Times New Roman", serif;
-  color: #c7b58a;
-  font-size: 26.5px;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-
-.tarjeta-premium-estilo p {
-  color: #1a1a1a;
-  font-size: 14.5px;
-  line-height: 1.7;
-  font-weight: 400;
-}
-
-@media (max-width: 768px) {
-  .titulo-premium-brillante {
-    font-size: 30px;
-  }
-
-  .grid-premium-cards {
-    gap: 30px;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .tarjeta-premium-estilo {
-    width: 95%;
-  }
-}
-</style>
-
-<section class="lirya-premium-final">
-  <h2 class="titulo-premium-brillante">Por qué es un regalo especial</h2>
-
-  <div class="grid-premium-cards">
-    <div class="tarjeta-premium-estilo">
-      <h3>Único</h3>
-      <p>No existe otra canción igual. Cada letra se crea exclusivamente a partir de vuestra historia.</p>
-    </div>
-
-    <div class="tarjeta-premium-estilo">
-      <h3>Emocional</h3>
-      <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
-    </div>
-
-    <div class="tarjeta-premium-estilo">
-      <h3>Premium</h3>
-      <p>Pensada para regalar. Hecha para conservarla y recordarla para siempre.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FORMULARIO LIRYA NUEVO ===== -->
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LIRYA · Cuéntanos vuestra historia</title>
-
-<style>
-/* =========================
-   RESET & BASE
-========================= */
-* {
-  box-sizing: border-box;
-  font-family: "Georgia", "Times New Roman", serif;
-}
-
-body {
-  margin: 0;
-  background: #111;
-  color: #fff;
-}
-
-/* =========================
-   BACKGROUND
-========================= */
-.page {
-  min-height: 100vh;
-  background: 
-    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-    url("musica-neon.png") center / cover no-repeat;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 60px 20px;
-}
-
-/* =========================
-   HEADER
-========================= */
-.header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.header h1 {
-  font-size: 36px;
-  color: #f2c98a;
-  margin-bottom: 8px;
-}
-
-.header p {
-  font-size: 16px;
-  opacity: 0.85;
-}
-
-/* =========================
-   PROGRESS BAR
-========================= */
-.progress {
-  display: flex;
-  gap: 10px;
-  margin: 25px 0 35px;
-}
-
-.progress span {
-  width: 40px;
-  height: 4px;
-  background: rgba(255,255,255,0.25);
-  border-radius: 2px;
-}
-
-.progress span.active {
-  background: #f2c98a;
-}
-
-/* =========================
-   CARD
-========================= */
-.card {
-  width: 100%;
-  max-width: 520px;
-  background: rgba(0,0,0,0.65);
-  border-radius: 18px;
-  padding: 28px;
-}
-
-/* =========================
-   STEP TITLE
-========================= */
-.step-title {
-  font-size: 22px;
-  color: #f2c98a;
-  margin-bottom: 18px;
-}
-
-/* =========================
-   QUESTIONS
-========================= */
-.question {
-  margin-bottom: 18px;
-}
-
-.question label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-/* =========================
-   INPUTS / TEXTAREA
-========================= */
-input[type="text"],
-input[type="email"],
-textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.85);
-  color: #000;
-  font-size: 14px;
-}
-
-textarea {
-  resize: none;
-  height: 90px;
-}
-
-/* =========================
-   DROPDOWN PREMIUM
-========================= */
-.dropdown {
-  position: relative;
-}
-
-.dropdown-toggle {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.85);
-  color: #9aa3ab;
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  right: 0;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-  padding: 10px 0;
-  display: none;
-  z-index: 50;
-}
-
-.dropdown-menu.open {
-  display: block;
-}
-
-.dropdown-item {
-  padding: 12px 18px;
-  font-size: 14px;
-  color: #7a7a7a;
-  cursor: pointer;
-}
-
-.dropdown-item + .dropdown-item {
-  margin-top: 4px;
-}
-
-.dropdown-item:hover {
-  background: #f5f8fb;
-  color: #333;
-}
-
-/* =========================
-   NAV BUTTONS
-========================= */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  gap: 12px;
-}
-
-button {
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
-}
-
-.btn-back {
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-}
-
-.btn-next {
-  background: #f28c28;
-  color: #fff;
-  flex: 1;
-}
-
-.btn-submit {
-  background: #4caf50;
-  color: #fff;
-  flex: 1;
-}
-
-/* =========================
-   HIDE STEPS
-========================= */
-.step {
-  display: none;
-}
-.step.active {
-  display: block;
-}
+.back{background:rgba(255,255,255,.15);color:#fff}
+.next{background:#f28c28;color:#fff;flex:1}
+.submit{background:#4caf50;color:#fff;flex:1}
 </style>
 </head>
 
 <body>
 <div class="page">
+<div class="wrapper">
 
-  <div class="header">
-    <h1>Cuéntanos vuestra historia</h1>
-    <p>Cuéntanos los detalles que harán vuestra canción única</p>
-  </div>
+<h1>Cuéntanos vuestra historia</h1>
+<div class="subtitle">Cuéntanos los detalles que harán vuestra canción única</div>
 
-  <div class="progress" id="progress"></div>
+<div class="progress" id="progress"></div>
 
-  <div class="card">
+<div class="card">
 
-    <!-- PASO 1 -->
-    <div class="step active">
-      <div class="step-title">Paso 1 de 6 — Personas</div>
+<!-- ===== PASO 1 ===== -->
+<div class="step active">
+<div class="step-title">Paso 1 de 6 — Personas</div>
 
-      <div class="question">
-        <label>Nombre de quien recibirá la canción</label>
-        <input type="text" placeholder="Ej: Laura, Mi amor, Cariño…" />
-      </div>
+<div class="question">
+<label>Nombre de quien recibirá la canción</label>
+<input placeholder="Ej: Laura, Mi amor, Cariño…">
+</div>
 
-      <div class="question">
-        <label>Tu nombre (quien regala)</label>
-        <input type="text" placeholder="Ej: Juan" />
-      </div>
+<div class="question">
+<label>Tu nombre (quien regala)</label>
+<input placeholder="Ej: Juan">
+</div>
 
-      <div class="question">
-        <label>Tipo de relación</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Pareja</div>
-            <div class="dropdown-item">Matrimonio</div>
-            <div class="dropdown-item">Ex pareja (reconciliación)</div>
-            <div class="dropdown-item">Amor secreto</div>
-            <div class="dropdown-item">Familiar</div>
-            <div class="dropdown-item">Amistad especial</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>Tipo de relación</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Pareja</div>
+<div class="dropdown-item">Matrimonio</div>
+<div class="dropdown-item">Ex pareja (reconciliación)</div>
+<div class="dropdown-item">Amor secreto</div>
+<div class="dropdown-item">Familiar</div>
+<div class="dropdown-item">Amistad especial</div>
+</div>
+</div>
+</div>
 
-      <div class="nav">
-        <button class="btn-next">Siguiente →</button>
-      </div>
-    </div>
+<div class="nav">
+<button class="next">Siguiente →</button>
+</div>
+</div>
 
-    <!-- PASO 2 -->
-    <div class="step">
-      <div class="step-title">Paso 2 de 6 — Origen de la historia</div>
+<!-- ===== PASO 2 ===== -->
+<div class="step">
+<div class="step-title">Paso 2 de 6 — Origen de la historia</div>
 
-      <div class="question">
-        <label>¿Cómo os conocisteis?</label>
-        <textarea placeholder="Ej: En una cafetería por casualidad…"></textarea>
-      </div>
+<div class="question">
+<label>¿Cómo os conocisteis?</label>
+<textarea placeholder="Ej: En una cafetería por casualidad…"></textarea>
+</div>
 
-      <div class="question">
-        <label>Un momento que lo cambió todo</label>
-        <textarea placeholder="Ej: Nuestro primer beso en aquel viaje…"></textarea>
-      </div>
+<div class="question">
+<label>Un momento que lo cambió todo</label>
+<textarea placeholder="Ej: Nuestro primer beso…"></textarea>
+</div>
 
-      <div class="question">
-        <label>¿Por qué esta canción es importante ahora?</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Aniversario</div>
-            <div class="dropdown-item">Cumpleaños</div>
-            <div class="dropdown-item">Reconciliación</div>
-            <div class="dropdown-item">San Valentín</div>
-            <div class="dropdown-item">Sorpresa sin motivo</div>
-            <div class="dropdown-item">Otro</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>¿Por qué esta canción es importante ahora?</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Aniversario</div>
+<div class="dropdown-item">Cumpleaños</div>
+<div class="dropdown-item">Reconciliación</div>
+<div class="dropdown-item">San Valentín</div>
+<div class="dropdown-item">Sorpresa sin motivo</div>
+<div class="dropdown-item">Otro</div>
+</div>
+</div>
+</div>
 
-      <div class="nav">
-        <button class="btn-back">← Atrás</button>
-        <button class="btn-next">Siguiente →</button>
-      </div>
-    </div>
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
 
-    <!-- PASO 3 -->
-    <div class="step">
-      <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
+<!-- ===== PASO 3 ===== -->
+<div class="step">
+<div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
 
-      <div class="question">
-        <label>Tres palabras que definan a esa persona</label>
-        <input type="text" placeholder="Ej: intensa, dulce, valiente" />
-      </div>
+<div class="question">
+<label>Tres palabras que definan a esa persona</label>
+<input placeholder="Ej: intensa, dulce, valiente">
+</div>
 
-      <div class="question">
-        <label>Una frase que te gustaría decirle</label>
-        <textarea placeholder="Ej: Siempre estaré a tu lado pase lo que pase…"></textarea>
-      </div>
+<div class="question">
+<label>Una frase que te gustaría decirle</label>
+<textarea placeholder="Ej: Siempre estaré contigo…"></textarea>
+</div>
 
-      <div class="question">
-        <label>¿Qué emoción debe sentir al escucharla?</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Amor profundo</div>
-            <div class="dropdown-item">Nostalgia</div>
-            <div class="dropdown-item">Alegría</div>
-            <div class="dropdown-item">Emoción intensa</div>
-            <div class="dropdown-item">Calma y ternura</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>¿Qué emoción debe sentir?</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Amor profundo</div>
+<div class="dropdown-item">Nostalgia</div>
+<div class="dropdown-item">Alegría</div>
+<div class="dropdown-item">Emoción intensa</div>
+<div class="dropdown-item">Calma y ternura</div>
+</div>
+</div>
+</div>
 
-      <div class="nav">
-        <button class="btn-back">← Atrás</button>
-        <button class="btn-next">Siguiente →</button>
-      </div>
-    </div>
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
 
-    <!-- PASO 4 -->
-    <div class="step">
-      <div class="step-title">Paso 4 de 6 — Música</div>
+<!-- ===== PASO 4 ===== -->
+<div class="step">
+<div class="step-title">Paso 4 de 6 — Música</div>
 
-      <div class="question">
-        <label>Estilo musical principal</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Balada romántica</div>
-            <div class="dropdown-item">Pop emocional</div>
-            <div class="dropdown-item">Indie acústico</div>
-            <div class="dropdown-item">R&B / Soul</div>
-            <div class="dropdown-item">Rock suave</div>
-            <div class="dropdown-item">Electrónica chill</div>
-            <div class="dropdown-item">Reggaetón lento</div>
-            <div class="dropdown-item">Cinematográfico</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>Estilo musical principal</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Balada romántica</div>
+<div class="dropdown-item">Pop emocional</div>
+<div class="dropdown-item">Indie acústico</div>
+<div class="dropdown-item">R&B / Soul</div>
+<div class="dropdown-item">Rock suave</div>
+<div class="dropdown-item">Electrónica chill</div>
+<div class="dropdown-item">Reggaetón lento</div>
+<div class="dropdown-item">Cinematográfico</div>
+</div>
+</div>
+</div>
 
-      <div class="question">
-        <label>Ritmo</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Lento</div>
-            <div class="dropdown-item">Medio</div>
-            <div class="dropdown-item">Progresivo</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>Ritmo</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Lento</div>
+<div class="dropdown-item">Medio</div>
+<div class="dropdown-item">Progresivo</div>
+</div>
+</div>
+</div>
 
-      <div class="question">
-        <label>Tipo de voz</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Masculina</div>
-            <div class="dropdown-item">Femenina</div>
-            <div class="dropdown-item">Dúo</div>
-            <div class="dropdown-item">Me da igual</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>Tipo de voz</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Masculina</div>
+<div class="dropdown-item">Femenina</div>
+<div class="dropdown-item">Dúo</div>
+<div class="dropdown-item">Me da igual</div>
+</div>
+</div>
+</div>
 
-      <div class="question">
-        <label>Idioma</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Español</div>
-            <div class="dropdown-item">Inglés</div>
-            <div class="dropdown-item">Spanglish</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>Idioma</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Español</div>
+<div class="dropdown-item">Inglés</div>
+<div class="dropdown-item">Spanglish</div>
+</div>
+</div>
+</div>
 
-      <div class="nav">
-        <button class="btn-back">← Atrás</button>
-        <button class="btn-next">Siguiente →</button>
-      </div>
-    </div>
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
 
-    <!-- PASO 5 -->
-    <div class="step">
-      <div class="step-title">Paso 5 de 6 — Detalles finales</div>
+<!-- ===== PASO 5 ===== -->
+<div class="step">
+<div class="step-title">Paso 5 de 6 — Detalles finales</div>
 
-      <div class="question">
-        <label>¿Quieres que aparezca su nombre en la letra?</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Sí</div>
-            <div class="dropdown-item">No</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>¿Quieres que aparezca su nombre?</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Sí</div>
+<div class="dropdown-item">No</div>
+</div>
+</div>
+</div>
 
-      <div class="question">
-        <label>¿Algo que NO deba mencionarse?</label>
-        <textarea placeholder="Opcional"></textarea>
-      </div>
+<div class="question">
+<label>¿Algo que NO deba mencionarse?</label>
+<textarea placeholder="Opcional"></textarea>
+</div>
 
-      <div class="question">
-        <label>Nivel de intensidad emocional</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Suave</div>
-            <div class="dropdown-item">Emotiva</div>
-            <div class="dropdown-item">Muy intensa</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>Intensidad emocional</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Suave</div>
+<div class="dropdown-item">Emotiva</div>
+<div class="dropdown-item">Muy intensa</div>
+</div>
+</div>
+</div>
 
-      <div class="nav">
-        <button class="btn-back">← Atrás</button>
-        <button class="btn-next">Siguiente →</button>
-      </div>
-    </div>
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
 
-    <!-- PASO 6 -->
-    <div class="step">
-      <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+<!-- ===== PASO 6 ===== -->
+<div class="step">
+<div class="step-title">Paso 6 de 6 — Entrega y pago</div>
 
-      <div class="question">
-        <label>Email donde recibirás la canción</label>
-        <input type="email" placeholder="ejemplo@email.com" />
-      </div>
+<div class="question">
+<label>Email</label>
+<input type="email" placeholder="ejemplo@email.com">
+</div>
 
-      <div class="question">
-        <label>¿Quieres recibirla también por WhatsApp?</label>
-        <div class="dropdown">
-          <div class="dropdown-toggle">Elige una opción ▾</div>
-          <div class="dropdown-menu">
-            <div class="dropdown-item">Sí</div>
-            <div class="dropdown-item">No</div>
-          </div>
-        </div>
-      </div>
+<div class="question">
+<label>¿También por WhatsApp?</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Sí</div>
+<div class="dropdown-item">No</div>
+</div>
+</div>
+</div>
 
-      <div class="nav">
-        <button class="btn-back">← Atrás</button>
-        <button class="btn-submit">Crear mi canción</button>
-      </div>
-    </div>
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="submit">Crear mi canción</button>
+</div>
+</div>
 
-  </div>
+</div>
+</div>
 </div>
 
 <script>
-const steps = document.querySelectorAll(".step");
-let current = 0;
+const steps=[...document.querySelectorAll(".step")];
+let i=0;
 
-/* progress */
-const progress = document.getElementById("progress");
-steps.forEach((_, i) => {
-  const span = document.createElement("span");
-  if (i === 0) span.classList.add("active");
-  progress.appendChild(span);
+const progress=document.getElementById("progress");
+steps.forEach((_,x)=>{
+  const s=document.createElement("span");
+  if(x===0)s.classList.add("active");
+  progress.appendChild(s);
 });
 
-function updateStep() {
-  steps.forEach((s, i) => s.classList.toggle("active", i === current));
-  document.querySelectorAll(".progress span")
-    .forEach((p, i) => p.classList.toggle("active", i <= current));
+function render(){
+  steps.forEach((s,x)=>s.classList.toggle("active",x===i));
+  [...progress.children].forEach((p,x)=>p.classList.toggle("active",x<=i));
 }
 
-document.addEventListener("click", e => {
-  if (e.target.classList.contains("btn-next")) {
-    current++;
-    updateStep();
-  }
-  if (e.target.classList.contains("btn-back")) {
-    current--;
-    updateStep();
-  }
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("next")){i++;render()}
+  if(e.target.classList.contains("back")){i--;render()}
 });
 
-/* dropdown logic */
-document.querySelectorAll(".dropdown").forEach(d => {
-  const toggle = d.querySelector(".dropdown-toggle");
-  const menu = d.querySelector(".dropdown-menu");
+/* dropdowns */
+document.querySelectorAll(".dropdown").forEach(d=>{
+  const btn=d.querySelector(".dropdown-btn");
+  const menu=d.querySelector(".dropdown-menu");
 
-  toggle.addEventListener("click", e => {
+  btn.addEventListener("click",e=>{
     e.stopPropagation();
-    document.querySelectorAll(".dropdown-menu").forEach(m => m.classList.remove("open"));
+    document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
     menu.classList.toggle("open");
   });
 
-  d.querySelectorAll(".dropdown-item").forEach(item => {
-    item.addEventListener("click", () => {
-      toggle.textContent = item.textContent;
-      toggle.style.color = "#333";
+  d.querySelectorAll(".dropdown-item").forEach(it=>{
+    it.onclick=()=>{
+      btn.textContent=it.textContent;
+      btn.style.color="#333";
       menu.classList.remove("open");
-    });
+    }
   });
 });
 
-document.addEventListener("click", () =>
-  document.querySelectorAll(".dropdown-menu").forEach(m => m.classList.remove("open"))
-);
+document.addEventListener("click",()=> {
+  document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
+});
 </script>
 </body>
 </html>
+
 
 
