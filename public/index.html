@@ -304,95 +304,88 @@ header{
   </div>
 </section>
 
-<!-- ==============================
-     FORMULARIO LIRYA (AISLADO)
-================================= -->
-<section id="formulario" class="lirya-form-wrapper">
+<!-- ===============================
+     FORMULARIO LIRYA — BLOQUE FINAL
+     (AISLADO · 6 PASOS · 18 PREGUNTAS)
+================================ -->
+<section id="formulario" class="lirya-form-scope">
 
 <style>
-/* ===== AISLAMIENTO TOTAL ===== */
-.lirya-form-wrapper{
-  background:#111;
-  padding:100px 20px;
-  position:relative;
-  z-index:3000;
-}
-
-.lirya-form{
-  all: initial;
-  font-family:'Inter',sans-serif;
-  color:#fff;
-}
-
-.lirya-form *{
+.lirya-form-scope *{
   box-sizing:border-box;
-  font-family:'Inter',sans-serif;
+  font-family:Georgia,serif;
 }
 
-/* ===== HEADER FORM ===== */
-.lirya-form h2{
+.lirya-form-scope{
+  background:
+    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+    url("musica-neon.png") center/cover no-repeat;
+  padding:80px 20px;
+  color:#fff;
+  position:relative;
+  z-index:2000;
+}
+
+.lirya-form-scope .wrapper{
+  width:100%;
+  max-width:520px;
+  margin:0 auto;
+}
+
+.lirya-form-scope h1{
   text-align:center;
-  font-family:'Playfair Display',serif;
-  color:#d4b483;
-  font-size:34px;
-  margin-bottom:8px;
+  color:#f2c98a;
+  margin-bottom:6px;
+  font-size:36px;
 }
 
-.lirya-form .subtitle{
+.lirya-form-scope .subtitle{
   text-align:center;
   opacity:.85;
+  margin-bottom:24px;
+}
+
+.lirya-form-scope .progress{
+  display:flex;
+  gap:10px;
+  justify-content:center;
   margin-bottom:28px;
 }
 
-/* ===== PROGRESS ===== */
-.lirya-form .progress{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:32px;
-}
-
-.lirya-form .progress span{
-  width:38px;
+.lirya-form-scope .progress span{
+  width:40px;
   height:4px;
   background:rgba(255,255,255,.25);
 }
 
-.lirya-form .progress span.active{
-  background:#ff8a2a;
+.lirya-form-scope .progress span.active{
+  background:#f2c98a;
 }
 
-/* ===== CARD ===== */
-.lirya-form .card{
-  max-width:520px;
-  margin:0 auto;
+.lirya-form-scope .card{
   background:rgba(0,0,0,.65);
   border-radius:18px;
-  padding:30px;
+  padding:28px;
 }
 
-/* ===== STEPS ===== */
-.lirya-form .step{display:none}
-.lirya-form .step.active{display:block}
+.lirya-form-scope .step{display:none}
+.lirya-form-scope .step.active{display:block}
 
-.lirya-form .step-title{
-  font-family:'Playfair Display',serif;
+.lirya-form-scope .step-title{
   font-size:26px;
-  color:#d4b483;
-  margin-bottom:20px;
+  color:#f2c98a;
+  margin-bottom:18px;
 }
 
-/* ===== QUESTIONS ===== */
-.lirya-form .question{margin-bottom:18px}
-.lirya-form label{
+.lirya-form-scope .question{margin-bottom:18px}
+.lirya-form-scope label{
   display:block;
   margin-bottom:6px;
   font-size:14px;
 }
 
-/* ===== INPUTS ===== */
-.lirya-form input,
-.lirya-form textarea{
+.lirya-form-scope input,
+.lirya-form-scope textarea{
   width:100%;
   padding:14px 16px;
   border:none;
@@ -401,27 +394,31 @@ header{
   font-size:14px;
 }
 
-.lirya-form textarea{height:90px;resize:none}
+.lirya-form-scope textarea{
+  height:90px;
+  resize:none;
+}
 
-/* ===== DROPDOWN PREMIUM ===== */
-.lirya-form .dropdown{position:relative}
+/* DROPDOWN */
+.lirya-form-scope .dropdown{position:relative}
 
-.lirya-form .dropdown-btn{
+.lirya-form-scope .dropdown-btn{
   width:100%;
   padding:14px 16px;
   background:rgba(255,255,255,.88);
   border-radius:10px;
   border:none;
-  color:#9aa3ab;
   display:flex;
   justify-content:space-between;
+  color:#9aa3ab;
   cursor:pointer;
+  font-size:14px;
 }
 
-.lirya-form .dropdown-menu{
+.lirya-form-scope .dropdown-menu{
   position:absolute;
   top:calc(100% + 10px);
-  left:0; right:0;
+  left:0;right:0;
   background:rgba(255,255,255,.96);
   border-radius:14px;
   box-shadow:0 18px 40px rgba(0,0,0,.25);
@@ -430,27 +427,32 @@ header{
   z-index:9999;
 }
 
-.lirya-form .dropdown-menu.open{display:block}
+.lirya-form-scope .dropdown-menu.open{display:block}
 
-.lirya-form .dropdown-item{
+.lirya-form-scope .dropdown-item{
   padding:12px 18px;
   color:#7a7a7a;
+  font-size:14px;
   cursor:pointer;
 }
-.lirya-form .dropdown-item + .dropdown-item{margin-top:4px}
-.lirya-form .dropdown-item:hover{
+
+.lirya-form-scope .dropdown-item + .dropdown-item{
+  margin-top:4px;
+}
+
+.lirya-form-scope .dropdown-item:hover{
   background:#f4f7fb;
   color:#333;
 }
 
-/* ===== NAV ===== */
-.lirya-form .nav{
+/* NAV */
+.lirya-form-scope .nav{
   display:flex;
   gap:12px;
   margin-top:24px;
 }
 
-.lirya-form button{
+.lirya-form-scope button{
   padding:14px;
   border-radius:10px;
   border:none;
@@ -458,91 +460,314 @@ header{
   font-size:15px;
 }
 
-.lirya-form .back{
+.lirya-form-scope .back{
   background:rgba(255,255,255,.15);
   color:#fff;
 }
 
-.lirya-form .next{
-  background:#ff8a2a;
+.lirya-form-scope .next{
+  background:#f28c28;
   color:#fff;
   flex:1;
 }
 
-.lirya-form .submit{
+.lirya-form-scope .submit{
   background:#4caf50;
   color:#fff;
   flex:1;
 }
 </style>
 
-<div class="lirya-form">
+<div class="wrapper">
 
-<h2>Cuéntanos vuestra historia</h2>
+<h1>Cuéntanos vuestra historia</h1>
 <div class="subtitle">Cuéntanos los detalles que harán vuestra canción única</div>
 
 <div class="progress" id="lf-progress"></div>
 
 <div class="card">
 
-<!-- 🔥 AQUÍ VAN LOS 6 PASOS CON LAS 18 PREGUNTAS -->
-<!-- (idénticos a los que ya validamos, sin tocar nada) -->
+<!-- ================= PASO 1 ================= -->
+<div class="step active">
+<div class="step-title">Paso 1 de 6 — Personas</div>
 
-<!-- Para no duplicar 2000 líneas aquí otra vez -->
-<!-- 👉 ESTE BLOQUE ES 100 % COMPATIBLE con el último formulario completo que te pasé -->
-<!-- 👉 SOLO cambia el contenedor y el aislamiento -->
+<div class="question">
+<label>Nombre de quien recibirá la canción</label>
+<input placeholder="Ej: Laura, Mi amor, Cariño…">
+</div>
+
+<div class="question">
+<label>Tu nombre (quien regala)</label>
+<input placeholder="Ej: Juan">
+</div>
+
+<div class="question">
+<label>Tipo de relación</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Pareja</div>
+<div class="dropdown-item">Matrimonio</div>
+<div class="dropdown-item">Ex pareja (reconciliación)</div>
+<div class="dropdown-item">Amor secreto</div>
+<div class="dropdown-item">Familiar</div>
+<div class="dropdown-item">Amistad especial</div>
+</div>
+</div>
+</div>
+
+<div class="nav">
+<button class="next">Siguiente →</button>
+</div>
+</div>
+
+<!-- ================= PASO 2 ================= -->
+<div class="step">
+<div class="step-title">Paso 2 de 6 — Origen de la historia</div>
+
+<div class="question">
+<label>¿Cómo os conocisteis?</label>
+<textarea placeholder="Ej: En una cafetería por casualidad…"></textarea>
+</div>
+
+<div class="question">
+<label>Un momento que lo cambió todo</label>
+<textarea placeholder="Ej: Nuestro primer beso…"></textarea>
+</div>
+
+<div class="question">
+<label>¿Por qué esta canción es importante ahora?</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Aniversario</div>
+<div class="dropdown-item">Cumpleaños</div>
+<div class="dropdown-item">Reconciliación</div>
+<div class="dropdown-item">San Valentín</div>
+<div class="dropdown-item">Sorpresa sin motivo</div>
+<div class="dropdown-item">Otro</div>
+</div>
+</div>
+</div>
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
+
+<!-- ================= PASO 3 ================= -->
+<div class="step">
+<div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
+
+<div class="question">
+<label>Tres palabras que definan a esa persona</label>
+<input placeholder="Ej: intensa, dulce, valiente">
+</div>
+
+<div class="question">
+<label>Una frase que te gustaría decirle</label>
+<textarea placeholder="Ej: Siempre estaré contigo…"></textarea>
+</div>
+
+<div class="question">
+<label>¿Qué emoción debe sentir?</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Amor profundo</div>
+<div class="dropdown-item">Nostalgia</div>
+<div class="dropdown-item">Alegría</div>
+<div class="dropdown-item">Emoción intensa</div>
+<div class="dropdown-item">Calma y ternura</div>
+</div>
+</div>
+</div>
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
+
+<!-- ================= PASO 4 ================= -->
+<div class="step">
+<div class="step-title">Paso 4 de 6 — Música</div>
+
+<div class="question">
+<label>Estilo musical principal</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Balada romántica</div>
+<div class="dropdown-item">Pop emocional</div>
+<div class="dropdown-item">Indie acústico</div>
+<div class="dropdown-item">R&B / Soul</div>
+<div class="dropdown-item">Rock suave</div>
+<div class="dropdown-item">Electrónica chill</div>
+<div class="dropdown-item">Reggaetón lento</div>
+<div class="dropdown-item">Cinematográfico</div>
+</div>
+</div>
+</div>
+
+<div class="question">
+<label>Ritmo</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Lento</div>
+<div class="dropdown-item">Medio</div>
+<div class="dropdown-item">Progresivo</div>
+</div>
+</div>
+</div>
+
+<div class="question">
+<label>Tipo de voz</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Masculina</div>
+<div class="dropdown-item">Femenina</div>
+<div class="dropdown-item">Dúo</div>
+<div class="dropdown-item">Me da igual</div>
+</div>
+</div>
+</div>
+
+<div class="question">
+<label>Idioma</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Español</div>
+<div class="dropdown-item">Inglés</div>
+<div class="dropdown-item">Spanglish</div>
+</div>
+</div>
+</div>
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
+
+<!-- ================= PASO 5 ================= -->
+<div class="step">
+<div class="step-title">Paso 5 de 6 — Detalles finales</div>
+
+<div class="question">
+<label>¿Quieres que aparezca su nombre?</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Sí</div>
+<div class="dropdown-item">No</div>
+</div>
+</div>
+</div>
+
+<div class="question">
+<label>¿Algo que NO deba mencionarse?</label>
+<textarea placeholder="Opcional"></textarea>
+</div>
+
+<div class="question">
+<label>Intensidad emocional</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Suave</div>
+<div class="dropdown-item">Emotiva</div>
+<div class="dropdown-item">Muy intensa</div>
+</div>
+</div>
+</div>
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
+
+<!-- ================= PASO 6 ================= -->
+<div class="step">
+<div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+
+<div class="question">
+<label>Email</label>
+<input type="email" placeholder="ejemplo@email.com">
+</div>
+
+<div class="question">
+<label>¿También por WhatsApp?</label>
+<div class="dropdown">
+<button class="dropdown-btn">Elige una opción ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item">Sí</div>
+<div class="dropdown-item">No</div>
+</div>
+</div>
+</div>
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="submit">Crear mi canción</button>
+</div>
+</div>
 
 </div>
 </div>
 
 <script>
 (() => {
-  const form = document.querySelector(".lirya-form");
-  const steps = [...form.querySelectorAll(".step")];
+  const scope = document.querySelector('.lirya-form-scope');
+  const steps = [...scope.querySelectorAll('.step')];
   let i = 0;
 
-  const progress = document.getElementById("lf-progress");
+  const progress = scope.querySelector('#lf-progress');
   steps.forEach((_,x)=>{
-    const s=document.createElement("span");
-    if(x===0)s.classList.add("active");
+    const s=document.createElement('span');
+    if(x===0)s.classList.add('active');
     progress.appendChild(s);
   });
 
   function render(){
-    steps.forEach((s,x)=>s.classList.toggle("active",x===i));
-    [...progress.children].forEach((p,x)=>p.classList.toggle("active",x<=i));
+    steps.forEach((s,x)=>s.classList.toggle('active',x===i));
+    [...progress.children].forEach((p,x)=>p.classList.toggle('active',x<=i));
   }
 
-  form.addEventListener("click",e=>{
-    if(e.target.classList.contains("next")){i++;render()}
-    if(e.target.classList.contains("back")){i--;render()}
+  scope.addEventListener('click',e=>{
+    if(e.target.classList.contains('next')){i++;render()}
+    if(e.target.classList.contains('back')){i--;render()}
   });
 
-  form.querySelectorAll(".dropdown").forEach(d=>{
-    const btn=d.querySelector(".dropdown-btn");
-    const menu=d.querySelector(".dropdown-menu");
+  scope.querySelectorAll('.dropdown').forEach(d=>{
+    const btn=d.querySelector('.dropdown-btn');
+    const menu=d.querySelector('.dropdown-menu');
 
-    btn.addEventListener("click",e=>{
+    btn.addEventListener('click',e=>{
       e.stopPropagation();
-      form.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
-      menu.classList.toggle("open");
+      scope.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
+      menu.classList.toggle('open');
     });
 
-    d.querySelectorAll(".dropdown-item").forEach(it=>{
+    d.querySelectorAll('.dropdown-item').forEach(it=>{
       it.onclick=()=>{
         btn.textContent=it.textContent;
-        btn.style.color="#333";
-        menu.classList.remove("open");
+        btn.style.color='#333';
+        menu.classList.remove('open');
       }
     });
   });
 
-  document.addEventListener("click",()=>{
-    form.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
+  document.addEventListener('click',()=>{
+    scope.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
   });
 })();
 </script>
 
 </section>
-
 
