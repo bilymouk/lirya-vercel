@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LIRYA — Canciones personalizadas</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -89,19 +89,19 @@ header{
 .hero-desktop h1{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
-  margin-bottom:24px;
+  margin-bottom:22px;
 }
 
-/* TEXTO ELEGANTE PRINCIPAL */
-.hero-description{
+/* TEXTO MUSICAL / EDITORIAL */
+.hero-desktop p{
   font-family:'Playfair Display',serif;
   font-size:1.25rem;
-  line-height:1.55;
-  letter-spacing:.3px;
-  font-weight:500;
-  opacity:.92;
-  max-width:540px;
-  margin-bottom:36px;
+  font-weight:400;
+  line-height:1.6;
+  letter-spacing:0.3px;
+  opacity:0.9;
+  margin-bottom:34px;
+  max-width:560px;
 }
 
 /* CTA */
@@ -115,18 +115,17 @@ header{
   display:inline-block;
 }
 
-/* FIRMA ELEGANTE */
+/* FIRMA POÉTICA */
 .hero-note{
-  display:block;
-  margin-top:22px;
   font-family:'Playfair Display',serif;
-  font-size:.95rem;
-  letter-spacing:1.4px;
-  text-transform:uppercase;
-  opacity:.65;
+  font-style:italic;
+  font-size:1rem;
+  letter-spacing:0.5px;
+  opacity:0.75;
+  margin-top:18px;
+  display:block;
 }
 
-/* IMAGEN */
 .hero-phone{
   width:360px;
   animation:floatPhone 5s ease-in-out infinite;
@@ -148,17 +147,28 @@ header{
 .hero-mobile img{
   width:85%;
   max-width:340px;
-  margin:18px auto 26px;
+  margin:18px auto 24px;
   animation:floatPhone 5s ease-in-out infinite;
 }
 
-.hero-mobile .hero-description{
+/* TEXTO MUSICAL MOBILE */
+.hero-mobile p{
+  font-family:'Playfair Display',serif;
   font-size:1.15rem;
-  margin-bottom:26px;
+  line-height:1.6;
+  letter-spacing:0.3px;
+  opacity:0.9;
+  margin-bottom:24px;
 }
 
+/* FIRMA MOBILE */
 .hero-mobile .hero-note{
-  margin-top:18px;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:.95rem;
+  letter-spacing:0.5px;
+  opacity:0.75;
+  margin-top:16px;
 }
 
 /* ===== ANIMATION ===== */
@@ -202,12 +212,10 @@ header{
     <div class="hero-desktop">
       <div>
         <h1>Una canción creada a partir de vuestra historia</h1>
-
-        <p class="hero-description">
+        <p>
           Transformamos historias reales en canciones únicas.
           Un regalo emocional que se escucha y se recuerda.
         </p>
-
         <a href="#formulario" class="hero-btn">EMPEZAR</a>
         <span class="hero-note">Cada canción es única</span>
       </div>
@@ -223,7 +231,7 @@ header{
 
       <img src="/mockup-phone-final.png" alt="Canción personalizada">
 
-      <p class="hero-description">
+      <p>
         Transformamos historias reales en canciones únicas.
         Un regalo emocional que se escucha y se recuerda.
       </p>
@@ -778,6 +786,7 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
 
