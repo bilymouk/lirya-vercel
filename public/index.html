@@ -948,78 +948,126 @@ document.addEventListener("click",()=>{
 </section>
 
 <style>
+<!-- ===== EJEMPLOS REALES ===== -->
+<section class="examples">
+  <div class="examples-overlay"></div>
+
+  <div class="examples-container">
+    <h2>Ejemplos reales</h2>
+    <p class="examples-subtitle">
+      Así suenan las canciones personalizadas. Historias reales, emociones reales.
+    </p>
+
+    <div class="examples-cards">
+      <div class="example-card">
+        <img src="/ejemplo-1.jpg" alt="Eres mi amor">
+      </div>
+
+      <div class="example-card">
+        <img src="/ejemplo-2.jpg" alt="Papá">
+      </div>
+
+      <div class="example-card">
+        <img src="/ejemplo-3.jpg" alt="Amigas por siempre">
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
 /* ===== EJEMPLOS REALES ===== */
-.examples {
-  position: relative;
-  padding: 120px 20px;
-  background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
-  color: #fff;
+.examples{
+  position:relative;
+  padding:90px 20px 100px;
+  background:url('/ondas-neon-ejemplos.png') center/cover no-repeat;
+  color:#fff;
 }
 
-.examples-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(5, 6, 20, 0.75);
+/* Overlay oscuro */
+.examples-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(5,6,20,0.78);
 }
 
-.examples-container {
-  position: relative;
-  z-index: 2;
-  max-width: 1100px;
-  margin: 0 auto;
-  text-align: center;
+/* Contenedor */
+.examples-container{
+  position:relative;
+  z-index:2;
+  max-width:1150px;
+  margin:0 auto;
+  text-align:center;
 }
 
-.examples h2 {
-  font-size: 2.4rem;
-  margin-bottom: 60px;
+/* Título */
+.examples h2{
+  font-family:'Playfair Display',serif;
+  font-size:2.4rem;
+  font-weight:700;
+  color:var(--gold);
+  margin-bottom:6px;
 }
 
-.examples-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+/* Subtítulo */
+.examples-subtitle{
+  font-family:'Inter',sans-serif;
+  font-size:0.95rem;
+  color:#d0d0d0;
+  margin-bottom:46px;
 }
 
-.example-card {
-  background: rgba(255,255,255,0.06);
-  border-radius: 18px;
-  overflow: hidden;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease;
+/* Grid de cards */
+.examples-cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:30px;
 }
 
-.example-card:hover {
-  transform: translateY(-8px);
+/* Card */
+.example-card{
+  background:rgba(255,255,255,0.05);
+  border-radius:18px;
+  overflow:hidden;
+  backdrop-filter:blur(10px);
+  box-shadow:0 18px 35px rgba(0,0,0,0.45);
+  transition:transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.example-card img {
-  width: 100%;
-  display: block;
+/* Hover */
+.example-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 26px 45px rgba(0,0,0,0.6);
 }
 
-.example-card h3 {
-  margin: 20px 0 10px;
-  font-size: 1.3rem;
+/* Imagen */
+.example-card img{
+  width:100%;
+  display:block;
+  border-radius:18px;
 }
 
-.example-card p {
-  padding: 0 20px 25px;
-  font-size: 0.95rem;
-  color: #ddd;
-}
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
 
-/* Responsive */
-@media (max-width: 900px) {
-  .examples-cards {
-    grid-template-columns: 1fr;
+  .examples{
+    padding:70px 16px 80px;
+  }
+
+  .examples-cards{
+    grid-template-columns:1fr;
+    gap:24px;
+  }
+
+  .examples h2{
+    font-size:2.1rem;
+  }
+
+  .examples-subtitle{
+    font-size:0.9rem;
+    margin-bottom:34px;
   }
 }
 </style>
-
-
-
 
 
 
