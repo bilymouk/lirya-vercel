@@ -84,16 +84,25 @@ header{
   align-items:center;
 }
 
-.hero-desktop h1{
+/* 🔥 TEXTO DESKTOP AJUSTADO */
+.hero-text{
+  padding-left:40px;              /* mueve texto a la derecha */
+  transform:translateY(-28px);    /* sube texto para alinearlo con la imagen */
+}
+
+.hero-text h1{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
   margin-bottom:24px;
 }
 
-.hero-desktop p{
+.hero-text p{
+  font-family:'Playfair Display',serif;
   font-size:1.15rem;
-  margin-bottom:36px;
-  max-width:540px;
+  line-height:1.6;
+  margin-bottom:34px;
+  max-width:520px;
+  opacity:.95;
 }
 
 .hero-btn{
@@ -108,12 +117,13 @@ header{
 
 .hero-note{
   display:block;
-  margin-top:20px;
+  margin-top:18px;
   font-size:.9rem;
   font-style:italic;
   opacity:.85;
 }
 
+/* IMAGEN DESKTOP */
 .hero-phone{
   width:360px;
   animation:floatPhoneDesktop 5s ease-in-out infinite;
@@ -132,7 +142,6 @@ header{
   margin-bottom:6px;
 }
 
-/* 🔥 IMAGEN MÓVIL AJUSTADA */
 .hero-mobile img{
   width:85%;
   max-width:340px;
@@ -141,7 +150,6 @@ header{
   animation:floatPhoneMobile 5s ease-in-out infinite;
 }
 
-/* TEXTO */
 .hero-mobile p{
   font-family:'Playfair Display',serif;
   font-size:1.15rem;
@@ -166,7 +174,6 @@ header{
   100%{transform:translateY(0)}
 }
 
-/* 🔥 BAJAMOS LA FOTO EN MÓVIL */
 @keyframes floatPhoneMobile{
   0%{transform:translateY(12px)}
   50%{transform:translateY(-2px)}
@@ -205,7 +212,7 @@ header{
 
     <!-- DESKTOP -->
     <div class="hero-desktop">
-      <div>
+      <div class="hero-text">
         <h1>Una canción creada a partir de vuestra historia</h1>
         <p>
           Transformamos historias reales en canciones únicas.
@@ -778,6 +785,7 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
 
