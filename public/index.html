@@ -61,8 +61,8 @@ header{
 /* ===== HERO ===== */
 .hero{
   position:relative;
-  min-height:85vh; /* REDUCIDO */
-  padding:40px 0;  /* REDUCIDO */
+  min-height:85vh;
+  padding:40px 0;
   background:url('/cascos-neon.png') center/cover no-repeat;
   display:flex;
   align-items:center;
@@ -88,7 +88,7 @@ header{
   align-items:center;
 }
 
-/* ===== TELÉFONO ===== */
+/* ===== IMAGEN ===== */
 .hero-left{
   display:flex;
   justify-content:center;
@@ -96,15 +96,10 @@ header{
 
 .hero-phone{
   width:357px;
-  margin-top:20px;
   animation:floatPhone 5s ease-in-out infinite;
 }
 
 /* ===== TEXTO ===== */
-.hero-right{
-  margin-top:-10px;
-}
-
 .hero-right h1{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
@@ -115,7 +110,7 @@ header{
 .hero-right p{
   font-size:1.15rem;
   max-width:540px;
-  margin-bottom:34px;
+  margin-bottom:26px;
 }
 
 .hero-btn{
@@ -130,7 +125,7 @@ header{
 
 .hero-note{
   display:block;
-  margin-top:22px;
+  margin-top:18px;
   font-size:.9rem;
   opacity:.9;
 }
@@ -147,24 +142,21 @@ header{
 
   .hero{
     min-height:auto;
-    padding:36px 0; /* más compacto */
+    padding:36px 0;
   }
 
   .hero-content{
     grid-template-columns:1fr;
+    gap:28px;
     text-align:center;
-    gap:32px;
   }
 
-  /* ORDEN MOBILE */
-  .hero-right{
-    order:1;
-    margin-top:0;
-  }
-
-  .hero-left{
-    order:2;
-  }
+  /* ORDEN MOBILE EXACTO */
+  .hero-right h1{ order:1; }
+  .hero-left{ order:2; }
+  .hero-right p{ order:3; }
+  .hero-btn{ order:4; }
+  .hero-note{ order:5; }
 
   .hero-phone{
     width:100%;
@@ -173,23 +165,11 @@ header{
   }
 
   .hero-right h1{
-    order:3;
     font-size:2.6rem;
-    margin-top:10px;
-  }
-
-  .hero-btn{
-    order:4;
-  }
-
-  .hero-note{
-    order:5;
-    margin-top:18px;
   }
 
   .hero-right p{
     font-size:1.05rem;
-    margin-bottom:22px;
   }
 }
 </style>
@@ -212,12 +192,12 @@ header{
     </div>
 
     <div class="hero-right">
+      <h1>Una canción creada a partir de vuestra historia</h1>
+
       <p>
         Transformamos historias reales en canciones únicas.
         Un regalo emocional que se escucha y se recuerda.
       </p>
-
-      <h1>Una canción creada a partir de vuestra historia</h1>
 
       <a href="#formulario" class="hero-btn">EMPEZAR</a>
       <span class="hero-note">Cada canción es única</span>
@@ -769,6 +749,7 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+
 
 
 
