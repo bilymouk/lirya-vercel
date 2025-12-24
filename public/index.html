@@ -786,6 +786,127 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
+<!-- ===== COMO FUNCIONA ===== -->
+<style>
+/* ===== COMO FUNCIONA ===== */
+.como-funciona {
+  background: #ffffff;
+  padding: 90px 20px;
+  text-align: center;
+}
+
+.como-funciona h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  color: #c7b58a;
+  font-weight: 700;
+  margin-bottom: 70px;
+}
+
+/* GRID */
+.como-funciona-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* CARD */
+.como-card {
+  background: #f9f8f6;
+  border-radius: 16px;
+  padding: 55px 35px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.como-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 24px 45px rgba(0,0,0,0.12);
+}
+
+/* NUMERO */
+.como-numero {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #c7b58a;
+  margin-bottom: 18px;
+}
+
+/* TITULO CARD */
+.como-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 14px;
+}
+
+/* TEXTO */
+.como-card p {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #555;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+
+  .como-funciona {
+    padding: 70px 18px;
+  }
+
+  .como-funciona h2 {
+    font-size: 32px;
+    margin-bottom: 50px;
+  }
+
+  .como-funciona-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .como-card {
+    padding: 45px 28px;
+  }
+}
+</style>
+
+<section class="como-funciona">
+  <h2>Cómo funciona</h2>
+
+  <div class="como-funciona-grid">
+
+    <div class="como-card">
+      <div class="como-numero">1</div>
+      <h3>Cuéntanos vuestra historia</h3>
+      <p>
+        Rellena el formulario con los detalles que hacen vuestra historia única y especial.
+      </p>
+    </div>
+
+    <div class="como-card">
+      <div class="como-numero">2</div>
+      <h3>Creamos la canción</h3>
+      <p>
+        Convertimos vuestra historia en una canción personalizada con letra y música.
+      </p>
+    </div>
+
+    <div class="como-card">
+      <div class="como-numero">3</div>
+      <h3>La recibes en 24h</h3>
+      <p>
+        Descárgala en MP3, compártela y revive el regalo siempre que quieras.
+      </p>
+    </div>
+
+  </div>
+</section>
+
 
 
 
