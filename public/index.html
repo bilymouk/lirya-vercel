@@ -305,95 +305,99 @@ header{
   </div>
 </section>
 
-  <!DOCTYPE html>
+<!-- ===== FORMULARIO LIRYA NUEVO ===== -->
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>LIRYA — Cuéntanos vuestra historia</title>
+<title>LIRYA – Cuéntanos vuestra historia</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-/* ===== BASE ===== */
+/* ===== FONDO ===== */
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  color: #fff;
   background: url('/public/musica-neon.png') center/cover no-repeat fixed;
-  position: relative;
+  color: #fff;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  z-index: 0;
-}
-
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 640px; /* 30% más compacto */
-  margin: auto;
-  padding: 40px 20px 60px;
+.bg-overlay {
+  background: rgba(0,0,0,0.55);
+  min-height: 100vh;
 }
 
 /* ===== HEADER ===== */
 .header {
   text-align: center;
-  margin-bottom: 35px;
+  padding: 50px 20px 30px;
 }
 
 .header h1 {
   font-family: 'Playfair Display', serif;
   font-size: 34px;
-  color: #f3c98b;
+  color: #f5c77a;
   margin-bottom: 8px;
 }
 
 .header p {
-  opacity: 0.85;
   font-size: 15px;
+  opacity: 0.9;
 }
 
-/* ===== PROGRESO ===== */
 .progress {
   display: flex;
   gap: 10px;
   max-width: 320px;
-  margin: 25px auto 0;
+  margin: 20px auto 0;
 }
 
 .progress span {
   flex: 1;
   height: 3px;
-  background: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.3);
   border-radius: 10px;
 }
 
 .progress span.active {
-  background: linear-gradient(90deg, #f3c98b, #d6a04c);
+  background: #F28C28;
+}
+
+/* ===== CONTENEDOR ===== */
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 20px 20px 60px;
 }
 
 /* ===== CARD ===== */
 .card {
-  background: rgba(0,0,0,0.45);
-  border-radius: 18px;
+  background: #1c1c1c;
+  border-radius: 20px;
   padding: 30px;
-  backdrop-filter: blur(6px);
+  width: 100%;
+  max-width: 520px;
 }
 
-.step {
+.step-title {
   font-family: 'Playfair Display', serif;
-  color: #f3c98b;
+  color: #f5c77a;
   margin-bottom: 20px;
 }
 
 /* ===== FORM ===== */
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
 .question {
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 label {
@@ -402,75 +406,58 @@ label {
   font-size: 14px;
 }
 
-input, textarea, select {
+input, select {
   width: 100%;
   padding: 14px 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   font-size: 14px;
-  background: #fff;
-  color: #000;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 90px;
 }
 
 ::placeholder {
-  color: #999;
+  color: #aaa;
   font-style: italic;
 }
 
 /* ===== BOTONES ===== */
-.buttons {
+.actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 28px;
   gap: 12px;
+  margin-top: 25px;
 }
 
-button {
-  font-family: 'Playfair Display', serif;
-  padding: 14px 24px;
+.btn {
+  flex: 1;
+  padding: 16px;
   border-radius: 30px;
   border: none;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 15px;
 }
 
-.back {
-  background: rgba(255,255,255,0.08);
+.btn-next {
+  background: #F28C28;
   color: #fff;
 }
 
-.next {
-  background: linear-gradient(135deg, #f3c98b, #d6a04c);
+.btn-back {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.btn-pay {
+  background: #7ED957;
   color: #000;
-  flex: 1;
-}
-
-.pay {
-  background: linear-gradient(135deg, #7ed957, #4CAF50);
-  color: #000;
-  flex: 1;
-}
-
-.full {
-  width: 100%;
-}
-
-.hidden {
-  display: none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="bg-overlay">
 
-  <!-- HEADER FIJO -->
+  <!-- HEADER -->
   <div class="header">
     <h1>Cuéntanos vuestra historia</h1>
     <p>Cuéntanos los detalles que harán vuestra canción única</p>
@@ -484,84 +471,94 @@ button {
     </div>
   </div>
 
-  <form id="form">
+  <!-- FORMULARIO -->
+  <div class="container">
+    <div class="card">
 
-    <!-- PASO 1 -->
-    <div class="card step-page">
-      <div class="step">Paso 1 de 6 — Personas</div>
+      <!-- PASO 1 -->
+      <div class="step active">
+        <div class="step-title">Paso 1 de 6 — Personas</div>
 
-      <div class="question">
-        <label>Nombre de quien recibirá la canción</label>
-        <input placeholder="Ej: Laura, Mi amor, Cariño…" required>
+        <div class="question">
+          <label>Nombre de quien recibirá la canción</label>
+          <input placeholder="Ej: Laura, Mi amor, Cariño…">
+        </div>
+
+        <div class="question">
+          <label>Tu nombre</label>
+          <input placeholder="Ej: Juan">
+        </div>
+
+        <div class="question">
+          <label>Tipo de relación</label>
+          <select>
+            <option>Pareja</option>
+            <option>Matrimonio</option>
+            <option>Ex pareja</option>
+            <option>Familiar</option>
+            <option>Amistad especial</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-next" onclick="nextStep()">Siguiente →</button>
+        </div>
       </div>
 
-      <div class="question">
-        <label>Tu nombre</label>
-        <input placeholder="Ej: Carlos" required>
+      <!-- PASO 6 (ejemplo final) -->
+      <div class="step">
+        <div class="step-title">Paso 6 de 6 — Entrega</div>
+
+        <div class="question">
+          <label>Email donde enviaremos la canción</label>
+          <input placeholder="Ej: tuemail@gmail.com">
+        </div>
+
+        <div class="question">
+          <label>¿Quieres recibirla también por WhatsApp?</label>
+          <select>
+            <option>No</option>
+            <option>Sí</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-back" onclick="prevStep()">← Atrás</button>
+          <button class="btn btn-pay">Crear mi canción</button>
+        </div>
       </div>
 
-      <div class="question">
-        <label>Tipo de relación</label>
-        <select>
-          <option>Pareja</option>
-          <option>Matrimonio</option>
-          <option>Ex pareja</option>
-          <option>Amor secreto</option>
-          <option>Familiar</option>
-          <option>Amistad especial</option>
-        </select>
-      </div>
-
-      <div class="buttons">
-        <button type="button" class="next full">Siguiente →</button>
-      </div>
     </div>
+  </div>
 
-    <!-- PASO 6 (EJEMPLO FINAL) -->
-    <div class="card step-page hidden">
-      <div class="step">Paso 6 de 6 — Entrega</div>
-
-      <div class="question">
-        <label>Email (donde enviaremos la canción)</label>
-        <input type="email" placeholder="Ej: tuemail@gmail.com" required>
-      </div>
-
-      <div class="question">
-        <label>¿Quieres recibirla también por WhatsApp?</label>
-        <select>
-          <option>No</option>
-          <option>Sí</option>
-        </select>
-      </div>
-
-      <div class="buttons">
-        <button type="button" class="back">← Atrás</button>
-        <button type="submit" class="pay">Crear mi canción</button>
-      </div>
-    </div>
-
-  </form>
 </div>
 
 <script>
-const pages = document.querySelectorAll('.step-page');
+let currentStep = 0;
+const steps = document.querySelectorAll('.step');
 const bars = document.querySelectorAll('.progress span');
-let current = 0;
 
-function update() {
-  pages.forEach((p,i)=>p.classList.toggle('hidden', i!==current));
-  bars.forEach((b,i)=>b.classList.toggle('active', i<=current));
+function updateSteps() {
+  steps.forEach((s,i)=>s.classList.toggle('active', i === currentStep));
+  bars.forEach((b,i)=>b.classList.toggle('active', i <= currentStep));
 }
 
-document.querySelectorAll('.next').forEach(b=>{
-  b.onclick = ()=>{ current++; update(); };
-});
+function nextStep() {
+  if (currentStep < steps.length - 1) {
+    currentStep++;
+    updateSteps();
+  }
+}
 
-document.querySelectorAll('.back').forEach(b=>{
-  b.onclick = ()=>{ current--; update(); };
-});
+function prevStep() {
+  if (currentStep > 0) {
+    currentStep--;
+    updateSteps();
+  }
+}
 </script>
 
 </body>
 </html>
+
 
