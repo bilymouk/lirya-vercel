@@ -259,7 +259,7 @@ header{
 
 /* === TÍTULO === */
 .titulo-premium-brillante {
-  font-family: "Georgia", "Times New Roman", serif;
+  font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 35px;
   font-weight: 600;
@@ -295,21 +295,27 @@ header{
   box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
 }
 
+/* TÍTULO DE CADA TARJETA */
 .tarjeta-premium-estilo h3 {
-  font-family: "Georgia", "Times New Roman", serif;
+  font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 26.5px;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 
+/* TEXTO — MISMO ESTILO QUE SUBTÍTULO DE EJEMPLOS REALES */
 .tarjeta-premium-estilo p {
-  color: #1a1a1a;
-  font-size: 14.5px;
-  line-height: 1.7;
+  font-family: "Playfair Display", serif;
+  color: rgba(26, 26, 26, 0.75);
+  font-size: 15.5px;
+  line-height: 1.8;
   font-weight: 400;
+  letter-spacing: 0.25px;
+  max-width: 240px;
 }
 
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .titulo-premium-brillante {
     font-size: 30px;
@@ -324,6 +330,10 @@ header{
   .tarjeta-premium-estilo {
     width: 95%;
   }
+
+  .tarjeta-premium-estilo p {
+    font-size: 15px;
+  }
 }
 </style>
 
@@ -333,20 +343,30 @@ header{
   <div class="grid-premium-cards">
     <div class="tarjeta-premium-estilo">
       <h3>Único</h3>
-      <p>No existe otra canción igual. Cada letra se crea exclusivamente a partir de vuestra historia.</p>
+      <p>
+        No existe otra canción igual. Cada letra se crea exclusivamente
+        a partir de vuestra historia.
+      </p>
     </div>
 
     <div class="tarjeta-premium-estilo">
       <h3>Emocional</h3>
-      <p>No es una canción genérica. Es vuestra historia convertida en letra y música.</p>
+      <p>
+        No es una canción genérica. Es vuestra historia convertida
+        en letra y música.
+      </p>
     </div>
 
     <div class="tarjeta-premium-estilo">
       <h3>Premium</h3>
-      <p>Pensada para regalar. Hecha para conservarla y recordarla para siempre.</p>
+      <p>
+        Pensada para regalar. Hecha para conservarla
+        y recordarla para siempre.
+      </p>
     </div>
   </div>
 </section>
+
 <section id="formulario" class="lirya-form-scope">
 
 <!-- ===== cuentanos vuestra historia ===== -->
@@ -1119,6 +1139,7 @@ document.addEventListener("click",()=>{
     Nuestro objetivo no es solo crear una canción, sino un recuerdo que querréis conservar para siempre.
   </p>
 </section>
+
 
 
 
