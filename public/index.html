@@ -911,3 +911,122 @@ document.addEventListener("click",()=>{
 </section>
 
 <section id="formulario" class="lirya-form-scope">
+<!-- ===== EJEMPLOS REALES ===== -->
+<style>
+.examples {
+  position: relative;
+  padding: 100px 20px;
+  background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
+  color: #fff;
+}
+
+.examples::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 25, 0.75);
+}
+
+.examples-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* === TÍTULO === */
+.examples h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 38px;
+  color: #d4b483;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+/* === SUBTÍTULO === */
+.examples-subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px;
+  color: #ffffff;
+  opacity: 0.85;
+  margin-bottom: 60px;
+  letter-spacing: 0.3px;
+}
+
+/* === GRID === */
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 45px;
+}
+
+/* === CARD BASE === */
+.example-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 0 18px rgba(255,255,255,0.15);
+}
+
+.example-card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 35px rgba(255,255,255,0.45);
+}
+
+/* === IMAGE === */
+.example-card img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
+/* === CARD NAMES === */
+.eres-mi-amor-card {}
+.papa-card {}
+.amigas-card {}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .examples-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .examples h2 {
+    font-size: 32px;
+  }
+
+  .examples-subtitle {
+    font-size: 15px;
+  }
+}
+</style>
+
+<section class="examples">
+  <div class="examples-inner">
+    <h2>Ejemplos reales</h2>
+    <p class="examples-subtitle">
+      Así suenan las canciones personalizadas. Historias reales, emociones reales.
+    </p>
+
+    <div class="examples-grid">
+      <div class="example-card eres-mi-amor-card">
+        <img src="/eres-mi-amor.jpg" alt="Eres mi amor">
+      </div>
+
+      <div class="example-card papa-card">
+        <img src="/papa.jpg" alt="Papá">
+      </div>
+
+      <div class="example-card amigas-card">
+        <img src="/amigas.jpg" alt="Amigas por siempre">
+      </div>
+    </div>
+  </div>
+</section>
+
+
