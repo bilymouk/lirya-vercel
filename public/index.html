@@ -1026,38 +1026,39 @@ document.addEventListener("click",()=>{
 </section>
 <!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
 <style>
+/* ===== GARANTÍA DE SATISFACCIÓN ===== */
+
 .lirya-guarantee {
-  background: #f7f7f7;
+  background: #ffffff;
   padding: 90px 20px;
   text-align: center;
 }
 
-.lirya-guarantee-inner {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
+/* Título */
 .lirya-guarantee h2 {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 34px;
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
   color: #c7b58a;
-  font-weight: 600;
-  margin-bottom: 18px;
-  line-height: 1.2;
+  margin-bottom: 36px;
+  letter-spacing: 0.4px;
 }
 
-.lirya-guarantee p {
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  color: #2a2a2a;
-  line-height: 1.75;
-  max-width: 760px;
-  margin: 0 auto;
+/* Texto estilo musical elegante (MISMO ESTILO que “Ejemplos reales”) */
+.lirya-guarantee-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: rgba(26, 26, 26, 0.85);
+  line-height: 1.9;
+  letter-spacing: 0.3px;
+  max-width: 780px;
+  margin: 0 auto 26px;
 }
 
 /* Línea decorativa sutil */
-.lirya-guarantee-line {
-  width: 70px;
+.lirya-guarantee-divider {
+  width: 80px;
   height: 2px;
   background: linear-gradient(
     to right,
@@ -1065,15 +1066,7 @@ document.addEventListener("click",()=>{
     #c7b58a,
     transparent
   );
-  margin: 28px auto;
-}
-
-/* Extra refuerzo confianza */
-.lirya-guarantee-note {
-  margin-top: 22px;
-  font-size: 14px;
-  color: #555;
-  font-style: italic;
+  margin: 40px auto 0;
 }
 
 /* Responsive */
@@ -1086,31 +1079,26 @@ document.addEventListener("click",()=>{
     font-size: 30px;
   }
 
-  .lirya-guarantee p {
-    font-size: 15px;
+  .lirya-guarantee-text {
+    font-size: 16px;
   }
 }
 </style>
 
 <section class="lirya-guarantee">
-  <div class="lirya-guarantee-inner">
-    <h2>Garantía de satisfacción</h2>
+  <h2>Garantía de satisfacción</h2>
 
-    <div class="lirya-guarantee-line"></div>
+  <p class="lirya-guarantee-text">
+    Queremos que la canción os emocione de verdad.  
+    Cada historia es única y la tratamos con el cuidado que merece.
+  </p>
 
-    <p>
-      Queremos que la canción os emocione de verdad.  
-      Cada historia es única y la tratamos con el cuidado que merece.
-      <br><br>
-      Si al recibirla necesitas ajustar algún detalle —una frase, un tono o un matiz—
-      estaremos ahí para revisarla contigo.
-    </p>
+  <p class="lirya-guarantee-text">
+    Si al recibirla necesitas ajustar algún detalle —una frase, un tono o un matiz—  
+    estaremos ahí para revisarla contigo.
+  </p>
 
-    <div class="lirya-guarantee-note">
-      Nuestro objetivo no es solo crear una canción,  
-      sino un recuerdo que queráis conservar para siempre.
-    </div>
-  </div>
+  <div class="lirya-guarantee-divider"></div>
 </section>
 
 
