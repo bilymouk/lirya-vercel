@@ -940,7 +940,7 @@ document.addEventListener("click",()=>{
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 38px;
   color: #d4b483;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   font-weight: 600;
 }
 
@@ -961,7 +961,7 @@ document.addEventListener("click",()=>{
   gap: 45px;
 }
 
-/* === CARD BASE === */
+/* === CARD === */
 .example-card {
   position: relative;
   border-radius: 16px;
@@ -969,12 +969,12 @@ document.addEventListener("click",()=>{
   cursor: pointer;
   transition: transform 0.45s ease, box-shadow 0.45s ease;
   border: 1px solid rgba(255,255,255,0.6);
-  box-shadow: 0 0 18px rgba(255,255,255,0.15);
+  box-shadow: 0 0 18px rgba(255,255,255,0.18);
 }
 
 .example-card:hover {
   transform: scale(1.07);
-  box-shadow: 0 0 35px rgba(255,255,255,0.45);
+  box-shadow: 0 0 40px rgba(255,255,255,0.45);
 }
 
 /* === IMAGE === */
@@ -983,11 +983,6 @@ document.addEventListener("click",()=>{
   display: block;
   border-radius: 16px;
 }
-
-/* === CARD NAMES === */
-.eres-mi-amor-card {}
-.papa-card {}
-.amigas-card {}
 
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
@@ -1002,6 +997,7 @@ document.addEventListener("click",()=>{
 
   .examples-subtitle {
     font-size: 15px;
+    margin-bottom: 45px;
   }
 }
 </style>
@@ -1015,18 +1011,19 @@ document.addEventListener("click",()=>{
 
     <div class="examples-grid">
       <div class="example-card eres-mi-amor-card">
-        <img src="/eres-mi-amor.jpg" alt="Eres mi amor">
+        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
       </div>
 
       <div class="example-card papa-card">
-        <img src="/papa.jpg" alt="Papá">
+        <img src="/papa-card.jpg" alt="Papá">
       </div>
 
       <div class="example-card amigas-card">
-        <img src="/amigas.jpg" alt="Amigas por siempre">
+        <img src="/amigas-card.jpg" alt="Amigas por siempre">
       </div>
     </div>
   </div>
 </section>
+
 
 
