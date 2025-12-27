@@ -786,198 +786,128 @@ document.addEventListener("click",()=>{
 
 </section>
 <!-- ================== FIN FORMULARIO LIRYA ================== -->
-<!-- ===== COMO FUNCIONA ===== -->
+<!-- ===== CÓMO FUNCIONA ===== -->
 <style>
-/* ===== COMO FUNCIONA ===== */
-.como-funciona {
-  background: #ffffff;
-  padding: 70px 20px;
+/* ===== CÓMO FUNCIONA ===== */
+
+.lirya-premium-final {
+  background-color: #ffffff;
+  padding: 80px 20px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* === TÍTULO === */
+.titulo-premium-brillante {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #c7b58a;
+  font-size: 35px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-bottom: 60px;
+  line-height: 1.15;
+}
+
+.grid-premium-cards {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tarjeta-premium-estilo {
+  background-color: #fcfaf7;
+  border-radius: 12px;
+  padding: 60px 35px;
+  width: 320px;
+  border: 1px solid rgba(199, 181, 138, 0.35);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tarjeta-premium-estilo:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
+}
+
+/* Número */
+.tarjeta-premium-estilo .paso {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px;
+  color: #c7b58a;
+  margin-bottom: 12px;
+}
+
+/* Título tarjeta */
+.tarjeta-premium-estilo h3 {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #c7b58a;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Texto */
+.tarjeta-premium-estilo p {
+  color: #1a1a1a;
+  font-size: 14.5px;
+  line-height: 1.7;
+  font-weight: 400;
   text-align: center;
 }
 
-.como-funciona h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 34px;
-  color: #c7b58a;
-  font-weight: 700;
-  margin-bottom: 55px;
-}
-
-/* GRID */
-.como-funciona-grid {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
-
-/* CARD */
-.como-card {
-  background: #f9f8f6;
-  border-radius: 14px;
-  padding: 40px 28px; /* MÁS PEQUEÑA */
-  box-shadow: 0 10px 24px rgba(0,0,0,0.05);
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-
-.como-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 36px rgba(0,0,0,0.1);
-}
-
-/* NUMERO */
-.como-numero {
-  font-family: 'Playfair Display', serif;
-  font-size: 34px; /* MÁS PEQUEÑO */
-  font-weight: 700;
-  color: #c7b58a;
-  margin-bottom: 14px;
-}
-
-/* TITULO CARD */
-.como-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 19px; /* MÁS PEQUEÑO */
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 10px;
-}
-
-/* TEXTO */
-.como-card p {
-  font-family: 'Inter', sans-serif;
-  font-size: 13.5px; /* TEXTO MÁS FINO */
-  line-height: 1.55;
-  color: #555;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-
-  .como-funciona {
-    padding: 55px 18px;
-  }
-
-  .como-funciona h2 {
-    font-size: 28px;
-    margin-bottom: 40px;
-  }
-
-  .como-funciona-grid {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  .como-card {
-    padding: 34px 24px;
-  }
-
-  .como-numero {
+/* Responsive */
+@media (max-width: 768px) {
+  .titulo-premium-brillante {
     font-size: 30px;
   }
 
-  .como-card h3 {
-    font-size: 18px;
+  .grid-premium-cards {
+    gap: 30px;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .como-card p {
-    font-size: 13px;
+  .tarjeta-premium-estilo {
+    width: 95%;
   }
 }
 </style>
 
-<section class="como-funciona">
-  <h2>Cómo funciona</h2>
+<section class="lirya-premium-final">
+  <h2 class="titulo-premium-brillante">Cómo funciona</h2>
 
-  <div class="como-funciona-grid">
-
-    <div class="como-card">
-      <div class="como-numero">1</div>
+  <div class="grid-premium-cards">
+    <div class="tarjeta-premium-estilo">
+      <div class="paso">1</div>
       <h3>Cuéntanos vuestra historia</h3>
       <p>
         Rellena el formulario con los detalles que hacen vuestra historia única y especial.
       </p>
     </div>
 
-    <div class="como-card">
-      <div class="como-numero">2</div>
+    <div class="tarjeta-premium-estilo">
+      <div class="paso">2</div>
       <h3>Creamos la canción</h3>
       <p>
         Convertimos vuestra historia en una canción personalizada con letra y música.
       </p>
     </div>
 
-    <div class="como-card">
-      <div class="como-numero">3</div>
+    <div class="tarjeta-premium-estilo">
+      <div class="paso">3</div>
       <h3>La recibes en 24h</h3>
       <p>
-        Descárgala en MP3, compártela y revive el regalo siempre que quieras.
+        Descárgala en MP3, compártela<br>
+        y revive el regalo siempre que quieras.
       </p>
     </div>
-
-  </div>
-</section>
-<!-- ===== EJEMPLOS REALES ===== -->
-<section class="examples">
-  <div class="examples-overlay"></div>
-
-  <div class="examples-container">
-    <h2>Ejemplos reales</h2>
-
-    <div class="examples-cards">
-      <div class="example-card">
-        <img src="/eres-mi-amor-card.jpg" alt="Ejemplo canción pareja">
-        <h3>Eres mi amor</h3>
-        <p>Canción creada a partir de una historia real de pareja.</p>
-      </div>
-
-      <div class="example-card">
-        <img src="/papa-card.jpg" alt="Ejemplo canción padre">
-        <h3>Papá</h3>
-        <p>Un homenaje convertido en música para toda la vida.</p>
-      </div>
-
-      <div class="example-card">
-        <img src="/amigas-card.jpg" alt="Ejemplo canción amigas">
-        <h3>Amigas por siempre</h3>
-        <p>Una historia de amistad transformada en canción.</p>
-      </div>
-    </div>
   </div>
 </section>
 
-<style>
-<!-- ===== EJEMPLOS REALES ===== -->
-<section class="examples">
-  <div class="examples-overlay"></div>
-
-  <div class="examples-container">
-    <h2>Ejemplos reales</h2>
-    <p class="examples-subtitle">
-      Así suenan las canciones personalizadas. Historias reales, emociones reales.
-    </p>
-
-    <div class="examples-cards">
-      <div class="example-card">
-        <img src="/ejemplo-1.jpg" alt="Eres mi amor">
-      </div>
-
-      <div class="example-card">
-        <img src="/ejemplo-2.jpg" alt="Papá">
-      </div>
-
-      <div class="example-card">
-        <img src="/ejemplo-3.jpg" alt="Amigas por siempre">
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-
-
-
-
-
-
+<section id="formulario" class="lirya-form-scope">
