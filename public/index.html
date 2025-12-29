@@ -251,14 +251,14 @@ header{
 </html>
 
 <style>
+
 <style>
-/* ===== SECCIÓN BENEFICIOS LIRYA (FIX DEFINITIVO) ===== */
+/* ===== SECCIÓN BENEFICIOS LIRYA ===== */
 
 .lirya-benefits {
   background: #ffffff;
-  padding: 120px 24px;
-  margin: 120px 0;              /* 🔥 CLAVE: MARGEN EXTERNO */
-  position: relative;           /* evita colapsos */
+  padding: 80px 24px;   /* 🔒 MOBILE OK — NO SE TOCA */
+  position: relative;
   z-index: 2;
 }
 
@@ -271,10 +271,10 @@ header{
 .lirya-benefits h2 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 40px;
+  font-size: 34px;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
   line-height: 1.2;
 }
 
@@ -285,12 +285,12 @@ header{
   gap: 28px;
 }
 
-/* TARJETA */
+/* TARJETAS */
 .benefit-card {
   background: #fcfaf7;
   border: 1px solid rgba(199, 181, 138, 0.35);
   border-radius: 16px;
-  padding: 36px 24px;
+  padding: 32px 22px;
   text-align: center;
   transition:
     transform 0.35s ease,
@@ -298,25 +298,27 @@ header{
     border-color 0.35s ease;
 }
 
-/* HOVER */
-.benefit-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 18px 40px rgba(199, 181, 138, 0.28);
-  border-color: rgba(199, 181, 138, 0.9);
+/* HOVER DESKTOP */
+@media (hover: hover) {
+  .benefit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 18px 40px rgba(199, 181, 138, 0.28);
+    border-color: rgba(199, 181, 138, 0.9);
+  }
 }
 
 /* TEXTOS */
 .benefit-card h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 21px;
-  margin-bottom: 10px;
+  font-size: 20px;
+  margin-bottom: 8px;
 }
 
 .benefit-card p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.75);
-  font-size: 14.5px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
@@ -325,21 +327,24 @@ header{
   background: rgba(199, 181, 138, 0.12);
 }
 
-/* ===== MOBILE ===== */
-@media (max-width: 900px) {
+/* ===== DESKTOP ONLY ===== */
+@media (min-width: 1024px) {
   .lirya-benefits {
-    padding: 90px 20px;
-    margin: 80px 0;
-  }
-
-  .benefits-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    margin: 120px 0;   /* ✅ SOLO DESKTOP */
+    padding: 100px 40px;
   }
 
   .lirya-benefits h2 {
-    font-size: 32px;
-    margin-bottom: 50px;
+    font-size: 38px;
+    margin-bottom: 70px;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 }
 </style>
@@ -372,7 +377,6 @@ header{
   </div>
 </section>
 
-<!-- ===== cuentanos vuestra historia ===== -->
 <!-- ================== FORMULARIO LIRYA ================== -->
 <section id="formulario-lirya">
 
@@ -1252,6 +1256,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
