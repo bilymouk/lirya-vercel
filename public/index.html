@@ -253,137 +253,142 @@ header{
 <style>
 
 <style>
+/* ===== EL REGALO PERFECTO ===== */
 
-  <style>
-/* ===============================
-   SECCIÓN BENEFICIOS – LIRYA
-================================ */
-
-.lirya-benefits {
+.lirya-premium-final {
   background-color: #ffffff;
-  padding: 100px 40px;          /* desktop */
+  padding: 90px 20px; /* margen correcto desktop */
   text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* ===== TÍTULO ===== */
-.lirya-benefits h2 {
+/* === TÍTULO === */
+.titulo-premium-brillante {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 600;
+  letter-spacing: 0.3px;
   margin-bottom: 70px;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
-/* ===== GRID ===== */
-.lirya-benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 en desktop */
-  gap: 30px;
+/* === GRID === */
+.grid-premium-cards {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* ===== TARJETAS ===== */
-.lirya-benefit-card {
+/* === TARJETA === */
+.tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
-  padding: 38px 26px;
+  padding: 40px 24px;
+  width: 260px; /* permite 4 en desktop */
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
-  transition: all 0.35s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
 }
 
 /* Hover desktop */
-@media (hover: hover) {
-  .lirya-benefit-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 22px 45px rgba(199, 181, 138, 0.35);
-    border-color: rgba(199, 181, 138, 0.8);
-  }
+.tarjeta-premium-estilo:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 45px rgba(199, 181, 138, 0.25);
 }
 
-/* ===== TITULO TARJETA ===== */
-.lirya-benefit-card h3 {
+/* TÍTULO TARJETA */
+.tarjeta-premium-estilo h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 22px;
+  font-weight: 600;
   margin-bottom: 14px;
 }
 
-/* ===== TEXTO TARJETA ===== */
-.lirya-benefit-card p {
+/* TEXTO TARJETA */
+.tarjeta-premium-estilo p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.75);
-  font-size: 14.5px;
+  font-size: 14px;
   line-height: 1.7;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  max-width: 210px;
 }
 
-/* ===============================
-   RESPONSIVE
-================================ */
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .lirya-benefits-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Móvil */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .lirya-benefits {
-    padding: 60px 20px;     /* márgenes correctos móvil */
-    margin: 50px 0 70px;   /* separación arriba y abajo */
+  .lirya-premium-final {
+    padding: 70px 20px; /* margen móvil correcto */
   }
 
-  .lirya-benefits h2 {
+  .titulo-premium-brillante {
     font-size: 30px;
-    margin-bottom: 45px;
+    margin-bottom: 50px;
   }
 
-  .lirya-benefits-grid {
-    grid-template-columns: 1fr;
-    gap: 22px;
+  .grid-premium-cards {
+    flex-direction: column;
+    gap: 26px;
+    align-items: center;
   }
 
-  .lirya-benefit-card {
-    padding: 32px 22px;
+  .tarjeta-premium-estilo {
+    width: 95%;
+    padding: 38px 24px;
   }
 
-  .lirya-benefit-card h3 {
-    font-size: 21px;
-  }
-
-  .lirya-benefit-card p {
-    font-size: 14px;
+  .tarjeta-premium-estilo p {
+    font-size: 15px;
+    max-width: 100%;
   }
 }
 </style>
 
-<section class="lirya-benefits">
-  <h2>El regalo perfecto para emocionar de verdad</h2>
+<section class="lirya-premium-final">
+  <h2 class="titulo-premium-brillante">
+    El regalo perfecto para emocionar de verdad
+  </h2>
 
-  <div class="lirya-benefits-grid">
-    <div class="lirya-benefit-card">
-      <h3>Único</h3>
-      <p>No es un objeto. Es vuestra historia convertida en canción.</p>
+  <div class="grid-premium-cards">
+    <div class="tarjeta-premium-estilo">
+      <h3>Hecha con vuestra historia</h3>
+      <p>
+        No es un objeto ni una plantilla.
+        Cada canción nace de vuestra historia real.
+      </p>
     </div>
 
-    <div class="lirya-benefit-card">
-      <h3>Emocional</h3>
-      <p>Incluye momentos reales, palabras exactas y recuerdos personales.</p>
+    <div class="tarjeta-premium-estilo">
+      <h3>Emoción real</h3>
+      <p>
+        Letras escritas con momentos, palabras
+        y recuerdos que importan de verdad.
+      </p>
     </div>
 
-    <div class="lirya-benefit-card">
-      <h3>Pensado para regalar</h3>
-      <p>Creado para conservarlo y revivirlo siempre que quieras.</p>
+    <div class="tarjeta-premium-estilo">
+      <h3>Pensada para regalar</h3>
+      <p>
+        Un detalle único para sorprender,
+        emocionar y recordar para siempre.
+      </p>
     </div>
 
-    <div class="lirya-benefit-card">
+    <div class="tarjeta-premium-estilo">
       <h3>Garantía emocional</h3>
-      <p>Si no te emociona, la ajustamos contigo sin coste.</p>
+      <p>
+        Si no te emociona, la ajustamos contigo
+        sin ningún coste.
+      </p>
     </div>
   </div>
 </section>
@@ -1267,6 +1272,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
