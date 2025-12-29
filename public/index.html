@@ -251,129 +251,115 @@ header{
 </html>
 
 <style>
-/* ===== REGALO PERFECTO ===== */
+<style>
+/* ===== SECCIÓN BENEFICIOS ===== */
 
-.lirya-gift-section {
+.lirya-benefits {
   background: #ffffff;
-  padding: 120px 20px 120px;
-}
-
-/* CONTENEDOR */
-.lirya-gift-inner {
-  max-width: 1000px;
-  margin: 0 auto;
+  padding: 90px 20px;
   text-align: center;
 }
 
-/* TÍTULO */
-.lirya-gift-title {
+.lirya-benefits h2 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 600;
-  line-height: 1.15;
-  margin-bottom: 80px;
+  margin-bottom: 70px;
+  line-height: 1.2;
 }
 
-/* BLOQUES */
-.lirya-gift-list {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-  margin-bottom: 80px;
+/* GRID BENEFICIOS */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto 60px;
 }
 
-.lirya-gift-item h3 {
+.benefit-card {
+  background: #fcfaf7;
+  border: 1px solid rgba(199, 181, 138, 0.35);
+  border-radius: 14px;
+  padding: 50px 30px;
+}
+
+.benefit-card h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 26px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
-.lirya-gift-item p {
+.benefit-card p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.75);
   font-size: 16px;
   line-height: 1.7;
-  max-width: 520px;
-  margin: 0 auto;
 }
 
 /* GARANTÍA */
-.lirya-gift-guarantee {
-  max-width: 720px;
+.benefit-guarantee {
+  max-width: 760px;
   margin: 0 auto;
-  padding: 36px 28px;
-  border-radius: 20px;
-  background: linear-gradient(
-    135deg,
-    rgba(199, 181, 138, 0.18),
-    rgba(199, 181, 138, 0.08)
-  );
-  border: 1px solid rgba(199, 181, 138, 0.4);
+  background: rgba(199, 181, 138, 0.12);
+  border: 1px solid rgba(199, 181, 138, 0.35);
+  border-radius: 18px;
+  padding: 36px 30px;
 }
 
-.lirya-gift-guarantee h3 {
+.benefit-guarantee h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.lirya-gift-guarantee p {
+.benefit-guarantee p {
   font-family: "Playfair Display", serif;
-  color: rgba(26, 26, 26, 0.8);
-  font-size: 15.5px;
-  line-height: 1.7;
+  color: rgba(26, 26, 26, 0.75);
+  font-size: 16px;
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
-  .lirya-gift-section {
-    padding: 80px 18px;
+@media (max-width: 900px) {
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
   }
 
-  .lirya-gift-title {
+  .lirya-benefits h2 {
     font-size: 32px;
-    margin-bottom: 60px;
-  }
-
-  .lirya-gift-list {
-    gap: 40px;
-    margin-bottom: 60px;
-  }
-
-  .lirya-gift-item p {
-    font-size: 15.5px;
+    margin-bottom: 50px;
   }
 }
 </style>
 
-<section class="lirya-gift-section">
-  <div class="lirya-gift-inner">
-    <h2 class="lirya-gift-title">El regalo perfecto para emocionar de verdad</h2>
+<section class="lirya-benefits">
+  <h2>El regalo perfecto para emocionar de verdad</h2>
 
-    <div class="lirya-gift-list">
-      <div class="lirya-gift-item">
-        <h3>Único</h3>
-        <p>No es un objeto. Es vuestra historia convertida en canción.</p>
-      </div>
-
-      <div class="lirya-gift-item">
-        <h3>Emocional</h3>
-        <p>Incluye momentos reales, palabras exactas y recuerdos personales.</p>
-      </div>
-
-      <div class="lirya-gift-item">
-        <h3>Pensado para regalar</h3>
-        <p>Creado para conservarlo y revivirlo siempre que quieras.</p>
-      </div>
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <h3>Único</h3>
+      <p>No es un objeto. Es vuestra historia convertida en canción.</p>
     </div>
 
-    <div class="lirya-gift-guarantee">
-      <h3>Garantía emocional</h3>
-      <p>Si no te emociona, la ajustamos contigo sin coste.</p>
+    <div class="benefit-card">
+      <h3>Emocional</h3>
+      <p>Incluye momentos reales, palabras exactas y recuerdos personales.</p>
     </div>
+
+    <div class="benefit-card">
+      <h3>Pensado para regalar</h3>
+      <p>Creado para conservarlo y revivirlo siempre que quieras.</p>
+    </div>
+  </div>
+
+  <div class="benefit-guarantee">
+    <h3>Garantía emocional</h3>
+    <p>Si no te emociona, la ajustamos contigo sin coste.</p>
   </div>
 </section>
 
@@ -1257,6 +1243,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
