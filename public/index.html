@@ -79,7 +79,7 @@ header{
   z-index:2;
   max-width:1200px;
   margin:0 auto;
-  padding:60px 40px;
+  padding:60px 40px; /* 🔒 SE MANTIENE */
 }
 
 /* ===== DESKTOP ===== */
@@ -118,12 +118,6 @@ header{
   font-weight:600;
   text-decoration:none;
   display:inline-block;
-  transition:background .2s ease, transform .2s ease;
-}
-
-.hero-btn:hover{
-  background:var(--orange-hover);
-  transform:scale(1.04);
 }
 
 .hero-note{
@@ -134,7 +128,6 @@ header{
   opacity:.85;
 }
 
-/* IMAGEN DESKTOP */
 .hero-phone{
   width:360px;
   animation:floatPhoneDesktop 5s ease-in-out infinite;
@@ -144,22 +137,23 @@ header{
 .hero-mobile{
   display:none;
   text-align:center;
-  transform:translateY(-26px); /* 🔑 SUBE TODO EL BLOQUE */
+}
+
+/* 🔑 SUBIMOS SOLO LA IMAGEN */
+.hero-mobile img{
+  width:85%;
+  max-width:340px;
+  margin:0 auto 8px auto;
+  display:block;
+  transform:translateY(-28px);
+  animation:floatPhoneMobile 5s ease-in-out infinite;
 }
 
 .hero-mobile h1{
   font-family:'Playfair Display',serif;
   font-size:3rem;
   line-height:1.15;
-  margin-bottom:10px;
-}
-
-.hero-mobile img{
-  width:85%;
-  max-width:340px;
-  margin:0 auto;
-  display:block;
-  animation:floatPhoneMobile 5s ease-in-out infinite;
+  margin-bottom:14px;
 }
 
 .hero-mobile p{
@@ -167,11 +161,11 @@ header{
   font-size:1.05rem;
   line-height:1.6;
   opacity:.95;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
 .hero-mobile .hero-btn{
-  margin-top:4px;
+  margin-top:6px;
 }
 
 .hero-mobile .hero-note{
@@ -191,33 +185,10 @@ header{
   100%{transform:translateY(10px)}
 }
 
-/* ===== FADE IN ===== */
-.hero-text,
-.hero-mobile h1,
-.hero-mobile p,
-.hero-btn,
-.hero-note{
-  opacity:0;
-  transform:translateY(16px);
-  animation:fadeUp .9s ease-out forwards;
-}
-
-.hero-text{animation-delay:.15s}
-.hero-text p{animation-delay:.3s}
-.hero-btn{animation-delay:.45s}
-.hero-note{animation-delay:.6s}
-
-@keyframes fadeUp{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
 /* ===== RESPONSIVE ===== */
 @media (max-width:900px){
   .hero-inner{
-    padding:16px 20px; /* 🔑 ELIMINA EL ESPACIO MUERTO */
+    padding:28px 20px; /* 🔒 ESPACIO CORRECTO CON HEADER */
   }
   .hero-desktop{display:none}
   .hero-mobile{display:block}
@@ -245,7 +216,6 @@ header{
         <a href="#formulario" class="hero-btn">Crear mi canción</a>
         <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
-
       <div style="display:flex;justify-content:center">
         <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada">
       </div>
@@ -265,6 +235,7 @@ header{
 
 </body>
 </html>
+
 
 <!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <style>
@@ -1269,6 +1240,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
