@@ -250,14 +250,18 @@ header{
 </body>
 </html>
 
-<!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
-<style>
 <style>
 /* ===== REGALO PERFECTO ===== */
 
 .lirya-gift-section {
-  background-color: #ffffff;
-  padding: 80px 20px;
+  background: #ffffff;
+  padding: 120px 20px 120px;
+}
+
+/* CONTENEDOR */
+.lirya-gift-inner {
+  max-width: 1000px;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -265,58 +269,47 @@ header{
 .lirya-gift-title {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 36px;
+  font-size: 42px;
   font-weight: 600;
-  margin-bottom: 50px;
   line-height: 1.15;
+  margin-bottom: 80px;
 }
 
-/* GRID TARJETAS */
-.lirya-gift-grid {
+/* BLOQUES */
+.lirya-gift-list {
   display: flex;
-  justify-content: center;
-  gap: 32px;
-  flex-wrap: wrap;
-  max-width: 1100px;
-  margin: 0 auto 50px;
+  flex-direction: column;
+  gap: 48px;
+  margin-bottom: 80px;
 }
 
-.lirya-gift-card {
-  background-color: #fcfaf7;
-  border-radius: 14px;
-  padding: 42px 30px;
-  width: 320px;
-  border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-}
-
-.lirya-gift-card h3 {
+.lirya-gift-item h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 25px;
+  font-size: 26px;
   margin-bottom: 14px;
 }
 
-.lirya-gift-card p {
+.lirya-gift-item p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.75);
-  font-size: 15.5px;
-  line-height: 1.75;
-  max-width: 250px;
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 520px;
   margin: 0 auto;
 }
 
-/* BLOQUE GARANTÍA */
+/* GARANTÍA */
 .lirya-gift-guarantee {
   max-width: 720px;
   margin: 0 auto;
+  padding: 36px 28px;
+  border-radius: 20px;
   background: linear-gradient(
     135deg,
     rgba(199, 181, 138, 0.18),
     rgba(199, 181, 138, 0.08)
   );
-  border-radius: 18px;
-  padding: 34px 26px;
   border: 1px solid rgba(199, 181, 138, 0.4);
 }
 
@@ -336,40 +329,51 @@ header{
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
+  .lirya-gift-section {
+    padding: 80px 18px;
+  }
+
   .lirya-gift-title {
-    font-size: 30px;
-    margin-bottom: 40px;
+    font-size: 32px;
+    margin-bottom: 60px;
   }
 
-  .lirya-gift-grid {
-    gap: 26px;
+  .lirya-gift-list {
+    gap: 40px;
+    margin-bottom: 60px;
   }
 
-  .lirya-gift-card {
-    width: 95%;
-    padding: 36px 24px;
+  .lirya-gift-item p {
+    font-size: 15.5px;
   }
 }
 </style>
 
 <section class="lirya-gift-section">
-  <h2 class="lirya-gift-title">El regalo perfecto para emocionar de verdad</h2>
+  <div class="lirya-gift-inner">
+    <h2 class="lirya-gift-title">El regalo perfecto para emocionar de verdad</h2>
 
-  <div class="lirya-gift-grid">
-    <div class="lirya-gift-card">
-      <h3>Único</h3>
-      <p>No es un objeto. Es vuestra historia convertida en canción.</p>
+    <div class="lirya-gift-list">
+      <div class="lirya-gift-item">
+        <h3>Único</h3>
+        <p>No es un objeto. Es vuestra historia convertida en canción.</p>
+      </div>
+
+      <div class="lirya-gift-item">
+        <h3>Emocional</h3>
+        <p>Incluye momentos reales, palabras exactas y recuerdos personales.</p>
+      </div>
+
+      <div class="lirya-gift-item">
+        <h3>Pensado para regalar</h3>
+        <p>Creado para conservarlo y revivirlo siempre que quieras.</p>
+      </div>
     </div>
 
-    <div class="lirya-gift-card">
-      <h3>Emocional</h3>
-      <p>Incluye momentos reales, palabras exactas y recuerdos personales.</p>
+    <div class="lirya-gift-guarantee">
+      <h3>Garantía emocional</h3>
+      <p>Si no te emociona, la ajustamos contigo sin coste.</p>
     </div>
-  </div>
-
-  <div class="lirya-gift-guarantee">
-    <h3>Garantía emocional</h3>
-    <p>Si no te emociona, la ajustamos contigo sin coste.</p>
   </div>
 </section>
 
@@ -1253,6 +1257,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
