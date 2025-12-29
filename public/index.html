@@ -52,9 +52,15 @@ header{
   border-radius:10px;
   font-weight:600;
   text-decoration:none;
+  transition:background .2s ease, transform .2s ease;
 }
 
-/* ===== HERO BASE ===== */
+.cta-header:hover{
+  background:var(--orange-hover);
+  transform:scale(1.03);
+}
+
+/* ===== HERO ===== */
 .hero{
   position:relative;
   background:url('/cascos-neon.png') center/cover no-repeat;
@@ -84,16 +90,15 @@ header{
   align-items:center;
 }
 
-/* 🔥 TEXTO DESKTOP AJUSTADO */
 .hero-text{
-  padding-left:64px;              /* mueve texto a la derecha */
-  transform:translateY(-26px);    /* sube texto para alinearlo con la imagen */
+  padding-left:64px;
+  transform:translateY(-26px);
 }
 
 .hero-text h1{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
-  Line-height:1.20;
+  line-height:1.2;
   margin-bottom:24px;
 }
 
@@ -114,6 +119,12 @@ header{
   font-weight:600;
   text-decoration:none;
   display:inline-block;
+  transition:background .2s ease, transform .2s ease;
+}
+
+.hero-btn:hover{
+  background:var(--orange-hover);
+  transform:scale(1.04);
 }
 
 .hero-note{
@@ -181,6 +192,29 @@ header{
   100%{transform:translateY(12px)}
 }
 
+/* ===== TEXT FADE-IN ===== */
+.hero-text,
+.hero-mobile h1,
+.hero-mobile p,
+.hero-btn,
+.hero-note{
+  opacity:0;
+  transform:translateY(16px);
+  animation:fadeUp .9s ease-out forwards;
+}
+
+.hero-text{animation-delay:.15s}
+.hero-text p{animation-delay:.3s}
+.hero-btn{animation-delay:.45s}
+.hero-note{animation-delay:.6s}
+
+@keyframes fadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width:900px){
 
@@ -217,10 +251,12 @@ header{
         <h1>Una canción creada a partir de vuestra historia</h1>
         <p>
           Transformamos historias reales en canciones únicas.
-          Un regalo emocional que se escucha y se recuerda.
+          Un regalo emocional creado solo para esa persona.
         </p>
         <a href="#formulario" class="hero-btn">EMPEZAR</a>
-        <span class="hero-note">Cada canción es única</span>
+        <span class="hero-note">
+          Se completa en menos de 3 minutos · Entrega en 24h · Revisión incluida
+        </span>
       </div>
 
       <div style="display:flex;justify-content:center">
@@ -234,10 +270,12 @@ header{
       <img src="/mockup-phone-final.png" alt="Canción personalizada">
       <p>
         Transformamos historias reales en canciones únicas.
-        Un regalo emocional que se escucha y se recuerda.
+        Un regalo emocional creado solo para esa persona.
       </p>
       <a href="#formulario" class="hero-btn">EMPEZAR</a>
-      <span class="hero-note">Cada canción es única</span>
+      <span class="hero-note">
+        Se completa en menos de 3 minutos · Entrega en 24h · Revisión incluida
+      </span>
     </div>
 
   </div>
@@ -1249,6 +1287,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
