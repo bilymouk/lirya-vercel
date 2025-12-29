@@ -79,7 +79,7 @@ header{
   z-index:2;
   max-width:1200px;
   margin:0 auto;
-  padding:60px 40px; /* 🔒 SE MANTIENE */
+  padding:60px 40px;
 }
 
 /* ===== DESKTOP ===== */
@@ -139,21 +139,24 @@ header{
   text-align:center;
 }
 
-/* 🔑 SUBIMOS SOLO LA IMAGEN */
-.hero-mobile img{
-  width:85%;
-  max-width:340px;
-  margin:0 auto 8px auto;
-  display:block;
-  transform:translateY(-28px);
-  animation:floatPhoneMobile 5s ease-in-out infinite;
-}
-
 .hero-mobile h1{
   font-family:'Playfair Display',serif;
   font-size:3rem;
   line-height:1.15;
   margin-bottom:14px;
+}
+
+.hero-mobile img{
+  width:85%;
+  max-width:340px;
+  margin:0 auto;
+  display:block;
+  animation:floatPhoneMobile 5s ease-in-out infinite;
+}
+
+/* 🔑 BLOQUE DE TEXTO INFERIOR (SUBIDO) */
+.hero-mobile-text{
+  transform:translateY(-26px);
 }
 
 .hero-mobile p{
@@ -169,7 +172,7 @@ header{
 }
 
 .hero-mobile .hero-note{
-  margin-top:8px;
+  margin-top:6px;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -188,7 +191,7 @@ header{
 /* ===== RESPONSIVE ===== */
 @media (max-width:900px){
   .hero-inner{
-    padding:28px 20px; /* 🔒 ESPACIO CORRECTO CON HEADER */
+    padding:28px 20px;
   }
   .hero-desktop{display:none}
   .hero-mobile{display:block}
@@ -216,6 +219,7 @@ header{
         <a href="#formulario" class="hero-btn">Crear mi canción</a>
         <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
+
       <div style="display:flex;justify-content:center">
         <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada">
       </div>
@@ -225,9 +229,12 @@ header{
     <div class="hero-mobile">
       <h1>La canción perfecta para contar vuestra historia</h1>
       <img src="/mockup-phone-final.png" alt="Canción personalizada">
-      <p>Canción única en 24 h · Revisión incluida</p>
-      <a href="#formulario" class="hero-btn">Crear mi canción</a>
-      <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
+
+      <div class="hero-mobile-text">
+        <p>Canción única en 24 h · Revisión incluida</p>
+        <a href="#formulario" class="hero-btn">Crear mi canción</a>
+        <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
+      </div>
     </div>
 
   </div>
@@ -235,7 +242,6 @@ header{
 
 </body>
 </html>
-
 
 <!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <style>
@@ -1240,6 +1246,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
