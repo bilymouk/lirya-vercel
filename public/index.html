@@ -128,9 +128,15 @@ header{
   opacity:.85;
 }
 
+/* 🔑 WRAPPER QUE BAJA EL MÓVIL EN DESKTOP */
+.hero-phone-wrapper{
+  display:flex;
+  justify-content:center;
+  transform:translateY(32px); /* AJUSTA SI QUIERES */
+}
+
 .hero-phone{
   width:360px;
-  transform:translateY(28px);
   animation:floatPhoneDesktop 5s ease-in-out infinite;
 }
 
@@ -155,7 +161,7 @@ header{
   animation:floatPhoneMobile 5s ease-in-out infinite;
 }
 
-/* 🔑 BLOQUE DE TEXTO INFERIOR (SUBIDO) */
+/* 🔑 SOLO SUBE EL TEXTO INFERIOR EN MOBILE */
 .hero-mobile-text{
   transform:translateY(-26px);
 }
@@ -221,7 +227,7 @@ header{
         <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
 
-      <div style="display:flex;justify-content:center">
+      <div class="hero-phone-wrapper">
         <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada">
       </div>
     </div>
@@ -1247,6 +1253,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
