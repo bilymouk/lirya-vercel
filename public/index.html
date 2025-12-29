@@ -251,13 +251,15 @@ header{
 </html>
 
 <style>
-
 <style>
-/* ===== SECCIÓN BENEFICIOS LIRYA ===== */
+/* ===== SECCIÓN BENEFICIOS LIRYA (FIX DEFINITIVO) ===== */
 
 .lirya-benefits {
   background: #ffffff;
-  padding: 140px 24px; /* MÁS AIRE EN DESKTOP */
+  padding: 120px 24px;
+  margin: 120px 0;              /* 🔥 CLAVE: MARGEN EXTERNO */
+  position: relative;           /* evita colapsos */
+  z-index: 2;
 }
 
 .lirya-benefits-inner {
@@ -288,46 +290,46 @@ header{
   background: #fcfaf7;
   border: 1px solid rgba(199, 181, 138, 0.35);
   border-radius: 16px;
-  padding: 38px 26px;
+  padding: 36px 24px;
   text-align: center;
-  transition: 
+  transition:
     transform 0.35s ease,
     box-shadow 0.35s ease,
     border-color 0.35s ease;
 }
 
-/* HOVER PREMIUM */
+/* HOVER */
 .benefit-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 18px 40px rgba(199, 181, 138, 0.28);
-  border-color: rgba(199, 181, 138, 0.8);
+  border-color: rgba(199, 181, 138, 0.9);
 }
 
-/* TÍTULO TARJETA */
+/* TEXTOS */
 .benefit-card h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 22px;
-  margin-bottom: 12px;
+  font-size: 21px;
+  margin-bottom: 10px;
 }
 
-/* TEXTO TARJETA */
 .benefit-card p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.75);
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.6;
 }
 
-/* TARJETA GARANTÍA */
+/* GARANTÍA */
 .benefit-card.guarantee {
   background: rgba(199, 181, 138, 0.12);
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== MOBILE ===== */
 @media (max-width: 900px) {
   .lirya-benefits {
-    padding: 90px 20px; /* MÓVIL MÁS COMPACTO */
+    padding: 90px 20px;
+    margin: 80px 0;
   }
 
   .benefits-grid {
@@ -1250,6 +1252,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
