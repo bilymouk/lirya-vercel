@@ -254,11 +254,12 @@ header{
 
 <style>
 <style>
+<style>
 /* ===== POR QUÉ ES UN REGALO ESPECIAL ===== */
 
 .lirya-premium-final {
   background-color: #ffffff;
-  padding: 90px 20px 100px;
+  padding: 90px 20px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
@@ -270,16 +271,16 @@ header{
   font-size: 36px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  margin-bottom: 70px;
+  margin-bottom: 65px;
   line-height: 1.15;
 }
 
-/* === GRID DESKTOP (2x2) === */
+/* === GRID BASE (MÓVIL) === */
 .grid-premium-cards {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 36px 40px;
-  max-width: 900px;
+  grid-template-columns: 1fr;
+  gap: 26px;
+  max-width: 520px;
   margin: 0 auto;
 }
 
@@ -287,71 +288,51 @@ header{
 .tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
-  padding: 38px 28px;
-  width: 100%;
+  padding: 34px 26px;
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  transition: all 0.35s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
-/* HOVER DESKTOP */
-.tarjeta-premium-estilo:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 22px 45px rgba(199, 181, 138, 0.28);
-  border-color: rgba(199, 181, 138, 0.65);
-  background-color: #fffdfa;
+/* === HOVER (SOLO DESKTOP) === */
+@media (hover: hover) {
+  .tarjeta-premium-estilo:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 45px rgba(199, 181, 138, 0.28);
+    border-color: rgba(199, 181, 138, 0.7);
+    background-color: #fffdfa;
+  }
 }
 
-/* TÍTULO TARJETA */
+/* === TEXTO TARJETA === */
 .tarjeta-premium-estilo h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 22px;
   font-weight: 600;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
-/* TEXTO TARJETA */
 .tarjeta-premium-estilo p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.75);
   font-size: 14.5px;
-  line-height: 1.7;
-  font-weight: 400;
-  letter-spacing: 0.2px;
+  line-height: 1.65;
   max-width: 260px;
+  margin: 0 auto;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
+/* ===== DESKTOP FORZADO 2x2 ===== */
+@media (min-width: 900px) {
 
   .lirya-premium-final {
-    padding: 70px 20px 80px;
-  }
-
-  .titulo-premium-brillante {
-    font-size: 30px;
-    margin-bottom: 45px;
+    padding: 100px 20px 110px;
   }
 
   .grid-premium-cards {
-    grid-template-columns: 1fr;
-    gap: 26px;
-  }
-
-  .tarjeta-premium-estilo {
-    padding: 34px 24px;
-  }
-
-  .tarjeta-premium-estilo h3 {
-    font-size: 21px;
-  }
-
-  .tarjeta-premium-estilo p {
-    font-size: 14.5px;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 880px;
+    gap: 36px 42px;
   }
 }
 </style>
@@ -1277,6 +1258,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
