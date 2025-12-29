@@ -253,11 +253,12 @@ header{
 <style>
 
 <style>
-/* ===== EL REGALO PERFECTO ===== */
+<style>
+/* ===== POR QUÉ ES UN REGALO ESPECIAL ===== */
 
 .lirya-premium-final {
   background-color: #ffffff;
-  padding: 90px 20px; /* margen correcto desktop */
+  padding: 90px 20px 100px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
@@ -273,13 +274,12 @@ header{
   line-height: 1.15;
 }
 
-/* === GRID === */
+/* === GRID DESKTOP (2x2) === */
 .grid-premium-cards {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-  flex-wrap: wrap;
-  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px 40px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -287,21 +287,22 @@ header{
 .tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
-  padding: 40px 24px;
-  width: 260px; /* permite 4 en desktop */
+  padding: 38px 28px;
+  width: 100%;
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.35s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: default;
 }
 
-/* Hover desktop */
+/* HOVER DESKTOP */
 .tarjeta-premium-estilo:hover {
   transform: translateY(-8px);
-  box-shadow: 0 22px 45px rgba(199, 181, 138, 0.25);
+  box-shadow: 0 22px 45px rgba(199, 181, 138, 0.28);
+  border-color: rgba(199, 181, 138, 0.65);
+  background-color: #fffdfa;
 }
 
 /* TÍTULO TARJETA */
@@ -317,38 +318,40 @@ header{
 .tarjeta-premium-estilo p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.75);
-  font-size: 14px;
+  font-size: 14.5px;
   line-height: 1.7;
   font-weight: 400;
   letter-spacing: 0.2px;
-  max-width: 210px;
+  max-width: 260px;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+
   .lirya-premium-final {
-    padding: 70px 20px; /* margen móvil correcto */
+    padding: 70px 20px 80px;
   }
 
   .titulo-premium-brillante {
     font-size: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 45px;
   }
 
   .grid-premium-cards {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 26px;
-    align-items: center;
   }
 
   .tarjeta-premium-estilo {
-    width: 95%;
-    padding: 38px 24px;
+    padding: 34px 24px;
+  }
+
+  .tarjeta-premium-estilo h3 {
+    font-size: 21px;
   }
 
   .tarjeta-premium-estilo p {
-    font-size: 15px;
-    max-width: 100%;
+    font-size: 14.5px;
   }
 }
 </style>
@@ -359,6 +362,7 @@ header{
   </h2>
 
   <div class="grid-premium-cards">
+
     <div class="tarjeta-premium-estilo">
       <h3>Hecha con vuestra historia</h3>
       <p>
@@ -370,8 +374,8 @@ header{
     <div class="tarjeta-premium-estilo">
       <h3>Emoción real</h3>
       <p>
-        Letras escritas con momentos, palabras
-        y recuerdos que importan de verdad.
+        Letras escritas con momentos,
+        palabras y recuerdos que importan de verdad.
       </p>
     </div>
 
@@ -386,10 +390,11 @@ header{
     <div class="tarjeta-premium-estilo">
       <h3>Garantía emocional</h3>
       <p>
-        Si no te emociona, la ajustamos contigo
-        sin ningún coste.
+        Si no te emociona,
+        la ajustamos contigo sin ningún coste.
       </p>
     </div>
+
   </div>
 </section>
 
@@ -1272,6 +1277,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
