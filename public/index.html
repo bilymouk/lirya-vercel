@@ -99,15 +99,14 @@ header{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
   line-height:1.2;
-  margin-bottom:24px;
+  margin-bottom:20px;
 }
 
 .hero-text p{
   font-family:'Playfair Display',serif;
   font-size:1.15rem;
   line-height:1.6;
-  margin-bottom:34px;
-  max-width:520px;
+  margin-bottom:28px;
   opacity:.95;
 }
 
@@ -129,7 +128,7 @@ header{
 
 .hero-note{
   display:block;
-  margin-top:18px;
+  margin-top:14px;
   font-size:.9rem;
   font-style:italic;
   opacity:.85;
@@ -151,7 +150,7 @@ header{
   font-family:'Playfair Display',serif;
   font-size:3.1rem;
   line-height:1.15;
-  margin-bottom:6px;
+  margin-bottom:12px;
 }
 
 .hero-mobile img{
@@ -164,19 +163,18 @@ header{
 
 .hero-mobile p{
   font-family:'Playfair Display',serif;
-  font-size:1.15rem;
+  font-size:1.05rem;
   line-height:1.6;
   opacity:.95;
-  margin-bottom:22px;
-  transform:translateY(-38px);
+  margin-bottom:18px;
 }
 
 .hero-mobile .hero-btn{
-  transform:translateY(-30px);
+  margin-top:6px;
 }
 
 .hero-mobile .hero-note{
-  transform:translateY(-28px);
+  margin-top:10px;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -192,7 +190,7 @@ header{
   100%{transform:translateY(12px)}
 }
 
-/* ===== TEXT FADE-IN ===== */
+/* ===== FADE IN ===== */
 .hero-text,
 .hero-mobile h1,
 .hero-mobile p,
@@ -217,18 +215,9 @@ header{
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:900px){
-
-  .hero-inner{
-    padding:28px 20px;
-  }
-
-  .hero-desktop{
-    display:none;
-  }
-
-  .hero-mobile{
-    display:block;
-  }
+  .hero-inner{padding:28px 20px}
+  .hero-desktop{display:none}
+  .hero-mobile{display:block}
 }
 </style>
 </head>
@@ -238,7 +227,7 @@ header{
 <header>
   <div class="header-container">
     <div class="logo">LIRYA</div>
-    <a href="#formulario" class="cta-header">Empezar</a>
+    <a href="#formulario" class="cta-header">Crear mi canción</a>
   </div>
 </header>
 
@@ -248,15 +237,10 @@ header{
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
-        <h1>Una canción creada a partir de vuestra historia</h1>
-        <p>
-          Transformamos historias reales en canciones únicas.
-          Un regalo emocional creado solo para esa persona.
-        </p>
-        <a href="#formulario" class="hero-btn">EMPEZAR</a>
-        <span class="hero-note">
-          Se completa en menos de 3 minutos · Entrega en 24h · Revisión incluida
-        </span>
+        <h1>La canción perfecta para contar vuestra historia</h1>
+        <p>Canción única en 24 h · Revisión incluida</p>
+        <a href="#formulario" class="hero-btn">Crear mi canción</a>
+        <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
 
       <div style="display:flex;justify-content:center">
@@ -266,16 +250,11 @@ header{
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-      <h1>Una canción creada a partir de vuestra historia</h1>
+      <h1>La canción perfecta para contar vuestra historia</h1>
       <img src="/mockup-phone-final.png" alt="Canción personalizada">
-      <p>
-        Transformamos historias reales en canciones únicas.
-        Un regalo emocional creado solo para esa persona.
-      </p>
-      <a href="#formulario" class="hero-btn">EMPEZAR</a>
-      <span class="hero-note">
-        Se completa en menos de 3 minutos · Entrega en 24h · Revisión incluida
-      </span>
+      <p>Canción única en 24 h · Revisión incluida</p>
+      <a href="#formulario" class="hero-btn">Crear mi canción</a>
+      <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
     </div>
 
   </div>
@@ -1287,6 +1266,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
