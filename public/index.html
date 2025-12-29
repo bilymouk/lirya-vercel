@@ -106,7 +106,7 @@ header{
   font-family:'Playfair Display',serif;
   font-size:1.15rem;
   line-height:1.6;
-  margin-bottom:28px;
+  margin-bottom:26px;
   opacity:.95;
 }
 
@@ -128,7 +128,7 @@ header{
 
 .hero-note{
   display:block;
-  margin-top:14px;
+  margin-top:12px;
   font-size:.9rem;
   font-style:italic;
   opacity:.85;
@@ -144,13 +144,14 @@ header{
 .hero-mobile{
   display:none;
   text-align:center;
+  transform:translateY(-26px); /* 🔑 SUBE TODO EL BLOQUE */
 }
 
 .hero-mobile h1{
   font-family:'Playfair Display',serif;
-  font-size:3.1rem;
+  font-size:3rem;
   line-height:1.15;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .hero-mobile img{
@@ -166,17 +167,15 @@ header{
   font-size:1.05rem;
   line-height:1.6;
   opacity:.95;
-  margin-bottom:14px;
-  transform:translateY(-18px);
+  margin-bottom:12px;
 }
 
 .hero-mobile .hero-btn{
-  margin-top:0px;
+  margin-top:4px;
 }
 
 .hero-mobile .hero-note{
-  margin-top:6px;
-  transform:translateY(-14px);
+  margin-top:8px;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -187,9 +186,9 @@ header{
 }
 
 @keyframes floatPhoneMobile{
-  0%{transform:translateY(12px)}
-  50%{transform:translateY(-2px)}
-  100%{transform:translateY(12px)}
+  0%{transform:translateY(10px)}
+  50%{transform:translateY(-4px)}
+  100%{transform:translateY(10px)}
 }
 
 /* ===== FADE IN ===== */
@@ -217,7 +216,9 @@ header{
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:900px){
-  .hero-inner{padding:28px 20px}
+  .hero-inner{
+    padding:16px 20px; /* 🔑 ELIMINA EL ESPACIO MUERTO */
+  }
   .hero-desktop{display:none}
   .hero-mobile{display:block}
 }
@@ -1268,6 +1269,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
