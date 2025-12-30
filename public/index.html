@@ -1071,11 +1071,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ===== EJEMPLOS REALES ===== -->
 <style>
+/* ===== EJEMPLOS + TARIFAS ===== */
+
 .examples {
   position: relative;
-  padding: 100px 20px;
+  padding: 110px 20px;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
@@ -1095,60 +1096,112 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* === TÍTULO === */
+/* TÍTULO */
 .examples h2 {
-  font-family: "Georgia", "Times New Roman", serif;
+  font-family: "Playfair Display", serif;
   font-size: 38px;
   color: #d4b483;
   margin-bottom: 12px;
   font-weight: 600;
 }
 
-/* === SUBTÍTULO === */
+/* SUBTÍTULO */
 .examples-subtitle {
-  font-family: "Georgia", "Times New Roman", serif;
+  font-family: "Playfair Display", serif;
   font-size: 16px;
   color: #ffffff;
   opacity: 0.85;
-  margin-bottom: 60px;
-  letter-spacing: 0.3px;
+  margin-bottom: 70px;
 }
 
-/* === GRID === */
+/* GRID */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 45px;
+  gap: 40px;
 }
 
-/* === CARD === */
+/* CARD */
 .example-card {
-  position: relative;
-  border-radius: 16px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
   overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.45s ease, box-shadow 0.45s ease;
-  border: 1px solid rgba(255,255,255,0.6);
-  box-shadow: 0 0 18px rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 0 18px rgba(255,255,255,0.15);
+  transition: transform .4s ease, box-shadow .4s ease;
 }
 
 .example-card:hover {
-  transform: scale(1.07);
-  box-shadow: 0 0 40px rgba(255,255,255,0.45);
+  transform: translateY(-10px);
+  box-shadow: 0 0 40px rgba(255,255,255,0.35);
 }
 
-/* === IMAGE === */
+/* IMAGEN */
 .example-card img {
   width: 100%;
   display: block;
-  border-radius: 16px;
 }
 
-/* === RESPONSIVE === */
+/* CONTENIDO */
+.example-content {
+  padding: 26px 22px 30px;
+}
+
+/* TÍTULO CANCIÓN */
+.example-title {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+/* PRECIO */
+.example-price {
+  font-size: 34px;
+  font-weight: 700;
+  color: #d4b483;
+  margin-bottom: 6px;
+}
+
+/* ENTREGA */
+.example-delivery {
+  font-size: 14.5px;
+  opacity: .85;
+  margin-bottom: 18px;
+}
+
+/* CTA */
+.example-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background: #ff8a2a;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* RECOMENDADA */
+.recommended {
+  border: 2px solid #ff8a2a;
+  transform: scale(1.04);
+}
+
+.recommended-badge {
+  background: #ff8a2a;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 14px;
+  display: inline-block;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+/* RESPONSIVE */
 @media (max-width: 900px) {
   .examples-grid {
     grid-template-columns: 1fr;
-    gap: 35px;
+    gap: 34px;
   }
 
   .examples h2 {
@@ -1157,7 +1210,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
   .examples-subtitle {
     font-size: 15px;
-    margin-bottom: 45px;
+    margin-bottom: 50px;
   }
 }
 </style>
@@ -1166,24 +1219,49 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   <div class="examples-inner">
     <h2>Ejemplos reales</h2>
     <p class="examples-subtitle">
-      Así suenan las canciones personalizadas. Historias reales, emociones reales.
+      Escucha cómo suenan nuestras canciones personalizadas y elige la opción perfecta para ti.
     </p>
 
     <div class="examples-grid">
-      <div class="example-card eres-mi-amor-card">
-        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
+
+      <!-- BÁSICA -->
+      <div class="example-card">
+        <img src="/eres-mi-amor-card.jpg" alt="Ejemplo canción básica">
+        <div class="example-content">
+          <div class="example-title">Canción personalizada</div>
+          <div class="example-price">49€</div>
+          <div class="example-delivery">Entrega en 4–5 días</div>
+          <a href="#formulario" class="example-btn">Elegir esta opción</a>
+        </div>
       </div>
 
-      <div class="example-card papa-card">
-        <img src="/papa-card.jpg" alt="Papá">
+      <!-- RECOMENDADA -->
+      <div class="example-card recommended">
+        <img src="/papa-card.jpg" alt="Ejemplo canción recomendada">
+        <div class="example-content">
+          <div class="recommended-badge">Más elegida</div>
+          <div class="example-title">Canción personalizada</div>
+          <div class="example-price">59€</div>
+          <div class="example-delivery">Entrega en 2–3 días</div>
+          <a href="#formulario" class="example-btn">Elegir esta opción</a>
+        </div>
       </div>
 
-      <div class="example-card amigas-card">
-        <img src="/amigas-card.jpg" alt="Amigas por siempre">
+      <!-- PREMIUM -->
+      <div class="example-card">
+        <img src="/amigas-card.jpg" alt="Ejemplo canción premium">
+        <div class="example-content">
+          <div class="example-title">Canción personalizada</div>
+          <div class="example-price">79€</div>
+          <div class="example-delivery">Entrega prioritaria</div>
+          <a href="#formulario" class="example-btn">Elegir esta opción</a>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
+
 <!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
 <style>
 /* ===== GARANTÍA DE SATISFACCIÓN ===== */
@@ -1383,6 +1461,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
