@@ -19,6 +19,7 @@ export default async function handler(req, res) {
       const data = session.metadata || {};
 
       console.log("🧾 METADATA:", data);
+      console.log("🧾 EMAIL METADATA:", data.email);
 
       await resend.emails.send({
         from: "Lirya <onboarding@resend.dev>",
