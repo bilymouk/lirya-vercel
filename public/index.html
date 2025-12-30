@@ -253,24 +253,26 @@ header{
 <style>
 <!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <style>
+/* ===== SECCIÓN ===== */
 .lirya-premium-final {
-  background: #ffffff;
-  padding: 90px 20px;
+  background-color: #ffffff;
+  padding: 80px 20px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* TÍTULO */
+/* ===== TÍTULO ===== */
 .titulo-premium-brillante {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
+  color: #c7b58a;
   font-size: 34px;
   font-weight: 700;
-  color: #c7b58a;
   letter-spacing: 0.4px;
-  margin-bottom: 0;
+  margin-bottom: 18px;
+  line-height: 1.2;
 }
 
-/* LÍNEA DECORATIVA (MISMA QUE GARANTÍA) */
+/* ===== LÍNEA DECORATIVA (MISMO ESTILO QUE GARANTÍA) ===== */
 .lirya-premium-divider {
   width: 70px;
   height: 2px;
@@ -280,54 +282,65 @@ header{
     #c7b58a,
     transparent
   );
-  margin: 26px auto 48px;
+  margin: 18px auto 42px;
 }
 
-/* GRID */
+/* ===== GRID TARJETAS ===== */
 .grid-premium-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 36px;
-  max-width: 900px;
+  gap: 40px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-/* TARJETA */
+/* ===== TARJETA ===== */
 .tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
-  padding: 38px 32px;
+  padding: 42px 34px;
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-  transition: all 0.35s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  transition: 
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
-/* MICRO-ANIMACIÓN HOVER */
+/* ===== MICRO-ANIMACIÓN ===== */
 .tarjeta-premium-estilo:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(199, 181, 138, 0.25);
-  border-color: rgba(199, 181, 138, 0.6);
+  border-color: rgba(199, 181, 138, 0.7);
+  box-shadow: 0 20px 45px rgba(199, 181, 138, 0.18);
 }
 
-/* TÍTULO TARJETA */
+/* ===== TÍTULO TARJETA ===== */
 .tarjeta-premium-estilo h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 14px;
 }
 
-/* TEXTO TARJETA */
+/* ===== TEXTO TARJETA ===== */
 .tarjeta-premium-estilo p {
-  font-family: 'Playfair Display', serif;
-  font-size: 15px;
-  line-height: 1.7;
+  font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.78);
+  font-size: 15px;
+  line-height: 1.75;
+  letter-spacing: 0.25px;
   margin: 0;
 }
 
-/* RESPONSIVE */
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .grid-premium-cards {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
 @media (max-width: 768px) {
   .lirya-premium-final {
     padding: 70px 20px;
@@ -337,13 +350,8 @@ header{
     font-size: 28px;
   }
 
-  .grid-premium-cards {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
   .tarjeta-premium-estilo {
-    padding: 36px 26px;
+    padding: 40px 28px;
   }
 }
 </style>
@@ -367,8 +375,8 @@ header{
     <div class="tarjeta-premium-estilo">
       <h3>Emoción real</h3>
       <p>
-        Letras escritas con momentos,
-        palabras y recuerdos que importan de verdad.
+        Letras escritas con momentos, palabras y recuerdos
+        que importan de verdad.
       </p>
     </div>
 
@@ -1269,6 +1277,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
