@@ -858,128 +858,105 @@ document.addEventListener("click",()=>{
 </script>
 
 </section>
-<!-- ===== CÓMO FUNCIONA ===== -->
-<style>
-/* ===== CÓMO FUNCIONA ===== */
 
-.lirya-premium-final {
-  background-color: #ffffff;
-  padding: 80px 20px;
+<style>
+  
+/* ===== CÓMO FUNCIONA (AISLADO) ===== */
+
+.lirya-como-funciona {
+  background: #ffffff;
+  padding: 100px 20px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* === TÍTULO === */
-.titulo-premium-brillante {
+/* TÍTULO */
+.lirya-como-funciona .titulo-como-funciona {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 35px;
+  font-size: 36px;
   font-weight: 600;
-  letter-spacing: 0.3px;
-  margin-bottom: 60px;
   line-height: 1.15;
+  margin-bottom: 1cm;
 }
 
-.grid-premium-cards {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  max-width: 1200px;
+/* GRID 3 TARJETAS */
+.lirya-como-funciona .como-grid {
+  max-width: 1100px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
 }
 
-.tarjeta-premium-estilo {
+/* TARJETA */
+.lirya-como-funciona .como-card {
   background-color: #fcfaf7;
-  border-radius: 12px;
-  padding: 60px 35px;
-  width: 320px;
+  border-radius: 16px;
+  padding: 44px 34px;
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
-  transition: all 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.05);
 }
 
-.tarjeta-premium-estilo:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 25px 50px rgba(199, 181, 138, 0.25);
-}
-
-/* Número */
-.tarjeta-premium-estilo .paso {
+/* NÚMERO */
+.lirya-como-funciona .como-numero {
   font-family: "Playfair Display", serif;
-  font-size: 28px;
   color: #c7b58a;
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+/* TÍTULO TARJETA */
+.lirya-como-funciona .como-card h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  color: #3a3a3a;
   margin-bottom: 12px;
 }
 
-/* Título tarjeta */
-.tarjeta-premium-estilo h3 {
+/* TEXTO */
+.lirya-como-funciona .como-card p {
   font-family: "Playfair Display", serif;
-  color: #c7b58a;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 18px;
-}
-
-/* TEXTO — MISMO ESTILO QUE SUBTÍTULO DE EJEMPLOS REALES */
-.tarjeta-premium-estilo p {
-  font-family: "Playfair Display", serif;
+  font-size: 14.5px;
+  line-height: 1.65;
   color: rgba(26, 26, 26, 0.75);
-  font-size: 15.5px;
-  line-height: 1.8;
-  font-weight: 400;
-  letter-spacing: 0.25px;
-  text-align: center;
-  max-width: 240px;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .titulo-premium-brillante {
-    font-size: 30px;
-  }
-
-  .grid-premium-cards {
-    gap: 30px;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .tarjeta-premium-estilo {
-    width: 95%;
-  }
-
-  .tarjeta-premium-estilo p {
-    font-size: 15px;
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .lirya-como-funciona .como-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
 }
 </style>
 
-<section class="lirya-premium-final">
-  <h2 class="titulo-premium-brillante">Cómo funciona</h2>
+<section class="lirya-como-funciona">
+  <h2 class="titulo-como-funciona">Cómo funciona</h2>
 
-  <div class="grid-premium-cards">
-    <div class="tarjeta-premium-estilo">
-      <div class="paso">1</div>
+  <div class="como-grid">
+    <div class="como-card">
+      <div class="como-numero">1</div>
       <h3>Cuéntanos vuestra historia</h3>
       <p>
-        Rellena el formulario con los detalles que hacen vuestra historia única y especial.
+        Rellena el formulario con los detalles que hacen vuestra historia única
+        y especial.
       </p>
     </div>
 
-    <div class="tarjeta-premium-estilo">
-      <div class="paso">2</div>
+    <div class="como-card">
+      <div class="como-numero">2</div>
       <h3>Creamos la canción</h3>
       <p>
-        Convertimos vuestra historia en una canción personalizada con letra y música.
+        Convertimos vuestra historia en una canción personalizada con letra y
+        música.
       </p>
     </div>
 
-    <div class="tarjeta-premium-estilo">
-      <div class="paso">3</div>
+    <div class="como-card">
+      <div class="como-numero">3</div>
       <h3>La recibes en 24h</h3>
       <p>
         Descárgala en MP3, compártela y revive el regalo siempre que quieras.
@@ -987,8 +964,6 @@ document.addEventListener("click",()=>{
     </div>
   </div>
 </section>
-
-<section id="formulario" class="lirya-form-scope">
 
 <!-- ===== EJEMPLOS REALES ===== -->
 <style>
@@ -1302,6 +1277,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
