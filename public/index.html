@@ -491,7 +491,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   align-items: stretch;
 }
 
-/* CARD BASE */
+/* CARD */
 .example-card {
   position: relative;
   border-radius: 18px;
@@ -512,7 +512,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* TARIFA DESTACADA */
+/* TARJETA DESTACADA */
 .example-card.destacada {
   border: 1.5px solid #ff9f3f;
   transform: scale(1.06);
@@ -534,9 +534,9 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   letter-spacing: .4px;
 }
 
-/* INFO TARIFA */
+/* INFO */
 .tarifa-info {
-  padding: 26px 22px 32px;
+  padding: 26px 22px 30px;
   text-align: center;
 }
 
@@ -547,7 +547,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 14px;
 }
 
-/* PRECIO */
 .tarifa-precio {
   font-family: "Playfair Display", serif;
   font-size: 36px;
@@ -563,30 +562,29 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 16px;
 }
 
-/* INCLUYE */
 .tarifa-incluye {
   font-size: 14px;
   line-height: 1.6;
   opacity: 0.85;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
-/* BOTÓN */
-.tarifa-info button {
+/* BOTÓN COMO LINK */
+.tarifa-info a {
+  display: inline-block;
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
-  border: none;
   padding: 13px 28px;
-  font-size: 14.5px;
   border-radius: 30px;
-  cursor: pointer;
   color: #ffffff;
   font-family: "Playfair Display", serif;
+  font-size: 14.5px;
   font-weight: 600;
   letter-spacing: 0.4px;
+  text-decoration: none;
   transition: transform .25s ease, box-shadow .25s ease;
 }
 
-.tarifa-info button:hover {
+.tarifa-info a:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255,159,63,0.45);
 }
@@ -628,11 +626,11 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
             • Música original<br>
             • 1 revisión incluida
           </div>
-          <button data-tarifa="49">Elegir esta opción</button>
+          <a href="#formulario-lirya?tarifa=49">Elegir esta opción</a>
         </div>
       </div>
 
-      <!-- TARIFA 59 DESTACADA -->
+      <!-- TARIFA 59 -->
       <div class="example-card destacada">
         <span class="badge-popular">La más elegida</span>
         <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
@@ -645,7 +643,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
             • Enfoque romántico (San Valentín)<br>
             • Hasta 2 revisiones
           </div>
-          <button data-tarifa="59">Elegir esta opción</button>
+          <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
         </div>
       </div>
 
@@ -661,23 +659,13 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
             • Prioridad absoluta<br>
             • Revisión ilimitada
           </div>
-          <button data-tarifa="79">Elegir esta opción</button>
+          <a href="#formulario-lirya?tarifa=79">Elegir esta opción</a>
         </div>
       </div>
 
     </div>
   </div>
 </section>
-
-<script>
-/* === PRESELECCIÓN TARIFA EN FORMULARIO === */
-document.querySelectorAll('.tarifa-info button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tarifa = btn.getAttribute('data-tarifa');
-    window.location.href = `#formulario-lirya?tarifa=${tarifa}`;
-  });
-});
-</script>
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -1451,6 +1439,7 @@ render();
   </div>
 
 </section>
+
 
 
 
