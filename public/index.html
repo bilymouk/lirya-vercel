@@ -259,6 +259,7 @@ header{
   padding: 90px 20px 100px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
 }
 
 /* TÍTULO */
@@ -268,11 +269,11 @@ header{
   font-size: 34px;
   font-weight: 600;
   letter-spacing: 0.4px;
-  margin-bottom: 18px;
+  margin-bottom: 0;
   line-height: 1.15;
 }
 
-/* LÍNEA DECORATIVA (30% MÁS CERCA DEL TÍTULO) */
+/* LÍNEA DECORATIVA */
 .lirya-premium-divider {
   width: 70px;
   height: 2px;
@@ -282,16 +283,24 @@ header{
     #c7b58a,
     transparent
   );
-  margin: 18px auto 48px; /* ← aquí está el ajuste clave */
+  margin: 10px auto 46px;
 }
 
 /* GRID DESKTOP 2x2 */
 .grid-premium-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-auto-flow: row;
   gap: 34px;
   max-width: 980px;
   margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* BLINDAJE CONTRA EL THEME */
+.grid-premium-cards > div {
+  width: 100% !important;
+  max-width: none !important;
 }
 
 /* TARJETA */
@@ -305,6 +314,7 @@ header{
     transform 0.35s ease,
     box-shadow 0.35s ease,
     border-color 0.35s ease;
+  box-sizing: border-box;
 }
 
 /* MICRO-ANIMACIÓN HOVER */
@@ -345,11 +355,11 @@ header{
   }
 
   .lirya-premium-divider {
-    margin: 16px auto 36px;
+    margin: 12px auto 36px;
   }
 
   .grid-premium-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 26px;
   }
 
@@ -1280,6 +1290,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
