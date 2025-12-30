@@ -251,104 +251,99 @@ header{
 </html>
 
 <style>
+<!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <style>
-/* ===== EL REGALO PERFECTO ===== */
-
 .lirya-premium-final {
-  background-color: #ffffff;
-  padding: 100px 20px;
+  background: #ffffff;
+  padding: 90px 20px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* ===== TÍTULO ===== */
+/* TÍTULO */
 .titulo-premium-brillante {
-  font-family: "Playfair Display", serif;
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  font-weight: 700;
   color: #c7b58a;
-  font-size: 36px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  line-height: 1.2;
-  margin-bottom: 18px;
+  letter-spacing: 0.4px;
+  margin-bottom: 0;
 }
 
-/* Línea decorativa bajo el título */
-.titulo-linea {
+/* LÍNEA DECORATIVA (MISMA QUE GARANTÍA) */
+.lirya-premium-divider {
   width: 70px;
   height: 2px;
-  background-color: rgba(199, 181, 138, 0.6);
-  margin: 0 auto 70px auto;
-  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #c7b58a,
+    transparent
+  );
+  margin: 26px auto 48px;
 }
 
-/* ===== GRID ===== */
+/* GRID */
 .grid-premium-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
+  gap: 36px;
   max-width: 900px;
   margin: 0 auto;
 }
 
-/* ===== TARJETAS ===== */
+/* TARJETA */
 .tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
-  padding: 46px 38px;
+  padding: 38px 32px;
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
   transition: all 0.35s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-/* Micro-animación hover */
+/* MICRO-ANIMACIÓN HOVER */
 .tarjeta-premium-estilo:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 22px 45px rgba(199, 181, 138, 0.25);
-  border-color: rgba(199, 181, 138, 0.8);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(199, 181, 138, 0.25);
+  border-color: rgba(199, 181, 138, 0.6);
 }
 
-/* ===== TÍTULO TARJETA ===== */
+/* TÍTULO TARJETA */
 .tarjeta-premium-estilo h3 {
-  font-family: "Playfair Display", serif;
+  font-family: 'Playfair Display', serif;
   color: #c7b58a;
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 14px;
 }
 
-/* ===== TEXTO TARJETA ===== */
+/* TEXTO TARJETA */
 .tarjeta-premium-estilo p {
-  font-family: "Playfair Display", serif;
-  color: rgba(26, 26, 26, 0.75);
-  font-size: 14.8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
   line-height: 1.7;
-  max-width: 260px;
+  color: rgba(26, 26, 26, 0.78);
+  margin: 0;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .lirya-premium-final {
+    padding: 70px 20px;
+  }
+
+  .titulo-premium-brillante {
+    font-size: 28px;
+  }
+
   .grid-premium-cards {
     grid-template-columns: 1fr;
     gap: 28px;
   }
 
-  .lirya-premium-final {
-    padding: 80px 18px;
-  }
-
-  .titulo-premium-brillante {
-    font-size: 30px;
-  }
-
-  .titulo-linea {
-    margin-bottom: 50px;
-  }
-
   .tarjeta-premium-estilo {
-    padding: 42px 28px;
+    padding: 36px 26px;
   }
 }
 </style>
@@ -357,13 +352,14 @@ header{
   <h2 class="titulo-premium-brillante">
     El regalo perfecto para emocionar de verdad
   </h2>
-  <div class="titulo-linea"></div>
+
+  <div class="lirya-premium-divider"></div>
 
   <div class="grid-premium-cards">
     <div class="tarjeta-premium-estilo">
       <h3>Hecha con vuestra historia</h3>
       <p>
-        No es un objeto ni una plantilla.  
+        No es un objeto ni una plantilla.
         Cada canción nace de vuestra historia real.
       </p>
     </div>
@@ -371,16 +367,16 @@ header{
     <div class="tarjeta-premium-estilo">
       <h3>Emoción real</h3>
       <p>
-        Letras escritas con momentos, palabras y recuerdos
-        que importan de verdad.
+        Letras escritas con momentos,
+        palabras y recuerdos que importan de verdad.
       </p>
     </div>
 
     <div class="tarjeta-premium-estilo">
       <h3>Pensada para regalar</h3>
       <p>
-        Un detalle único para sorprender, emocionar
-        y recordar para siempre.
+        Un detalle único para sorprender,
+        emocionar y recordar para siempre.
       </p>
     </div>
 
@@ -1273,6 +1269,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
