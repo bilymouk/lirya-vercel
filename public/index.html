@@ -823,11 +823,9 @@ document.addEventListener("click",()=>{
 </section>
 
 <style>
-  
-<style>
 /* =================================
-   CÓMO FUNCIONA — AISLADO TOTAL
-   (NO AFECTA A OTRAS SECCIONES)
+   CÓMO FUNCIONA
+   (AISLADA Y ESTABLE)
 ================================= */
 
 .lirya-cf-section {
@@ -838,7 +836,7 @@ document.addEventListener("click",()=>{
 }
 
 /* TÍTULO */
-.lirya-cf-title {
+.lirya-cf-section .lirya-cf-title {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 36px;
@@ -848,7 +846,7 @@ document.addEventListener("click",()=>{
 }
 
 /* LÍNEA DECORATIVA */
-.lirya-cf-divider {
+.lirya-cf-section .lirya-cf-divider {
   width: 72px;
   height: 2px;
   background: linear-gradient(
@@ -860,8 +858,8 @@ document.addEventListener("click",()=>{
   margin: 22px auto 64px;
 }
 
-/* GRID 3 TARJETAS */
-.lirya-cf-grid {
+/* GRID */
+.lirya-cf-section .lirya-cf-grid {
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
@@ -870,7 +868,7 @@ document.addEventListener("click",()=>{
 }
 
 /* TARJETA */
-.lirya-cf-card {
+.lirya-cf-section .lirya-cf-card {
   background-color: #fcfaf7;
   border-radius: 16px;
   padding: 44px 34px;
@@ -878,8 +876,8 @@ document.addEventListener("click",()=>{
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
-/* NÚMERO */
-.lirya-cf-step {
+/* PASO */
+.lirya-cf-section .lirya-cf-step {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 18px;
@@ -887,14 +885,14 @@ document.addEventListener("click",()=>{
 }
 
 /* TEXTO */
-.lirya-cf-card h3 {
+.lirya-cf-section .lirya-cf-card h3 {
   font-family: "Playfair Display", serif;
   font-size: 22px;
   margin-bottom: 12px;
   color: #3a3a3a;
 }
 
-.lirya-cf-card p {
+.lirya-cf-section .lirya-cf-card p {
   font-family: "Playfair Display", serif;
   font-size: 14.5px;
   line-height: 1.65;
@@ -905,13 +903,13 @@ document.addEventListener("click",()=>{
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .lirya-cf-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
   .lirya-cf-section {
     padding: 80px 20px;
+  }
+
+  .lirya-cf-section .lirya-cf-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
 }
 </style>
@@ -1261,6 +1259,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
