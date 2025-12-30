@@ -670,11 +670,11 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </section>
 
 <style>
-/* =================================
+<!-- =================================
    CÓMO FUNCIONA
-   (PREMIUM + ANIMACIONES)
-================================= */
-
+   (VERSIÓN FINAL PREMIUM)
+================================= -->
+<style>
 .lirya-cf-section {
   background: #ffffff;
   padding: 110px 20px;
@@ -683,7 +683,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 }
 
 /* TÍTULO */
-.lirya-cf-section .lirya-cf-title {
+.lirya-cf-title {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 36px;
@@ -692,8 +692,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin: 0;
 }
 
-/* LÍNEA DECORATIVA (1cm exacto) */
-.lirya-cf-section .lirya-cf-divider {
+/* LÍNEA DECORATIVA */
+.lirya-cf-divider {
   width: 72px;
   height: 2px;
   background: linear-gradient(
@@ -702,11 +702,11 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     #c7b58a,
     transparent
   );
-  margin: 1cm auto 64px;
+  margin: 22px auto 64px;
 }
 
 /* GRID */
-.lirya-cf-section .lirya-cf-grid {
+.lirya-cf-grid {
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
@@ -715,7 +715,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 }
 
 /* TARJETA */
-.lirya-cf-section .lirya-cf-card {
+.lirya-cf-card {
   background-color: #fcfaf7;
   border-radius: 16px;
   padding: 44px 34px;
@@ -725,34 +725,28 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     transform 0.35s cubic-bezier(.34,1.56,.64,1),
     box-shadow 0.35s ease,
     border-color 0.35s ease;
-  cursor: pointer;
+  cursor: default;
 }
 
-/* MICRO-REBOTE + SELECCIÓN (HOVER) */
+/* MICRO ANIMACIÓN HOVER */
 @media (hover: hover) {
-  .lirya-cf-section .lirya-cf-card:hover {
+  .lirya-cf-card:hover {
     transform: translateY(-8px) scale(1.015);
     box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
     border-color: rgba(199, 181, 138, 0.65);
   }
 }
 
-/* SELECCIÓN AL CLIC */
-.lirya-cf-section .lirya-cf-card:active {
-  transform: translateY(-4px) scale(0.98);
-  box-shadow: 0 16px 32px rgba(199, 181, 138, 0.25);
-}
-
-/* NÚMERO (NEGRO) */
-.lirya-cf-section .lirya-cf-step {
+/* NÚMERO */
+.lirya-cf-step {
   font-family: "Playfair Display", serif;
-  color: #000000;
+  color: #000;
   font-size: 18px;
   margin-bottom: 14px;
 }
 
-/* TÍTULO TARJETA (DORADO) */
-.lirya-cf-section .lirya-cf-card h3 {
+/* TÍTULO TARJETA */
+.lirya-cf-card h3 {
   font-family: "Playfair Display", serif;
   font-size: 22px;
   margin-bottom: 12px;
@@ -760,7 +754,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 }
 
 /* TEXTO */
-.lirya-cf-section .lirya-cf-card p {
+.lirya-cf-card p {
   font-family: "Playfair Display", serif;
   font-size: 14.5px;
   line-height: 1.65;
@@ -769,22 +763,18 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin: 0 auto;
 }
 
-/* ===============================
-   ANIMACIÓN ESCALERA (MÓVIL)
-================================ */
-
+/* ===== MÓVIL ===== */
 @media (max-width: 900px) {
   .lirya-cf-section {
     padding: 80px 20px;
   }
 
-  .lirya-cf-section .lirya-cf-grid {
+  .lirya-cf-grid {
     grid-template-columns: 1fr;
     gap: 30px;
   }
 
-  /* Estado inicial */
-  .lirya-cf-section .lirya-cf-card {
+  .lirya-cf-card {
     opacity: 0;
     transform: translateY(32px) scale(0.96);
     transition:
@@ -792,7 +782,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       transform 0.6s cubic-bezier(.34,1.56,.64,1);
   }
 
-  .lirya-cf-section .lirya-cf-card.is-visible {
+  .lirya-cf-card.is-visible {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
@@ -800,7 +790,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* Accesibilidad */
 @media (prefers-reduced-motion: reduce) {
-  .lirya-cf-section .lirya-cf-card {
+  .lirya-cf-card {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -817,8 +807,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       <div class="lirya-cf-step">1</div>
       <h3>Cuéntanos vuestra historia</h3>
       <p>
-        Rellena el formulario con los detalles que hacen vuestra historia única
-        y especial.
+        Rellena el formulario en menos de 3 minutos con los detalles
+        que hacen vuestra historia única.
       </p>
     </div>
 
@@ -826,41 +816,41 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       <div class="lirya-cf-step">2</div>
       <h3>Creamos la canción</h3>
       <p>
-        Convertimos vuestra historia en una canción personalizada con letra y
-        música.
+        Transformamos vuestra historia en una canción original,
+        cuidando cada palabra y cada emoción.
       </p>
     </div>
 
     <div class="lirya-cf-card">
       <div class="lirya-cf-step">3</div>
-      <h3>La recibes en 24h</h3>
+      <h3>La recibes y la conservas</h3>
       <p>
-        Descárgala en MP3, compártela y revive el regalo siempre que quieras.
+        La recibirás dentro del plazo de tu tarifa,
+        lista para escuchar, compartir y guardar para siempre.
       </p>
     </div>
   </div>
 </section>
 
 <script>
-/* === Animación escalera móvil (aislada) === */
+/* Animación escalera móvil */
 if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const cardsCF = document.querySelectorAll('.lirya-cf-section .lirya-cf-card');
+  const cards = document.querySelectorAll('.lirya-cf-card');
 
-  const observerCF = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
         setTimeout(() => {
           entry.target.classList.add('is-visible');
         }, index * 150);
-        observerCF.unobserve(entry.target);
+        observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.25 });
 
-  cardsCF.forEach(card => observerCF.observe(card));
+  cards.forEach(card => observer.observe(card));
 }
 </script>
-
 
   <!-- ================== FORMULARIO LIRYA ================== -->
 <section id="formulario-lirya">
@@ -1498,6 +1488,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
