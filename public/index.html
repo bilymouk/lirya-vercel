@@ -45,19 +45,22 @@ header{
   color:var(--gold);
 }
 
+/* BOTÓN HEADER – PREMIUM */
 .cta-header{
   background:var(--orange);
   color:#fff;
-  padding:10px 26px;
-  border-radius:10px;
+  padding:11px 30px;
+  border-radius:12px;
+  font-family:'Playfair Display',serif;
   font-weight:600;
+  letter-spacing:.4px;
   text-decoration:none;
   transition:background .2s ease, transform .2s ease;
 }
 
 .cta-header:hover{
   background:var(--orange-hover);
-  transform:scale(1.03);
+  transform:translateY(-1px);
 }
 
 /* ===== HERO ===== */
@@ -110,14 +113,23 @@ header{
   opacity:.95;
 }
 
+/* BOTÓN HERO – PREMIUM */
 .hero-btn{
   background:var(--orange);
   color:#fff;
-  padding:14px 36px;
-  border-radius:10px;
+  padding:15px 40px;
+  border-radius:12px;
+  font-family:'Playfair Display',serif;
   font-weight:600;
+  letter-spacing:.5px;
   text-decoration:none;
   display:inline-block;
+  transition:transform .2s ease, background .2s ease;
+}
+
+.hero-btn:hover{
+  background:var(--orange-hover);
+  transform:translateY(-1px);
 }
 
 .hero-note{
@@ -128,11 +140,11 @@ header{
   opacity:.85;
 }
 
-/* 🔑 WRAPPER QUE BAJA EL MÓVIL EN DESKTOP */
+/* TELÉFONO DESKTOP */
 .hero-phone-wrapper{
   display:flex;
   justify-content:center;
-  transform:translateY(32px); /* AJUSTA SI QUIERES */
+  transform:translateY(32px);
 }
 
 .hero-phone{
@@ -161,7 +173,6 @@ header{
   animation:floatPhoneMobile 5s ease-in-out infinite;
 }
 
-/* 🔑 SOLO SUBE EL TEXTO INFERIOR EN MOBILE */
 .hero-mobile-text{
   transform:translateY(-26px);
 }
@@ -197,9 +208,7 @@ header{
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:900px){
-  .hero-inner{
-    padding:28px 20px;
-  }
+  .hero-inner{padding:28px 20px}
   .hero-desktop{display:none}
   .hero-mobile{display:block}
 }
@@ -211,7 +220,7 @@ header{
 <header>
   <div class="header-container">
     <div class="logo">LIRYA</div>
-    <a href="#formulario" class="cta-header">Crear mi canción</a>
+    <a href="#formulario-lirya" class="cta-header">Crear mi canción</a>
   </div>
 </header>
 
@@ -222,8 +231,8 @@ header{
     <div class="hero-desktop">
       <div class="hero-text">
         <h1>La canción perfecta para contar vuestra historia</h1>
-        <p>Canción única en 24 h · Revisión incluida</p>
-        <a href="#formulario" class="hero-btn">Crear mi canción</a>
+        <p>Entrega según la tarifa elegida · Revisión incluida</p>
+        <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
         <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
 
@@ -238,8 +247,8 @@ header{
       <img src="/mockup-phone-final.png" alt="Canción personalizada">
 
       <div class="hero-mobile-text">
-        <p>Canción única en 24 h · Revisión incluida</p>
-        <a href="#formulario" class="hero-btn">Crear mi canción</a>
+        <p>Entrega según la tarifa elegida · Revisión incluida</p>
+        <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
         <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
     </div>
@@ -250,7 +259,6 @@ header{
 </body>
 </html>
 
-<style>
 /* =================================
    EL REGALO PERFECTO
    (PREMIUM + ANIMACIONES)
@@ -1496,6 +1504,7 @@ render();
   </div>
 
 </section>
+
 
 
 
