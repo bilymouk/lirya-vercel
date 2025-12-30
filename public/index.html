@@ -1298,6 +1298,77 @@ if(t){
   }
 }
 render();
+/* ================== STRIPE CHECKOUT ================== */
+
+// 1. Seleccionamos el botón final
+const submitBtn = document.querySelector("#formulario-lirya .submit");
+
+// 2. Función para recoger TODOS los datos del formulario
+function getFormData() {
+  const inputs = document.querySelectorAll("#formulario-lirya input");
+  const textareas = document.querySelectorAll("#formulario-lirya textarea");
+  const dropdowns = document.querySelectorAll("#formulario-lirya .dropdown-btn");
+
+  return {
+    recipient_name: inputs[0]?.value || "",
+    your_name: inputs[1]?.value || "",
+    relationship: dropdowns[0]?.textContent || "",
+    tarifa: document.getElementById("tarifa-hidden").value || "",
+
+    how_met: textareas[0]?.value || "",
+    special_moment: textareas[1]?.value || "",
+    reason_now: dropdowns[1]?.textContent || "",
+
+    three_words: inputs[2]?.value || "",
+    dedication: textareas[2]?.value || "",
+    emotion: dropdowns[2]?.textContent || "",
+
+    song_style: dropdowns[3]?.textContent || "",
+    rhythm: dropdowns[4]?.textContent || "",
+    voice_type: dropdowns[5]?.textContent || "",
+    language: dropdowns[6]?.textContent || "",
+
+    include_name: dropdowns[7]?.textContent || "",
+    dont_mention: textareas[3]?.value || "",
+    intensity: dropdowns[8]?.textContent || "",
+
+    email: inputs[3]?.value || "",
+    whatsapp: dropdowns[9]?.textContent || "",
+    phone: inputs[4]?.value || ""
+  };
+}
+
+// 3. Evento al hacer clic en "Pagar y enviar"
+submitBtn.addEventListener("click", async () => {
+  // Seguridad extra: no permitir doble clic
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Redirigiendo a pago seguro…";
+
+  const formData = getFormData();
+
+  try {
+    const response = await fetch("/api/payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error("No se recibió la URL de Stripe");
+    }
+
+  } catch (error) {
+    console.error("Error al iniciar el pago:", error);
+    alert("Ha ocurrido un error al iniciar el pago. Inténtalo de nuevo.");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Pagar y enviar";
+  }
+});
+
 </script>
 
 </section>
@@ -1501,6 +1572,7 @@ render();
   </div>
 
 </section>
+
 
 
 
