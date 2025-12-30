@@ -1071,12 +1071,11 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
+<!-- ===== EJEMPLOS REALES + TARIFAS ===== -->
 <style>
-/* ===== EJEMPLOS + TARIFAS ===== */
-
 .examples {
   position: relative;
-  padding: 110px 20px;
+  padding: 100px 20px;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
@@ -1085,7 +1084,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(5, 8, 25, 0.75);
+  background: rgba(5, 8, 25, 0.78);
 }
 
 .examples-inner {
@@ -1105,11 +1104,9 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   font-weight: 600;
 }
 
-/* SUBTÍTULO */
 .examples-subtitle {
   font-family: "Playfair Display", serif;
   font-size: 16px;
-  color: #ffffff;
   opacity: 0.85;
   margin-bottom: 70px;
 }
@@ -1118,99 +1115,105 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  gap: 45px;
 }
 
 /* CARD */
 .example-card {
-  background: rgba(255,255,255,0.06);
+  position: relative;
   border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.4);
-  box-shadow: 0 0 18px rgba(255,255,255,0.15);
-  transition: transform .4s ease, box-shadow .4s ease;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 0 22px rgba(255,255,255,0.18);
+  transition: transform .45s ease, box-shadow .45s ease;
+  background: rgba(0,0,0,0.35);
 }
 
 .example-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 0 40px rgba(255,255,255,0.35);
+  box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
-/* IMAGEN */
 .example-card img {
   width: 100%;
   display: block;
 }
 
-/* CONTENIDO */
-.example-content {
-  padding: 26px 22px 30px;
+/* BADGE DESTACADO */
+.badge-popular {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(212,180,131,0.9);
+  color: #1a1a1a;
+  font-family: "Playfair Display", serif;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  letter-spacing: .3px;
 }
 
-/* TÍTULO CANCIÓN */
-.example-title {
+/* INFO TARIFA */
+.tarifa-info {
+  padding: 26px 22px 30px;
+  text-align: center;
+}
+
+.tarifa-info h3 {
   font-family: "Playfair Display", serif;
   font-size: 20px;
-  margin-bottom: 12px;
-  color: #fff;
+  color: #f2e7c9;
+  margin-bottom: 14px;
 }
 
-/* PRECIO */
-.example-price {
-  font-size: 34px;
-  font-weight: 700;
+/* PRECIO PREMIUM */
+.tarifa-precio {
+  font-family: "Playfair Display", serif;
+  font-size: 36px;
+  font-weight: 600;
   color: #d4b483;
+  letter-spacing: 0.5px;
   margin-bottom: 6px;
 }
 
-/* ENTREGA */
-.example-delivery {
-  font-size: 14.5px;
-  opacity: .85;
-  margin-bottom: 18px;
+.tarifa-entrega {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 16px;
 }
 
-/* CTA */
-.example-btn {
-  display: inline-block;
-  padding: 12px 28px;
-  background: #ff8a2a;
-  color: #fff;
-  border-radius: 10px;
-  text-decoration: none;
+/* LISTA INCLUYE */
+.tarifa-incluye {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-bottom: 22px;
+}
+
+/* BOTÓN */
+.tarifa-info button {
+  background: linear-gradient(135deg, #ff9f3f, #e58b2a);
+  border: none;
+  padding: 12px 22px;
+  font-size: 14px;
+  border-radius: 30px;
+  cursor: pointer;
+  color: #1a1a1a;
   font-weight: 600;
 }
 
-/* RECOMENDADA */
-.recommended {
-  border: 2px solid #ff8a2a;
-  transform: scale(1.04);
-}
-
-.recommended-badge {
-  background: #ff8a2a;
-  color: #fff;
-  font-size: 12px;
-  padding: 6px 14px;
-  display: inline-block;
-  border-radius: 20px;
-  margin-bottom: 14px;
+.tarifa-info button:hover {
+  filter: brightness(1.08);
 }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .examples-grid {
     grid-template-columns: 1fr;
-    gap: 34px;
   }
 
   .examples h2 {
     font-size: 32px;
-  }
-
-  .examples-subtitle {
-    font-size: 15px;
-    margin-bottom: 50px;
   }
 }
 </style>
@@ -1219,42 +1222,57 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   <div class="examples-inner">
     <h2>Ejemplos reales</h2>
     <p class="examples-subtitle">
-      Escucha cómo suenan nuestras canciones personalizadas y elige la opción perfecta para ti.
+      Así suenan las canciones personalizadas. Historias reales, emociones reales.
     </p>
 
     <div class="examples-grid">
 
-      <!-- BÁSICA -->
+      <!-- TARIFA 49 -->
       <div class="example-card">
-        <img src="/eres-mi-amor-card.jpg" alt="Ejemplo canción básica">
-        <div class="example-content">
-          <div class="example-title">Canción personalizada</div>
-          <div class="example-price">49€</div>
-          <div class="example-delivery">Entrega en 4–5 días</div>
-          <a href="#formulario" class="example-btn">Elegir esta opción</a>
+        <img src="/papa-card.jpg" alt="Papá">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">49€</div>
+          <div class="tarifa-entrega">Entrega en 4–5 días</div>
+          <div class="tarifa-incluye">
+            • Letra personalizada<br>
+            • Música original<br>
+            • 1 revisión incluida
+          </div>
+          <button>Elegir esta opción</button>
         </div>
       </div>
 
-      <!-- RECOMENDADA -->
-      <div class="example-card recommended">
-        <img src="/papa-card.jpg" alt="Ejemplo canción recomendada">
-        <div class="example-content">
-          <div class="recommended-badge">Más elegida</div>
-          <div class="example-title">Canción personalizada</div>
-          <div class="example-price">59€</div>
-          <div class="example-delivery">Entrega en 2–3 días</div>
-          <a href="#formulario" class="example-btn">Elegir esta opción</a>
+      <!-- TARIFA 59 (SAN VALENTÍN) -->
+      <div class="example-card">
+        <span class="badge-popular">La más elegida</span>
+        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">59€</div>
+          <div class="tarifa-entrega">Entrega en 2–3 días</div>
+          <div class="tarifa-incluye">
+            • Letra muy detallada<br>
+            • Enfoque románto (ideal San Valentín)<br>
+            • Hasta 2 revisiones
+          </div>
+          <button>Elegir esta opción</button>
         </div>
       </div>
 
-      <!-- PREMIUM -->
+      <!-- TARIFA 79 -->
       <div class="example-card">
-        <img src="/amigas-card.jpg" alt="Ejemplo canción premium">
-        <div class="example-content">
-          <div class="example-title">Canción personalizada</div>
-          <div class="example-price">79€</div>
-          <div class="example-delivery">Entrega prioritaria</div>
-          <a href="#formulario" class="example-btn">Elegir esta opción</a>
+        <img src="/amigas-card.jpg" alt="Amigas por siempre">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">79€</div>
+          <div class="tarifa-entrega">Entrega prioritaria</div>
+          <div class="tarifa-incluye">
+            • Máximo nivel de detalle<br>
+            • Prioridad absoluta<br>
+            • Revisión ilimitada
+          </div>
+          <button>Elegir esta opción</button>
         </div>
       </div>
 
@@ -1461,6 +1479,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
