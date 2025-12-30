@@ -253,26 +253,26 @@ header{
 <style>
 <!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <style>
-/* ===== SECCIÓN ===== */
+/* SECCIÓN */
 .lirya-premium-final {
   background-color: #ffffff;
-  padding: 80px 20px;
+  padding: 90px 20px 100px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* ===== TÍTULO ===== */
+/* TÍTULO */
 .titulo-premium-brillante {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 34px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.4px;
   margin-bottom: 18px;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
-/* ===== LÍNEA DECORATIVA (MISMO ESTILO QUE GARANTÍA) ===== */
+/* LÍNEA DECORATIVA (30% MÁS CERCA DEL TÍTULO) */
 .lirya-premium-divider {
   width: 70px;
   height: 2px;
@@ -282,39 +282,39 @@ header{
     #c7b58a,
     transparent
   );
-  margin: 18px auto 42px;
+  margin: 18px auto 48px; /* ← aquí está el ajuste clave */
 }
 
-/* ===== GRID TARJETAS ===== */
+/* GRID DESKTOP 2x2 */
 .grid-premium-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
-  max-width: 1000px;
+  gap: 34px;
+  max-width: 980px;
   margin: 0 auto;
 }
 
-/* ===== TARJETA ===== */
+/* TARJETA */
 .tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
   padding: 42px 34px;
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
   transition: 
     transform 0.35s ease,
     box-shadow 0.35s ease,
     border-color 0.35s ease;
 }
 
-/* ===== MICRO-ANIMACIÓN ===== */
+/* MICRO-ANIMACIÓN HOVER */
 .tarjeta-premium-estilo:hover {
   transform: translateY(-6px);
-  border-color: rgba(199, 181, 138, 0.7);
-  box-shadow: 0 20px 45px rgba(199, 181, 138, 0.18);
+  box-shadow: 0 22px 45px rgba(199, 181, 138, 0.22);
+  border-color: rgba(199, 181, 138, 0.6);
 }
 
-/* ===== TÍTULO TARJETA ===== */
+/* TÍTULO TARJETA */
 .tarjeta-premium-estilo h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
@@ -323,35 +323,38 @@ header{
   margin-bottom: 14px;
 }
 
-/* ===== TEXTO TARJETA ===== */
+/* TEXTO TARJETA */
 .tarjeta-premium-estilo p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.78);
   font-size: 15px;
-  line-height: 1.75;
+  line-height: 1.7;
   letter-spacing: 0.25px;
-  margin: 0;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .grid-premium-cards {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-}
-
+/* RESPONSIVE MÓVIL */
 @media (max-width: 768px) {
   .lirya-premium-final {
-    padding: 70px 20px;
+    padding: 70px 20px 80px;
   }
 
   .titulo-premium-brillante {
     font-size: 28px;
   }
 
+  .lirya-premium-divider {
+    margin: 16px auto 36px;
+  }
+
+  .grid-premium-cards {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
   .tarjeta-premium-estilo {
-    padding: 40px 28px;
+    padding: 40px 26px;
   }
 }
 </style>
@@ -383,8 +386,8 @@ header{
     <div class="tarjeta-premium-estilo">
       <h3>Pensada para regalar</h3>
       <p>
-        Un detalle único para sorprender,
-        emocionar y recordar para siempre.
+        Un detalle único para sorprender, emocionar
+        y recordar para siempre.
       </p>
     </div>
 
@@ -1277,6 +1280,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
