@@ -251,106 +251,95 @@ header{
 </html>
 
 <style>
-<!-- ===== POR QUÉ ES UN REGALO ESPECIAL ===== -->
 <style>
-/* SECCIÓN */
+/* ===== REGALO PERFECTO ===== */
+
 .lirya-premium-final {
-  background-color: #ffffff;
-  padding: 90px 20px 100px;
+  background: #ffffff;
+  padding: 100px 20px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* TÍTULO */
-.lirya-premium-final .titulo-premium-brillante {
+/* === TÍTULO === */
+.titulo-premium-brillante {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 34px;
+  font-size: 36px;
   font-weight: 600;
-  letter-spacing: 0.4px;
-  margin-bottom: 0;
+  margin-bottom: 60px;
   line-height: 1.15;
 }
 
-/* LÍNEA DECORATIVA (30% MÁS ARRIBA) */
-.lirya-premium-final .lirya-premium-divider {
-  width: 70px;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #c7b58a,
-    transparent
-  );
-  margin: 13px auto 48px;
-}
-
-/* GRID 2x2 DESKTOP */
-.lirya-premium-final .grid-premium-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 34px;
-  max-width: 860px; /* ⬅️ clave para evitar tarjetas gigantes */
+/* === CONTENEDOR GENERAL === */
+.premium-rows {
+  max-width: 980px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
 }
 
-/* TARJETA */
-.lirya-premium-final .tarjeta-premium-estilo {
+/* === FILA === */
+.premium-row {
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+}
+
+/* === TARJETA === */
+.tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
-  padding: 38px 32px; /* ⬅️ ligeramente reducido */
+  padding: 34px 28px;
+  width: 100%;
+  max-width: 420px;
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
-  transition: 
-    transform 0.35s ease,
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* HOVER */
-.lirya-premium-final .tarjeta-premium-estilo:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 22px 45px rgba(199, 181, 138, 0.22);
-  border-color: rgba(199, 181, 138, 0.6);
+/* === HOVER === */
+@media (hover: hover) {
+  .tarjeta-premium-estilo:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(199, 181, 138, 0.28);
+  }
 }
 
-/* TÍTULO TARJETA */
-.lirya-premium-final .tarjeta-premium-estilo h3 {
+/* === TEXTO === */
+.tarjeta-premium-estilo h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 21px;
-  font-weight: 600;
+  font-size: 22px;
   margin-bottom: 12px;
 }
 
-/* TEXTO TARJETA */
-.lirya-premium-final .tarjeta-premium-estilo p {
+.tarjeta-premium-estilo p {
   font-family: "Playfair Display", serif;
-  color: rgba(26, 26, 26, 0.78);
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.65;
-  max-width: 280px;
+  color: rgba(26, 26, 26, 0.75);
   margin: 0 auto;
+  max-width: 280px;
 }
 
-/* RESPONSIVE */
+/* === MÓVIL === */
 @media (max-width: 768px) {
+
   .lirya-premium-final {
-    padding: 70px 20px 80px;
+    padding: 70px 20px;
   }
 
-  .lirya-premium-final .titulo-premium-brillante {
-    font-size: 28px;
-  }
-
-  .lirya-premium-final .lirya-premium-divider {
-    margin: 12px auto 36px;
-  }
-
-  .lirya-premium-final .grid-premium-cards {
-    grid-template-columns: 1fr;
+  .premium-row {
+    flex-direction: column;
     gap: 26px;
   }
+
+  .tarjeta-premium-estilo {
+    max-width: 100%;
+  }
+
 }
 </style>
 
@@ -359,32 +348,48 @@ header{
     El regalo perfecto para emocionar de verdad
   </h2>
 
-  <div class="lirya-premium-divider"></div>
+  <div class="premium-rows">
 
-  <div class="grid-premium-cards">
-    <div class="tarjeta-premium-estilo">
-      <h3>Hecha con vuestra historia</h3>
-      <p>No es un objeto ni una plantilla. Cada canción nace de vuestra historia real.</p>
+    <div class="premium-row">
+      <div class="tarjeta-premium-estilo">
+        <h3>Hecha con vuestra historia</h3>
+        <p>
+          No es un objeto ni una plantilla.
+          Cada canción nace de vuestra historia real.
+        </p>
+      </div>
+
+      <div class="tarjeta-premium-estilo">
+        <h3>Emoción real</h3>
+        <p>
+          Letras escritas con momentos,
+          palabras y recuerdos que importan de verdad.
+        </p>
+      </div>
     </div>
 
-    <div class="tarjeta-premium-estilo">
-      <h3>Emoción real</h3>
-      <p>Letras escritas con momentos, palabras y recuerdos que importan de verdad.</p>
+    <div class="premium-row">
+      <div class="tarjeta-premium-estilo">
+        <h3>Pensada para regalar</h3>
+        <p>
+          Un detalle único para sorprender,
+          emocionar y recordar para siempre.
+        </p>
+      </div>
+
+      <div class="tarjeta-premium-estilo">
+        <h3>Garantía emocional</h3>
+        <p>
+          Si no te emociona,
+          la ajustamos contigo sin ningún coste.
+        </p>
+      </div>
     </div>
 
-    <div class="tarjeta-premium-estilo">
-      <h3>Pensada para regalar</h3>
-      <p>Un detalle único para sorprender, emocionar y recordar para siempre.</p>
-    </div>
-
-    <div class="tarjeta-premium-estilo">
-      <h3>Garantía emocional</h3>
-      <p>Si no te emociona, la ajustamos contigo sin ningún coste.</p>
-    </div>
   </div>
 </section>
 
-<!-- ================== FORMULARIO LIRYA ================== -->
+  <!-- ================== FORMULARIO LIRYA ================== -->
 <section id="formulario-lirya">
 
 <style>
@@ -1263,6 +1268,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
