@@ -252,7 +252,7 @@ header{
 
 <style>
 <style>
-/* ===== REGALO PERFECTO ===== */
+/* ===== REGALO PERFECTO (AISLADO) ===== */
 
 .lirya-premium-final {
   background: #ffffff;
@@ -262,33 +262,41 @@ header{
 }
 
 /* === TÍTULO === */
-.titulo-premium-brillante {
+.lirya-premium-final .titulo-premium-brillante {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 36px;
   font-weight: 600;
-  margin-bottom: 60px;
   line-height: 1.15;
+  margin-bottom: 0;
+}
+
+/* === LÍNEA DECORATIVA (1cm exacto) === */
+.lirya-premium-final .premium-divider {
+  width: 70px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #c7b58a, transparent);
+  margin: 1cm auto 60px;
 }
 
 /* === CONTENEDOR GENERAL === */
-.premium-rows {
+.lirya-premium-final .premium-rows {
   max-width: 980px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 56px; /* ⬅️ más separación vertical desktop */
 }
 
 /* === FILA === */
-.premium-row {
+.lirya-premium-final .premium-row {
   display: flex;
-  gap: 36px;
+  gap: 56px; /* ⬅️ más separación horizontal desktop */
   justify-content: center;
 }
 
 /* === TARJETA === */
-.tarjeta-premium-estilo {
+.lirya-premium-final .tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
   padding: 34px 28px;
@@ -299,23 +307,23 @@ header{
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* === HOVER === */
+/* === HOVER DESKTOP === */
 @media (hover: hover) {
-  .tarjeta-premium-estilo:hover {
+  .lirya-premium-final .tarjeta-premium-estilo:hover {
     transform: translateY(-6px);
     box-shadow: 0 20px 40px rgba(199, 181, 138, 0.28);
   }
 }
 
 /* === TEXTO === */
-.tarjeta-premium-estilo h3 {
+.lirya-premium-final .tarjeta-premium-estilo h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 22px;
   margin-bottom: 12px;
 }
 
-.tarjeta-premium-estilo p {
+.lirya-premium-final .tarjeta-premium-estilo p {
   font-family: "Playfair Display", serif;
   font-size: 14.5px;
   line-height: 1.65;
@@ -324,22 +332,40 @@ header{
   max-width: 280px;
 }
 
-/* === MÓVIL === */
-@media (max-width: 768px) {
+/* ===============================
+   ANIMACIÓN MÓVIL (ESCALERA)
+================================ */
 
-  .lirya-premium-final {
-    padding: 70px 20px;
+/* Estado inicial */
+@media (max-width: 768px) {
+  .lirya-premium-final .tarjeta-premium-estilo {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
-  .premium-row {
+  .lirya-premium-final .tarjeta-premium-estilo.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .lirya-premium-final .premium-row {
     flex-direction: column;
     gap: 26px;
   }
 
-  .tarjeta-premium-estilo {
-    max-width: 100%;
+  .lirya-premium-final {
+    padding: 70px 20px;
   }
+}
 
+/* Respeto a accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .lirya-premium-final .tarjeta-premium-estilo {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 </style>
 
@@ -348,46 +374,54 @@ header{
     El regalo perfecto para emocionar de verdad
   </h2>
 
-  <div class="premium-rows">
+  <div class="premium-divider"></div>
 
+  <div class="premium-rows">
     <div class="premium-row">
       <div class="tarjeta-premium-estilo">
         <h3>Hecha con vuestra historia</h3>
-        <p>
-          No es un objeto ni una plantilla.
-          Cada canción nace de vuestra historia real.
-        </p>
+        <p>No es un objeto ni una plantilla. Cada canción nace de vuestra historia real.</p>
       </div>
 
       <div class="tarjeta-premium-estilo">
         <h3>Emoción real</h3>
-        <p>
-          Letras escritas con momentos,
-          palabras y recuerdos que importan de verdad.
-        </p>
+        <p>Letras escritas con momentos, palabras y recuerdos que importan de verdad.</p>
       </div>
     </div>
 
     <div class="premium-row">
       <div class="tarjeta-premium-estilo">
         <h3>Pensada para regalar</h3>
-        <p>
-          Un detalle único para sorprender,
-          emocionar y recordar para siempre.
-        </p>
+        <p>Un detalle único para sorprender, emocionar y recordar para siempre.</p>
       </div>
 
       <div class="tarjeta-premium-estilo">
         <h3>Garantía emocional</h3>
-        <p>
-          Si no te emociona,
-          la ajustamos contigo sin ningún coste.
-        </p>
+        <p>Si no te emociona, la ajustamos contigo sin ningún coste.</p>
       </div>
     </div>
-
   </div>
 </section>
+
+<script>
+/* === Animación escalera móvil (aislada) === */
+if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const cards = document.querySelectorAll('.lirya-premium-final .tarjeta-premium-estilo');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('is-visible');
+        }, index * 120);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  cards.forEach(card => observer.observe(card));
+}
+</script>
 
   <!-- ================== FORMULARIO LIRYA ================== -->
 <section id="formulario-lirya">
@@ -1268,6 +1302,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
