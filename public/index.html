@@ -253,7 +253,7 @@ header{
 <style>
 /* =================================
    EL REGALO PERFECTO
-   (CORRECTO Y ESTABLE)
+   (PREMIUM + ANIMACIONES)
 ================================= */
 
 .lirya-premium-final {
@@ -273,7 +273,7 @@ header{
   margin: 0;
 }
 
-/* LÍNEA DECORATIVA (1cm exacto) */
+/* LÍNEA DECORATIVA */
 .lirya-premium-final .premium-divider {
   width: 70px;
   height: 2px;
@@ -286,7 +286,7 @@ header{
   margin: 1cm auto 60px;
 }
 
-/* CONTENEDOR GENERAL */
+/* CONTENEDOR */
 .lirya-premium-final .premium-rows {
   max-width: 980px;
   margin: 0 auto;
@@ -311,15 +311,26 @@ header{
   max-width: 420px;
   border: 1px solid rgba(199, 181, 138, 0.35);
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.05);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    transform 0.35s cubic-bezier(.34,1.56,.64,1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+  cursor: pointer;
 }
 
-/* HOVER (solo dispositivos con hover real) */
+/* MICRO-REBOTE + SELECCIÓN (HOVER) */
 @media (hover: hover) {
   .lirya-premium-final .tarjeta-premium-estilo:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(199, 181, 138, 0.28);
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 26px 50px rgba(199, 181, 138, 0.32);
+    border-color: rgba(199, 181, 138, 0.65);
   }
+}
+
+/* SELECCIÓN AL CLIC */
+.lirya-premium-final .tarjeta-premium-estilo:active {
+  transform: translateY(-4px) scale(0.98);
+  box-shadow: 0 16px 32px rgba(199, 181, 138, 0.25);
 }
 
 /* TEXTO */
@@ -339,7 +350,10 @@ header{
   margin: 0 auto;
 }
 
-/* RESPONSIVE */
+/* ===============================
+   ANIMACIÓN ESCALERA (MÓVIL)
+================================ */
+
 @media (max-width: 768px) {
   .lirya-premium-final {
     padding: 70px 20px;
@@ -348,6 +362,29 @@ header{
   .lirya-premium-final .premium-row {
     flex-direction: column;
     gap: 26px;
+  }
+
+  /* Estado inicial */
+  .lirya-premium-final .tarjeta-premium-estilo {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  .lirya-premium-final .tarjeta-premium-estilo.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .lirya-premium-final .tarjeta-premium-estilo {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 </style>
@@ -385,6 +422,26 @@ header{
     </div>
   </div>
 </section>
+
+<script>
+/* === Animación escalera móvil (aislada) === */
+if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const cardsRP = document.querySelectorAll('.lirya-premium-final .tarjeta-premium-estilo');
+
+  const observerRP = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('is-visible');
+        }, index * 150);
+        observerRP.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  cardsRP.forEach(card => observerRP.observe(card));
+}
+</script>
 
   <!-- ================== FORMULARIO LIRYA ================== -->
 <section id="formulario-lirya">
@@ -1326,6 +1383,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
