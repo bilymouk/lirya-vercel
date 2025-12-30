@@ -259,11 +259,10 @@ header{
   padding: 90px 20px 100px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
-  box-sizing: border-box;
 }
 
 /* TÍTULO */
-.titulo-premium-brillante {
+.lirya-premium-final .titulo-premium-brillante {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 34px;
@@ -273,8 +272,8 @@ header{
   line-height: 1.15;
 }
 
-/* LÍNEA DECORATIVA */
-.lirya-premium-divider {
+/* LÍNEA DECORATIVA (30% MÁS ARRIBA) */
+.lirya-premium-final .lirya-premium-divider {
   width: 70px;
   height: 2px;
   background: linear-gradient(
@@ -283,88 +282,74 @@ header{
     #c7b58a,
     transparent
   );
-  margin: 10px auto 46px;
+  margin: 13px auto 48px;
 }
 
-/* GRID DESKTOP 2x2 */
-.grid-premium-cards {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  grid-auto-flow: row;
+/* GRID 2x2 DESKTOP */
+.lirya-premium-final .grid-premium-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 34px;
-  max-width: 980px;
+  max-width: 860px; /* ⬅️ clave para evitar tarjetas gigantes */
   margin: 0 auto;
-  box-sizing: border-box;
-}
-
-/* BLINDAJE CONTRA EL THEME */
-.grid-premium-cards > div {
-  width: 100% !important;
-  max-width: none !important;
 }
 
 /* TARJETA */
-.tarjeta-premium-estilo {
+.lirya-premium-final .tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
-  padding: 42px 34px;
+  padding: 38px 32px; /* ⬅️ ligeramente reducido */
   border: 1px solid rgba(199, 181, 138, 0.35);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
   transition: 
     transform 0.35s ease,
     box-shadow 0.35s ease,
     border-color 0.35s ease;
-  box-sizing: border-box;
 }
 
-/* MICRO-ANIMACIÓN HOVER */
-.tarjeta-premium-estilo:hover {
+/* HOVER */
+.lirya-premium-final .tarjeta-premium-estilo:hover {
   transform: translateY(-6px);
   box-shadow: 0 22px 45px rgba(199, 181, 138, 0.22);
   border-color: rgba(199, 181, 138, 0.6);
 }
 
 /* TÍTULO TARJETA */
-.tarjeta-premium-estilo h3 {
+.lirya-premium-final .tarjeta-premium-estilo h3 {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 600;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 /* TEXTO TARJETA */
-.tarjeta-premium-estilo p {
+.lirya-premium-final .tarjeta-premium-estilo p {
   font-family: "Playfair Display", serif;
   color: rgba(26, 26, 26, 0.78);
   font-size: 15px;
-  line-height: 1.7;
-  letter-spacing: 0.25px;
-  max-width: 300px;
+  line-height: 1.65;
+  max-width: 280px;
   margin: 0 auto;
 }
 
-/* RESPONSIVE MÓVIL */
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .lirya-premium-final {
     padding: 70px 20px 80px;
   }
 
-  .titulo-premium-brillante {
+  .lirya-premium-final .titulo-premium-brillante {
     font-size: 28px;
   }
 
-  .lirya-premium-divider {
+  .lirya-premium-final .lirya-premium-divider {
     margin: 12px auto 36px;
   }
 
-  .grid-premium-cards {
-    grid-template-columns: 1fr !important;
+  .lirya-premium-final .grid-premium-cards {
+    grid-template-columns: 1fr;
     gap: 26px;
-  }
-
-  .tarjeta-premium-estilo {
-    padding: 40px 26px;
   }
 }
 </style>
@@ -379,34 +364,22 @@ header{
   <div class="grid-premium-cards">
     <div class="tarjeta-premium-estilo">
       <h3>Hecha con vuestra historia</h3>
-      <p>
-        No es un objeto ni una plantilla.
-        Cada canción nace de vuestra historia real.
-      </p>
+      <p>No es un objeto ni una plantilla. Cada canción nace de vuestra historia real.</p>
     </div>
 
     <div class="tarjeta-premium-estilo">
       <h3>Emoción real</h3>
-      <p>
-        Letras escritas con momentos, palabras y recuerdos
-        que importan de verdad.
-      </p>
+      <p>Letras escritas con momentos, palabras y recuerdos que importan de verdad.</p>
     </div>
 
     <div class="tarjeta-premium-estilo">
       <h3>Pensada para regalar</h3>
-      <p>
-        Un detalle único para sorprender, emocionar
-        y recordar para siempre.
-      </p>
+      <p>Un detalle único para sorprender, emocionar y recordar para siempre.</p>
     </div>
 
     <div class="tarjeta-premium-estilo">
       <h3>Garantía emocional</h3>
-      <p>
-        Si no te emociona, la ajustamos contigo
-        sin ningún coste.
-      </p>
+      <p>Si no te emociona, la ajustamos contigo sin ningún coste.</p>
     </div>
   </div>
 </section>
@@ -1290,6 +1263,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
