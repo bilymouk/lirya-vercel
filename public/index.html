@@ -667,6 +667,63 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 </section>
 
+<script>
+(function () {
+
+  function getTarifaFromHash() {
+    const hash = window.location.hash;
+    if (!hash.includes('tarifa=')) return null;
+    const match = hash.match(/tarifa=(\d+)/);
+    return match ? match[1] : null;
+  }
+
+  function scrollToFormulario() {
+    const form = document.getElementById('formulario-lirya');
+    if (!form) return;
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function preselectTarifa(tarifa) {
+    const tarifaBtn = document.getElementById('tarifa-btn');
+    if (!tarifaBtn) return;
+
+    const opciones = document.querySelectorAll(
+      '#formulario-lirya .dropdown-item[data-tarifa]'
+    );
+
+    opciones.forEach(op => {
+      if (op.dataset.tarifa === tarifa) {
+        tarifaBtn.textContent = op.textContent;
+        tarifaBtn.style.color = '#333';
+      }
+    });
+  }
+
+  // Cuando se hace click en "Elegir esta opción"
+  document.querySelectorAll('.tarifa-info a').forEach(link => {
+    link.addEventListener('click', function () {
+      setTimeout(() => {
+        const tarifa = getTarifaFromHash();
+        if (tarifa) {
+          scrollToFormulario();
+          setTimeout(() => preselectTarifa(tarifa), 600);
+        }
+      }, 50);
+    });
+  });
+
+  // Si entra con la URL ya cargada (recarga, compartir link, etc)
+  window.addEventListener('load', () => {
+    const tarifa = getTarifaFromHash();
+    if (tarifa) {
+      scrollToFormulario();
+      setTimeout(() => preselectTarifa(tarifa), 600);
+    }
+  });
+
+})();
+</script>
+
 <!-- =================================
    CÓMO FUNCIONA
    (VERSIÓN FINAL PREMIUM)
@@ -1439,6 +1496,7 @@ render();
   </div>
 
 </section>
+
 
 
 
