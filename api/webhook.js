@@ -35,6 +35,7 @@ export default async function handler(req, res) {
   // SOLO cuando el pago se completa
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
+    console.log("SESSION COMPLETED", session);
     const data = session.metadata;
 
     try {
