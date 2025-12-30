@@ -512,7 +512,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* TARJETA DESTACADA (59€) */
+/* TARIFA DESTACADA */
 .example-card.destacada {
   border: 1.5px solid #ff9f3f;
   transform: scale(1.06);
@@ -536,7 +536,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* INFO TARIFA */
 .tarifa-info {
-  padding: 26px 22px 30px;
+  padding: 26px 22px 32px;
   text-align: center;
 }
 
@@ -568,14 +568,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 14px;
   line-height: 1.6;
   opacity: 0.85;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 }
 
-/* BOTÓN PREMIUM */
+/* BOTÓN */
 .tarifa-info button {
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
   border: none;
-  padding: 13px 26px;
+  padding: 13px 28px;
   font-size: 14.5px;
   border-radius: 30px;
   cursor: pointer;
@@ -628,7 +628,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
             • Música original<br>
             • 1 revisión incluida
           </div>
-          <button>Elegir esta opción</button>
+          <button data-tarifa="49">Elegir esta opción</button>
         </div>
       </div>
 
@@ -645,7 +645,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
             • Enfoque romántico (San Valentín)<br>
             • Hasta 2 revisiones
           </div>
-          <button>Elegir esta opción</button>
+          <button data-tarifa="59">Elegir esta opción</button>
         </div>
       </div>
 
@@ -661,13 +661,23 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
             • Prioridad absoluta<br>
             • Revisión ilimitada
           </div>
-          <button>Elegir esta opción</button>
+          <button data-tarifa="79">Elegir esta opción</button>
         </div>
       </div>
 
     </div>
   </div>
 </section>
+
+<script>
+/* === PRESELECCIÓN TARIFA EN FORMULARIO === */
+document.querySelectorAll('.tarifa-info button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tarifa = btn.getAttribute('data-tarifa');
+    window.location.href = `#formulario-lirya?tarifa=${tarifa}`;
+  });
+});
+</script>
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -1441,6 +1451,7 @@ render();
   </div>
 
 </section>
+
 
 
 
