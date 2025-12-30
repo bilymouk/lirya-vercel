@@ -861,7 +861,10 @@ document.addEventListener("click",()=>{
 
 <style>
   
-/* ===== CÓMO FUNCIONA (AISLADO) ===== */
+<style>
+/* ===============================
+   CÓMO FUNCIONA (AISLADO)
+================================ */
 
 .lirya-como-funciona {
   background: #ffffff;
@@ -877,7 +880,20 @@ document.addEventListener("click",()=>{
   font-size: 36px;
   font-weight: 600;
   line-height: 1.15;
-  margin-bottom: 1cm;
+  margin-bottom: 0;
+}
+
+/* LÍNEA DECORATIVA */
+.lirya-como-funciona .como-divider {
+  width: 70px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #c7b58a,
+    transparent
+  );
+  margin: 16px auto 64px;
 }
 
 /* GRID 3 TARJETAS */
@@ -906,16 +922,15 @@ document.addEventListener("click",()=>{
   margin-bottom: 14px;
 }
 
-/* TÍTULO TARJETA */
-.lirya-como-funciona .como-card h3 {
+/* TEXTO */
+.lirya-como-funciona h3 {
   font-family: "Playfair Display", serif;
   font-size: 22px;
   color: #3a3a3a;
   margin-bottom: 12px;
 }
 
-/* TEXTO */
-.lirya-como-funciona .como-card p {
+.lirya-como-funciona p {
   font-family: "Playfair Display", serif;
   font-size: 14.5px;
   line-height: 1.65;
@@ -935,6 +950,7 @@ document.addEventListener("click",()=>{
 
 <section class="lirya-como-funciona">
   <h2 class="titulo-como-funciona">Cómo funciona</h2>
+  <div class="como-divider"></div>
 
   <div class="como-grid">
     <div class="como-card">
@@ -1277,6 +1293,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
