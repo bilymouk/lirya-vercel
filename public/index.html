@@ -443,6 +443,389 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
+<!-- ===== EJEMPLOS REALES + TARIFAS ===== -->
+<style>
+.examples {
+  position: relative;
+  padding: 100px 20px;
+  background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
+  color: #fff;
+}
+
+.examples::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 25, 0.78);
+}
+
+.examples-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* TÍTULO */
+.examples h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 38px;
+  color: #d4b483;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+/* SUBTÍTULO */
+.examples-subtitle {
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  opacity: 0.85;
+  margin-bottom: 65px;
+}
+
+/* GRID */
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 45px;
+}
+
+/* CARD */
+.example-card {
+  background: rgba(15, 18, 35, 0.85);
+  border-radius: 18px;
+  padding: 22px 22px 30px;
+  border: 1px solid rgba(255,255,255,0.25);
+  transition: all 0.45s ease;
+  box-shadow: 0 0 22px rgba(255,255,255,0.15);
+}
+
+.example-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 45px rgba(255,255,255,0.35);
+}
+
+/* DESTACADA */
+.example-card.destacada {
+  border: 1.5px solid #f4a43a;
+  box-shadow: 0 0 45px rgba(244,164,58,0.45);
+}
+
+/* IMAGEN */
+.example-card img {
+  width: 100%;
+  border-radius: 14px;
+  margin-bottom: 22px;
+}
+
+/* TEXTO TARIFA */
+.plan-title {
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+/* PRECIO PREMIUM */
+.plan-price {
+  font-family: "Playfair Display", serif;
+  font-size: 36px;
+  color: #f3e6c2;
+  margin: 6px 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ENTREGA */
+.plan-delivery {
+  font-size: 14.5px;
+  opacity: 0.75;
+  margin-bottom: 22px;
+}
+
+/* BOTÓN */
+.plan-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #f4a43a, #ffb454);
+  color: #1b1b1b;
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 14.5px;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(244,164,58,0.45);
+}
+
+/* BADGE MÁS ELEGIDA */
+.plan-badge {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  color: #f4a43a;
+  border: 1px solid rgba(244,164,58,0.7);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .examples-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .examples h2 {
+    font-size: 32px;
+  }
+}
+</style>
+
+<section class="examples">
+  <div class="examples-inner">
+    <h2>Ejemplos reales</h2>
+    <p class="examples-subtitle">
+      Así suenan las canciones personalizadas. Historias reales, emociones reales.
+    </p>
+
+    <div class="examples-grid">
+
+      <!-- TARIFA 49€ -->
+      <div class="example-card">
+        <img src="/papa-card.jpg" alt="Canción Papá">
+
+        <p class="plan-title">Canción personalizada</p>
+        <p class="plan-price">49€</p>
+        <p class="plan-delivery">Entrega en 4–5 días</p>
+
+        <a href="#formulario" class="plan-button">Elegir esta opción</a>
+      </div>
+
+      <!-- TARIFA 59€ - MÁS ELEGIDA -->
+      <div class="example-card destacada">
+        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
+
+        <div class="plan-badge">La más elegida</div>
+
+        <p class="plan-title">Canción personalizada</p>
+        <p class="plan-price">59€</p>
+        <p class="plan-delivery">Entrega en 2–3 días</p>
+
+        <a href="#formulario" class="plan-button">Elegir esta opción</a>
+      </div>
+
+      <!-- TARIFA 79€ -->
+      <div class="example-card">
+        <img src="/amigas-card.jpg" alt="Amigas por siempre">
+
+        <p class="plan-title">Canción personalizada</p>
+        <p class="plan-price">79€</p>
+        <p class="plan-delivery">Entrega prioritaria</p>
+
+        <a href="#formulario" class="plan-button">Elegir esta opción</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+/* =================================
+   CÓMO FUNCIONA
+   (PREMIUM + ANIMACIONES)
+================================= */
+
+.lirya-cf-section {
+  background: #ffffff;
+  padding: 110px 20px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* TÍTULO */
+.lirya-cf-section .lirya-cf-title {
+  font-family: "Playfair Display", serif;
+  color: #c7b58a;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* LÍNEA DECORATIVA (1cm exacto) */
+.lirya-cf-section .lirya-cf-divider {
+  width: 72px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #c7b58a,
+    transparent
+  );
+  margin: 1cm auto 64px;
+}
+
+/* GRID */
+.lirya-cf-section .lirya-cf-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 44px;
+}
+
+/* TARJETA */
+.lirya-cf-section .lirya-cf-card {
+  background-color: #fcfaf7;
+  border-radius: 16px;
+  padding: 44px 34px;
+  border: 1px solid rgba(199, 181, 138, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.35s cubic-bezier(.34,1.56,.64,1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+  cursor: pointer;
+}
+
+/* MICRO-REBOTE + SELECCIÓN (HOVER) */
+@media (hover: hover) {
+  .lirya-cf-section .lirya-cf-card:hover {
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
+    border-color: rgba(199, 181, 138, 0.65);
+  }
+}
+
+/* SELECCIÓN AL CLIC */
+.lirya-cf-section .lirya-cf-card:active {
+  transform: translateY(-4px) scale(0.98);
+  box-shadow: 0 16px 32px rgba(199, 181, 138, 0.25);
+}
+
+/* NÚMERO (NEGRO) */
+.lirya-cf-section .lirya-cf-step {
+  font-family: "Playfair Display", serif;
+  color: #000000;
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+/* TÍTULO TARJETA (DORADO) */
+.lirya-cf-section .lirya-cf-card h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #c7b58a;
+}
+
+/* TEXTO */
+.lirya-cf-section .lirya-cf-card p {
+  font-family: "Playfair Display", serif;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: rgba(26, 26, 26, 0.75);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* ===============================
+   ANIMACIÓN ESCALERA (MÓVIL)
+================================ */
+
+@media (max-width: 900px) {
+  .lirya-cf-section {
+    padding: 80px 20px;
+  }
+
+  .lirya-cf-section .lirya-cf-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  /* Estado inicial */
+  .lirya-cf-section .lirya-cf-card {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  .lirya-cf-section .lirya-cf-card.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .lirya-cf-section .lirya-cf-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
+<section class="lirya-cf-section">
+  <h2 class="lirya-cf-title">Cómo funciona</h2>
+  <div class="lirya-cf-divider"></div>
+
+  <div class="lirya-cf-grid">
+    <div class="lirya-cf-card">
+      <div class="lirya-cf-step">1</div>
+      <h3>Cuéntanos vuestra historia</h3>
+      <p>
+        Rellena el formulario con los detalles que hacen vuestra historia única
+        y especial.
+      </p>
+    </div>
+
+    <div class="lirya-cf-card">
+      <div class="lirya-cf-step">2</div>
+      <h3>Creamos la canción</h3>
+      <p>
+        Convertimos vuestra historia en una canción personalizada con letra y
+        música.
+      </p>
+    </div>
+
+    <div class="lirya-cf-card">
+      <div class="lirya-cf-step">3</div>
+      <h3>La recibes en 24h</h3>
+      <p>
+        Descárgala en MP3, compártela y revive el regalo siempre que quieras.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+/* === Animación escalera móvil (aislada) === */
+if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const cardsCF = document.querySelectorAll('.lirya-cf-section .lirya-cf-card');
+
+  const observerCF = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('is-visible');
+        }, index * 150);
+        observerCF.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  cardsCF.forEach(card => observerCF.observe(card));
+}
+</script>
+
   <!-- ================== FORMULARIO LIRYA ================== -->
 <section id="formulario-lirya">
 
@@ -880,405 +1263,6 @@ document.addEventListener("click",()=>{
 </section>
 
 <style>
-/* =================================
-   CÓMO FUNCIONA
-   (PREMIUM + ANIMACIONES)
-================================= */
-
-.lirya-cf-section {
-  background: #ffffff;
-  padding: 110px 20px;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* TÍTULO */
-.lirya-cf-section .lirya-cf-title {
-  font-family: "Playfair Display", serif;
-  color: #c7b58a;
-  font-size: 36px;
-  font-weight: 600;
-  line-height: 1.15;
-  margin: 0;
-}
-
-/* LÍNEA DECORATIVA (1cm exacto) */
-.lirya-cf-section .lirya-cf-divider {
-  width: 72px;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #c7b58a,
-    transparent
-  );
-  margin: 1cm auto 64px;
-}
-
-/* GRID */
-.lirya-cf-section .lirya-cf-grid {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 44px;
-}
-
-/* TARJETA */
-.lirya-cf-section .lirya-cf-card {
-  background-color: #fcfaf7;
-  border-radius: 16px;
-  padding: 44px 34px;
-  border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  transition:
-    transform 0.35s cubic-bezier(.34,1.56,.64,1),
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
-  cursor: pointer;
-}
-
-/* MICRO-REBOTE + SELECCIÓN (HOVER) */
-@media (hover: hover) {
-  .lirya-cf-section .lirya-cf-card:hover {
-    transform: translateY(-8px) scale(1.015);
-    box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
-    border-color: rgba(199, 181, 138, 0.65);
-  }
-}
-
-/* SELECCIÓN AL CLIC */
-.lirya-cf-section .lirya-cf-card:active {
-  transform: translateY(-4px) scale(0.98);
-  box-shadow: 0 16px 32px rgba(199, 181, 138, 0.25);
-}
-
-/* NÚMERO (NEGRO) */
-.lirya-cf-section .lirya-cf-step {
-  font-family: "Playfair Display", serif;
-  color: #000000;
-  font-size: 18px;
-  margin-bottom: 14px;
-}
-
-/* TÍTULO TARJETA (DORADO) */
-.lirya-cf-section .lirya-cf-card h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 22px;
-  margin-bottom: 12px;
-  color: #c7b58a;
-}
-
-/* TEXTO */
-.lirya-cf-section .lirya-cf-card p {
-  font-family: "Playfair Display", serif;
-  font-size: 14.5px;
-  line-height: 1.65;
-  color: rgba(26, 26, 26, 0.75);
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-/* ===============================
-   ANIMACIÓN ESCALERA (MÓVIL)
-================================ */
-
-@media (max-width: 900px) {
-  .lirya-cf-section {
-    padding: 80px 20px;
-  }
-
-  .lirya-cf-section .lirya-cf-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  /* Estado inicial */
-  .lirya-cf-section .lirya-cf-card {
-    opacity: 0;
-    transform: translateY(32px) scale(0.96);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s cubic-bezier(.34,1.56,.64,1);
-  }
-
-  .lirya-cf-section .lirya-cf-card.is-visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Accesibilidad */
-@media (prefers-reduced-motion: reduce) {
-  .lirya-cf-section .lirya-cf-card {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-</style>
-
-<section class="lirya-cf-section">
-  <h2 class="lirya-cf-title">Cómo funciona</h2>
-  <div class="lirya-cf-divider"></div>
-
-  <div class="lirya-cf-grid">
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step">1</div>
-      <h3>Cuéntanos vuestra historia</h3>
-      <p>
-        Rellena el formulario con los detalles que hacen vuestra historia única
-        y especial.
-      </p>
-    </div>
-
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step">2</div>
-      <h3>Creamos la canción</h3>
-      <p>
-        Convertimos vuestra historia en una canción personalizada con letra y
-        música.
-      </p>
-    </div>
-
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step">3</div>
-      <h3>La recibes en 24h</h3>
-      <p>
-        Descárgala en MP3, compártela y revive el regalo siempre que quieras.
-      </p>
-    </div>
-  </div>
-</section>
-
-<script>
-/* === Animación escalera móvil (aislada) === */
-if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const cardsCF = document.querySelectorAll('.lirya-cf-section .lirya-cf-card');
-
-  const observerCF = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('is-visible');
-        }, index * 150);
-        observerCF.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.25 });
-
-  cardsCF.forEach(card => observerCF.observe(card));
-}
-</script>
-
-<!-- ===== EJEMPLOS REALES + TARIFAS ===== -->
-<style>
-.examples {
-  position: relative;
-  padding: 100px 20px;
-  background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
-  color: #fff;
-}
-
-.examples::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(5, 8, 25, 0.78);
-}
-
-.examples-inner {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-/* TÍTULO */
-.examples h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 38px;
-  color: #d4b483;
-  margin-bottom: 12px;
-  font-weight: 600;
-}
-
-.examples-subtitle {
-  font-family: "Playfair Display", serif;
-  font-size: 16px;
-  opacity: 0.85;
-  margin-bottom: 70px;
-}
-
-/* GRID */
-.examples-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 45px;
-}
-
-/* CARD */
-.example-card {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.5);
-  box-shadow: 0 0 22px rgba(255,255,255,0.18);
-  transition: transform .45s ease, box-shadow .45s ease;
-  background: rgba(0,0,0,0.35);
-}
-
-.example-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 45px rgba(255,255,255,0.45);
-}
-
-.example-card img {
-  width: 100%;
-  display: block;
-}
-
-/* BADGE DESTACADO */
-.badge-popular {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(212,180,131,0.9);
-  color: #1a1a1a;
-  font-family: "Playfair Display", serif;
-  font-size: 13px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  letter-spacing: .3px;
-}
-
-/* INFO TARIFA */
-.tarifa-info {
-  padding: 26px 22px 30px;
-  text-align: center;
-}
-
-.tarifa-info h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 20px;
-  color: #f2e7c9;
-  margin-bottom: 14px;
-}
-
-/* PRECIO PREMIUM */
-.tarifa-precio {
-  font-family: "Playfair Display", serif;
-  font-size: 36px;
-  font-weight: 600;
-  color: #d4b483;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
-
-.tarifa-entrega {
-  font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 16px;
-}
-
-/* LISTA INCLUYE */
-.tarifa-incluye {
-  font-size: 14px;
-  line-height: 1.6;
-  opacity: 0.85;
-  margin-bottom: 22px;
-}
-
-/* BOTÓN */
-.tarifa-info button {
-  background: linear-gradient(135deg, #ff9f3f, #e58b2a);
-  border: none;
-  padding: 12px 22px;
-  font-size: 14px;
-  border-radius: 30px;
-  cursor: pointer;
-  color: #1a1a1a;
-  font-weight: 600;
-}
-
-.tarifa-info button:hover {
-  filter: brightness(1.08);
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .examples-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .examples h2 {
-    font-size: 32px;
-  }
-}
-</style>
-
-<section class="examples">
-  <div class="examples-inner">
-    <h2>Ejemplos reales</h2>
-    <p class="examples-subtitle">
-      Así suenan las canciones personalizadas. Historias reales, emociones reales.
-    </p>
-
-    <div class="examples-grid">
-
-      <!-- TARIFA 49 -->
-      <div class="example-card">
-        <img src="/papa-card.jpg" alt="Papá">
-        <div class="tarifa-info">
-          <h3>Canción personalizada</h3>
-          <div class="tarifa-precio">49€</div>
-          <div class="tarifa-entrega">Entrega en 4–5 días</div>
-          <div class="tarifa-incluye">
-            • Letra personalizada<br>
-            • Música original<br>
-            • 1 revisión incluida
-          </div>
-          <button>Elegir esta opción</button>
-        </div>
-      </div>
-
-      <!-- TARIFA 59 (SAN VALENTÍN) -->
-      <div class="example-card">
-        <span class="badge-popular">La más elegida</span>
-        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
-        <div class="tarifa-info">
-          <h3>Canción personalizada</h3>
-          <div class="tarifa-precio">59€</div>
-          <div class="tarifa-entrega">Entrega en 2–3 días</div>
-          <div class="tarifa-incluye">
-            • Letra muy detallada<br>
-            • Enfoque románto (ideal San Valentín)<br>
-            • Hasta 2 revisiones
-          </div>
-          <button>Elegir esta opción</button>
-        </div>
-      </div>
-
-      <!-- TARIFA 79 -->
-      <div class="example-card">
-        <img src="/amigas-card.jpg" alt="Amigas por siempre">
-        <div class="tarifa-info">
-          <h3>Canción personalizada</h3>
-          <div class="tarifa-precio">79€</div>
-          <div class="tarifa-entrega">Entrega prioritaria</div>
-          <div class="tarifa-incluye">
-            • Máximo nivel de detalle<br>
-            • Prioridad absoluta<br>
-            • Revisión ilimitada
-          </div>
-          <button>Elegir esta opción</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
 <style>
@@ -1479,6 +1463,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
