@@ -48,18 +48,18 @@ header{
 .cta-header{
   background:var(--orange);
   color:#fff;
-  padding:10px 30px;
+  padding:10px 28px;
   border-radius:12px;
   font-family:'Playfair Display',serif;
   font-weight:600;
-  letter-spacing:.4px;
+  letter-spacing:.6px;
   text-decoration:none;
   transition:background .2s ease, transform .2s ease;
 }
 
 .cta-header:hover{
   background:var(--orange-hover);
-  transform:scale(1.04);
+  transform:scale(1.03);
 }
 
 /* ===== HERO ===== */
@@ -108,32 +108,25 @@ header{
   font-family:'Playfair Display',serif;
   font-size:1.15rem;
   line-height:1.6;
-  margin-bottom:26px;
+  margin-bottom:22px;
   opacity:.95;
 }
 
-/* BOTÓN HERO */
 .hero-btn{
   background:var(--orange);
   color:#fff;
-  padding:14px 38px;
+  padding:14px 40px;
   border-radius:12px;
   font-family:'Playfair Display',serif;
   font-weight:600;
-  letter-spacing:.5px;
+  letter-spacing:.7px;
   text-decoration:none;
   display:inline-block;
-  transition:background .2s ease, transform .2s ease;
-}
-
-.hero-btn:hover{
-  background:var(--orange-hover);
-  transform:scale(1.04);
 }
 
 .hero-note{
   display:block;
-  margin-top:12px;
+  margin-top:14px;
   font-size:.9rem;
   font-style:italic;
   opacity:.85;
@@ -172,27 +165,25 @@ header{
   animation:floatPhoneMobile 5s ease-in-out infinite;
 }
 
+/* TEXTO MOBILE */
 .hero-mobile-text{
-  transform:translateY(-26px);
+  transform:translateY(-32px);
 }
 
 .hero-mobile p{
   font-family:'Playfair Display',serif;
   font-size:1.05rem;
-  line-height:1.6;
+  line-height:1.55;
   opacity:.95;
-  margin-bottom:10px;
+  margin-bottom:20px;
 }
 
-/* TEXTO ENTREGA MOBILE */
-.hero-delivery{
-  font-family:'Playfair Display',serif;
-  font-size:1.05rem;
-  opacity:.95;
+.hero-mobile .hero-btn{
+  margin-top:8px;
 }
 
-.hero-delivery span{
-  display:block;
+.hero-mobile .hero-note{
+  margin-top:10px;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -233,7 +224,7 @@ header{
     <div class="hero-desktop">
       <div class="hero-text">
         <h1>La canción perfecta para contar vuestra historia</h1>
-        <p>Entrega según la tarifa elegida · Revisión incluida</p>
+        <p>Entrega según la tarifa elegida<br>Revisión incluida</p>
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
         <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
@@ -249,11 +240,10 @@ header{
       <img src="/mockup-phone-final.png" alt="Canción personalizada">
 
       <div class="hero-mobile-text">
-        <div class="hero-delivery">
-          <span>Entrega según la tarifa elegida</span>
-          <span>Revisión incluida</span>
-        </div>
-
+        <p>
+          Entrega según la tarifa elegida<br>
+          Revisión incluida
+        </p>
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
         <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
@@ -1511,6 +1501,7 @@ render();
   </div>
 
 </section>
+
 
 
 
