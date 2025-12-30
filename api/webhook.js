@@ -29,6 +29,41 @@ export default async function handler(req, res) {
           <pre>${JSON.stringify(data, null, 2)}</pre>
         `,
       });
+      // 📩 Email de confirmación al cliente
+if (data.email) {
+  await resend.emails.send({
+    from: "Lirya <onboarding@resend.dev>",
+    to: data.email,
+    subject: "🎶 Estamos creando tu canción personalizada",
+    html: `
+      <h2>Gracias por confiar en Lirya 💛</h2>
+
+      <p>Hemos recibido tu historia y ya estamos trabajando en tu canción personalizada.</p>
+
+      <p><strong>¿Qué ocurre ahora?</strong></p>
+      <ul>
+        <li>🎼 Analizamos tu historia</li>
+        <li>✍️ Creamos una letra única</li>
+        <li>🎧 Producimos tu canción</li>
+      </ul>
+
+      <p>
+        El tiempo de entrega depende de la tarifa que hayas elegido.
+        Te avisaremos en cuanto esté lista.
+      </p>
+
+      <p>
+        Si necesitas modificar algo, responde a este email.
+      </p>
+
+      <p>
+        — El equipo de <strong>Lirya</strong>
+      </p>
+    `,
+  });
+
+  console.log("✅ Email enviado al cliente:", data.email);
+}
 
       console.log("✅ Email enviado correctamente");
     }
