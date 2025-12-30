@@ -911,7 +911,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ================== FORMULARIO LIRYA (FINAL) ================== -->
+<!-- ================== FORMULARIO LIRYA (FINAL CORREGIDO) ================== -->
 <section id="formulario-lirya">
 
 <style>
@@ -970,7 +970,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 #formulario-lirya .next.enabled{opacity:1}
 #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
 
-/* Teléfono oculto */
 #telefono-box{display:none}
 </style>
 
@@ -987,12 +986,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="question">
 <label>Nombre de quien recibirá la canción</label>
-<input required>
+<input name="recipient_name" required>
 </div>
 
 <div class="question">
 <label>Tu nombre (quien regala)</label>
-<input required>
+<input name="your_name" required>
 </div>
 
 <div class="question">
@@ -1007,20 +1006,21 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Familiar</div>
 <div class="dropdown-item">Amistad especial</div>
 </div>
+<input type="hidden" name="relationship">
 </div>
 </div>
 
 <div class="question">
 <label>Tarifa elegida</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="tarifa-btn" data-required>Selecciona una tarifa ▾</button>
+<button class="dropdown-btn" data-required>Selecciona una tarifa ▾</button>
 <div class="dropdown-menu">
-<div class="dropdown-item" data-tarifa="49">49€ — Estándar</div>
-<div class="dropdown-item" data-tarifa="59">59€ — San Valentín</div>
-<div class="dropdown-item" data-tarifa="79">79€ — Prioritaria</div>
+<div class="dropdown-item">49€ — Estándar</div>
+<div class="dropdown-item">59€ — San Valentín</div>
+<div class="dropdown-item">79€ — Prioritaria</div>
 </div>
+<input type="hidden" name="tarifa">
 </div>
-<input type="hidden" id="tarifa-hidden">
 </div>
 
 <div class="nav">
@@ -1034,12 +1034,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="question">
 <label>¿Cómo os conocisteis?</label>
-<textarea required></textarea>
+<textarea name="how_met" required></textarea>
 </div>
 
 <div class="question">
 <label>Un momento que lo cambió todo</label>
-<textarea required></textarea>
+<textarea name="special_moment" required></textarea>
 </div>
 
 <div class="question">
@@ -1054,6 +1054,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Sorpresa sin motivo</div>
 <div class="dropdown-item">Otro</div>
 </div>
+<input type="hidden" name="reason_now">
 </div>
 </div>
 
@@ -1069,12 +1070,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="question">
 <label>Tres palabras que definan a esa persona</label>
-<input required>
+<input name="three_words" required>
 </div>
 
 <div class="question">
 <label>Una frase que te gustaría decirle</label>
-<textarea required></textarea>
+<textarea name="dedication" required></textarea>
 </div>
 
 <div class="question">
@@ -1088,6 +1089,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Emoción intensa</div>
 <div class="dropdown-item">Calma y ternura</div>
 </div>
+<input type="hidden" name="emotion">
 </div>
 </div>
 
@@ -1115,6 +1117,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Reggaetón lento</div>
 <div class="dropdown-item">Cinematográfico</div>
 </div>
+<input type="hidden" name="song_style">
 </div>
 </div>
 
@@ -1127,6 +1130,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Medio</div>
 <div class="dropdown-item">Progresivo</div>
 </div>
+<input type="hidden" name="rhythm">
 </div>
 </div>
 
@@ -1140,6 +1144,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Dúo</div>
 <div class="dropdown-item">Me da igual</div>
 </div>
+<input type="hidden" name="voice_type">
 </div>
 </div>
 
@@ -1152,6 +1157,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Inglés</div>
 <div class="dropdown-item">Spanglish</div>
 </div>
+<input type="hidden" name="language">
 </div>
 </div>
 
@@ -1173,12 +1179,13 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Sí</div>
 <div class="dropdown-item">No</div>
 </div>
+<input type="hidden" name="include_name">
 </div>
 </div>
 
 <div class="question">
 <label>¿Algo que NO deba mencionarse?</label>
-<textarea></textarea>
+<textarea name="dont_mention"></textarea>
 </div>
 
 <div class="question">
@@ -1190,6 +1197,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Emotiva</div>
 <div class="dropdown-item">Muy intensa</div>
 </div>
+<input type="hidden" name="intensity">
 </div>
 </div>
 
@@ -1205,23 +1213,24 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="question">
 <label>Email</label>
-<input type="email" required>
+<input type="email" name="email" required>
 </div>
 
 <div class="question">
 <label>¿También por WhatsApp?</label>
-<div class="dropdown" id="whatsapp-dropdown">
+<div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
-<div class="dropdown-item" data-whatsapp="si">Sí</div>
-<div class="dropdown-item" data-whatsapp="no">No</div>
+<div class="dropdown-item">Sí</div>
+<div class="dropdown-item">No</div>
 </div>
+<input type="hidden" name="whatsapp">
 </div>
 </div>
 
 <div class="question" id="telefono-box">
 <label>Número de teléfono</label>
-<input>
+<input name="phone">
 </div>
 
 <div class="nav">
@@ -1266,109 +1275,42 @@ document.addEventListener("click",e=>{
 document.querySelectorAll("#formulario-lirya .dropdown").forEach(d=>{
   const btn=d.querySelector(".dropdown-btn");
   const menu=d.querySelector(".dropdown-menu");
+  const hidden=d.querySelector('input[type="hidden"]');
+
   btn.addEventListener("click",e=>{
     e.stopPropagation();
     document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
     menu.classList.toggle("open");
   });
+
   d.querySelectorAll(".dropdown-item").forEach(it=>{
     it.onclick=()=>{
       btn.textContent=it.textContent;
       btn.style.color="#333";
+      if(hidden) hidden.value = it.textContent;
       menu.classList.remove("open");
-      if(it.dataset.tarifa){document.getElementById("tarifa-hidden").value=it.dataset.tarifa}
-      if(it.dataset.whatsapp){
-        document.getElementById("telefono-box").style.display = it.dataset.whatsapp==="si"?"block":"none";
-      }
       validateStep();
     }
   });
 });
 document.addEventListener("click",()=>{document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"))});
 
-/* Preselección tarifa por URL (?tarifa=59) */
-const params=new URLSearchParams(window.location.search);
-const t=params.get("tarifa");
-if(t){
-  const map={49:"49€ — Estándar",59:"59€ — San Valentín",79:"79€ — Prioritaria"};
-  if(map[t]){
-    document.getElementById("tarifa-btn").textContent=map[t];
-    document.getElementById("tarifa-btn").style.color="#333";
-    document.getElementById("tarifa-hidden").value=t;
-  }
-}
-render();
-/* ================== STRIPE CHECKOUT ================== */
+/* SUBMIT */
+document.querySelector("#formulario-lirya .submit").addEventListener("click", async ()=>{
+  const data={};
+  document.querySelectorAll("#formulario-lirya input[name], #formulario-lirya textarea[name]").forEach(el=>{
+    data[el.name]=el.value;
+  });
 
-// 1. Seleccionamos el botón final
-const submitBtn = document.querySelector("#formulario-lirya .submit");
-
-// 2. Función para recoger TODOS los datos del formulario
-function getFormData() {
-  const inputs = document.querySelectorAll("#formulario-lirya input");
-  const textareas = document.querySelectorAll("#formulario-lirya textarea");
-  const dropdowns = document.querySelectorAll("#formulario-lirya .dropdown-btn");
-
-  return {
-    recipient_name: inputs[0]?.value || "",
-    your_name: inputs[1]?.value || "",
-    relationship: dropdowns[0]?.textContent || "",
-    tarifa: document.getElementById("tarifa-hidden").value || "",
-
-    how_met: textareas[0]?.value || "",
-    special_moment: textareas[1]?.value || "",
-    reason_now: dropdowns[1]?.textContent || "",
-
-    three_words: inputs[2]?.value || "",
-    dedication: textareas[2]?.value || "",
-    emotion: dropdowns[2]?.textContent || "",
-
-    song_style: dropdowns[3]?.textContent || "",
-    rhythm: dropdowns[4]?.textContent || "",
-    voice_type: dropdowns[5]?.textContent || "",
-    language: dropdowns[6]?.textContent || "",
-
-    include_name: dropdowns[7]?.textContent || "",
-    dont_mention: textareas[3]?.value || "",
-    intensity: dropdowns[8]?.textContent || "",
-
-    email: inputs[3]?.value || "",
-    whatsapp: dropdowns[9]?.textContent || "",
-    phone: inputs[4]?.value || ""
-  };
-}
-
-// 3. Evento al hacer clic en "Pagar y enviar"
-submitBtn.addEventListener("click", async () => {
-  // Seguridad extra: no permitir doble clic
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Redirigiendo a pago seguro…";
-
-  const formData = getFormData();
-
-  try {
-    const response = await fetch("/api/payment", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
-
-    const data = await response.json();
-
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      throw new Error("No se recibió la URL de Stripe");
-    }
-
-  } catch (error) {
-    console.error("Error al iniciar el pago:", error);
-    alert("Ha ocurrido un error al iniciar el pago. Inténtalo de nuevo.");
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Pagar y enviar";
-  }
+  const res=await fetch("/api/payment",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  });
+  const json=await res.json();
+  if(json.url) window.location.href=json.url;
 });
-
+render();
 </script>
 
 </section>
@@ -1572,6 +1514,7 @@ submitBtn.addEventListener("click", async () => {
   </div>
 
 </section>
+
 
 
 
