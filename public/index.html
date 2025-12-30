@@ -496,7 +496,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   position: relative;
   border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.45);
   box-shadow: 0 0 22px rgba(255,255,255,0.18);
   transition: transform .45s ease, box-shadow .45s ease;
   background: rgba(0,0,0,0.35);
@@ -512,16 +512,12 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* ===== TARJETA DESTACADA (59€) ===== */
-.example-card.featured {
-  transform: scale(1.06);
+/* TARJETA DESTACADA (59€) */
+.example-card.destacada {
   border: 1.5px solid #ff9f3f;
-  box-shadow: 0 0 45px rgba(255,159,63,0.45);
-}
-
-.example-card.featured:hover {
-  transform: scale(1.06) translateY(-10px);
-  box-shadow: 0 0 60px rgba(255,159,63,0.65);
+  transform: scale(1.06);
+  box-shadow: 0 0 55px rgba(255,159,63,0.35);
+  z-index: 3;
 }
 
 /* BADGE */
@@ -529,13 +525,13 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   position: absolute;
   top: 16px;
   right: 16px;
-  background: rgba(212,180,131,0.9);
+  background: rgba(212,180,131,0.95);
   color: #1a1a1a;
   font-family: "Playfair Display", serif;
   font-size: 13px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
-  letter-spacing: .3px;
+  letter-spacing: .4px;
 }
 
 /* INFO TARIFA */
@@ -551,22 +547,16 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 14px;
 }
 
-/* PRECIO PREMIUM */
+/* PRECIO */
 .tarifa-precio {
   font-family: "Playfair Display", serif;
   font-size: 36px;
   font-weight: 600;
   color: #d4b483;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
   margin-bottom: 6px;
 }
 
-/* Precio destacado (59€) */
-.example-card.featured .tarifa-precio {
-  color: #ffbf6b;
-}
-
-/* ENTREGA */
 .tarifa-entrega {
   font-size: 14px;
   opacity: 0.85;
@@ -578,34 +568,37 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 14px;
   line-height: 1.6;
   opacity: 0.85;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
-/* BOTÓN */
+/* BOTÓN PREMIUM */
 .tarifa-info button {
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
   border: none;
-  padding: 12px 22px;
-  font-size: 14px;
+  padding: 13px 26px;
+  font-size: 14.5px;
   border-radius: 30px;
   cursor: pointer;
-  color: #1a1a1a;
+  color: #ffffff;
+  font-family: "Playfair Display", serif;
   font-weight: 600;
+  letter-spacing: 0.4px;
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 
 .tarifa-info button:hover {
-  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,159,63,0.45);
 }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .examples-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
   }
 
-  .example-card.featured {
-    transform: scale(1);
+  .example-card.destacada {
+    transform: none;
   }
 
   .examples h2 {
@@ -640,7 +633,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       </div>
 
       <!-- TARIFA 59 DESTACADA -->
-      <div class="example-card featured">
+      <div class="example-card destacada">
         <span class="badge-popular">La más elegida</span>
         <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
         <div class="tarifa-info">
@@ -649,7 +642,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
           <div class="tarifa-entrega">Entrega en 2–3 días</div>
           <div class="tarifa-incluye">
             • Letra muy detallada<br>
-            • Enfoque romántico (ideal San Valentín)<br>
+            • Enfoque romántico (San Valentín)<br>
             • Hasta 2 revisiones
           </div>
           <button>Elegir esta opción</button>
@@ -1505,6 +1498,7 @@ document.addEventListener("click",()=>{
   </div>
 
 </section>
+
 
 
 
