@@ -911,7 +911,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO CORREGIDO) ================== -->
+<!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO COMPLETO) ================== -->
 <section id="formulario-lirya">
 
 <style>
@@ -935,36 +935,64 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 #formulario-lirya .step-title{font-size:26px;color:#f2c98a;margin-bottom:18px}
 #formulario-lirya .question{margin-bottom:18px}
 #formulario-lirya label{display:block;margin-bottom:6px;font-size:14px}
-#formulario-lirya input,#formulario-lirya textarea{
-  width:100%;padding:14px 16px;border:none;border-radius:10px;
-  background:rgba(255,255,255,.88);font-size:14px
+
+#formulario-lirya input,
+#formulario-lirya textarea{
+  width:100%;
+  padding:14px 16px;
+  border:none;
+  border-radius:10px;
+  background:rgba(255,255,255,.88);
+  font-size:14px
 }
 #formulario-lirya textarea{height:90px;resize:none}
+
 #formulario-lirya .dropdown{position:relative}
 #formulario-lirya .dropdown-btn{
-  width:100%;padding:14px 16px;background:rgba(255,255,255,.88);
-  border-radius:10px;border:none;display:flex;justify-content:space-between;
-  color:#9aa3ab;cursor:pointer;font-size:14px
+  width:100%;
+  padding:14px 16px;
+  background:rgba(255,255,255,.88);
+  border-radius:10px;
+  border:none;
+  display:flex;
+  justify-content:space-between;
+  color:#9aa3ab;
+  cursor:pointer;
+  font-size:14px
 }
 #formulario-lirya .dropdown-menu{
-  position:absolute;top:calc(100% + 10px);left:0;right:0;
-  background:rgba(255,255,255,.96);border-radius:14px;
+  position:absolute;
+  top:calc(100% + 10px);
+  left:0;right:0;
+  background:rgba(255,255,255,.96);
+  border-radius:14px;
   box-shadow:0 18px 40px rgba(0,0,0,.25);
-  padding:10px 0;display:none;z-index:50
+  padding:10px 0;
+  display:none;
+  z-index:50
 }
 #formulario-lirya .dropdown-menu.open{display:block}
 #formulario-lirya .dropdown-item{
-  padding:12px 18px;color:#7a7a7a;font-size:14px;cursor:pointer
+  padding:12px 18px;
+  color:#7a7a7a;
+  font-size:14px;
+  cursor:pointer
 }
 #formulario-lirya .dropdown-item:hover{background:#f4f7fb;color:#333}
+
 #formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
 #formulario-lirya button{
-  padding:14px;border-radius:10px;border:none;cursor:pointer;font-size:15px
+  padding:14px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-size:15px
 }
 #formulario-lirya .back{background:rgba(255,255,255,.2);color:#fff}
 #formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.5}
 #formulario-lirya .next.enabled{opacity:1}
 #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
+
 #telefono-box{display:none}
 </style>
 
@@ -975,7 +1003,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="card">
 
-<!-- PASO 1 -->
+<!-- ================= PASO 1 ================= -->
 <div class="step active">
 <div class="step-title">Paso 1 de 6 — Personas y tarifa</div>
 
@@ -992,7 +1020,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Tipo de relación</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="relationship" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Pareja</div>
 <div class="dropdown-item">Matrimonio</div>
@@ -1007,22 +1035,22 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Tarifa elegida</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="tarifa_btn" data-required>Selecciona una tarifa ▾</button>
+<button type="button" class="dropdown-btn" data-required id="tarifa-btn">Selecciona una tarifa ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item" data-tarifa="49">49€ — Estándar</div>
 <div class="dropdown-item" data-tarifa="59">59€ — San Valentín</div>
 <div class="dropdown-item" data-tarifa="79">79€ — Prioritaria</div>
 </div>
 </div>
-<input type="hidden" id="tarifa">
+<input type="hidden" id="tarifa-hidden">
 </div>
 
 <div class="nav">
-<button class="next">Siguiente →</button>
+<button type="button" class="next">Siguiente →</button>
 </div>
 </div>
 
-<!-- PASO 2 -->
+<!-- ================= PASO 2 ================= -->
 <div class="step">
 <div class="step-title">Paso 2 de 6 — Historia</div>
 
@@ -1039,7 +1067,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>¿Por qué esta canción es importante ahora?</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="reason_now" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Aniversario</div>
 <div class="dropdown-item">Cumpleaños</div>
@@ -1052,12 +1080,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="nav">
-<button class="back">← Atrás</button>
-<button class="next">Siguiente →</button>
+<button type="button" class="back">← Atrás</button>
+<button type="button" class="next">Siguiente →</button>
 </div>
 </div>
 
-<!-- PASO 3 -->
+<!-- ================= PASO 3 ================= -->
 <div class="step">
 <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
 
@@ -1074,7 +1102,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>¿Qué emoción debe sentir?</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="emotion" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Amor profundo</div>
 <div class="dropdown-item">Nostalgia</div>
@@ -1086,19 +1114,19 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="nav">
-<button class="back">← Atrás</button>
-<button class="next">Siguiente →</button>
+<button type="button" class="back">← Atrás</button>
+<button type="button" class="next">Siguiente →</button>
 </div>
 </div>
 
-<!-- PASO 4 -->
+<!-- ================= PASO 4 ================= -->
 <div class="step">
 <div class="step-title">Paso 4 de 6 — Música</div>
 
 <div class="question">
 <label>Estilo musical principal</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="song_style" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Balada romántica</div>
 <div class="dropdown-item">Pop emocional</div>
@@ -1115,7 +1143,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Ritmo</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="rhythm" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Lento</div>
 <div class="dropdown-item">Medio</div>
@@ -1127,7 +1155,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Tipo de voz</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="voice_type" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Masculina</div>
 <div class="dropdown-item">Femenina</div>
@@ -1140,7 +1168,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Idioma</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="language" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Español</div>
 <div class="dropdown-item">Inglés</div>
@@ -1150,19 +1178,19 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="nav">
-<button class="back">← Atrás</button>
-<button class="next">Siguiente →</button>
+<button type="button" class="back">← Atrás</button>
+<button type="button" class="next">Siguiente →</button>
 </div>
 </div>
 
-<!-- PASO 5 -->
+<!-- ================= PASO 5 ================= -->
 <div class="step">
 <div class="step-title">Paso 5 de 6 — Detalles finales</div>
 
 <div class="question">
 <label>¿Quieres que aparezca su nombre?</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="include_name" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Sí</div>
 <div class="dropdown-item">No</div>
@@ -1178,7 +1206,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Intensidad emocional</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="intensity" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Suave</div>
 <div class="dropdown-item">Emotiva</div>
@@ -1188,12 +1216,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="nav">
-<button class="back">← Atrás</button>
-<button class="next">Siguiente →</button>
+<button type="button" class="back">← Atrás</button>
+<button type="button" class="next">Siguiente →</button>
 </div>
 </div>
 
-<!-- PASO 6 -->
+<!-- ================= PASO 6 ================= -->
 <div class="step">
 <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
 
@@ -1205,7 +1233,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>¿También por WhatsApp?</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="whatsapp" data-required>Elige una opción ▾</button>
+<button type="button" class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item" data-whatsapp="si">Sí</div>
 <div class="dropdown-item" data-whatsapp="no">No</div>
@@ -1219,8 +1247,8 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="nav">
-<button class="back">← Atrás</button>
-<button class="submit">Pagar y enviar</button>
+<button type="button" class="back">← Atrás</button>
+<button type="button" class="submit">Pagar y enviar</button>
 </div>
 </div>
 
@@ -1232,13 +1260,21 @@ const steps=[...document.querySelectorAll("#formulario-lirya .step")];
 let i=0;
 const progress=document.getElementById("progress");
 
-steps.forEach((_,x)=>{const s=document.createElement("span");if(x===0)s.classList.add("active");progress.appendChild(s)});
+steps.forEach((_,x)=>{
+  const s=document.createElement("span");
+  if(x===0)s.classList.add("active");
+  progress.appendChild(s);
+});
 
 function validateStep(){
   const step=steps[i];
   let ok=true;
-  step.querySelectorAll("input[required],textarea[required]").forEach(el=>{if(!el.value.trim()) ok=false});
-  step.querySelectorAll(".dropdown-btn[data-required]").forEach(b=>{if(b.textContent.includes("Elige")) ok=false});
+  step.querySelectorAll("input[required],textarea[required]").forEach(el=>{
+    if(!el.value.trim()) ok=false;
+  });
+  step.querySelectorAll(".dropdown-btn[data-required]").forEach(b=>{
+    if(b.textContent.includes("Elige")) ok=false;
+  });
   const next=step.querySelector(".next");
   if(next) next.classList.toggle("enabled",ok);
   return ok;
@@ -1250,75 +1286,74 @@ function render(){
   validateStep();
 }
 
-document.addEventListener("input",validateStep);
 document.addEventListener("click",e=>{
-  if(e.target.classList.contains("next") && validateStep()){i++;render()}
-  if(e.target.classList.contains("back")){i--;render()}
+  if(e.target.classList.contains("next") && validateStep()){i++;render();}
+  if(e.target.classList.contains("back")){i--;render();}
 });
 
 document.querySelectorAll(".dropdown").forEach(d=>{
   const btn=d.querySelector(".dropdown-btn");
   const menu=d.querySelector(".dropdown-menu");
-  btn.onclick=e=>{
+
+  btn.addEventListener("click",e=>{
     e.stopPropagation();
     document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
     menu.classList.toggle("open");
-  };
+  });
+
   menu.querySelectorAll(".dropdown-item").forEach(it=>{
     it.onclick=()=>{
       btn.textContent=it.textContent;
       btn.style.color="#333";
       menu.classList.remove("open");
-      if(it.dataset.tarifa){tarifa.value=it.dataset.tarifa}
-      if(it.dataset.whatsapp){telefono-box.style.display=it.dataset.whatsapp==="si"?"block":"none"}
+      if(it.dataset.tarifa){document.getElementById("tarifa-hidden").value=it.dataset.tarifa;}
+      if(it.dataset.whatsapp){
+        document.getElementById("telefono-box").style.display =
+          it.dataset.whatsapp==="si" ? "block" : "none";
+      }
       validateStep();
     };
   });
 });
-document.addEventListener("click",()=>document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open")));
+
+document.addEventListener("click",()=>{
+  document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
+});
 
 document.querySelector(".submit").addEventListener("click",async()=>{
   if(!validateStep()) return;
-  const submitBtn=document.querySelector(".submit");
-  submitBtn.disabled=true;
-  submitBtn.textContent="Redirigiendo a pago seguro…";
 
   const data={
     recipient_name:recipient_name.value,
     your_name:your_name.value,
-    relationship:relationship.textContent,
-    tarifa:tarifa.value,
+    relationship:document.querySelectorAll(".dropdown-btn")[0].textContent,
+    tarifa:tarifa_hidden.value,
     how_met:how_met.value,
     special_moment:special_moment.value,
-    reason_now:reason_now.textContent,
+    reason_now:document.querySelectorAll(".dropdown-btn")[2].textContent,
     three_words:three_words.value,
     dedication:dedication.value,
-    emotion:emotion.textContent,
-    song_style:song_style.textContent,
-    rhythm:rhythm.textContent,
-    voice_type:voice_type.textContent,
-    language:language.textContent,
-    include_name:include_name.textContent,
+    emotion:document.querySelectorAll(".dropdown-btn")[3].textContent,
+    song_style:document.querySelectorAll(".dropdown-btn")[4].textContent,
+    rhythm:document.querySelectorAll(".dropdown-btn")[5].textContent,
+    voice_type:document.querySelectorAll(".dropdown-btn")[6].textContent,
+    language:document.querySelectorAll(".dropdown-btn")[7].textContent,
+    include_name:document.querySelectorAll(".dropdown-btn")[8].textContent,
     dont_mention:dont_mention.value,
-    intensity:intensity.textContent,
+    intensity:document.querySelectorAll(".dropdown-btn")[9].textContent,
     email:email.value,
-    whatsapp:whatsapp.textContent,
+    whatsapp:document.querySelectorAll(".dropdown-btn")[10].textContent,
     phone:phone.value
   };
 
-  try{
-    const r=await fetch("/api/payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-    const j=await r.json();
-    if(j.url) window.location.href=j.url;
-    else throw new Error("Stripe no devolvió URL");
-  }catch(err){
-    alert("Error al iniciar el pago");
-    submitBtn.disabled=false;
-    submitBtn.textContent="Pagar y enviar";
-    console.error(err);
-  }
+  const r=await fetch("/api/payment",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  });
+  const j=await r.json();
+  if(j.url) window.location.href=j.url;
 });
-
 render();
 </script>
 
@@ -1523,6 +1558,7 @@ render();
   </div>
 
 </section>
+
 
 
 
