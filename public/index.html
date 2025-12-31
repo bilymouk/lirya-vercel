@@ -911,7 +911,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO) ================== -->
+<!-- ================== FORMULARIO LIRYA — FINAL DEFINITIVO ================== -->
 <section id="formulario-lirya">
 
 <style>
@@ -940,7 +940,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   background:rgba(255,255,255,.88);font-size:14px
 }
 #formulario-lirya textarea{height:90px;resize:none}
-
 #formulario-lirya .dropdown{position:relative}
 #formulario-lirya .dropdown-btn{
   width:100%;padding:14px 16px;background:rgba(255,255,255,.88);
@@ -958,16 +957,14 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   padding:12px 18px;color:#7a7a7a;font-size:14px;cursor:pointer
 }
 #formulario-lirya .dropdown-item:hover{background:#f4f7fb;color:#333}
-
 #formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
 #formulario-lirya button{
   padding:14px;border-radius:10px;border:none;cursor:pointer;font-size:15px
 }
 #formulario-lirya .back{background:rgba(255,255,255,.2);color:#fff}
-#formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.6}
+#formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.5}
 #formulario-lirya .next.enabled{opacity:1}
 #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
-
 #telefono-box{display:none}
 </style>
 
@@ -984,12 +981,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="question">
 <label>Nombre de quien recibirá la canción</label>
-<input required>
+<input id="recipient_name" required>
 </div>
 
 <div class="question">
 <label>Tu nombre (quien regala)</label>
-<input required>
+<input id="your_name" required>
 </div>
 
 <div class="question">
@@ -1027,16 +1024,16 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- PASO 2 -->
 <div class="step">
-<div class="step-title">Paso 2 de 6 — Origen de la historia</div>
+<div class="step-title">Paso 2 de 6 — Historia</div>
 
 <div class="question">
 <label>¿Cómo os conocisteis?</label>
-<textarea required></textarea>
+<textarea id="how_met" required></textarea>
 </div>
 
 <div class="question">
 <label>Un momento que lo cambió todo</label>
-<textarea required></textarea>
+<textarea id="special_moment" required></textarea>
 </div>
 
 <div class="question">
@@ -1066,12 +1063,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="question">
 <label>Tres palabras que definan a esa persona</label>
-<input required>
+<input id="three_words" required>
 </div>
 
 <div class="question">
 <label>Una frase que te gustaría decirle</label>
-<textarea required></textarea>
+<textarea id="dedication" required></textarea>
 </div>
 
 <div class="question">
@@ -1175,7 +1172,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="question">
 <label>¿Algo que NO deba mencionarse?</label>
-<textarea></textarea>
+<textarea id="dont_mention"></textarea>
 </div>
 
 <div class="question">
@@ -1198,11 +1195,11 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- PASO 6 -->
 <div class="step">
-<div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+<div class="step-title">Paso 6 de 6 — Entrega</div>
 
 <div class="question">
 <label>Email</label>
-<input type="email" required>
+<input id="email" type="email" required>
 </div>
 
 <div class="question">
@@ -1218,7 +1215,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="question" id="telefono-box">
 <label>Número de teléfono</label>
-<input>
+<input id="phone">
 </div>
 
 <div class="nav">
@@ -1234,138 +1231,88 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 const steps=[...document.querySelectorAll("#formulario-lirya .step")];
 let i=0;
 const progress=document.getElementById("progress");
-
-steps.forEach((_,x)=>{
-  const s=document.createElement("span");
-  if(x===0)s.classList.add("active");
-  progress.appendChild(s);
-});
-
+steps.forEach((_,x)=>{const s=document.createElement("span");if(x===0)s.classList.add("active");progress.appendChild(s)});
 function validateStep(){
   const step=steps[i];
   let ok=true;
-  step.querySelectorAll("input[required],textarea[required]").forEach(el=>{
-    if(!el.value.trim()) ok=false;
-  });
-  step.querySelectorAll(".dropdown-btn[data-required]").forEach(b=>{
-    if(b.textContent.includes("Elige")) ok=false;
-  });
+  step.querySelectorAll("input[required],textarea[required]").forEach(el=>{if(!el.value.trim()) ok=false});
+  step.querySelectorAll(".dropdown-btn[data-required]").forEach(b=>{if(b.textContent.includes("Elige")) ok=false});
   const next=step.querySelector(".next");
   if(next) next.classList.toggle("enabled",ok);
   return ok;
 }
-
 function render(){
   steps.forEach((s,x)=>s.classList.toggle("active",x===i));
   [...progress.children].forEach((p,x)=>p.classList.toggle("active",x<=i));
   validateStep();
 }
-
 document.addEventListener("input",validateStep);
-
 document.addEventListener("click",e=>{
   if(e.target.classList.contains("next") && validateStep()){i++;render()}
   if(e.target.classList.contains("back")){i--;render()}
 });
-
 document.querySelectorAll("#formulario-lirya .dropdown").forEach(d=>{
   const btn=d.querySelector(".dropdown-btn");
   const menu=d.querySelector(".dropdown-menu");
-
   btn.addEventListener("click",e=>{
-    e.stopPropagation();
-    document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
+    e.preventDefault();e.stopPropagation();
+    document.querySelectorAll(".dropdown-menu").forEach(m=>{if(m!==menu)m.classList.remove("open")});
     menu.classList.toggle("open");
   });
-
-  d.querySelectorAll(".dropdown-item").forEach(it=>{
-    it.onclick=()=>{
+  menu.querySelectorAll(".dropdown-item").forEach(it=>{
+    it.onclick=e=>{
+      e.stopPropagation();
       btn.textContent=it.textContent;
       btn.style.color="#333";
       menu.classList.remove("open");
-      if(it.dataset.tarifa){document.getElementById("tarifa-hidden").value=it.dataset.tarifa}
-      if(it.dataset.whatsapp){
-        document.getElementById("telefono-box").style.display =
-          it.dataset.whatsapp==="si"?"block":"none";
-      }
+      if(it.dataset.tarifa) document.getElementById("tarifa-hidden").value=it.dataset.tarifa;
+      if(it.dataset.whatsapp) document.getElementById("telefono-box").style.display=it.dataset.whatsapp==="si"?"block":"none";
       validateStep();
-    };
+    }
   });
 });
-
-document.addEventListener("click",()=>{
-  document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
-});
-
-render();
-<script>
-/* ================== STRIPE CHECKOUT ================== */
-
-const submitBtn = document.querySelector("#formulario-lirya .submit");
-
-submitBtn.addEventListener("click", async () => {
-
-  // Seguridad: evitar doble clic
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Redirigiendo a pago seguro…";
-
-  // Recoger TODOS los datos (orden exacto del formulario)
-  const inputs = document.querySelectorAll("#formulario-lirya input");
-  const textareas = document.querySelectorAll("#formulario-lirya textarea");
-  const dropdowns = document.querySelectorAll("#formulario-lirya .dropdown-btn");
-
-  const formData = {
-    recipient_name: inputs[0]?.value || "",
-    your_name: inputs[1]?.value || "",
-    relationship: dropdowns[0]?.textContent || "",
-    tarifa: document.getElementById("tarifa-hidden").value || "",
-
-    how_met: textareas[0]?.value || "",
-    special_moment: textareas[1]?.value || "",
-    reason_now: dropdowns[1]?.textContent || "",
-
-    three_words: inputs[2]?.value || "",
-    dedication: textareas[2]?.value || "",
-    emotion: dropdowns[2]?.textContent || "",
-
-    song_style: dropdowns[3]?.textContent || "",
-    rhythm: dropdowns[4]?.textContent || "",
-    voice_type: dropdowns[5]?.textContent || "",
-    language: dropdowns[6]?.textContent || "",
-
-    include_name: dropdowns[7]?.textContent || "",
-    dont_mention: textareas[3]?.value || "",
-    intensity: dropdowns[8]?.textContent || "",
-
-    email: inputs[3]?.value || "",
-    whatsapp: dropdowns[9]?.textContent || "",
-    phone: inputs[4]?.value || ""
-  };
-
-  try {
-    const response = await fetch("/api/payment", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
-
-    const data = await response.json();
-
-    if (data.url) {
-      window.location.href = data.url; // 🔥 AQUÍ SE ABRE STRIPE
-    } else {
-      throw new Error("Stripe no devolvió URL");
-    }
-
-  } catch (err) {
-    alert("Error al iniciar el pago. Inténtalo de nuevo.");
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Pagar y enviar";
-    console.error(err);
+/* preselección tarifa */
+const params=new URLSearchParams(window.location.search);
+const t=params.get("tarifa");
+if(t){
+  const map={49:"49€ — Estándar",59:"59€ — San Valentín",79:"79€ — Prioritaria"};
+  if(map[t]){
+    document.getElementById("tarifa-btn").textContent=map[t];
+    document.getElementById("tarifa-btn").style.color="#333";
+    document.getElementById("tarifa-hidden").value=t;
   }
-});
-</script>
+}
+render();
 
+/* STRIPE */
+document.querySelector(".submit").addEventListener("click",async()=>{
+  const data={
+    recipient_name:recipient_name.value,
+    your_name:your_name.value,
+    relationship:document.querySelectorAll(".dropdown-btn")[0].textContent,
+    tarifa:tarifa_hidden.value,
+    how_met:how_met.value,
+    special_moment:special_moment.value,
+    reason_now:document.querySelectorAll(".dropdown-btn")[2].textContent,
+    three_words:three_words.value,
+    dedication:dedication.value,
+    emotion:document.querySelectorAll(".dropdown-btn")[3].textContent,
+    song_style:document.querySelectorAll(".dropdown-btn")[4].textContent,
+    rhythm:document.querySelectorAll(".dropdown-btn")[5].textContent,
+    voice_type:document.querySelectorAll(".dropdown-btn")[6].textContent,
+    language:document.querySelectorAll(".dropdown-btn")[7].textContent,
+    include_name:document.querySelectorAll(".dropdown-btn")[8].textContent,
+    dont_mention:dont_mention.value,
+    intensity:document.querySelectorAll(".dropdown-btn")[9].textContent,
+    email:email.value,
+    whatsapp:document.querySelectorAll(".dropdown-btn")[10].textContent,
+    phone:phone.value
+  };
+  const r=await fetch("/api/payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+  const j=await r.json();
+  if(j.url) location.href=j.url;
+  else alert("Error al iniciar el pago");
+});
 </script>
 
 </section>
@@ -1569,6 +1516,7 @@ submitBtn.addEventListener("click", async () => {
   </div>
 
 </section>
+
 
 
 
