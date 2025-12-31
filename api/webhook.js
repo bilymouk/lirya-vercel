@@ -51,7 +51,6 @@ export default async function handler(req, res) {
     <p><strong>Destinatario:</strong> ${metadata.recipient_name || "-"}</p>
     <p><strong>Quien regala:</strong> ${metadata.your_name || "-"}</p>
     <p><strong>Relación:</strong> ${metadata.relationship || "-"}</p>
-    <p><strong>Tarifa:</strong> ${metadata.tarifa || "-"}</p>
 
     <hr>
 
