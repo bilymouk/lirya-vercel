@@ -82,10 +82,55 @@ export default async function handler(req, res) {
     <p><strong>No mencionar:</strong><br>${metadata.dont_mention || "-"}</p>
   `,
 });
-
-
-    console.log("✅ EMAIL ENVIADO");
+    
+   console.log("✅ EMAIL ENVIADO");
   }
+
+  const customerEmail = session.customer_details?.email;
+
+if (customerEmail) {
+  await resend.emails.send({
+    from: "Lirya <onboarding@resend.dev>",
+    to: customerEmail,
+    subject: "🎶 Estamos creando tu canción personalizada",
+    html: `
+      <h2>Gracias por confiar en Lirya 💛</h2>
+
+      <p>
+        Hemos recibido correctamente tu pedido y <strong>ya estamos trabajando en tu canción personalizada</strong>.
+      </p>
+
+      <p>
+        Tu historia ha llegado a nuestro equipo creativo y será tratada con el cuidado y la sensibilidad que merece.
+      </p>
+
+      <hr>
+
+      <h3>¿Qué ocurre ahora?</h3>
+      <ul>
+        <li>🎼 Analizamos tu historia y emociones</li>
+        <li>✍️ Creamos una letra única y personalizada</li>
+        <li>🎧 Producimos tu canción según el estilo elegido</li>
+      </ul>
+
+      <p>
+        El tiempo de entrega dependerá de la tarifa seleccionada.  
+        Te avisaremos en cuanto tu canción esté lista.
+      </p>
+
+      <p>
+        Si tienes cualquier duda, simplemente responde a este correo.
+      </p>
+
+      <p style="margin-top:30px">
+        Con cariño,<br>
+        <strong>El equipo de Lirya</strong> 🎶
+      </p>
+    `,
+  });
+
+  console.log("✅ Email de confirmación enviado al cliente:", customerEmail);
+}
 
   res.json({ received: true });
 }
