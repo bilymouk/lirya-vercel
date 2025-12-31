@@ -1,299 +1,254 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Pago Completado! - Lirya</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago confirmado – Lirya</title>
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
-            color: #e0e0e0;
-            background: #0a0a0a;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-        /* HEADER */
-        header {
-            background: #ffffff;
-            padding: 0.3rem 2rem;
-            border-bottom: 1px solid rgba(212, 165, 116, 0.15);
-        }
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #e0e0e0;
+      background: #0a0a0a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #d4a574 0%, #e8c896 50%, #d4a574 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
+    header {
+      background: #ffffff;
+      padding: 0.4rem 2rem;
+      border-bottom: 1px solid rgba(212,165,116,.15);
+    }
 
-        /* MAIN CONTENT */
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-        }
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+    }
 
-        /* Fondo animado */
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg,#d4a574,#e8c896,#d4a574);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .wave {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(212, 165, 116, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: wave 20s linear infinite;
-        }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
 
-        @keyframes wave {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50%, -50%); }
-        }
+    .background-animation {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
 
-        .success-container {
-            position: relative;
-            z-index: 1;
-            max-width: 600px;
-            width: 100%;
-            background: rgba(20, 20, 20, 0.95);
-            border: 1px solid rgba(212, 165, 116, 0.2);
-            border-radius: 12px;
-            padding: 3rem 2rem;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        }
+    .wave {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212,165,116,.035) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: wave 22s linear infinite;
+    }
 
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: scaleIn 0.5s ease-out;
-        }
+    @keyframes wave {
+      from { transform: translate(0,0); }
+      to { transform: translate(-50%,-50%); }
+    }
 
-        @keyframes scaleIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
+    .success-container {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      width: 100%;
+      background: rgba(20,20,20,.96);
+      border: 1px solid rgba(212,165,116,.25);
+      border-radius: 14px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(0,0,0,.6);
+    }
 
-        .success-icon svg {
-            width: 45px;
-            height: 45px;
-            stroke: white;
-            stroke-width: 3;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            animation: checkmark 0.8s ease-in-out 0.3s both;
-        }
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.8rem;
+      background: linear-gradient(135deg,#4ade80,#22c55e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pop .5s ease-out;
+    }
 
-        @keyframes checkmark {
-            0% { stroke-dasharray: 0, 100; }
-            100% { stroke-dasharray: 100, 100; }
-        }
+    @keyframes pop {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #d4a574 0%, #e8c896 50%, #d4a574 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-        }
+    .success-icon svg {
+      width: 46px;
+      height: 46px;
+      stroke: #fff;
+      stroke-width: 3;
+      fill: none;
+    }
 
-        .success-message {
-            font-size: 1.1rem;
-            color: #b0b0b0;
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg,#d4a574,#e8c896,#d4a574);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .info-box {
-            background: rgba(212, 165, 116, 0.05);
-            border: 1px solid rgba(212, 165, 116, 0.2);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: left;
-        }
+    .success-message {
+      font-size: 1.1rem;
+      color: #b8b8b8;
+      line-height: 1.8;
+      margin-bottom: 2.2rem;
+    }
 
-        .info-box h3 {
-            font-family: 'Playfair Display', serif;
-            color: #d4a574;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
+    .info-box {
+      background: rgba(212,165,116,.06);
+      border: 1px solid rgba(212,165,116,.25);
+      border-radius: 10px;
+      padding: 1.6rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
 
-        .info-box ul {
-            list-style: none;
-            padding: 0;
-        }
+    .info-box h3 {
+      font-family: 'Playfair Display', serif;
+      color: #d4a574;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
 
-        .info-box li {
-            padding: 0.5rem 0;
-            color: #b0b0b0;
-            display: flex;
-            align-items: flex-start;
-        }
+    .info-box li {
+      list-style: none;
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: flex-start;
+      color: #b0b0b0;
+    }
 
-        .info-box li::before {
-            content: "✓";
-            color: #4ade80;
-            font-weight: bold;
-            margin-right: 0.8rem;
-            font-size: 1.2rem;
-        }
+    .info-box li::before {
+      content: "✓";
+      color: #4ade80;
+      margin-right: .8rem;
+      font-weight: bold;
+    }
 
-        .session-id {
-            font-size: 0.85rem;
-            color: #808080;
-            margin-bottom: 2rem;
-            font-family: monospace;
-            word-break: break-all;
-        }
+    .session-id {
+      font-size: .85rem;
+      color: #7a7a7a;
+      margin-bottom: 2rem;
+      font-family: monospace;
+      word-break: break-all;
+    }
 
-        .btn-home {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
-            color: white;
-            text-decoration: none;
-            padding: 1rem 2.5rem;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-        }
+    .btn-home {
+      display: inline-block;
+      padding: 1rem 2.6rem;
+      border-radius: 8px;
+      background: linear-gradient(135deg,#ff6b35,#ff8c42);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      transition: .3s;
+      box-shadow: 0 6px 20px rgba(255,107,53,.35);
+    }
 
-        .btn-home:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(255,107,53,.45);
+    }
 
-        /* FOOTER */
-        footer {
-            background: rgba(20, 20, 20, 0.95);
-            padding: 1.5rem 2rem;
-            text-align: center;
-            border-top: 1px solid rgba(212, 165, 116, 0.15);
-        }
+    footer {
+      padding: 1.5rem;
+      text-align: center;
+      color: #808080;
+      font-size: .9rem;
+      border-top: 1px solid rgba(212,165,116,.15);
+    }
 
-        footer p {
-            color: #808080;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .success-container {
-                padding: 2rem 1.5rem;
-            }
-
-            .success-message {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    @media(max-width:768px){
+      h1{font-size:2rem}
+      .success-container{padding:2.2rem 1.6rem}
+    }
+  </style>
 </head>
+
 <body>
-    <div class="background-animation">
-        <div class="wave"></div>
+  <div class="background-animation"><div class="wave"></div></div>
+
+  <header>
+    <div class="header-content">
+      <div class="logo">LIRYA</div>
     </div>
+  </header>
 
-    <header>
-        <div class="header-content">
-            <div class="logo">LIRYA</div>
-        </div>
-    </header>
+  <main>
+    <div class="success-container">
+      <div class="success-icon">
+        <svg viewBox="0 0 52 52"><polyline points="14 27 22 35 38 19"/></svg>
+      </div>
 
-    <main>
-        <div class="success-container">
-            <div class="success-icon">
-                <svg viewBox="0 0 52 52">
-                    <polyline points="14 27 22 35 38 19"/>
-                </svg>
-            </div>
+      <h1>Pago confirmado</h1>
 
-            <h1>¡Pago Completado!</h1>
-            
-            <p class="success-message">
-                Tu canción personalizada está en camino. Hemos recibido tu pago correctamente y nuestro equipo comenzará a trabajar en tu canción de inmediato.
-            </p>
+      <p class="success-message">
+        Gracias por confiar en <strong>Lirya</strong>.  
+        Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.
+      </p>
 
-            <div class="info-box">
-                <h3>¿Qué sigue ahora?</h3>
-                <ul>
-                    <li>Recibirás un email de confirmación en los próximos minutos</li>
-                    <li>Crearemos tu canción personalizada basada en tu historia</li>
-                    <li>Te enviaremos la canción en formato MP3 en menos de 24 horas</li>
-                    <li>Si necesitas algún ajuste, estaremos encantados de ayudarte</li>
-                </ul>
-            </div>
+      <div class="info-box">
+        <h3>¿Qué ocurre ahora?</h3>
+        <ul>
+          <li>Revisamos tu historia y emociones con cuidado</li>
+          <li>Creamos una letra única pensada solo para ti</li>
+          <li>Producimos tu canción según el estilo elegido</li>
+          <li>Te avisaremos en cuanto esté lista</li>
+        </ul>
+      </div>
 
-            <p class="session-id" id="sessionId">
-                <!-- Session ID will be inserted here by JavaScript -->
-            </p>
+      <p class="success-message">
+        El tiempo de entrega depende de la tarifa seleccionada.  
+        Si necesitas cualquier cosa, puedes responder al email de confirmación.
+      </p>
 
-            <a href="/" class="btn-home">Volver al Inicio</a>
-        </div>
-    </main>
+      <p class="session-id" id="sessionId"></p>
 
-    <footer>
-        <p>© 2024 Lirya. Todos los derechos reservados.</p>
-    </footer>
+      <a href="/" class="btn-home">Volver al inicio</a>
+    </div>
+  </main>
 
-    <script>
-        // Extraer session_id de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const sessionId = urlParams.get('session_id');
-        
-        if (sessionId) {
-            document.getElementById('sessionId').textContent = `ID de sesión: ${sessionId}`;
-        }
-    </script>
+  <footer>
+    © 2024 Lirya · Todos los derechos reservados
+  </footer>
+
+  <script>
+    const id = new URLSearchParams(window.location.search).get("session_id");
+    if(id) document.getElementById("sessionId").textContent = "ID de sesión: " + id;
+  </script>
 </body>
 </html>
