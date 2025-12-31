@@ -911,7 +911,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ================== FORMULARIO LIRYA — FINAL DEFINITIVO ================== -->
+<!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO) ================== -->
 <section id="formulario-lirya">
 
 <style>
@@ -940,6 +940,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   background:rgba(255,255,255,.88);font-size:14px
 }
 #formulario-lirya textarea{height:90px;resize:none}
+
 #formulario-lirya .dropdown{position:relative}
 #formulario-lirya .dropdown-btn{
   width:100%;padding:14px 16px;background:rgba(255,255,255,.88);
@@ -957,6 +958,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   padding:12px 18px;color:#7a7a7a;font-size:14px;cursor:pointer
 }
 #formulario-lirya .dropdown-item:hover{background:#f4f7fb;color:#333}
+
 #formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
 #formulario-lirya button{
   padding:14px;border-radius:10px;border:none;cursor:pointer;font-size:15px
@@ -965,6 +967,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 #formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.5}
 #formulario-lirya .next.enabled{opacity:1}
 #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
+
 #telefono-box{display:none}
 </style>
 
@@ -1195,7 +1198,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- PASO 6 -->
 <div class="step">
-<div class="step-title">Paso 6 de 6 — Entrega</div>
+<div class="step-title">Paso 6 de 6 — Entrega y pago</div>
 
 <div class="question">
 <label>Email</label>
@@ -1232,6 +1235,7 @@ const steps=[...document.querySelectorAll("#formulario-lirya .step")];
 let i=0;
 const progress=document.getElementById("progress");
 steps.forEach((_,x)=>{const s=document.createElement("span");if(x===0)s.classList.add("active");progress.appendChild(s)});
+
 function validateStep(){
   const step=steps[i];
   let ok=true;
@@ -1241,56 +1245,53 @@ function validateStep(){
   if(next) next.classList.toggle("enabled",ok);
   return ok;
 }
+
 function render(){
   steps.forEach((s,x)=>s.classList.toggle("active",x===i));
   [...progress.children].forEach((p,x)=>p.classList.toggle("active",x<=i));
   validateStep();
 }
+
 document.addEventListener("input",validateStep);
 document.addEventListener("click",e=>{
   if(e.target.classList.contains("next") && validateStep()){i++;render()}
   if(e.target.classList.contains("back")){i--;render()}
 });
-document.querySelectorAll("#formulario-lirya .dropdown").forEach(d=>{
+
+document.querySelectorAll(".dropdown").forEach(d=>{
   const btn=d.querySelector(".dropdown-btn");
   const menu=d.querySelector(".dropdown-menu");
-  btn.addEventListener("click",e=>{
-    e.preventDefault();e.stopPropagation();
-    document.querySelectorAll(".dropdown-menu").forEach(m=>{if(m!==menu)m.classList.remove("open")});
+  btn.onclick=e=>{
+    e.stopPropagation();
+    document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
     menu.classList.toggle("open");
-  });
+  };
   menu.querySelectorAll(".dropdown-item").forEach(it=>{
-    it.onclick=e=>{
-      e.stopPropagation();
+    it.onclick=()=>{
       btn.textContent=it.textContent;
       btn.style.color="#333";
       menu.classList.remove("open");
-      if(it.dataset.tarifa) document.getElementById("tarifa-hidden").value=it.dataset.tarifa;
-      if(it.dataset.whatsapp) document.getElementById("telefono-box").style.display=it.dataset.whatsapp==="si"?"block":"none";
+      if(it.dataset.tarifa){document.getElementById("tarifa-hidden").value=it.dataset.tarifa}
+      if(it.dataset.whatsapp){document.getElementById("telefono-box").style.display=it.dataset.whatsapp==="si"?"block":"none"}
       validateStep();
-    }
+    };
   });
 });
-/* preselección tarifa */
-const params=new URLSearchParams(window.location.search);
-const t=params.get("tarifa");
-if(t){
-  const map={49:"49€ — Estándar",59:"59€ — San Valentín",79:"79€ — Prioritaria"};
-  if(map[t]){
-    document.getElementById("tarifa-btn").textContent=map[t];
-    document.getElementById("tarifa-btn").style.color="#333";
-    document.getElementById("tarifa-hidden").value=t;
-  }
-}
-render();
+document.addEventListener("click",()=>document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open")));
 
-/* STRIPE */
+const tarifaHidden=document.getElementById("tarifa-hidden");
+
 document.querySelector(".submit").addEventListener("click",async()=>{
+  if(!validateStep()) return;
+  const submitBtn=document.querySelector(".submit");
+  submitBtn.disabled=true;
+  submitBtn.textContent="Redirigiendo a pago seguro…";
+
   const data={
     recipient_name:recipient_name.value,
     your_name:your_name.value,
     relationship:document.querySelectorAll(".dropdown-btn")[0].textContent,
-    tarifa:tarifa_hidden.value,
+    tarifa:tarifaHidden.value,
     how_met:how_met.value,
     special_moment:special_moment.value,
     reason_now:document.querySelectorAll(".dropdown-btn")[2].textContent,
@@ -1308,11 +1309,21 @@ document.querySelector(".submit").addEventListener("click",async()=>{
     whatsapp:document.querySelectorAll(".dropdown-btn")[10].textContent,
     phone:phone.value
   };
-  const r=await fetch("/api/payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-  const j=await r.json();
-  if(j.url) location.href=j.url;
-  else alert("Error al iniciar el pago");
+
+  try{
+    const r=await fetch("/api/payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+    const j=await r.json();
+    if(j.url) window.location.href=j.url;
+    else throw new Error("Stripe no devolvió URL");
+  }catch(err){
+    alert("Error al iniciar el pago");
+    submitBtn.disabled=false;
+    submitBtn.textContent="Pagar y enviar";
+    console.error(err);
+  }
 });
+
+render();
 </script>
 
 </section>
@@ -1516,6 +1527,7 @@ document.querySelector(".submit").addEventListener("click",async()=>{
   </div>
 
 </section>
+
 
 
 
