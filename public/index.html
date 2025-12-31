@@ -911,7 +911,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ================== FORMULARIO LIRYA (DEFINITIVO FUNCIONAL REAL) ================== -->
+<!-- ================== FORMULARIO LIRYA (FINAL ESTABLE Y FUNCIONAL) ================== -->
 <section id="formulario-lirya">
 
 <style>
@@ -930,27 +930,29 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 #formulario-lirya .step{display:none}
 #formulario-lirya .step.active{display:block}
 #formulario-lirya .step-title{font-size:26px;color:#f2c98a;margin-bottom:18px}
+#formulario-lirya .question{margin-bottom:18px}
 #formulario-lirya input,#formulario-lirya textarea{
   width:100%;padding:14px 16px;border:none;border-radius:10px;
-  background:rgba(255,255,255,.88);font-size:14px;margin-bottom:18px
+  background:rgba(255,255,255,.88)
 }
 #formulario-lirya textarea{height:90px;resize:none}
 #formulario-lirya .dropdown{position:relative;margin-bottom:18px}
 #formulario-lirya .dropdown-btn{
   width:100%;padding:14px 16px;background:rgba(255,255,255,.88);
-  border-radius:10px;border:none;color:#9aa3ab;cursor:pointer
+  border-radius:10px;border:none;cursor:pointer;color:#777
 }
 #formulario-lirya .dropdown-menu{
-  position:absolute;top:110%;left:0;right:0;
-  background:#fff;border-radius:12px;display:none;z-index:50
+  position:absolute;top:100%;left:0;right:0;
+  background:#fff;border-radius:12px;
+  display:none;z-index:99
 }
 #formulario-lirya .dropdown-menu.open{display:block}
 #formulario-lirya .dropdown-item{padding:12px 16px;cursor:pointer}
 #formulario-lirya .dropdown-item:hover{background:#eee}
-#formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
-#formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.5}
+#formulario-lirya .nav{display:flex;gap:10px}
+#formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.4}
 #formulario-lirya .next.enabled{opacity:1}
-#formulario-lirya .back{background:rgba(255,255,255,.2);color:#fff}
+#formulario-lirya .back{background:#444;color:#fff}
 #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
 </style>
 
@@ -961,150 +963,177 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="card">
 
-<!-- PASOS (1 al 6) -->
+<!-- PASO 1 -->
 <div class="step active">
-  <div class="step-title">Paso 1 de 6 — Personas y tarifa</div>
-  <input id="recipient_name" required placeholder="Nombre destinatario">
-  <input id="your_name" required placeholder="Tu nombre">
+<div class="step-title">Paso 1 de 6 — Personas y tarifa</div>
 
-  <div class="dropdown">
-    <button class="dropdown-btn" data-required>Tipo de relación ▾</button>
-    <input type="hidden" id="relationship" required>
-    <div class="dropdown-menu">
-      <div class="dropdown-item">Pareja</div>
-      <div class="dropdown-item">Matrimonio</div>
-      <div class="dropdown-item">Ex pareja (reconciliación)</div>
-      <div class="dropdown-item">Amor secreto</div>
-      <div class="dropdown-item">Familiar</div>
-      <div class="dropdown-item">Amistad especial</div>
-    </div>
-  </div>
+<input id="recipient_name" required placeholder="Nombre destinatario">
+<input id="your_name" required placeholder="Tu nombre">
 
-  <div class="dropdown">
-    <button class="dropdown-btn" data-required>Tarifa ▾</button>
-    <input type="hidden" id="tarifa" required>
-    <div class="dropdown-menu">
-      <div class="dropdown-item">49€ — Estándar</div>
-      <div class="dropdown-item">59€ — San Valentín</div>
-      <div class="dropdown-item">79€ — Prioritaria</div>
-    </div>
-  </div>
-
-  <div class="nav"><button class="next">Siguiente →</button></div>
+<div class="dropdown">
+<button type="button" class="dropdown-btn" data-required>Tipo de relación ▾</button>
+<input type="hidden" id="relationship">
+<div class="dropdown-menu">
+<div class="dropdown-item">Pareja</div>
+<div class="dropdown-item">Matrimonio</div>
+<div class="dropdown-item">Ex pareja</div>
+<div class="dropdown-item">Amor secreto</div>
+<div class="dropdown-item">Familiar</div>
+<div class="dropdown-item">Amistad especial</div>
+</div>
 </div>
 
-<div class="step">
-  <div class="step-title">Paso 2 de 6 — Historia</div>
-  <textarea id="how_met" required placeholder="¿Cómo os conocisteis?"></textarea>
-  <textarea id="special_moment" required placeholder="Momento especial"></textarea>
-
-  <div class="dropdown">
-    <button class="dropdown-btn" data-required>¿Por qué ahora? ▾</button>
-    <input type="hidden" id="reason_now" required>
-    <div class="dropdown-menu">
-      <div class="dropdown-item">Aniversario</div>
-      <div class="dropdown-item">Cumpleaños</div>
-      <div class="dropdown-item">Reconciliación</div>
-      <div class="dropdown-item">San Valentín</div>
-      <div class="dropdown-item">Sorpresa sin motivo</div>
-      <div class="dropdown-item">Otro</div>
-    </div>
-  </div>
-
-  <div class="nav"><button class="back">← Atrás</button><button class="next">Siguiente →</button></div>
+<div class="dropdown">
+<button type="button" class="dropdown-btn" data-required>Tarifa ▾</button>
+<input type="hidden" id="tarifa">
+<div class="dropdown-menu">
+<div class="dropdown-item">49€ — Estándar</div>
+<div class="dropdown-item">59€ — San Valentín</div>
+<div class="dropdown-item">79€ — Prioritaria</div>
+</div>
 </div>
 
-<div class="step">
-  <div class="step-title">Paso 3 de 6 — Emoción</div>
-  <input id="three_words" required placeholder="Tres palabras">
-  <textarea id="dedication" required placeholder="Dedicatoria"></textarea>
-
-  <div class="dropdown">
-    <button class="dropdown-btn" data-required>Emoción ▾</button>
-    <input type="hidden" id="emotion" required>
-    <div class="dropdown-menu">
-      <div class="dropdown-item">Amor profundo</div>
-      <div class="dropdown-item">Nostalgia</div>
-      <div class="dropdown-item">Alegría</div>
-      <div class="dropdown-item">Emoción intensa</div>
-      <div class="dropdown-item">Calma y ternura</div>
-    </div>
-  </div>
-
-  <div class="nav"><button class="back">← Atrás</button><button class="next">Siguiente →</button></div>
+<div class="nav">
+<button class="next">Siguiente →</button>
+</div>
 </div>
 
+<!-- PASO 2 -->
 <div class="step">
-  <div class="step-title">Paso 4 de 6 — Música</div>
+<div class="step-title">Paso 2 de 6 — Historia</div>
+<textarea id="how_met" required placeholder="¿Cómo os conocisteis?"></textarea>
+<textarea id="special_moment" required placeholder="Momento especial"></textarea>
 
-  <div class="dropdown"><button class="dropdown-btn" data-required>Estilo ▾</button>
-  <input type="hidden" id="style" required>
-  <div class="dropdown-menu">
-    <div class="dropdown-item">Balada romántica</div>
-    <div class="dropdown-item">Pop emocional</div>
-    <div class="dropdown-item">Indie acústico</div>
-    <div class="dropdown-item">R&B / Soul</div>
-    <div class="dropdown-item">Rock suave</div>
-    <div class="dropdown-item">Electrónica chill</div>
-    <div class="dropdown-item">Reggaetón lento</div>
-    <div class="dropdown-item">Cinematográfico</div>
-  </div></div>
-
-  <div class="dropdown"><button class="dropdown-btn" data-required>Ritmo ▾</button>
-  <input type="hidden" id="rhythm" required>
-  <div class="dropdown-menu">
-    <div class="dropdown-item">Lento</div>
-    <div class="dropdown-item">Medio</div>
-    <div class="dropdown-item">Progresivo</div>
-  </div></div>
-
-  <div class="dropdown"><button class="dropdown-btn" data-required>Tipo de voz ▾</button>
-  <input type="hidden" id="voice" required>
-  <div class="dropdown-menu">
-    <div class="dropdown-item">Masculina</div>
-    <div class="dropdown-item">Femenina</div>
-    <div class="dropdown-item">Dúo</div>
-    <div class="dropdown-item">Me da igual</div>
-  </div></div>
-
-  <div class="dropdown"><button class="dropdown-btn" data-required>Idioma ▾</button>
-  <input type="hidden" id="language" required>
-  <div class="dropdown-menu">
-    <div class="dropdown-item">Español</div>
-    <div class="dropdown-item">Inglés</div>
-    <div class="dropdown-item">Spanglish</div>
-  </div></div>
-
-  <div class="nav"><button class="back">← Atrás</button><button class="next">Siguiente →</button></div>
+<div class="dropdown">
+<button class="dropdown-btn" data-required>¿Por qué ahora? ▾</button>
+<input type="hidden" id="reason_now">
+<div class="dropdown-menu">
+<div class="dropdown-item">Aniversario</div>
+<div class="dropdown-item">Cumpleaños</div>
+<div class="dropdown-item">Reconciliación</div>
+<div class="dropdown-item">San Valentín</div>
+<div class="dropdown-item">Sorpresa</div>
+</div>
 </div>
 
-<div class="step">
-  <div class="step-title">Paso 5 de 6 — Detalles finales</div>
-
-  <div class="dropdown"><button class="dropdown-btn" data-required>¿Incluir nombre? ▾</button>
-  <input type="hidden" id="include_name" required>
-  <div class="dropdown-menu">
-    <div class="dropdown-item">Sí</div>
-    <div class="dropdown-item">No</div>
-  </div></div>
-
-  <textarea id="dont_mention" placeholder="No mencionar"></textarea>
-
-  <div class="dropdown"><button class="dropdown-btn" data-required>Intensidad ▾</button>
-  <input type="hidden" id="intensity" required>
-  <div class="dropdown-menu">
-    <div class="dropdown-item">Suave</div>
-    <div class="dropdown-item">Emotiva</div>
-    <div class="dropdown-item">Muy intensa</div>
-  </div></div>
-
-  <div class="nav"><button class="back">← Atrás</button><button class="next">Siguiente →</button></div>
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
 </div>
 
+<!-- PASO 3 -->
 <div class="step">
-  <div class="step-title">Paso 6 de 6 — Pago</div>
-  <input id="email" type="email" required placeholder="Email">
-  <div class="nav"><button class="back">← Atrás</button><button class="submit">Pagar y enviar</button></div>
+<div class="step-title">Paso 3 de 6 — Emoción</div>
+<input id="three_words" required placeholder="Tres palabras">
+<textarea id="dedication" required placeholder="Dedicatoria"></textarea>
+
+<div class="dropdown">
+<button class="dropdown-btn" data-required>Emoción ▾</button>
+<input type="hidden" id="emotion">
+<div class="dropdown-menu">
+<div class="dropdown-item">Amor profundo</div>
+<div class="dropdown-item">Alegría</div>
+<div class="dropdown-item">Nostalgia</div>
+<div class="dropdown-item">Emoción intensa</div>
+<div class="dropdown-item">Calma y ternura</div>
+</div>
+</div>
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
+
+<!-- PASO 4 -->
+<div class="step">
+<div class="step-title">Paso 4 de 6 — Música</div>
+
+<div class="dropdown"><button class="dropdown-btn" data-required>Estilo musical ▾</button>
+<input type="hidden" id="style">
+<div class="dropdown-menu">
+<div class="dropdown-item">Balada romántica</div>
+<div class="dropdown-item">Pop emocional</div>
+<div class="dropdown-item">Indie acústico</div>
+<div class="dropdown-item">R&B / Soul</div>
+<div class="dropdown-item">Rock suave</div>
+<div class="dropdown-item">Electrónica chill</div>
+<div class="dropdown-item">Reggaetón lento</div>
+<div class="dropdown-item">Cinematográfico</div>
+</div></div>
+
+<div class="dropdown"><button class="dropdown-btn" data-required>Ritmo ▾</button>
+<input type="hidden" id="rhythm">
+<div class="dropdown-menu">
+<div class="dropdown-item">Lento</div>
+<div class="dropdown-item">Medio</div>
+<div class="dropdown-item">Progresivo</div>
+</div></div>
+
+<div class="dropdown"><button class="dropdown-btn" data-required>Tipo de voz ▾</button>
+<input type="hidden" id="voice">
+<div class="dropdown-menu">
+<div class="dropdown-item">Masculina</div>
+<div class="dropdown-item">Femenina</div>
+<div class="dropdown-item">Dúo</div>
+<div class="dropdown-item">Me da igual</div>
+</div></div>
+
+<div class="dropdown"><button class="dropdown-btn" data-required>Idioma ▾</button>
+<input type="hidden" id="language">
+<div class="dropdown-menu">
+<div class="dropdown-item">Español</div>
+<div class="dropdown-item">Inglés</div>
+<div class="dropdown-item">Spanglish</div>
+</div></div>
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
+
+<!-- PASO 5 -->
+<div class="step">
+<div class="step-title">Paso 5 de 6 — Detalles finales</div>
+
+<div class="dropdown">
+<button class="dropdown-btn" data-required>¿Incluir nombre? ▾</button>
+<input type="hidden" id="include_name">
+<div class="dropdown-menu">
+<div class="dropdown-item">Sí</div>
+<div class="dropdown-item">No</div>
+</div>
+</div>
+
+<textarea id="dont_mention" placeholder="No mencionar (opcional)"></textarea>
+
+<div class="dropdown">
+<button class="dropdown-btn" data-required>Intensidad ▾</button>
+<input type="hidden" id="intensity">
+<div class="dropdown-menu">
+<div class="dropdown-item">Suave</div>
+<div class="dropdown-item">Emotiva</div>
+<div class="dropdown-item">Muy intensa</div>
+</div>
+</div>
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="next">Siguiente →</button>
+</div>
+</div>
+
+<!-- PASO 6 -->
+<div class="step">
+<div class="step-title">Paso 6 de 6 — Pago</div>
+<input id="email" type="email" required placeholder="Email">
+
+<div class="nav">
+<button class="back">← Atrás</button>
+<button class="submit">Pagar y enviar</button>
+</div>
 </div>
 
 </div>
@@ -1114,69 +1143,63 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 const steps=[...document.querySelectorAll(".step")];
 let i=0;
 
-function validate(){
+function validateStep(){
+  const step=steps[i];
   let ok=true;
-  steps[i].querySelectorAll("input[required],textarea[required]").forEach(e=>{
+  step.querySelectorAll("input[required],textarea[required]").forEach(e=>{
     if(!e.value.trim()) ok=false;
   });
-  const next=steps[i].querySelector(".next");
+  step.querySelectorAll("input[type=hidden]").forEach(e=>{
+    if(!e.value.trim()) ok=false;
+  });
+  const next=step.querySelector(".next");
   if(next) next.classList.toggle("enabled",ok);
   return ok;
 }
 
-document.addEventListener("input",validate);
+document.addEventListener("input",validateStep);
 
 document.addEventListener("click",e=>{
-  if(e.target.classList.contains("next") && validate()){
+  if(e.target.classList.contains("next") && validateStep()){
     steps[i].classList.remove("active");
-    i++;
-    steps[i].classList.add("active");
+    i++; steps[i].classList.add("active");
   }
   if(e.target.classList.contains("back")){
     steps[i].classList.remove("active");
-    i--;
-    steps[i].classList.add("active");
+    i--; steps[i].classList.add("active");
   }
 });
 
 document.querySelectorAll(".dropdown").forEach(d=>{
   const btn=d.querySelector(".dropdown-btn");
   const menu=d.querySelector(".dropdown-menu");
-  const hidden=d.querySelector("input");
-  btn.onclick=()=>menu.classList.toggle("open");
+  const hidden=d.querySelector("input[type=hidden]");
+  btn.onclick=e=>{e.stopPropagation();menu.classList.toggle("open")};
   menu.querySelectorAll(".dropdown-item").forEach(it=>{
     it.onclick=()=>{
       btn.textContent=it.textContent;
       hidden.value=it.textContent;
       menu.classList.remove("open");
-      validate();
+      validateStep();
     };
   });
 });
 
 document.querySelector(".submit").onclick=async()=>{
+  if(!validateStep()) return;
   const data={
-    recipient_name:recipient_name.value,
-    your_name:your_name.value,
-    relationship:relationship.value,
-    tarifa:tarifa.value,
-    how_met:how_met.value,
-    special_moment:special_moment.value,
-    reason_now:reason_now.value,
-    three_words:three_words.value,
-    dedication:dedication.value,
-    emotion:emotion.value,
-    style:style.value,
-    rhythm:rhythm.value,
-    voice:voice.value,
-    language:language.value,
-    include_name:include_name.value,
-    dont_mention:dont_mention.value,
-    intensity:intensity.value,
-    email:email.value
+    recipient_name, your_name, relationship, tarifa,
+    how_met, special_moment, reason_now,
+    three_words, dedication, emotion,
+    style, rhythm, voice, language,
+    include_name, dont_mention, intensity, email
   };
-  const r=await fetch("/api/payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-  const j=await r.json(); if(j.url) location.href=j.url;
+  const payload={};
+  Object.keys(data).forEach(k=>payload[k]=data[k].value);
+
+  const r=await fetch("/api/payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+  const j=await r.json();
+  if(j.url) location.href=j.url;
 };
 </script>
 
@@ -1381,6 +1404,7 @@ document.querySelector(".submit").onclick=async()=>{
   </div>
 
 </section>
+
 
 
 
