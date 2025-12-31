@@ -911,7 +911,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO) ================== -->
+<!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO CORREGIDO) ================== -->
 <section id="formulario-lirya">
 
 <style>
@@ -940,7 +940,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   background:rgba(255,255,255,.88);font-size:14px
 }
 #formulario-lirya textarea{height:90px;resize:none}
-
 #formulario-lirya .dropdown{position:relative}
 #formulario-lirya .dropdown-btn{
   width:100%;padding:14px 16px;background:rgba(255,255,255,.88);
@@ -958,7 +957,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   padding:12px 18px;color:#7a7a7a;font-size:14px;cursor:pointer
 }
 #formulario-lirya .dropdown-item:hover{background:#f4f7fb;color:#333}
-
 #formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
 #formulario-lirya button{
   padding:14px;border-radius:10px;border:none;cursor:pointer;font-size:15px
@@ -967,7 +965,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 #formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.5}
 #formulario-lirya .next.enabled{opacity:1}
 #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
-
 #telefono-box{display:none}
 </style>
 
@@ -995,7 +992,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Tipo de relación</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="relationship" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Pareja</div>
 <div class="dropdown-item">Matrimonio</div>
@@ -1010,14 +1007,14 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Tarifa elegida</label>
 <div class="dropdown">
-<button class="dropdown-btn" id="tarifa-btn" data-required>Selecciona una tarifa ▾</button>
+<button class="dropdown-btn" id="tarifa_btn" data-required>Selecciona una tarifa ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item" data-tarifa="49">49€ — Estándar</div>
 <div class="dropdown-item" data-tarifa="59">59€ — San Valentín</div>
 <div class="dropdown-item" data-tarifa="79">79€ — Prioritaria</div>
 </div>
 </div>
-<input type="hidden" id="tarifa-hidden">
+<input type="hidden" id="tarifa">
 </div>
 
 <div class="nav">
@@ -1042,7 +1039,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>¿Por qué esta canción es importante ahora?</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="reason_now" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Aniversario</div>
 <div class="dropdown-item">Cumpleaños</div>
@@ -1077,7 +1074,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>¿Qué emoción debe sentir?</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="emotion" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Amor profundo</div>
 <div class="dropdown-item">Nostalgia</div>
@@ -1101,7 +1098,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Estilo musical principal</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="song_style" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Balada romántica</div>
 <div class="dropdown-item">Pop emocional</div>
@@ -1118,7 +1115,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Ritmo</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="rhythm" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Lento</div>
 <div class="dropdown-item">Medio</div>
@@ -1130,7 +1127,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Tipo de voz</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="voice_type" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Masculina</div>
 <div class="dropdown-item">Femenina</div>
@@ -1143,7 +1140,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Idioma</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="language" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Español</div>
 <div class="dropdown-item">Inglés</div>
@@ -1165,7 +1162,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>¿Quieres que aparezca su nombre?</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="include_name" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Sí</div>
 <div class="dropdown-item">No</div>
@@ -1181,7 +1178,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Intensidad emocional</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="intensity" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Suave</div>
 <div class="dropdown-item">Emotiva</div>
@@ -1208,7 +1205,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>¿También por WhatsApp?</label>
 <div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
+<button class="dropdown-btn" id="whatsapp" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item" data-whatsapp="si">Sí</div>
 <div class="dropdown-item" data-whatsapp="no">No</div>
@@ -1234,6 +1231,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 const steps=[...document.querySelectorAll("#formulario-lirya .step")];
 let i=0;
 const progress=document.getElementById("progress");
+
 steps.forEach((_,x)=>{const s=document.createElement("span");if(x===0)s.classList.add("active");progress.appendChild(s)});
 
 function validateStep(){
@@ -1271,15 +1269,13 @@ document.querySelectorAll(".dropdown").forEach(d=>{
       btn.textContent=it.textContent;
       btn.style.color="#333";
       menu.classList.remove("open");
-      if(it.dataset.tarifa){document.getElementById("tarifa-hidden").value=it.dataset.tarifa}
-      if(it.dataset.whatsapp){document.getElementById("telefono-box").style.display=it.dataset.whatsapp==="si"?"block":"none"}
+      if(it.dataset.tarifa){tarifa.value=it.dataset.tarifa}
+      if(it.dataset.whatsapp){telefono-box.style.display=it.dataset.whatsapp==="si"?"block":"none"}
       validateStep();
     };
   });
 });
 document.addEventListener("click",()=>document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open")));
-
-const tarifaHidden=document.getElementById("tarifa-hidden");
 
 document.querySelector(".submit").addEventListener("click",async()=>{
   if(!validateStep()) return;
@@ -1290,23 +1286,23 @@ document.querySelector(".submit").addEventListener("click",async()=>{
   const data={
     recipient_name:recipient_name.value,
     your_name:your_name.value,
-    relationship:document.querySelectorAll(".dropdown-btn")[0].textContent,
-    tarifa:tarifaHidden.value,
+    relationship:relationship.textContent,
+    tarifa:tarifa.value,
     how_met:how_met.value,
     special_moment:special_moment.value,
-    reason_now:document.querySelectorAll(".dropdown-btn")[2].textContent,
+    reason_now:reason_now.textContent,
     three_words:three_words.value,
     dedication:dedication.value,
-    emotion:document.querySelectorAll(".dropdown-btn")[3].textContent,
-    song_style:document.querySelectorAll(".dropdown-btn")[4].textContent,
-    rhythm:document.querySelectorAll(".dropdown-btn")[5].textContent,
-    voice_type:document.querySelectorAll(".dropdown-btn")[6].textContent,
-    language:document.querySelectorAll(".dropdown-btn")[7].textContent,
-    include_name:document.querySelectorAll(".dropdown-btn")[8].textContent,
+    emotion:emotion.textContent,
+    song_style:song_style.textContent,
+    rhythm:rhythm.textContent,
+    voice_type:voice_type.textContent,
+    language:language.textContent,
+    include_name:include_name.textContent,
     dont_mention:dont_mention.value,
-    intensity:document.querySelectorAll(".dropdown-btn")[9].textContent,
+    intensity:intensity.textContent,
     email:email.value,
-    whatsapp:document.querySelectorAll(".dropdown-btn")[10].textContent,
+    whatsapp:whatsapp.textContent,
     phone:phone.value
   };
 
@@ -1527,6 +1523,7 @@ render();
   </div>
 
 </section>
+
 
 
 
