@@ -1298,6 +1298,72 @@ document.addEventListener("click",()=>{
 });
 
 render();
+<script>
+/* ================== STRIPE CHECKOUT ================== */
+
+const submitBtn = document.querySelector("#formulario-lirya .submit");
+
+submitBtn.addEventListener("click", async () => {
+
+  // Seguridad: evitar doble clic
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Redirigiendo a pago seguro…";
+
+  // Recoger TODOS los datos (orden exacto del formulario)
+  const inputs = document.querySelectorAll("#formulario-lirya input");
+  const textareas = document.querySelectorAll("#formulario-lirya textarea");
+  const dropdowns = document.querySelectorAll("#formulario-lirya .dropdown-btn");
+
+  const formData = {
+    recipient_name: inputs[0]?.value || "",
+    your_name: inputs[1]?.value || "",
+    relationship: dropdowns[0]?.textContent || "",
+    tarifa: document.getElementById("tarifa-hidden").value || "",
+
+    how_met: textareas[0]?.value || "",
+    special_moment: textareas[1]?.value || "",
+    reason_now: dropdowns[1]?.textContent || "",
+
+    three_words: inputs[2]?.value || "",
+    dedication: textareas[2]?.value || "",
+    emotion: dropdowns[2]?.textContent || "",
+
+    song_style: dropdowns[3]?.textContent || "",
+    rhythm: dropdowns[4]?.textContent || "",
+    voice_type: dropdowns[5]?.textContent || "",
+    language: dropdowns[6]?.textContent || "",
+
+    include_name: dropdowns[7]?.textContent || "",
+    dont_mention: textareas[3]?.value || "",
+    intensity: dropdowns[8]?.textContent || "",
+
+    email: inputs[3]?.value || "",
+    whatsapp: dropdowns[9]?.textContent || "",
+    phone: inputs[4]?.value || ""
+  };
+
+  try {
+    const response = await fetch("/api/payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+
+    if (data.url) {
+      window.location.href = data.url; // 🔥 AQUÍ SE ABRE STRIPE
+    } else {
+      throw new Error("Stripe no devolvió URL");
+    }
+
+  } catch (err) {
+    alert("Error al iniciar el pago. Inténtalo de nuevo.");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Pagar y enviar";
+    console.error(err);
+  }
+});
 </script>
 
 </section>
@@ -1501,6 +1567,7 @@ render();
   </div>
 
 </section>
+
 
 
 
