@@ -19,6 +19,10 @@ module.exports = async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
 
+      // 🔑 CLAVE PARA QUE STRIPE GUARDE EL EMAIL REAL DEL CLIENTE
+      customer_creation: "always",
+      billing_address_collection: "required",
+
       line_items: [
         {
           price: "price_1SgZIwC9ZAiICMcPbj7tDXxj",
@@ -54,6 +58,9 @@ module.exports = async (req, res) => {
 
         whatsapp: f.whatsapp || "",
         phone: f.phone || "",
+
+        // ⚠️ Este email NO se usa para enviar correos
+        // El bueno será el de Stripe (customer_details.email)
         email: f.email || "",
       },
     });
