@@ -52,9 +52,6 @@ export default async function handler(req, res) {
     <p><strong>Quien regala:</strong> ${metadata.your_name || "-"}</p>
     <p><strong>Relación:</strong> ${metadata.relationship || "-"}</p>
     <p><strong>Tarifa:</strong> ${metadata.tarifa || "-"}</p>
-    <p><strong>Email cliente:</strong> ${session.customer_details?.email || "-"}</p>
-    <p><strong>WhatsApp:</strong> ${metadata.whatsapp || "-"}</p>
-    <p><strong>Teléfono:</strong> ${metadata.phone || "-"}</p>
 
     <hr>
 
