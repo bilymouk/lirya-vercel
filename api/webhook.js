@@ -4,7 +4,7 @@ import getRawBody from "raw-body";
 
 export const config = {
   api: {
-    bodyParser: false, // ⛔ obligatorio para Stripe
+    bodyParser: false,
   },
 };
 
@@ -21,7 +21,6 @@ export default async function handler(req, res) {
 
   try {
     const rawBody = await getRawBody(req);
-
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
@@ -32,106 +31,67 @@ export default async function handler(req, res) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  console.log("✅ EVENTO STRIPE REAL:", event.type);
+  console.log("✅ EVENTO STRIPE:", event.type);
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
     const metadata = session.metadata || {};
+    const customerEmail = session.customer_details?.email;
 
-    console.log("🧾 METADATA RECIBIDA:", metadata);
+    console.log("🧾 METADATA:", metadata);
+    console.log("📧 EMAIL CLIENTE:", customerEmail);
 
-   await resend.emails.send({
-  from: "Lirya <onboarding@resend.dev>",
-  to: "proyectosbily@gmail.com",
-  subject: "🆕 Nuevo pedido – Canción personalizada",
-  html: `
-    <h2>🆕 NUEVO PEDIDO – CANCIÓN PERSONALIZADA</h2>
+    /* ========= EMAIL INTERNO ========= */
+    await resend.emails.send({
+      from: "Lirya <onboarding@resend.dev>",
+      to: "proyectosbily@gmail.com",
+      subject: "🆕 Nuevo pedido – Canción personalizada",
+      html: `
+        <h2>🆕 NUEVO PEDIDO</h2>
+        <p><strong>Destinatario:</strong> ${metadata.recipient_name}</p>
+        <p><strong>Quien regala:</strong> ${metadata.your_name}</p>
+        <p><strong>Relación:</strong> ${metadata.relationship}</p>
+        <p><strong>Tarifa:</strong> ${metadata.tarifa}</p>
+        <hr>
+        <p><strong>Historia:</strong><br>${metadata.how_met}</p>
+        <p><strong>Momento especial:</strong><br>${metadata.special_moment}</p>
+        <p><strong>Emoción:</strong> ${metadata.emotion}</p>
+        <p><strong>Estilo:</strong> ${metadata.song_style}</p>
+        <p><strong>Idioma:</strong> ${metadata.language}</p>
+      `,
+    });
 
-    <h3>👤 DATOS PRINCIPALES</h3>
-    <p><strong>Destinatario:</strong> ${metadata.recipient_name || "-"}</p>
-    <p><strong>Quien regala:</strong> ${metadata.your_name || "-"}</p>
-    <p><strong>Relación:</strong> ${metadata.relationship || "-"}</p>
+    console.log("✅ Email interno enviado");
 
-    <hr>
+    /* ========= EMAIL AL CLIENTE ========= */
+    if (customerEmail) {
+      await resend.emails.send({
+        from: "Lirya <onboarding@resend.dev>",
+        to: customerEmail,
+        subject: "🎶 Ya estamos creando tu canción",
+        html: `
+          <h2>Gracias por confiar en Lirya 💛</h2>
+          <p>
+            Hemos recibido correctamente tu pedido y <strong>ya estamos trabajando en tu canción personalizada</strong>.
+          </p>
+          <p>
+            Tu historia está en manos de nuestro equipo creativo y será tratada con el máximo cuidado.
+          </p>
+          <p>
+            Te avisaremos en cuanto tu canción esté lista.
+          </p>
+          <p style="margin-top:30px">
+            Con cariño,<br>
+            <strong>El equipo de Lirya</strong> 🎶
+          </p>
+        `,
+      });
 
-    <h3>❤️ HISTORIA</h3>
-    <p><strong>Cómo se conocieron:</strong><br>${metadata.how_met || "-"}</p>
-    <p><strong>Momento especial:</strong><br>${metadata.special_moment || "-"}</p>
-    <p><strong>Por qué ahora:</strong><br>${metadata.reason_now || "-"}</p>
-
-    <hr>
-
-    <h3>🎭 EMOCIÓN Y PERSONALIDAD</h3>
-    <p><strong>Tres palabras:</strong> ${metadata.three_words || "-"}</p>
-    <p><strong>Dedicatoria:</strong><br>${metadata.dedication || "-"}</p>
-    <p><strong>Emoción principal:</strong> ${metadata.emotion || "-"}</p>
-
-    <hr>
-
-    <h3>🎵 MÚSICA</h3>
-    <p><strong>Estilo:</strong> ${metadata.song_style || "-"}</p>
-    <p><strong>Ritmo:</strong> ${metadata.rhythm || "-"}</p>
-    <p><strong>Tipo de voz:</strong> ${metadata.voice_type || "-"}</p>
-    <p><strong>Idioma:</strong> ${metadata.language || "-"}</p>
-
-    <hr>
-
-    <h3>⚠️ DETALLES FINALES</h3>
-    <p><strong>Incluir nombre:</strong> ${metadata.include_name || "-"}</p>
-    <p><strong>Intensidad emocional:</strong> ${metadata.intensity || "-"}</p>
-    <p><strong>No mencionar:</strong><br>${metadata.dont_mention || "-"}</p>
-  `,
-});
-    
-   console.log("✅ EMAIL ENVIADO");
+      console.log("✅ Email enviado al cliente");
+    } else {
+      console.warn("⚠️ No se encontró email del cliente");
+    }
   }
-
-  const customerEmail = session.customer_details?.email;
-
-if (customerEmail) {
-  await resend.emails.send({
-    from: "Lirya <onboarding@resend.dev>",
-    to: customerEmail,
-    subject: "🎶 Estamos creando tu canción personalizada",
-    html: `
-      <h2>Gracias por confiar en Lirya 💛</h2>
-
-      <p>
-        Hemos recibido correctamente tu pedido y <strong>ya estamos trabajando en tu canción personalizada</strong>.
-      </p>
-
-      <p>
-        Tu historia ha llegado a nuestro equipo creativo y será tratada con el cuidado y la sensibilidad que merece.
-      </p>
-
-      <hr>
-
-      <h3>¿Qué ocurre ahora?</h3>
-      <ul>
-        <li>🎼 Analizamos tu historia y emociones</li>
-        <li>✍️ Creamos una letra única y personalizada</li>
-        <li>🎧 Producimos tu canción según el estilo elegido</li>
-      </ul>
-
-      <p>
-        El tiempo de entrega dependerá de la tarifa seleccionada.  
-        Te avisaremos en cuanto tu canción esté lista.
-      </p>
-
-      <p>
-        Si tienes cualquier duda, simplemente responde a este correo.
-      </p>
-
-      <p style="margin-top:30px">
-        Con cariño,<br>
-        <strong>El equipo de Lirya</strong> 🎶
-      </p>
-    `,
-  });
-
-  console.log("✅ Email de confirmación enviado al cliente:", customerEmail);
-}
 
   res.json({ received: true });
 }
-
