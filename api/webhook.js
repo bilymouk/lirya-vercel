@@ -1,61 +1,64 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import Stripe from "stripe";
+import { Resend } from "resend";
+import getRawBody from "raw-body";
 
-module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+export const config = {
+  api: {
+    bodyParser: false, // ⛔ obligatorio para Stripe
+  },
+};
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido' });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).end("Method Not Allowed");
+  }
+
+  const sig = req.headers["stripe-signature"];
+  let event;
 
   try {
-    const formData = req.body;
+    const rawBody = await getRawBody(req);
 
-    console.log('📨 DATOS FORMULARIO:', formData);
+    event = stripe.webhooks.constructEvent(
+      rawBody,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    console.error("❌ Firma Stripe inválida:", err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      mode: 'payment',
-      line_items: [
-        {
-          price: 'price_1SgZIwC9ZAiICMcPbj7tDXxj',
-          quantity: 1,
-        },
-      ],
-      success_url: `https://${process.env.VERCEL_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://${process.env.VERCEL_URL}/cancel.html`,
+  console.log("✅ EVENTO STRIPE REAL:", event.type);
 
-      metadata: {
-        recipient_name: formData.recipient_name || '',
-        your_name: formData.your_name || '',
-        relationship: formData.relationship || '',
-        tarifa: formData.tarifa || '',
-        how_met: formData.how_met || '',
-        special_moment: formData.special_moment || '',
-        reason_now: formData.reason_now || '',
-        three_words: formData.three_words || '',
-        dedication: formData.dedication || '',
-        emotion: formData.emotion || '',
-        song_style: formData.song_style || '',
-        rhythm: formData.rhythm || '',
-        voice_type: formData.voice_type || '',
-        language: formData.language || '',
-        include_name: formData.include_name || '',
-        intensity: formData.intensity || '',
-        dont_mention: formData.dont_mention || '',
-        email: formData.email || '',
-        whatsapp: formData.whatsapp || '',
-        phone: formData.phone || '',
-      },
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    const metadata = session.metadata || {};
+
+    console.log("🧾 METADATA RECIBIDA:", metadata);
+
+    await resend.emails.send({
+      from: "Lirya <onboarding@resend.dev>",
+      to: "proyectosbily@gmail.com",
+      subject: "🆕 Nuevo pedido – Canción personalizada",
+      html: `
+        <h2>Nuevo pedido</h2>
+        <p><strong>Destinatario:</strong> ${metadata.recipient_name}</p>
+        <p><strong>Relación:</strong> ${metadata.relationship}</p>
+        <p><strong>Tarifa:</strong> ${metadata.tarifa}</p>
+        <p><strong>Emoción:</strong> ${metadata.emotion}</p>
+        <p><strong>Estilo:</strong> ${metadata.song_style}</p>
+        <p><strong>Idioma:</strong> ${metadata.language}</p>
+        <p><strong>Email cliente:</strong> ${session.customer_details?.email}</p>
+      `,
     });
 
-    console.log('✅ Stripe session creada:', session.id);
-    console.log('🧾 METADATA GUARDADO:', session.metadata);
-
-    res.status(200).json({ url: session.url });
-  } catch (err) {
-    console.error('❌ Error Stripe:', err);
-    res.status(500).json({ error: 'Error al procesar el pago' });
+    console.log("✅ EMAIL ENVIADO");
   }
-};
+
+  res.json({ received: true });
+}
 
