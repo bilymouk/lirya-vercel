@@ -40,21 +40,53 @@ export default async function handler(req, res) {
 
     console.log("🧾 METADATA RECIBIDA:", metadata);
 
-    await resend.emails.send({
-      from: "Lirya <onboarding@resend.dev>",
-      to: "proyectosbily@gmail.com",
-      subject: "🆕 Nuevo pedido – Canción personalizada",
-      html: `
-        <h2>Nuevo pedido</h2>
-        <p><strong>Destinatario:</strong> ${metadata.recipient_name}</p>
-        <p><strong>Relación:</strong> ${metadata.relationship}</p>
-        <p><strong>Tarifa:</strong> ${metadata.tarifa}</p>
-        <p><strong>Emoción:</strong> ${metadata.emotion}</p>
-        <p><strong>Estilo:</strong> ${metadata.song_style}</p>
-        <p><strong>Idioma:</strong> ${metadata.language}</p>
-        <p><strong>Email cliente:</strong> ${session.customer_details?.email}</p>
-      `,
-    });
+   await resend.emails.send({
+  from: "Lirya <onboarding@resend.dev>",
+  to: "proyectosbily@gmail.com",
+  subject: "🆕 Nuevo pedido – Canción personalizada",
+  html: `
+    <h2>🆕 NUEVO PEDIDO – CANCIÓN PERSONALIZADA</h2>
+
+    <h3>👤 DATOS PRINCIPALES</h3>
+    <p><strong>Destinatario:</strong> ${metadata.recipient_name || "-"}</p>
+    <p><strong>Quien regala:</strong> ${metadata.your_name || "-"}</p>
+    <p><strong>Relación:</strong> ${metadata.relationship || "-"}</p>
+    <p><strong>Tarifa:</strong> ${metadata.tarifa || "-"}</p>
+    <p><strong>Email cliente:</strong> ${session.customer_details?.email || "-"}</p>
+    <p><strong>WhatsApp:</strong> ${metadata.whatsapp || "-"}</p>
+    <p><strong>Teléfono:</strong> ${metadata.phone || "-"}</p>
+
+    <hr>
+
+    <h3>❤️ HISTORIA</h3>
+    <p><strong>Cómo se conocieron:</strong><br>${metadata.how_met || "-"}</p>
+    <p><strong>Momento especial:</strong><br>${metadata.special_moment || "-"}</p>
+    <p><strong>Por qué ahora:</strong><br>${metadata.reason_now || "-"}</p>
+
+    <hr>
+
+    <h3>🎭 EMOCIÓN Y PERSONALIDAD</h3>
+    <p><strong>Tres palabras:</strong> ${metadata.three_words || "-"}</p>
+    <p><strong>Dedicatoria:</strong><br>${metadata.dedication || "-"}</p>
+    <p><strong>Emoción principal:</strong> ${metadata.emotion || "-"}</p>
+
+    <hr>
+
+    <h3>🎵 MÚSICA</h3>
+    <p><strong>Estilo:</strong> ${metadata.song_style || "-"}</p>
+    <p><strong>Ritmo:</strong> ${metadata.rhythm || "-"}</p>
+    <p><strong>Tipo de voz:</strong> ${metadata.voice_type || "-"}</p>
+    <p><strong>Idioma:</strong> ${metadata.language || "-"}</p>
+
+    <hr>
+
+    <h3>⚠️ DETALLES FINALES</h3>
+    <p><strong>Incluir nombre:</strong> ${metadata.include_name || "-"}</p>
+    <p><strong>Intensidad emocional:</strong> ${metadata.intensity || "-"}</p>
+    <p><strong>No mencionar:</strong><br>${metadata.dont_mention || "-"}</p>
+  `,
+});
+
 
     console.log("✅ EMAIL ENVIADO");
   }
