@@ -911,12 +911,11 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ================== FORMULARIO LIRYA (FINAL CORRECTO Y FIEL) ================== -->
+<!-- ================== FORMULARIO LIRYA (REPARADO Y FIEL) ================== -->
 <section id="formulario-lirya">
 
 <style>
 #formulario-lirya *{box-sizing:border-box;font-family:Georgia,serif}
-
 #formulario-lirya{
   background:
     linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
@@ -924,48 +923,28 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   padding:50px 20px;
   color:#fff;
 }
-
 #formulario-lirya .wrapper{max-width:520px;margin:0 auto}
 #formulario-lirya h1{text-align:center;color:#f2c98a;font-size:36px;margin-bottom:16px}
 #formulario-lirya .subtitle{text-align:center;opacity:.85;margin-bottom:28px}
-
-#formulario-lirya .progress{
-  display:flex;gap:10px;justify-content:center;margin-bottom:28px
-}
-#formulario-lirya .progress span{
-  width:36px;height:4px;background:rgba(255,255,255,.25)
-}
+#formulario-lirya .progress{display:flex;gap:10px;justify-content:center;margin-bottom:28px}
+#formulario-lirya .progress span{width:36px;height:4px;background:rgba(255,255,255,.25)}
 #formulario-lirya .progress span.active{background:#f2c98a}
-
-#formulario-lirya .card{
-  background:rgba(255,255,255,.10);
-  border-radius:18px;
-  padding:26px;
-}
-
+#formulario-lirya .card{background:rgba(255,255,255,.10);border-radius:18px;padding:26px}
 #formulario-lirya .step{display:none}
 #formulario-lirya .step.active{display:block}
-
-#formulario-lirya .step-title{
-  font-size:26px;color:#f2c98a;margin-bottom:18px
-}
-
+#formulario-lirya .step-title{font-size:26px;color:#f2c98a;margin-bottom:18px}
 #formulario-lirya .question{margin-bottom:18px}
 #formulario-lirya label{display:block;margin-bottom:6px;font-size:14px}
-
-#formulario-lirya input,
-#formulario-lirya textarea{
+#formulario-lirya input,#formulario-lirya textarea{
   width:100%;padding:14px 16px;border:none;border-radius:10px;
   background:rgba(255,255,255,.88);font-size:14px
 }
 #formulario-lirya textarea{height:90px;resize:none}
 
-/* DROPDOWN */
 #formulario-lirya .dropdown{position:relative}
 #formulario-lirya .dropdown-btn{
   width:100%;padding:14px 16px;background:rgba(255,255,255,.88);
-  border-radius:10px;border:none;
-  display:flex;justify-content:space-between;
+  border-radius:10px;border:none;display:flex;justify-content:space-between;
   color:#9aa3ab;cursor:pointer;font-size:14px
 }
 #formulario-lirya .dropdown-menu{
@@ -980,16 +959,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 #formulario-lirya .dropdown-item:hover{background:#f4f7fb;color:#333}
 
-/* NAV */
 #formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
 #formulario-lirya button{
-  padding:14px;border-radius:10px;border:none;
-  cursor:pointer;font-size:15px
+  padding:14px;border-radius:10px;border:none;cursor:pointer;font-size:15px
 }
 #formulario-lirya .back{background:rgba(255,255,255,.2);color:#fff}
-#formulario-lirya .next{
-  background:#f28c28;color:#fff;flex:1;opacity:.6
-}
+#formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.6}
 #formulario-lirya .next.enabled{opacity:1}
 #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
 
@@ -998,17 +973,14 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="wrapper">
 <h1>Cuéntanos vuestra historia</h1>
-<div class="subtitle">Cuéntanos los detalles que harán vuestra canción única</div>
-
+<div class="subtitle">Los detalles que harán vuestra canción única</div>
 <div class="progress" id="progress"></div>
 
 <div class="card">
 
-<!-- PASOS: HTML EXACTO AL ORIGINAL, SOLO CON name + hidden -->
-
 <!-- PASO 1 -->
 <div class="step active">
-<div class="step-title">Paso 1 de 6 — Personas</div>
+<div class="step-title">Paso 1 de 6 — Personas y tarifa</div>
 
 <div class="question">
 <label>Nombre de quien recibirá la canción</label>
@@ -1027,13 +999,26 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-menu">
 <div class="dropdown-item">Pareja</div>
 <div class="dropdown-item">Matrimonio</div>
-<div class="dropdown-item">Ex pareja (reconciliación)</div>
+<div class="dropdown-item">Ex pareja</div>
 <div class="dropdown-item">Amor secreto</div>
 <div class="dropdown-item">Familiar</div>
 <div class="dropdown-item">Amistad especial</div>
 </div>
 <input type="hidden" id="relationship">
 </div>
+</div>
+
+<div class="question">
+<label>Tarifa elegida</label>
+<div class="dropdown">
+<button class="dropdown-btn" id="tarifa-btn" data-required>Selecciona una tarifa ▾</button>
+<div class="dropdown-menu">
+<div class="dropdown-item" data-tarifa="49">49€ — Estándar</div>
+<div class="dropdown-item" data-tarifa="59">59€ — San Valentín</div>
+<div class="dropdown-item" data-tarifa="79">79€ — Prioritaria</div>
+</div>
+</div>
+<input type="hidden" id="tarifa-hidden">
 </div>
 
 <div class="nav">
@@ -1043,7 +1028,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- PASO 2 -->
 <div class="step">
-<div class="step-title">Paso 2 de 6 — Origen de la historia</div>
+<div class="step-title">Paso 2 de 6 — Historia</div>
 
 <div class="question">
 <label>¿Cómo os conocisteis?</label>
@@ -1051,7 +1036,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="question">
-<label>Un momento que lo cambió todo</label>
+<label>Un momento especial</label>
 <textarea id="special_moment" required></textarea>
 </div>
 
@@ -1064,8 +1049,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Cumpleaños</div>
 <div class="dropdown-item">Reconciliación</div>
 <div class="dropdown-item">San Valentín</div>
-<div class="dropdown-item">Sorpresa sin motivo</div>
-<div class="dropdown-item">Otro</div>
+<div class="dropdown-item">Sorpresa</div>
 </div>
 <input type="hidden" id="reason_now">
 </div>
@@ -1079,7 +1063,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- PASO 3 -->
 <div class="step">
-<div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
+<div class="step-title">Paso 3 de 6 — Emoción</div>
 
 <div class="question">
 <label>Tres palabras que definan a esa persona</label>
@@ -1087,20 +1071,19 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="question">
-<label>Una frase que te gustaría decirle</label>
+<label>Frase o dedicatoria</label>
 <textarea id="dedication" required></textarea>
 </div>
 
 <div class="question">
-<label>¿Qué emoción debe sentir?</label>
+<label>Emoción principal</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Amor profundo</div>
-<div class="dropdown-item">Nostalgia</div>
 <div class="dropdown-item">Alegría</div>
+<div class="dropdown-item">Nostalgia</div>
 <div class="dropdown-item">Emoción intensa</div>
-<div class="dropdown-item">Calma y ternura</div>
 </div>
 <input type="hidden" id="emotion">
 </div>
@@ -1117,7 +1100,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="step-title">Paso 4 de 6 — Música</div>
 
 <div class="question">
-<label>Estilo musical principal</label>
+<label>Estilo musical</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1125,10 +1108,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Pop emocional</div>
 <div class="dropdown-item">Indie acústico</div>
 <div class="dropdown-item">R&B / Soul</div>
-<div class="dropdown-item">Rock suave</div>
-<div class="dropdown-item">Electrónica chill</div>
-<div class="dropdown-item">Reggaetón lento</div>
-<div class="dropdown-item">Cinematográfico</div>
 </div>
 <input type="hidden" id="song_style">
 </div>
@@ -1144,20 +1123,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Progresivo</div>
 </div>
 <input type="hidden" id="rhythm">
-</div>
-</div>
-
-<div class="question">
-<label>Tipo de voz</label>
-<div class="dropdown">
-<button class="dropdown-btn" data-required>Elige una opción ▾</button>
-<div class="dropdown-menu">
-<div class="dropdown-item">Masculina</div>
-<div class="dropdown-item">Femenina</div>
-<div class="dropdown-item">Dúo</div>
-<div class="dropdown-item">Me da igual</div>
-</div>
-<input type="hidden" id="voice_type">
 </div>
 </div>
 
@@ -1185,7 +1150,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="step-title">Paso 5 de 6 — Detalles finales</div>
 
 <div class="question">
-<label>¿Quieres que aparezca su nombre?</label>
+<label>¿Incluir su nombre en la canción?</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1222,7 +1187,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- PASO 6 -->
 <div class="step">
-<div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+<div class="step-title">Paso 6 de 6 — Entrega</div>
 
 <div class="question">
 <label>Email</label>
@@ -1242,13 +1207,13 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="question" id="telefono-box">
-<label>Número de teléfono</label>
+<label>Teléfono</label>
 <input id="phone">
 </div>
 
 <div class="nav">
 <button class="back">← Atrás</button>
-<button class="submit">Crear mi canción</button>
+<button class="submit">Pagar y enviar</button>
 </div>
 </div>
 
@@ -1281,6 +1246,7 @@ function validateStep(){
 
   const next=step.querySelector(".next");
   if(next) next.classList.toggle("enabled",ok);
+  return ok;
 }
 
 function render(){
@@ -1311,7 +1277,9 @@ document.querySelectorAll("#formulario-lirya .dropdown").forEach(d=>{
     it.onclick=()=>{
       btn.textContent=it.textContent;
       btn.style.color="#333";
-      if(hidden) hidden.value=it.textContent;
+      if(hidden){
+        hidden.value = it.dataset.tarifa || it.textContent;
+      }
       menu.classList.remove("open");
 
       if(it.dataset.whatsapp){
@@ -1327,6 +1295,18 @@ document.querySelectorAll("#formulario-lirya .dropdown").forEach(d=>{
 document.addEventListener("click",()=>{
   document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open"));
 });
+
+/* Preselección de tarifa por URL (?tarifa=59) */
+const params=new URLSearchParams(window.location.search);
+const t=params.get("tarifa");
+if(t){
+  const map={49:"49€ — Estándar",59:"59€ — San Valentín",79:"79€ — Prioritaria"};
+  if(map[t]){
+    document.getElementById("tarifa-btn").textContent=map[t];
+    document.getElementById("tarifa-btn").style.color="#333";
+    document.getElementById("tarifa-hidden").value=t;
+  }
+}
 
 render();
 </script>
@@ -1532,6 +1512,7 @@ render();
   </div>
 
 </section>
+
 
 
 
