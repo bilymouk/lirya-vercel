@@ -1,3 +1,4 @@
+console.log("RESEND KEY EXIST:", !!process.env.RESEND_API_KEY);
 import Stripe from "stripe";
 import { Resend } from "resend";
 import getRawBody from "raw-body";
