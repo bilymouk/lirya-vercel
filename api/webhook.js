@@ -14,7 +14,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const redis = Redis.fromEnv();
 
 export default async function handler(req, res) {
+  console.log("🔥 WEBHOOK EJECUTADO");
+
   if (req.method !== "POST") {
+    console.warn("⛔ Método no permitido");
     return res.status(405).end("Method Not Allowed");
   }
 
@@ -33,31 +36,32 @@ export default async function handler(req, res) {
     return res.status(400).send("Webhook Error");
   }
 
-  /* ================= SOLO CHECKOUT COMPLETADO ================= */
+  console.log("📦 EVENT TYPE:", event.type);
 
+  // 🔒 SOLO ESTE EVENTO
   if (event.type !== "checkout.session.completed") {
+    console.log("↩️ Evento ignorado");
     return res.json({ ignored: true });
   }
 
-  const eventId = event.id;               // ✅ CLAVE CORRECTA
+  const eventId = event.id;
   const session = event.data.object;
 
-  /* ================= ANTI DUPLICADOS (CORRECTO) ================= */
+  console.log("🆔 EVENT ID:", eventId);
 
-  const alreadyProcessed = await redis.get(`stripe:event:${eventId}`);
+  // 🔐 ANTIDUPLICADOS (EVENTO, NO SESSION)
+  const redisKey = `stripe:event:${eventId}`;
+  const alreadyProcessed = await redis.get(redisKey);
 
   if (alreadyProcessed) {
-    console.warn("⚠️ Evento Stripe duplicado ignorado:", eventId);
+    console.warn("⚠️ Evento duplicado bloqueado:", eventId);
     return res.json({ duplicate: true });
   }
 
-  // Marcamos ESTE EVENTO como procesado (24h)
-  await redis.set(`stripe:event:${eventId}`, true, {
-    ex: 60 * 60 * 24,
-  });
+  await redis.set(redisKey, "true", { ex: 60 * 60 * 24 });
+  console.log("🧠 Evento marcado como procesado en Redis");
 
-  /* ================= DATOS ================= */
-
+  // 📋 DATOS
   const metadata = session.metadata || {};
   const customerEmail =
     session.customer_details?.email ||
@@ -65,71 +69,51 @@ export default async function handler(req, res) {
     metadata.email ||
     null;
 
-  console.log("🆔 EVENT ID:", eventId);
   console.log("🧾 METADATA:", metadata);
   console.log("📩 EMAIL CLIENTE:", customerEmail);
 
   /* ================= EMAIL INTERNO ================= */
 
   try {
+    console.log("📤 Enviando email interno...");
+
     await resend.emails.send({
-      from: "Lirya <onboarding@resend.dev>",
+      from: "Lirya <ayuda@lirya.studio>",
       to: "proyectosbily@gmail.com",
       subject: "🆕 Nuevo pedido – Canción personalizada",
       html: `
         <h2>🆕 NUEVO PEDIDO</h2>
-
         <p><strong>Email cliente:</strong> ${customerEmail || "No indicado"}</p>
         <p><strong>Tarifa:</strong> ${metadata.tarifa || "-"}</p>
-
-        <hr>
-
+        <hr />
         <p><strong>Destinatario:</strong> ${metadata.recipient_name || "-"}</p>
         <p><strong>Quien regala:</strong> ${metadata.your_name || "-"}</p>
         <p><strong>Relación:</strong> ${metadata.relationship || "-"}</p>
-
-        <hr>
-
-        <p><strong>Cómo se conocieron:</strong><br>${metadata.how_met || "-"}</p>
-        <p><strong>Momento especial:</strong><br>${metadata.special_moment || "-"}</p>
-        <p><strong>Por qué ahora:</strong><br>${metadata.reason_now || "-"}</p>
-
-        <hr>
-
-        <p><strong>Tres palabras:</strong> ${metadata.three_words || "-"}</p>
-        <p><strong>Dedicatoria:</strong><br>${metadata.dedication || "-"}</p>
+        <hr />
+        <p><strong>Cómo se conocieron:</strong><br />${metadata.how_met || "-"}</p>
+        <p><strong>Momento especial:</strong><br />${metadata.special_moment || "-"}</p>
+        <p><strong>Por qué ahora:</strong><br />${metadata.reason_now || "-"}</p>
+        <hr />
+        <p><strong>Dedicatoria:</strong><br />${metadata.dedication || "-"}</p>
         <p><strong>Emoción:</strong> ${metadata.emotion || "-"}</p>
-
-        <hr>
-
-        <p><strong>Estilo:</strong> ${metadata.song_style || "-"}</p>
-        <p><strong>Ritmo:</strong> ${metadata.rhythm || "-"}</p>
-        <p><strong>Voz:</strong> ${metadata.voice_type || "-"}</p>
-        <p><strong>Idioma:</strong> ${metadata.language || "-"}</p>
-
-        <hr>
-
-        <p><strong>Incluir nombre:</strong> ${metadata.include_name || "-"}</p>
-        <p><strong>Intensidad:</strong> ${metadata.intensity || "-"}</p>
-        <p><strong>No mencionar:</strong><br>${metadata.dont_mention || "-"}</p>
-
-        <hr>
-
+        <hr />
         <p><small>Stripe Event ID: ${eventId}</small></p>
       `,
     });
 
-    console.log("✅ Email interno enviado");
+    console.log("✅ EMAIL INTERNO ENVIADO");
   } catch (err) {
-    console.error("❌ Error email interno:", err);
+    console.error("❌ ERROR EMAIL INTERNO:", err);
   }
 
   /* ================= EMAIL CLIENTE ================= */
 
   if (customerEmail) {
     try {
+      console.log("📤 Enviando email al cliente...");
+
       await resend.emails.send({
-        from: "Lirya <onboarding@resend.dev>",
+        from: "Lirya <ayuda@lirya.studio>",
         to: customerEmail,
         subject: "🎶 Estamos creando tu canción personalizada",
         html: `
@@ -140,9 +124,9 @@ export default async function handler(req, res) {
         `,
       });
 
-      console.log("✅ Email enviado al cliente");
+      console.log("✅ EMAIL CLIENTE ENVIADO");
     } catch (err) {
-      console.error("❌ Error email cliente:", err);
+      console.error("❌ ERROR EMAIL CLIENTE:", err);
     }
   } else {
     console.warn("⚠️ No hay email de cliente");
