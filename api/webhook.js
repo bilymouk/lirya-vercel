@@ -1,4 +1,3 @@
-console.log("RESEND KEY EXIST:", !!process.env.RESEND_API_KEY);
 import Stripe from "stripe";
 import { Resend } from "resend";
 import getRawBody from "raw-body";
@@ -15,6 +14,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const redis = Redis.fromEnv();
 
 export default async function handler(req, res) {
+  console.log("RESEND KEY EXIST:", !!process.env.RESEND_API_KEY);
   if (req.method !== "POST") {
     return res.status(405).end("Method Not Allowed");
   }
