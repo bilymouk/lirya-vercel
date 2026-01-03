@@ -14,7 +14,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const redis = Redis.fromEnv();
 
 export default async function handler(req, res) {
-  console.log("RESEND KEY EXIST:", !!process.env.RESEND_API_KEY);
   if (req.method !== "POST") {
     return res.status(405).end("Method Not Allowed");
   }
@@ -40,20 +39,20 @@ export default async function handler(req, res) {
     return res.json({ ignored: true });
   }
 
+  const eventId = event.id;               // ✅ CLAVE CORRECTA
   const session = event.data.object;
-  const sessionId = session.id;
 
-  /* ================= ANTI DUPLICADOS (CRÍTICO) ================= */
+  /* ================= ANTI DUPLICADOS (CORRECTO) ================= */
 
-  const alreadyProcessed = await redis.get(`stripe:${sessionId}`);
+  const alreadyProcessed = await redis.get(`stripe:event:${eventId}`);
 
   if (alreadyProcessed) {
-    console.warn("⚠️ Webhook duplicado ignorado:", sessionId);
+    console.warn("⚠️ Evento Stripe duplicado ignorado:", eventId);
     return res.json({ duplicate: true });
   }
 
-  // Marcamos como procesado (24h)
-  await redis.set(`stripe:${sessionId}`, true, {
+  // Marcamos ESTE EVENTO como procesado (24h)
+  await redis.set(`stripe:event:${eventId}`, true, {
     ex: 60 * 60 * 24,
   });
 
@@ -66,9 +65,9 @@ export default async function handler(req, res) {
     metadata.email ||
     null;
 
+  console.log("🆔 EVENT ID:", eventId);
   console.log("🧾 METADATA:", metadata);
   console.log("📩 EMAIL CLIENTE:", customerEmail);
-  console.log("🆔 SESSION ID:", sessionId);
 
   /* ================= EMAIL INTERNO ================= */
 
@@ -116,7 +115,7 @@ export default async function handler(req, res) {
 
         <hr>
 
-        <p><small>Session ID: ${sessionId}</small></p>
+        <p><small>Stripe Event ID: ${eventId}</small></p>
       `,
     });
 
@@ -145,6 +144,8 @@ export default async function handler(req, res) {
     } catch (err) {
       console.error("❌ Error email cliente:", err);
     }
+  } else {
+    console.warn("⚠️ No hay email de cliente");
   }
 
   return res.json({ received: true });
