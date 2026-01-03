@@ -73,7 +73,7 @@ export default async function handler(req, res) {
 
   try {
     await resend.emails.send({
-      from: "Lirya <onboarding@resend.dev>",
+      from: "Lirya <ayuda@lirya.studio>",
       to: "proyectosbily@gmail.com",
       subject: "🆕 Nuevo pedido – Canción personalizada",
       html: `
@@ -129,7 +129,7 @@ export default async function handler(req, res) {
   if (customerEmail) {
     try {
       await resend.emails.send({
-        from: "Lirya <onboarding@resend.dev>",
+        from: "Lirya <ayuda@lirya.studio>",
         to: customerEmail,
         subject: "🎶 Estamos creando tu canción personalizada",
         html: `
