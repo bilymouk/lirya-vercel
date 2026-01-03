@@ -43,7 +43,7 @@ export default async function handler(req, res) {
   const session = event.data.object;
 
   /* ================= ANTI DUPLICADOS (CORRECTO) ================= */
-
+/*
   const alreadyProcessed = await redis.get(`stripe:event:${eventId}`);
 
   if (alreadyProcessed) {
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
   await redis.set(`stripe:event:${eventId}`, true, {
     ex: 60 * 60 * 24,
   });
-
+*/
   /* ================= DATOS ================= */
 
   const metadata = session.metadata || {};
