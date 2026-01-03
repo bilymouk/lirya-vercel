@@ -31,78 +31,118 @@ export default async function handler(req, res) {
     return res.status(400).send("Webhook Error");
   }
 
-  // 👉 SOLO este evento
+  /* ================= SOLO CHECKOUT COMPLETADO ================= */
+
   if (event.type !== "checkout.session.completed") {
     return res.json({ ignored: true });
   }
 
   const session = event.data.object;
   const metadata = session.metadata || {};
+
   const customerEmail =
-    session.customer_details?.email || metadata.email || null;
+    session.customer_details?.email ||
+    session.customer_email ||
+    metadata.email ||
+    null;
 
   console.log("🧾 METADATA COMPLETA:", metadata);
   console.log("📩 EMAIL CLIENTE:", customerEmail);
+  console.log("🆔 SESSION ID:", session.id);
 
   /* ================= EMAIL INTERNO ================= */
 
-  await resend.emails.send({
-    from: "Lirya <onboarding@resend.dev>",
-    to: "proyectosbily@gmail.com",
-    subject: "🆕 Nuevo pedido – Canción personalizada",
-    html: `
-      <h2>🆕 NUEVO PEDIDO</h2>
+  try {
+    await resend.emails.send({
+      from: "Lirya <ayuda@lirya.studio>",
+      to: "proyectosbily@gmail.com",
+      subject: "🆕 Nuevo pedido – Canción personalizada",
+      html: `
+        <h2>🆕 NUEVO PEDIDO</h2>
 
-      <p><strong>Destinatario:</strong> ${metadata.recipient_name}</p>
-      <p><strong>Quien regala:</strong> ${metadata.your_name}</p>
-      <p><strong>Relación:</strong> ${metadata.relationship}</p>
+        <p><strong>Email cliente:</strong> ${customerEmail || "No indicado"}</p>
+        <p><strong>Tarifa:</strong> ${metadata.tarifa || "-"}</p>
 
-      <hr>
+        <hr>
 
-      <p><strong>Cómo se conocieron:</strong><br>${metadata.how_met}</p>
-      <p><strong>Momento especial:</strong><br>${metadata.special_moment}</p>
-      <p><strong>Por qué ahora:</strong><br>${metadata.reason_now}</p>
+        <p><strong>Destinatario:</strong> ${metadata.recipient_name || "-"}</p>
+        <p><strong>Quien regala:</strong> ${metadata.your_name || "-"}</p>
+        <p><strong>Relación:</strong> ${metadata.relationship || "-"}</p>
 
-      <hr>
+        <hr>
 
-      <p><strong>Tres palabras:</strong> ${metadata.three_words}</p>
-      <p><strong>Dedicatoria:</strong><br>${metadata.dedication}</p>
-      <p><strong>Emoción:</strong> ${metadata.emotion}</p>
+        <p><strong>Cómo se conocieron:</strong><br>${metadata.how_met || "-"}</p>
+        <p><strong>Momento especial:</strong><br>${metadata.special_moment || "-"}</p>
+        <p><strong>Por qué ahora:</strong><br>${metadata.reason_now || "-"}</p>
 
-      <hr>
+        <hr>
 
-      <p><strong>Estilo:</strong> ${metadata.song_style}</p>
-      <p><strong>Ritmo:</strong> ${metadata.rhythm}</p>
-      <p><strong>Voz:</strong> ${metadata.voice_type}</p>
-      <p><strong>Idioma:</strong> ${metadata.language}</p>
+        <p><strong>Tres palabras:</strong> ${metadata.three_words || "-"}</p>
+        <p><strong>Dedicatoria:</strong><br>${metadata.dedication || "-"}</p>
+        <p><strong>Emoción:</strong> ${metadata.emotion || "-"}</p>
 
-      <hr>
+        <hr>
 
-      <p><strong>Incluir nombre:</strong> ${metadata.include_name}</p>
-      <p><strong>Intensidad:</strong> ${metadata.intensity}</p>
-      <p><strong>No mencionar:</strong><br>${metadata.dont_mention}</p>
-    `,
-  });
+        <p><strong>Estilo:</strong> ${metadata.song_style || "-"}</p>
+        <p><strong>Ritmo:</strong> ${metadata.rhythm || "-"}</p>
+        <p><strong>Voz:</strong> ${metadata.voice_type || "-"}</p>
+        <p><strong>Idioma:</strong> ${metadata.language || "-"}</p>
 
-  console.log("✅ Email interno enviado");
+        <hr>
+
+        <p><strong>Incluir nombre:</strong> ${metadata.include_name || "-"}</p>
+        <p><strong>Intensidad:</strong> ${metadata.intensity || "-"}</p>
+        <p><strong>No mencionar:</strong><br>${metadata.dont_mention || "-"}</p>
+
+        <hr>
+
+        <p><small>Session ID: ${session.id}</small></p>
+      `,
+    });
+
+    console.log("✅ Email interno enviado");
+  } catch (err) {
+    console.error("❌ Error enviando email interno:", err);
+  }
 
   /* ================= EMAIL CLIENTE ================= */
 
   if (customerEmail) {
-    await resend.emails.send({
-      from: "Lirya <onboarding@resend.dev>",
-      to: customerEmail,
-      subject: "🎶 Estamos creando tu canción",
-      html: `
-        <h2>Gracias por confiar en Lirya 💛</h2>
-        <p>Hemos recibido tu pedido y ya estamos trabajando en tu canción personalizada.</p>
-        <p>Te avisaremos en cuanto esté lista.</p>
-        <p><strong>— El equipo de Lirya</strong></p>
-      `,
-    });
+    try {
+      await resend.emails.send({
+        from: "Lirya <ayuda@lirya.studio>",
+        to: customerEmail,
+        subject: "🎶 Estamos creando tu canción personalizada",
+        html: `
+          <h2>Gracias por confiar en Lirya 💛</h2>
 
-    console.log("✅ Email enviado al cliente");
+          <p>
+            Hemos recibido correctamente tu pedido y ya estamos trabajando
+            en tu canción personalizada.
+          </p>
+
+          <p>
+            En cuanto esté lista, te la enviaremos por email.
+          </p>
+
+          <p>
+            Si necesitas cualquier cosa, puedes escribirnos a
+            <strong>ayuda@lirya.studio</strong>
+          </p>
+
+          <br>
+
+          <p><strong>— El equipo de Lirya 🎵</strong></p>
+        `,
+      });
+
+      console.log("✅ Email enviado al cliente");
+    } catch (err) {
+      console.error("❌ Error enviando email al cliente:", err);
+    }
+  } else {
+    console.warn("⚠️ No hay email de cliente, no se envía correo");
   }
 
-  res.json({ received: true });
+  return res.json({ received: true });
 }
