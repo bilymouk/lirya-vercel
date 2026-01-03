@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { Resend } from "resend";
 import getRawBody from "raw-body";
+import { Redis } from "@upstash/redis";
 
 export const config = {
   api: {
@@ -10,6 +11,7 @@ export const config = {
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const resend = new Resend(process.env.RESEND_API_KEY);
+const redis = Redis.fromEnv();
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -38,17 +40,34 @@ export default async function handler(req, res) {
   }
 
   const session = event.data.object;
-  const metadata = session.metadata || {};
+  const sessionId = session.id;
 
+  /* ================= ANTI DUPLICADOS (CRÍTICO) ================= */
+
+  const alreadyProcessed = await redis.get(`stripe:${sessionId}`);
+
+  if (alreadyProcessed) {
+    console.warn("⚠️ Webhook duplicado ignorado:", sessionId);
+    return res.json({ duplicate: true });
+  }
+
+  // Marcamos como procesado (24h)
+  await redis.set(`stripe:${sessionId}`, true, {
+    ex: 60 * 60 * 24,
+  });
+
+  /* ================= DATOS ================= */
+
+  const metadata = session.metadata || {};
   const customerEmail =
     session.customer_details?.email ||
     session.customer_email ||
     metadata.email ||
     null;
 
-  console.log("🧾 METADATA COMPLETA:", metadata);
+  console.log("🧾 METADATA:", metadata);
   console.log("📩 EMAIL CLIENTE:", customerEmail);
-  console.log("🆔 SESSION ID:", session.id);
+  console.log("🆔 SESSION ID:", sessionId);
 
   /* ================= EMAIL INTERNO ================= */
 
@@ -96,13 +115,13 @@ export default async function handler(req, res) {
 
         <hr>
 
-        <p><small>Session ID: ${session.id}</small></p>
+        <p><small>Session ID: ${sessionId}</small></p>
       `,
     });
 
     console.log("✅ Email interno enviado");
   } catch (err) {
-    console.error("❌ Error enviando email interno:", err);
+    console.error("❌ Error email interno:", err);
   }
 
   /* ================= EMAIL CLIENTE ================= */
@@ -115,33 +134,16 @@ export default async function handler(req, res) {
         subject: "🎶 Estamos creando tu canción personalizada",
         html: `
           <h2>Gracias por confiar en Lirya 💛</h2>
-
-          <p>
-            Hemos recibido correctamente tu pedido y ya estamos trabajando
-            en tu canción personalizada.
-          </p>
-
-          <p>
-            En cuanto esté lista, te la enviaremos por email.
-          </p>
-
-          <p>
-            Si necesitas cualquier cosa, puedes escribirnos a
-            <strong>ayuda@lirya.studio</strong>
-          </p>
-
-          <br>
-
+          <p>Hemos recibido tu pedido y ya estamos trabajando en tu canción.</p>
+          <p>Te avisaremos en cuanto esté lista.</p>
           <p><strong>— El equipo de Lirya 🎵</strong></p>
         `,
       });
 
       console.log("✅ Email enviado al cliente");
     } catch (err) {
-      console.error("❌ Error enviando email al cliente:", err);
+      console.error("❌ Error email cliente:", err);
     }
-  } else {
-    console.warn("⚠️ No hay email de cliente, no se envía correo");
   }
 
   return res.json({ received: true });
