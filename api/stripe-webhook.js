@@ -47,7 +47,7 @@ export default async function handler(req, res) {
     try {
       // 👉 URL DEL WEBHOOK DE MAKE (POST-PAGO)
       const MAKE_WEBHOOK_URL =
-        "PEGA_AQUI_TU_WEBHOOK_DE_MAKE_POST_PAGO";
+        "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe";
 
       await fetch(MAKE_WEBHOOK_URL, {
         method: "POST",
