@@ -1,12 +1,11 @@
 import Stripe from "stripe";
 import fetch from "node-fetch";
 
-// Inicializamos Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const config = {
   api: {
-    bodyParser: false, // MUY IMPORTANTE para webhooks
+    bodyParser: false,
   },
 };
 
@@ -19,17 +18,13 @@ export default async function handler(req, res) {
   let event;
 
   try {
-    // Leemos el cuerpo RAW
     const rawBody = await new Promise((resolve, reject) => {
       let data = "";
-      req.on("data", (chunk) => {
-        data += chunk;
-      });
+      req.on("data", (chunk) => (data += chunk));
       req.on("end", () => resolve(data));
       req.on("error", reject);
     });
 
-    // Verificamos que el evento viene realmente de Stripe
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
@@ -40,12 +35,11 @@ export default async function handler(req, res) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // ✅ SOLO actuamos si el pago se ha completado
+  // ✅ SOLO CUANDO EL PAGO SE COMPLETA
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
 
     try {
-      // 👉 URL DEL WEBHOOK DE MAKE (POST-PAGO)
       const MAKE_WEBHOOK_URL =
         "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
 
@@ -57,15 +51,10 @@ export default async function handler(req, res) {
           email: session.customer_email,
           amount_total: session.amount_total,
           currency: session.currency,
-          metadata: session.metadata,
-        })body: JSON.stringify({
-          stripe_session_id: session.id,
-          email: session.customer_email,
-          amount_total: session.amount_total,
-          currency: session.currency,
           tarifa: session.metadata?.tarifa || null,
-          estado_pago: "PAGADO"
-          }),
+          metadata: session.metadata,
+          estado_pago: "PAGADO",
+        }),
       });
 
       console.log("✅ Evento enviado a Make correctamente");
