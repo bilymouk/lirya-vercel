@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
     try {
       const MAKE_WEBHOOK_URL =
-        "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe";
+        "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
 
       await fetch(MAKE_WEBHOOK_URL, {
         method: "POST",
