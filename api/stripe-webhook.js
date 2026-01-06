@@ -58,7 +58,14 @@ export default async function handler(req, res) {
           amount_total: session.amount_total,
           currency: session.currency,
           metadata: session.metadata,
-        }),
+        })body: JSON.stringify({
+          stripe_session_id: session.id,
+          email: session.customer_email,
+          amount_total: session.amount_total,
+          currency: session.currency,
+          tarifa: session.metadata?.tarifa || null,
+          estado_pago: "PAGADO"
+          }),
       });
 
       console.log("✅ Evento enviado a Make correctamente");
