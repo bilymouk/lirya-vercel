@@ -12,40 +12,51 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const f = req.body; // Datos del formulario
+    const f = req.body;
     console.log("📥 FORM DATA RECIBIDO:", f.email);
 
-    // --- 2. CALCULAR PRECIO SEGÚN TARIFA ---
+    // --- 2. ENVIAR DATOS A MAKE (PEDIDO, PRE-PAGO) ---
+    try {
+      const MAKE_WEBHOOK_URL =
+        "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe"; // ← Pedido_cancion_web
+
+      await fetch(MAKE_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(f),
+      });
+
+      console.log("✅ Pedido enviado a Make correctamente");
+    } catch (makeError) {
+      console.error("⚠️ Error enviando a Make (seguimos igual):", makeError);
+    }
+
+    // --- 3. CALCULAR PRECIO SEGÚN TARIFA ---
     let amount;
 
-    if (f.tarifa == '49') {
-      amount = 4900;
-    } else if (f.tarifa == '59') {
-      amount = 5900;
-    } else if (f.tarifa == '79') {
-      amount = 7900;
-    } else {
+    if (f.tarifa == "49") amount = 4900;
+    else if (f.tarifa == "59") amount = 5900;
+    else if (f.tarifa == "79") amount = 7900;
+    else {
       return res.status(400).json({ error: "Tarifa no válida" });
     }
 
-    // --- 3. CREAR SESIÓN DE STRIPE ---
+    // --- 4. CREAR SESIÓN DE STRIPE ---
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
 
-      // Email pre-rellenado en Stripe
       customer_email: f.email,
 
-      // Facturación
       billing_address_collection: "required",
       customer_creation: "always",
 
       line_items: [
         {
           price_data: {
-            currency: 'eur',
+            currency: "eur",
             product_data: {
-              name: 'Canción Personalizada Lirya',
+              name: "Canción Personalizada Lirya",
               description: `Para ${f.recipient_name || ""} (Plan ${f.tarifa}€)`,
             },
             unit_amount: amount,
@@ -54,24 +65,22 @@ module.exports = async (req, res) => {
         },
       ],
 
-      // Redirecciones
       success_url: `https://${process.env.VERCEL_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `https://${process.env.VERCEL_URL}/cancel.html`,
 
-      // --- 4. METADATA (CLAVE PARA EL WEBHOOK) ---
-      // Guardamos TODO aquí. Stripe avisará después cuando el pago sea REAL.
+      // --- 5. METADATA (RESUMEN PARA STRIPE) ---
       metadata: {
-        ...f
+        email: f.email || "",
+        tarifa: f.tarifa || "",
+        recipient_name: f.recipient_name || "",
       },
     });
 
     console.log("✅ STRIPE SESSION CREADA:", session.id);
 
-    // Devolvemos la URL de pago al frontend
     res.status(200).json({ url: session.url });
-
   } catch (error) {
     console.error("❌ ERROR PAYMENT:", error);
-    res.status(500).json({ error: "Error al crear sesión de pago: " + error.message });
+    res.status(500).json({ error: "Error al crear sesión de pago" });
   }
 };
