@@ -478,7 +478,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 .examples-inner {
   position: relative;
   z-index: 2;
-  max-width: 1320px;
+  max-width: 1320px; /* +10% ancho */
   margin: 0 auto;
   text-align: center;
 }
@@ -488,7 +488,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 38px;
   color: #d4b483;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-weight: 600;
 }
 
@@ -496,14 +496,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 16px;
   opacity: 0.85;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
 }
 
 /* GRID */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 28px;
   align-items: stretch;
 }
 
@@ -513,14 +513,13 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.45);
-  transform: scale(0.92);
   box-shadow: 0 0 22px rgba(255,255,255,0.18);
-  transition: transform .45s ease, box-shadow .45s ease;
+  transition: transform .35s ease, box-shadow .35s ease;
   background: rgba(0,0,0,0.35);
 }
 
 .example-card:hover {
-  transform: translateY(-10px) scale(0.92);
+  transform: translateY(-8px);
   box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
@@ -532,7 +531,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* TARJETA DESTACADA */
 .example-card.destacada {
   border: 1.5px solid #ff9f3f;
-  transform: scale(0.98);
   box-shadow: 0 0 55px rgba(255,159,63,0.35);
   z-index: 3;
 }
@@ -540,8 +538,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* BADGE */
 .badge-popular {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   background: rgba(212,180,131,0.95);
   color: #1a1a1a;
   font-family: "Playfair Display", serif;
@@ -561,7 +559,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 20px;
   color: #f2e7c9;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .tarifa-precio {
@@ -583,10 +581,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 14px;
   line-height: 1.55;
   opacity: 0.85;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
-/* BOTÓN COMO LINK */
+/* BOTÓN */
 .tarifa-info a {
   display: inline-block;
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
@@ -610,11 +608,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 @media (max-width: 900px) {
   .examples-grid {
     grid-template-columns: 1fr;
-  }
-
-  .example-card,
-  .example-card.destacada {
-    transform: none;
   }
 
   .examples h2 {
@@ -1421,6 +1414,7 @@ render();
   </div>
 
 </section>
+
 
 
 
