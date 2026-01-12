@@ -61,7 +61,6 @@ header{
   background:var(--orange-hover);
   transform:scale(1.03);
 }
-
 /* ===== HERO ===== */
 .hero{
   position:relative;
@@ -132,6 +131,18 @@ header{
   opacity:.85;
 }
 
+/* PHONE */
+.hero-phone-wrapper{
+  display:flex;
+  justify-content:center;
+  transform:translateY(32px);
+}
+
+.hero-phone{
+  width:360px;
+  animation:floatPhoneDesktop 5s ease-in-out infinite;
+}
+
 /* ===== MOBILE ===== */
 .hero-mobile{
   display:none;
@@ -150,8 +161,10 @@ header{
   max-width:340px;
   margin:0 auto;
   display:block;
+  animation:floatPhoneMobile 5s ease-in-out infinite;
 }
 
+/* TEXTO MOBILE */
 .hero-mobile-text{
   transform:translateY(-32px);
 }
@@ -164,23 +177,37 @@ header{
   margin-bottom:20px;
 }
 
+.hero-mobile .hero-btn{
+  margin-top:8px;
+}
+
+.hero-mobile .hero-note{
+  margin-top:10px;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes floatPhoneDesktop{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-14px)}
+  100%{transform:translateY(0)}
+}
+
+@keyframes floatPhoneMobile{
+  0%{transform:translateY(10px)}
+  50%{transform:translateY(-4px)}
+  100%{transform:translateY(10px)}
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width:900px){
   .hero{
-    background-size:auto 100%;
-    background-position:47% center;
+    background-size: auto 100%;
+    background-position: 47% center;
   }
 
   .hero-inner{padding:28px 20px}
   .hero-desktop{display:none}
   .hero-mobile{display:block}
-
-  /* 🔥 SOLO HEADER CTA EN MÓVIL 🔥 */
-  .cta-header{
-    font-size:1.15rem;
-    font-weight:800;
-    letter-spacing:.8px;
-  }
 }
 </style>
 </head>
@@ -205,11 +232,16 @@ header{
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
         <span class="hero-note">⏱️ Tardarás menos de 3 minutos</span>
       </div>
+
+      <div class="hero-phone-wrapper">
+        <img src="/mockup-phone-final.png" class="hero-phone" alt="Canción personalizada">
+      </div>
     </div>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
       <h1>La canción perfecta para contar vuestra historia</h1>
+      <img src="/mockup-phone-final.png" alt="Canción personalizada">
 
       <div class="hero-mobile-text">
         <p>
@@ -1499,6 +1531,7 @@ render();
   </div>
 
 </section>
+
 
 
 
