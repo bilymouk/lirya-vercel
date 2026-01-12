@@ -463,7 +463,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 <style>
 .examples {
   position: relative;
-  padding: 70px 20px;
+  padding: 100px 20px;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
@@ -478,7 +478,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 .examples-inner {
   position: relative;
   z-index: 2;
-  max-width: 1320px; /* +10% ancho */
+  max-width: 1200px;
   margin: 0 auto;
   text-align: center;
 }
@@ -488,7 +488,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 38px;
   color: #d4b483;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
   font-weight: 600;
 }
 
@@ -496,14 +496,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 16px;
   opacity: 0.85;
-  margin-bottom: 36px;
+  margin-bottom: 70px;
 }
 
 /* GRID */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 45px;
   align-items: stretch;
 }
 
@@ -513,13 +513,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.45);
+  transform: scale(0.84);
   box-shadow: 0 0 22px rgba(255,255,255,0.18);
-  transition: transform .35s ease, box-shadow .35s ease;
+  transition: transform .45s ease, box-shadow .45s ease;
   background: rgba(0,0,0,0.35);
 }
 
 .example-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-10px);
   box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
@@ -531,6 +532,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* TARJETA DESTACADA */
 .example-card.destacada {
   border: 1.5px solid #ff9f3f;
+  transform: scale(0.90);
   box-shadow: 0 0 55px rgba(255,159,63,0.35);
   z-index: 3;
 }
@@ -538,8 +540,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* BADGE */
 .badge-popular {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   background: rgba(212,180,131,0.95);
   color: #1a1a1a;
   font-family: "Playfair Display", serif;
@@ -551,7 +553,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* INFO */
 .tarifa-info {
-  padding: 22px 20px 26px;
+  padding: 26px 22px 30px;
   text-align: center;
 }
 
@@ -559,36 +561,36 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 20px;
   color: #f2e7c9;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
 .tarifa-precio {
   font-family: "Playfair Display", serif;
-  font-size: 34px;
+  font-size: 36px;
   font-weight: 600;
   color: #d4b483;
   letter-spacing: 0.6px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .tarifa-entrega {
   font-size: 14px;
   opacity: 0.85;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .tarifa-incluye {
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.6;
   opacity: 0.85;
-  margin-bottom: 18px;
+  margin-bottom: 24px;
 }
 
-/* BOTÓN */
+/* BOTÓN COMO LINK */
 .tarifa-info a {
   display: inline-block;
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
-  padding: 12px 26px;
+  padding: 13px 28px;
   border-radius: 30px;
   color: #ffffff;
   font-family: "Playfair Display", serif;
@@ -610,11 +612,134 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     grid-template-columns: 1fr;
   }
 
+  .example-card.destacada {
+    transform: none;
+  }
+
   .examples h2 {
     font-size: 32px;
   }
 }
 </style>
+
+<section class="examples">
+  <div class="examples-inner">
+    <h2>Ejemplos reales</h2>
+    <p class="examples-subtitle">
+      Así suenan las canciones personalizadas. Historias reales, emociones reales.
+    </p>
+
+    <div class="examples-grid">
+
+      <!-- TARIFA 49 -->
+      <div class="example-card">
+        <img src="/papa-card.jpg" alt="Papá">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">49€</div>
+          <div class="tarifa-entrega">Entrega en 4–5 días</div>
+          <div class="tarifa-incluye">
+            • Letra personalizada<br>
+            • Música original<br>
+            • 1 revisión incluida
+          </div>
+          <a href="#formulario-lirya?tarifa=49">Elegir esta opción</a>
+        </div>
+      </div>
+
+      <!-- TARIFA 59 -->
+      <div class="example-card destacada">
+        <span class="badge-popular">La más elegida</span>
+        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">59€</div>
+          <div class="tarifa-entrega">Entrega en 2–3 días</div>
+          <div class="tarifa-incluye">
+            • Letra muy detallada<br>
+            • Enfoque romántico (San Valentín)<br>
+            • Hasta 2 revisiones
+          </div>
+          <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
+        </div>
+      </div>
+
+      <!-- TARIFA 79 -->
+      <div class="example-card">
+        <img src="/amigas-card.jpg" alt="Amigas por siempre">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">79€</div>
+          <div class="tarifa-entrega">Entrega prioritaria</div>
+          <div class="tarifa-incluye">
+            • Máximo nivel de detalle<br>
+            • Prioridad absoluta<br>
+            • Revisión ilimitada
+          </div>
+          <a href="#formulario-lirya?tarifa=79">Elegir esta opción</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+
+  function getTarifaFromHash() {
+    const hash = window.location.hash;
+    if (!hash.includes('tarifa=')) return null;
+    const match = hash.match(/tarifa=(\d+)/);
+    return match ? match[1] : null;
+  }
+
+  function scrollToFormulario() {
+    const form = document.getElementById('formulario-lirya');
+    if (!form) return;
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function preselectTarifa(tarifa) {
+    const tarifaBtn = document.getElementById('tarifa-btn');
+    if (!tarifaBtn) return;
+
+    const opciones = document.querySelectorAll(
+      '#formulario-lirya .dropdown-item[data-tarifa]'
+    );
+
+    opciones.forEach(op => {
+      if (op.dataset.tarifa === tarifa) {
+        tarifaBtn.textContent = op.textContent;
+        tarifaBtn.style.color = '#333';
+      }
+    });
+  }
+
+  // Cuando se hace click en "Elegir esta opción"
+  document.querySelectorAll('.tarifa-info a').forEach(link => {
+    link.addEventListener('click', function () {
+      setTimeout(() => {
+        const tarifa = getTarifaFromHash();
+        if (tarifa) {
+          scrollToFormulario();
+          setTimeout(() => preselectTarifa(tarifa), 600);
+        }
+      }, 50);
+    });
+  });
+
+  // Si entra con la URL ya cargada (recarga, compartir link, etc)
+  window.addEventListener('load', () => {
+    const tarifa = getTarifaFromHash();
+    if (tarifa) {
+      scrollToFormulario();
+      setTimeout(() => preselectTarifa(tarifa), 600);
+    }
+  });
+
+})();
+</script>
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -1414,6 +1539,7 @@ render();
   </div>
 
 </section>
+
 
 
 
