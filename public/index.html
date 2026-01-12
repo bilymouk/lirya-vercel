@@ -1006,17 +1006,17 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="step-title">Paso 1 de 6 — Personas y tarifa</div>
 
 <div class="question">
-<label>Nombre de quien recibirá la canción</label>
+<label>Nombre de quien recibirá la canción *</label>
 <input id="recipient_name" required>
 </div>
 
 <div class="question">
-<label>Tu nombre (quien regala)</label>
+<label>Tu nombre (quien regala) *</label>
 <input id="your_name" required>
 </div>
 
 <div class="question">
-<label>Tipo de relación</label>
+<label>Tipo de relación *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1031,7 +1031,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="question">
-<label>Tarifa elegida</label>
+<label>Tarifa elegida *</label>
 <div class="dropdown">
 <button class="dropdown-btn" id="tarifa-btn" data-required>Selecciona una tarifa ▾</button>
 <div class="dropdown-menu">
@@ -1053,17 +1053,17 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="step-title">Paso 2 de 6 — Historia</div>
 
 <div class="question">
-<label>¿Cómo os conocisteis?</label>
+<label>¿Cómo os conocisteis? *</label>
 <textarea id="how_met" required></textarea>
 </div>
 
 <div class="question">
-<label>Un momento que lo cambió todo</label>
+<label>Un momento que lo cambió todo *</label>
 <textarea id="special_moment" required></textarea>
 </div>
 
 <div class="question">
-<label>¿Por qué esta canción es importante ahora?</label>
+<label>¿Por qué esta canción es importante ahora? *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1088,17 +1088,17 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
 
 <div class="question">
-<label>Tres palabras que definan a esa persona</label>
+<label>Tres palabras que definan a esa persona *</label>
 <input id="three_words" required>
 </div>
 
 <div class="question">
-<label>Una frase que te gustaría decirle</label>
+<label>Una frase que te gustaría decirle *</label>
 <textarea id="dedication" required></textarea>
 </div>
 
 <div class="question">
-<label>¿Qué emoción debe sentir?</label>
+<label>¿Qué emoción debe sentir? *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1122,7 +1122,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="step-title">Paso 4 de 6 — Música</div>
 
 <div class="question">
-<label>Estilo musical principal</label>
+<label>Estilo musical principal *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1133,13 +1133,17 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="dropdown-item">Rock suave</div>
 <div class="dropdown-item">Electrónica chill</div>
 <div class="dropdown-item">Reggaetón lento</div>
+<div class="dropdown-item">Hip Hop</div>
+<div class="dropdown-item">Reggae chill</div>
+<div class="dropdown-item">Jazz</div>
+<div class="dropdown-item">Flamenco</div>
 <div class="dropdown-item">Cinematográfico</div>
 </div>
 </div>
 </div>
 
 <div class="question">
-<label>Ritmo</label>
+<label>Ritmo *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1151,7 +1155,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="question">
-<label>Tipo de voz</label>
+<label>Tipo de voz *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1164,13 +1168,14 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="question">
-<label>Idioma</label>
+<label>Idioma *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item">Español</div>
 <div class="dropdown-item">Inglés</div>
 <div class="dropdown-item">Spanglish</div>
+<div class="dropdown-item">Catalán</div>
 </div>
 </div>
 </div>
@@ -1186,7 +1191,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="step-title">Paso 5 de 6 — Detalles finales</div>
 
 <div class="question">
-<label>¿Quieres que aparezca su nombre?</label>
+<label>¿Quieres que aparezca su nombre? *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1197,12 +1202,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="question">
-<label>¿Algo que NO deba mencionarse?</label>
+<label>Anécdota o algo que quieras añadir</label>
 <textarea id="dont_mention"></textarea>
 </div>
 
 <div class="question">
-<label>Intensidad emocional</label>
+<label>Intensidad emocional *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1224,12 +1229,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
 
 <div class="question">
-<label>Email</label>
+<label>Email *</label>
 <input id="email" type="email" required>
 </div>
 
 <div class="question">
-<label>¿También por WhatsApp?</label>
+<label>¿También por WhatsApp? *</label>
 <div class="dropdown">
 <button class="dropdown-btn" data-required>Elige una opción ▾</button>
 <div class="dropdown-menu">
@@ -1240,7 +1245,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 </div>
 
 <div class="question" id="telefono-box">
-<label>Número de teléfono</label>
+<label>Número de teléfono *</label>
 <input id="phone">
 </div>
 
@@ -1550,6 +1555,7 @@ render();
   </div>
 
 </section>
+
 
 
 
