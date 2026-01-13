@@ -463,7 +463,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 <style>
 .examples {
   position: relative;
-  padding: 50px 20px 70px;
+  padding: 50px 20px 80px;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
@@ -483,7 +483,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* ===== TITULOS ===== */
+/* ===== TARIFAS (SIN CAMBIOS) ===== */
 .examples h2 {
   font-family: "Playfair Display", serif;
   font-size: 38px;
@@ -506,29 +506,17 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 24px;
 }
 
-/* ===== GRID TARIFAS ===== */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
-  align-items: stretch;
 }
 
-/* TARJETA TARIFA */
 .example-card {
-  position: relative;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.45);
-  transform: scale(0.90);
-  box-shadow: 0 0 22px rgba(255,255,255,0.18);
-  transition: transform .45s ease, box-shadow .45s ease;
   background: rgba(0,0,0,0.35);
-}
-
-.example-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
 .example-card img {
@@ -536,30 +524,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* DESTACADA */
-.example-card.destacada {
-  border: 1.5px solid #ff9f3f;
-  box-shadow: 0 0 55px rgba(255,159,63,0.35);
-}
-
-.example-card.destacada:hover {
-  transform: scale(0.96);
-}
-
-/* BADGE */
-.badge-popular {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(212,180,131,0.95);
-  color: #1a1a1a;
-  font-family: "Playfair Display", serif;
-  font-size: 13px;
-  padding: 6px 14px;
-  border-radius: 20px;
-}
-
-/* INFO TARIFA */
 .tarifa-info {
   padding: 26px 22px 30px;
 }
@@ -576,13 +540,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   color: #d4b483;
 }
 
-.tarifa-entrega,
-.tarifa-incluye {
-  font-size: 14px;
-  opacity: 0.85;
-}
-
-/* BOTÓN */
 .tarifa-info a {
   display: inline-block;
   margin-top: 16px;
@@ -590,93 +547,71 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   padding: 13px 28px;
   border-radius: 30px;
   color: #fff;
-  font-family: "Playfair Display", serif;
   text-decoration: none;
 }
 
-/* ===== CARRUSEL ESTILOS ===== */
+/* ===== ESTILOS MUSICALES ===== */
 .styles-wrapper {
-  margin-top: 40px;
+  margin-top: 50px;
   position: relative;
 }
 
 .styles-carousel {
   display: flex;
-  gap: 34px;
+  gap: 40px;
   overflow-x: auto;
+  padding: 20px 80px;
   scroll-behavior: smooth;
-  padding: 0 60px;
 }
 
 .styles-carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* FLECHAS */
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(212,180,131,0.35);
-  color: #d4b483;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+.style-card {
+  min-width: 220px;
   cursor: pointer;
-  display: none;
+  transition: transform 0.3s ease;
 }
 
-.carousel-arrow.left { left: 0; }
-.carousel-arrow.right { right: 0; }
-
-@media (hover:hover){
-  .carousel-arrow { display:block; }
+.style-card.playing {
+  transform: scale(1.18);
 }
 
-/* VIÑETA */
-.style-tile {
-  min-width: 235px;
-  cursor: pointer;
-}
-
-.style-image {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-}
-
-.style-image img {
+.style-card img {
   width: 100%;
+  border-radius: 18px;
 }
 
-.style-title {
-  position: absolute;
-  bottom: 42px;
-  left: 50%;
-  transform: translateX(-50%);
+.style-name {
+  margin-top: 10px;
   font-family: "Playfair Display", serif;
-  font-size: 13px;
+  font-size: 15px;
   color: #f2e7c9;
   white-space: nowrap;
 }
 
-/* ANIMACIÓN PLAY */
-.style-tile.is-playing .style-image {
-  animation: pulse 2s ease-in-out infinite;
+/* FLECHAS DESKTOP */
+.carousel-arrow {
+  position: absolute;
+  top: 45%;
+  width: 42px;
+  height: 42px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 22px;
+  line-height: 42px;
+  cursor: pointer;
+  user-select: none;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08) translateY(-4px); }
-  100% { transform: scale(1); }
-}
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
 
-.style-tile audio { display:none; }
-
-/* RESPONSIVE */
-@media (max-width:900px){
-  .examples-grid { grid-template-columns:1fr; }
+@media (max-width: 900px) {
+  .examples-grid { grid-template-columns: 1fr; }
+  .carousel-arrow { display: none; }
 }
 </style>
 
@@ -684,68 +619,106 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   <div class="examples-inner">
 
     <h2>Ejemplos reales</h2>
-    <p class="examples-subtitle">Historias reales, emociones reales.</p>
+    <p class="examples-subtitle">Así suenan las canciones personalizadas.</p>
+    <p class="examples-note">Dale al PLAY para escuchar cada ejemplo</p>
 
-    <!-- TARIFAS -->
     <div class="examples-grid">
-      <!-- 49 -->
       <div class="example-card">
         <img src="/papa-card.jpg">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">49€</div>
-          <div class="tarifa-entrega">Entrega en 4–5 días</div>
           <a href="#formulario-lirya?tarifa=49">Elegir esta opción</a>
         </div>
       </div>
 
-      <!-- 59 -->
-      <div class="example-card destacada">
-        <span class="badge-popular">La más elegida</span>
+      <div class="example-card">
         <img src="/eres-mi-amor-card.jpg">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">59€</div>
-          <div class="tarifa-entrega">Entrega en 2–3 días</div>
           <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
         </div>
       </div>
 
-      <!-- 79 -->
       <div class="example-card">
         <img src="/amigas-card.jpg">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">79€</div>
-          <div class="tarifa-entrega">Entrega prioritaria</div>
           <a href="#formulario-lirya?tarifa=79">Elegir esta opción</a>
         </div>
       </div>
     </div>
 
-    <!-- ESTILOS -->
+    <!-- ===== ESTILOS ===== -->
     <div class="styles-wrapper">
-      <button class="carousel-arrow left">&#10094;</button>
-      <button class="carousel-arrow right">&#10095;</button>
+      <div class="carousel-arrow arrow-left" onclick="scrollStyles(-1)">‹</div>
+      <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
 
-      <div class="styles-carousel">
-        <div class="style-tile" data-audio="audio/balada-romantica.mp3">
-          <div class="style-image">
-            <img src="/vineta.png">
-            <div class="style-title">Balada romántica</div>
-          </div>
-          <audio></audio>
+      <div class="styles-carousel" id="stylesCarousel">
+
+        <!-- REPETIR PARA CADA ESTILO -->
+        <div class="style-card" data-audio="/audio/balada.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Balada romántica</div>
         </div>
 
-        <div class="style-tile" data-audio="audio/pop-emocional.mp3">
-          <div class="style-image">
-            <img src="/vineta.png">
-            <div class="style-title">Pop emocional</div>
-          </div>
-          <audio></audio>
+        <div class="style-card" data-audio="/audio/pop.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Pop emocional</div>
         </div>
 
-        <!-- añade el resto igual -->
+        <div class="style-card" data-audio="/audio/rock.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Rock suave</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/indie.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Indie acústico</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/rnb.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">R&amp;B / Soul</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/electro.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Electrónica chill</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/reggaeton.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Reggaetón lento</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/hiphop.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Hip Hop</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/reggae.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Reggae chill</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/jazz.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Jazz</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/flamenco.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Flamenco</div>
+        </div>
+
+        <div class="style-card" data-audio="/audio/cine.mp3">
+          <img src="/vineta.png">
+          <div class="style-name">Cinematográfico</div>
+        </div>
+
       </div>
     </div>
 
@@ -753,34 +726,31 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </section>
 
 <script>
-(() => {
-  let currentAudio=null, currentTile=null;
+const cards = document.querySelectorAll('.style-card');
+let currentAudio = null;
 
-  document.querySelectorAll('.style-tile').forEach(tile=>{
-    const audio=tile.querySelector('audio');
-    audio.src=tile.dataset.audio;
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    if (currentAudio) {
+      currentAudio.pause();
+      cards.forEach(c => c.classList.remove('playing'));
+    }
 
-    tile.onclick=()=>{
-      if(currentAudio && currentAudio!==audio){
-        currentAudio.pause();
-        currentTile.classList.remove('is-playing');
-      }
-      if(audio.paused){
-        audio.play();
-        tile.classList.add('is-playing');
-        currentAudio=audio;
-        currentTile=tile;
-      }else{
-        audio.pause();
-        tile.classList.remove('is-playing');
-      }
+    const audio = new Audio(card.dataset.audio);
+    currentAudio = audio;
+    card.classList.add('playing');
+    audio.play();
+
+    audio.onended = () => {
+      card.classList.remove('playing');
     };
   });
+});
 
-  const c=document.querySelector('.styles-carousel');
-  document.querySelector('.carousel-arrow.left').onclick=()=>c.scrollBy({left:-280,behavior:'smooth'});
-  document.querySelector('.carousel-arrow.right').onclick=()=>c.scrollBy({left:280,behavior:'smooth'});
-})();
+function scrollStyles(dir) {
+  document.getElementById('stylesCarousel')
+    .scrollBy({ left: dir * 300, behavior: 'smooth' });
+}
 </script>
 
 <!-- =================================
@@ -1587,6 +1557,7 @@ render();
   </div>
 
 </section>
+
 
 
 
