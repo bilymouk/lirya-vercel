@@ -753,46 +753,47 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     ESTILOS MUSICALES (ULTRA FINO)
+     ESTILOS MUSICALES (FINAL AJUSTADO)
 ================================ -->
 
 <style>
-/* ===== FRANJA BLANCA FINA ===== */
+/* ===== FRANJA BLANCA ULTRA FINA ===== */
 .lirya-style-line {
   background: #fcfaf7;
-  padding: 22px 20px;
+  padding: 14px 12px;
   text-align: center;
 }
 
 .lirya-style-line p {
   font-family: "Playfair Display", serif;
-  font-size: 15px;
-  color: #ff8a2a;
+  font-size: 14px;
+  color: #c7b58a;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.2;
+  white-space: nowrap; /* UNA SOLA LÍNEA EN MÓVIL */
 }
 
-/* ===== BLOQUE OSCURO SIN MÁRGENES ===== */
+/* ===== BLOQUE OSCURO SIN AIRE ===== */
 .lirya-styles-dark {
   background: #080914;
-  padding: 24px 12px 26px;
+  padding: 16px 8px 18px;
 }
 
 /* CARRUSEL */
 .styles-carousel {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
 
 /* TARJETA */
 .style-card {
-  min-width: 220px;
+  min-width: 215px;
   background: rgba(255,255,255,0.035);
-  border: 1px solid rgba(212,180,131,0.28);
+  border: 1px solid rgba(199,181,138,0.28);
   border-radius: 16px;
-  padding: 22px 16px 24px;
+  padding: 18px 14px 20px;
   text-align: center;
   scroll-snap-align: center;
 }
@@ -800,15 +801,15 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* TEXTO */
 .style-name {
   font-family: "Playfair Display", serif;
-  font-size: 15px;
+  font-size: 14.5px;
   color: #f2e7c9;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 /* PLAY */
 .style-play {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   margin: 0 auto;
   border-radius: 50%;
   background: #ff8a2a;
@@ -816,16 +817,16 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
 }
 
 /* PROGRESO */
 .style-progress {
   height: 2px;
-  background: rgba(212,180,131,0.25);
+  background: rgba(199,181,138,0.25);
   border-radius: 2px;
-  margin-top: 14px;
+  margin-top: 12px;
   overflow: hidden;
 }
 
@@ -833,7 +834,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
   height: 100%;
   width: 0%;
-  background: #ff8a2a;
+  background: #c7b58a;
 }
 
 /* AUDIO OCULTO */
@@ -1785,6 +1786,7 @@ render();
   </div>
 
 </section>
+
 
 
 
