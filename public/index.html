@@ -753,67 +753,65 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     ESTILOS MUSICALES DISPONIBLES
+     ESTILOS MUSICALES (REFINADO)
 ================================ -->
 
 <style>
-.lirya-styles {
-  position: relative;
-  padding: 80px 20px 90px;
-  background: radial-gradient(circle at top, #14162a 0%, #080914 60%);
-  color: #fff;
+/* ===== BLOQUE TEXTO BEIGE ===== */
+.lirya-styles-intro {
+  background: #fcfaf7;
+  padding: 70px 20px;
+  text-align: center;
+}
+
+.lirya-styles-intro p {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  color: #c7b58a;
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ===== BLOQUE OSCURO CARRUSEL ===== */
+.lirya-styles-dark {
+  background: #080914;
+  padding: 70px 20px 90px;
 }
 
 .lirya-styles-inner {
   max-width: 1300px;
   margin: 0 auto;
-  text-align: center;
 }
 
-/* TÍTULO */
-.lirya-styles h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 36px;
-  color: #d4b483;
-  margin-bottom: 12px;
-  font-weight: 600;
+/* CARRUSEL */
+.styles-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
 }
 
-.lirya-styles-subtitle {
-  font-family: "Playfair Display", serif;
-  font-size: 16px;
-  opacity: 0.85;
-  margin-bottom: 46px;
-}
-
-/* GRID DESKTOP */
-.styles-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-}
-
-/* TARJETA */
 .style-card {
-  position: relative;
+  min-width: 240px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(212,180,131,0.35);
   border-radius: 18px;
-  padding: 26px 20px 28px;
+  padding: 28px 20px 30px;
   text-align: center;
-  cursor: pointer;
-  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  scroll-snap-align: center;
+  transition: transform .35s ease, box-shadow .35s ease;
 }
 
 @media (hover:hover) {
   .style-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 18px 40px rgba(212,180,131,0.28);
-    border-color: rgba(212,180,131,0.65);
   }
 }
 
-/* NOMBRE ESTILO */
+/* TEXTO */
 .style-name {
   font-family: "Playfair Display", serif;
   font-size: 17px;
@@ -834,6 +832,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   color: #fff;
   font-size: 20px;
   transition: transform .25s ease, box-shadow .25s ease;
+  cursor: pointer;
 }
 
 .style-card.playing .style-play {
@@ -844,7 +843,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   transform: scale(1.08);
 }
 
-/* BARRA */
+/* PROGRESO */
 .style-progress {
   height: 3px;
   background: rgba(212,180,131,0.25);
@@ -864,119 +863,41 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 .style-card audio {
   display: none;
 }
-
-/* =========================
-   MOBILE = CARRUSEL
-========================= */
-@media (max-width: 900px) {
-  .styles-grid {
-    display: flex;
-    overflow-x: auto;
-    gap: 16px;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 10px;
-  }
-
-  .style-card {
-    min-width: 230px;
-    scroll-snap-align: center;
-  }
-}
 </style>
 
-<section class="lirya-styles">
-  <div class="lirya-styles-inner">
-    <h2>Estilos musicales disponibles</h2>
-    <p class="lirya-styles-subtitle">
-      Cada historia tiene su sonido. Escucha cómo podría sonar la tuya.
-    </p>
+<!-- TEXTO -->
+<section class="lirya-styles-intro">
+  <p>Cada historia tiene su sonido. Escucha cómo podría sonar la tuya.</p>
+</section>
 
-    <div class="styles-grid">
+<!-- CARRUSEL -->
+<section class="lirya-styles-dark">
+  <div class="lirya-styles-inner">
+    <div class="styles-carousel">
 
       <!-- ESTILO -->
+      <div class="style-card" data-audio="audio/rock-suave.mp3">
+        <div class="style-name">Rock suave</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio></audio>
+      </div>
+
       <div class="style-card" data-audio="audio/balada-romantica.mp3">
         <div class="style-name">Balada romántica</div>
         <div class="style-play">▶</div>
         <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
+        <audio></audio>
       </div>
 
       <div class="style-card" data-audio="audio/pop-emocional.mp3">
         <div class="style-name">Pop emocional</div>
         <div class="style-play">▶</div>
         <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
+        <audio></audio>
       </div>
 
-      <div class="style-card" data-audio="audio/indie-acustico.mp3">
-        <div class="style-name">Indie acústico</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/rnb-soul.mp3">
-        <div class="style-name">R&amp;B / Soul</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/rock-suave.mp3">
-        <div class="style-name">Rock suave</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/electronica-chill.mp3">
-        <div class="style-name">Electrónica chill</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/reggaeton-lento.mp3">
-        <div class="style-name">Reggaetón lento</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/hip-hop.mp3">
-        <div class="style-name">Hip Hop</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/reggae-chill.mp3">
-        <div class="style-name">Reggae chill</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/jazz.mp3">
-        <div class="style-name">Jazz</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/flamenco.mp3">
-        <div class="style-name">Flamenco</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
-
-      <div class="style-card" data-audio="audio/cinematografico.mp3">
-        <div class="style-name">Cinematográfico</div>
-        <div class="style-play">▶</div>
-        <div class="style-progress"><span></span></div>
-        <audio src=""></audio>
-      </div>
+      <!-- añade aquí el resto igual -->
 
     </div>
   </div>
@@ -993,12 +914,9 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     const playBtn = card.querySelector('.style-play');
     const progress = card.querySelector('.style-progress span');
     const src = card.dataset.audio;
-
     if (src) audio.src = src;
 
-    playBtn.addEventListener('click', e => {
-      e.stopPropagation();
-
+    playBtn.addEventListener('click', () => {
       if (currentAudio && currentAudio !== audio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
@@ -1021,8 +939,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     });
 
     audio.addEventListener('timeupdate', () => {
-      const percent = (audio.currentTime / audio.duration) * 100;
-      progress.style.width = percent + '%';
+      progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
     });
 
     audio.addEventListener('ended', () => {
@@ -1032,188 +949,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     });
   });
 })();
-</script>
-
-<!-- =================================
-   CÓMO FUNCIONA
-   (VERSIÓN FINAL PREMIUM)
-================================= -->
-<style>
-.lirya-cf-section {
-  background: #ffffff;
-  padding: 110px 20px;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* TÍTULO */
-.lirya-cf-title {
-  font-family: "Playfair Display", serif;
-  color: #c7b58a;
-  font-size: 36px;
-  font-weight: 600;
-  line-height: 1.15;
-  margin: 0;
-}
-
-/* LÍNEA DECORATIVA */
-.lirya-cf-divider {
-  width: 72px;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #c7b58a,
-    transparent
-  );
-  margin: 22px auto 64px;
-}
-
-/* GRID */
-.lirya-cf-grid {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 44px;
-}
-
-/* TARJETA */
-.lirya-cf-card {
-  background-color: #fcfaf7;
-  border-radius: 16px;
-  padding: 44px 34px;
-  border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  transition:
-    transform 0.35s cubic-bezier(.34,1.56,.64,1),
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
-  cursor: default;
-}
-
-/* MICRO ANIMACIÓN HOVER */
-@media (hover: hover) {
-  .lirya-cf-card:hover {
-    transform: translateY(-8px) scale(1.015);
-    box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
-    border-color: rgba(199, 181, 138, 0.65);
-  }
-}
-
-/* NÚMERO */
-.lirya-cf-step {
-  font-family: "Playfair Display", serif;
-  color: #000;
-  font-size: 18px;
-  margin-bottom: 14px;
-}
-
-/* TÍTULO TARJETA */
-.lirya-cf-card h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 22px;
-  margin-bottom: 12px;
-  color: #c7b58a;
-}
-
-/* TEXTO */
-.lirya-cf-card p {
-  font-family: "Playfair Display", serif;
-  font-size: 14.5px;
-  line-height: 1.65;
-  color: rgba(26, 26, 26, 0.75);
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-/* ===== MÓVIL ===== */
-@media (max-width: 900px) {
-  .lirya-cf-section {
-    padding: 80px 20px;
-  }
-
-  .lirya-cf-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .lirya-cf-card {
-    opacity: 0;
-    transform: translateY(32px) scale(0.96);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s cubic-bezier(.34,1.56,.64,1);
-  }
-
-  .lirya-cf-card.is-visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Accesibilidad */
-@media (prefers-reduced-motion: reduce) {
-  .lirya-cf-card {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-</style>
-
-<section class="lirya-cf-section">
-  <h2 class="lirya-cf-title">Cómo funciona</h2>
-  <div class="lirya-cf-divider"></div>
-
-  <div class="lirya-cf-grid">
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step">1</div>
-      <h3>Cuéntanos vuestra historia</h3>
-      <p>
-        Rellena el formulario en menos de 3 minutos con los detalles
-        que hacen vuestra historia única.
-      </p>
-    </div>
-
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step">2</div>
-      <h3>Creamos la canción</h3>
-      <p>
-        Transformamos vuestra historia en una canción original,
-        cuidando cada palabra y cada emoción.
-      </p>
-    </div>
-
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step">3</div>
-      <h3>La recibes y la conservas</h3>
-      <p>
-        La recibirás dentro del plazo de tu tarifa,
-        lista para escuchar, compartir y guardar para siempre.
-      </p>
-    </div>
-  </div>
-</section>
-
-<script>
-/* Animación escalera móvil */
-if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const cards = document.querySelectorAll('.lirya-cf-card');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('is-visible');
-        }, index * 150);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.25 });
-
-  cards.forEach(card => observer.observe(card));
-}
 </script>
 
 <!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO) ================== -->
@@ -1837,6 +1572,7 @@ render();
   </div>
 
 </section>
+
 
 
 
