@@ -483,7 +483,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* ===== TÍTULOS ORIGINALES ===== */
+/* TÍTULOS */
 .examples h2 {
   font-family: "Playfair Display", serif;
   font-size: 38px;
@@ -506,7 +506,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 24px;
 }
 
-/* ===== GRID TARIFAS (ORIGINAL) ===== */
+/* GRID TARIFAS */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -514,7 +514,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   align-items: stretch;
 }
 
-/* ===== TARJETAS ORIGINALES (SIN TOCAR) ===== */
+/* TARJETAS (ORIGINALES) */
 .example-card {
   position: relative;
   border-radius: 18px;
@@ -536,7 +536,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* TARJETA DESTACADA */
+/* DESTACADA */
 .example-card.destacada {
   border: 1.5px solid #ff9f3f;
   transform: scale(0.90);
@@ -558,7 +558,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 13px;
   padding: 6px 14px;
   border-radius: 20px;
-  letter-spacing: .4px;
 }
 
 /* INFO TARIFA */
@@ -579,7 +578,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 36px;
   font-weight: 600;
   color: #d4b483;
-  letter-spacing: 0.6px;
   margin-bottom: 6px;
 }
 
@@ -606,17 +604,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 14.5px;
   font-weight: 600;
-  letter-spacing: 0.4px;
   text-decoration: none;
-  transition: transform .25s ease, box-shadow .25s ease;
 }
 
-.tarifa-info a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255,159,63,0.45);
-}
-
-/* ===== TEXTO INTERMEDIO ===== */
+/* TEXTO INTERMEDIO */
 .styles-note {
   margin: 26px 0 16px;
   font-size: 13px;
@@ -624,7 +615,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   opacity: 0.8;
 }
 
-/* ===== CARRUSEL ESTILOS ===== */
+/* CARRUSEL */
 .styles-wrapper {
   position: relative;
 }
@@ -641,7 +632,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: none;
 }
 
-/* CENTRADO INICIAL EN MÓVIL */
+/* CENTRADO MÓVIL */
 @media (max-width: 900px) {
   .styles-carousel {
     padding-left: calc(50vw - 140px);
@@ -671,22 +662,20 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 14px;
   color: #f2e7c9;
-  white-space: nowrap;
-  pointer-events: none;
 }
 
-/* ANIMACIÓN PLAY SUAVE */
+/* ANIMACIÓN PLAY */
 .style-card.playing {
   animation: playingPulse 1.8s ease-in-out infinite;
 }
 
 @keyframes playingPulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(0.94); }
+  0% { transform: scale(1); }
+  50% { transform: scale(0.94); }
   100% { transform: scale(1); }
 }
 
-/* FLECHAS DESKTOP */
+/* FLECHAS */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -699,7 +688,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 26px;
   line-height: 44px;
   cursor: pointer;
-  z-index: 5;
 }
 
 .arrow-left { left: 16px; }
@@ -720,12 +708,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     </p>
     <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
 
-    <!-- ===== TARIFAS ORIGINALES ===== -->
     <div class="examples-grid">
 
-      <!-- TARIFA 49 -->
       <div class="example-card">
-        <img src="/papa-card.jpg" alt="Papá">
+        <img src="/papa-card.jpg">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">49€</div>
@@ -739,10 +725,9 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
         </div>
       </div>
 
-      <!-- TARIFA 59 -->
       <div class="example-card destacada">
         <span class="badge-popular">La más elegida</span>
-        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
+        <img src="/eres-mi-amor-card.jpg">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">59€</div>
@@ -756,9 +741,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
         </div>
       </div>
 
-      <!-- TARIFA 79 -->
       <div class="example-card">
-        <img src="/amigas-card.jpg" alt="Amigas por siempre">
+        <img src="/amigas-card.jpg">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">79€</div>
@@ -778,7 +762,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       Dale al PLAY para escuchar los diferentes ejemplos de estilos disponibles creados por nosotros!
     </p>
 
-    <!-- ===== ESTILOS ===== -->
     <div class="styles-wrapper">
       <div class="carousel-arrow arrow-left" onclick="scrollStyles(-1)">‹</div>
       <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
@@ -802,14 +785,13 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 </section>
 
-<!-- ===== JS ORIGINAL DE TARIFAS (FUNCIONAL) ===== -->
 <script>
 (function () {
 
   function getTarifaFromHash() {
     const hash = window.location.hash;
     if (!hash.includes('tarifa=')) return null;
-    const match = hash.match(/tarifa=(\\d+)/);
+    const match = hash.match(/tarifa=(\d+)/);
     return match ? match[1] : null;
   }
 
@@ -855,15 +837,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     }
   });
 
-})();
-</script>
-
-<!-- ===== JS ESTILOS MUSICALES ===== -->
-<script>
-(function () {
-
   let currentAudio = null;
-
   document.querySelectorAll('.style-card').forEach(card => {
     card.addEventListener('click', () => {
       if (currentAudio) {
@@ -1689,6 +1663,7 @@ render();
   </div>
 
 </section>
+
 
 
 
