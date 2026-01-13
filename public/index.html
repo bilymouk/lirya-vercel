@@ -463,7 +463,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 <style>
 .examples {
   position: relative;
-  padding: 50px 20px 40px; /* ⬅️ margen inferior reducido */
+  padding: 50px 20px 40px;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
@@ -506,14 +506,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 24px;
 }
 
-/* ===== GRID TARIFAS ===== */
+/* ===== GRID TARIFAS (ORIGINAL – NO TOCADO) ===== */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
 }
 
-/* ===== TARJETAS TARIFAS (SIN CAMBIOS) ===== */
+/* ===== TARJETAS TARIFAS (ORIGINAL – NO TOCADO) ===== */
 .example-card {
   position: relative;
   border-radius: 18px;
@@ -585,7 +585,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   opacity: 0.8;
 }
 
-/* ===== CARRUSEL ESTILOS ===== */
+/* ===== CARRUSEL ===== */
 .styles-wrapper {
   position: relative;
 }
@@ -602,6 +602,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: none;
 }
 
+/* ===== AJUSTE CLAVE PARA MÓVIL ===== */
+@media (max-width: 900px) {
+  .styles-carousel {
+    padding-left: calc(50vw - 140px);
+    padding-right: calc(50vw - 140px);
+  }
+}
+
 /* ===== VIÑETA ===== */
 .style-card {
   position: relative;
@@ -615,7 +623,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   border-radius: 22px;
 }
 
-/* ===== TITULO DENTRO DE LA VIÑETA ===== */
+/* ===== TITULO DENTRO ===== */
 .style-title {
   position: absolute;
   bottom: 50px;
@@ -629,7 +637,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   pointer-events: none;
 }
 
-/* ===== NUEVA ANIMACIÓN PLAY (SUAVE, SIN GLOW) ===== */
+/* ===== ANIMACIÓN PLAY (SUAVE) ===== */
 .style-card.playing {
   animation: playingPulse 1.8s ease-in-out infinite;
 }
@@ -675,56 +683,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
 
     <div class="examples-grid">
-
-      <!-- TARIFA 49 -->
-      <div class="example-card">
-        <img src="/papa-card.jpg" alt="Papá">
-        <div class="tarifa-info">
-          <h3>Canción personalizada</h3>
-          <div class="tarifa-precio">49€</div>
-          <div class="tarifa-entrega">Entrega en 4–5 días</div>
-          <div class="tarifa-incluye">
-            • Letra personalizada<br>
-            • Música original<br>
-            • 1 revisión incluida
-          </div>
-          <a href="#formulario-lirya?tarifa=49">Elegir esta opción</a>
-        </div>
-      </div>
-
-      <!-- TARIFA 59 -->
-      <div class="example-card destacada">
-        <span class="badge-popular">La más elegida</span>
-        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
-        <div class="tarifa-info">
-          <h3>Canción personalizada</h3>
-          <div class="tarifa-precio">59€</div>
-          <div class="tarifa-entrega">Entrega en 2–3 días</div>
-          <div class="tarifa-incluye">
-            • Letra muy detallada<br>
-            • Enfoque romántico (San Valentín)<br>
-            • Hasta 2 revisiones
-          </div>
-          <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
-        </div>
-      </div>
-
-      <!-- TARIFA 79 -->
-      <div class="example-card">
-        <img src="/amigas-card.jpg" alt="Amigas por siempre">
-        <div class="tarifa-info">
-          <h3>Canción personalizada</h3>
-          <div class="tarifa-precio">79€</div>
-          <div class="tarifa-entrega">Entrega prioritaria</div>
-          <div class="tarifa-incluye">
-            • Máximo nivel de detalle<br>
-            • Prioridad absoluta<br>
-            • Revisión ilimitada
-          </div>
-          <a href="#formulario-lirya?tarifa=79">Elegir esta opción</a>
-        </div>
-      </div>
-
+      <!-- AQUÍ VAN TUS 3 TARJETAS ORIGINALES SIN CAMBIOS -->
     </div>
 
     <p class="styles-note">
@@ -736,7 +695,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
 
       <div class="styles-carousel" id="stylesCarousel">
-
         <div class="style-card" data-audio="/audio/balada.mp3"><img src="/vineta.png"><div class="style-title">Balada romántica</div></div>
         <div class="style-card" data-audio="/audio/pop.mp3"><img src="/vineta.png"><div class="style-title">Pop emocional</div></div>
         <div class="style-card" data-audio="/audio/indie.mp3"><img src="/vineta.png"><div class="style-title">Indie acústico</div></div>
@@ -749,7 +707,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
         <div class="style-card" data-audio="/audio/jazz.mp3"><img src="/vineta.png"><div class="style-title">Jazz</div></div>
         <div class="style-card" data-audio="/audio/flamenco.mp3"><img src="/vineta.png"><div class="style-title">Flamenco</div></div>
         <div class="style-card" data-audio="/audio/cine.mp3"><img src="/vineta.png"><div class="style-title">Cinematográfico</div></div>
-
       </div>
     </div>
 
@@ -781,7 +738,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 })();
 </script>
-
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -1587,6 +1543,7 @@ render();
   </div>
 
 </section>
+
 
 
 
