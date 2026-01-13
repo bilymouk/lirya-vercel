@@ -753,14 +753,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     ESTILOS MUSICALES – VIÑETAS FINALES
+     ESTILOS MUSICALES – FINAL
 ================================ -->
 
 <style>
 /* ===== FRANJA BLANCA ===== */
 .lirya-style-line {
   background: #fcfaf7;
-  padding: 18px 14px;
+  padding: 16px 12px;
   text-align: center;
 }
 
@@ -782,45 +782,56 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* ===== BLOQUE OSCURO ===== */
 .lirya-styles-dark {
   background: #080914;
-  padding: 42px 20px 52px;
+  padding: 36px 16px 46px;
 }
 
 /* CARRUSEL */
 .styles-carousel {
   display: flex;
-  gap: 28px;
+  gap: 22px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
 
 /* VIÑETA */
 .style-tile {
-  min-width: 260px;
+  min-width: 220px; /* más pequeña */
   scroll-snap-align: center;
   cursor: pointer;
   text-align: center;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 0.35s ease;
+}
+
+/* ESTADO ACTIVO (mobile + audio sonando) */
+.style-tile.is-active {
+  transform: scale(1.03);
+}
+
+.style-tile.is-active .style-image {
+  box-shadow:
+    0 0 0 1px rgba(212,180,131,0.6),
+    0 20px 48px rgba(255,170,90,0.5);
 }
 
 /* HOVER SOLO DESKTOP */
 @media (hover: hover) {
   .style-tile:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
 
   .style-tile:hover .style-image {
-    box-shadow: 
-      0 0 0 1px rgba(212,180,131,0.55),
-      0 18px 46px rgba(255,170,90,0.45);
+    box-shadow:
+      0 0 0 1px rgba(212,180,131,0.6),
+      0 20px 48px rgba(255,170,90,0.45);
   }
 }
 
 /* IMAGEN */
 .style-image {
   width: 100%;
-  border-radius: 22px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 16px 38px rgba(255,170,90,0.25);
+  box-shadow: 0 14px 32px rgba(255,170,90,0.25);
   border: 1px solid rgba(212,180,131,0.4);
   transition: box-shadow 0.35s ease;
 }
@@ -832,9 +843,9 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* TEXTO ESTILO */
 .style-label {
-  margin-top: 14px;
+  margin-top: 12px;
   font-family: "Playfair Display", serif;
-  font-size: 16px;
+  font-size: 15px;
   color: #f2e7c9;
 }
 
@@ -854,97 +865,73 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   <div class="styles-carousel">
 
     <div class="style-tile" data-audio="audio/balada-romantica.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Balada romántica">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Balada romántica"></div>
       <div class="style-label">Balada romántica</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/pop-emocional.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Pop emocional">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Pop emocional"></div>
       <div class="style-label">Pop emocional</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/indie-acustico.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Indie acústico">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Indie acústico"></div>
       <div class="style-label">Indie acústico</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/rnb-soul.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="R&B / Soul">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="R&B / Soul"></div>
       <div class="style-label">R&amp;B / Soul</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/rock-suave.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Rock suave">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Rock suave"></div>
       <div class="style-label">Rock suave</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/electronica-chill.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Electrónica chill">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Electrónica chill"></div>
       <div class="style-label">Electrónica chill</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/reggaeton-lento.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Reggaetón lento">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Reggaetón lento"></div>
       <div class="style-label">Reggaetón lento</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/hip-hop.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Hip Hop">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Hip Hop"></div>
       <div class="style-label">Hip Hop</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/reggae-chill.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Reggae chill">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Reggae chill"></div>
       <div class="style-label">Reggae chill</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/jazz.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Jazz">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Jazz"></div>
       <div class="style-label">Jazz</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/flamenco.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Flamenco">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Flamenco"></div>
       <div class="style-label">Flamenco</div>
       <audio></audio>
     </div>
 
     <div class="style-tile" data-audio="audio/cinematografico.mp3">
-      <div class="style-image">
-        <img src="/viñeta.png" alt="Cinematográfico">
-      </div>
+      <div class="style-image"><img src="/vineta.png" alt="Cinematográfico"></div>
       <div class="style-label">Cinematográfico</div>
       <audio></audio>
     </div>
@@ -955,6 +942,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 <script>
 (() => {
   let currentAudio = null;
+  let currentTile = null;
 
   document.querySelectorAll('.style-tile').forEach(tile => {
     const audio = tile.querySelector('audio');
@@ -964,14 +952,22 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       if (currentAudio && currentAudio !== audio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
+        currentTile.classList.remove('is-active');
       }
 
       if (audio.paused) {
         audio.play();
+        tile.classList.add('is-active');
         currentAudio = audio;
+        currentTile = tile;
       } else {
         audio.pause();
+        tile.classList.remove('is-active');
       }
+    });
+
+    audio.addEventListener('ended', () => {
+      tile.classList.remove('is-active');
     });
   });
 })();
@@ -1781,6 +1777,7 @@ render();
   </div>
 
 </section>
+
 
 
 
