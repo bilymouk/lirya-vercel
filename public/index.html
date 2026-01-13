@@ -753,7 +753,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     CARRUSEL ESTILOS MUSICALES – AJUSTADO
+     CARRUSEL ESTILOS MUSICALES – FINAL
 ================================ -->
 
 <style>
@@ -772,7 +772,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* CARRUSEL */
 .styles-carousel {
   display: flex;
-  gap: 30px;
+  gap: 34px;
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 0 64px;
@@ -785,7 +785,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* FLECHAS DESKTOP */
 .carousel-arrow {
   position: absolute;
-  top: 44%;
+  top: 45%;
   transform: translateY(-50%);
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(212,180,131,0.35);
@@ -812,7 +812,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* VIÑETA */
 .style-tile {
-  min-width: 220px; /* más grande */
+  min-width: 235px;
   cursor: pointer;
 }
 
@@ -828,36 +828,39 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* TEXTO DENTRO (MÁS ARRIBA Y PEQUEÑO) */
+/* TEXTO DENTRO — UNA SOLA LÍNEA */
 .style-title {
   position: absolute;
-  bottom: 28px;
+  bottom: 26px;
   left: 50%;
   transform: translateX(-50%);
   font-family: "Playfair Display", serif;
   font-size: 13px;
   color: #f2e7c9;
   letter-spacing: 0.4px;
+  white-space: nowrap;          /* 🔒 una sola línea */
+  max-width: 90%;
+  text-align: center;
   pointer-events: none;
 }
 
-/* HOVER DESKTOP (muy sutil) */
+/* HOVER DESKTOP */
 @media (hover: hover) {
   .style-tile:hover .style-image {
-    transform: scale(1.025);
+    transform: scale(1.04);
   }
 }
 
-/* === ESTADO REPRODUCIENDO === */
+/* ===== ESTADO REPRODUCIENDO (MÁS MARCADO) ===== */
 .style-tile.is-playing .style-image {
-  animation: playingPulse 2.4s ease-in-out infinite;
+  animation: playingPulse 2s ease-in-out infinite;
 }
 
-/* ANIMACIÓN SUAVE */
+/* ANIMACIÓN MÁS NOTABLE */
 @keyframes playingPulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.045); }
-  100% { transform: scale(1); }
+  0%   { transform: scale(1) translateY(0); }
+  50%  { transform: scale(1.075) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); }
 }
 
 /* AUDIO OCULTO */
@@ -1009,9 +1012,9 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
   const carousel = document.querySelector('.styles-carousel');
   document.querySelector('.carousel-arrow.left').onclick = () =>
-    carousel.scrollBy({ left: -260, behavior: 'smooth' });
+    carousel.scrollBy({ left: -280, behavior: 'smooth' });
   document.querySelector('.carousel-arrow.right').onclick = () =>
-    carousel.scrollBy({ left: 260, behavior: 'smooth' });
+    carousel.scrollBy({ left: 280, behavior: 'smooth' });
 })();
 </script>
 
@@ -1819,6 +1822,7 @@ render();
   </div>
 
 </section>
+
 
 
 
