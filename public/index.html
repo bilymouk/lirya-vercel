@@ -459,11 +459,11 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS ===== -->
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES ===== -->
 <style>
 .examples {
   position: relative;
-  padding: 50px 20px 90px;
+  padding: 50px 20px 70px;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
@@ -483,7 +483,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* ===== TITULOS ===== */
+/* ===== TITULOS ORIGINALES ===== */
 .examples h2 {
   font-family: "Playfair Display", serif;
   font-size: 38px;
@@ -503,16 +503,18 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 13px;
   font-style: italic;
   opacity: 0.8;
+  margin-bottom: 24px;
 }
 
-/* ===== GRID TARIFAS ===== */
+/* ===== GRID TARIFAS (ORIGINAL) ===== */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
+  align-items: stretch;
 }
 
-/* ===== TARJETAS TARIFAS (ORIGINAL SIN CAMBIOS) ===== */
+/* ===== TARJETAS TARIFAS (SIN CAMBIOS) ===== */
 .example-card {
   position: relative;
   border-radius: 18px;
@@ -554,12 +556,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 .tarifa-info {
   padding: 26px 22px 30px;
+  text-align: center;
 }
 
 .tarifa-info h3 {
   font-family: "Playfair Display", serif;
   font-size: 20px;
   color: #f2e7c9;
+  margin-bottom: 14px;
 }
 
 .tarifa-precio {
@@ -567,6 +571,21 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 36px;
   font-weight: 600;
   color: #d4b483;
+  letter-spacing: 0.6px;
+  margin-bottom: 6px;
+}
+
+.tarifa-entrega {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 16px;
+}
+
+.tarifa-incluye {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-bottom: 24px;
 }
 
 .tarifa-info a {
@@ -579,14 +598,20 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 14.5px;
   font-weight: 600;
   text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 
-/* ===== TEXTO ENTRE TARIFAS Y VIÑETAS ===== */
+.tarifa-info a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,159,63,0.45);
+}
+
+/* ===== TEXTO INTERMEDIO ===== */
 .styles-note {
-  margin: 28px 0 18px;
+  margin: 26px 0 16px;
   font-size: 13px;
   font-style: italic;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 /* ===== CARRUSEL ESTILOS ===== */
@@ -596,10 +621,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 .styles-carousel {
   display: flex;
-  gap: 46px;
+  gap: 42px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 10px 120px 30px;
+  padding: 10px 110px 30px;
 }
 
 .styles-carousel::-webkit-scrollbar {
@@ -609,9 +634,9 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* ===== VIÑETA ===== */
 .style-card {
   position: relative;
-  min-width: 300px;
+  min-width: 280px;
   cursor: pointer;
-  transition: transform .4s ease;
+  transition: transform .35s ease, box-shadow .35s ease;
 }
 
 .style-card img {
@@ -619,10 +644,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   border-radius: 22px;
 }
 
-/* ===== TITULO DENTRO DE LA IMAGEN ===== */
+/* ===== TITULO DENTRO ===== */
 .style-title {
   position: absolute;
-  bottom: 44px;
+  bottom: 50px;
   left: 0;
   right: 0;
   text-align: center;
@@ -633,16 +658,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   pointer-events: none;
 }
 
-/* ===== ANIMACION PLAY ===== */
+/* ===== PLAY ACTIVO (SUTIL) ===== */
 .style-card.playing {
-  transform: scale(1.28);
-  animation: playingPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes playingPulse {
-  0% { transform: scale(1.26); }
-  50% { transform: scale(1.32); }
-  100% { transform: scale(1.26); }
+  transform: scale(1.08);
+  box-shadow: 0 0 35px rgba(255, 170, 80, 0.35);
 }
 
 /* ===== FLECHAS DESKTOP ===== */
@@ -650,19 +669,19 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 46px;
-  height: 46px;
-  background: rgba(0,0,0,0.6);
+  width: 44px;
+  height: 44px;
+  background: rgba(0,0,0,0.55);
   border-radius: 50%;
   color: #fff;
   font-size: 26px;
-  line-height: 46px;
+  line-height: 44px;
   cursor: pointer;
   z-index: 5;
 }
 
-.arrow-left { left: 18px; }
-.arrow-right { right: 18px; }
+.arrow-left { left: 16px; }
+.arrow-right { right: 16px; }
 
 @media (max-width: 900px) {
   .examples-grid { grid-template-columns: 1fr; }
@@ -677,11 +696,13 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     <p class="examples-subtitle">
       Así suenan las canciones personalizadas. Historias reales, emociones reales.
     </p>
+    <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
 
     <div class="examples-grid">
 
+      <!-- TARIFA 49 -->
       <div class="example-card">
-        <img src="/papa-card.jpg">
+        <img src="/papa-card.jpg" alt="Papá">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">49€</div>
@@ -695,24 +716,26 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
         </div>
       </div>
 
+      <!-- TARIFA 59 -->
       <div class="example-card destacada">
         <span class="badge-popular">La más elegida</span>
-        <img src="/eres-mi-amor-card.jpg">
+        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">59€</div>
           <div class="tarifa-entrega">Entrega en 2–3 días</div>
           <div class="tarifa-incluye">
             • Letra muy detallada<br>
-            • Enfoque romántico<br>
+            • Enfoque romántico (San Valentín)<br>
             • Hasta 2 revisiones
           </div>
           <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
         </div>
       </div>
 
+      <!-- TARIFA 79 -->
       <div class="example-card">
-        <img src="/amigas-card.jpg">
+        <img src="/amigas-card.jpg" alt="Amigas por siempre">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">79€</div>
@@ -738,30 +761,18 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
       <div class="styles-carousel" id="stylesCarousel">
 
-        <div class="style-card" data-audio="/audio/balada.mp3">
-          <img src="/vineta.png">
-          <div class="style-title">Balada romántica</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/pop.mp3">
-          <img src="/vineta.png">
-          <div class="style-title">Pop emocional</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/rock.mp3">
-          <img src="/vineta.png">
-          <div class="style-title">Rock suave</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/flamenco.mp3">
-          <img src="/vineta.png">
-          <div class="style-title">Flamenco</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/cine.mp3">
-          <img src="/vineta.png">
-          <div class="style-title">Cinematográfico</div>
-        </div>
+        <div class="style-card" data-audio="/audio/balada.mp3"><img src="/vineta.png"><div class="style-title">Balada romántica</div></div>
+        <div class="style-card" data-audio="/audio/pop.mp3"><img src="/vineta.png"><div class="style-title">Pop emocional</div></div>
+        <div class="style-card" data-audio="/audio/indie.mp3"><img src="/vineta.png"><div class="style-title">Indie acústico</div></div>
+        <div class="style-card" data-audio="/audio/rnb.mp3"><img src="/vineta.png"><div class="style-title">R&B / Soul</div></div>
+        <div class="style-card" data-audio="/audio/rock.mp3"><img src="/vineta.png"><div class="style-title">Rock suave</div></div>
+        <div class="style-card" data-audio="/audio/electro.mp3"><img src="/vineta.png"><div class="style-title">Electrónica chill</div></div>
+        <div class="style-card" data-audio="/audio/reggaeton.mp3"><img src="/vineta.png"><div class="style-title">Reggaetón lento</div></div>
+        <div class="style-card" data-audio="/audio/hiphop.mp3"><img src="/vineta.png"><div class="style-title">Hip Hop</div></div>
+        <div class="style-card" data-audio="/audio/reggae.mp3"><img src="/vineta.png"><div class="style-title">Reggae chill</div></div>
+        <div class="style-card" data-audio="/audio/jazz.mp3"><img src="/vineta.png"><div class="style-title">Jazz</div></div>
+        <div class="style-card" data-audio="/audio/flamenco.mp3"><img src="/vineta.png"><div class="style-title">Flamenco</div></div>
+        <div class="style-card" data-audio="/audio/cine.mp3"><img src="/vineta.png"><div class="style-title">Cinematográfico</div></div>
 
       </div>
     </div>
@@ -770,27 +781,79 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </section>
 
 <script>
-let currentAudio = null;
+(function () {
 
-document.querySelectorAll('.style-card').forEach(card => {
-  card.addEventListener('click', () => {
-    if (currentAudio) {
-      currentAudio.pause();
-      document.querySelectorAll('.style-card').forEach(c => c.classList.remove('playing'));
-    }
-    currentAudio = new Audio(card.dataset.audio);
-    card.classList.add('playing');
-    currentAudio.play();
-    currentAudio.onended = () => card.classList.remove('playing');
+  function getTarifaFromHash() {
+    const hash = window.location.hash;
+    if (!hash.includes('tarifa=')) return null;
+    const match = hash.match(/tarifa=(\d+)/);
+    return match ? match[1] : null;
+  }
+
+  function scrollToFormulario() {
+    const form = document.getElementById('formulario-lirya');
+    if (!form) return;
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function preselectTarifa(tarifa) {
+    const tarifaBtn = document.getElementById('tarifa-btn');
+    if (!tarifaBtn) return;
+
+    const opciones = document.querySelectorAll(
+      '#formulario-lirya .dropdown-item[data-tarifa]'
+    );
+
+    opciones.forEach(op => {
+      if (op.dataset.tarifa === tarifa) {
+        tarifaBtn.textContent = op.textContent;
+        tarifaBtn.style.color = '#333';
+      }
+    });
+  }
+
+  document.querySelectorAll('.tarifa-info a').forEach(link => {
+    link.addEventListener('click', function () {
+      setTimeout(() => {
+        const tarifa = getTarifaFromHash();
+        if (tarifa) {
+          scrollToFormulario();
+          setTimeout(() => preselectTarifa(tarifa), 600);
+        }
+      }, 50);
+    });
   });
-});
 
-function scrollStyles(dir) {
-  document.getElementById('stylesCarousel')
-    .scrollBy({ left: dir * 360, behavior: 'smooth' });
-}
+  window.addEventListener('load', () => {
+    const tarifa = getTarifaFromHash();
+    if (tarifa) {
+      scrollToFormulario();
+      setTimeout(() => preselectTarifa(tarifa), 600);
+    }
+  });
+
+  let currentAudio = null;
+
+  document.querySelectorAll('.style-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (currentAudio) {
+        currentAudio.pause();
+        document.querySelectorAll('.style-card').forEach(c => c.classList.remove('playing'));
+      }
+      currentAudio = new Audio(card.dataset.audio);
+      card.classList.add('playing');
+      currentAudio.play();
+      currentAudio.onended = () => card.classList.remove('playing');
+    });
+  });
+
+  window.scrollStyles = function (dir) {
+    document.getElementById('stylesCarousel')
+      .scrollBy({ left: dir * 340, behavior: 'smooth' });
+  };
+
+})();
 </script>
-
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -1596,6 +1659,7 @@ render();
   </div>
 
 </section>
+
 
 
 
