@@ -463,7 +463,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 <style>
 .examples {
   position: relative;
-  padding: 50px 20px 70px;
+  padding: 50px 20px 40px; /* ⬅️ margen inferior reducido */
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
@@ -483,7 +483,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* ===== TITULOS ORIGINALES ===== */
+/* ===== TITULOS ===== */
 .examples h2 {
   font-family: "Playfair Display", serif;
   font-size: 38px;
@@ -506,12 +506,11 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 24px;
 }
 
-/* ===== GRID TARIFAS (ORIGINAL) ===== */
+/* ===== GRID TARIFAS ===== */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
-  align-items: stretch;
 }
 
 /* ===== TARJETAS TARIFAS (SIN CAMBIOS) ===== */
@@ -556,36 +555,17 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 .tarifa-info {
   padding: 26px 22px 30px;
-  text-align: center;
 }
 
 .tarifa-info h3 {
   font-family: "Playfair Display", serif;
   font-size: 20px;
   color: #f2e7c9;
-  margin-bottom: 14px;
 }
 
 .tarifa-precio {
-  font-family: "Playfair Display", serif;
   font-size: 36px;
-  font-weight: 600;
   color: #d4b483;
-  letter-spacing: 0.6px;
-  margin-bottom: 6px;
-}
-
-.tarifa-entrega {
-  font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 16px;
-}
-
-.tarifa-incluye {
-  font-size: 14px;
-  line-height: 1.6;
-  opacity: 0.85;
-  margin-bottom: 24px;
 }
 
 .tarifa-info a {
@@ -593,17 +573,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
   padding: 13px 28px;
   border-radius: 30px;
-  color: #ffffff;
-  font-family: "Playfair Display", serif;
-  font-size: 14.5px;
-  font-weight: 600;
+  color: #fff;
   text-decoration: none;
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-
-.tarifa-info a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255,159,63,0.45);
 }
 
 /* ===== TEXTO INTERMEDIO ===== */
@@ -624,7 +595,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   gap: 42px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 10px 110px 30px;
+  padding: 10px 110px 20px;
 }
 
 .styles-carousel::-webkit-scrollbar {
@@ -636,7 +607,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   position: relative;
   min-width: 280px;
   cursor: pointer;
-  transition: transform .35s ease, box-shadow .35s ease;
+  transition: transform .35s ease;
 }
 
 .style-card img {
@@ -644,7 +615,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   border-radius: 22px;
 }
 
-/* ===== TITULO DENTRO ===== */
+/* ===== TITULO DENTRO DE LA VIÑETA ===== */
 .style-title {
   position: absolute;
   bottom: 50px;
@@ -658,10 +629,15 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   pointer-events: none;
 }
 
-/* ===== PLAY ACTIVO (SUTIL) ===== */
+/* ===== NUEVA ANIMACIÓN PLAY (SUAVE, SIN GLOW) ===== */
 .style-card.playing {
-  transform: scale(1.08);
-  box-shadow: 0 0 35px rgba(255, 170, 80, 0.35);
+  animation: playingPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes playingPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
 }
 
 /* ===== FLECHAS DESKTOP ===== */
@@ -783,55 +759,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 <script>
 (function () {
 
-  function getTarifaFromHash() {
-    const hash = window.location.hash;
-    if (!hash.includes('tarifa=')) return null;
-    const match = hash.match(/tarifa=(\d+)/);
-    return match ? match[1] : null;
-  }
-
-  function scrollToFormulario() {
-    const form = document.getElementById('formulario-lirya');
-    if (!form) return;
-    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function preselectTarifa(tarifa) {
-    const tarifaBtn = document.getElementById('tarifa-btn');
-    if (!tarifaBtn) return;
-
-    const opciones = document.querySelectorAll(
-      '#formulario-lirya .dropdown-item[data-tarifa]'
-    );
-
-    opciones.forEach(op => {
-      if (op.dataset.tarifa === tarifa) {
-        tarifaBtn.textContent = op.textContent;
-        tarifaBtn.style.color = '#333';
-      }
-    });
-  }
-
-  document.querySelectorAll('.tarifa-info a').forEach(link => {
-    link.addEventListener('click', function () {
-      setTimeout(() => {
-        const tarifa = getTarifaFromHash();
-        if (tarifa) {
-          scrollToFormulario();
-          setTimeout(() => preselectTarifa(tarifa), 600);
-        }
-      }, 50);
-    });
-  });
-
-  window.addEventListener('load', () => {
-    const tarifa = getTarifaFromHash();
-    if (tarifa) {
-      scrollToFormulario();
-      setTimeout(() => preselectTarifa(tarifa), 600);
-    }
-  });
-
   let currentAudio = null;
 
   document.querySelectorAll('.style-card').forEach(card => {
@@ -854,6 +781,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 })();
 </script>
+
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -1659,6 +1587,7 @@ render();
   </div>
 
 </section>
+
 
 
 
