@@ -1465,6 +1465,223 @@ render();
 
 </section>
 
+<!-- ===============================
+     REACCIONES REALES · EMOCIONES REALES
+================================ -->
+
+<section class="lirya-reactions">
+
+  <h2 class="lirya-reactions-title">
+    Reacciones reales. Emociones reales.
+  </h2>
+
+  <p class="lirya-reactions-subtitle">
+    Personas reales escuchando por primera vez una canción creada con su historia.
+  </p>
+
+  <div class="lirya-reactions-carousel">
+
+    <!-- CARD 1 -->
+    <div class="reaction-card">
+      <div class="reaction-video">
+        <video src="/videos/reaccion1.mp4" poster="/videos/reaccion1.jpg" preload="metadata"></video>
+        <div class="play-btn">▶</div>
+      </div>
+      <div class="reaction-content">
+        <div class="stars">★★★★★</div>
+        <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
+        <div class="reaction-name">✔️ Yolanda J.</div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="reaction-card">
+      <div class="reaction-video">
+        <video src="/videos/reaccion2.mp4" poster="/videos/reaccion2.jpg" preload="metadata"></video>
+        <div class="play-btn">▶</div>
+      </div>
+      <div class="reaction-content">
+        <div class="stars">★★★★★</div>
+        <p class="reaction-text">“Lloramos los dos al escucharla por primera vez.”</p>
+        <div class="reaction-name">✔️ Carlos M.</div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="reaction-card">
+      <div class="reaction-video">
+        <video src="/videos/reaccion3.mp4" poster="/videos/reaccion3.jpg" preload="metadata"></video>
+        <div class="play-btn">▶</div>
+      </div>
+      <div class="reaction-content">
+        <div class="stars">★★★★★</div>
+        <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
+        <div class="reaction-name">✔️ Andrea R.</div>
+      </div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="reaction-card">
+      <div class="reaction-video">
+        <video src="/videos/reaccion4.mp4" poster="/videos/reaccion4.jpg" preload="metadata"></video>
+        <div class="play-btn">▶</div>
+      </div>
+      <div class="reaction-content">
+        <div class="stars">★★★★★</div>
+        <p class="reaction-text">“Consiguió decir justo lo que yo sentía.”</p>
+        <div class="reaction-name">✔️ Laura G.</div>
+      </div>
+    </div>
+
+    <!-- CARD 5 -->
+    <div class="reaction-card">
+      <div class="reaction-video">
+        <video src="/videos/reaccion5.mp4" poster="/videos/reaccion5.jpg" preload="metadata"></video>
+        <div class="play-btn">▶</div>
+      </div>
+      <div class="reaction-content">
+        <div class="stars">★★★★★</div>
+        <p class="reaction-text">“No me lo esperaba… fue muy emocionante.”</p>
+        <div class="reaction-name">✔️ Marcos P.</div>
+      </div>
+    </div>
+
+    <!-- Duplica hasta 10 si quieres -->
+
+  </div>
+</section>
+
+<style>
+/* ===== SECCIÓN ===== */
+.lirya-reactions {
+  background: #fcfaf7;
+  padding: 90px 20px;
+  text-align: center;
+}
+
+/* TÍTULO */
+.lirya-reactions-title {
+  font-family: "Playfair Display", serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: #c7b58a;
+  margin-bottom: 14px;
+}
+
+/* SUBTÍTULO */
+.lirya-reactions-subtitle {
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  color: rgba(26, 26, 26, 0.7);
+  max-width: 720px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+}
+
+/* CARRUSEL */
+.lirya-reactions-carousel {
+  display: flex;
+  gap: 28px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 10px 20px 20px;
+}
+
+.lirya-reactions-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* CARD */
+.reaction-card {
+  min-width: 280px;
+  max-width: 300px;
+  background: #ffffff;
+  border-radius: 26px;
+  overflow: hidden;
+  scroll-snap-align: center;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+}
+
+/* VIDEO */
+.reaction-video {
+  position: relative;
+}
+
+.reaction-video video {
+  width: 100%;
+  display: block;
+}
+
+/* PLAY */
+.play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+/* CONTENIDO */
+.reaction-content {
+  padding: 20px 18px 26px;
+}
+
+.stars {
+  color: #f2c98a;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.reaction-text {
+  font-family: "Playfair Display", serif;
+  font-size: 15px;
+  color: rgba(26, 26, 26, 0.8);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.reaction-name {
+  font-size: 14px;
+  color: rgba(26, 26, 26, 0.6);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .lirya-reactions {
+    padding: 70px 16px;
+  }
+
+  .lirya-reactions-title {
+    font-size: 30px;
+  }
+}
+</style>
+
+<script>
+document.querySelectorAll('.reaction-video').forEach(box => {
+  const video = box.querySelector('video');
+  const play = box.querySelector('.play-btn');
+
+  play.addEventListener('click', () => {
+    play.style.display = 'none';
+    video.play();
+  });
+
+  video.addEventListener('pause', () => {
+    play.style.display = 'flex';
+  });
+
+  video.addEventListener('ended', () => {
+    play.style.display = 'flex';
+  });
+});
+</script>
+
+
 <!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
 <style>
 /* ===== GARANTÍA DE SATISFACCIÓN ===== */
@@ -1664,6 +1881,7 @@ render();
   </div>
 
 </section>
+
 
 
 
