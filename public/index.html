@@ -753,7 +753,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     ESTILOS MUSICALES (FINAL DEFINITIVO)
+     ESTILOS MUSICALES (AJUSTE FINAL)
 ================================ -->
 
 <style>
@@ -769,27 +769,28 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   color: #1a1a1a;
   margin: 0;
   line-height: 1.25;
-  white-space: nowrap; /* una sola línea en móvil */
-  font-size: 13px; /* mobile */
+  white-space: nowrap;
+  font-size: 13px; /* base desktop NO se toca */
+  text-align: center;
 }
 
-/* Desktop: texto más grande */
-@media (min-width: 901px) {
+/* Ajuste SOLO móvil */
+@media (max-width: 900px) {
   .lirya-style-line p {
-    font-size: 17px;
+    font-size: 12.2px; /* un poco más pequeña */
   }
 }
 
 /* ===== BLOQUE OSCURO ===== */
 .lirya-styles-dark {
   background: #080914;
-  padding: 28px 16px 34px;
+  padding: 40px 16px 46px; /* MÁS margen arriba y abajo */
 }
 
 /* CARRUSEL */
 .styles-carousel {
   display: flex;
-  gap: 22px; /* más separación entre viñetas */
+  gap: 22px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
@@ -800,7 +801,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   background: rgba(255,255,255,0.045);
   border: 1px solid rgba(199,181,138,0.32);
   border-radius: 18px;
-  padding: 26px 22px 28px; /* más aire interno */
+  padding: 26px 22px 28px;
   text-align: center;
   scroll-snap-align: center;
 }
@@ -1793,6 +1794,7 @@ render();
   </div>
 
 </section>
+
 
 
 
