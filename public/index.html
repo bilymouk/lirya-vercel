@@ -753,7 +753,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     CARRUSEL ESTILOS MUSICALES – FINAL
+     CARRUSEL ESTILOS MUSICALES – DEFINITIVO
 ================================ -->
 
 <style>
@@ -828,17 +828,17 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* TEXTO DENTRO — UNA SOLA LÍNEA */
+/* TEXTO DENTRO — POSICIÓN AJUSTADA */
 .style-title {
   position: absolute;
-  bottom: 26px;
+  bottom: 42px; /* 🔧 MÁS ARRIBA Y CENTRADO VISUAL */
   left: 50%;
   transform: translateX(-50%);
   font-family: "Playfair Display", serif;
   font-size: 13px;
   color: #f2e7c9;
   letter-spacing: 0.4px;
-  white-space: nowrap;          /* 🔒 una sola línea */
+  white-space: nowrap;
   max-width: 90%;
   text-align: center;
   pointer-events: none;
@@ -851,12 +851,12 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   }
 }
 
-/* ===== ESTADO REPRODUCIENDO (MÁS MARCADO) ===== */
+/* === ESTADO REPRODUCIENDO === */
 .style-tile.is-playing .style-image {
   animation: playingPulse 2s ease-in-out infinite;
 }
 
-/* ANIMACIÓN MÁS NOTABLE */
+/* ANIMACIÓN CLARA PERO ELEGANTE */
 @keyframes playingPulse {
   0%   { transform: scale(1) translateY(0); }
   50%  { transform: scale(1.075) translateY(-4px); }
@@ -1822,6 +1822,7 @@ render();
   </div>
 
 </section>
+
 
 
 
