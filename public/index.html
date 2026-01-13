@@ -506,7 +506,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 24px;
 }
 
-/* ===== GRID TARIFAS (ORIGINAL SIN TOCAR) ===== */
+/* ===== GRID TARIFAS (ORIGINAL SIN CAMBIOS) ===== */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -617,7 +617,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* ===== ESTILOS MUSICALES ===== */
 .styles-wrapper {
-  margin-top: 60px;
+  margin-top: 40px;
   position: relative;
 }
 
@@ -689,7 +689,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     </p>
     <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
 
-    <!-- ===== TARIFAS (HTML ORIGINAL SIN CAMBIOS) ===== -->
+    <!-- ===== TARIFAS (HTML ORIGINAL) ===== -->
     <div class="examples-grid">
 
       <div class="example-card">
@@ -739,6 +739,11 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       </div>
 
     </div>
+
+    <!-- ===== TEXTO NUEVO (MISMO ESTILO) ===== -->
+    <p class="examples-note">
+      Dale al PLAY para escuchar los diferentes ejemplos de estilos disponibles creados por nosotros!
+    </p>
 
     <!-- ===== ESTILOS MUSICALES ===== -->
     <div class="styles-wrapper">
@@ -813,6 +818,63 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 </section>
 
+<!-- ===== JS ORIGINAL DE TARIFAS (SIN CAMBIOS) ===== -->
+<script>
+(function () {
+
+  function getTarifaFromHash() {
+    const hash = window.location.hash;
+    if (!hash.includes('tarifa=')) return null;
+    const match = hash.match(/tarifa=(\d+)/);
+    return match ? match[1] : null;
+  }
+
+  function scrollToFormulario() {
+    const form = document.getElementById('formulario-lirya');
+    if (!form) return;
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function preselectTarifa(tarifa) {
+    const tarifaBtn = document.getElementById('tarifa-btn');
+    if (!tarifaBtn) return;
+
+    const opciones = document.querySelectorAll(
+      '#formulario-lirya .dropdown-item[data-tarifa]'
+    );
+
+    opciones.forEach(op => {
+      if (op.dataset.tarifa === tarifa) {
+        tarifaBtn.textContent = op.textContent;
+        tarifaBtn.style.color = '#333';
+      }
+    });
+  }
+
+  document.querySelectorAll('.tarifa-info a').forEach(link => {
+    link.addEventListener('click', function () {
+      setTimeout(() => {
+        const tarifa = getTarifaFromHash();
+        if (tarifa) {
+          scrollToFormulario();
+          setTimeout(() => preselectTarifa(tarifa), 600);
+        }
+      }, 50);
+    });
+  });
+
+  window.addEventListener('load', () => {
+    const tarifa = getTarifaFromHash();
+    if (tarifa) {
+      scrollToFormulario();
+      setTimeout(() => preselectTarifa(tarifa), 600);
+    }
+  });
+
+})();
+</script>
+
+<!-- ===== JS ESTILOS MUSICALES ===== -->
 <script>
 const styleCards = document.querySelectorAll('.style-card');
 let currentAudio = null;
@@ -1645,6 +1707,7 @@ render();
   </div>
 
 </section>
+
 
 
 
