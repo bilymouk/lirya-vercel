@@ -483,7 +483,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* ===== TÍTULOS (ORIGINAL) ===== */
+/* ===== TITULOS ===== */
 .examples h2 {
   font-family: "Playfair Display", serif;
   font-size: 38px;
@@ -506,7 +506,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 24px;
 }
 
-/* ===== GRID TARIFAS (ORIGINAL SIN CAMBIOS) ===== */
+/* ===== GRID TARIFAS (ORIGINAL) ===== */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -535,7 +535,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* DESTACADA (ORIGINAL) */
+/* TARJETA DESTACADA */
 .example-card.destacada {
   border: 1.5px solid #ff9f3f;
   transform: scale(0.90);
@@ -546,7 +546,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   transform: scale(0.96);
 }
 
-/* BADGE (ORIGINAL) */
+/* BADGE */
 .badge-popular {
   position: absolute;
   top: 16px;
@@ -560,7 +560,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   letter-spacing: .4px;
 }
 
-/* INFO TARIFA (ORIGINAL) */
+/* INFO TARIFA */
 .tarifa-info {
   padding: 26px 22px 30px;
   text-align: center;
@@ -595,7 +595,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 24px;
 }
 
-/* BOTÓN (ORIGINAL) */
+/* BOTÓN TARIFA */
 .tarifa-info a {
   display: inline-block;
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
@@ -615,18 +615,22 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   box-shadow: 0 8px 20px rgba(255,159,63,0.45);
 }
 
+/* ===== TEXTO ENTRE TARIFAS Y VIÑETAS ===== */
+.examples-note.estilos-note {
+  margin: 40px 0 34px;
+}
+
 /* ===== ESTILOS MUSICALES ===== */
 .styles-wrapper {
-  margin-top: 40px;
   position: relative;
 }
 
 .styles-carousel {
   display: flex;
-  gap: 42px;
+  gap: 46px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 20px 90px;
+  padding: 20px 90px 40px;
 }
 
 .styles-carousel::-webkit-scrollbar {
@@ -634,29 +638,44 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 }
 
 .style-card {
-  min-width: 240px;
+  position: relative;
+  min-width: 280px;
   cursor: pointer;
-  transition: transform 0.35s ease;
-}
-
-.style-card.playing {
-  transform: scale(1.2);
+  transition: transform 0.4s ease;
 }
 
 .style-card img {
   width: 100%;
-  border-radius: 20px;
+  border-radius: 22px;
 }
 
-.style-name {
-  margin-top: 8px;
+/* TEXTO DENTRO DE LA VIÑETA */
+.style-title {
+  position: absolute;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-family: "Playfair Display", serif;
-  font-size: 15px;
+  font-size: 14px;
   color: #f2e7c9;
   white-space: nowrap;
+  pointer-events: none;
 }
 
-/* FLECHAS DESKTOP */
+/* ESTADO PLAYING */
+.style-card.playing {
+  transform: scale(1.22);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1.22); }
+  50%  { transform: scale(1.28); }
+  100% { transform: scale(1.22); }
+}
+
+/* FLECHAS */
 .carousel-arrow {
   position: absolute;
   top: 45%;
@@ -668,11 +687,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 24px;
   line-height: 44px;
   cursor: pointer;
-  user-select: none;
 }
 
-.arrow-left { left: 12px; }
-.arrow-right { right: 12px; }
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
 
 @media (max-width: 900px) {
   .examples-grid { grid-template-columns: 1fr; }
@@ -689,7 +707,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     </p>
     <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
 
-    <!-- ===== TARIFAS (HTML ORIGINAL) ===== -->
+    <!-- ===== TARIFAS ===== -->
     <div class="examples-grid">
 
       <div class="example-card">
@@ -740,85 +758,35 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
     </div>
 
-    <!-- ===== TEXTO NUEVO (MISMO ESTILO) ===== -->
-    <p class="examples-note">
+    <p class="examples-note estilos-note">
       Dale al PLAY para escuchar los diferentes ejemplos de estilos disponibles creados por nosotros!
     </p>
 
-    <!-- ===== ESTILOS MUSICALES ===== -->
+    <!-- ===== ESTILOS ===== -->
     <div class="styles-wrapper">
       <div class="carousel-arrow arrow-left" onclick="scrollStyles(-1)">‹</div>
       <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
 
       <div class="styles-carousel" id="stylesCarousel">
-
-        <div class="style-card" data-audio="/audio/balada.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Balada romántica</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/pop.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Pop emocional</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/rock.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Rock suave</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/indie.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Indie acústico</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/rnb.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">R&amp;B / Soul</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/electro.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Electrónica chill</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/reggaeton.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Reggaetón lento</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/hiphop.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Hip Hop</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/reggae.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Reggae chill</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/jazz.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Jazz</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/flamenco.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Flamenco</div>
-        </div>
-
-        <div class="style-card" data-audio="/audio/cine.mp3">
-          <img src="/vineta.png">
-          <div class="style-name">Cinematográfico</div>
-        </div>
-
+        <!-- 12 estilos -->
+        <div class="style-card" data-audio="/audio/balada.mp3"><img src="/vineta.png"><div class="style-title">Balada romántica</div></div>
+        <div class="style-card" data-audio="/audio/pop.mp3"><img src="/vineta.png"><div class="style-title">Pop emocional</div></div>
+        <div class="style-card" data-audio="/audio/rock.mp3"><img src="/vineta.png"><div class="style-title">Rock suave</div></div>
+        <div class="style-card" data-audio="/audio/indie.mp3"><img src="/vineta.png"><div class="style-title">Indie acústico</div></div>
+        <div class="style-card" data-audio="/audio/rnb.mp3"><img src="/vineta.png"><div class="style-title">R&amp;B / Soul</div></div>
+        <div class="style-card" data-audio="/audio/electro.mp3"><img src="/vineta.png"><div class="style-title">Electrónica chill</div></div>
+        <div class="style-card" data-audio="/audio/reggaeton.mp3"><img src="/vineta.png"><div class="style-title">Reggaetón lento</div></div>
+        <div class="style-card" data-audio="/audio/hiphop.mp3"><img src="/vineta.png"><div class="style-title">Hip Hop</div></div>
+        <div class="style-card" data-audio="/audio/reggae.mp3"><img src="/vineta.png"><div class="style-title">Reggae chill</div></div>
+        <div class="style-card" data-audio="/audio/jazz.mp3"><img src="/vineta.png"><div class="style-title">Jazz</div></div>
+        <div class="style-card" data-audio="/audio/flamenco.mp3"><img src="/vineta.png"><div class="style-title">Flamenco</div></div>
+        <div class="style-card" data-audio="/audio/cine.mp3"><img src="/vineta.png"><div class="style-title">Cinematográfico</div></div>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- ===== JS ORIGINAL DE TARIFAS (SIN CAMBIOS) ===== -->
 <script>
 (function () {
 
@@ -874,7 +842,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 })();
 </script>
 
-<!-- ===== JS ESTILOS MUSICALES ===== -->
 <script>
 const styleCards = document.querySelectorAll('.style-card');
 let currentAudio = null;
@@ -886,20 +853,19 @@ styleCards.forEach(card => {
       styleCards.forEach(c => c.classList.remove('playing'));
     }
 
-    const audio = new Audio(card.dataset.audio);
-    currentAudio = audio;
+    currentAudio = new Audio(card.dataset.audio);
     card.classList.add('playing');
-    audio.play();
+    currentAudio.play();
 
-    audio.onended = () => {
+    currentAudio.onended = () => {
       card.classList.remove('playing');
     };
   });
 });
 
-function scrollStyles(direction) {
+function scrollStyles(dir) {
   document.getElementById('stylesCarousel')
-    .scrollBy({ left: direction * 320, behavior: 'smooth' });
+    .scrollBy({ left: dir * 340, behavior: 'smooth' });
 }
 </script>
 
@@ -1707,6 +1673,7 @@ render();
   </div>
 
 </section>
+
 
 
 
