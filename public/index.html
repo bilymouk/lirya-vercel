@@ -463,7 +463,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 <style>
 .examples {
   position: relative;
-  padding: 50px 20px 80px;
+  padding: 50px 20px 90px;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
@@ -483,7 +483,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* ===== TARIFAS (SIN CAMBIOS) ===== */
+/* ===== TÍTULOS (ORIGINAL) ===== */
 .examples h2 {
   font-family: "Playfair Display", serif;
   font-size: 38px;
@@ -506,17 +506,28 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 24px;
 }
 
+/* ===== GRID TARIFAS (ORIGINAL SIN TOCAR) ===== */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
+  align-items: stretch;
 }
 
 .example-card {
+  position: relative;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.45);
+  transform: scale(0.90);
+  box-shadow: 0 0 22px rgba(255,255,255,0.18);
+  transition: transform .45s ease, box-shadow .45s ease;
   background: rgba(0,0,0,0.35);
+}
+
+.example-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
 .example-card img {
@@ -524,44 +535,98 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
+/* DESTACADA (ORIGINAL) */
+.example-card.destacada {
+  border: 1.5px solid #ff9f3f;
+  transform: scale(0.90);
+  box-shadow: 0 0 55px rgba(255,159,63,0.35);
+  z-index: 3;
+}
+.example-card.destacada:hover {
+  transform: scale(0.96);
+}
+
+/* BADGE (ORIGINAL) */
+.badge-popular {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(212,180,131,0.95);
+  color: #1a1a1a;
+  font-family: "Playfair Display", serif;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: .4px;
+}
+
+/* INFO TARIFA (ORIGINAL) */
 .tarifa-info {
   padding: 26px 22px 30px;
+  text-align: center;
 }
 
 .tarifa-info h3 {
   font-family: "Playfair Display", serif;
   font-size: 20px;
   color: #f2e7c9;
+  margin-bottom: 14px;
 }
 
 .tarifa-precio {
   font-family: "Playfair Display", serif;
   font-size: 36px;
+  font-weight: 600;
   color: #d4b483;
+  letter-spacing: 0.6px;
+  margin-bottom: 6px;
 }
 
+.tarifa-entrega {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 16px;
+}
+
+.tarifa-incluye {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-bottom: 24px;
+}
+
+/* BOTÓN (ORIGINAL) */
 .tarifa-info a {
   display: inline-block;
-  margin-top: 16px;
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
   padding: 13px 28px;
   border-radius: 30px;
-  color: #fff;
+  color: #ffffff;
+  font-family: "Playfair Display", serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
   text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.tarifa-info a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,159,63,0.45);
 }
 
 /* ===== ESTILOS MUSICALES ===== */
 .styles-wrapper {
-  margin-top: 50px;
+  margin-top: 60px;
   position: relative;
 }
 
 .styles-carousel {
   display: flex;
-  gap: 40px;
+  gap: 42px;
   overflow-x: auto;
-  padding: 20px 80px;
   scroll-behavior: smooth;
+  padding: 20px 90px;
 }
 
 .styles-carousel::-webkit-scrollbar {
@@ -569,22 +634,22 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 }
 
 .style-card {
-  min-width: 220px;
+  min-width: 240px;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.35s ease;
 }
 
 .style-card.playing {
-  transform: scale(1.18);
+  transform: scale(1.2);
 }
 
 .style-card img {
   width: 100%;
-  border-radius: 18px;
+  border-radius: 20px;
 }
 
 .style-name {
-  margin-top: 10px;
+  margin-top: 8px;
   font-family: "Playfair Display", serif;
   font-size: 15px;
   color: #f2e7c9;
@@ -595,19 +660,19 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 .carousel-arrow {
   position: absolute;
   top: 45%;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   background: rgba(0,0,0,0.6);
   border-radius: 50%;
   color: #fff;
-  font-size: 22px;
-  line-height: 42px;
+  font-size: 24px;
+  line-height: 44px;
   cursor: pointer;
   user-select: none;
 }
 
-.arrow-left { left: 10px; }
-.arrow-right { right: 10px; }
+.arrow-left { left: 12px; }
+.arrow-right { right: 12px; }
 
 @media (max-width: 900px) {
   .examples-grid { grid-template-columns: 1fr; }
@@ -619,46 +684,69 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   <div class="examples-inner">
 
     <h2>Ejemplos reales</h2>
-    <p class="examples-subtitle">Así suenan las canciones personalizadas.</p>
-    <p class="examples-note">Dale al PLAY para escuchar cada ejemplo</p>
+    <p class="examples-subtitle">
+      Así suenan las canciones personalizadas. Historias reales, emociones reales.
+    </p>
+    <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
 
+    <!-- ===== TARIFAS (HTML ORIGINAL SIN CAMBIOS) ===== -->
     <div class="examples-grid">
+
       <div class="example-card">
-        <img src="/papa-card.jpg">
+        <img src="/papa-card.jpg" alt="Papá">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">49€</div>
+          <div class="tarifa-entrega">Entrega en 4–5 días</div>
+          <div class="tarifa-incluye">
+            • Letra personalizada<br>
+            • Música original<br>
+            • 1 revisión incluida
+          </div>
           <a href="#formulario-lirya?tarifa=49">Elegir esta opción</a>
         </div>
       </div>
 
-      <div class="example-card">
-        <img src="/eres-mi-amor-card.jpg">
+      <div class="example-card destacada">
+        <span class="badge-popular">La más elegida</span>
+        <img src="/eres-mi-amor-card.jpg" alt="Eres mi amor">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">59€</div>
+          <div class="tarifa-entrega">Entrega en 2–3 días</div>
+          <div class="tarifa-incluye">
+            • Letra muy detallada<br>
+            • Enfoque romántico (San Valentín)<br>
+            • Hasta 2 revisiones
+          </div>
           <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
         </div>
       </div>
 
       <div class="example-card">
-        <img src="/amigas-card.jpg">
+        <img src="/amigas-card.jpg" alt="Amigas por siempre">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">79€</div>
+          <div class="tarifa-entrega">Entrega prioritaria</div>
+          <div class="tarifa-incluye">
+            • Máximo nivel de detalle<br>
+            • Prioridad absoluta<br>
+            • Revisión ilimitada
+          </div>
           <a href="#formulario-lirya?tarifa=79">Elegir esta opción</a>
         </div>
       </div>
+
     </div>
 
-    <!-- ===== ESTILOS ===== -->
+    <!-- ===== ESTILOS MUSICALES ===== -->
     <div class="styles-wrapper">
       <div class="carousel-arrow arrow-left" onclick="scrollStyles(-1)">‹</div>
       <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
 
       <div class="styles-carousel" id="stylesCarousel">
 
-        <!-- REPETIR PARA CADA ESTILO -->
         <div class="style-card" data-audio="/audio/balada.mp3">
           <img src="/vineta.png">
           <div class="style-name">Balada romántica</div>
@@ -726,14 +814,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </section>
 
 <script>
-const cards = document.querySelectorAll('.style-card');
+const styleCards = document.querySelectorAll('.style-card');
 let currentAudio = null;
 
-cards.forEach(card => {
+styleCards.forEach(card => {
   card.addEventListener('click', () => {
     if (currentAudio) {
       currentAudio.pause();
-      cards.forEach(c => c.classList.remove('playing'));
+      styleCards.forEach(c => c.classList.remove('playing'));
     }
 
     const audio = new Audio(card.dataset.audio);
@@ -747,9 +835,9 @@ cards.forEach(card => {
   });
 });
 
-function scrollStyles(dir) {
+function scrollStyles(direction) {
   document.getElementById('stylesCarousel')
-    .scrollBy({ left: dir * 300, behavior: 'smooth' });
+    .scrollBy({ left: direction * 320, behavior: 'smooth' });
 }
 </script>
 
@@ -1557,6 +1645,7 @@ render();
   </div>
 
 </section>
+
 
 
 
