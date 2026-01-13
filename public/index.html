@@ -753,24 +753,21 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     CARRUSEL ESTILOS MUSICALES – LIMPIO
+     CARRUSEL ESTILOS MUSICALES
 ================================ -->
 
 <style>
-/* ===== SECCIÓN OSCURA ===== */
 .lirya-styles-dark {
   background: #080914;
-  padding: 18px 0 50px; /* casi sin margen arriba */
+  padding: 16px 0 52px;
 }
 
-/* ===== CONTENEDOR ===== */
 .styles-wrapper {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* ===== CARRUSEL ===== */
 .styles-carousel {
   display: flex;
   gap: 26px;
@@ -783,10 +780,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: none;
 }
 
-/* ===== FLECHAS DESKTOP ===== */
+/* FLECHAS DESKTOP */
 .carousel-arrow {
   position: absolute;
-  top: 40%;
+  top: 45%;
   transform: translateY(-50%);
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(212,180,131,0.35);
@@ -799,6 +796,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: none;
   align-items: center;
   justify-content: center;
+  z-index: 5;
 }
 
 .carousel-arrow.left { left: 8px; }
@@ -810,15 +808,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   }
 }
 
-/* ===== VIÑETA ===== */
+/* VIÑETA */
 .style-tile {
   min-width: 190px;
-  text-align: center;
   cursor: pointer;
 }
 
 .style-image {
-  width: 100%;
+  position: relative;
   border-radius: 16px;
   overflow: hidden;
   transition: transform 0.35s ease;
@@ -829,24 +826,29 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* HOVER DESKTOP (muy sutil) */
+/* TEXTO DENTRO */
+.style-title {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Playfair Display", serif;
+  font-size: 15px;
+  color: #f2e7c9;
+  letter-spacing: 0.3px;
+  pointer-events: none;
+}
+
+/* HOVER DESKTOP */
 @media (hover: hover) {
   .style-tile:hover .style-image {
     transform: scale(1.025);
   }
 }
 
-/* ACTIVA (SONANDO) */
+/* SONANDO */
 .style-tile.is-playing .style-image {
   transform: scale(1.035);
-}
-
-/* TEXTO */
-.style-label {
-  margin-top: 10px;
-  font-family: "Playfair Display", serif;
-  font-size: 15px;
-  color: #f2e7c9;
 }
 
 /* AUDIO OCULTO */
@@ -863,32 +865,103 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
     <div class="styles-carousel">
 
-      <!-- REPITE BLOQUE -->
-      <div class="style-tile" data-audio="audio/pop-emocional.mp3">
+      <!-- ESTILOS -->
+      <div class="style-tile" data-audio="audio/balada-romantica.mp3">
         <div class="style-image">
-          <img src="/vineta.png" alt="Pop emocional">
+          <img src="/vineta.png">
+          <div class="style-title">Balada romántica</div>
         </div>
-        <div class="style-label">Pop emocional</div>
         <audio></audio>
       </div>
 
-      <div class="style-tile" data-audio="audio/balada-romantica.mp3">
+      <div class="style-tile" data-audio="audio/pop-emocional.mp3">
         <div class="style-image">
-          <img src="/vineta.png" alt="Balada romántica">
+          <img src="/vineta.png">
+          <div class="style-title">Pop emocional</div>
         </div>
-        <div class="style-label">Balada romántica</div>
         <audio></audio>
       </div>
 
       <div class="style-tile" data-audio="audio/indie-acustico.mp3">
         <div class="style-image">
-          <img src="/vineta.png" alt="Indie acústico">
+          <img src="/vineta.png">
+          <div class="style-title">Indie acústico</div>
         </div>
-        <div class="style-label">Indie acústico</div>
         <audio></audio>
       </div>
 
-      <!-- añade el resto -->
+      <div class="style-tile" data-audio="audio/rnb-soul.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">R&B / Soul</div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <div class="style-tile" data-audio="audio/rock-suave.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">Rock suave</div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <div class="style-tile" data-audio="audio/electronica-chill.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">Electrónica chill</div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <div class="style-tile" data-audio="audio/reggaeton-lento.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">Reggaetón lento</div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <div class="style-tile" data-audio="audio/hip-hop.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">Hip Hop</div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <div class="style-tile" data-audio="audio/reggae-chill.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">Reggae chill</div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <div class="style-tile" data-audio="audio/jazz.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">Jazz</div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <div class="style-tile" data-audio="audio/flamenco.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">Flamenco</div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <div class="style-tile" data-audio="audio/cinematografico.mp3">
+        <div class="style-image">
+          <img src="/vineta.png">
+          <div class="style-title">Cinematográfico</div>
+        </div>
+        <audio></audio>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1737,6 +1810,7 @@ render();
   </div>
 
 </section>
+
 
 
 
