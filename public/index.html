@@ -752,6 +752,288 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 })();
 </script>
 
+<!-- ==============================
+     ESTILOS MUSICALES DISPONIBLES
+================================ -->
+
+<style>
+.lirya-styles {
+  position: relative;
+  padding: 80px 20px 90px;
+  background: radial-gradient(circle at top, #14162a 0%, #080914 60%);
+  color: #fff;
+}
+
+.lirya-styles-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* TÍTULO */
+.lirya-styles h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 36px;
+  color: #d4b483;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.lirya-styles-subtitle {
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  opacity: 0.85;
+  margin-bottom: 46px;
+}
+
+/* GRID DESKTOP */
+.styles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+/* TARJETA */
+.style-card {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(212,180,131,0.35);
+  border-radius: 18px;
+  padding: 26px 20px 28px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+
+@media (hover:hover) {
+  .style-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(212,180,131,0.28);
+    border-color: rgba(212,180,131,0.65);
+  }
+}
+
+/* NOMBRE ESTILO */
+.style-name {
+  font-family: "Playfair Display", serif;
+  font-size: 17px;
+  color: #f2e7c9;
+  margin-bottom: 18px;
+}
+
+/* PLAY */
+.style-play {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff9f3f, #e58b2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.style-card.playing .style-play {
+  box-shadow: 0 0 18px rgba(255,159,63,0.75);
+}
+
+.style-play:hover {
+  transform: scale(1.08);
+}
+
+/* BARRA */
+.style-progress {
+  height: 3px;
+  background: rgba(212,180,131,0.25);
+  border-radius: 3px;
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+.style-progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff9f3f, #d4b483);
+}
+
+/* AUDIO OCULTO */
+.style-card audio {
+  display: none;
+}
+
+/* =========================
+   MOBILE = CARRUSEL
+========================= */
+@media (max-width: 900px) {
+  .styles-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 10px;
+  }
+
+  .style-card {
+    min-width: 230px;
+    scroll-snap-align: center;
+  }
+}
+</style>
+
+<section class="lirya-styles">
+  <div class="lirya-styles-inner">
+    <h2>Estilos musicales disponibles</h2>
+    <p class="lirya-styles-subtitle">
+      Cada historia tiene su sonido. Escucha cómo podría sonar la tuya.
+    </p>
+
+    <div class="styles-grid">
+
+      <!-- ESTILO -->
+      <div class="style-card" data-audio="audio/balada-romantica.mp3">
+        <div class="style-name">Balada romántica</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/pop-emocional.mp3">
+        <div class="style-name">Pop emocional</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/indie-acustico.mp3">
+        <div class="style-name">Indie acústico</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/rnb-soul.mp3">
+        <div class="style-name">R&amp;B / Soul</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/rock-suave.mp3">
+        <div class="style-name">Rock suave</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/electronica-chill.mp3">
+        <div class="style-name">Electrónica chill</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/reggaeton-lento.mp3">
+        <div class="style-name">Reggaetón lento</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/hip-hop.mp3">
+        <div class="style-name">Hip Hop</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/reggae-chill.mp3">
+        <div class="style-name">Reggae chill</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/jazz.mp3">
+        <div class="style-name">Jazz</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/flamenco.mp3">
+        <div class="style-name">Flamenco</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+      <div class="style-card" data-audio="audio/cinematografico.mp3">
+        <div class="style-name">Cinematográfico</div>
+        <div class="style-play">▶</div>
+        <div class="style-progress"><span></span></div>
+        <audio src=""></audio>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const cards = document.querySelectorAll('.style-card');
+  let currentAudio = null;
+  let currentCard = null;
+
+  cards.forEach(card => {
+    const audio = card.querySelector('audio');
+    const playBtn = card.querySelector('.style-play');
+    const progress = card.querySelector('.style-progress span');
+    const src = card.dataset.audio;
+
+    if (src) audio.src = src;
+
+    playBtn.addEventListener('click', e => {
+      e.stopPropagation();
+
+      if (currentAudio && currentAudio !== audio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentCard.classList.remove('playing');
+        currentCard.querySelector('.style-play').textContent = '▶';
+        currentCard.querySelector('.style-progress span').style.width = '0%';
+      }
+
+      if (audio.paused) {
+        audio.play();
+        card.classList.add('playing');
+        playBtn.textContent = '❚❚';
+        currentAudio = audio;
+        currentCard = card;
+      } else {
+        audio.pause();
+        card.classList.remove('playing');
+        playBtn.textContent = '▶';
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progress.style.width = percent + '%';
+    });
+
+    audio.addEventListener('ended', () => {
+      progress.style.width = '0%';
+      playBtn.textContent = '▶';
+      card.classList.remove('playing');
+    });
+  });
+})();
+</script>
+
 <!-- =================================
    CÓMO FUNCIONA
    (VERSIÓN FINAL PREMIUM)
@@ -1555,6 +1837,7 @@ render();
   </div>
 
 </section>
+
 
 
 
