@@ -753,7 +753,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     ESTILOS MUSICALES (AJUSTE FINAL)
+     ESTILOS MUSICALES – VIÑETAS FINALES
 ================================ -->
 
 <style>
@@ -770,83 +770,76 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin: 0;
   line-height: 1.25;
   white-space: nowrap;
-  font-size: 13px; /* base desktop NO se toca */
-  text-align: center;
+  font-size: 13px;
 }
 
-/* Ajuste SOLO móvil */
 @media (max-width: 900px) {
   .lirya-style-line p {
-    font-size: 12.2px; /* un poco más pequeña */
+    font-size: 12px;
   }
 }
 
 /* ===== BLOQUE OSCURO ===== */
 .lirya-styles-dark {
   background: #080914;
-  padding: 40px 16px 46px; /* MÁS margen arriba y abajo */
+  padding: 42px 20px 52px;
 }
 
 /* CARRUSEL */
 .styles-carousel {
   display: flex;
-  gap: 22px;
+  gap: 28px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
 
-/* TARJETA */
-.style-card {
-  min-width: 240px;
-  background: rgba(255,255,255,0.045);
-  border: 1px solid rgba(199,181,138,0.32);
-  border-radius: 18px;
-  padding: 26px 22px 28px;
-  text-align: center;
+/* VIÑETA */
+.style-tile {
+  min-width: 260px;
   scroll-snap-align: center;
-}
-
-/* TEXTO */
-.style-name {
-  font-family: "Playfair Display", serif;
-  font-size: 15.5px;
-  color: #f2e7c9;
-  margin-bottom: 16px;
-}
-
-/* PLAY */
-.style-play {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto;
-  border-radius: 50%;
-  background: #ff8a2a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 18px;
   cursor: pointer;
+  text-align: center;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* PROGRESO */
-.style-progress {
-  height: 2px;
-  background: rgba(199,181,138,0.3);
-  border-radius: 2px;
-  margin-top: 16px;
+/* HOVER SOLO DESKTOP */
+@media (hover: hover) {
+  .style-tile:hover {
+    transform: scale(1.02);
+  }
+
+  .style-tile:hover .style-image {
+    box-shadow: 
+      0 0 0 1px rgba(212,180,131,0.55),
+      0 18px 46px rgba(255,170,90,0.45);
+  }
+}
+
+/* IMAGEN */
+.style-image {
+  width: 100%;
+  border-radius: 22px;
   overflow: hidden;
+  box-shadow: 0 16px 38px rgba(255,170,90,0.25);
+  border: 1px solid rgba(212,180,131,0.4);
+  transition: box-shadow 0.35s ease;
 }
 
-.style-progress span {
+.style-image img {
+  width: 100%;
   display: block;
-  height: 100%;
-  width: 0%;
-  background: #c7b58a;
+}
+
+/* TEXTO ESTILO */
+.style-label {
+  margin-top: 14px;
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  color: #f2e7c9;
 }
 
 /* AUDIO OCULTO */
-.style-card audio {
+.style-tile audio {
   display: none;
 }
 </style>
@@ -856,91 +849,103 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   <p>Cada historia tiene su sonido. Escucha cómo podría sonar la tuya.</p>
 </section>
 
-<!-- CARRUSEL OSCURO -->
+<!-- CARRUSEL -->
 <section class="lirya-styles-dark">
   <div class="styles-carousel">
 
-    <div class="style-card" data-audio="audio/balada-romantica.mp3">
-      <div class="style-name">Balada romántica</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/balada-romantica.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Balada romántica">
+      </div>
+      <div class="style-label">Balada romántica</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/pop-emocional.mp3">
-      <div class="style-name">Pop emocional</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/pop-emocional.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Pop emocional">
+      </div>
+      <div class="style-label">Pop emocional</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/indie-acustico.mp3">
-      <div class="style-name">Indie acústico</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/indie-acustico.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Indie acústico">
+      </div>
+      <div class="style-label">Indie acústico</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/rnb-soul.mp3">
-      <div class="style-name">R&amp;B / Soul</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/rnb-soul.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="R&B / Soul">
+      </div>
+      <div class="style-label">R&amp;B / Soul</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/rock-suave.mp3">
-      <div class="style-name">Rock suave</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/rock-suave.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Rock suave">
+      </div>
+      <div class="style-label">Rock suave</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/electronica-chill.mp3">
-      <div class="style-name">Electrónica chill</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/electronica-chill.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Electrónica chill">
+      </div>
+      <div class="style-label">Electrónica chill</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/reggaeton-lento.mp3">
-      <div class="style-name">Reggaetón lento</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/reggaeton-lento.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Reggaetón lento">
+      </div>
+      <div class="style-label">Reggaetón lento</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/hip-hop.mp3">
-      <div class="style-name">Hip Hop</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/hip-hop.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Hip Hop">
+      </div>
+      <div class="style-label">Hip Hop</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/reggae-chill.mp3">
-      <div class="style-name">Reggae chill</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/reggae-chill.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Reggae chill">
+      </div>
+      <div class="style-label">Reggae chill</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/jazz.mp3">
-      <div class="style-name">Jazz</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/jazz.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Jazz">
+      </div>
+      <div class="style-label">Jazz</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/flamenco.mp3">
-      <div class="style-name">Flamenco</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/flamenco.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Flamenco">
+      </div>
+      <div class="style-label">Flamenco</div>
       <audio></audio>
     </div>
 
-    <div class="style-card" data-audio="audio/cinematografico.mp3">
-      <div class="style-name">Cinematográfico</div>
-      <div class="style-play">▶</div>
-      <div class="style-progress"><span></span></div>
+    <div class="style-tile" data-audio="audio/cinematografico.mp3">
+      <div class="style-image">
+        <img src="/viñeta.png" alt="Cinematográfico">
+      </div>
+      <div class="style-label">Cinematográfico</div>
       <audio></audio>
     </div>
 
@@ -949,42 +954,24 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 <script>
 (() => {
-  const cards = document.querySelectorAll('.style-card');
   let currentAudio = null;
-  let currentCard = null;
 
-  cards.forEach(card => {
-    const audio = card.querySelector('audio');
-    const playBtn = card.querySelector('.style-play');
-    const progress = card.querySelector('.style-progress span');
-    audio.src = card.dataset.audio;
+  document.querySelectorAll('.style-tile').forEach(tile => {
+    const audio = tile.querySelector('audio');
+    audio.src = tile.dataset.audio;
 
-    playBtn.addEventListener('click', () => {
+    tile.addEventListener('click', () => {
       if (currentAudio && currentAudio !== audio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
-        currentCard.querySelector('.style-play').textContent = '▶';
-        currentCard.querySelector('.style-progress span').style.width = '0%';
       }
 
       if (audio.paused) {
         audio.play();
-        playBtn.textContent = '❚❚';
         currentAudio = audio;
-        currentCard = card;
       } else {
         audio.pause();
-        playBtn.textContent = '▶';
       }
-    });
-
-    audio.addEventListener('timeupdate', () => {
-      progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
-    });
-
-    audio.addEventListener('ended', () => {
-      progress.style.width = '0%';
-      playBtn.textContent = '▶';
     });
   });
 })();
@@ -1794,6 +1781,7 @@ render();
   </div>
 
 </section>
+
 
 
 
