@@ -753,36 +753,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 </script>
 
 <!-- ==============================
-     ESTILOS MUSICALES – CARRUSEL FINAL
+     CARRUSEL ESTILOS MUSICALES – LIMPIO
 ================================ -->
 
 <style>
-/* ===== FRASE BLANCA FINA ===== */
-.lirya-style-line {
-  background: #fcfaf7;
-  padding: 14px 10px;
-  text-align: center;
-}
-
-.lirya-style-line p {
-  font-family: "Playfair Display", serif;
-  color: #1a1a1a;
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.3;
-}
-
-@media (max-width: 768px) {
-  .lirya-style-line p {
-    font-size: 12px;
-  }
-}
-
-/* ===== BLOQUE OSCURO ===== */
+/* ===== SECCIÓN OSCURA ===== */
 .lirya-styles-dark {
   background: #080914;
-  padding: 40px 0 50px;
-  position: relative;
+  padding: 18px 0 50px; /* casi sin margen arriba */
 }
 
 /* ===== CONTENEDOR ===== */
@@ -795,10 +773,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* ===== CARRUSEL ===== */
 .styles-carousel {
   display: flex;
-  gap: 28px;
+  gap: 26px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 0 60px;
+  padding: 0 56px;
 }
 
 .styles-carousel::-webkit-scrollbar {
@@ -808,14 +786,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* ===== FLECHAS DESKTOP ===== */
 .carousel-arrow {
   position: absolute;
-  top: 45%;
+  top: 40%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(212,180,131,0.5);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(212,180,131,0.35);
   color: #d4b483;
-  font-size: 26px;
-  width: 44px;
-  height: 44px;
+  font-size: 24px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   cursor: pointer;
   display: none;
@@ -823,8 +801,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   justify-content: center;
 }
 
-.carousel-arrow.left { left: 10px; }
-.carousel-arrow.right { right: 10px; }
+.carousel-arrow.left { left: 8px; }
+.carousel-arrow.right { right: 8px; }
 
 @media (hover: hover) {
   .carousel-arrow {
@@ -834,16 +812,16 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* ===== VIÑETA ===== */
 .style-tile {
-  min-width: 200px;
+  min-width: 190px;
   text-align: center;
   cursor: pointer;
 }
 
 .style-image {
   width: 100%;
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transition: transform 0.35s ease;
 }
 
 .style-image img {
@@ -851,33 +829,24 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: block;
 }
 
-/* HOVER DESKTOP */
+/* HOVER DESKTOP (muy sutil) */
 @media (hover: hover) {
   .style-tile:hover .style-image {
-    transform: scale(1.03);
-    box-shadow: 0 16px 40px rgba(255,170,90,0.4);
+    transform: scale(1.025);
   }
 }
 
-/* ACTIVO (SONANDO) */
+/* ACTIVA (SONANDO) */
 .style-tile.is-playing .style-image {
-  animation: pulseGlow 2.8s ease-in-out infinite;
-  box-shadow: 0 20px 55px rgba(255,170,90,0.55);
+  transform: scale(1.035);
 }
 
 /* TEXTO */
 .style-label {
-  margin-top: 12px;
+  margin-top: 10px;
   font-family: "Playfair Display", serif;
   font-size: 15px;
   color: #f2e7c9;
-}
-
-/* ANIMACIÓN */
-@keyframes pulseGlow {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.04); }
-  100% { transform: scale(1); }
 }
 
 /* AUDIO OCULTO */
@@ -885,10 +854,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   display: none;
 }
 </style>
-
-<section class="lirya-style-line">
-  <p>Cada historia tiene su sonido. Escucha cómo podría sonar la tuya.</p>
-</section>
 
 <section class="lirya-styles-dark">
   <div class="styles-wrapper">
@@ -898,7 +863,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
     <div class="styles-carousel">
 
-      <!-- REPITE ESTE BLOQUE -->
+      <!-- REPITE BLOQUE -->
       <div class="style-tile" data-audio="audio/pop-emocional.mp3">
         <div class="style-image">
           <img src="/vineta.png" alt="Pop emocional">
@@ -923,7 +888,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
         <audio></audio>
       </div>
 
-      <!-- añade el resto igual -->
+      <!-- añade el resto -->
     </div>
   </div>
 </section>
@@ -962,9 +927,9 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
   const carousel = document.querySelector('.styles-carousel');
   document.querySelector('.carousel-arrow.left').onclick = () =>
-    carousel.scrollBy({ left: -260, behavior: 'smooth' });
+    carousel.scrollBy({ left: -240, behavior: 'smooth' });
   document.querySelector('.carousel-arrow.right').onclick = () =>
-    carousel.scrollBy({ left: 260, behavior: 'smooth' });
+    carousel.scrollBy({ left: 240, behavior: 'smooth' });
 })();
 </script>
 
@@ -1772,6 +1737,7 @@ render();
   </div>
 
 </section>
+
 
 
 
