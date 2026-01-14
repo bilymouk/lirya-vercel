@@ -1576,17 +1576,31 @@ render();
   align-items: center;
 }
 
+/* ===== RATING (DORADO PREMIUM) ===== */
 .rating-text,
 .rating-score {
-  font-size: 22px;
+  font-size: 26px;              /* MÁS GRANDE */
   font-weight: 600;
-  color: #d4b483; /* dorado */
+  color: #c9a24d;               /* DORADO MÁS FUERTE */
+  letter-spacing: 0.3px;
 }
 
 .rating-stars {
-  font-size: 22px;
-  color: #ff9f3f; /* naranja LIRYA */
-  letter-spacing: 3px;
+  font-size: 26px;              /* MÁS GRANDE */
+  color: #ff9f3f;               /* NARANJA LIRYA */
+  letter-spacing: 4px;
+}
+
+/* ===== MÓVIL ===== */
+@media (max-width: 768px) {
+  .rating-text,
+  .rating-score {
+    font-size: 24px;
+  }
+
+  .rating-stars {
+    font-size: 26px;
+  }
 }
 
 /* ===== CARRUSEL ===== */
@@ -1900,6 +1914,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
