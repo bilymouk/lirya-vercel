@@ -1484,7 +1484,8 @@ render();
     <!-- CARD 1 -->
     <div class="reaction-card">
       <div class="reaction-video">
-        <video src="/video1.mp4" poster="/video1.jpg" preload="metadata"></video>
+        <img src="/video1.jpg" class="video-poster" alt="Reacción real Yolanda">
+        <video src="/video1.mp4" preload="none" playsinline></video>
         <div class="play-btn">▶</div>
       </div>
       <div class="reaction-content">
@@ -1497,7 +1498,8 @@ render();
     <!-- CARD 2 -->
     <div class="reaction-card">
       <div class="reaction-video">
-        <video src="/video2.mp4" poster="/video2.jpg" preload="metadata"></video>
+        <img src="/video2.jpg" class="video-poster" alt="Reacción real Carlos">
+        <video src="/video2.mp4" preload="none" playsinline></video>
         <div class="play-btn">▶</div>
       </div>
       <div class="reaction-content">
@@ -1510,7 +1512,8 @@ render();
     <!-- CARD 3 -->
     <div class="reaction-card">
       <div class="reaction-video">
-        <video src="/video3.mov" poster="/video3.jpg" preload="metadata"></video>
+        <img src="/video3.jpg" class="video-poster" alt="Reacción real Andrea">
+        <video src="/video3.mp4" preload="none" playsinline></video>
         <div class="play-btn">▶</div>
       </div>
       <div class="reaction-content">
@@ -1519,8 +1522,6 @@ render();
         <div class="reaction-name">✔️ Andrea R.</div>
       </div>
     </div>
-    
-    <!-- Duplica hasta 10 si quieres -->
 
   </div>
 </section>
@@ -1581,9 +1582,14 @@ render();
   position: relative;
 }
 
-.reaction-video video {
+.video-poster {
   width: 100%;
   display: block;
+}
+
+.reaction-video video {
+  width: 100%;
+  display: none;
 }
 
 /* PLAY */
@@ -1593,10 +1599,15 @@ render();
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48px;
+  font-size: 56px;
   color: #ffffff;
   background: rgba(0, 0, 0, 0.35);
   cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.play-btn:hover {
+  background: rgba(0, 0, 0, 0.45);
 }
 
 /* CONTENIDO */
@@ -1638,23 +1649,23 @@ render();
 <script>
 document.querySelectorAll('.reaction-video').forEach(box => {
   const video = box.querySelector('video');
+  const poster = box.querySelector('.video-poster');
   const play = box.querySelector('.play-btn');
 
   play.addEventListener('click', () => {
+    poster.style.display = 'none';
     play.style.display = 'none';
+    video.style.display = 'block';
     video.play();
   });
 
-  video.addEventListener('pause', () => {
-    play.style.display = 'flex';
-  });
-
   video.addEventListener('ended', () => {
+    video.style.display = 'none';
+    poster.style.display = 'block';
     play.style.display = 'flex';
   });
 });
 </script>
-
 
 <!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
 <style>
@@ -1855,6 +1866,7 @@ document.querySelectorAll('.reaction-video').forEach(box => {
   </div>
 
 </section>
+
 
 
 
