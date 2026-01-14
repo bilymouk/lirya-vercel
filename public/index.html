@@ -1481,13 +1481,8 @@ render();
 
   <div class="lirya-reactions-carousel">
 
-    <!-- CARD 1 -->
     <div class="reaction-card">
-      <div class="reaction-video">
-        <img src="/video1.jpg" class="video-poster" alt="Reacción real Yolanda">
-        <video src="/video1.mp4" preload="none" playsinline></video>
-        <div class="play-btn">▶</div>
-      </div>
+      <video src="/video1.mp4" poster="/video1.jpg" muted playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
         <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
@@ -1495,13 +1490,8 @@ render();
       </div>
     </div>
 
-    <!-- CARD 2 -->
     <div class="reaction-card">
-      <div class="reaction-video">
-        <img src="/video2.jpg" class="video-poster" alt="Reacción real Carlos">
-        <video src="/video2.mp4" preload="none" playsinline></video>
-        <div class="play-btn">▶</div>
-      </div>
+      <video src="/video2.mp4" poster="/video2.jpg" muted playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
         <p class="reaction-text">“Lloramos los dos al escucharla por primera vez.”</p>
@@ -1509,13 +1499,8 @@ render();
       </div>
     </div>
 
-    <!-- CARD 3 -->
     <div class="reaction-card">
-      <div class="reaction-video">
-        <img src="/video3.jpg" class="video-poster" alt="Reacción real Andrea">
-        <video src="/video3.mp4" preload="none" playsinline></video>
-        <div class="play-btn">▶</div>
-      </div>
+      <video src="/video3.mov" poster="/video3.jpg" muted playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
         <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
@@ -1527,14 +1512,12 @@ render();
 </section>
 
 <style>
-/* ===== SECCIÓN ===== */
 .lirya-reactions {
   background: #fcfaf7;
   padding: 90px 20px;
   text-align: center;
 }
 
-/* TÍTULO */
 .lirya-reactions-title {
   font-family: "Playfair Display", serif;
   font-size: 36px;
@@ -1543,7 +1526,6 @@ render();
   margin-bottom: 14px;
 }
 
-/* SUBTÍTULO */
 .lirya-reactions-subtitle {
   font-family: "Playfair Display", serif;
   font-size: 16px;
@@ -1553,7 +1535,6 @@ render();
   line-height: 1.7;
 }
 
-/* CARRUSEL */
 .lirya-reactions-carousel {
   display: flex;
   gap: 28px;
@@ -1566,7 +1547,6 @@ render();
   display: none;
 }
 
-/* CARD */
 .reaction-card {
   min-width: 280px;
   max-width: 300px;
@@ -1575,42 +1555,14 @@ render();
   overflow: hidden;
   scroll-snap-align: center;
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
-/* VIDEO */
-.reaction-video {
-  position: relative;
-}
-
-.video-poster {
+.reaction-card video {
   width: 100%;
   display: block;
 }
 
-.reaction-video video {
-  width: 100%;
-  display: none;
-}
-
-/* PLAY */
-.play-btn {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 56px;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.35);
-  cursor: pointer;
-  transition: background 0.25s ease;
-}
-
-.play-btn:hover {
-  background: rgba(0, 0, 0, 0.45);
-}
-
-/* CONTENIDO */
 .reaction-content {
   padding: 20px 18px 26px;
 }
@@ -1634,7 +1586,6 @@ render();
   color: rgba(26, 26, 26, 0.6);
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .lirya-reactions {
     padding: 70px 16px;
@@ -1647,25 +1598,27 @@ render();
 </style>
 
 <script>
-document.querySelectorAll('.reaction-video').forEach(box => {
-  const video = box.querySelector('video');
-  const poster = box.querySelector('.video-poster');
-  const play = box.querySelector('.play-btn');
+const reactionVideos = document.querySelectorAll('.reaction-card video');
 
-  play.addEventListener('click', () => {
-    poster.style.display = 'none';
-    play.style.display = 'none';
-    video.style.display = 'block';
-    video.play();
-  });
+reactionVideos.forEach(video => {
+  video.addEventListener('click', () => {
 
-  video.addEventListener('ended', () => {
-    video.style.display = 'none';
-    poster.style.display = 'block';
-    play.style.display = 'flex';
+    reactionVideos.forEach(v => {
+      if (v !== video) {
+        v.pause();
+        v.currentTime = 0;
+      }
+    });
+
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
   });
 });
 </script>
+
 
 <!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
 <style>
@@ -1866,6 +1819,7 @@ document.querySelectorAll('.reaction-video').forEach(box => {
   </div>
 
 </section>
+
 
 
 
