@@ -1482,7 +1482,7 @@ render();
   <div class="lirya-reactions-carousel">
 
     <div class="reaction-card">
-      <video src="/video1.mp4" poster="/video1.jpg" muted playsinline preload="metadata"></video>
+      <video src="/video1.mp4" poster="/video1.jpg" playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
         <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
@@ -1491,7 +1491,7 @@ render();
     </div>
 
     <div class="reaction-card">
-      <video src="/video2.mp4" poster="/video2.jpg" muted playsinline preload="metadata"></video>
+      <video src="/video2.mp4" poster="/video2.jpg" playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
         <p class="reaction-text">“Lloramos los dos al escucharla por primera vez.”</p>
@@ -1500,7 +1500,7 @@ render();
     </div>
 
     <div class="reaction-card">
-      <video src="/video3.mov" poster="/video3.jpg" muted playsinline preload="metadata"></video>
+      <video src="/video3.mov" poster="/video3.jpg" playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
         <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
@@ -1598,18 +1598,19 @@ render();
 </style>
 
 <script>
-const reactionVideos = document.querySelectorAll('.reaction-card video');
+const videos = document.querySelectorAll('.reaction-card video');
 
-reactionVideos.forEach(video => {
+videos.forEach(video => {
   video.addEventListener('click', () => {
 
-    reactionVideos.forEach(v => {
-      if (v !== video) {
+    // Pausar los demás sin resetear frame
+    videos.forEach(v => {
+      if (v !== video && !v.paused) {
         v.pause();
-        v.currentTime = 0;
       }
     });
 
+    // Toggle play / pause
     if (video.paused) {
       video.play();
     } else {
@@ -1618,7 +1619,6 @@ reactionVideos.forEach(video => {
   });
 });
 </script>
-
 
 <!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
 <style>
@@ -1819,6 +1819,7 @@ reactionVideos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
