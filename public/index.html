@@ -1483,9 +1483,11 @@ render();
 
     <!-- ===== RATING ===== -->
     <div class="lirya-rating">
-      <span class="rating-text">Excelente</span>
-      <span class="rating-score">4.9 / 5</span>
-      <span class="rating-stars">★★★★★</span>
+      <div class="rating-line">
+        <span class="rating-text">Excelente</span>
+        <span class="rating-score">4.9 / 5</span>
+      </div>
+      <div class="rating-stars">★★★★★</div>
     </div>
   </div>
 
@@ -1531,7 +1533,7 @@ render();
 
 /* ===== HEADER ===== */
 .lirya-reactions-header {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 /* ===== TÍTULO ===== */
@@ -1555,7 +1557,7 @@ render();
   font-size: 16px;
   color: rgba(26, 26, 26, 0.85);
   max-width: 760px;
-  margin: 10px auto 14px;
+  margin: 10px auto 12px;
 }
 
 /* ===== RATING ===== */
@@ -1563,27 +1565,28 @@ render();
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 14px;
+  margin-bottom: 16px;
   font-family: "Playfair Display", serif;
-  margin-bottom: 18px;
 }
 
-.rating-text {
-  font-size: 18px;
-  color: #1a1a1a;
-  font-weight: 600;
+.rating-line {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
+.rating-text,
 .rating-score {
-  font-size: 18px;
-  color: #1a1a1a;
+  font-size: 22px;
   font-weight: 600;
+  color: #d4b483; /* dorado */
 }
 
 .rating-stars {
-  font-size: 18px;
-  color: #7bbf6a;
-  letter-spacing: 2px;
+  font-size: 22px;
+  color: #ff9f3f; /* naranja LIRYA */
+  letter-spacing: 3px;
 }
 
 /* ===== CARRUSEL ===== */
@@ -1660,7 +1663,7 @@ render();
   }
 
   .title-sub {
-    font-size: 43px; /* +20% aprox */
+    font-size: 43px;
   }
 
   .lirya-rating {
@@ -1668,6 +1671,18 @@ render();
     gap: 6px;
   }
 
+  .rating-line {
+    flex-direction: row; /* TEXTO + NÚMEROS en una fila */
+  }
+
+  .rating-text,
+  .rating-score {
+    font-size: 22px;
+  }
+
+  .rating-stars {
+    font-size: 24px;
+  }
 }
 </style>
 
@@ -1885,6 +1900,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
