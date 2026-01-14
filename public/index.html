@@ -1512,8 +1512,8 @@ render();
       <video src="/video4.mov" poster="/video4.jpg" playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
-        <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
-        <div class="reaction-name">✔️ Andrea R.</div>
+        <p class="reaction-text">“Un recuerdo que no olvidaremos jamás.”</p>
+        <div class="reaction-name">✔️ Laura S.</div>
       </div>
     </div>
 
@@ -1541,7 +1541,7 @@ render();
 .lirya-reactions-subtitle {
   font-family: "Playfair Display", serif;
   font-size: 16px;
-  color: rgba(26, 26, 26, 0.7);
+  color: rgba(26,26,26,0.7);
   max-width: 720px;
   margin: 0 auto 48px;
   line-height: 1.7;
@@ -1560,42 +1560,43 @@ render();
   display: none;
 }
 
-/* TARJETA — MISMO ADN QUE LA DE 59€ */
+/* TARJETA – CLON DE example-card.destacada */
 .reaction-card {
+  position: relative;
   min-width: 280px;
   max-width: 300px;
-  border-radius: 26px;
+  border-radius: 18px;
   overflow: hidden;
   scroll-snap-align: center;
   cursor: pointer;
 
-  background: transparent;
-  border: 1px solid rgba(199,181,138,0.45);
+  background: rgba(0,0,0,0.35);
+  border: 1.5px solid #ff9f3f;
+
+  transform: scale(0.90);
+  box-shadow: 0 0 22px rgba(255,159,63,0.25);
 
   transition:
-    transform 0.35s cubic-bezier(.34,1.56,.64,1),
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
+    transform .45s ease,
+    box-shadow .45s ease;
 }
 
-/* ACTIVA (igual que tarjeta naranja) */
+/* ACTIVA (igual que hover destacada) */
 .reaction-card.is-playing {
-  transform: scale(1.035);
-  border-color: rgba(199,181,138,0.85);
-  box-shadow: 0 0 0 6px rgba(199,181,138,0.12);
+  transform: scale(0.96);
+  box-shadow: 0 0 55px rgba(255,159,63,0.35);
 }
 
 /* VIDEO */
 .reaction-card video {
   width: 100%;
   display: block;
-  background: #000;
 }
 
 /* CONTENIDO */
 .reaction-content {
-  padding: 20px 18px 26px;
-  background: #ffffff;
+  padding: 22px 20px 26px;
+  text-align: center;
 }
 
 .stars {
@@ -1607,14 +1608,14 @@ render();
 .reaction-text {
   font-family: "Playfair Display", serif;
   font-size: 15px;
-  color: rgba(26, 26, 26, 0.8);
+  color: rgba(255,255,255,0.9);
   line-height: 1.6;
   margin-bottom: 12px;
 }
 
 .reaction-name {
   font-size: 14px;
-  color: rgba(26, 26, 26, 0.6);
+  color: rgba(255,255,255,0.7);
 }
 
 /* RESPONSIVE */
@@ -1859,6 +1860,7 @@ cards.forEach(card => {
   </div>
 
 </section>
+
 
 
 
