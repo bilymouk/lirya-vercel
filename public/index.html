@@ -1472,7 +1472,8 @@ render();
 <section class="lirya-reactions">
 
   <h2 class="lirya-reactions-title">
-    Reacciones reales. Emociones reales.
+    <span class="title-main">Reacciones reales</span>
+    <span class="title-sub">Emociones reales</span>
   </h2>
 
   <p class="lirya-reactions-subtitle">
@@ -1524,43 +1525,49 @@ render();
 /* ===== SECCIÓN ===== */
 .lirya-reactions {
   background: #fcfaf7;
-  padding: 90px 20px;
+  padding: 90px 20px 70px;
   text-align: center;
 }
 
-/* TÍTULO */
+/* ===== TÍTULO (CLON DE EJEMPLOS REALES) ===== */
 .lirya-reactions-title {
   font-family: "Playfair Display", serif;
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 600;
-  color: #c7b58a;
+  color: #d4b483;
   margin-bottom: 14px;
+  line-height: 1.15;
 }
 
-/* SUBTÍTULO */
+.lirya-reactions-title span {
+  display: block;
+}
+
+/* ===== SUBTÍTULO (ESTILO EJEMPLOS REALES) ===== */
 .lirya-reactions-subtitle {
   font-family: "Playfair Display", serif;
   font-size: 16px;
-  color: rgba(26,26,26,0.7);
+  color: #1a1a1a;
+  opacity: 0.85;
   max-width: 720px;
-  margin: 0 auto 48px;
+  margin: 0 auto 26px;
   line-height: 1.7;
 }
 
-/* CARRUSEL */
+/* ===== CARRUSEL ===== */
 .lirya-reactions-carousel {
   display: flex;
-  gap: 28px;
+  gap: 24px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 10px 20px 20px;
+  padding: 10px 20px 10px;
 }
 
 .lirya-reactions-carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* TARJETA – CLON DE example-card.destacada */
+/* ===== TARJETA ===== */
 .reaction-card {
   position: relative;
   min-width: 280px;
@@ -1575,13 +1582,9 @@ render();
 
   transform: scale(0.90);
   box-shadow: 0 0 22px rgba(255,159,63,0.25);
-
-  transition:
-    transform .45s ease,
-    box-shadow .45s ease;
+  transition: transform .45s ease, box-shadow .45s ease;
 }
 
-/* ACTIVA (igual que hover destacada) */
 .reaction-card.is-playing {
   transform: scale(0.96);
   box-shadow: 0 0 55px rgba(255,159,63,0.35);
@@ -1596,7 +1599,6 @@ render();
 /* CONTENIDO */
 .reaction-content {
   padding: 22px 20px 26px;
-  text-align: center;
 }
 
 .stars {
@@ -1618,14 +1620,23 @@ render();
   color: rgba(255,255,255,0.7);
 }
 
-/* RESPONSIVE */
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
   .lirya-reactions {
-    padding: 70px 16px;
+    padding: 70px 16px 60px;
   }
 
   .lirya-reactions-title {
-    font-size: 30px;
+    font-size: 32px;
+  }
+
+  .lirya-reactions-title .title-sub {
+    font-size: 16px; /* mitad de grande */
+  }
+
+  .lirya-reactions-subtitle {
+    font-size: 15px;
+    margin-bottom: 22px;
   }
 }
 </style>
@@ -1638,7 +1649,6 @@ cards.forEach(card => {
   const video = card.querySelector('video');
 
   card.addEventListener('click', () => {
-
     videos.forEach(v => {
       if (v !== video) {
         v.pause();
@@ -1860,6 +1870,7 @@ cards.forEach(card => {
   </div>
 
 </section>
+
 
 
 
