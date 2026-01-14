@@ -1560,25 +1560,29 @@ render();
   display: none;
 }
 
-/* TARJETA (MISMO ESTILO QUE 59€) */
+/* TARJETA — MISMO ADN QUE LA DE 59€ */
 .reaction-card {
   min-width: 280px;
   max-width: 300px;
-  background: radial-gradient(circle at top, #1a1a1a 0%, #000 70%);
   border-radius: 26px;
   overflow: hidden;
   scroll-snap-align: center;
-  box-shadow: 0 18px 50px rgba(199,181,138,0.35);
-  border: 1px solid rgba(199,181,138,0.45);
   cursor: pointer;
-  transition: transform .35s cubic-bezier(.34,1.56,.64,1),
-              box-shadow .35s ease;
+
+  background: transparent;
+  border: 1px solid rgba(199,181,138,0.45);
+
+  transition:
+    transform 0.35s cubic-bezier(.34,1.56,.64,1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
-.reaction-card:active,
+/* ACTIVA (igual que tarjeta naranja) */
 .reaction-card.is-playing {
   transform: scale(1.035);
-  box-shadow: 0 30px 70px rgba(199,181,138,0.55);
+  border-color: rgba(199,181,138,0.85);
+  box-shadow: 0 0 0 6px rgba(199,181,138,0.12);
 }
 
 /* VIDEO */
@@ -1591,7 +1595,7 @@ render();
 /* CONTENIDO */
 .reaction-content {
   padding: 20px 18px 26px;
-  background: #fff;
+  background: #ffffff;
 }
 
 .stars {
@@ -1634,16 +1638,13 @@ cards.forEach(card => {
 
   card.addEventListener('click', () => {
 
-    // Pausar todos los demás
     videos.forEach(v => {
       if (v !== video) {
         v.pause();
-        v.currentTime = v.currentTime; // mantiene el frame
         v.closest('.reaction-card').classList.remove('is-playing');
       }
     });
 
-    // Toggle actual
     if (video.paused) {
       video.play();
       card.classList.add('is-playing');
@@ -1858,6 +1859,7 @@ cards.forEach(card => {
   </div>
 
 </section>
+
 
 
 
