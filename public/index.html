@@ -1473,7 +1473,7 @@ render();
   <div class="lirya-reactions-inner">
 
     <h2 class="lirya-reactions-title">
-      <span class="title-main">Reacciones reales</span>
+      <span class="title-main">Reacciones reales.</span>
       <span class="title-sub">Emociones reales</span>
     </h2>
 
@@ -1540,7 +1540,29 @@ render();
   font-size: 38px;
   color: #d4b483;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.lirya-reactions-title span {
+  display: inline;
+}
+
+/* ===== MÓVIL ===== */
+@media (max-width: 768px) {
+  .lirya-reactions-title {
+    font-size: 30px;
+    line-height: 1.15;
+  }
+
+  .lirya-reactions-title span {
+    display: block;
+  }
+
+  .lirya-reactions-title .title-sub {
+    font-size: 36px; /* +20% aprox */
+    margin-top: 4px;
+  }
 }
 
 .lirya-reactions-title .title-sub {
@@ -1860,6 +1882,7 @@ render();
   </div>
 
 </section>
+
 
 
 
