@@ -1521,12 +1521,14 @@ render();
 </section>
 
 <style>
+/* ===== SECCIÓN ===== */
 .lirya-reactions {
   background: #fcfaf7;
   padding: 90px 20px;
   text-align: center;
 }
 
+/* TÍTULO */
 .lirya-reactions-title {
   font-family: "Playfair Display", serif;
   font-size: 36px;
@@ -1535,6 +1537,7 @@ render();
   margin-bottom: 14px;
 }
 
+/* SUBTÍTULO */
 .lirya-reactions-subtitle {
   font-family: "Playfair Display", serif;
   font-size: 16px;
@@ -1544,6 +1547,7 @@ render();
   line-height: 1.7;
 }
 
+/* CARRUSEL */
 .lirya-reactions-carousel {
   display: flex;
   gap: 28px;
@@ -1556,24 +1560,38 @@ render();
   display: none;
 }
 
+/* TARJETA (MISMO ESTILO QUE 59€) */
 .reaction-card {
   min-width: 280px;
   max-width: 300px;
-  background: #ffffff;
+  background: radial-gradient(circle at top, #1a1a1a 0%, #000 70%);
   border-radius: 26px;
   overflow: hidden;
   scroll-snap-align: center;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 18px 50px rgba(199,181,138,0.35);
+  border: 1px solid rgba(199,181,138,0.45);
   cursor: pointer;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1),
+              box-shadow .35s ease;
 }
 
+.reaction-card:active,
+.reaction-card.is-playing {
+  transform: scale(1.035);
+  box-shadow: 0 30px 70px rgba(199,181,138,0.55);
+}
+
+/* VIDEO */
 .reaction-card video {
   width: 100%;
   display: block;
+  background: #000;
 }
 
+/* CONTENIDO */
 .reaction-content {
   padding: 20px 18px 26px;
+  background: #fff;
 }
 
 .stars {
@@ -1595,6 +1613,7 @@ render();
   color: rgba(26, 26, 26, 0.6);
 }
 
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .lirya-reactions {
     padding: 70px 16px;
@@ -1607,24 +1626,35 @@ render();
 </style>
 
 <script>
+const cards = document.querySelectorAll('.reaction-card');
 const videos = document.querySelectorAll('.reaction-card video');
 
-videos.forEach(video => {
-  video.addEventListener('click', () => {
+cards.forEach(card => {
+  const video = card.querySelector('video');
 
-    // Pausar los demás sin resetear frame
+  card.addEventListener('click', () => {
+
+    // Pausar todos los demás
     videos.forEach(v => {
-      if (v !== video && !v.paused) {
+      if (v !== video) {
         v.pause();
+        v.currentTime = v.currentTime; // mantiene el frame
+        v.closest('.reaction-card').classList.remove('is-playing');
       }
     });
 
-    // Toggle play / pause
+    // Toggle actual
     if (video.paused) {
       video.play();
+      card.classList.add('is-playing');
     } else {
       video.pause();
+      card.classList.remove('is-playing');
     }
+  });
+
+  video.addEventListener('ended', () => {
+    card.classList.remove('is-playing');
   });
 });
 </script>
@@ -1828,6 +1858,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
