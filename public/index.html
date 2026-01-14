@@ -1470,54 +1470,54 @@ render();
 ================================ -->
 
 <section class="lirya-reactions">
+  <div class="lirya-reactions-inner">
 
-  <h2 class="lirya-reactions-title">
-    <span class="title-main">Reacciones reales</span>
-    <span class="title-sub">Emociones reales</span>
-  </h2>
+    <h2 class="lirya-reactions-title">
+      <span class="title-main">Reacciones reales</span>
+      <span class="title-sub">Emociones reales</span>
+    </h2>
 
-  <p class="lirya-reactions-subtitle">
-    Personas reales escuchando por primera vez una canción creada con su historia.
-  </p>
+    <p class="lirya-reactions-subtitle">
+      Personas reales escuchando por primera vez una canción creada con su historia.
+    </p>
 
-  <div class="lirya-reactions-carousel">
+    <div class="lirya-reactions-carousel">
 
-    <div class="reaction-card">
-      <video src="/video1.mp4" poster="/video1.PNG" playsinline preload="metadata"></video>
-      <div class="reaction-content">
-        <div class="stars">★★★★★</div>
-        <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
-        <div class="reaction-name">✔️ Yolanda J.</div>
+      <!-- CARD -->
+      <div class="reaction-card">
+        <div class="reaction-media">
+          <video src="/video1.mp4" poster="/video1.PNG" playsinline preload="metadata"></video>
+        </div>
+        <div class="reaction-content">
+          <div class="stars">★★★★★</div>
+          <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
+          <div class="reaction-name">✔️ Yolanda J.</div>
+        </div>
       </div>
-    </div>
 
-    <div class="reaction-card">
-      <video src="/video2.mp4" poster="/video2.PNG" playsinline preload="metadata"></video>
-      <div class="reaction-content">
-        <div class="stars">★★★★★</div>
-        <p class="reaction-text">“Lloramos los dos al escucharla por primera vez.”</p>
-        <div class="reaction-name">✔️ Carlos M.</div>
+      <div class="reaction-card">
+        <div class="reaction-media">
+          <video src="/video2.mp4" poster="/video2.PNG" playsinline preload="metadata"></video>
+        </div>
+        <div class="reaction-content">
+          <div class="stars">★★★★★</div>
+          <p class="reaction-text">“Lloramos los dos al escucharla por primera vez.”</p>
+          <div class="reaction-name">✔️ Carlos M.</div>
+        </div>
       </div>
-    </div>
 
-    <div class="reaction-card">
-      <video src="/video3.mov" poster="/video3.PNG" playsinline preload="metadata"></video>
-      <div class="reaction-content">
-        <div class="stars">★★★★★</div>
-        <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
-        <div class="reaction-name">✔️ Andrea R.</div>
+      <div class="reaction-card">
+        <div class="reaction-media">
+          <video src="/video3.mov" poster="/video3.PNG" playsinline preload="metadata"></video>
+        </div>
+        <div class="reaction-content">
+          <div class="stars">★★★★★</div>
+          <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
+          <div class="reaction-name">✔️ Andrea R.</div>
+        </div>
       </div>
-    </div>
 
-    <div class="reaction-card">
-      <video src="/video4.mov" poster="/video4.jpg" playsinline preload="metadata"></video>
-      <div class="reaction-content">
-        <div class="stars">★★★★★</div>
-        <p class="reaction-text">“Un recuerdo que no olvidaremos jamás.”</p>
-        <div class="reaction-name">✔️ Laura S.</div>
-      </div>
     </div>
-
   </div>
 </section>
 
@@ -1525,80 +1525,81 @@ render();
 /* ===== SECCIÓN ===== */
 .lirya-reactions {
   background: #fcfaf7;
-  padding: 90px 20px 70px;
+  padding: 80px 20px 70px;
+}
+
+.lirya-reactions-inner {
+  max-width: 1500px;
+  margin: 0 auto;
   text-align: center;
 }
 
-/* ===== TÍTULO (CLON DE EJEMPLOS REALES) ===== */
+/* ===== TÍTULO ===== */
 .lirya-reactions-title {
   font-family: "Playfair Display", serif;
   font-size: 38px;
-  font-weight: 600;
   color: #d4b483;
-  margin-bottom: 14px;
-  line-height: 1.15;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
-.lirya-reactions-title span {
+.lirya-reactions-title .title-sub {
   display: block;
+  font-size: 26px;
+  font-weight: 500;
 }
 
-/* ===== SUBTÍTULO (ESTILO EJEMPLOS REALES) ===== */
 .lirya-reactions-subtitle {
   font-family: "Playfair Display", serif;
   font-size: 16px;
   color: #1a1a1a;
-  opacity: 0.85;
-  max-width: 720px;
-  margin: 0 auto 26px;
-  line-height: 1.7;
+  margin-bottom: 26px;
 }
 
 /* ===== CARRUSEL ===== */
 .lirya-reactions-carousel {
   display: flex;
-  gap: 24px;
+  gap: 22px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 10px 20px 10px;
+  padding: 10px 20px 20px;
 }
 
 .lirya-reactions-carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* ===== TARJETA ===== */
+/* ===== TARJETA (ESTILO NARANJA) ===== */
 .reaction-card {
-  position: relative;
   min-width: 280px;
   max-width: 300px;
-  border-radius: 18px;
+  background: #ffffff;
+  border-radius: 22px;
   overflow: hidden;
   scroll-snap-align: center;
-  cursor: pointer;
-
-  background: rgba(0,0,0,0.35);
   border: 1.5px solid #ff9f3f;
-
-  transform: scale(0.90);
-  box-shadow: 0 0 22px rgba(255,159,63,0.25);
+  box-shadow: 0 0 45px rgba(255,159,63,0.25);
+  cursor: pointer;
+  transform: scale(0.92);
   transition: transform .45s ease, box-shadow .45s ease;
 }
 
-.reaction-card.is-playing {
+.reaction-card.active {
   transform: scale(0.96);
-  box-shadow: 0 0 55px rgba(255,159,63,0.35);
+  box-shadow: 0 0 55px rgba(255,159,63,0.45);
 }
 
-/* VIDEO */
-.reaction-card video {
+/* ===== VIDEO ===== */
+.reaction-media video {
   width: 100%;
   display: block;
+  background: #000;
 }
 
-/* CONTENIDO */
+/* ===== TEXTO BLANCO ABAJO ===== */
 .reaction-content {
-  padding: 22px 20px 26px;
+  background: #ffffff;
+  padding: 20px 18px 26px;
 }
 
 .stars {
@@ -1610,65 +1611,54 @@ render();
 .reaction-text {
   font-family: "Playfair Display", serif;
   font-size: 15px;
-  color: rgba(255,255,255,0.9);
+  color: rgba(26, 26, 26, 0.85);
   line-height: 1.6;
   margin-bottom: 12px;
 }
 
 .reaction-name {
   font-size: 14px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(26, 26, 26, 0.6);
 }
 
-/* ===== MOBILE ===== */
+/* ===== MÓVIL ===== */
 @media (max-width: 768px) {
-  .lirya-reactions {
-    padding: 70px 16px 60px;
-  }
-
   .lirya-reactions-title {
-    font-size: 32px;
+    font-size: 30px;
   }
 
   .lirya-reactions-title .title-sub {
-    font-size: 16px; /* mitad de grande */
-  }
-
-  .lirya-reactions-subtitle {
-    font-size: 15px;
-    margin-bottom: 22px;
+    font-size: 16px;
   }
 }
 </style>
 
 <script>
-const cards = document.querySelectorAll('.reaction-card');
-const videos = document.querySelectorAll('.reaction-card video');
+(() => {
+  const cards = document.querySelectorAll('.reaction-card');
+  const videos = document.querySelectorAll('.reaction-card video');
 
-cards.forEach(card => {
-  const video = card.querySelector('video');
+  cards.forEach((card, index) => {
+    card.addEventListener('click', () => {
+      videos.forEach((v, i) => {
+        if (i !== index) {
+          v.pause();
+          cards[i].classList.remove('active');
+        }
+      });
 
-  card.addEventListener('click', () => {
-    videos.forEach(v => {
-      if (v !== video) {
-        v.pause();
-        v.closest('.reaction-card').classList.remove('is-playing');
+      const video = videos[index];
+
+      if (video.paused) {
+        video.play();
+        card.classList.add('active');
+      } else {
+        video.pause();
+        card.classList.remove('active');
       }
     });
-
-    if (video.paused) {
-      video.play();
-      card.classList.add('is-playing');
-    } else {
-      video.pause();
-      card.classList.remove('is-playing');
-    }
   });
-
-  video.addEventListener('ended', () => {
-    card.classList.remove('is-playing');
-  });
-});
+})();
 </script>
 
 <!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
@@ -1870,6 +1860,7 @@ cards.forEach(card => {
   </div>
 
 </section>
+
 
 
 
