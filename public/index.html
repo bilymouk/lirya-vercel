@@ -461,6 +461,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES ===== -->
 <style>
+/* ================== SECCIÓN GENERAL ================== */
 .examples {
   position: relative;
   padding: 50px 20px 40px;
@@ -481,58 +482,92 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* TEXTO */
+/* ================== TÍTULOS ================== */
+.examples h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 38px;
+  color: #d4b483;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.examples-subtitle {
+  font-size: 16px;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+.examples-note {
+  font-size: 13px;
+  font-style: italic;
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+/* ================== TARIFAS (NO TOCADAS) ================== */
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+.example-card {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.45);
+  transform: scale(0.90);
+  background: rgba(0,0,0,0.35);
+}
+.example-card img {
+  width: 100%;
+  display: block;
+}
+.example-card.destacada {
+  border: 1.5px solid #ff9f3f;
+}
+
+/* ================== TEXTO INTERMEDIO ================== */
 .styles-note {
-  margin: 30px 0 20px;
+  margin: 28px 0 18px;
   font-size: 13px;
   font-style: italic;
   opacity: 0.8;
 }
 
-/* ===== CARRUSEL ===== */
+/* ================== CARRUSEL ================== */
 .styles-wrapper {
   position: relative;
 }
 
+/* CONTENEDOR */
 .styles-carousel {
   display: flex;
-  align-items: center;
-  gap: 48px;
+  align-items: center;              /* 🔑 ALINEACIÓN REAL */
+  gap: 40px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 50px 140px;
+  padding: 30px 120px;
 }
 .styles-carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* ===== VIÑETA (CAJA REAL) ===== */
+/* ================== VIÑETAS NORMALIZADAS ================== */
 .style-card {
-  flex: 0 0 300px;
-  height: 420px;
-  position: relative;
+  flex: 0 0 300px;                  /* TODAS IGUALES */
+  aspect-ratio: 3 / 4;              /* 🔑 MISMA PROPORCIÓN */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-/* MARCO VISUAL UNIFICADO */
-.style-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-/* IMAGEN FORZADA Y NORMALIZADA */
+/* MARCO VISUAL */
 .style-card img {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 85%;
-  height: 85%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;              /* NUNCA SE CORTA */
   display: block;
 }
 
-/* ANIMACIÓN PLAY */
+/* ================== ANIMACIÓN ================== */
 .style-card.playing {
   animation: playingPulse 1.8s ease-in-out infinite;
 }
@@ -542,7 +577,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   100% { transform: scale(1); }
 }
 
-/* FLECHAS */
+/* ================== FLECHAS ================== */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -560,22 +595,19 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 .arrow-left { left: 20px; }
 .arrow-right { right: 20px; }
 
-/* MÓVIL */
+/* ================== MÓVIL ================== */
 @media (max-width: 900px) {
-  .carousel-arrow { display: none; }
-
-  .styles-carousel {
-    padding: 40px 60px;
+  .examples-grid {
+    grid-template-columns: 1fr;
   }
-
+  .carousel-arrow {
+    display: none;
+  }
+  .styles-carousel {
+    padding: 20px 60px;
+  }
   .style-card {
     flex: 0 0 260px;
-    height: 380px;
-  }
-
-  .style-card img {
-    width: 85%;
-    height: 85%;
   }
 }
 </style>
@@ -583,10 +615,30 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 <section class="examples">
   <div class="examples-inner">
 
+    <h2>Ejemplos reales</h2>
+    <p class="examples-subtitle">
+      Así suenan las canciones personalizadas. Historias reales, emociones reales.
+    </p>
+    <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
+
+    <!-- TARIFAS -->
+    <div class="examples-grid">
+      <div class="example-card">
+        <img src="/papa-card.jpg">
+      </div>
+      <div class="example-card destacada">
+        <img src="/eres-mi-amor-card.jpg">
+      </div>
+      <div class="example-card">
+        <img src="/amigas-card.jpg">
+      </div>
+    </div>
+
     <p class="styles-note">
       Dale al PLAY para escuchar los diferentes ejemplos de estilos disponibles creados por nosotros!
     </p>
 
+    <!-- CARRUSEL -->
     <div class="styles-wrapper">
       <div class="carousel-arrow arrow-left" onclick="scrollStyles(-1)">‹</div>
       <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
@@ -630,7 +682,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
   window.scrollStyles = function (dir) {
     document.getElementById('stylesCarousel')
-      .scrollBy({ left: dir * 360, behavior: 'smooth' });
+      .scrollBy({ left: dir * 340, behavior: 'smooth' });
   };
 })();
 </script>
@@ -1707,6 +1759,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
