@@ -481,45 +481,7 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   text-align: center;
 }
 
-/* TÍTULOS */
-.examples h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 38px;
-  color: #d4b483;
-  margin-bottom: 12px;
-  font-weight: 600;
-}
-.examples-subtitle {
-  font-family: "Playfair Display", serif;
-  font-size: 16px;
-  opacity: 0.85;
-  margin-bottom: 20px;
-}
-.examples-note {
-  font-size: 13px;
-  font-style: italic;
-  opacity: 0.8;
-  margin-bottom: 24px;
-}
-
-/* GRID TARIFAS */
-.examples-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-/* TARJETAS TARIFAS */
-.example-card {
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.45);
-  transform: scale(0.9);
-  box-shadow: 0 0 22px rgba(255,255,255,0.18);
-  background: rgba(0,0,0,0.35);
-}
-
-/* TEXTO INTERMEDIO */
+/* TEXTO */
 .styles-note {
   margin: 30px 0 20px;
   font-size: 13px;
@@ -534,43 +496,40 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 .styles-carousel {
   display: flex;
-  align-items: center;              /* 🔑 TODAS A LA MISMA ALTURA */
+  align-items: center;
   gap: 48px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 40px 140px;              /* 🔑 margen para que NO se corte nada */
+  padding: 50px 140px;
 }
-
 .styles-carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* ===== VIÑETAS UNIFICADAS (SOLUCIÓN REAL) ===== */
+/* ===== VIÑETA (CAJA REAL) ===== */
 .style-card {
-  flex: 0 0 300px;                   /* 🔑 TODAS IGUALES */
-  height: 420px;                     /* 🔑 CAJA VISUAL COMÚN */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;           /* 🔑 CENTRA EL ARTE */
-  align-items: center;
-  box-sizing: border-box;
+  flex: 0 0 300px;
+  height: 420px;
+  position: relative;
   cursor: pointer;
 }
 
-/* CONTENEDOR INTERNO DEL ARTE */
-.style-card img {
-  max-width: 100%;
-  max-height: 320px;                 /* 🔑 EVITA QUE SE SALGA */
-  object-fit: contain;               /* 🔑 NO RECORTA */
-  display: block;
+/* MARCO VISUAL UNIFICADO */
+.style-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
-/* TEXTO */
-.style-title {
-  margin-top: 14px;
-  font-family: "Playfair Display", serif;
-  font-size: 14px;
-  color: #f2e7c9;
+/* IMAGEN FORZADA Y NORMALIZADA */
+.style-card img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+  display: block;
 }
 
 /* ANIMACIÓN PLAY */
@@ -603,7 +562,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* MÓVIL */
 @media (max-width: 900px) {
-  .examples-grid { grid-template-columns: 1fr; }
   .carousel-arrow { display: none; }
 
   .styles-carousel {
@@ -616,18 +574,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   }
 
   .style-card img {
-    max-height: 280px;
+    width: 85%;
+    height: 85%;
   }
 }
 </style>
 
 <section class="examples">
   <div class="examples-inner">
-
-    <h2>Ejemplos reales</h2>
-    <p class="examples-subtitle">
-      Así suenan las canciones personalizadas. Historias reales, emociones reales.
-    </p>
 
     <p class="styles-note">
       Dale al PLAY para escuchar los diferentes ejemplos de estilos disponibles creados por nosotros!
@@ -638,16 +592,18 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
       <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
 
       <div class="styles-carousel" id="stylesCarousel">
-        <div class="style-card" data-audio="/audio/acustico.mp3"><img src="/vinetasmusica/acustico.png"></div>
-        <div class="style-card" data-audio="/audio/pop.mp3"><img src="/vinetasmusica/pop.png"></div>
-        <div class="style-card" data-audio="/audio/balada.mp3"><img src="/vinetasmusica/balada.png"></div>
+        <div class="style-card" data-audio="/audio/balada.mp3"><img src="/vinetasmusica/pop.png"></div>
+        <div class="style-card" data-audio="/audio/pop.mp3"><img src="/vinetasmusica/balada.png"></div>
+        <div class="style-card" data-audio="/audio/indie.mp3"><img src="/vinetasmusica/indie.png"></div>
         <div class="style-card" data-audio="/audio/rnb.mp3"><img src="/vinetasmusica/R&B.png"></div>
         <div class="style-card" data-audio="/audio/rock.mp3"><img src="/vinetasmusica/rock.png"></div>
         <div class="style-card" data-audio="/audio/electro.mp3"><img src="/vinetasmusica/electronica.png"></div>
         <div class="style-card" data-audio="/audio/reggaeton.mp3"><img src="/vinetasmusica/reggaeton.png"></div>
         <div class="style-card" data-audio="/audio/hiphop.mp3"><img src="/vinetasmusica/hiphop.png"></div>
+        <div class="style-card" data-audio="/audio/reggae.mp3"><img src="/vinetasmusica/reggae.png"></div>
         <div class="style-card" data-audio="/audio/jazz.mp3"><img src="/vinetasmusica/jazz.png"></div>
         <div class="style-card" data-audio="/audio/flamenco.mp3"><img src="/vinetasmusica/flamenco.png"></div>
+        <div class="style-card" data-audio="/audio/cine.mp3"><img src="/vinetasmusica/cinematografica.png"></div>
       </div>
     </div>
 
@@ -662,7 +618,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     card.addEventListener('click', () => {
       if (currentAudio) {
         currentAudio.pause();
-        document.querySelectorAll('.style-card').forEach(c => c.classList.remove('playing'));
+        document.querySelectorAll('.style-card')
+          .forEach(c => c.classList.remove('playing'));
       }
       currentAudio = new Audio(card.dataset.audio);
       card.classList.add('playing');
@@ -1750,6 +1707,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
