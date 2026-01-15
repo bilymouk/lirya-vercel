@@ -622,7 +622,8 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
 .styles-carousel {
   display: flex;
-  gap: 42px;
+  align-items: center; /* AJUSTE VIÑETAS: alineación perfecta */
+  gap: 36px;           /* AJUSTE VIÑETAS: separación proporcional */
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 10px 110px 20px;
@@ -635,25 +636,27 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 /* CENTRADO MÓVIL */
 @media (max-width: 900px) {
   .styles-carousel {
-    padding-left: calc(50vw - 140px);
-    padding-right: calc(50vw - 140px);
+    padding-left: calc(50vw - 120px);
+    padding-right: calc(50vw - 120px);
   }
 }
 
-/* ===== VIÑETAS (MISMA MEDIDA PARA TODAS) ===== */
+/* ===== VIÑETAS (MISMA MEDIDA + MÁS PEQUEÑAS) ===== */
 .style-card {
   position: relative;
-  min-width: 280px;
-  width: 280px;
-  height: 360px; /* 🔑 ALTURA FIJA */
+  min-width: 240px; /* AJUSTE VIÑETAS */
+  width: 240px;     /* AJUSTE VIÑETAS */
+  height: 320px;    /* AJUSTE VIÑETAS */
   cursor: pointer;
+  flex-shrink: 0;   /* AJUSTE VIÑETAS: evita deformaciones */
 }
 
 .style-card img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 🔑 IGUALA TODAS */
+  object-fit: cover; /* MANTIENE TODAS IGUALES */
   border-radius: 22px;
+  display: block;
 }
 
 /* TEXTO DENTRO */
@@ -812,12 +815,11 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 
   window.scrollStyles = function (dir) {
     document.getElementById('stylesCarousel')
-      .scrollBy({ left: dir * 340, behavior: 'smooth' });
+      .scrollBy({ left: dir * 300, behavior: 'smooth' });
   };
 
 })();
 </script>
-
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -1891,6 +1893,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
