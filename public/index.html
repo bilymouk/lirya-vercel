@@ -467,14 +467,12 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   color: #fff;
 }
-
 .examples::before {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(5, 8, 25, 0.78);
 }
-
 .examples-inner {
   position: relative;
   z-index: 2;
@@ -491,14 +489,12 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   margin-bottom: 12px;
   font-weight: 600;
 }
-
 .examples-subtitle {
   font-family: "Playfair Display", serif;
   font-size: 16px;
   opacity: 0.85;
   margin-bottom: 20px;
 }
-
 .examples-note {
   font-size: 13px;
   font-style: italic;
@@ -525,12 +521,10 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   transition: transform .45s ease, box-shadow .45s ease;
   background: rgba(0,0,0,0.35);
 }
-
 .example-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
-
 .example-card img {
   width: 100%;
   display: block;
@@ -565,14 +559,12 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   padding: 26px 22px 30px;
   text-align: center;
 }
-
 .tarifa-info h3 {
   font-family: "Playfair Display", serif;
   font-size: 20px;
   color: #f2e7c9;
   margin-bottom: 14px;
 }
-
 .tarifa-precio {
   font-family: "Playfair Display", serif;
   font-size: 36px;
@@ -580,13 +572,11 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   color: #d4b483;
   margin-bottom: 6px;
 }
-
 .tarifa-entrega {
   font-size: 14px;
   opacity: 0.85;
   margin-bottom: 16px;
 }
-
 .tarifa-incluye {
   font-size: 14px;
   line-height: 1.6;
@@ -619,16 +609,14 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 .styles-wrapper {
   position: relative;
 }
-
 .styles-carousel {
   display: flex;
-  align-items: center; /* AJUSTE VIÑETAS: alineación perfecta */
-  gap: 36px;           /* AJUSTE VIÑETAS: separación proporcional */
+  align-items: center;
+  gap: 36px;
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 10px 110px 20px;
 }
-
 .styles-carousel::-webkit-scrollbar {
   display: none;
 }
@@ -641,20 +629,19 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   }
 }
 
-/* ===== VIÑETAS (MISMA MEDIDA + MÁS PEQUEÑAS) ===== */
+/* VIÑETAS CORREGIDAS */
 .style-card {
   position: relative;
-  min-width: 240px; /* AJUSTE VIÑETAS */
-  width: 240px;     /* AJUSTE VIÑETAS */
-  height: 320px;    /* AJUSTE VIÑETAS */
+  min-width: 240px;
+  width: 240px;
+  height: 320px;
   cursor: pointer;
-  flex-shrink: 0;   /* AJUSTE VIÑETAS: evita deformaciones */
+  flex-shrink: 0;
 }
-
 .style-card img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* MANTIENE TODAS IGUALES */
+  object-fit: cover;
   border-radius: 22px;
   display: block;
 }
@@ -675,7 +662,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
 .style-card.playing {
   animation: playingPulse 1.8s ease-in-out infinite;
 }
-
 @keyframes playingPulse {
   0% { transform: scale(1); }
   50% { transform: scale(0.94); }
@@ -697,7 +683,6 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
   cursor: pointer;
   z-index: 50;
 }
-
 .arrow-left { left: 16px; }
 .arrow-right { right: 16px; }
 
@@ -717,7 +702,51 @@ if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: red
     <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
 
     <div class="examples-grid">
-      <!-- (tarjetas de tarifas sin cambios) -->
+      <div class="example-card">
+        <img src="/papa-card.jpg">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">49€</div>
+          <div class="tarifa-entrega">Entrega en 4–5 días</div>
+          <div class="tarifa-incluye">
+            • Letra personalizada<br>
+            • Música original<br>
+            • 1 revisión incluida
+          </div>
+          <a href="#formulario-lirya?tarifa=49">Elegir esta opción</a>
+        </div>
+      </div>
+
+      <div class="example-card destacada">
+        <span class="badge-popular">La más elegida</span>
+        <img src="/eres-mi-amor-card.jpg">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">59€</div>
+          <div class="tarifa-entrega">Entrega en 2–3 días</div>
+          <div class="tarifa-incluye">
+            • Letra muy detallada<br>
+            • Enfoque romántico (San Valentín)<br>
+            • Hasta 2 revisiones
+          </div>
+          <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <img src="/amigas-card.jpg">
+        <div class="tarifa-info">
+          <h3>Canción personalizada</h3>
+          <div class="tarifa-precio">79€</div>
+          <div class="tarifa-entrega">Entrega prioritaria</div>
+          <div class="tarifa-incluye">
+            • Máximo nivel de detalle<br>
+            • Prioridad absoluta<br>
+            • Revisión ilimitada
+          </div>
+          <a href="#formulario-lirya?tarifa=79">Elegir esta opción</a>
+        </div>
+      </div>
     </div>
 
     <p class="styles-note">
@@ -1893,6 +1922,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
