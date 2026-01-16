@@ -317,6 +317,8 @@ header{
 </html>
 
 <style>
+<style>
+  
 /* =================================
    EL REGALO PERFECTO
    (PREMIUM + ANIMACIONES)
@@ -357,8 +359,7 @@ header{
   max-width: 980px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  gap: 56px;
+  justify-content: center;
 }
 
 /* FILA */
@@ -372,31 +373,35 @@ header{
 .lirya-premium-final .tarjeta-premium-estilo {
   background-color: #fcfaf7;
   border-radius: 14px;
-  padding: 34px 28px;
+  padding: 38px 30px;
   width: 100%;
-  max-width: 420px;
+  max-width: 360px;
   border: 1px solid rgba(199, 181, 138, 0.35);
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.05);
   transition:
     transform 0.35s cubic-bezier(.34,1.56,.64,1),
     box-shadow 0.35s ease,
     border-color 0.35s ease;
-  cursor: pointer;
 }
 
-/* MICRO-REBOTE + SELECCIÓN (HOVER) */
+/* TARJETA DESTACADA (GARANTÍA) */
+.lirya-premium-final .tarjeta-destacada {
+  transform: translateY(-12px);
+  box-shadow: 0 28px 56px rgba(199, 181, 138, 0.28);
+  border-color: rgba(199, 181, 138, 0.65);
+}
+
+/* HOVER */
 @media (hover: hover) {
   .lirya-premium-final .tarjeta-premium-estilo:hover {
     transform: translateY(-8px) scale(1.015);
     box-shadow: 0 26px 50px rgba(199, 181, 138, 0.32);
     border-color: rgba(199, 181, 138, 0.65);
   }
-}
 
-/* SELECCIÓN AL CLIC */
-.lirya-premium-final .tarjeta-premium-estilo:active {
-  transform: translateY(-4px) scale(0.98);
-  box-shadow: 0 16px 32px rgba(199, 181, 138, 0.25);
+  .lirya-premium-final .tarjeta-destacada:hover {
+    transform: translateY(-14px) scale(1.02);
+  }
 }
 
 /* TEXTO */
@@ -404,7 +409,7 @@ header{
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 22px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .lirya-premium-final .tarjeta-premium-estilo p {
@@ -412,15 +417,15 @@ header{
   font-size: 14.5px;
   line-height: 1.65;
   color: rgba(26, 26, 26, 0.75);
-  max-width: 280px;
+  max-width: 260px;
   margin: 0 auto;
 }
 
 /* ===============================
-   ANIMACIÓN ESCALERA (MÓVIL)
+   RESPONSIVE
 ================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .lirya-premium-final {
     padding: 70px 20px;
   }
@@ -430,26 +435,14 @@ header{
     gap: 26px;
   }
 
-  /* Estado inicial */
-  .lirya-premium-final .tarjeta-premium-estilo {
-    opacity: 0;
-    transform: translateY(32px) scale(0.96);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s cubic-bezier(.34,1.56,.64,1);
-  }
-
-  .lirya-premium-final .tarjeta-premium-estilo.is-visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+  .lirya-premium-final .tarjeta-destacada {
+    transform: none;
   }
 }
 
 /* Accesibilidad */
 @media (prefers-reduced-motion: reduce) {
   .lirya-premium-final .tarjeta-premium-estilo {
-    opacity: 1 !important;
-    transform: none !important;
     transition: none !important;
   }
 }
@@ -464,50 +457,34 @@ header{
 
   <div class="premium-rows">
     <div class="premium-row">
+
+      <div class="tarjeta-premium-estilo tarjeta-destacada">
+        <h3>Garantía emocional</h3>
+        <p>
+          Si al recibir la canción quieres ajustar alguna frase o detalle,
+          la revisamos contigo hasta que encaje de verdad.
+        </p>
+      </div>
+
       <div class="tarjeta-premium-estilo">
         <h3>Hecha con vuestra historia</h3>
-        <p>Cada canción se escribe desde cero a partir de los momentos y recuerdos que compartís.</p>
+        <p>
+          Cada canción se escribe desde cero a partir de momentos, palabras
+          y recuerdos reales que compartís.
+        </p>
       </div>
 
-      <div class="tarjeta-premium-estilo">
-        <h3>Emoción real</h3>
-        <p>Transformamos palabras sencillas en una letra cuidada que conecta de verdad.</p>
-      </div>
-    </div>
-
-    <div class="premium-row">
       <div class="tarjeta-premium-estilo">
         <h3>Pensada para regalar</h3>
-        <p>Un detalle único para sorprender en aniversarios, cumpleaños o momentos especiales.</p>
+        <p>
+          Un detalle único para aniversarios, cumpleaños o cualquier
+          momento que merezca ser recordado.
+        </p>
       </div>
 
-      <div class="tarjeta-premium-estilo">
-        <h3>Garantía emocional</h3>
-        <p>Si al recibirla quieres cambiar algún detalle, la revisamos contigo hasta que encaje.</p>
-      </div>
     </div>
   </div>
 </section>
-
-<script>
-/* === Animación escalera móvil (aislada) === */
-if (window.innerWidth <= 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const cardsRP = document.querySelectorAll('.lirya-premium-final .tarjeta-premium-estilo');
-
-  const observerRP = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('is-visible');
-        }, index * 150);
-        observerRP.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.25 });
-
-  cardsRP.forEach(card => observerRP.observe(card));
-}
-</script>
 
 <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES ===== -->
 <style>
@@ -2056,6 +2033,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
