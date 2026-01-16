@@ -1789,14 +1789,31 @@ videos.forEach(video => {
 /* ===== GARANTÍA DE SATISFACCIÓN ===== */
 
 .lirya-guarantee {
-  background: radial-gradient(
-    circle at top left,
-    #2a0f3f 0%,
-    #12071f 40%,
-    #000000 100%
-  );
+  position: relative;
+  background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
   padding: 80px 20px;
   text-align: center;
+  overflow: hidden;
+}
+
+/* CAPA OSCURA PARA OPACIDAD */
+.lirya-guarantee::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top left,
+    rgba(42, 15, 63, 0.85) 0%,
+    rgba(18, 7, 31, 0.88) 40%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+  z-index: 1;
+}
+
+/* CONTENIDO POR ENCIMA */
+.lirya-guarantee > * {
+  position: relative;
+  z-index: 2;
 }
 
 /* TÍTULO (NO TOCADO) */
@@ -1809,7 +1826,7 @@ videos.forEach(video => {
   letter-spacing: 0.4px;
 }
 
-/* TEXTO PRINCIPAL (más claro para fondo oscuro) */
+/* TEXTO PRINCIPAL */
 .lirya-guarantee-text {
   font-family: 'Playfair Display', serif;
   font-size: 16px;
@@ -1989,6 +2006,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
