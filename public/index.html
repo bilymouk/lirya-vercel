@@ -1489,7 +1489,7 @@ render();
 
   <div class="lirya-reactions-header">
     <h2 class="lirya-reactions-title">
-      <span class="title-main">Reacciones reales.</span>
+      <span class="title-main">Reacciones reales</span>
       <span class="title-sub">Emociones reales</span>
     </h2>
 
@@ -1624,6 +1624,11 @@ render();
   color: #ff9f3f;               /* NARANJA LIRYA */
   letter-spacing: 4px;
 }
+  
+/* Punto solo en desktop */
+.title-main::after {
+  content: ".";
+}
 
 /* ===== MÓVIL ===== */
 @media (max-width: 768px) {
@@ -1634,6 +1639,9 @@ render();
 
   .rating-stars {
     font-size: 26px;
+  }
+    .title-main::after {
+    content: "";
   }
 }
 
@@ -1948,6 +1956,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
