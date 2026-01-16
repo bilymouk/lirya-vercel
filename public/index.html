@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>Canción personalizada para San Valentín | LIRYA</title>
+<title>Canción personalizada para regalar | LIRYA</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
@@ -102,17 +102,34 @@ header{
   font-family:'Playfair Display',serif;
   font-size:3.6rem;
   line-height:1.2;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
-.hero-text p{
+/* MICRO BADGE */
+.hero-badge{
+  display:inline-block;
+  margin-bottom:14px;
+  font-size:.85rem;
+  letter-spacing:.4px;
+  color:rgba(255,255,255,.85);
+  font-style:italic;
+}
+
+/* LISTA BENEFICIOS */
+.hero-benefits{
+  list-style:none;
+  margin-bottom:26px;
+}
+
+.hero-benefits li{
   font-family:'Playfair Display',serif;
-  font-size:1.15rem;
+  font-size:1.05rem;
   line-height:1.6;
-  margin-bottom:22px;
   opacity:.95;
+  margin-bottom:6px;
 }
 
+/* CTA */
 .hero-btn{
   background:var(--orange);
   color:#fff;
@@ -155,7 +172,7 @@ header{
   font-family:'Playfair Display',serif;
   font-size:3rem;
   line-height:1.15;
-  margin-bottom:14px;
+  margin-bottom:12px;
 }
 
 .hero-mobile img{
@@ -166,25 +183,25 @@ header{
   animation:floatPhoneMobile 5s ease-in-out infinite;
 }
 
-/* TEXTO MOBILE */
+.hero-mobile .hero-badge{
+  margin-bottom:12px;
+}
+
 .hero-mobile-text{
   transform:translateY(-32px);
 }
 
-.hero-mobile p{
+.hero-mobile ul{
+  list-style:none;
+  margin-bottom:22px;
+}
+
+.hero-mobile ul li{
   font-family:'Playfair Display',serif;
   font-size:1.05rem;
   line-height:1.55;
   opacity:.95;
-  margin-bottom:20px;
-}
-
-.hero-mobile .hero-btn{
-  margin-top:8px;
-}
-
-.hero-mobile .hero-note{
-  margin-top:10px;
+  margin-bottom:6px;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -235,34 +252,61 @@ header{
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
+
+        <span class="hero-badge">
+          🎁 Para parejas, cumpleaños y regalos familiares
+        </span>
+
         <h1>Canción personalizada para contar vuestra historia</h1>
-        <p>
-          Creada a partir de vuestra historia real <br>
-          Entrega garantizada según la tarifa <br>
-          Revisión incluida
-        </p>
-        <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
-        <span class="hero-note">⏱️ Empieza ahora · Tardarás menos de 3 minutos</span>
+
+        <ul class="hero-benefits">
+          <li>🎶 Creada desde cero a partir de vuestra historia real</li>
+          <li>⏱️ Entrega garantizada según la tarifa elegida</li>
+          <li>🛡️ Revisión incluida para que quede perfecta</li>
+        </ul>
+
+        <a href="#formulario-lirya" class="hero-btn">
+          Crear mi canción personalizada
+        </a>
+
+        <span class="hero-note">
+          Empieza ahora · Tardarás menos de 3 minutos
+        </span>
       </div>
 
       <div class="hero-phone-wrapper">
-        <img src="/mockup-phone-final.png" class="hero-phone" alt="Ejemplo de canción personalizada creada con vuestra historia">
+        <img src="/mockup-phone-final.png"
+             class="hero-phone"
+             alt="Ejemplo de canción personalizada creada con vuestra historia">
       </div>
     </div>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
+
+      <span class="hero-badge">
+        🎁 Para parejas, cumpleaños y regalos familiares
+      </span>
+
       <h1>Canción personalizada para contar vuestra historia</h1>
-      <img src="/mockup-phone-final.png" alt="Ejemplo de canción personalizada creada con vuestra historia">
+
+      <img src="/mockup-phone-final.png"
+           alt="Ejemplo de canción personalizada creada con vuestra historia">
 
       <div class="hero-mobile-text">
-        <p>
-          Creada a partir de vuestra historia real <br>
-          Entrega garantizada según la tarifa <br> 
-          Revisión incluida
-        </p>
-        <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
-        <span class="hero-note">⏱️ Empieza ahora · Menos de 3 minutos</span>
+        <ul>
+          <li>🎶 Creada desde cero con vuestra historia</li>
+          <li>⏱️ Entrega garantizada según la tarifa</li>
+          <li>🛡️ Revisión incluida</li>
+        </ul>
+
+        <a href="#formulario-lirya" class="hero-btn">
+          Crear mi canción personalizada
+        </a>
+
+        <span class="hero-note">
+          Empieza ahora · Menos de 3 minutos
+        </span>
       </div>
     </div>
 
@@ -273,7 +317,6 @@ header{
 </html>
 
 <style>
-  
 /* =================================
    EL REGALO PERFECTO
    (PREMIUM + ANIMACIONES)
@@ -2013,6 +2056,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
