@@ -1789,12 +1789,17 @@ videos.forEach(video => {
 /* ===== GARANTÍA DE SATISFACCIÓN ===== */
 
 .lirya-guarantee {
-  background: #ffffff;
+  background: radial-gradient(
+    circle at top left,
+    #2a0f3f 0%,
+    #12071f 40%,
+    #000000 100%
+  );
   padding: 80px 20px;
   text-align: center;
 }
 
-/* TÍTULO */
+/* TÍTULO (NO TOCADO) */
 .lirya-guarantee h2 {
   font-family: 'Playfair Display', serif;
   font-size: 34px;
@@ -1804,12 +1809,12 @@ videos.forEach(video => {
   letter-spacing: 0.4px;
 }
 
-/* TEXTO PRINCIPAL (más pequeño, elegante, musical) */
+/* TEXTO PRINCIPAL (más claro para fondo oscuro) */
 .lirya-guarantee-text {
   font-family: 'Playfair Display', serif;
   font-size: 16px;
   font-weight: 400;
-  color: rgba(26, 26, 26, 0.82);
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.85;
   letter-spacing: 0.25px;
   max-width: 760px;
@@ -1821,7 +1826,7 @@ videos.forEach(video => {
   font-family: 'Playfair Display', serif;
   font-size: 15.5px;
   font-style: italic;
-  color: rgba(26, 26, 26, 0.65);
+  color: rgba(255, 255, 255, 0.65);
   max-width: 760px;
   margin: 22px auto 0;
   line-height: 1.7;
@@ -1871,7 +1876,7 @@ videos.forEach(video => {
   </p>
 
   <p class="lirya-guarantee-text">
-    Si al recibirla necesitas ajustar algún detalle —una frase, un tono o un matiz—  
+    Si al recibirla necesitas ajustar algún detalle —una frase, un tono o un matiz—
     estaremos ahí para revisarla contigo.
   </p>
 
@@ -1879,6 +1884,7 @@ videos.forEach(video => {
     Nuestro objetivo no es solo crear una canción, sino un recuerdo que querréis conservar para siempre.
   </p>
 </section>
+
 <!-- ===== CIERRE FINAL / CONTACTO ===== -->
 <style>
 .lirya-final-section {
@@ -1983,6 +1989,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
