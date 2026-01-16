@@ -319,11 +319,11 @@ header{
 <style>
 
 <!-- =================================
-   EL REGALO PERFECTO
-   (MISMA ESTRUCTURA QUE CÓMO FUNCIONA)
+   UN REGALO QUE NO SE COMPRA
+   (MISMA BASE QUE CÓMO FUNCIONA)
 ================================= -->
 <style>
-.lirya-rp-section {
+.lirya-cf-section {
   background: #ffffff;
   padding: 110px 20px;
   text-align: center;
@@ -331,7 +331,7 @@ header{
 }
 
 /* TÍTULO */
-.lirya-rp-title {
+.lirya-cf-title {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 36px;
@@ -341,7 +341,7 @@ header{
 }
 
 /* LÍNEA DECORATIVA */
-.lirya-rp-divider {
+.lirya-cf-divider {
   width: 72px;
   height: 2px;
   background: linear-gradient(
@@ -354,7 +354,7 @@ header{
 }
 
 /* GRID */
-.lirya-rp-grid {
+.lirya-cf-grid {
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
@@ -363,7 +363,7 @@ header{
 }
 
 /* TARJETA */
-.lirya-rp-card {
+.lirya-cf-card {
   background-color: #fcfaf7;
   border-radius: 16px;
   padding: 44px 34px;
@@ -373,42 +373,49 @@ header{
     transform 0.35s cubic-bezier(.34,1.56,.64,1),
     box-shadow 0.35s ease,
     border-color 0.35s ease;
+  cursor: default;
 }
 
-/* TARJETA GARANTÍA DESTACADA */
-.lirya-rp-card.garantia {
-  border-color: rgba(199, 181, 138, 0.85);
-  box-shadow: 0 18px 42px rgba(199, 181, 138, 0.35);
+/* TARJETA GARANTÍA */
+.lirya-cf-card.garantia {
+  border-color: rgba(199, 181, 138, 0.9);
+  box-shadow: 0 20px 48px rgba(199, 181, 138, 0.4);
 }
 
 /* HOVER */
 @media (hover: hover) {
-  .lirya-rp-card:hover {
+  .lirya-cf-card:hover {
     transform: translateY(-8px) scale(1.015);
     box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
     border-color: rgba(199, 181, 138, 0.65);
   }
 
-  .lirya-rp-card.garantia:hover {
+  .lirya-cf-card.garantia:hover {
     transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 30px 60px rgba(199, 181, 138, 0.45);
+    box-shadow: 0 32px 64px rgba(199, 181, 138, 0.5);
     border-color: rgba(199, 181, 138, 1);
   }
 }
 
 /* ACTIVE / SELECCIÓN */
-.lirya-rp-card:active {
+.lirya-cf-card:active {
   transform: translateY(-4px) scale(0.98);
-  box-shadow: 0 14px 28px rgba(0,0,0,0.12);
 }
 
-.lirya-rp-card.garantia:active {
+.lirya-cf-card.garantia:active {
   transform: translateY(-6px) scale(0.99);
-  box-shadow: 0 20px 40px rgba(199, 181, 138, 0.4);
+}
+
+/* NÚMERO */
+.lirya-cf-step {
+  font-family: "Playfair Display", serif;
+  color: #000;
+  font-size: 18px;
+  margin-bottom: 14px;
 }
 
 /* TÍTULO TARJETA */
-.lirya-rp-card h3 {
+.lirya-cf-card h3 {
   font-family: "Playfair Display", serif;
   font-size: 22px;
   margin-bottom: 12px;
@@ -416,7 +423,7 @@ header{
 }
 
 /* TEXTO */
-.lirya-rp-card p {
+.lirya-cf-card p {
   font-family: "Playfair Display", serif;
   font-size: 14.5px;
   line-height: 1.65;
@@ -427,16 +434,16 @@ header{
 
 /* ===== MÓVIL ===== */
 @media (max-width: 900px) {
-  .lirya-rp-section {
+  .lirya-cf-section {
     padding: 80px 20px;
   }
 
-  .lirya-rp-grid {
+  .lirya-cf-grid {
     grid-template-columns: 1fr;
     gap: 30px;
   }
 
-  .lirya-rp-card {
+  .lirya-cf-card {
     opacity: 0;
     transform: translateY(32px) scale(0.96);
     transition:
@@ -444,7 +451,7 @@ header{
       transform 0.6s cubic-bezier(.34,1.56,.64,1);
   }
 
-  .lirya-rp-card.is-visible {
+  .lirya-cf-card.is-visible {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
@@ -452,7 +459,7 @@ header{
 
 /* Accesibilidad */
 @media (prefers-reduced-motion: reduce) {
-  .lirya-rp-card {
+  .lirya-cf-card {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -460,36 +467,38 @@ header{
 }
 </style>
 
-<section class="lirya-rp-section">
-  <h2 class="lirya-rp-title">
+<section class="lirya-cf-section">
+  <h2 class="lirya-cf-title">
     Un regalo que no se compra, se crea con vuestra historia
   </h2>
+  <div class="lirya-cf-divider"></div>
 
-  <div class="lirya-rp-divider"></div>
+  <div class="lirya-cf-grid">
 
-  <div class="lirya-rp-grid">
-
-    <div class="lirya-rp-card">
+    <div class="lirya-cf-card">
+      <div class="lirya-cf-step">1</div>
       <h3>Hecha con vuestra historia</h3>
       <p>
-        Cada canción se escribe desde cero a partir de momentos reales,
+        Cada canción se escribe desde cero con momentos reales,
         palabras propias y recuerdos que solo vosotros compartís.
       </p>
     </div>
 
-    <div class="lirya-rp-card garantia">
-      <h3>Garantía emocional</h3>
+    <div class="lirya-cf-card garantia">
+      <div class="lirya-cf-step">2</div>
+      <h3>Garantía emocional incluida</h3>
       <p>
-        Si al recibir la canción quieres ajustar una frase o el enfoque,
+        Si al recibir la canción quieres ajustar algún detalle,
         la revisamos contigo hasta que encaje de verdad.
       </p>
     </div>
 
-    <div class="lirya-rp-card">
+    <div class="lirya-cf-card">
+      <div class="lirya-cf-step">3</div>
       <h3>Pensada para regalar</h3>
       <p>
-        Un detalle único para parejas, cumpleaños, aniversarios o
-        cualquier momento que merezca ser recordado.
+        Un detalle único para parejas, aniversarios, cumpleaños
+        o cualquier momento que merezca ser recordado.
       </p>
     </div>
 
@@ -499,7 +508,7 @@ header{
 <script>
 /* Animación escalera móvil */
 if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const cards = document.querySelectorAll('.lirya-rp-card');
+  const cards = document.querySelectorAll('.lirya-cf-card');
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
@@ -2063,6 +2072,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
