@@ -524,7 +524,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   cards.forEach(card => observer.observe(card));
 }
 </script>
-  
+
 <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES ===== -->
 <style>
 .examples {
@@ -562,14 +562,14 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 16px;
   opacity: 0.85;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .examples-note {
   font-size: 13px;
   font-style: italic;
   opacity: 0.8;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 }
 
 /* GRID TARIFAS */
@@ -580,7 +580,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   align-items: stretch;
 }
 
-/* TARJETAS (ORIGINALES) */
+/* TARJETAS */
 .example-card {
   position: relative;
   border-radius: 18px;
@@ -636,7 +636,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   font-family: "Playfair Display", serif;
   font-size: 20px;
   color: #f2e7c9;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .tarifa-precio {
@@ -644,27 +644,27 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   font-size: 36px;
   font-weight: 600;
   color: #d4b483;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .tarifa-entrega {
   font-size: 14px;
   opacity: 0.85;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .tarifa-incluye {
   font-size: 14px;
   line-height: 1.6;
   opacity: 0.85;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 }
 
-/* BOTÓN ORIGINAL */
+/* BOTÓN */
 .tarifa-info a {
   display: inline-block;
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
-  padding: 13px 28px;
+  padding: 13px 30px;
   border-radius: 30px;
   color: #ffffff;
   font-family: "Playfair Display", serif;
@@ -675,7 +675,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 /* TEXTO INTERMEDIO */
 .styles-note {
-  margin: 26px 0 16px;
+  margin: 28px 0 18px;
   font-size: 13px;
   font-style: italic;
   opacity: 0.8;
@@ -688,7 +688,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 .styles-carousel {
   display: flex;
-  align-items: flex-start; /* 🔑 TODAS ALINEADAS ARRIBA */
+  align-items: flex-start;
   gap: 24px;
   overflow-x: auto;
   scroll-behavior: smooth;
@@ -707,41 +707,26 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   }
 }
 
-/* ===== VIÑETAS (ARREGLADAS, SOLO ESTO) ===== */
+/* VIÑETAS */
 .style-card {
   position: relative;
   min-width: 280px;
   width: 280px;
-  height: 350px;              /* altura fija común */
+  height: 350px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* la imagen empieza TODA a la misma altura */
 .style-card img {
   width: 100%;
-  height: 300px;              /* MISMA ALTURA VISUAL */
-  object-fit: contain;        /* no se corta */
+  height: 300px;
+  object-fit: contain;
   border-radius: 22px;
-  margin-top: 0;              /* mismo techo */
   display: block;
 }
 
-/* TEXTO DENTRO */
-.style-title {
-  position: absolute;
-  bottom: 50px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-family: "Playfair Display", serif;
-  font-size: 14px;
-  color: #f2e7c9;
-}
-
-/* ANIMACIÓN PLAY (ORIGINAL) */
 .style-card.playing {
   animation: playingPulse 1.8s ease-in-out infinite;
 }
@@ -789,21 +774,24 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <h2>Ejemplos reales</h2>
     <p class="examples-subtitle">
-      Así suenan las canciones personalizadas. Historias reales, emociones reales.
+      Canciones creadas a partir de historias reales. Cada una es única.
     </p>
-    <p class="examples-note">Dale al PLAY para escuchar cada ejemplo!</p>
+    <p class="examples-note">
+      Pulsa play para escuchar algunos ejemplos reales
+    </p>
 
     <div class="examples-grid">
+
       <div class="example-card">
         <img src="/papa-card.jpg">
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">49€</div>
-          <div class="tarifa-entrega">Entrega en 4–5 días</div>
+          <div class="tarifa-entrega">Entrega estándar · 4–5 días</div>
           <div class="tarifa-incluye">
-            • Letra personalizada<br>
-            • Música original<br>
-            • 1 revisión incluida
+            Letra personalizada<br>
+            Música original<br>
+            1 revisión incluida
           </div>
           <a href="#formulario-lirya?tarifa=49">Elegir esta opción</a>
         </div>
@@ -815,11 +803,11 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
         <div class="tarifa-info">
           <h3>Canción personalizada</h3>
           <div class="tarifa-precio">59€</div>
-          <div class="tarifa-entrega">Entrega en 2–3 días</div>
+          <div class="tarifa-entrega">Entrega prioritaria · 2–3 días</div>
           <div class="tarifa-incluye">
-            • Letra muy detallada<br>
-            • Enfoque romántico (San Valentín)<br>
-            • Hasta 2 revisiones
+            Letra muy detallada<br>
+            Enfoque emocional cuidado<br>
+            Hasta 2 revisiones
           </div>
           <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
         </div>
@@ -832,17 +820,18 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
           <div class="tarifa-precio">79€</div>
           <div class="tarifa-entrega">Entrega prioritaria</div>
           <div class="tarifa-incluye">
-            • Máximo nivel de detalle<br>
-            • Prioridad absoluta<br>
-            • Revisión ilimitada
+            Máximo nivel de detalle<br>
+            Prioridad absoluta<br>
+            Revisión ilimitada
           </div>
           <a href="#formulario-lirya?tarifa=79">Elegir esta opción</a>
         </div>
       </div>
+
     </div>
 
     <p class="styles-note">
-      Dale al PLAY para escuchar los diferentes ejemplos de estilos disponibles creados por nosotros!
+      Algunos de los estilos musicales que podemos crear para tu canción
     </p>
 
     <div class="styles-wrapper">
@@ -2072,6 +2061,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
