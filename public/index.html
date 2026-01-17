@@ -2048,25 +2048,37 @@ videos.forEach(video => {
   font-weight: 600;
   color: #c7b58a;
   margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
 }
 
 /* Texto contacto */
 .lirya-contact-box p {
   font-size: 15.5px;
   color: rgba(26,26,26,0.75);
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
-/* Email */
-.lirya-contact-email {
-  font-size: 17px;
+/* Métodos de contacto */
+.lirya-contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.lirya-contact-email,
+.lirya-contact-whatsapp {
+  font-size: 16px;
   font-weight: 500;
   color: #c7b58a;
-  letter-spacing: 0.3px;
+  text-decoration: none;
+}
+
+/* Tiempo de respuesta */
+.lirya-contact-response-time {
+  font-size: 14px;
+  color: rgba(26,26,26,0.55);
+  margin-top: 8px;
+  font-style: italic;
 }
 
 /* Footer legal */
@@ -2089,16 +2101,33 @@ videos.forEach(video => {
 
 <section class="lirya-final-section">
 
-  <h2 class="lirya-final-title">Completa tu regalo</h2>
+  <h2 class="lirya-final-title">Completa tu regalo con tranquilidad</h2>
 
   <p class="lirya-final-subtitle">
-    Entrega en 24 horas · Modificación gratuita si lo deseas
+    Entrega rápida · Revisiones incluidas · Acompañamiento real
   </p>
 
   <div class="lirya-contact-box">
-    <h3>✉️ Contacto</h3>
-    <p>¿Tienes alguna pregunta o necesitas ayuda?</p>
-    <div class="lirya-contact-email">ayuda@lirya.com</div>
+    <h3>Contacto directo</h3>
+    <p>Si tienes cualquier duda antes de crear tu canción, estamos aquí para ayudarte.</p>
+
+    <div class="lirya-contact-methods">
+      <a href="mailto:ayuda@lirya.com" class="lirya-contact-email">
+        ✉️ ayuda@lirya.com
+      </a>
+
+      <a 
+        href="https://wa.me/34600000000?text=Hola%2C%20tengo%20una%20duda%20sobre%20mi%20canción"
+        target="_blank"
+        class="lirya-contact-whatsapp"
+      >
+        💬 Escríbenos por WhatsApp
+      </a>
+
+      <div class="lirya-contact-response-time">
+        ⏱️ Respondemos normalmente en menos de 24 horas
+      </div>
+    </div>
   </div>
 
   <div class="lirya-footer-legal">
@@ -2106,6 +2135,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
