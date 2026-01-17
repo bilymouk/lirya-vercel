@@ -224,7 +224,7 @@
 
     .hero-mobile-benefits{
       list-style:none;
-      margin:6 0 14px;
+      margin:4 0 14px;
       padding:0 10px;
     }
     .hero-mobile-benefits li{
@@ -242,9 +242,9 @@
       100% { transform:translateY(20px); }
     }
     @keyframes floatPhoneMobile{
-      0%   { transform:translateY(8px); }
-      50%  { transform:translateY(-4px); }
-      100% { transform:translateY(8px); }
+      0%   { transform:translateY(2px); }
+      50%  { transform:translateY(-6px); }
+      100% { transform:translateY(2px); }
     }
 
     /* Reduced motion */
@@ -264,23 +264,22 @@
       .hero-mobile{ display:block; }
     }
 
-    /* =========================
+/* =========================
    AJUSTE MOBILE – SUBIR TEXTO
    ========================= */
 @media (max-width:900px){
-  .hero-benefits{
-    margin:6px 0 14px !important;
-    padding:0 !important;
+  .hero-mobile-image{
+    margin:4px auto 2px !important;  /* ya lo tienes, lo fijo */
   }
 
-  .hero-benefits li{
+  .hero-mobile-benefits{
+    margin:2px 0 10px !important;    /* SUBE el texto */
+    padding:0 10px !important;
+  }
+
+  .hero-mobile-benefits li{
     margin:0 0 4px !important;
     line-height:1.25 !important;
-  }
-
-  .hero-phone{
-    margin:10px auto 4px !important;
-    display:block;
   }
 }
 
@@ -2274,6 +2273,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
