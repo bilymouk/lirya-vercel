@@ -4,44 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- SEO básico -->
   <title>LIRYA | Canciones personalizadas para regalar</title>
   <meta name="description" content="Crea una canción personalizada con vuestra historia. Un regalo único para parejas, cumpleaños y momentos especiales. Entrega garantizada." />
-  <link rel="canonical" href="https://lirya.studio/" />
-  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.lirya.studio/" />
+  <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#ffffff" />
 
   <!-- Favicons -->
   <link rel="icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-  <!-- Open Graph / Social sharing -->
+  <!-- Open Graph -->
   <meta property="og:site_name" content="LIRYA" />
-  <meta property="og:title" content="Canción personalizada para regalar | LIRYA" />
-  <meta property="og:description" content="Crea una canción personalizada con vuestra historia. Lista para regalar." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://lirya.studio/" />
-  <!-- Crea esta imagen (1200x630) y súbela a /og.jpg -->
-  <meta property="og:image" content="https://lirya.studio/og.jpg" />
+  <meta property="og:title" content="LIRYA | Canciones personalizadas para regalar" />
+  <meta property="og:description" content="Crea una canción personalizada con vuestra historia. Un regalo único y emocional, listo para regalar." />
+  <meta property="og:url" content="https://www.lirya.studio/" />
+  <meta property="og:image" content="https://www.lirya.studio/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Canción personalizada para regalar | LIRYA" />
-  <meta name="twitter:description" content="Crea una canción personalizada con vuestra historia. Lista para regalar." />
-  <meta name="twitter:image" content="https://lirya.studio/og.jpg" />
+  <meta name="twitter:title" content="LIRYA | Canciones personalizadas para regalar" />
+  <meta name="twitter:description" content="Crea una canción personalizada con vuestra historia. Un regalo único y emocional, listo para regalar." />
+  <meta name="twitter:image" content="https://www.lirya.studio/og.jpg" />
 
   <!-- Performance: fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- JSON-LD (SEO) -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "LIRYA",
-    "url": "https://lirya.studio/",
-    "logo": "https://lirya.studio/apple-touch-icon.png"
+    "url": "https://www.lirya.studio/",
+    "logo": "https://www.lirya.studio/apple-touch-icon.png"
   }
   </script>
 
@@ -49,11 +51,11 @@
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "Canción personalizada",
+    "name": "Canciones personalizadas",
     "provider": {
       "@type": "Organization",
       "name": "LIRYA",
-      "url": "https://lirya.studio/"
+      "url": "https://www.lirya.studio/"
     },
     "areaServed": "ES",
     "description": "Servicio de creación de canciones personalizadas a partir de una historia real, con entrega garantizada según la tarifa elegida y revisión incluida.",
@@ -74,33 +76,25 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#fff}
 
-    /* HEADER */
     header{
       position:sticky; top:0; z-index:1000;
       background:#fff; border-bottom:1px solid #eee;
     }
     .header-container{
       display:flex; justify-content:space-between; align-items:center;
-      padding:14px 24px; gap:16px;
+      padding:14px 24px;
     }
     .logo{
       font-family:'Playfair Display',serif;
       font-weight:800; letter-spacing:2px; font-size:26px; color:var(--gold);
-      user-select:none;
     }
     .cta-header{
       background:var(--orange); color:#fff;
       padding:10px 28px; border-radius:12px;
-      font-family:'Playfair Display',serif; font-weight:600; letter-spacing:.6px;
-      text-decoration:none; white-space:nowrap;
-      transition:background .2s ease, transform .2s ease;
-    }
-    .cta-header:hover{ background:var(--orange-hover); transform:scale(1.03); }
-    .cta-header:focus-visible, .hero-btn:focus-visible, .mockup-click:focus-visible{
-      outline:2px solid rgba(0,0,0,.35); outline-offset:3px;
+      font-family:'Playfair Display',serif; font-weight:600;
+      letter-spacing:.6px; text-decoration:none;
     }
 
-    /* HERO */
     .hero{
       position:relative;
       background:url('/cascos-neon.png') center/cover no-repeat;
@@ -108,7 +102,7 @@
     }
     .hero::before{
       content:""; position:absolute; inset:0;
-      background:rgba(0,0,0,.40);
+      background:rgba(0,0,0,.4);
     }
     .hero-inner{
       position:relative; z-index:2;
@@ -116,7 +110,6 @@
       padding:56px 40px;
     }
 
-    /* DESKTOP layout */
     .hero-desktop{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -124,17 +117,15 @@
       align-items:center;
     }
     .hero-text{
-      padding-left:56px;
-      transform:translateY(-14px);
       max-width:520px;
+      padding-left:56px;
     }
     .hero-badge{
       display:inline-block;
       margin-bottom:14px;
       font-size:.88rem;
-      letter-spacing:.35px;
-      color:rgba(255,255,255,.82);
       font-style:italic;
+      opacity:.85;
     }
     .hero-text h1{
       font-family:'Playfair Display',serif;
@@ -142,8 +133,6 @@
       line-height:1.12;
       margin-bottom:16px;
     }
-
-    /* Menos texto: 2 bullets */
     .hero-benefits{
       list-style:none;
       margin-bottom:22px;
@@ -152,10 +141,8 @@
       font-family:'Playfair Display',serif;
       font-size:1.05rem;
       line-height:1.55;
-      opacity:.95;
       margin-bottom:6px;
     }
-
     .hero-btn{
       background:var(--orange);
       color:#fff;
@@ -166,180 +153,154 @@
       letter-spacing:.7px;
       text-decoration:none;
       display:inline-block;
-      transition:background .2s ease, transform .2s ease;
     }
-    .hero-btn:hover{ background:var(--orange-hover); transform:translateY(-1px); }
-
     .hero-note{
       display:block;
       margin-top:12px;
-      font-size:.92rem;
+      font-size:.9rem;
       font-style:italic;
-      opacity:.86;
+      opacity:.85;
     }
 
-    /* Phone */
-    .hero-phone-wrapper{ display:flex; justify-content:center; transform:translateY(26px); }
     .hero-phone{
       width:360px;
-      height:auto; /* nunca estirar */
-      animation:floatPhoneDesktop 5s ease-in-out infinite;
+      height:auto;
+      cursor:pointer;
+      border-radius:18px;
     }
-    .mockup-click{ cursor:pointer; border-radius:18px; outline:none; }
 
-    /* MOBILE */
     .hero-mobile{ display:none; text-align:center; }
 
-    /* Título un poco más grande en móvil */
     .hero-mobile h1{
       font-family:'Playfair Display',serif;
       font-size:2.7rem;
       line-height:1.12;
       margin-bottom:10px;
     }
-
     .hero-mobile-image{
       width:85%;
       max-width:340px;
-      height:auto;
       margin:12px auto 14px;
       display:block;
-      animation:floatPhoneMobile 5s ease-in-out infinite;
     }
-
     .hero-mobile-benefits{
       list-style:none;
-      margin:0 0 14px;
-      padding:0 10px;
+      margin-bottom:14px;
     }
     .hero-mobile-benefits li{
       font-family:'Playfair Display',serif;
       font-size:1.05rem;
-      line-height:1.35;   /* más juntas */
-      opacity:.95;
-      margin-bottom:4px;  /* más juntas */
+      line-height:1.35;
+      margin-bottom:4px;
     }
 
-    @keyframes floatPhoneDesktop{
-      0%{transform:translateY(0)} 50%{transform:translateY(-14px)} 100%{transform:translateY(0)}
-    }
-    @keyframes floatPhoneMobile{
-      0%{transform:translateY(8px)} 50%{transform:translateY(-4px)} 100%{transform:translateY(8px)}
-    }
-    @media (prefers-reduced-motion: reduce){
-      .hero-phone, .hero-mobile-image{ animation:none; }
-      .cta-header, .hero-btn{ transition:none; }
-    }
-
-    @media (max-width:900px){
-      .hero{ background-size:auto 100%; background-position:47% center; }
-      .hero-inner{ padding:26px 20px 34px; }
-      .hero-desktop{ display:none; }
-      .hero-mobile{ display:block; }
+    @media(max-width:900px){
+      .hero-desktop{display:none}
+      .hero-mobile{display:block}
+      .hero-inner{padding:26px 20px 34px}
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="header-container">
-      <div class="logo">LIRYA</div>
-      <a href="#formulario-lirya" class="cta-header">Crear mi canción</a>
-    </div>
-  </header>
 
-  <section class="hero">
-    <div class="hero-inner">
+<header>
+  <div class="header-container">
+    <div class="logo">LIRYA</div>
+    <a href="#formulario-lirya" class="cta-header">Crear mi canción</a>
+  </div>
+</header>
 
-      <!-- Audio preparado (se activará al hacer click en el mockup cuando subas el mp3) -->
-      <audio id="lirya-audio" preload="none">
-        <source src="/audio/ejemplo.mp3" type="audio/mpeg" />
-      </audio>
+<section class="hero">
+  <div class="hero-inner">
 
-      <!-- DESKTOP -->
-      <div class="hero-desktop">
-        <div class="hero-text">
-          <span class="hero-badge">Para parejas, cumpleaños y regalos familiares</span>
+    <audio id="lirya-audio" preload="none">
+      <source src="/audio/ejemplo.mp3" type="audio/mpeg" />
+    </audio>
 
-          <h1>Una canción personalizada con vuestra historia</h1>
-
-          <ul class="hero-benefits">
-            <li>Letra basada en vuestra historia real</li>
-            <li>Entrega garantizada según la tarifa elegida</li>
-          </ul>
-
-          <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
-          <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
-        </div>
-
-        <div class="hero-phone-wrapper">
-          <img
-            src="/mockup-phone-final.png"
-            class="hero-phone mockup-click"
-            id="mockup-audio-trigger-desktop"
-            alt="Ejemplo de canción personalizada"
-          />
-        </div>
-      </div>
-
-      <!-- MOBILE (como pediste) -->
-      <div class="hero-mobile">
+    <div class="hero-desktop">
+      <div class="hero-text">
         <span class="hero-badge">Para parejas, cumpleaños y regalos familiares</span>
-
         <h1>Una canción personalizada con vuestra historia</h1>
-
-        <!-- Imagen justo debajo del título -->
-        <img
-          src="/mockup-phone-final.png"
-          class="mockup-click hero-mobile-image"
-          id="mockup-audio-trigger-mobile"
-          alt="Ejemplo de canción personalizada"
-        />
-
-        <!-- 2 frases más juntas -->
-        <ul class="hero-mobile-benefits">
-          <li>Letra basada en vuestra historia</li>
-          <li>Entrega garantizada según tu tarifa</li>
+        <ul class="hero-benefits">
+          <li>Letra basada en vuestra historia real</li>
+          <li>Entrega garantizada según la tarifa elegida</li>
         </ul>
-
-        <!-- CTA -->
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
         <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
       </div>
 
+      <img
+        src="/mockup-phone-final.png"
+        class="hero-phone"
+        id="mockup-audio-trigger-desktop"
+        alt="Ejemplo de canción personalizada"
+      />
     </div>
-  </section>
 
-  <script>
-    (function () {
-      const audio = document.getElementById("lirya-audio");
-      const triggers = [
-        document.getElementById("mockup-audio-trigger-desktop"),
-        document.getElementById("mockup-audio-trigger-mobile")
-      ].filter(Boolean);
+    <div class="hero-mobile">
+      <span class="hero-badge">Para parejas, cumpleaños y regalos familiares</span>
+      <h1>Una canción personalizada con vuestra historia</h1>
+      <img
+        src="/mockup-phone-final.png"
+        class="hero-mobile-image"
+        id="mockup-audio-trigger-mobile"
+        alt="Ejemplo de canción personalizada"
+      />
+      <ul class="hero-mobile-benefits">
+        <li>Letra basada en vuestra historia</li>
+        <li>Entrega garantizada según tu tarifa</li>
+      </ul>
+      <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
+      <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
+    </div>
 
-      function toggleAudio() {
-        if (!audio) return;
-        if (audio.paused) {
-          audio.play().catch(() => {});
-        } else {
-          audio.pause();
-        }
-      }
+  </div>
+</section>
 
-      triggers.forEach((el) => {
-        el.addEventListener("click", toggleAudio);
-        el.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleAudio();
-          }
-        });
-        el.setAttribute("tabindex", "0");
-        el.setAttribute("aria-label", "Reproducir o pausar ejemplo de canción");
-      });
-    })();
-  </script>
+<script>
+(function () {
+  const audio = document.getElementById("lirya-audio");
+  const triggers = [
+    document.getElementById("mockup-audio-trigger-desktop"),
+    document.getElementById("mockup-audio-trigger-mobile")
+  ].filter(Boolean);
+
+  let startX = 0;
+  let startY = 0;
+  let moved = false;
+
+  function onStart(e){
+    moved = false;
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
+    startY = e.touches ? e.touches[0].clientY : e.clientY;
+  }
+
+  function onMove(e){
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+    if (Math.abs(x - startX) > 10 || Math.abs(y - startY) > 10) {
+      moved = true;
+    }
+  }
+
+  function onEnd(){
+    if (moved) return;
+    if (audio.paused) audio.play().catch(()=>{});
+    else audio.pause();
+  }
+
+  triggers.forEach(el=>{
+    el.addEventListener("mousedown", onStart);
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseup", onEnd);
+    el.addEventListener("touchstart", onStart);
+    el.addEventListener("touchmove", onMove);
+    el.addEventListener("touchend", onEnd);
+  });
+})();
+</script>
+
 </body>
 </html>
 
@@ -2220,6 +2181,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
