@@ -105,8 +105,7 @@
     .cta-header:focus-visible,
     .hero-btn:focus-visible,
     .hero-phone:focus-visible,
-    .hero-mobile-image:focus-visible,
-    .hero-audio-badge:focus-visible{
+    .hero-mobile-image:focus-visible{
       outline:2px solid rgba(255,255,255,.55);
       outline-offset:3px;
     }
@@ -188,27 +187,6 @@
       opacity:.86;
     }
 
-    /* Audio badge (elegante, sin iconos) */
-    .hero-audio-badge{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.25);
-      background:rgba(0,0,0,.35);
-      color:#fff;
-      font-size:.95rem;
-      cursor:pointer;
-      backdrop-filter: blur(6px);
-      margin:0 0 12px;
-      transition:background .2s ease, transform .2s ease;
-    }
-    .hero-audio-badge:hover{
-      background:rgba(0,0,0,.50);
-      transform:translateY(-1px);
-    }
-
     /* PHONE DESKTOP (bajado + flotando) */
     .hero-phone{
       width:420px;
@@ -272,7 +250,7 @@
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .hero-phone, .hero-mobile-image{ animation:none; }
-      .cta-header, .hero-btn, .hero-audio-badge{ transition:none; }
+      .cta-header, .hero-btn{ transition:none; }
     }
 
     /* Responsive */
@@ -343,26 +321,20 @@
 
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
-        <span class="hero-note">También disponible para cumpleaños y aniversarios</span>
       </div>
 
-      <div>
-        <button type="button" class="hero-audio-badge" data-audio-toggle>Escuchar ejemplo</button>
-        <img
-          src="/mockup-phone-final.png"
-          class="hero-phone"
-          id="mockup-audio-trigger-desktop"
-          alt="Ejemplo de canción personalizada"
-        />
-      </div>
+      <img
+        src="/mockup-phone-final.png"
+        class="hero-phone"
+        id="mockup-audio-trigger-desktop"
+        alt="Ejemplo de canción personalizada"
+      />
     </div>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
       <span class="hero-badge">El regalo más emocional para este San Valentín</span>
       <h1>Una canción personalizada con vuestra historia</h1>
-
-      <button type="button" class="hero-audio-badge" data-audio-toggle>Escuchar ejemplo</button>
 
       <img
         src="/mockup-phone-final.png"
@@ -378,7 +350,6 @@
 
       <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
-      <span class="hero-note">También disponible para cumpleaños y aniversarios</span>
     </div>
 
   </div>
@@ -389,71 +360,21 @@
   const audio = document.getElementById("lirya-audio");
   const triggers = [
     document.getElementById("mockup-audio-trigger-desktop"),
-    document.getElementById("mockup-audio-trigger-mobile"),
-    ...Array.from(document.querySelectorAll("[data-audio-toggle]"))
+    document.getElementById("mockup-audio-trigger-mobile")
   ].filter(Boolean);
 
-  // Evita activar audio al hacer scroll (threshold de movimiento)
-  let startX = 0, startY = 0, moved = false;
-
-  function setBadgeText(){
-    document.querySelectorAll("[data-audio-toggle]").forEach(btn=>{
-      btn.textContent = audio && !audio.paused ? "Pausar ejemplo" : "Escuchar ejemplo";
-    });
-  }
-
-  function getPoint(e){
-    const t = e.touches && e.touches[0];
-    return { x: t ? t.clientX : e.clientX, y: t ? t.clientY : e.clientY };
-  }
-
-  function onStart(e){
-    moved = false;
-    const p = getPoint(e);
-    startX = p.x; startY = p.y;
-  }
-
-  function onMove(e){
-    const p = getPoint(e);
-    if (Math.abs(p.x - startX) > 10 || Math.abs(p.y - startY) > 10) moved = true;
-  }
-
-  function onEnd(){
-    if (!audio || moved) return;
-    if (audio.paused) audio.play().catch(()=>{});
-    else audio.pause();
-  }
-
-  function onClick(e){
-    e.preventDefault();
-    // click (para el botón) no depende de gesto de scroll
+  function toggleAudio(){
     if (!audio) return;
     if (audio.paused) audio.play().catch(()=>{});
     else audio.pause();
   }
 
   triggers.forEach(el=>{
-    // Para botones explícitos
-    if (el.matches && el.matches("[data-audio-toggle]")){
-      el.addEventListener("click", onClick);
-      return;
-    }
-
-    // Para imágenes (mantiene tu protección contra scroll)
-    el.addEventListener("mousedown", onStart);
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseup", onEnd);
-    el.addEventListener("touchstart", onStart, { passive:true });
-    el.addEventListener("touchmove", onMove, { passive:true });
-    el.addEventListener("touchend", onEnd);
+    el.addEventListener("click", (e)=>{
+      e.preventDefault();
+      toggleAudio();
+    });
   });
-
-  if (audio){
-    audio.addEventListener("play", setBadgeText);
-    audio.addEventListener("pause", setBadgeText);
-    audio.addEventListener("ended", setBadgeText);
-  }
-  setBadgeText();
 })();
 </script>
 
@@ -2337,6 +2258,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
