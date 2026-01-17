@@ -291,6 +291,28 @@
 .hero-mobile-image{ margin-bottom:30px; }
 .hero-mobile-benefits{ margin-top:24px; }
 
+/* ===== MOBILE: SUBIR FRASES SOBRE EL CTA ===== */
+@media (max-width:900px){
+
+  /* Reducimos espacio debajo del mockup */
+  .hero-mobile-image{
+    margin-bottom:12px !important; /* antes era mucho mayor */
+  }
+
+  /* Subimos el bloque de frases */
+  .hero-mobile-benefits{
+    margin-top:0 !important;
+    margin-bottom:10px !important;
+  }
+
+  /* Compactamos las frases entre sí */
+  .hero-mobile-benefits li{
+    margin-bottom:2px !important;
+    line-height:1.25 !important;
+  }
+
+}
+
   </style>
 </head>
 
@@ -2281,6 +2303,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
