@@ -1559,24 +1559,21 @@ render();
 
   <div class="lirya-reactions-header">
     <h2 class="lirya-reactions-title">
-      <span class="title-main">Reacciones reales</span>
-      <span class="title-sub">Emociones reales</span>
+      Así reaccionan cuando escuchan su canción por primera vez
     </h2>
 
     <p class="lirya-reactions-subtitle">
-      Personas reales escuchando por primera vez una canción creada con su historia.
+      Reacciones reales de personas escuchando por primera vez una canción creada con su historia.
     </p>
 
-    <!-- ===== RATING ===== -->
+    <!-- ===== ESTRELLAS (SIN NUMERITO PARA NO ROMPER CREDIBILIDAD) ===== -->
     <div class="lirya-rating">
-      <div class="rating-line">
-        <span class="rating-text">Excelente</span>
-        <span class="rating-score">4.9 / 5</span>
-      </div>
       <div class="rating-stars">★★★★★</div>
+      <span class="rating-note">Basado en reacciones reales de clientes</span>
     </div>
   </div>
 
+  <!-- ===== CARRUSEL ===== -->
   <div class="lirya-reactions-carousel">
 
     <div class="reaction-card">
@@ -1605,7 +1602,7 @@ render();
         <div class="reaction-name">✔ Andrea R.</div>
       </div>
     </div>
-    
+
     <div class="reaction-card">
       <video src="/video4.mov" poster="/video4.jpg" playsinline preload="metadata"></video>
       <div class="reaction-content">
@@ -1619,12 +1616,12 @@ render();
       <video src="/video5.mp4" poster="/video5.jpg" playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
-        <p class="reaction-text">“No esperabamos algo tan personal y tan bonito.”</p>
+        <p class="reaction-text">“No esperábamos algo tan personal y tan bonito.”</p>
         <div class="reaction-name">✔ Juan M.</div>
       </div>
     </div>
 
-     <div class="reaction-card">
+    <div class="reaction-card">
       <video src="/video6.mp4" poster="/video6.PNG" playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
@@ -1633,25 +1630,41 @@ render();
       </div>
     </div>
 
-     <div class="reaction-card">
+    <div class="reaction-card">
       <video src="/video7.mp4" poster="/video7.PNG" playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
-        <p class="reaction-text">“Nos encancto, fué muy especial.”</p>
+        <p class="reaction-text">“Nos encantó, fue muy especial.”</p>
         <div class="reaction-name">✔ Sara M.</div>
       </div>
     </div>
 
-     <div class="reaction-card">
+    <div class="reaction-card">
       <video src="/video8.mov" poster="/video8.PNG" playsinline preload="metadata"></video>
       <div class="reaction-content">
         <div class="stars">★★★★★</div>
         <p class="reaction-text">“Consiguió decir justo lo que yo no sabía expresar.”</p>
-        <div class="reaction-name">✔ Maria T.</div>
+        <div class="reaction-name">✔ María T.</div>
       </div>
     </div>
 
   </div>
+
+  <!-- ===== PUENTE PSICOLÓGICO + CTA ===== -->
+  <div class="lirya-reactions-cta">
+    <p class="cta-text">
+      Tú también puedes regalar una reacción así.
+    </p>
+
+    <a href="#formulario-lirya" class="cta-button">
+      Crear mi canción ahora
+    </a>
+
+    <p class="cta-note">
+      La mayoría de estas canciones se crearon con la opción recomendada.
+    </p>
+  </div>
+
 </section>
 
 <style>
@@ -1664,7 +1677,7 @@ render();
 
 /* ===== HEADER ===== */
 .lirya-reactions-header {
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 /* ===== TÍTULO ===== */
@@ -1673,13 +1686,8 @@ render();
   font-size: 38px;
   font-weight: 600;
   color: #d4b483;
-  margin-bottom: 20px;
-  line-height: 1.15;
-  white-space: nowrap;
-}
-
-.lirya-reactions-title span {
-  display: inline;
+  margin-bottom: 18px;
+  line-height: 1.2;
 }
 
 /* ===== SUBTÍTULO ===== */
@@ -1688,58 +1696,28 @@ render();
   font-size: 16px;
   color: rgba(26, 26, 26, 0.75);
   max-width: 760px;
-  margin: 10px auto 16px;
+  margin: 0 auto 14px;
 }
 
 /* ===== RATING ===== */
 .lirya-rating {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 16px;
-  font-family: "Playfair Display", serif;
-}
-
-.rating-line {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-/* ===== RATING (DORADO PREMIUM) ===== */
-.rating-text,
-.rating-score {
-  font-size: 26px;              /* MÁS GRANDE */
-  font-weight: 600;
-  color: #c9a24d;               /* DORADO MÁS FUERTE */
-  letter-spacing: 0.3px;
+  gap: 6px;
+  margin-bottom: 18px;
 }
 
 .rating-stars {
-  font-size: 26px;              /* MÁS GRANDE */
-  color: #ff9f3f;               /* NARANJA LIRYA */
+  font-size: 26px;
+  color: #ff9f3f;
   letter-spacing: 4px;
 }
-  
-/* Punto solo en desktop */
-.title-main::after {
-  content: ".";
-}
 
-/* ===== MÓVIL ===== */
-@media (max-width: 768px) {
-  .rating-text,
-  .rating-score {
-    font-size: 24px;
-  }
-
-  .rating-stars {
-    font-size: 26px;
-  }
-    .title-main::after {
-    content: "";
-  }
+.rating-note {
+  font-size: 13px;
+  opacity: 0.7;
+  font-style: italic;
 }
 
 /* ===== CARRUSEL ===== */
@@ -1803,38 +1781,41 @@ render();
   color: rgba(26, 26, 26, 0.6);
 }
 
+/* ===== CTA ===== */
+.lirya-reactions-cta {
+  margin-top: 40px;
+}
+
+.cta-text {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  color: #1a1a1a;
+  margin-bottom: 18px;
+}
+
+.cta-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff9f3f, #e58b2a);
+  color: #fff;
+  padding: 14px 36px;
+  border-radius: 30px;
+  font-family: "Playfair Display", serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cta-note {
+  margin-top: 14px;
+  font-size: 13px;
+  opacity: 0.7;
+  font-style: italic;
+}
+
 /* ===== MÓVIL ===== */
 @media (max-width: 768px) {
-
   .lirya-reactions-title {
-    white-space: normal;
-    font-size: 43px;
-  }
-
-  .lirya-reactions-title span {
-    display: block;
-  }
-
-  .title-sub {
-    font-size: 36px;
-  }
-
-  .lirya-rating {
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .rating-line {
-    flex-direction: row; /* TEXTO + NÚMEROS en una fila */
-  }
-
-  .rating-text,
-  .rating-score {
-    font-size: 22px;
-  }
-
-  .rating-stars {
-    font-size: 24px;
+    font-size: 32px;
   }
 }
 </style>
@@ -2076,6 +2057,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
