@@ -1835,14 +1835,12 @@ videos.forEach(video => {
 });
 </script>
 
-<!-- ===== GARANTÍA DE SATISFACCIÓN ===== -->
+<!-- ===== GARANTÍA DE SATISFACCIÓN REAL ===== -->
 <style>
-/* ===== GARANTÍA DE SATISFACCIÓN ===== */
-
 .lirya-guarantee {
   position: relative;
   background: url('/ondas-neon-ejemplos.png') center / cover no-repeat;
-  padding: 80px 20px;
+  padding: 90px 20px;
   text-align: center;
   overflow: hidden;
 }
@@ -1855,13 +1853,12 @@ videos.forEach(video => {
   background: radial-gradient(
     circle at top left,
     rgba(42, 15, 63, 0.70) 0%,
-    rgba(18, 7, 31, 0.74) 40%,
+    rgba(18, 7, 31, 0.78) 45%,
     rgba(0, 0, 0, 0.92) 100%
   );
   z-index: 1;
 }
 
-/* CONTENIDO */
 .lirya-guarantee > * {
   position: relative;
   z-index: 2;
@@ -1869,17 +1866,16 @@ videos.forEach(video => {
 
 /* TÍTULO */
 .lirya-guarantee h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 34px;
   font-weight: 700;
   color: #c7b58a;
-  margin-bottom: 22px;
-  letter-spacing: 0.4px;
+  margin-bottom: 18px;
 }
 
 /* DIVISOR */
 .lirya-guarantee-divider {
-  width: 70px;
+  width: 72px;
   height: 2px;
   background: linear-gradient(
     to right,
@@ -1887,47 +1883,69 @@ videos.forEach(video => {
     #c7b58a,
     transparent
   );
-  margin: 0 auto 30px;
+  margin: 22px auto 34px;
 }
 
 /* TEXTO PRINCIPAL */
 .lirya-guarantee-text {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 16px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.88);
   line-height: 1.85;
-  letter-spacing: 0.25px;
+  color: rgba(255, 255, 255, 0.88);
   max-width: 760px;
   margin: 0 auto 18px;
 }
 
-/* TEXTO DESTACADO (TRANQUILIZADOR) */
-.lirya-guarantee-highlight {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.95);
-  max-width: 760px;
-  margin: 0 auto 22px;
-  line-height: 1.8;
+/* LISTA GARANTÍA */
+.lirya-guarantee-list {
+  max-width: 720px;
+  margin: 10px auto 28px;
+  text-align: left;
+  font-family: "Playfair Display", serif;
+  font-size: 15.5px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.75;
 }
 
-/* TEXTO FINAL */
-.lirya-guarantee-italic {
-  font-family: 'Playfair Display', serif;
-  font-size: 15.5px;
+.lirya-guarantee-list li {
+  margin-bottom: 10px;
+}
+
+/* TEXTO JUSTIFICACIÓN FORMULARIO */
+.lirya-guarantee-note {
+  font-family: "Playfair Display", serif;
+  font-size: 15px;
   font-style: italic;
   color: rgba(255, 255, 255, 0.65);
   max-width: 760px;
-  margin: 18px auto 0;
+  margin: 24px auto 34px;
   line-height: 1.7;
 }
 
-/* RESPONSIVE */
+/* CTA FINAL */
+.lirya-guarantee-cta {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff9f3f, #e58b2a);
+  color: #ffffff;
+  font-family: "Playfair Display", serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 34px;
+  border-radius: 30px;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(255, 159, 63, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lirya-guarantee-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(255, 159, 63, 0.45);
+}
+
+/* MÓVIL */
 @media (max-width: 768px) {
   .lirya-guarantee {
-    padding: 65px 20px;
+    padding: 75px 20px;
   }
 
   .lirya-guarantee h2 {
@@ -1935,39 +1953,40 @@ videos.forEach(video => {
   }
 
   .lirya-guarantee-text,
-  .lirya-guarantee-highlight {
-    font-size: 15.5px;
+  .lirya-guarantee-note {
+    font-size: 15px;
   }
 
-  .lirya-guarantee-italic {
+  .lirya-guarantee-list {
     font-size: 15px;
   }
 }
 </style>
 
 <section class="lirya-guarantee">
-  <h2>Garantía de satisfacción</h2>
+  <h2>Garantía de satisfacción real</h2>
 
   <div class="lirya-guarantee-divider"></div>
 
   <p class="lirya-guarantee-text">
-    Sabemos que no siempre es fácil explicar con palabras lo que sientes.
-    Por eso no necesitas escribir bonito ni preocuparte por cómo expresarlo.
+    Todas nuestras canciones incluyen revisiones según la tarifa elegida.
+    No entregamos una canción hasta que realmente represente vuestra historia.
   </p>
 
-  <p class="lirya-guarantee-highlight">
-    Tú nos cuentas tu historia. Nosotros la transformamos en una canción que emocione de verdad.
+  <ul class="lirya-guarantee-list">
+    <li>• Si al recibirla quieres ajustar una frase, el tono o algún matiz, la revisamos contigo.</li>
+    <li>• Las revisiones están incluidas según la opción que elijas.</li>
+    <li>• Nuestro objetivo es que la canción emocione de verdad, no solo que “suene bonita”.</li>
+  </ul>
+
+  <p class="lirya-guarantee-note">
+    Por eso pedimos algunos detalles en el formulario: para poder hacerlo bien desde el principio
+    y crear una canción que refleje tu historia con autenticidad.
   </p>
 
-  <p class="lirya-guarantee-text">
-    Si al recibirla sientes que hay algún detalle que ajustar —una frase, un tono o un matiz—
-    revisaremos la canción contigo hasta que encaje con lo que querías transmitir.
-  </p>
-
-  <p class="lirya-guarantee-italic">
-    Nuestro compromiso no es solo crear una canción, sino entregarte la tranquilidad
-    de saber que el resultado estará a la altura de lo que significa para ti.
-  </p>
+  <a href="#formulario-lirya" class="lirya-guarantee-cta">
+    Crear mi canción con tranquilidad
+  </a>
 </section>
 
 <!-- ===== CIERRE FINAL / CONTACTO ===== -->
@@ -2074,6 +2093,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
