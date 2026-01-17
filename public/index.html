@@ -1847,7 +1847,7 @@ videos.forEach(video => {
   overflow: hidden;
 }
 
-/* CAPA OSCURA PARA OPACIDAD */
+/* CAPA OSCURA */
 .lirya-guarantee::before {
   content: "";
   position: absolute;
@@ -1861,20 +1861,33 @@ videos.forEach(video => {
   z-index: 1;
 }
 
-/* CONTENIDO POR ENCIMA */
+/* CONTENIDO */
 .lirya-guarantee > * {
   position: relative;
   z-index: 2;
 }
 
-/* TÍTULO (NO TOCADO) */
+/* TÍTULO */
 .lirya-guarantee h2 {
   font-family: 'Playfair Display', serif;
   font-size: 34px;
   font-weight: 700;
   color: #c7b58a;
-  margin-bottom: 28px;
+  margin-bottom: 22px;
   letter-spacing: 0.4px;
+}
+
+/* DIVISOR */
+.lirya-guarantee-divider {
+  width: 70px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #c7b58a,
+    transparent
+  );
+  margin: 0 auto 30px;
 }
 
 /* TEXTO PRINCIPAL */
@@ -1886,31 +1899,29 @@ videos.forEach(video => {
   line-height: 1.85;
   letter-spacing: 0.25px;
   max-width: 760px;
-  margin: 0 auto 22px;
+  margin: 0 auto 18px;
 }
 
-/* TEXTO FINAL EN CURSIVA */
+/* TEXTO DESTACADO (TRANQUILIZADOR) */
+.lirya-guarantee-highlight {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 760px;
+  margin: 0 auto 22px;
+  line-height: 1.8;
+}
+
+/* TEXTO FINAL */
 .lirya-guarantee-italic {
   font-family: 'Playfair Display', serif;
   font-size: 15.5px;
   font-style: italic;
   color: rgba(255, 255, 255, 0.65);
   max-width: 760px;
-  margin: 22px auto 0;
+  margin: 18px auto 0;
   line-height: 1.7;
-}
-
-/* LÍNEA DECORATIVA */
-.lirya-guarantee-divider {
-  width: 70px;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #c7b58a,
-    transparent
-  );
-  margin: 26px auto 34px;
 }
 
 /* RESPONSIVE */
@@ -1923,7 +1934,8 @@ videos.forEach(video => {
     font-size: 28px;
   }
 
-  .lirya-guarantee-text {
+  .lirya-guarantee-text,
+  .lirya-guarantee-highlight {
     font-size: 15.5px;
   }
 
@@ -1939,17 +1951,22 @@ videos.forEach(video => {
   <div class="lirya-guarantee-divider"></div>
 
   <p class="lirya-guarantee-text">
-    Queremos que la canción os emocione de verdad.
-    Cada historia es única y la tratamos con el cuidado que merece.
+    Sabemos que no siempre es fácil explicar con palabras lo que sientes.
+    Por eso no necesitas escribir bonito ni preocuparte por cómo expresarlo.
+  </p>
+
+  <p class="lirya-guarantee-highlight">
+    Tú nos cuentas tu historia. Nosotros la transformamos en una canción que emocione de verdad.
   </p>
 
   <p class="lirya-guarantee-text">
-    Si al recibirla necesitas ajustar algún detalle —una frase, un tono o un matiz—
-    estaremos ahí para revisarla contigo.
+    Si al recibirla sientes que hay algún detalle que ajustar —una frase, un tono o un matiz—
+    revisaremos la canción contigo hasta que encaje con lo que querías transmitir.
   </p>
 
   <p class="lirya-guarantee-italic">
-    Nuestro objetivo no es solo crear una canción, sino un recuerdo que querréis conservar para siempre.
+    Nuestro compromiso no es solo crear una canción, sino entregarte la tranquilidad
+    de saber que el resultado estará a la altura de lo que significa para ti.
   </p>
 </section>
 
@@ -2057,6 +2074,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
