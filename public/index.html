@@ -1139,7 +1139,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 </script>
 
-<!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO) ================== -->
+<!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO COMPLETO) ================== -->
 <section id="formulario-lirya">
 
 <style>
@@ -1152,15 +1152,26 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   color:#fff;
 }
 #formulario-lirya .wrapper{max-width:520px;margin:0 auto}
-#formulario-lirya h1{text-align:center;color:#f2c98a;font-size:36px;margin-bottom:16px}
-#formulario-lirya .subtitle{text-align:center;opacity:.85;margin-bottom:28px}
+#formulario-lirya h1{text-align:center;color:#f2c98a;font-size:36px;margin-bottom:12px}
+#formulario-lirya .subtitle{
+  text-align:center;
+  opacity:.85;
+  margin-bottom:28px;
+  font-style:italic;
+}
 #formulario-lirya .progress{display:flex;gap:10px;justify-content:center;margin-bottom:28px}
 #formulario-lirya .progress span{width:36px;height:4px;background:rgba(255,255,255,.25)}
 #formulario-lirya .progress span.active{background:#f2c98a}
 #formulario-lirya .card{background:rgba(255,255,255,.10);border-radius:18px;padding:26px}
 #formulario-lirya .step{display:none}
 #formulario-lirya .step.active{display:block}
-#formulario-lirya .step-title{font-size:26px;color:#f2c98a;margin-bottom:18px}
+#formulario-lirya .step-title{font-size:26px;color:#f2c98a;margin-bottom:6px}
+#formulario-lirya .step-helper{
+  font-size:13px;
+  opacity:.8;
+  margin-bottom:18px;
+  font-style:italic;
+}
 #formulario-lirya .question{margin-bottom:18px}
 #formulario-lirya label{display:block;margin-bottom:6px;font-size:14px}
 #formulario-lirya input,#formulario-lirya textarea{
@@ -1168,6 +1179,14 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   background:rgba(255,255,255,.88);font-size:14px
 }
 #formulario-lirya textarea{height:90px;resize:none}
+
+.helper-text{
+  font-size:12.5px;
+  opacity:.75;
+  margin-top:6px;
+  line-height:1.4;
+  font-style:italic;
+}
 
 #formulario-lirya .dropdown{position:relative}
 #formulario-lirya .dropdown-btn{
@@ -1201,7 +1220,10 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <div class="wrapper">
 <h1>Cuéntanos vuestra historia</h1>
-<div class="subtitle">Los detalles que harán vuestra canción única</div>
+<div class="subtitle">
+No hace falta escribir bonito. Nosotros transformamos tus palabras en una canción emocional.
+</div>
+
 <div class="progress" id="progress"></div>
 
 <div class="card">
@@ -1241,7 +1263,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <button class="dropdown-btn" id="tarifa-btn" data-required>Selecciona una tarifa ▾</button>
 <div class="dropdown-menu">
 <div class="dropdown-item" data-tarifa="49">49€ — Estándar</div>
-<div class="dropdown-item" data-tarifa="59">59€ — San Valentín</div>
+<div class="dropdown-item" data-tarifa="59">59€ — Emocional</div>
 <div class="dropdown-item" data-tarifa="79">79€ — Prioritaria</div>
 </div>
 </div>
@@ -1256,15 +1278,20 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <!-- PASO 2 -->
 <div class="step">
 <div class="step-title">Paso 2 de 6 — Historia</div>
+<div class="step-helper">
+Escribe con naturalidad. No buscamos perfección, sino verdad.
+</div>
 
 <div class="question">
 <label>¿Cómo os conocisteis? *</label>
 <textarea id="how_met" required></textarea>
+<div class="helper-text">Ejemplo: dónde fue, qué sentiste, por qué lo recuerdas.</div>
 </div>
 
 <div class="question">
 <label>Un momento que lo cambió todo *</label>
 <textarea id="special_moment" required></textarea>
+<div class="helper-text">Una conversación, una despedida, una promesa, un reencuentro…</div>
 </div>
 
 <div class="question">
@@ -1295,11 +1322,13 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Tres palabras que definan a esa persona *</label>
 <input id="three_words" required>
+<div class="helper-text">Ejemplo: sensible, fuerte, divertida.</div>
 </div>
 
 <div class="question">
 <label>Una frase que te gustaría decirle *</label>
 <textarea id="dedication" required></textarea>
+<div class="helper-text">Puede ser simple. Nosotros la convertimos en letra.</div>
 </div>
 
 <div class="question">
@@ -1409,6 +1438,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <div class="question">
 <label>Anécdota o algo que quieras añadir</label>
 <textarea id="dont_mention"></textarea>
+<div class="helper-text">Opcional. Cualquier detalle ayuda.</div>
 </div>
 
 <div class="question">
@@ -1432,6 +1462,9 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 <!-- PASO 6 -->
 <div class="step">
 <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+<div class="step-helper">
+Recibirás un email de confirmación inmediato tras completar el pago.
+</div>
 
 <div class="question">
 <label>Email *</label>
@@ -1511,50 +1544,6 @@ document.querySelectorAll(".dropdown").forEach(d=>{
   });
 });
 document.addEventListener("click",()=>document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open")));
-
-const tarifaHidden=document.getElementById("tarifa-hidden");
-
-document.querySelector(".submit").addEventListener("click",async()=>{
-  if(!validateStep()) return;
-  const submitBtn=document.querySelector(".submit");
-  submitBtn.disabled=true;
-  submitBtn.textContent="Redirigiendo a pago seguro…";
-
-  const data={
-    recipient_name:recipient_name.value,
-    your_name:your_name.value,
-    relationship:document.querySelectorAll(".dropdown-btn")[0].textContent,
-    tarifa:tarifaHidden.value,
-    how_met:how_met.value,
-    special_moment:special_moment.value,
-    reason_now:document.querySelectorAll(".dropdown-btn")[2].textContent,
-    three_words:three_words.value,
-    dedication:dedication.value,
-    emotion:document.querySelectorAll(".dropdown-btn")[3].textContent,
-    song_style:document.querySelectorAll(".dropdown-btn")[4].textContent,
-    rhythm:document.querySelectorAll(".dropdown-btn")[5].textContent,
-    voice_type:document.querySelectorAll(".dropdown-btn")[6].textContent,
-    language:document.querySelectorAll(".dropdown-btn")[7].textContent,
-    include_name:document.querySelectorAll(".dropdown-btn")[8].textContent,
-    dont_mention:dont_mention.value,
-    intensity:document.querySelectorAll(".dropdown-btn")[9].textContent,
-    email:email.value,
-    whatsapp:document.querySelectorAll(".dropdown-btn")[10].textContent,
-    phone:phone.value
-  };
-
-  try{
-    const r=await fetch("/api/payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-    const j=await r.json();
-    if(j.url) window.location.href=j.url;
-    else throw new Error("Stripe no devolvió URL");
-  }catch(err){
-    alert("Error al iniciar el pago");
-    submitBtn.disabled=false;
-    submitBtn.textContent="Pagar y enviar";
-    console.error(err);
-  }
-});
 
 render();
 </script>
@@ -2086,6 +2075,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
