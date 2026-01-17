@@ -1546,13 +1546,18 @@ document.querySelectorAll(".dropdown").forEach(d=>{
 });
 document.addEventListener("click",()=>document.querySelectorAll(".dropdown-menu").forEach(m=>m.classList.remove("open")));
 
-/* ===================== FIX BOTÓN STRIPE ===================== */
+render();
+
+/* ===================== BOTÓN PAGO MEJORADO ===================== */
 const tarifaHidden = document.getElementById("tarifa-hidden");
+const submitBtn = document.querySelector(".submit");
+let processingPayment = false;
 
-document.querySelector(".submit").addEventListener("click", async () => {
+submitBtn.addEventListener("click", async () => {
   if (!validateStep()) return;
+  if (processingPayment) return; // evita doble click
+  processingPayment = true;
 
-  const submitBtn = document.querySelector(".submit");
   submitBtn.disabled = true;
   submitBtn.textContent = "Redirigiendo a pago seguro…";
 
@@ -1585,18 +1590,22 @@ document.querySelector(".submit").addEventListener("click", async () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
+    if (!r.ok) throw new Error("Error en la petición al servidor");
+
     const j = await r.json();
-    if (j.url) window.location.href = j.url;
-    else throw new Error("Stripe no devolvió URL");
+    if (j.url) {
+      window.location.href = j.url;
+    } else {
+      throw new Error("Stripe no devolvió URL");
+    }
   } catch (err) {
-    alert("Error al iniciar el pago");
+    alert("Error al iniciar el pago: " + (err.message || "Inténtalo de nuevo"));
+    console.error(err);
     submitBtn.disabled = false;
     submitBtn.textContent = "Pagar y enviar";
-    console.error(err);
+    processingPayment = false;
   }
 });
-
-render();
 </script>
 
 </section>
@@ -2185,6 +2194,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
