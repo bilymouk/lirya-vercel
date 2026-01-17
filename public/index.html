@@ -224,7 +224,7 @@
 
     .hero-mobile-benefits{
       list-style:none;
-      margin:4 0 14px;
+      margin:4px 0 14px;
       padding:0 10px;
     }
     .hero-mobile-benefits li{
@@ -264,32 +264,38 @@
       .hero-mobile{ display:block; }
     }
 
-/* =========================
-   AJUSTE MOBILE – SUBIR TEXTO
-   ========================= */
+/* ===== MOBILE FINAL (LIMPIO) ===== */
 @media (max-width:900px){
+
+  .hero-inner{ padding:26px 20px 34px; }
+  .hero-desktop{ display:none; }
+  .hero-mobile{ display:block; text-align:center; }
+
+  .hero-mobile h1{
+    margin-bottom:36px;
+  }
+
   .hero-mobile-image{
-    margin:4px auto 2px !important;  /* ya lo tienes, lo fijo */
+    width:95%;
+    max-width:420px;
+    margin:14px auto 18px; /* espacio con las frases */
   }
 
   .hero-mobile-benefits{
-    margin:2px 0 10px !important;    /* SUBE el texto */
-    padding:0 10px !important;
+    list-style:none;
+    margin:0 0 0;          /* frases más arriba */
+    padding:0 10px;
   }
 
   .hero-mobile-benefits li{
-    margin:0 0 4px !important;
-    line-height:1.25 !important;
+    margin:0 0 2px;
+    line-height:1.25;
   }
-}
-@media (max-width:900px){
-  .hero-mobile-benefits{
-    margin-top:24px !important; /* ESTE es el espacio real */
+
+  /* Bajar el botón (separarlo de frases) */
+  .hero-mobile .hero-btn{
+    margin-top:22px;
   }
-}
-.hero-mobile h1{ margin-bottom:36px; }
-.hero-mobile-image{ margin-bottom:30px; }
-.hero-mobile-benefits{ margin-top:24px; }
 }
     
 /* ===== MOBILE: BAJAR CTA (sin mover frases) ===== */
@@ -2290,6 +2296,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
