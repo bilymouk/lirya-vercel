@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO básico -->
+  <!-- SEO -->
   <title>LIRYA | Canciones personalizadas para regalar</title>
   <meta name="description" content="Crea una canción personalizada con vuestra historia. Un regalo único para parejas, cumpleaños y momentos especiales. Entrega garantizada." />
   <link rel="canonical" href="https://www.lirya.studio/" />
@@ -31,7 +31,7 @@
   <meta name="twitter:description" content="Crea una canción personalizada con vuestra historia. Un regalo único y emocional, listo para regalar." />
   <meta name="twitter:image" content="https://www.lirya.studio/og.jpg" />
 
-  <!-- Performance: fonts -->
+  <!-- Performance: Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
@@ -76,25 +76,30 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#fff}
 
+    /* HEADER */
     header{
       position:sticky; top:0; z-index:1000;
       background:#fff; border-bottom:1px solid #eee;
     }
     .header-container{
       display:flex; justify-content:space-between; align-items:center;
-      padding:14px 24px;
+      padding:14px 24px; gap:16px;
     }
     .logo{
       font-family:'Playfair Display',serif;
       font-weight:800; letter-spacing:2px; font-size:26px; color:var(--gold);
+      user-select:none;
     }
     .cta-header{
       background:var(--orange); color:#fff;
       padding:10px 28px; border-radius:12px;
       font-family:'Playfair Display',serif; font-weight:600;
-      letter-spacing:.6px; text-decoration:none;
+      letter-spacing:.6px; text-decoration:none; white-space:nowrap;
+      transition:background .2s ease, transform .2s ease;
     }
+    .cta-header:hover{ background:var(--orange-hover); transform:scale(1.03); }
 
+    /* HERO */
     .hero{
       position:relative;
       background:url('/cascos-neon.png') center/cover no-repeat;
@@ -102,7 +107,7 @@
     }
     .hero::before{
       content:""; position:absolute; inset:0;
-      background:rgba(0,0,0,.4);
+      background:rgba(0,0,0,.40);
     }
     .hero-inner{
       position:relative; z-index:2;
@@ -110,6 +115,7 @@
       padding:56px 40px;
     }
 
+    /* DESKTOP layout */
     .hero-desktop{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -119,13 +125,15 @@
     .hero-text{
       max-width:520px;
       padding-left:56px;
+      transform:translateY(-14px);
     }
     .hero-badge{
       display:inline-block;
       margin-bottom:14px;
       font-size:.88rem;
+      letter-spacing:.35px;
+      color:rgba(255,255,255,.82);
       font-style:italic;
-      opacity:.85;
     }
     .hero-text h1{
       font-family:'Playfair Display',serif;
@@ -133,6 +141,8 @@
       line-height:1.12;
       margin-bottom:16px;
     }
+
+    /* Bullets */
     .hero-benefits{
       list-style:none;
       margin-bottom:22px;
@@ -141,8 +151,11 @@
       font-family:'Playfair Display',serif;
       font-size:1.05rem;
       line-height:1.55;
+      opacity:.95;
       margin-bottom:6px;
     }
+
+    /* CTA */
     .hero-btn{
       background:var(--orange);
       color:#fff;
@@ -153,22 +166,30 @@
       letter-spacing:.7px;
       text-decoration:none;
       display:inline-block;
+      transition:background .2s ease, transform .2s ease;
     }
+    .hero-btn:hover{ background:var(--orange-hover); transform:translateY(-1px); }
+
     .hero-note{
       display:block;
       margin-top:12px;
-      font-size:.9rem;
+      font-size:.92rem;
       font-style:italic;
-      opacity:.85;
+      opacity:.86;
     }
 
+    /* Phone image (DESKTOP) */
     .hero-phone{
       width:360px;
       height:auto;
       cursor:pointer;
       border-radius:18px;
+      animation:floatPhoneDesktop 5s ease-in-out infinite;
+      user-select:none;
+      -webkit-user-drag:none;
     }
 
+    /* MOBILE */
     .hero-mobile{ display:none; text-align:center; }
 
     .hero-mobile h1{
@@ -177,27 +198,57 @@
       line-height:1.12;
       margin-bottom:10px;
     }
+
     .hero-mobile-image{
       width:85%;
       max-width:340px;
+      height:auto;
       margin:12px auto 14px;
       display:block;
+      cursor:pointer;
+      border-radius:18px;
+      animation:floatPhoneMobile 5s ease-in-out infinite;
+      user-select:none;
+      -webkit-user-drag:none;
     }
+
     .hero-mobile-benefits{
       list-style:none;
-      margin-bottom:14px;
+      margin:0 0 14px;
+      padding:0 10px;
     }
     .hero-mobile-benefits li{
       font-family:'Playfair Display',serif;
       font-size:1.05rem;
       line-height:1.35;
+      opacity:.95;
       margin-bottom:4px;
     }
 
-    @media(max-width:900px){
-      .hero-desktop{display:none}
-      .hero-mobile{display:block}
-      .hero-inner{padding:26px 20px 34px}
+    /* Animations */
+    @keyframes floatPhoneDesktop{
+      0%   { transform:translateY(0); }
+      50%  { transform:translateY(-14px); }
+      100% { transform:translateY(0); }
+    }
+    @keyframes floatPhoneMobile{
+      0%   { transform:translateY(8px); }
+      50%  { transform:translateY(-4px); }
+      100% { transform:translateY(8px); }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .hero-phone, .hero-mobile-image{ animation:none; }
+      .cta-header, .hero-btn{ transition:none; }
+    }
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{ background-size:auto 100%; background-position:47% center; }
+      .hero-inner{ padding:26px 20px 34px; }
+      .hero-desktop{ display:none; }
+      .hero-mobile{ display:block; }
     }
   </style>
 </head>
@@ -214,18 +265,23 @@
 <section class="hero">
   <div class="hero-inner">
 
+    <!-- Audio preparado (funcionará cuando subas /public/audio/ejemplo.mp3) -->
     <audio id="lirya-audio" preload="none">
       <source src="/audio/ejemplo.mp3" type="audio/mpeg" />
     </audio>
 
+    <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
         <span class="hero-badge">Para parejas, cumpleaños y regalos familiares</span>
+
         <h1>Una canción personalizada con vuestra historia</h1>
+
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
           <li>Entrega garantizada según la tarifa elegida</li>
         </ul>
+
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
         <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
       </div>
@@ -238,19 +294,24 @@
       />
     </div>
 
+    <!-- MOBILE -->
     <div class="hero-mobile">
       <span class="hero-badge">Para parejas, cumpleaños y regalos familiares</span>
+
       <h1>Una canción personalizada con vuestra historia</h1>
+
       <img
         src="/mockup-phone-final.png"
         class="hero-mobile-image"
         id="mockup-audio-trigger-mobile"
         alt="Ejemplo de canción personalizada"
       />
+
       <ul class="hero-mobile-benefits">
         <li>Letra basada en vuestra historia</li>
         <li>Entrega garantizada según tu tarifa</li>
       </ul>
+
       <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
@@ -266,26 +327,27 @@
     document.getElementById("mockup-audio-trigger-mobile")
   ].filter(Boolean);
 
-  let startX = 0;
-  let startY = 0;
-  let moved = false;
+  // Evita activar audio al hacer scroll (threshold de movimiento)
+  let startX = 0, startY = 0, moved = false;
+
+  function getPoint(e){
+    const t = e.touches && e.touches[0];
+    return { x: t ? t.clientX : e.clientX, y: t ? t.clientY : e.clientY };
+  }
 
   function onStart(e){
     moved = false;
-    startX = e.touches ? e.touches[0].clientX : e.clientX;
-    startY = e.touches ? e.touches[0].clientY : e.clientY;
+    const p = getPoint(e);
+    startX = p.x; startY = p.y;
   }
 
   function onMove(e){
-    const x = e.touches ? e.touches[0].clientX : e.clientX;
-    const y = e.touches ? e.touches[0].clientY : e.clientY;
-    if (Math.abs(x - startX) > 10 || Math.abs(y - startY) > 10) {
-      moved = true;
-    }
+    const p = getPoint(e);
+    if (Math.abs(p.x - startX) > 10 || Math.abs(p.y - startY) > 10) moved = true;
   }
 
   function onEnd(){
-    if (moved) return;
+    if (!audio || moved) return;
     if (audio.paused) audio.play().catch(()=>{});
     else audio.pause();
   }
@@ -294,8 +356,8 @@
     el.addEventListener("mousedown", onStart);
     el.addEventListener("mousemove", onMove);
     el.addEventListener("mouseup", onEnd);
-    el.addEventListener("touchstart", onStart);
-    el.addEventListener("touchmove", onMove);
+    el.addEventListener("touchstart", onStart, { passive:true });
+    el.addEventListener("touchmove", onMove, { passive:true });
     el.addEventListener("touchend", onEnd);
   });
 })();
@@ -2181,6 +2243,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
