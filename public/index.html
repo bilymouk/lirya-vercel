@@ -105,7 +105,8 @@
     .cta-header:focus-visible,
     .hero-btn:focus-visible,
     .hero-phone:focus-visible,
-    .hero-mobile-image:focus-visible{
+    .hero-mobile-image:focus-visible,
+    .hero-audio-badge:focus-visible{
       outline:2px solid rgba(255,255,255,.55);
       outline-offset:3px;
     }
@@ -148,9 +149,9 @@
     }
     .hero-text h1{
       font-family:'Playfair Display',serif;
-      font-size:3.65rem;   /* ✅ más grande */
+      font-size:3.65rem;
       line-height:1.12;
-      margin-bottom:28px;  /* ✅ más margen con bullets */
+      margin-bottom:28px;
     }
 
     .hero-benefits{
@@ -187,13 +188,34 @@
       opacity:.86;
     }
 
+    /* Audio badge (elegante, sin iconos) */
+    .hero-audio-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.25);
+      background:rgba(0,0,0,.35);
+      color:#fff;
+      font-size:.95rem;
+      cursor:pointer;
+      backdrop-filter: blur(6px);
+      margin:0 0 12px;
+      transition:background .2s ease, transform .2s ease;
+    }
+    .hero-audio-badge:hover{
+      background:rgba(0,0,0,.50);
+      transform:translateY(-1px);
+    }
+
     /* PHONE DESKTOP (bajado + flotando) */
     .hero-phone{
       width:420px;
       height:auto;
       cursor:pointer;
       border-radius:18px;
-      transform:translateY(20px);          /* ✅ bajado */
+      transform:translateY(20px);
       animation:floatPhoneDesktop 5s ease-in-out infinite;
       user-select:none;
       -webkit-user-drag:none;
@@ -250,7 +272,7 @@
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .hero-phone, .hero-mobile-image{ animation:none; }
-      .cta-header, .hero-btn{ transition:none; }
+      .cta-header, .hero-btn, .hero-audio-badge{ transition:none; }
     }
 
     /* Responsive */
@@ -259,47 +281,36 @@
         background-size:auto 100%;
         background-position:47% center;
       }
+
       .hero-inner{ padding:26px 20px 34px; }
       .hero-desktop{ display:none; }
-      .hero-mobile{ display:block; }
+      .hero-mobile{ display:block; text-align:center; }
+
+      .hero-mobile h1{
+        margin-bottom:36px;
+      }
+
+      .hero-mobile-image{
+        width:95%;
+        max-width:420px;
+        margin:14px auto 18px;
+      }
+
+      .hero-mobile-benefits{
+        list-style:none;
+        margin:0;
+        padding:0 10px;
+      }
+
+      .hero-mobile-benefits li{
+        margin:0 0 2px;
+        line-height:1.25;
+      }
+
+      .hero-mobile .hero-btn{
+        margin-top:28px !important;
+      }
     }
-
-/* ===== MOBILE FINAL (LIMPIO) ===== */
-@media (max-width:900px){
-
-  .hero-inner{ padding:26px 20px 34px; }
-  .hero-desktop{ display:none; }
-  .hero-mobile{ display:block; text-align:center; }
-
-  .hero-mobile h1{
-    margin-bottom:36px;
-  }
-
-  .hero-mobile-image{
-    width:95%;
-    max-width:420px;
-    margin:14px auto 18px; /* espacio con las frases */
-  }
-
-  .hero-mobile-benefits{
-    list-style:none;
-    margin:0 0 0;          /* frases más arriba */
-    padding:0 10px;
-  }
-
-  .hero-mobile-benefits li{
-    margin:0 0 2px;
-    line-height:1.25;
-  }
-  
-/* ===== MOBILE: BAJAR CTA (sin mover frases) ===== */
-@media (max-width:900px){
-
-  .hero-mobile .hero-btn{
-    margin-top:28px !important; /* separa el botón de las frases */
-  }
-
-}
   </style>
 </head>
 
@@ -322,30 +333,36 @@
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
-        <span class="hero-badge">Para parejas, cumpleaños y regalos familiares</span>
+        <span class="hero-badge">El regalo más emocional para este San Valentín</span>
         <h1>Una canción personalizada con vuestra historia</h1>
 
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
-          <li>Entrega garantizada según la tarifa elegida</li>
+          <li>Entrega garantizada antes de San Valentín según tu tarifa</li>
         </ul>
 
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
+        <span class="hero-note">También disponible para cumpleaños y aniversarios</span>
       </div>
 
-      <img
-        src="/mockup-phone-final.png"
-        class="hero-phone"
-        id="mockup-audio-trigger-desktop"
-        alt="Ejemplo de canción personalizada"
-      />
+      <div>
+        <button type="button" class="hero-audio-badge" data-audio-toggle>Escuchar ejemplo</button>
+        <img
+          src="/mockup-phone-final.png"
+          class="hero-phone"
+          id="mockup-audio-trigger-desktop"
+          alt="Ejemplo de canción personalizada"
+        />
+      </div>
     </div>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-      <span class="hero-badge">Para parejas, cumpleaños y regalos familiares</span>
+      <span class="hero-badge">El regalo más emocional para este San Valentín</span>
       <h1>Una canción personalizada con vuestra historia</h1>
+
+      <button type="button" class="hero-audio-badge" data-audio-toggle>Escuchar ejemplo</button>
 
       <img
         src="/mockup-phone-final.png"
@@ -356,11 +373,12 @@
 
       <ul class="hero-mobile-benefits">
         <li>Letra basada en vuestra historia</li>
-        <li>Entrega garantizada según tu tarifa</li>
+        <li>Entrega garantizada antes de San Valentín según tu tarifa</li>
       </ul>
 
       <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
+      <span class="hero-note">También disponible para cumpleaños y aniversarios</span>
     </div>
 
   </div>
@@ -371,11 +389,18 @@
   const audio = document.getElementById("lirya-audio");
   const triggers = [
     document.getElementById("mockup-audio-trigger-desktop"),
-    document.getElementById("mockup-audio-trigger-mobile")
+    document.getElementById("mockup-audio-trigger-mobile"),
+    ...Array.from(document.querySelectorAll("[data-audio-toggle]"))
   ].filter(Boolean);
 
   // Evita activar audio al hacer scroll (threshold de movimiento)
   let startX = 0, startY = 0, moved = false;
+
+  function setBadgeText(){
+    document.querySelectorAll("[data-audio-toggle]").forEach(btn=>{
+      btn.textContent = audio && !audio.paused ? "Pausar ejemplo" : "Escuchar ejemplo";
+    });
+  }
 
   function getPoint(e){
     const t = e.touches && e.touches[0];
@@ -399,7 +424,22 @@
     else audio.pause();
   }
 
+  function onClick(e){
+    e.preventDefault();
+    // click (para el botón) no depende de gesto de scroll
+    if (!audio) return;
+    if (audio.paused) audio.play().catch(()=>{});
+    else audio.pause();
+  }
+
   triggers.forEach(el=>{
+    // Para botones explícitos
+    if (el.matches && el.matches("[data-audio-toggle]")){
+      el.addEventListener("click", onClick);
+      return;
+    }
+
+    // Para imágenes (mantiene tu protección contra scroll)
     el.addEventListener("mousedown", onStart);
     el.addEventListener("mousemove", onMove);
     el.addEventListener("mouseup", onEnd);
@@ -407,6 +447,13 @@
     el.addEventListener("touchmove", onMove, { passive:true });
     el.addEventListener("touchend", onEnd);
   });
+
+  if (audio){
+    audio.addEventListener("play", setBadgeText);
+    audio.addEventListener("pause", setBadgeText);
+    audio.addEventListener("ended", setBadgeText);
+  }
+  setBadgeText();
 })();
 </script>
 
@@ -2290,6 +2337,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
