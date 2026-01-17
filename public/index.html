@@ -10,25 +10,31 @@
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#ffffff" />
 
+  <!-- Favicons -->
   <link rel="icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+  <!-- Open Graph / Social sharing -->
   <meta property="og:site_name" content="LIRYA" />
   <meta property="og:title" content="Canción personalizada para regalar | LIRYA" />
   <meta property="og:description" content="Crea una canción personalizada con vuestra historia. Lista para regalar." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://lirya.studio/" />
+  <!-- Crea esta imagen (1200x630) y súbela a /og.jpg -->
   <meta property="og:image" content="https://lirya.studio/og.jpg" />
 
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Canción personalizada para regalar | LIRYA" />
   <meta name="twitter:description" content="Crea una canción personalizada con vuestra historia. Lista para regalar." />
   <meta name="twitter:image" content="https://lirya.studio/og.jpg" />
 
+  <!-- Performance: fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
+  <!-- JSON-LD (SEO) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,7 +50,11 @@
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Canción personalizada",
-    "provider": { "@type": "Organization", "name": "LIRYA", "url": "https://lirya.studio/" },
+    "provider": {
+      "@type": "Organization",
+      "name": "LIRYA",
+      "url": "https://lirya.studio/"
+    },
     "areaServed": "ES",
     "description": "Servicio de creación de canciones personalizadas a partir de una historia real, con entrega garantizada según la tarifa elegida y revisión incluida.",
     "offers": [
@@ -133,7 +143,7 @@
       margin-bottom:16px;
     }
 
-    /* Menos texto: solo 2 bullets */
+    /* Menos texto: 2 bullets */
     .hero-benefits{
       list-style:none;
       margin-bottom:22px;
@@ -172,44 +182,42 @@
     .hero-phone-wrapper{ display:flex; justify-content:center; transform:translateY(26px); }
     .hero-phone{
       width:360px;
-      height:auto;              /* IMPORTANT: nunca estirar */
+      height:auto; /* nunca estirar */
       animation:floatPhoneDesktop 5s ease-in-out infinite;
     }
     .mockup-click{ cursor:pointer; border-radius:18px; outline:none; }
 
     /* MOBILE */
     .hero-mobile{ display:none; text-align:center; }
+
+    /* Título un poco más grande en móvil */
     .hero-mobile h1{
       font-family:'Playfair Display',serif;
-      font-size:2.35rem;
+      font-size:2.7rem;
       line-height:1.12;
-      margin-bottom:14px;
+      margin-bottom:10px;
     }
 
-    /* Móvil: menos letra. CTA arriba, imagen debajo */
-    .hero-mobile-top{
-      max-width:560px;
-      margin:0 auto 14px;
-    }
-    .hero-mobile ul{
-      list-style:none;
-      margin:0 0 16px;
-      padding:0 10px;
-    }
-    .hero-mobile ul li{
-      font-family:'Playfair Display',serif;
-      font-size:1.05rem;
-      line-height:1.5;
-      opacity:.95;
-      margin-bottom:6px;
-    }
-    .hero-mobile img{
+    .hero-mobile-image{
       width:85%;
       max-width:340px;
-      height:auto;              /* IMPORTANT: nunca estirar */
-      margin:10px auto 0;
+      height:auto;
+      margin:12px auto 14px;
       display:block;
       animation:floatPhoneMobile 5s ease-in-out infinite;
+    }
+
+    .hero-mobile-benefits{
+      list-style:none;
+      margin:0 0 14px;
+      padding:0 10px;
+    }
+    .hero-mobile-benefits li{
+      font-family:'Playfair Display',serif;
+      font-size:1.05rem;
+      line-height:1.35;   /* más juntas */
+      opacity:.95;
+      margin-bottom:4px;  /* más juntas */
     }
 
     @keyframes floatPhoneDesktop{
@@ -219,7 +227,7 @@
       0%{transform:translateY(8px)} 50%{transform:translateY(-4px)} 100%{transform:translateY(8px)}
     }
     @media (prefers-reduced-motion: reduce){
-      .hero-phone, .hero-mobile img{ animation:none; }
+      .hero-phone, .hero-mobile-image{ animation:none; }
       .cta-header, .hero-btn{ transition:none; }
     }
 
@@ -243,7 +251,7 @@
   <section class="hero">
     <div class="hero-inner">
 
-      <!-- Audio preparado (no UI visible) -->
+      <!-- Audio preparado (se activará al hacer click en el mockup cuando subas el mp3) -->
       <audio id="lirya-audio" preload="none">
         <source src="/audio/ejemplo.mp3" type="audio/mpeg" />
       </audio>
@@ -261,7 +269,6 @@
           </ul>
 
           <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
-
           <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
         </div>
 
@@ -275,28 +282,29 @@
         </div>
       </div>
 
-      <!-- MOBILE -->
+      <!-- MOBILE (como pediste) -->
       <div class="hero-mobile">
         <span class="hero-badge">Para parejas, cumpleaños y regalos familiares</span>
 
         <h1>Una canción personalizada con vuestra historia</h1>
 
-        <div class="hero-mobile-top">
-          <ul>
-            <li>Letra basada en vuestra historia</li>
-            <li>Entrega garantizada según tu tarifa</li>
-          </ul>
-
-          <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
-          <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
-        </div>
-
+        <!-- Imagen justo debajo del título -->
         <img
           src="/mockup-phone-final.png"
-          class="mockup-click"
+          class="mockup-click hero-mobile-image"
           id="mockup-audio-trigger-mobile"
           alt="Ejemplo de canción personalizada"
         />
+
+        <!-- 2 frases más juntas -->
+        <ul class="hero-mobile-benefits">
+          <li>Letra basada en vuestra historia</li>
+          <li>Entrega garantizada según tu tarifa</li>
+        </ul>
+
+        <!-- CTA -->
+        <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
+        <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
       </div>
 
     </div>
@@ -2212,6 +2220,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
