@@ -10,31 +10,25 @@
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#ffffff" />
 
-  <!-- Favicons (ajusta rutas si usas otras) -->
   <link rel="icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-  <!-- Open Graph / Social sharing -->
   <meta property="og:site_name" content="LIRYA" />
   <meta property="og:title" content="Canción personalizada para regalar | LIRYA" />
   <meta property="og:description" content="Crea una canción personalizada con vuestra historia. Lista para regalar." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://lirya.studio/" />
-  <!-- IMPORTANTE: crea esta imagen (1200x630) y súbela a /og.jpg -->
   <meta property="og:image" content="https://lirya.studio/og.jpg" />
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Canción personalizada para regalar | LIRYA" />
   <meta name="twitter:description" content="Crea una canción personalizada con vuestra historia. Lista para regalar." />
   <meta name="twitter:image" content="https://lirya.studio/og.jpg" />
 
-  <!-- Performance: fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- JSON-LD (SEO) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,11 +44,7 @@
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Canción personalizada",
-    "provider": {
-      "@type": "Organization",
-      "name": "LIRYA",
-      "url": "https://lirya.studio/"
-    },
+    "provider": { "@type": "Organization", "name": "LIRYA", "url": "https://lirya.studio/" },
     "areaServed": "ES",
     "description": "Servicio de creación de canciones personalizadas a partir de una historia real, con entrega garantizada según la tarifa elegida y revisión incluida.",
     "offers": [
@@ -70,100 +60,64 @@
       --gold:#d4b483;
       --orange:#ff8a2a;
       --orange-hover:#f07818;
-      --text-soft: rgba(255,255,255,.90);
     }
-
     *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#fff}
 
-    body{
-      font-family:'Inter',sans-serif;
-      background:#fff;
-    }
-
-    /* ===== HEADER ===== */
+    /* HEADER */
     header{
-      position:sticky;
-      top:0;
-      z-index:1000;
-      background:#fff;
-      border-bottom:1px solid #eee;
+      position:sticky; top:0; z-index:1000;
+      background:#fff; border-bottom:1px solid #eee;
     }
-
     .header-container{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:14px 24px;
-      gap:16px;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:14px 24px; gap:16px;
     }
-
     .logo{
       font-family:'Playfair Display',serif;
-      font-weight:800;
-      letter-spacing:2px;
-      font-size:26px;
-      color:var(--gold);
+      font-weight:800; letter-spacing:2px; font-size:26px; color:var(--gold);
       user-select:none;
     }
-
     .cta-header{
-      background:var(--orange);
-      color:#fff;
-      padding:10px 28px;
-      border-radius:12px;
-      font-family:'Playfair Display',serif;
-      font-weight:600;
-      letter-spacing:.6px;
-      text-decoration:none;
+      background:var(--orange); color:#fff;
+      padding:10px 28px; border-radius:12px;
+      font-family:'Playfair Display',serif; font-weight:600; letter-spacing:.6px;
+      text-decoration:none; white-space:nowrap;
       transition:background .2s ease, transform .2s ease;
-      white-space:nowrap;
     }
-
     .cta-header:hover{ background:var(--orange-hover); transform:scale(1.03); }
-
-    .cta-header:focus-visible,
-    .hero-btn:focus-visible,
-    .mockup-click:focus-visible{
-      outline:2px solid rgba(255,255,255,.85);
-      outline-offset:3px;
+    .cta-header:focus-visible, .hero-btn:focus-visible, .mockup-click:focus-visible{
+      outline:2px solid rgba(0,0,0,.35); outline-offset:3px;
     }
 
-    /* ===== HERO ===== */
+    /* HERO */
     .hero{
       position:relative;
       background:url('/cascos-neon.png') center/cover no-repeat;
       color:#fff;
     }
-
     .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,.42);
+      content:""; position:absolute; inset:0;
+      background:rgba(0,0,0,.40);
     }
-
     .hero-inner{
-      position:relative;
-      z-index:2;
-      max-width:1200px;
-      margin:0 auto;
-      padding:60px 40px;
+      position:relative; z-index:2;
+      max-width:1200px; margin:0 auto;
+      padding:56px 40px;
     }
 
-    /* ===== DESKTOP ===== */
+    /* DESKTOP layout */
     .hero-desktop{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:72px;
       align-items:center;
     }
-
     .hero-text{
       padding-left:56px;
-      transform:translateY(-18px);
+      transform:translateY(-14px);
       max-width:520px;
     }
-
     .hero-badge{
       display:inline-block;
       margin-bottom:14px;
@@ -172,27 +126,18 @@
       color:rgba(255,255,255,.82);
       font-style:italic;
     }
-
     .hero-text h1{
       font-family:'Playfair Display',serif;
-      font-size:3.4rem;
-      line-height:1.15;
-      margin-bottom:14px;
+      font-size:3.35rem;
+      line-height:1.12;
+      margin-bottom:16px;
     }
 
-    .hero-subtitle{
-      color:var(--text-soft);
-      font-size:1.06rem;
-      line-height:1.55;
-      margin-bottom:18px;
-      opacity:.95;
-    }
-
+    /* Menos texto: solo 2 bullets */
     .hero-benefits{
       list-style:none;
-      margin-bottom:26px;
+      margin-bottom:22px;
     }
-
     .hero-benefits li{
       font-family:'Playfair Display',serif;
       font-size:1.05rem;
@@ -213,7 +158,6 @@
       display:inline-block;
       transition:background .2s ease, transform .2s ease;
     }
-
     .hero-btn:hover{ background:var(--orange-hover); transform:translateY(-1px); }
 
     .hero-note{
@@ -224,114 +168,66 @@
       opacity:.86;
     }
 
-    .hero-audio-hint{
-      display:block;
-      margin-top:10px;
-      font-size:.92rem;
-      opacity:.82;
-    }
-
-    /* PHONE */
-    .hero-phone-wrapper{
-      display:flex;
-      justify-content:center;
-      transform:translateY(26px);
-    }
-
+    /* Phone */
+    .hero-phone-wrapper{ display:flex; justify-content:center; transform:translateY(26px); }
     .hero-phone{
       width:360px;
+      height:auto;              /* IMPORTANT: nunca estirar */
       animation:floatPhoneDesktop 5s ease-in-out infinite;
     }
+    .mockup-click{ cursor:pointer; border-radius:18px; outline:none; }
 
-    /* Clickable mockup (elegante, sin “play”) */
-    .mockup-click{
-      cursor:pointer;
-      border-radius:18px;
-      outline:none;
-    }
-
-    /* ===== MOBILE ===== */
+    /* MOBILE */
     .hero-mobile{ display:none; text-align:center; }
-
     .hero-mobile h1{
       font-family:'Playfair Display',serif;
-      font-size:2.55rem;
+      font-size:2.35rem;
       line-height:1.12;
-      margin-bottom:10px;
+      margin-bottom:14px;
     }
 
-    .hero-mobile .hero-subtitle{
-      font-size:1.02rem;
-      line-height:1.55;
-      margin:0 auto 16px;
-      max-width:34ch;
-      color:var(--text-soft);
-      opacity:.95;
+    /* Móvil: menos letra. CTA arriba, imagen debajo */
+    .hero-mobile-top{
+      max-width:560px;
+      margin:0 auto 14px;
     }
-
-    /* Reordenación: CTA arriba, imagen después (mejora conversión móvil) */
-    .hero-mobile-layout{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:14px;
-    }
-
-    .hero-mobile-text{
-      width:100%;
-      max-width:520px;
-    }
-
     .hero-mobile ul{
       list-style:none;
-      margin:0 0 18px;
+      margin:0 0 16px;
       padding:0 10px;
     }
-
     .hero-mobile ul li{
       font-family:'Playfair Display',serif;
       font-size:1.05rem;
-      line-height:1.55;
+      line-height:1.5;
       opacity:.95;
       margin-bottom:6px;
     }
-
     .hero-mobile img{
       width:85%;
       max-width:340px;
-      margin:0 auto;
+      height:auto;              /* IMPORTANT: nunca estirar */
+      margin:10px auto 0;
       display:block;
       animation:floatPhoneMobile 5s ease-in-out infinite;
     }
 
-    /* ===== ANIMATIONS ===== */
     @keyframes floatPhoneDesktop{
-      0%{transform:translateY(0)}
-      50%{transform:translateY(-14px)}
-      100%{transform:translateY(0)}
+      0%{transform:translateY(0)} 50%{transform:translateY(-14px)} 100%{transform:translateY(0)}
     }
-
     @keyframes floatPhoneMobile{
-      0%{transform:translateY(8px)}
-      50%{transform:translateY(-4px)}
-      100%{transform:translateY(8px)}
+      0%{transform:translateY(8px)} 50%{transform:translateY(-4px)} 100%{transform:translateY(8px)}
     }
-
     @media (prefers-reduced-motion: reduce){
       .hero-phone, .hero-mobile img{ animation:none; }
       .cta-header, .hero-btn{ transition:none; }
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width:900px){
-      .hero{
-        background-size:auto 100%;
-        background-position:47% center;
-      }
-      .hero-inner{ padding:28px 20px 34px; }
+      .hero{ background-size:auto 100%; background-position:47% center; }
+      .hero-inner{ padding:26px 20px 34px; }
       .hero-desktop{ display:none; }
       .hero-mobile{ display:block; }
-      .cta-header{ font-weight:700; }
     }
   </style>
 </head>
@@ -347,9 +243,7 @@
   <section class="hero">
     <div class="hero-inner">
 
-      <!-- AUDIO (PREPARADO) -->
-      <!-- 1) Sube tu mp3 a /audio/ejemplo.mp3 (o cambia la ruta).
-           2) Cuando haya ejemplo, se activará con click/tap en la imagen del mockup. -->
+      <!-- Audio preparado (no UI visible) -->
       <audio id="lirya-audio" preload="none">
         <source src="/audio/ejemplo.mp3" type="audio/mpeg" />
       </audio>
@@ -361,20 +255,14 @@
 
           <h1>Una canción personalizada con vuestra historia</h1>
 
-          <p class="hero-subtitle">
-            Cuéntanos unos detalles y la convertimos en una canción lista para regalar, con entrega garantizada según tu tarifa.
-          </p>
-
           <ul class="hero-benefits">
             <li>Letra basada en vuestra historia real</li>
             <li>Entrega garantizada según la tarifa elegida</li>
-            <li>Revisión incluida para que quede perfecta</li>
           </ul>
 
           <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
 
           <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
-          <span class="hero-audio-hint">Haz clic en el mockup para escuchar un ejemplo cuando esté disponible</span>
         </div>
 
         <div class="hero-phone-wrapper">
@@ -382,11 +270,7 @@
             src="/mockup-phone-final.png"
             class="hero-phone mockup-click"
             id="mockup-audio-trigger-desktop"
-            alt="Ejemplo de canción personalizada creada con vuestra historia"
-            width="360"
-            height="740"
-            tabindex="0"
-            aria-label="Activar o pausar ejemplo de canción"
+            alt="Ejemplo de canción personalizada"
           />
         </div>
       </div>
@@ -397,34 +281,22 @@
 
         <h1>Una canción personalizada con vuestra historia</h1>
 
-        <p class="hero-subtitle">
-          Cuéntanos unos detalles y la convertimos en una canción lista para regalar.
-        </p>
+        <div class="hero-mobile-top">
+          <ul>
+            <li>Letra basada en vuestra historia</li>
+            <li>Entrega garantizada según tu tarifa</li>
+          </ul>
 
-        <div class="hero-mobile-layout">
-          <div class="hero-mobile-text">
-            <ul>
-              <li>Letra basada en vuestra historia</li>
-              <li>Entrega garantizada según tu tarifa</li>
-              <li>Revisión incluida</li>
-            </ul>
-
-            <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
-
-            <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
-          </div>
-
-          <img
-            src="/mockup-phone-final.png"
-            class="mockup-click"
-            id="mockup-audio-trigger-mobile"
-            alt="Ejemplo de canción personalizada creada con vuestra historia"
-            width="340"
-            height="700"
-            tabindex="0"
-            aria-label="Activar o pausar ejemplo de canción"
-          />
+          <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
+          <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
         </div>
+
+        <img
+          src="/mockup-phone-final.png"
+          class="mockup-click"
+          id="mockup-audio-trigger-mobile"
+          alt="Ejemplo de canción personalizada"
+        />
       </div>
 
     </div>
@@ -433,10 +305,6 @@
   <script>
     (function () {
       const audio = document.getElementById("lirya-audio");
-      const srcEl = audio ? audio.querySelector("source") : null;
-      const hasExample = !!(srcEl && srcEl.getAttribute("src") && !srcEl.getAttribute("src").includes("ejemplo.mp3") ? true : true);
-      // Nota: dejamos preparado; cuando subas el archivo real a /audio/ejemplo.mp3 funcionará.
-
       const triggers = [
         document.getElementById("mockup-audio-trigger-desktop"),
         document.getElementById("mockup-audio-trigger-mobile")
@@ -444,7 +312,6 @@
 
       function toggleAudio() {
         if (!audio) return;
-        // Si el archivo no existe aún, el play fallará silenciosamente; no mostramos UI extra para mantener elegancia.
         if (audio.paused) {
           audio.play().catch(() => {});
         } else {
@@ -460,6 +327,8 @@
             toggleAudio();
           }
         });
+        el.setAttribute("tabindex", "0");
+        el.setAttribute("aria-label", "Reproducir o pausar ejemplo de canción");
       });
     })();
   </script>
@@ -2343,6 +2212,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
