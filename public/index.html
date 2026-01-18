@@ -739,6 +739,13 @@
 .examples-proof {
   font-size: 14px;
   opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.examples-note {
+  font-size: 13px;
+  font-style: italic;
+  opacity: 0.8;
   margin-bottom: 26px;
 }
 
@@ -767,6 +774,10 @@
   box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
+.example-card.playing {
+  box-shadow: 0 0 55px rgba(255,255,255,0.55);
+}
+
 .example-card img {
   width: 100%;
   display: block;
@@ -779,8 +790,8 @@
   z-index: 3;
 }
 
-.example-card.destacada:hover {
-  transform: translateY(-10px);
+.example-card.destacada.playing {
+  box-shadow: 0 0 70px rgba(255,159,63,0.6);
 }
 
 /* BADGE */
@@ -935,9 +946,12 @@
       Letras cuidadas, ajustadas y revisadas para que suenen naturales al escucharlas.
     </p>
 
+    <p class="examples-note">
+      Toca una tarjeta para escuchar un ejemplo real
+    </p>
+
     <div class="examples-grid">
 
-      <!-- 49 € -->
       <div class="example-card" data-audio="/audio/papa.mp3">
         <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy">
         <div class="tarifa-info">
@@ -954,7 +968,6 @@
         </div>
       </div>
 
-      <!-- 59 € -->
       <div class="example-card destacada" data-audio="/audio/eres-mi-amor.mp3">
         <span class="badge-popular">La más elegida</span>
         <img src="/eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy">
@@ -974,7 +987,6 @@
         </div>
       </div>
 
-      <!-- 79 € -->
       <div class="example-card" data-audio="/audio/amigas.mp3">
         <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy">
         <div class="tarifa-info">
@@ -1027,30 +1039,52 @@
 (function () {
 
   let currentAudio = null;
+  let currentCard = null;
+
+  function stopCurrent() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+    document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
+    currentAudio = null;
+    currentCard = null;
+  }
 
   document.querySelectorAll('.example-card').forEach(card => {
-    const audioSrc = card.dataset.audio;
-    if (!audioSrc) return;
+    const src = card.dataset.audio;
+    if (!src) return;
 
     card.addEventListener('click', e => {
       if (e.target.tagName === 'A') return;
 
-      if (currentAudio) {
-        currentAudio.pause();
+      if (currentCard === card) {
+        stopCurrent();
+        return;
       }
 
-      currentAudio = new Audio(audioSrc);
+      stopCurrent();
+      currentAudio = new Audio(src);
+      currentCard = card;
+      card.classList.add('playing');
       currentAudio.play();
+      currentAudio.onended = stopCurrent;
     });
   });
 
   document.querySelectorAll('.style-card').forEach(card => {
     card.addEventListener('click', () => {
-      if (currentAudio) currentAudio.pause();
+      if (currentCard === card) {
+        stopCurrent();
+        return;
+      }
+
+      stopCurrent();
       currentAudio = new Audio(card.dataset.audio);
+      currentCard = card;
       card.classList.add('playing');
       currentAudio.play();
-      currentAudio.onended = () => card.classList.remove('playing');
+      currentAudio.onended = stopCurrent;
     });
   });
 
@@ -1061,7 +1095,6 @@
 
 })();
 </script>
-
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -2301,6 +2334,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
