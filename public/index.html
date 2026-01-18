@@ -892,7 +892,14 @@
   })();
 </script>
 
-<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES ===== -->
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (ACTUALIZADO) =====
+Cambios aplicados:
+(1) Botones con intención (3 textos distintos)
+(2) Framing de revisiones en modo "seguridad" (sin meter miedo)
+(4) Player único <audio> (más estable que new Audio), sin tocar tu feedback visual actual
+(3) NO tocado: no se ha añadido overlay/play-pause ni cambios visuales extra de reproducción
+=============================================================== -->
+
 <style>
 .examples {
   position: relative;
@@ -1157,10 +1164,11 @@
           <div class="tarifa-incluye">
             • Letra personalizada básica<br>
             • Música original<br>
-            • 1 revisión incluida
+            • <strong>Incluye ajustes para que quede perfecta</strong> (1 revisión)
           </div>
           <div class="tarifa-segura"><em>Menor nivel de detalle emocional</em></div>
-          <a href="#formulario-lirya" data-tarifa="49">Elegir esta opción</a>
+          <!-- (1) Botón con intención -->
+          <a href="#formulario-lirya" data-tarifa="49">Quiero un detalle bonito</a>
         </div>
       </div>
 
@@ -1174,12 +1182,13 @@
           <div class="tarifa-incluye">
             • Letra muy detallada y emocional<br>
             • Ideal para regalar (San Valentín, aniversarios…)<br>
-            • Hasta 2 revisiones
+            • <strong>Incluye ajustes para que quede perfecta</strong> (hasta 2 revisiones)
           </div>
           <div class="tarifa-segura">
             <strong>La opción más segura para emocionar de verdad</strong>
           </div>
-          <a href="#formulario-lirya" data-tarifa="59">Elegir esta opción</a>
+          <!-- (1) Botón con intención -->
+          <a href="#formulario-lirya" data-tarifa="59">Quiero emocionar de verdad</a>
         </div>
       </div>
 
@@ -1192,12 +1201,13 @@
           <div class="tarifa-incluye">
             • Máximo nivel de detalle emocional<br>
             • Prioridad absoluta en creación<br>
-            • Hasta 5 Revisiones
+            • <strong>Incluye ajustes para que quede perfecta</strong> (hasta 5 revisiones)
           </div>
           <div class="tarifa-segura">
             <em>Para quienes buscan el máximo impacto sin límites</em>
           </div>
-          <a href="#formulario-lirya" data-tarifa="79">Elegir esta opción</a>
+          <!-- (1) Botón con intención -->
+          <a href="#formulario-lirya" data-tarifa="79">Quiero el máximo impacto</a>
         </div>
       </div>
 
@@ -1212,81 +1222,112 @@
       <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
 
       <div class="styles-carousel" id="stylesCarousel">
-        <div class="style-card" data-audio="/audio/flamenco.mp3"><img loading="lazy" src="/vinetasmusica/flamenco.webp"></div>
-        <div class="style-card" data-audio="/audio/cine.mp3"><img loading="lazy" src="/vinetasmusica/cinematografica.webp"></div>
-        <div class="style-card" data-audio="/audio/reggae.mp3"><img loading="lazy" src="/vinetasmusica/reggae.webp"></div>
-        <div class="style-card" data-audio="/audio/pop.mp3"><img loading="lazy" src="/vinetasmusica/pop.webp"></div>
-        <div class="style-card" data-audio="/audio/bachata.mp3"><img loading="lazy" src="/vinetasmusica/bachata.webp"></div>
-        <div class="style-card" data-audio="/audio/jazz.mp3"><img loading="lazy" src="/vinetasmusica/jazz.webp"></div>
-        <div class="style-card" data-audio="/audio/hiphop.mp3"><img loading="lazy" src="/vinetasmusica/hiphop.webp"></div>
-        <div class="style-card" data-audio="/audio/reggaeton.mp3"><img loading="lazy" src="/vinetasmusica/reggaeton.webp"></div>
-        <div class="style-card" data-audio="/audio/balada.mp3"><img loading="lazy" src="/vinetasmusica/balada.webp"></div>
-        <div class="style-card" data-audio="/audio/indie.mp3"><img loading="lazy" src="/vinetasmusica/indie.webp"></div>
-        <div class="style-card" data-audio="/audio/rock.mp3"><img loading="lazy" src="/vinetasmusica/rock.webp"></div>
-        <div class="style-card" data-audio="/audio/electro.mp3"><img loading="lazy" src="/vinetasmusica/electronica.webp"></div>
-        <div class="style-card" data-audio="/audio/rb.mp3"><img loading="lazy" src="/vinetasmusica/rb.webp"></div>
+        <div class="style-card" data-audio="/audio/flamenco.mp3"><img loading="lazy" src="/vinetasmusica/flamenco.webp" alt="Ejemplo estilo Flamenco"></div>
+        <div class="style-card" data-audio="/audio/cine.mp3"><img loading="lazy" src="/vinetasmusica/cinematografica.webp" alt="Ejemplo estilo Cinematográfico"></div>
+        <div class="style-card" data-audio="/audio/reggae.mp3"><img loading="lazy" src="/vinetasmusica/reggae.webp" alt="Ejemplo estilo Reggae chill"></div>
+        <div class="style-card" data-audio="/audio/pop.mp3"><img loading="lazy" src="/vinetasmusica/pop.webp" alt="Ejemplo estilo Pop"></div>
+        <div class="style-card" data-audio="/audio/bachata.mp3"><img loading="lazy" src="/vinetasmusica/bachata.webp" alt="Ejemplo estilo Bachata"></div>
+        <div class="style-card" data-audio="/audio/jazz.mp3"><img loading="lazy" src="/vinetasmusica/jazz.webp" alt="Ejemplo estilo Jazz"></div>
+        <div class="style-card" data-audio="/audio/hiphop.mp3"><img loading="lazy" src="/vinetasmusica/hiphop.webp" alt="Ejemplo estilo Hip hop"></div>
+        <div class="style-card" data-audio="/audio/reggaeton.mp3"><img loading="lazy" src="/vinetasmusica/reggaeton.webp" alt="Ejemplo estilo Reggaeton"></div>
+        <div class="style-card" data-audio="/audio/balada.mp3"><img loading="lazy" src="/vinetasmusica/balada.webp" alt="Ejemplo estilo Balada"></div>
+        <div class="style-card" data-audio="/audio/indie.mp3"><img loading="lazy" src="/vinetasmusica/indie.webp" alt="Ejemplo estilo Indie"></div>
+        <div class="style-card" data-audio="/audio/rock.mp3"><img loading="lazy" src="/vinetasmusica/rock.webp" alt="Ejemplo estilo Rock"></div>
+        <div class="style-card" data-audio="/audio/electro.mp3"><img loading="lazy" src="/vinetasmusica/electronica.webp" alt="Ejemplo estilo Electrónica"></div>
+        <div class="style-card" data-audio="/audio/rb.mp3"><img loading="lazy" src="/vinetasmusica/rb.webp" alt="Ejemplo estilo R&amp;B"></div>
       </div>
     </div>
+
+    <!-- (4) Player único, invisible. Más estable que crear new Audio() cada vez -->
+    <audio id="lirya-examples-player" preload="none" style="display:none;"></audio>
 
   </div>
 </section>
 
 <script>
 (function () {
+  const player = document.getElementById('lirya-examples-player');
+  if (!player) return;
 
-  let currentAudio = null;
   let currentCard = null;
 
-  function stopCurrent() {
-    if (currentAudio) {
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-    }
+  function clearPlayingClasses(){
     document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
-    currentAudio = null;
+  }
+
+  function stopCurrent() {
+    try {
+      player.pause();
+      player.currentTime = 0;
+    } catch(_) {}
+    clearPlayingClasses();
     currentCard = null;
   }
 
+  function playForCard(card, src){
+    // Toggle: si vuelves a tocar la misma card -> parar
+    if (currentCard === card) {
+      stopCurrent();
+      return;
+    }
+
+    stopCurrent();
+
+    currentCard = card;
+    card.classList.add('playing');
+
+    // Cambiar src de forma segura
+    if (player.src !== new URL(src, window.location.href).href) {
+      player.src = src;
+    }
+
+    const playPromise = player.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {
+        // Si el navegador bloquea autoplay, quitamos estado playing
+        stopCurrent();
+      });
+    }
+
+    player.onended = stopCurrent;
+  }
+
+  // Cards de tarifas (ejemplos reales)
   document.querySelectorAll('.example-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
 
-    card.addEventListener('click', e => {
-      if (e.target.tagName === 'A') return;
-
-      if (currentCard === card) {
-        stopCurrent();
-        return;
-      }
-
-      stopCurrent();
-      currentAudio = new Audio(src);
-      currentCard = card;
-      card.classList.add('playing');
-      currentAudio.play();
-      currentAudio.onended = stopCurrent;
-    });
+    card.addEventListener('click', (e) => {
+      // Si pulsa el CTA, no tocar el audio
+      if (e.target && e.target.tagName === 'A') return;
+      playForCard(card, src);
+    }, { passive: true });
   });
 
+  // Cards de estilos musicales
   document.querySelectorAll('.style-card').forEach(card => {
-    card.addEventListener('click', () => {
-      if (currentCard === card) {
-        stopCurrent();
-        return;
-      }
+    const src = card.dataset.audio;
+    if (!src) return;
 
-      stopCurrent();
-      currentAudio = new Audio(card.dataset.audio);
-      currentCard = card;
-      card.classList.add('playing');
-      currentAudio.play();
-      currentAudio.onended = stopCurrent;
-    });
+    card.addEventListener('click', () => {
+      playForCard(card, src);
+    }, { passive: true });
   });
 
+  // Si el usuario pausa manualmente (control externo o sistema), limpiamos UI
+  player.addEventListener('pause', () => {
+    // Si se pausa porque terminó, ya lo maneja onended.
+    // Aquí cubrimos pausas manuales
+    if (player.currentTime > 0 && player.currentTime < player.duration) {
+      stopCurrent();
+    }
+  });
+
+  // Carrusel
   window.scrollStyles = function (dir) {
-    document.getElementById('stylesCarousel')
-      .scrollBy({ left: dir * 340, behavior: 'smooth' });
+    const el = document.getElementById('stylesCarousel');
+    if (!el) return;
+    el.scrollBy({ left: dir * 340, behavior: 'smooth' });
   };
 
 })();
@@ -2530,6 +2571,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
