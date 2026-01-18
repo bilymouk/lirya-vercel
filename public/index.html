@@ -472,7 +472,7 @@
     touch-action: manipulation;
   }
 
-  /* TARJETA DESTACADA */
+  /* TARJETA DESTACADA (desktop) */
   .lirya-cf-card.garantia {
     border-color: rgba(199, 181, 138, 0.9);
     box-shadow: 0 20px 48px rgba(199, 181, 138, 0.4);
@@ -501,7 +501,7 @@
     transform: translateY(-6px) scale(0.995);
   }
 
-  /* “PRESSED” para móvil */
+  /* PRESSED móvil */
   .lirya-cf-card.is-pressed {
     transform: translateY(-8px) scale(1.015);
     box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
@@ -558,12 +558,12 @@
       border-width: 1px;
     }
 
-    /* TARJETA CENTRAL DESTACADA (más grande + borde más gordo) */
+    /* TARJETA CENTRAL DESTACADA (SIN ILUMINACIÓN EN MÓVIL) */
     .lirya-cf-card.garantia {
       padding: 38px 28px;
       border-width: 3px;
       transform: scale(1.06);
-      box-shadow: 0 32px 64px rgba(199, 181, 138, 0.5);
+      box-shadow: none; /* 🔴 iluminación eliminada en móvil */
     }
 
     .lirya-cf-card h3 { font-size: 20px; }
@@ -590,9 +590,9 @@
       transform: translateY(0) scale(1);
     }
 
-    /* Mantener el destacado tras hacerse visible */
     .lirya-cf-card.garantia.is-visible {
       transform: translateY(0) scale(1.06);
+      box-shadow: none;
     }
   }
 
@@ -634,7 +634,7 @@
       <h3>Pensada para emocionar al escucharla</h3>
       <p>
         No es solo un texto bonito: es una canción creada para escucharse, revivirse y compartirse en un momento importante.
-        <strong>Ahora baja y escucha ejemplos reales.</strong>
+        <strong>Escucha cómo suena una historia real.</strong>
       </p>
     </div>
   </div>
@@ -648,7 +648,6 @@
     const cards = Array.from(document.querySelectorAll('.lirya-cf-card'));
     if (!cards.length) return;
 
-    /* Animación escalera móvil (orden estable) */
     if (isMobile && !reduceMotion) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -661,11 +660,9 @@
 
       cards.forEach(card => observer.observe(card));
     } else {
-      /* Desktop: sin animación de entrada */
       cards.forEach(card => card.classList.add('is-visible'));
     }
 
-    /* Efecto “tap” en móvil: simula hover mientras mantienes el dedo */
     if (isMobile && !reduceMotion) {
       let pressedEl = null;
 
@@ -698,7 +695,6 @@
     }
   })();
 </script>
-
 
 <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES ===== -->
 <style>
@@ -2370,6 +2366,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
