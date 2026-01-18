@@ -416,10 +416,9 @@
 
 </body>
 </html>
-
 <!-- =================================
    POR QUÉ ESTA CANCIÓN ES SOLO VUESTRA
-   (SECCIÓN OPTIMIZADA: CRO + LEGIBILIDAD + SEMÁNTICA + EFECTO TAP EN MÓVIL)
+   (CRO + LEGIBILIDAD + SEMÁNTICA + TAP EN MÓVIL)
 ================================= -->
 <style>
   .lirya-cf-section {
@@ -494,7 +493,7 @@
     }
   }
 
-  /* ACTIVE (feedback rápido al click) */
+  /* ACTIVE */
   .lirya-cf-card:active {
     transform: translateY(-4px) scale(0.99);
   }
@@ -502,7 +501,7 @@
     transform: translateY(-6px) scale(0.995);
   }
 
-  /* “PRESSED” para móvil: simula hover mientras mantienes el dedo */
+  /* “PRESSED” para móvil */
   .lirya-cf-card.is-pressed {
     transform: translateY(-8px) scale(1.015);
     box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
@@ -542,17 +541,9 @@
 
   /* ===== MÓVIL ===== */
   @media (max-width: 900px) {
-    .lirya-cf-section {
-      padding: 80px 20px;
-    }
-
-    .lirya-cf-title {
-      font-size: 32px;
-    }
-
-    .lirya-cf-divider {
-      margin: 18px auto 40px;
-    }
+    .lirya-cf-section { padding: 80px 20px; }
+    .lirya-cf-title { font-size: 32px; }
+    .lirya-cf-divider { margin: 18px auto 40px; }
 
     .lirya-cf-grid {
       grid-template-columns: 1fr;
@@ -575,13 +566,8 @@
       box-shadow: 0 32px 64px rgba(199, 181, 138, 0.5);
     }
 
-    .lirya-cf-card h3 {
-      font-size: 20px;
-    }
-
-    .lirya-cf-card.garantia h3 {
-      font-size: 22px;
-    }
+    .lirya-cf-card h3 { font-size: 20px; }
+    .lirya-cf-card.garantia h3 { font-size: 22px; }
 
     .lirya-cf-card p {
       font-size: 15px;
@@ -604,7 +590,7 @@
       transform: translateY(0) scale(1);
     }
 
-    /* Mantener el “destacado” también tras hacerse visible */
+    /* Mantener el destacado tras hacerse visible */
     .lirya-cf-card.garantia.is-visible {
       transform: translateY(0) scale(1.06);
     }
@@ -627,10 +613,10 @@
   <div class="lirya-cf-grid">
     <div class="lirya-cf-card">
       <div class="lirya-cf-step" aria-hidden="true">1</div>
-      <h3>Hecha con vuestra historia</h3>
+      <h3>Hecha con criterio y vuestra historia</h3>
       <p>
-        Cada canción se escribe desde cero con momentos reales, palabras propias y recuerdos que solo vosotros compartís.
-        <strong>Nada de letras genéricas.</strong>
+        Construimos la letra desde cero con vuestra historia real, cuidando el tono, el ritmo y la forma de contarla
+        para que suene natural y sincera. <strong>Nada de letras genéricas.</strong>
       </p>
     </div>
 
@@ -638,17 +624,17 @@
       <div class="lirya-cf-step" aria-hidden="true">2</div>
       <h3>Revisión incluida</h3>
       <p>
-        Si al recibir la canción quieres ajustar algún detalle de la letra o el enfoque, la revisamos contigo
-        <strong>(revisiones incluidas según la tarifa elegida)</strong>.
+        Si quieres ajustar una frase, el enfoque o el tono, la revisamos contigo para que encaje de verdad.
+        <strong>(revisiones incluidas según la tarifa elegida)</strong>
       </p>
     </div>
 
     <div class="lirya-cf-card">
       <div class="lirya-cf-step" aria-hidden="true">3</div>
-      <h3>Pensada para regalar</h3>
+      <h3>Pensada para emocionar al escucharla</h3>
       <p>
-        Un regalo que no se queda en un cajón: <strong>se escucha, se revive y se comparte</strong>.
-        Ideal para parejas, aniversarios y cumpleaños.
+        No es solo un texto bonito: es una canción creada para escucharse, revivirse y compartirse en un momento importante.
+        <strong>Ahora baja y escucha ejemplos reales.</strong>
       </p>
     </div>
   </div>
@@ -698,7 +684,6 @@
         card.addEventListener('touchend', clearPressed, { passive: true });
         card.addEventListener('touchcancel', clearPressed, { passive: true });
 
-        /* Fallback para click (algunos navegadores disparan click) */
         card.addEventListener('click', () => {
           clearPressed();
           pressedEl = card;
@@ -707,7 +692,6 @@
         });
       });
 
-      /* Si el usuario toca fuera, quitamos el estado */
       document.addEventListener('touchstart', (e) => {
         if (!e.target.closest('.lirya-cf-card')) clearPressed();
       }, { passive: true });
@@ -2386,6 +2370,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
