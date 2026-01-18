@@ -47,14 +47,9 @@ module.exports = async (req, res) => {
           quantity: 1,
         },
       ],
-
-      const BASE_URL =
-        process.env.SITE_URL ||
-        (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "");
-
-      success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${BASE_URL}/cancel.html`,
-
+      
+      success_url: `https://${process.env.VERCEL_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://${process.env.VERCEL_URL}/cancel.html`,
 
       metadata: {
         email: f.email || "",
