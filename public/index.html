@@ -4,14 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- SEO -->
   <title>LIRYA | Canciones personalizadas para regalar</title>
-  <meta name="description" content="Crea una canción personalizada con vuestra historia. Un regalo único para San Valentín. Entrega garantizada." />
+  <meta name="description" content="Crea una canción personalizada con vuestra historia. Un regalo único para parejas, cumpleaños y momentos especiales. Entrega garantizada." />
+  <link rel="canonical" href="https://www.lirya.studio/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#ffffff" />
 
+  <!-- Favicons -->
   <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="LIRYA" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="LIRYA | Canciones personalizadas para regalar" />
+  <meta property="og:description" content="Crea una canción personalizada con vuestra historia. Un regalo único y emocional, listo para regalar." />
+  <meta property="og:url" content="https://www.lirya.studio/" />
+  <meta property="og:image" content="https://www.lirya.studio/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LIRYA | Canciones personalizadas para regalar" />
+  <meta name="twitter:description" content="Crea una canción personalizada con vuestra historia. Un regalo único y emocional, listo para regalar." />
+  <meta name="twitter:image" content="https://www.lirya.studio/og.jpg" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Perf: preload hero bg (si el path y el server lo soportan) -->
+  <link rel="preload" as="image" href="/cascos-neon.avif" type="image/avif" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "LIRYA",
+    "url": "https://www.lirya.studio/",
+    "logo": "https://www.lirya.studio/apple-touch-icon.png"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Canciones personalizadas",
+    "provider": {
+      "@type": "Organization",
+      "name": "LIRYA",
+      "url": "https://www.lirya.studio/"
+    },
+    "areaServed": "ES",
+    "description": "Servicio de creación de canciones personalizadas a partir de una historia real, con entrega garantizada según la tarifa elegida y revisión incluida.",
+    "offers": [
+      { "@type": "Offer", "priceCurrency": "EUR", "price": "49", "name": "Básica" },
+      { "@type": "Offer", "priceCurrency": "EUR", "price": "59", "name": "Media" },
+      { "@type": "Offer", "priceCurrency": "EUR", "price": "79", "name": "Premium" }
+    ]
+  }
+  </script>
 
   <style>
     :root{
@@ -23,24 +80,43 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#fff}
 
+    /* HEADER */
     header{
       position:sticky; top:0; z-index:1000;
       background:#fff; border-bottom:1px solid #eee;
     }
     .header-container{
       display:flex; justify-content:space-between; align-items:center;
-      padding:14px 24px;
+      padding:14px 24px; gap:16px;
     }
     .logo{
       font-family:'Playfair Display',serif;
       font-weight:800; letter-spacing:2px;
       font-size:26px; color:var(--gold);
+      user-select:none;
     }
     .cta-header{
       background:var(--orange); color:#fff;
       padding:10px 28px; border-radius:12px;
       font-family:'Playfair Display',serif;
-      text-decoration:none;
+      font-weight:600; letter-spacing:.6px;
+      text-decoration:none; white-space:nowrap;
+      transition:background .2s ease, transform .2s ease;
+    }
+    .cta-header:hover{ background:var(--orange-hover); transform:scale(1.03); }
+
+    /* Focus styles (visibles de verdad) */
+    .cta-header:focus-visible,
+    .hero-btn:focus-visible,
+    .urgency-cta:focus-visible,
+    .urgency-close:focus-visible{
+      outline:2px solid var(--focus);
+      outline-offset:4px;
+    }
+    .hero-phone:focus-visible,
+    .hero-mobile-image:focus-visible{
+      outline:2px solid rgba(255,255,255,.8);
+      outline-offset:4px;
     }
 
     /* HERO */
@@ -51,91 +127,204 @@
     }
     .hero::before{
       content:""; position:absolute; inset:0;
-      background:rgba(0,0,0,.4);
+      background:rgba(0,0,0,.40);
     }
     .hero-inner{
-      position:relative;
-      max-width:1200px;
-      margin:auto;
+      position:relative; z-index:2;
+      max-width:1200px; margin:0 auto;
       padding:56px 40px;
     }
 
+    /* DESKTOP */
     .hero-desktop{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:72px;
       align-items:center;
     }
-
     .hero-text{
       max-width:520px;
       padding-left:56px;
+      transform:translateY(-14px);
     }
-
     .hero-badge{
-      display:block;
+      display:inline-block;
       margin-bottom:14px;
+      font-size:.88rem;
+      letter-spacing:.35px;
+      color:rgba(255,255,255,.82);
       font-style:italic;
-      opacity:.85;
     }
-
     .hero-text h1{
       font-family:'Playfair Display',serif;
-      font-size:3.6rem;
+      font-size:3.65rem;
+      line-height:1.12;
       margin-bottom:16px;
     }
-
     .hero-subline{
       font-family:'Playfair Display',serif;
+      font-size:1.08rem;
+      line-height:1.5;
+      opacity:.95;
       margin-bottom:22px;
     }
 
-    .hero-benefits li{
+    .hero-benefits{
       list-style:none;
+      margin-bottom:22px;
+    }
+    .hero-benefits li{
+      font-family:'Playfair Display',serif;
+      font-size:1.05rem;
+      line-height:1.55;
+      opacity:.95;
       margin-bottom:6px;
     }
 
     .hero-btn{
-      display:inline-block;
       background:var(--orange);
       color:#fff;
       padding:14px 40px;
       border-radius:12px;
-      text-decoration:none;
       font-family:'Playfair Display',serif;
-      margin-top:10px;
+      font-weight:600;
+      letter-spacing:.7px;
+      text-decoration:none;
+      display:inline-block;
+      transition:background .2s ease, transform .2s ease;
+    }
+    .hero-btn:hover{ background:var(--orange-hover); transform:translateY(-1px); }
+
+    .hero-note{
+      display:block;
+      margin-top:12px;
+      font-size:.92rem;
+      font-style:italic;
+      opacity:.86;
     }
 
+    /* PHONE DESKTOP (bajado + flotando) */
     .hero-phone{
       width:420px;
-      border-radius:18px;
+      height:auto;
       cursor:pointer;
+      border-radius:18px;
+      transform:translateY(20px);
+      animation:floatPhoneDesktop 5s ease-in-out infinite;
+      user-select:none;
+      -webkit-user-drag:none;
     }
 
-    /* MOBILE HERO */
-    .hero-mobile{display:none;text-align:center}
+    /* MOBILE */
+    .hero-mobile{ display:none; text-align:center; }
 
-    @media(max-width:900px){
-      .hero-desktop{display:none}
-      .hero-mobile{display:block}
-      .hero-text h1{font-size:2.8rem}
+    .hero-mobile h1{
+      font-family:'Playfair Display',serif;
+      font-size:2.95rem;
+      line-height:1.12;
+      margin-bottom:18px;
     }
 
-    /* ===== URGENCY CARD ===== */
+    .hero-mobile .hero-subline{
+      font-family:'Playfair Display',serif;
+      font-size:1.08rem;
+      line-height:1.45;
+      opacity:.95;
+      margin:0 10px 18px;
+    }
+
+    .hero-mobile-image{
+      width:70%;
+      max-width:300px;
+      height:auto;
+      margin:14px auto 22px;
+      display:block;
+      cursor:pointer;
+      border-radius:18px;
+      animation:floatPhoneMobile 5s ease-in-out infinite;
+      user-select:none;
+      -webkit-user-drag:none;
+    }
+
+    .hero-mobile-benefits{
+      list-style:none;
+      margin:4px 0 14px;
+      padding:0 10px;
+    }
+    .hero-mobile-benefits li{
+      font-family:'Playfair Display',serif;
+      font-size:1.05rem;
+      line-height:1.35;
+      opacity:.95;
+      margin-bottom:4px;
+    }
+
+    /* Animations */
+    @keyframes floatPhoneDesktop{
+      0%   { transform:translateY(20px); }
+      50%  { transform:translateY(6px); }
+      100% { transform:translateY(20px); }
+    }
+    @keyframes floatPhoneMobile{
+      0%   { transform:translateY(2px); }
+      50%  { transform:translateY(-6px); }
+      100% { transform:translateY(2px); }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .hero-phone, .hero-mobile-image{ animation:none; }
+      .cta-header, .hero-btn, .urgency-cta{ transition:none; }
+    }
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{
+        background-size:auto 100%;
+        background-position:47% center;
+      }
+
+      .hero-inner{ padding:26px 20px 34px; }
+      .hero-desktop{ display:none; }
+      .hero-mobile{ display:block; text-align:center; }
+
+      .hero-mobile-image{
+        width:85%;
+        max-width:360px;
+        margin:14px auto 18px;
+      }
+
+      .hero-mobile-benefits{
+        margin:0;
+        padding:0 10px;
+      }
+
+      .hero-mobile-benefits li{
+        margin:0 0 2px;
+        line-height:1.25;
+      }
+
+      .hero-mobile .hero-btn{
+        margin-top:28px !important;
+      }
+    }
+
+    /* ===== URGENCY FLOATING CARD (NEW) ===== */
     .urgency-card{
       position:fixed;
       right:18px;
       bottom:18px;
-      z-index:3000;
+      z-index:2000;
       width:min(420px, calc(100vw - 36px));
       background:#fff;
+      border:1px solid rgba(0,0,0,.08);
       border-radius:16px;
       box-shadow:0 18px 60px rgba(0,0,0,.18);
-      padding:16px;
+      padding:14px;
       display:none;
       transform:translateY(14px);
       opacity:0;
-      transition:.25s ease;
+      transition:transform .25s ease, opacity .25s ease;
     }
 
     .urgency-card.is-visible{
@@ -144,50 +333,114 @@
       opacity:1;
     }
 
+    .urgency-top{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .urgency-icon{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,138,42,.12);
+      color:var(--orange);
+      flex:0 0 auto;
+      font-weight:800;
+      font-family:'Playfair Display',serif;
+    }
+
+    .urgency-content{
+      flex:1 1 auto;
+      padding-top:2px;
+    }
+
     .urgency-title{
       font-family:'Playfair Display',serif;
       font-weight:800;
+      letter-spacing:.2px;
+      font-size:1.02rem;
+      color:#121212;
       margin-bottom:4px;
     }
 
     .urgency-sub{
-      font-size:.9rem;
-      margin-bottom:6px;
-      color:#444;
+      font-size:.93rem;
+      line-height:1.35;
+      color:rgba(0,0,0,.72);
+      margin-bottom:8px;
     }
 
     .urgency-check{
-      font-size:.9rem;
-      margin-bottom:12px;
+      font-size:.93rem;
+      line-height:1.35;
+      color:rgba(0,0,0,.82);
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+    }
+
+    .urgency-check b{
+      color:#0f7a2a;
+      font-weight:700;
+    }
+
+    .urgency-actions{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
     }
 
     .urgency-cta{
-      display:block;
       background:var(--orange);
       color:#fff;
-      text-align:center;
-      padding:12px;
-      border-radius:10px;
+      padding:12px 16px;
+      border-radius:12px;
       font-family:'Playfair Display',serif;
+      font-weight:700;
+      letter-spacing:.5px;
       text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:1 1 auto;
+      transition:background .2s ease, transform .2s ease;
+    }
+    .urgency-cta:hover{
+      background:var(--orange-hover);
+      transform:translateY(-1px);
     }
 
     .urgency-close{
-      position:absolute;
-      top:8px;
-      right:10px;
-      background:none;
       border:none;
-      font-size:18px;
+      background:transparent;
       cursor:pointer;
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:rgba(0,0,0,.55);
+      flex:0 0 auto;
+      transition:background .2s ease, color .2s ease;
+    }
+    .urgency-close:hover{
+      background:rgba(0,0,0,.06);
+      color:rgba(0,0,0,.75);
     }
 
-    @media(max-width:900px){
+    @media (max-width:900px){
       .urgency-card{
         left:12px;
         right:12px;
         bottom:12px;
         width:auto;
+        border-radius:18px;
       }
     }
   </style>
@@ -202,20 +455,36 @@
   </div>
 </header>
 
-<!-- URGENCY CARD -->
-<div class="urgency-card" id="urgency-card">
-  <button class="urgency-close" id="urgency-close">✕</button>
-  <div class="urgency-title">Alta demanda antes de San Valentín</div>
-  <div class="urgency-sub">Producción limitada para garantizar la entrega</div>
-  <div class="urgency-check">✔ <b>Pedidos realizados ahora</b> llegan antes del 14 de febrero</div>
-  <a href="#formulario-lirya" class="urgency-cta">Crear mi canción</a>
-</div>
+<!-- ===== URGENCY FLOATING CARD (NEW) ===== -->
+<aside class="urgency-card" id="urgency-card" aria-live="polite" aria-label="Aviso de demanda y entrega">
+  <div class="urgency-top">
+    <div class="urgency-icon" aria-hidden="true">⏳</div>
+
+    <div class="urgency-content">
+      <div class="urgency-title">Alta demanda antes de San Valentín</div>
+      <div class="urgency-sub">Producción limitada para garantizar la entrega.</div>
+
+      <div class="urgency-check">
+        <span aria-hidden="true">✔</span>
+        <span><b>Pedidos realizados ahora</b> llegan antes del 14 de febrero.</span>
+      </div>
+
+      <div class="urgency-actions">
+        <a class="urgency-cta" href="#formulario-lirya" id="urgency-cta">Crear mi canción</a>
+      </div>
+    </div>
+
+    <button class="urgency-close" type="button" id="urgency-close" aria-label="Cerrar aviso">
+      ✕
+    </button>
+  </div>
+</aside>
 
 <section class="hero">
   <div class="hero-inner">
 
     <audio id="lirya-audio" preload="none">
-      <source src="/audio/ejemplo.mp3" type="audio/mpeg">
+      <source src="/audio/ejemplo.mp3" type="audio/mpeg" />
     </audio>
 
     <!-- DESKTOP -->
@@ -224,18 +493,28 @@
         <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
         <h1>Vuestra historia convertida en una canción</h1>
         <p class="hero-subline">Una canción que dirá lo que a veces no sabes expresar</p>
+
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
           <li>Revisión incluida</li>
-          <li>Entrega antes del 14 de febrero</li>
+          <li>Entrega garantizada antes de San Valentín</li>
         </ul>
-        <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
+
+        <a href="#formulario-lirya" class="hero-btn">Convertir nuestra historia en canción</a>
+        <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
 
-      <img src="/mockup-phone-final.png"
-           class="hero-phone"
-           id="audio-trigger-desktop"
-           alt="Ejemplo de canción personalizada">
+      <img
+        src="/mockup-phone-final.png"
+        class="hero-phone"
+        id="mockup-audio-trigger-desktop"
+        alt="Ejemplo de canción personalizada"
+        width="420"
+        height="840"
+        role="button"
+        tabindex="0"
+        aria-label="Reproducir o pausar ejemplo de canción"
+      />
     </div>
 
     <!-- MOBILE -->
@@ -243,39 +522,89 @@
       <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
       <h1>Vuestra historia convertida en una canción</h1>
       <p class="hero-subline">Una canción que dirá lo que a veces no sabes expresar</p>
-      <img src="/mockup-phone-final.png"
-           class="hero-phone"
-           id="audio-trigger-mobile"
-           alt="Ejemplo de canción personalizada">
-      <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
+
+      <img
+        src="/mockup-phone-final.png"
+        class="hero-mobile-image"
+        id="mockup-audio-trigger-mobile"
+        alt="Ejemplo de canción personalizada"
+        width="360"
+        height="720"
+        role="button"
+        tabindex="0"
+        aria-label="Reproducir o pausar ejemplo de canción"
+      />
+
+      <ul class="hero-mobile-benefits">
+        <li>Letra basada en vuestra historia</li>
+        <li>Revisión incluida</li>
+        <li>Entrega antes de San Valentín</li>
+      </ul>
+
+      <a href="#formulario-lirya" class="hero-btn">Convertir nuestra historia en canción</a>
+      <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
 
   </div>
 </section>
 
 <script>
-(function(){
-  /* AUDIO */
+(function () {
+  /* ===== AUDIO DEMO (original) ===== */
   const audio = document.getElementById("lirya-audio");
-  ["audio-trigger-desktop","audio-trigger-mobile"].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el){
-      el.addEventListener("click",()=>{
-        audio.paused ? audio.play() : audio.pause();
-      });
+  const triggers = [
+    document.getElementById("mockup-audio-trigger-desktop"),
+    document.getElementById("mockup-audio-trigger-mobile")
+  ].filter(Boolean);
+
+  function toggleAudio(){
+    if (!audio) return;
+    if (audio.paused) audio.play().catch(()=>{});
+    else audio.pause();
+  }
+
+  function onKeyToggle(e){
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleAudio();
     }
+  }
+
+  triggers.forEach(el=>{
+    el.addEventListener("click", toggleAudio);
+    el.addEventListener("keydown", onKeyToggle);
   });
 
-  /* URGENCY CARD */
+  /* ===== URGENCY CARD (NEW) ===== */
   const card = document.getElementById("urgency-card");
-  const close = document.getElementById("urgency-close");
+  const closeBtn = document.getElementById("urgency-close");
+  const ctaBtn = document.getElementById("urgency-cta");
 
-  window.addEventListener("load",()=>{
-    setTimeout(()=>card.classList.add("is-visible"),1200);
+  function showCard(){
+    if (!card) return;
+    card.classList.add("is-visible");
+  }
+
+  function hideCard(){
+    if (!card) return;
+    card.classList.remove("is-visible");
+  }
+
+  if (closeBtn) closeBtn.addEventListener("click", hideCard);
+
+  // Aparece SIEMPRE al cargar (en cada recarga) y con delay de 3s
+  window.addEventListener("load", ()=>{
+    setTimeout(showCard, 3000);
   });
 
-  close.addEventListener("click",()=>{
-    card.classList.remove("is-visible");
+  // Si clican CTA, la ocultamos para no molestar
+  if (ctaBtn) ctaBtn.addEventListener("click", hideCard);
+
+  // Cerrar con ESC
+  document.addEventListener("keydown", (e)=>{
+    if (e.key === "Escape" && card && card.classList.contains("is-visible")){
+      hideCard();
+    }
   });
 })();
 </script>
@@ -2201,6 +2530,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
