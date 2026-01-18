@@ -469,11 +469,11 @@
       border-color 0.35s ease;
     cursor: default;
     will-change: transform;
-    -webkit-tap-highlight-color: transparent; /* mobile nicer */
+    -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
 
-  /* TARJETA GARANTÍA */
+  /* TARJETA DESTACADA */
   .lirya-cf-card.garantia {
     border-color: rgba(199, 181, 138, 0.9);
     box-shadow: 0 20px 48px rgba(199, 181, 138, 0.4);
@@ -556,18 +556,31 @@
 
     .lirya-cf-grid {
       grid-template-columns: 1fr;
-      gap: 22px;
+      gap: 28px;
       max-width: 520px;
     }
 
-    /* Más compactas en móvil (como pediste) */
+    /* TARJETAS NORMALES */
     .lirya-cf-card {
-      padding: 28px 22px;
+      padding: 26px 22px;
       border-radius: 14px;
+      border-width: 1px;
+    }
+
+    /* TARJETA CENTRAL DESTACADA (más grande + borde más gordo) */
+    .lirya-cf-card.garantia {
+      padding: 38px 28px;
+      border-width: 3px;
+      transform: scale(1.06);
+      box-shadow: 0 32px 64px rgba(199, 181, 138, 0.5);
     }
 
     .lirya-cf-card h3 {
       font-size: 20px;
+    }
+
+    .lirya-cf-card.garantia h3 {
+      font-size: 22px;
     }
 
     .lirya-cf-card p {
@@ -589,6 +602,11 @@
     .lirya-cf-card.is-visible {
       opacity: 1;
       transform: translateY(0) scale(1);
+    }
+
+    /* Mantener el “destacado” también tras hacerse visible */
+    .lirya-cf-card.garantia.is-visible {
+      transform: translateY(0) scale(1.06);
     }
   }
 
@@ -618,7 +636,7 @@
 
     <div class="lirya-cf-card garantia">
       <div class="lirya-cf-step" aria-hidden="true">2</div>
-      <h3>Garantía emocional incluida</h3>
+      <h3>Revisión incluida</h3>
       <p>
         Si al recibir la canción quieres ajustar algún detalle de la letra o el enfoque, la revisamos contigo
         <strong>(revisiones incluidas según la tarifa elegida)</strong>.
@@ -696,6 +714,7 @@
     }
   })();
 </script>
+
 
 <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES ===== -->
 <style>
@@ -2367,6 +2386,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
