@@ -209,6 +209,7 @@
       margin-bottom:36px;
     }
 
+    /* Mantengo tu regla base (no rompe nada). En mobile manda el @media. */
     .hero-mobile-image{
       width:70%;
       max-width:300px;
@@ -316,7 +317,8 @@
 
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
-          <li>Entrega garantizada antes de San Valentín según tu tarifa</li>
+          <li>Revisión incluida</li>
+          <li>Entrega garantizada antes de San Valentín</li>
         </ul>
 
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
@@ -345,7 +347,8 @@
 
       <ul class="hero-mobile-benefits">
         <li>Letra basada en vuestra historia</li>
-        <li>Entrega garantizada antes de San Valentín según tu tarifa</li>
+        <li>Revisión incluida</li>
+        <li>Entrega antes de San Valentín</li>
       </ul>
 
       <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
@@ -370,10 +373,7 @@
   }
 
   triggers.forEach(el=>{
-    el.addEventListener("click", (e)=>{
-      e.preventDefault();
-      toggleAudio();
-    });
+    el.addEventListener("click", toggleAudio);
   });
 })();
 </script>
@@ -2258,6 +2258,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
