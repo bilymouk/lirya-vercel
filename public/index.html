@@ -725,29 +725,28 @@
   font-family: "Playfair Display", serif;
   font-size: 38px;
   color: #d4b483;
-  margin-bottom: 32px;
+  margin-bottom: 22px;
   font-weight: 600;
 }
 
 .examples-subtitle {
   font-family: "Playfair Display", serif;
   font-size: 16px;
-  opacity: 0.85;
-  margin-bottom: 30px;
+  opacity: 0.9;
+  margin-bottom: 10px;
 }
 
-.examples-note {
-  font-size: 13px;
-  font-style: italic;
-  opacity: 0.8;
-  margin-bottom: 30px;
+.examples-proof {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 26px;
 }
 
 /* GRID TARIFAS */
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 18px;
   align-items: stretch;
 }
 
@@ -757,14 +756,14 @@
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.45);
-  transform: scale(0.90);
-  box-shadow: 0 0 22px rgba(255,255,255,0.18);
-  transition: transform .45s ease, box-shadow .45s ease;
   background: rgba(0,0,0,0.35);
+  box-shadow: 0 0 22px rgba(255,255,255,0.18);
+  transition: transform .4s ease, box-shadow .4s ease;
+  cursor: pointer;
 }
 
 .example-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
   box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
@@ -776,13 +775,12 @@
 /* DESTACADA */
 .example-card.destacada {
   border: 1.5px solid #ff9f3f;
-  transform: scale(0.90);
   box-shadow: 0 0 55px rgba(255,159,63,0.35);
   z-index: 3;
 }
 
 .example-card.destacada:hover {
-  transform: scale(0.96);
+  transform: translateY(-10px);
 }
 
 /* BADGE */
@@ -829,19 +827,13 @@
   font-size: 14px;
   line-height: 1.6;
   opacity: 0.85;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
-  .tarifa-segura {
-  margin-top: 6px;
-  margin-bottom: 8px;
-}
-
-.tarifa-segura strong {
-  font-size: 15px;
-  line-height: 1.4;
-  font-weight: 500;
-  display: block;
+.tarifa-segura {
+  margin-bottom: 10px;
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 /* BOTÓN */
@@ -859,7 +851,7 @@
 
 /* TEXTO INTERMEDIO */
 .styles-note {
-  margin: 26px 0 16px;
+  margin: 30px 0 16px;
   font-size: 13px;
   font-style: italic;
   opacity: 0.8;
@@ -872,34 +864,20 @@
 
 .styles-carousel {
   display: flex;
-  align-items: flex-start;
   gap: 24px;
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 2px 110px 0px;
 }
 
-.styles-carousel::-webkit-scrollbar {
-  display: none;
-}
+.styles-carousel::-webkit-scrollbar { display: none; }
 
-@media (max-width: 900px) {
-  .styles-carousel {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-}
-
-/* ===== VIÑETAS ===== */
+/* VIÑETAS */
 .style-card {
-  position: relative;
   min-width: 280px;
   width: 280px;
   height: 350px;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .style-card img {
@@ -907,7 +885,6 @@
   height: 300px;
   object-fit: contain;
   border-radius: 22px;
-  display: block;
 }
 
 .style-card.playing {
@@ -942,8 +919,6 @@
 @media (max-width: 900px) {
   .examples-grid { grid-template-columns: 1fr; }
   .carousel-arrow { display: none; }
-  .style-card { height: 300px; }
-  .style-card img { height: 260px; }
 }
 </style>
 
@@ -954,18 +929,17 @@
 
     <p class="examples-subtitle">
       Cada canción se crea desde cero con la historia real de cada cliente.
-      Lo que escuchas aquí es el resultado final.
     </p>
 
-    <p class="examples-note">
-      Dale al PLAY para escuchar ejemplos reales de canciones personalizadas
+    <p class="examples-proof">
+      Letras cuidadas, ajustadas y revisadas para que suenen naturales al escucharlas.
     </p>
 
     <div class="examples-grid">
 
       <!-- 49 € -->
-      <div class="example-card">
-        <img src="/papa-card.jpg">
+      <div class="example-card" data-audio="/audio/papa.mp3">
+        <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy">
         <div class="tarifa-info">
           <h3>Un bonito detalle</h3>
           <div class="tarifa-precio">49€</div>
@@ -974,19 +948,16 @@
             • Letra personalizada básica<br>
             • Música original<br>
             • 1 revisión incluida
-            </div>
-          
-          <div class="tarifa-segura">
-            <em>Menor nivel de detalle emocional</em>
           </div>
-          <a href="#formulario-lirya?tarifa=49">Elegir esta opción</a>
+          <div class="tarifa-segura"><em>Menor nivel de detalle emocional</em></div>
+          <a href="#formulario-lirya" data-tarifa="49">Elegir esta opción</a>
         </div>
       </div>
 
       <!-- 59 € -->
-      <div class="example-card destacada">
+      <div class="example-card destacada" data-audio="/audio/eres-mi-amor.mp3">
         <span class="badge-popular">La más elegida</span>
-        <img src="/eres-mi-amor-card.jpg">
+        <img src="/eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy">
         <div class="tarifa-info">
           <h3>El regalo que emociona de verdad</h3>
           <div class="tarifa-precio">59€</div>
@@ -995,32 +966,30 @@
             • Letra muy detallada y emocional<br>
             • Ideal para regalar (San Valentín, aniversarios…)<br>
             • Hasta 2 revisiones
-            </div>
-          
-          <div class="tarifa-segura">
-            <em><strong></strong>La opción más segura para emocionar de verdad</strong></em>
           </div>
-          <a href="#formulario-lirya?tarifa=59">Elegir esta opción</a>
+          <div class="tarifa-segura">
+            <strong>La opción más segura para emocionar de verdad</strong>
+          </div>
+          <a href="#formulario-lirya" data-tarifa="59">Elegir esta opción</a>
         </div>
       </div>
 
       <!-- 79 € -->
-      <div class="example-card">
-        <img src="/amigas-card.jpg">
+      <div class="example-card" data-audio="/audio/amigas.mp3">
+        <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy">
         <div class="tarifa-info">
-          <h3>Una canción  para recordar siempre</h3>
+          <h3>Una canción para recordar siempre</h3>
           <div class="tarifa-precio">79€</div>
           <div class="tarifa-entrega">Entrega prioritaria</div>
           <div class="tarifa-incluye">
             • Máximo nivel de detalle emocional<br>
             • Prioridad absoluta en creación<br>
             • Revisiones ilimitadas
-            </div>
-          
+          </div>
           <div class="tarifa-segura">
             <em>Para quienes buscan el máximo impacto sin límites</em>
           </div>
-          <a href="#formulario-lirya?tarifa=79">Elegir esta opción</a>
+          <a href="#formulario-lirya" data-tarifa="79">Elegir esta opción</a>
         </div>
       </div>
 
@@ -1035,19 +1004,19 @@
       <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
 
       <div class="styles-carousel" id="stylesCarousel">
-        <div class="style-card" data-audio="/audio/flamenco.mp3"><img src="/vinetasmusica/flamenco.png"></div>
-        <div class="style-card" data-audio="/audio/cine.mp3"><img src="/vinetasmusica/cinematografica.png"></div>
-        <div class="style-card" data-audio="/audio/reggae.mp3"><img src="/vinetasmusica/reggae.png"></div>
-        <div class="style-card" data-audio="/audio/pop.mp3"><img src="/vinetasmusica/pop.png"></div>
-        <div class="style-card" data-audio="/audio/bachata.mp3"><img src="/vinetasmusica/bachata.png"></div>
-        <div class="style-card" data-audio="/audio/jazz.mp3"><img src="/vinetasmusica/jazz.png"></div>
-        <div class="style-card" data-audio="/audio/hiphop.mp3"><img src="/vinetasmusica/hiphop.png"></div>
-        <div class="style-card" data-audio="/audio/reggaeton.mp3"><img src="/vinetasmusica/reggaeton.png"></div>
-        <div class="style-card" data-audio="/audio/balada.mp3"><img src="/vinetasmusica/balada.png"></div>
-        <div class="style-card" data-audio="/audio/indie.mp3"><img src="/vinetasmusica/indie.png"></div>
-        <div class="style-card" data-audio="/audio/rock.mp3"><img src="/vinetasmusica/rock.png"></div>
-        <div class="style-card" data-audio="/audio/electro.mp3"><img src="/vinetasmusica/electronica.png"></div>
-        <div class="style-card" data-audio="/audio/r&b.mp3"><img src="/vinetasmusica/R&B.png"></div>
+        <div class="style-card" data-audio="/audio/flamenco.mp3"><img loading="lazy" src="/vinetasmusica/flamenco.png"></div>
+        <div class="style-card" data-audio="/audio/cine.mp3"><img loading="lazy" src="/vinetasmusica/cinematografica.png"></div>
+        <div class="style-card" data-audio="/audio/reggae.mp3"><img loading="lazy" src="/vinetasmusica/reggae.png"></div>
+        <div class="style-card" data-audio="/audio/pop.mp3"><img loading="lazy" src="/vinetasmusica/pop.png"></div>
+        <div class="style-card" data-audio="/audio/bachata.mp3"><img loading="lazy" src="/vinetasmusica/bachata.png"></div>
+        <div class="style-card" data-audio="/audio/jazz.mp3"><img loading="lazy" src="/vinetasmusica/jazz.png"></div>
+        <div class="style-card" data-audio="/audio/hiphop.mp3"><img loading="lazy" src="/vinetasmusica/hiphop.png"></div>
+        <div class="style-card" data-audio="/audio/reggaeton.mp3"><img loading="lazy" src="/vinetasmusica/reggaeton.png"></div>
+        <div class="style-card" data-audio="/audio/balada.mp3"><img loading="lazy" src="/vinetasmusica/balada.png"></div>
+        <div class="style-card" data-audio="/audio/indie.mp3"><img loading="lazy" src="/vinetasmusica/indie.png"></div>
+        <div class="style-card" data-audio="/audio/rock.mp3"><img loading="lazy" src="/vinetasmusica/rock.png"></div>
+        <div class="style-card" data-audio="/audio/electro.mp3"><img loading="lazy" src="/vinetasmusica/electronica.png"></div>
+        <div class="style-card" data-audio="/audio/rb.mp3"><img loading="lazy" src="/vinetasmusica/rb.png"></div>
       </div>
     </div>
 
@@ -1057,62 +1026,27 @@
 <script>
 (function () {
 
-  function getTarifaFromHash() {
-    const hash = window.location.hash;
-    if (!hash.includes('tarifa=')) return null;
-    const match = hash.match(/tarifa=(\d+)/);
-    return match ? match[1] : null;
-  }
-
-  function scrollToFormulario() {
-    const form = document.getElementById('formulario-lirya');
-    if (!form) return;
-    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function preselectTarifa(tarifa) {
-    const tarifaBtn = document.getElementById('tarifa-btn');
-    if (!tarifaBtn) return;
-
-    const opciones = document.querySelectorAll(
-      '#formulario-lirya .dropdown-item[data-tarifa]'
-    );
-
-    opciones.forEach(op => {
-      if (op.dataset.tarifa === tarifa) {
-        tarifaBtn.textContent = op.textContent;
-        tarifaBtn.style.color = '#333';
-      }
-    });
-  }
-
-  document.querySelectorAll('.tarifa-info a').forEach(link => {
-    link.addEventListener('click', function () {
-      setTimeout(() => {
-        const tarifa = getTarifaFromHash();
-        if (tarifa) {
-          scrollToFormulario();
-          setTimeout(() => preselectTarifa(tarifa), 600);
-        }
-      }, 50);
-    });
-  });
-
-  window.addEventListener('load', () => {
-    const tarifa = getTarifaFromHash();
-    if (tarifa) {
-      scrollToFormulario();
-      setTimeout(() => preselectTarifa(tarifa), 600);
-    }
-  });
-
   let currentAudio = null;
-  document.querySelectorAll('.style-card').forEach(card => {
-    card.addEventListener('click', () => {
+
+  document.querySelectorAll('.example-card').forEach(card => {
+    const audioSrc = card.dataset.audio;
+    if (!audioSrc) return;
+
+    card.addEventListener('click', e => {
+      if (e.target.tagName === 'A') return;
+
       if (currentAudio) {
         currentAudio.pause();
-        document.querySelectorAll('.style-card').forEach(c => c.classList.remove('playing'));
       }
+
+      currentAudio = new Audio(audioSrc);
+      currentAudio.play();
+    });
+  });
+
+  document.querySelectorAll('.style-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (currentAudio) currentAudio.pause();
       currentAudio = new Audio(card.dataset.audio);
       card.classList.add('playing');
       currentAudio.play();
@@ -1127,6 +1061,7 @@
 
 })();
 </script>
+
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -2366,6 +2301,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
