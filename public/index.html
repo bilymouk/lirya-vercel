@@ -36,6 +36,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Perf: preload hero bg (si el path y el server lo soportan) -->
+  <link rel="preload" as="image" href="/cascos-neon.avif" type="image/avif" />
+
   <!-- JSON-LD -->
   <script type="application/ld+json">
   {
@@ -72,6 +75,7 @@
       --gold:#d4b483;
       --orange:#ff8a2a;
       --orange-hover:#f07818;
+      --focus:#1a1a1a;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#fff}
@@ -101,13 +105,16 @@
     }
     .cta-header:hover{ background:var(--orange-hover); transform:scale(1.03); }
 
-    /* Focus styles (pro + accesible) */
+    /* Focus styles (visibles de verdad) */
     .cta-header:focus-visible,
-    .hero-btn:focus-visible,
+    .hero-btn:focus-visible{
+      outline:2px solid var(--focus);
+      outline-offset:4px;
+    }
     .hero-phone:focus-visible,
     .hero-mobile-image:focus-visible{
-      outline:2px solid rgba(255,255,255,.55);
-      outline-offset:3px;
+      outline:2px solid rgba(255,255,255,.8);
+      outline-offset:4px;
     }
 
     /* HERO */
@@ -150,7 +157,14 @@
       font-family:'Playfair Display',serif;
       font-size:3.65rem;
       line-height:1.12;
-      margin-bottom:28px;
+      margin-bottom:16px;
+    }
+    .hero-subline{
+      font-family:'Playfair Display',serif;
+      font-size:1.08rem;
+      line-height:1.5;
+      opacity:.95;
+      margin-bottom:22px;
     }
 
     .hero-benefits{
@@ -206,10 +220,17 @@
       font-family:'Playfair Display',serif;
       font-size:2.95rem;
       line-height:1.12;
-      margin-bottom:36px;
+      margin-bottom:18px;
     }
 
-    /* Mantengo tu regla base (no rompe nada). En mobile manda el @media. */
+    .hero-mobile .hero-subline{
+      font-family:'Playfair Display',serif;
+      font-size:1.08rem;
+      line-height:1.45;
+      opacity:.95;
+      margin:0 10px 18px;
+    }
+
     .hero-mobile-image{
       width:70%;
       max-width:300px;
@@ -265,10 +286,6 @@
       .hero-desktop{ display:none; }
       .hero-mobile{ display:block; text-align:center; }
 
-      .hero-mobile h1{
-        margin-bottom:36px;
-      }
-
       .hero-mobile-image{
         width:85%;
         max-width:360px;
@@ -276,7 +293,6 @@
       }
 
       .hero-mobile-benefits{
-        list-style:none;
         margin:0;
         padding:0 10px;
       }
@@ -312,8 +328,9 @@
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
-        <span class="hero-badge">El regalo más emocional para este San Valentín</span>
-        <h1>Una canción personalizada con vuestra historia</h1>
+        <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
+        <h1>Vuestra historia convertida en una canción</h1>
+        <p class="hero-subline">Una canción que dirá lo que a veces no sabes expresar</p>
 
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
@@ -321,7 +338,7 @@
           <li>Entrega garantizada antes de San Valentín</li>
         </ul>
 
-        <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
+        <a href="#formulario-lirya" class="hero-btn">Convertir nuestra historia en canción</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
 
@@ -330,19 +347,30 @@
         class="hero-phone"
         id="mockup-audio-trigger-desktop"
         alt="Ejemplo de canción personalizada"
+        width="420"
+        height="840"
+        role="button"
+        tabindex="0"
+        aria-label="Reproducir o pausar ejemplo de canción"
       />
     </div>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-      <span class="hero-badge">El regalo más emocional para este San Valentín</span>
-      <h1>Una canción personalizada con vuestra historia</h1>
+      <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
+      <h1>Vuestra historia convertida en una canción</h1>
+      <p class="hero-subline">Una canción que dirá lo que a veces no sabes expresar</p>
 
       <img
         src="/mockup-phone-final.png"
         class="hero-mobile-image"
         id="mockup-audio-trigger-mobile"
         alt="Ejemplo de canción personalizada"
+        width="360"
+        height="720"
+        role="button"
+        tabindex="0"
+        aria-label="Reproducir o pausar ejemplo de canción"
       />
 
       <ul class="hero-mobile-benefits">
@@ -351,7 +379,7 @@
         <li>Entrega antes de San Valentín</li>
       </ul>
 
-      <a href="#formulario-lirya" class="hero-btn">Crear mi canción personalizada</a>
+      <a href="#formulario-lirya" class="hero-btn">Convertir nuestra historia en canción</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
 
@@ -372,8 +400,16 @@
     else audio.pause();
   }
 
+  function onKeyToggle(e){
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleAudio();
+    }
+  }
+
   triggers.forEach(el=>{
     el.addEventListener("click", toggleAudio);
+    el.addEventListener("keydown", onKeyToggle);
   });
 })();
 </script>
@@ -2331,6 +2367,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
