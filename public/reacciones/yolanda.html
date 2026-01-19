@@ -6,7 +6,7 @@
 
   <!-- SEO -->
   <title>Valoración real de Yolanda sobre su canción personalizada | LIRYA</title>
-  <meta name="description" content="Mira el vídeo completo y la valoración real de Yolanda tras regalar una canción personalizada creada con su historia. Un regalo emocional y único con entrega rápida." />
+  <meta name="description" content="Vídeo completo y valoración real de Yolanda tras regalar una canción personalizada creada con una historia real. Un regalo emocional y único con entrega rápida." />
   <link rel="canonical" href="https://www.lirya.studio/reacciones/yolanda.html" />
   <meta name="robots" content="index,follow" />
 
@@ -17,6 +17,8 @@
   <meta property="og:description" content="Vídeo completo y valoración real de Yolanda tras regalar una canción personalizada creada con una historia real." />
   <meta property="og:url" content="https://www.lirya.studio/reacciones/yolanda.html" />
   <meta property="og:image" content="https://www.lirya.studio/video1.jpg" />
+  <meta property="og:video" content="https://www.lirya.studio/video1.mp4" />
+  <meta property="og:video:type" content="video/mp4" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -29,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- JSON-LD (simple y seguro) -->
+  <!-- JSON-LD: WebPage + VideoObject (SEO PRO sin inventar datos) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -45,6 +47,26 @@
       "@type":"Service",
       "name":"Canciones personalizadas",
       "provider":{"@type":"Organization","name":"LIRYA","url":"https://www.lirya.studio/"}
+    },
+    "primaryImageOfPage":{
+      "@type":"ImageObject",
+      "url":"https://www.lirya.studio/video1.jpg"
+    },
+    "video":{
+      "@type":"VideoObject",
+      "name":"Valoración real de Yolanda tras regalar una canción personalizada",
+      "description":"Vídeo completo y valoración real de Yolanda tras regalar una canción personalizada creada con una historia real.",
+      "thumbnailUrl":[
+        "https://www.lirya.studio/video1.jpg"
+      ],
+      "contentUrl":"https://www.lirya.studio/video1.mp4",
+      "embedUrl":"https://www.lirya.studio/reacciones/yolanda.html",
+      "inLanguage":"es",
+      "publisher":{
+        "@type":"Organization",
+        "name":"LIRYA",
+        "url":"https://www.lirya.studio/"
+      }
     }
   }
   </script>
@@ -125,8 +147,7 @@
       margin-top:14px;
     }
 
-    /* ✅ FIX DESKTOP: vídeo dentro de un “marco” con altura máxima,
-       sin recortar ni deformar y sin obligar a hacer scroll para ver “la otra mitad” */
+    /* FIX DESKTOP: video no gigante */
     .video-wrap{
       margin:14px 0 8px;
       background:#000;
@@ -141,13 +162,11 @@
       height:auto;
       background:#000;
       border-radius:0;
-      max-height:72vh; /* clave: evita que el vertical se coma toda la pantalla en ordenador */
+      max-height:72vh;
     }
 
     @media (min-width: 900px){
-      video{
-        max-height:560px; /* en escritorio grande queda “hero” pero no gigante */
-      }
+      video{ max-height:560px; }
     }
 
     .meta{
@@ -239,7 +258,7 @@
     @media (max-width:520px){
       body{padding:16px}
       h1{font-size:24px}
-      video{max-height:none;} /* en móvil dejamos que fluya natural */
+      video{max-height:none;}
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -272,7 +291,6 @@
         <span class="pill">🎧 Consejo: ponte auriculares</span>
       </div>
 
-      <!-- Importante: metadata para que cargue el poster sin rarezas -->
       <div class="video-wrap">
         <video controls playsinline preload="metadata" poster="/video1.jpg">
           <source src="/video1.mp4" type="video/mp4">
@@ -300,8 +318,8 @@
       </div>
     </div>
 
-    <div class="more" aria-label="Ver otras reacciones">
-      <h3>Ver otras reacciones</h3>
+    <div class="more" aria-label="Ver otras valoraciones">
+      <h3>Ver otras valoraciones</h3>
       <div class="links">
         <a class="small-link" href="/reacciones/laura.html">Laura</a>
         <a class="small-link" href="/reacciones/andrea.html">Andrea</a>
