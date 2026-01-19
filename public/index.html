@@ -2157,11 +2157,11 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
      REACCIONES REALES · EMOCIONES REALES
      (Landing ligera: SOLO IMAGEN + link a reacción completa)
      ✅ Sin botón play nativo (no hay <video> en el carrusel)
-     ✅ Imagen completa (tipo “cover” para que no se corte raro)
      ✅ Mantiene tarjeta alta como antes (no cuadrada)
+     ✅ “Cortafuegos” anti-overlay global (por si tu theme mete ▶ encima)
 ================================ -->
 
-<section class="lirya-reactions">
+<section class="lirya-reactions" id="reacciones">
 
   <div class="lirya-reactions-header">
     <h2 class="lirya-reactions-title">
@@ -2183,7 +2183,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <a class="reaction-card" href="/reacciones/yolanda.html" aria-label="Ver reacción completa de Yolanda">
       <div class="reaction-media">
-        <img src="/video1.jpg" alt="Reacción real de Yolanda al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <img src="/video1.jpg" alt="Reacción real de Yolanda al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
         <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
@@ -2195,7 +2195,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <a class="reaction-card" href="/reacciones/laura.html" aria-label="Ver reacción completa de Laura">
       <div class="reaction-media">
-        <img src="/video2.jpg" alt="Reacción real de Laura al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <img src="/video2.jpg" alt="Reacción real de Laura al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
         <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
@@ -2207,7 +2207,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <a class="reaction-card" href="/reacciones/andrea.html" aria-label="Ver reacción completa de Andrea">
       <div class="reaction-media">
-        <img src="/video3.jpg" alt="Reacción real de Andrea al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <img src="/video3.jpg" alt="Reacción real de Andrea al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
         <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
@@ -2219,7 +2219,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <a class="reaction-card" href="/reacciones/carlos.html" aria-label="Ver reacción completa de Carlos">
       <div class="reaction-media">
-        <img src="/video4.jpg" alt="Reacción real de Carlos al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <img src="/video4.jpg" alt="Reacción real de Carlos al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
         <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
@@ -2231,7 +2231,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <a class="reaction-card" href="/reacciones/juan.html" aria-label="Ver reacción completa de Juan">
       <div class="reaction-media">
-        <img src="/video5.jpg" alt="Reacción real de Juan al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <img src="/video5.jpg" alt="Reacción real de Juan al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
         <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
@@ -2243,7 +2243,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <a class="reaction-card" href="/reacciones/teresa.html" aria-label="Ver reacción completa de Teresa">
       <div class="reaction-media">
-        <img src="/video6.jpg" alt="Reacción real de Teresa al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <img src="/video6.jpg" alt="Reacción real de Teresa al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
         <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
@@ -2255,7 +2255,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <a class="reaction-card" href="/reacciones/sara.html" aria-label="Ver reacción completa de Sara">
       <div class="reaction-media">
-        <img src="/video7.jpg" alt="Reacción real de Sara al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <img src="/video7.jpg" alt="Reacción real de Sara al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
         <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
@@ -2267,7 +2267,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
     <a class="reaction-card" href="/reacciones/maria.html" aria-label="Ver reacción completa de María">
       <div class="reaction-media">
-        <img src="/video8.jpg" alt="Reacción real de María al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <img src="/video8.jpg" alt="Reacción real de María al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
         <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
@@ -2352,6 +2352,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding: 10px 20px;
+  -webkit-overflow-scrolling: touch;
 }
 .lirya-reactions-carousel::-webkit-scrollbar { display: none; }
 
@@ -2370,44 +2371,65 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   color: inherit;
   outline: none;
   box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+  touch-action: manipulation;
 }
-.reaction-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 34px rgba(0,0,0,0.10);
+
+@media (hover:hover) {
+  .reaction-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 34px rgba(0,0,0,0.10);
+  }
 }
+
 .reaction-card:focus-visible{
   outline: 3px solid rgba(255,159,63,0.55);
   outline-offset: 4px;
   border-radius: 26px;
 }
 
-/* ===== MEDIA: mantener “alto” y que se vea bien en vertical ===== */
+/* ===== MEDIA (ALTA, NO CUADRADA) ===== */
 .reaction-media{
   position: relative;
-  /* Altura fija para que NO se vuelva cuadrado */
   height: 360px;
-  background: #000; /* por si tarda en cargar */
+  background: #000;
+  overflow: hidden;
 }
+
+/*
+  IMPORTANTE:
+  - Si tu poster es vertical: object-fit: cover queda muy bien tipo “miniatura de vídeo”.
+  - Si prefieres que NUNCA se recorte nada (aunque salga con bandas):
+    cambia object-fit: cover -> object-fit: contain
+*/
 .reaction-media img{
   width: 100%;
   height: 100%;
   display: block;
-  /* Para que se vea como “portada de vídeo”, sin deformar */
   object-fit: cover;
   object-position: center;
 }
 
-/* ===== Overlay suave (sin icono play) ===== */
-.reaction-media::after{
+/* ===== CORTAFUEGOS ANTI “PLAY” GLOBAL =====
+   Si algún CSS global mete ::before/::after con ▶ en enlaces o imágenes,
+   esto lo neutraliza dentro de esta sección.
+*/
+.lirya-reactions .reaction-media::before,
+.lirya-reactions .reaction-media::after,
+.lirya-reactions .reaction-card::before,
+.lirya-reactions .reaction-card::after{
+  content: none !important;
+}
+
+/* En vez del overlay global, ponemos el nuestro (controlado) */
+.lirya-reactions .reaction-media::after{
   content:"";
   position:absolute;
   inset:0;
   background: linear-gradient(to top, rgba(0,0,0,0.22), rgba(0,0,0,0.02));
   pointer-events:none;
-  opacity: 1;
 }
 
-/* Etiqueta “Ver reacción completa” (NO es botón play) */
+/* Etiqueta discreta */
 .tap-pill{
   position:absolute;
   left: 50%;
@@ -2480,7 +2502,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 /* ===== MÓVIL ===== */
 @media (max-width: 768px) {
   .lirya-reactions-title { font-size: 32px; }
-  .reaction-media{ height: 420px; } /* en móvil suele quedar mejor más alto */
+  .reaction-media{ height: 420px; }
 }
 
 /* Reduced motion */
@@ -2490,6 +2512,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   }
 }
 </style>
+
 
 <!-- ===== GARANTÍA DE SATISFACCIÓN REAL ===== -->
 <style>
@@ -2791,6 +2814,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
