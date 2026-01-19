@@ -1755,18 +1755,21 @@
   #formulario-lirya{
     background:
       linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
-      url("musica-neon.png") center/cover no-repeat;
+      url("/musica-neon.png") center/cover no-repeat;
     padding:50px 20px;
     color:#fff;
     font-family: 'Inter', sans-serif;
   }
 
   #formulario-lirya .wrapper{max-width:520px;margin:0 auto}
-  #formulario-lirya h1{
+
+  /* OJO: evitar segundo H1 en la página */
+  #formulario-lirya h2{
     text-align:center;color:#f2c98a;
     font-family:"Playfair Display", serif;
     font-size:36px;margin-bottom:12px
   }
+
   #formulario-lirya .subtitle{
     text-align:center;opacity:.85;margin-bottom:10px;font-style:italic;
     font-family:"Playfair Display", serif;
@@ -1885,10 +1888,15 @@
   #formulario-lirya .dropdown-menu.open{display:block}
 
   #formulario-lirya .dropdown-item{
-    padding:12px 18px;color:#7a7a7a;font-size:14px;cursor:pointer
+    padding:12px 18px;
+    color:#7a7a7a;
+    font-size:14px;
+    cursor:pointer;
+    outline: none;
   }
   #formulario-lirya .dropdown-item:hover,
-  #formulario-lirya .dropdown-item[aria-selected="true"]{
+  #formulario-lirya .dropdown-item[aria-selected="true"],
+  #formulario-lirya .dropdown-item:focus{
     background:#f4f7fb;color:#333
   }
 
@@ -1903,17 +1911,17 @@
   #formulario-lirya .next:disabled{cursor:not-allowed}
   #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
 
-  #telefono-box{display:none}
+  #formulario-lirya #telefono-box{display:none}
 </style>
 
 <div class="wrapper">
-  <h1>Cuéntanos vuestra historia</h1>
+  <h2>Cuéntanos vuestra historia</h2>
   <div class="subtitle">
     No hace falta escribir bonito. Nosotros transformamos tus palabras en una canción emocional.
   </div>
   <div class="micro-safety">✔ No hay respuestas largas · Solo lo esencial</div>
 
-  <div class="progress" id="progress"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
   <!-- FORM real (Stripe sigue por fetch) -->
   <form class="card" id="lirya-form" novalidate>
@@ -1944,12 +1952,12 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="relationship-menu" role="listbox">
-            <div class="dropdown-item" role="option">Pareja</div>
-            <div class="dropdown-item" role="option">Matrimonio</div>
-            <div class="dropdown-item" role="option">Ex pareja (reconciliación)</div>
-            <div class="dropdown-item" role="option">Amor secreto</div>
-            <div class="dropdown-item" role="option">Familiar</div>
-            <div class="dropdown-item" role="option">Amistad especial</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Pareja</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Matrimonio</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Ex pareja (reconciliación)</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Amor secreto</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Familiar</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Amistad especial</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="relationship">Elige una opción.</div>
@@ -1964,9 +1972,9 @@
             <span>Selecciona una tarifa</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="tarifa-menu" role="listbox">
-            <div class="dropdown-item" role="option" data-tarifa="49">49€ — Estándar</div>
-            <div class="dropdown-item" role="option" data-tarifa="59">59€ — Emocional</div>
-            <div class="dropdown-item" role="option" data-tarifa="79">79€ — Prioritaria</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-tarifa="49">49€ — Estándar</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-tarifa="59">59€ — Emocional</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-tarifa="79">79€ — Prioritaria</div>
           </div>
         </div>
         <input type="hidden" id="tarifa-hidden" name="tarifa" required>
@@ -2007,12 +2015,12 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="reason-now-menu" role="listbox">
-            <div class="dropdown-item" role="option">Aniversario</div>
-            <div class="dropdown-item" role="option">Cumpleaños</div>
-            <div class="dropdown-item" role="option">Reconciliación</div>
-            <div class="dropdown-item" role="option">San Valentín</div>
-            <div class="dropdown-item" role="option">Sorpresa sin motivo</div>
-            <div class="dropdown-item" role="option">Otro</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Aniversario</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Cumpleaños</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Reconciliación</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">San Valentín</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Sorpresa sin motivo</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Otro</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="reason_now">Elige una opción.</div>
@@ -2052,11 +2060,11 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="emotion-menu" role="listbox">
-            <div class="dropdown-item" role="option">Amor profundo</div>
-            <div class="dropdown-item" role="option">Nostalgia</div>
-            <div class="dropdown-item" role="option">Alegría</div>
-            <div class="dropdown-item" role="option">Emoción intensa</div>
-            <div class="dropdown-item" role="option">Calma y ternura</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Amor profundo</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Nostalgia</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Alegría</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Emoción intensa</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Calma y ternura</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="emotion">Elige una opción.</div>
@@ -2082,19 +2090,19 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="song-style-menu" role="listbox">
-            <div class="dropdown-item" role="option">Balada romántica</div>
-            <div class="dropdown-item" role="option">Pop emocional</div>
-            <div class="dropdown-item" role="option">Indie acústico</div>
-            <div class="dropdown-item" role="option">R&amp;B / Soul</div>
-            <div class="dropdown-item" role="option">Rock suave</div>
-            <div class="dropdown-item" role="option">Electrónica chill</div>
-            <div class="dropdown-item" role="option">Reggaetón lento</div>
-            <div class="dropdown-item" role="option">Bachata</div>
-            <div class="dropdown-item" role="option">Hip Hop</div>
-            <div class="dropdown-item" role="option">Reggae chill</div>
-            <div class="dropdown-item" role="option">Jazz</div>
-            <div class="dropdown-item" role="option">Flamenco</div>
-            <div class="dropdown-item" role="option">Cinematográfico</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Balada romántica</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Pop emocional</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Indie acústico</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">R&amp;B / Soul</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Rock suave</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Electrónica chill</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Reggaetón lento</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Bachata</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Hip Hop</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Reggae chill</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Jazz</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Flamenco</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Cinematográfico</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="song_style">Elige una opción.</div>
@@ -2109,9 +2117,9 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="rhythm-menu" role="listbox">
-            <div class="dropdown-item" role="option">Lento</div>
-            <div class="dropdown-item" role="option">Medio</div>
-            <div class="dropdown-item" role="option">Progresivo</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Lento</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Medio</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Progresivo</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="rhythm">Elige una opción.</div>
@@ -2126,10 +2134,10 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="voice-type-menu" role="listbox">
-            <div class="dropdown-item" role="option">Masculina</div>
-            <div class="dropdown-item" role="option">Femenina</div>
-            <div class="dropdown-item" role="option">Dúo</div>
-            <div class="dropdown-item" role="option">Me da igual</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Masculina</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Femenina</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Dúo</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Me da igual</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="voice_type">Elige una opción.</div>
@@ -2144,10 +2152,10 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="language-menu" role="listbox">
-            <div class="dropdown-item" role="option">Español</div>
-            <div class="dropdown-item" role="option">Inglés</div>
-            <div class="dropdown-item" role="option">Spanglish</div>
-            <div class="dropdown-item" role="option">Catalán</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Español</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Inglés</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Spanglish</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Catalán</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="language">Elige una opción.</div>
@@ -2173,8 +2181,8 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="include-name-menu" role="listbox">
-            <div class="dropdown-item" role="option">Sí</div>
-            <div class="dropdown-item" role="option">No</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Sí</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">No</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="include_name">Elige una opción.</div>
@@ -2195,9 +2203,9 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="intensity-menu" role="listbox">
-            <div class="dropdown-item" role="option">Suave</div>
-            <div class="dropdown-item" role="option">Emotiva</div>
-            <div class="dropdown-item" role="option">Muy intensa</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Suave</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Emotiva</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Muy intensa</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="intensity">Elige una opción.</div>
@@ -2230,8 +2238,8 @@
             <span>Elige una opción</span><span aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="whatsapp-menu" role="listbox">
-            <div class="dropdown-item" role="option" data-whatsapp="si">Sí</div>
-            <div class="dropdown-item" role="option" data-whatsapp="no">No</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-whatsapp="si">Sí</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-whatsapp="no">No</div>
           </div>
         </div>
         <div class="field-error-msg" data-error-for="whatsapp">Elige una opción.</div>
@@ -2299,11 +2307,9 @@
   }
 
   function setFieldError(step, id, msg){
-    // Inputs/textareas
     const field = root.querySelector("#" + CSS.escape(id));
     if (field) field.classList.add("field-error");
 
-    // Error msg div
     const err = step.querySelector('.field-error-msg[data-error-for="' + id + '"]');
     if (err) {
       if (msg) err.textContent = msg;
@@ -2316,49 +2322,40 @@
   }
 
   function validateEmail(val){
-    // simple + robust enough for client
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(val || "").trim());
   }
 
   function validateStep(showUI) {
     const step = getStep();
     let ok = true;
-    const missing = [];
 
     if (showUI) clearErrors(step);
 
-    // Required inputs/textareas
     step.querySelectorAll("input[required],textarea[required]").forEach(el => {
       const v = (el.value || "").trim();
       if (!v) {
         ok = false;
-        missing.push("Completa los campos obligatorios.");
         if (showUI) setFieldError(step, el.id, "Completa este campo.");
         return;
       }
 
       if (el.id === "email" && !validateEmail(v)) {
         ok = false;
-        missing.push("Revisa tu email.");
         if (showUI) setFieldError(step, "email", "Introduce un email válido.");
       }
     });
 
-    // Required dropdowns
     step.querySelectorAll(".dropdown-btn[data-required]").forEach(btn => {
       if (!dropdownIsSelected(btn)) {
         ok = false;
-        missing.push("Elige una opción en los desplegables.");
         if (showUI) setFieldError(step, btn.id, "Elige una opción.");
       }
     });
 
-    // WhatsApp => phone required when visible
     if (step.contains(telefonoBox) && telefonoBox.style.display !== "none") {
       const v = (phone.value || "").trim();
       if (!v) {
         ok = false;
-        missing.push("Añade tu teléfono si quieres WhatsApp.");
         if (showUI) setFieldError(step, "phone", "Introduce tu teléfono.");
       }
     }
@@ -2366,9 +2363,7 @@
     setNextState(step, ok);
 
     if (showUI && !ok){
-      // compact, no spam
       showStepError(step, "Te falta completar algún campo marcado para poder continuar.");
-      // focus first error
       const firstErr = step.querySelector(".field-error");
       if (firstErr) firstErr.focus({ preventScroll: false });
     }
@@ -2382,13 +2377,13 @@
     validateStep(false);
   }
 
-  // Scoped: input inside form only
   form.addEventListener("input", () => validateStep(false));
 
   // Enter to advance (except textarea)
   form.addEventListener("keydown", (e) => {
     const step = getStep();
     const isTextarea = e.target && e.target.tagName === "TEXTAREA";
+
     if (e.key === "Enter" && !isTextarea) {
       const submitBtn = step.querySelector(".submit");
       const nextBtn = step.querySelector(".next");
@@ -2402,13 +2397,11 @@
     }
 
     if (e.key === "Escape") {
-      // close any open menu
-      root.querySelectorAll(".dropdown-menu.open").forEach(m => m.classList.remove("open"));
-      root.querySelectorAll(".dropdown-btn[aria-expanded='true']").forEach(b => b.setAttribute("aria-expanded","false"));
+      closeAllMenus();
     }
   });
 
-  // Navigation (scoped)
+  // Navigation
   form.addEventListener("click", (e) => {
     const t = e.target;
 
@@ -2424,10 +2417,14 @@
     }
   });
 
-  // Dropdown logic (scoped)
   function closeAllMenus(){
-    root.querySelectorAll(".dropdown-menu").forEach(m => m.classList.remove("open"));
-    root.querySelectorAll(".dropdown-btn").forEach(b => b.setAttribute("aria-expanded","false"));
+    root.querySelectorAll(".dropdown-menu.open").forEach(m => m.classList.remove("open"));
+    root.querySelectorAll(".dropdown-btn[aria-expanded='true']").forEach(b => b.setAttribute("aria-expanded","false"));
+  }
+
+  function setOptionSelected(items, selectedItem){
+    items.forEach(x => x.setAttribute("aria-selected","false"));
+    selectedItem.setAttribute("aria-selected","true");
   }
 
   root.querySelectorAll(".dropdown").forEach(d => {
@@ -2439,6 +2436,10 @@
       closeAllMenus();
       menu.classList.add("open");
       btn.setAttribute("aria-expanded","true");
+
+      // focus first option
+      const first = items[0];
+      if (first) first.focus({ preventScroll: true });
     }
 
     function closeMenu(){
@@ -2452,46 +2453,79 @@
       else openMenu();
     });
 
-    // Items click
-    items.forEach((it) => {
-      it.addEventListener("click", () => {
-        // selection UI
-        items.forEach(x => x.setAttribute("aria-selected","false"));
-        it.setAttribute("aria-selected","true");
+    btn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (menu.classList.contains("open")) closeMenu();
+        else openMenu();
+      }
+    });
 
-        // set button text (keep arrow)
-        const label = it.textContent.trim();
-        btn.querySelector("span").textContent = label;
-        btn.style.color = "#333";
-        btn.removeAttribute("data-placeholder");
-        closeMenu();
+    function applySelection(it){
+      setOptionSelected(items, it);
 
-        // Tarifa hidden
-        if (it.dataset.tarifa) {
-          tarifaHidden.value = it.dataset.tarifa;
+      const label = it.textContent.trim();
+      btn.querySelector("span").textContent = label;
+      btn.style.color = "#333";
+      btn.removeAttribute("data-placeholder");
+      closeMenu();
+
+      if (it.dataset.tarifa) tarifaHidden.value = it.dataset.tarifa;
+
+      if (it.dataset.whatsapp) {
+        const wants = it.dataset.whatsapp === "si";
+        telefonoBox.style.display = wants ? "block" : "none";
+        if (wants) {
+          phone.setAttribute("required", "required");
+        } else {
+          phone.removeAttribute("required");
+          phone.value = "";
         }
+      }
 
-        // WhatsApp toggle
-        if (it.dataset.whatsapp) {
-          const wants = it.dataset.whatsapp === "si";
-          telefonoBox.style.display = wants ? "block" : "none";
-          if (wants) {
-            phone.setAttribute("required", "required");
-          } else {
-            phone.removeAttribute("required");
-            phone.value = "";
-          }
+      validateStep(false);
+      btn.focus({ preventScroll: true });
+    }
+
+    items.forEach((it, idx) => {
+      it.addEventListener("click", () => applySelection(it));
+
+      it.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          applySelection(it);
+          return;
         }
-
-        validateStep(false);
+        if (e.key === "Escape") {
+          e.preventDefault();
+          closeMenu();
+          btn.focus({ preventScroll: true });
+          return;
+        }
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          const next = items[idx + 1] || items[0];
+          next && next.focus({ preventScroll: true });
+          return;
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          const prev = items[idx - 1] || items[items.length - 1];
+          prev && prev.focus({ preventScroll: true });
+          return;
+        }
       });
     });
   });
 
-  // Close menus on click outside (scoped but needs document)
+  // ✅ Cerrar menús:
+  // - Click fuera del root: cierra
+  // - Click dentro del root pero fuera del dropdown: cierra
   document.addEventListener("click", (e) => {
-    if (!root.contains(e.target)) return;
-    // click anywhere inside the form but outside dropdown closes open menus
+    if (!root.contains(e.target)) {
+      closeAllMenus();
+      return;
+    }
     if (!e.target.closest(".dropdown")) closeAllMenus();
   });
 
@@ -2504,13 +2538,11 @@
   function getDDText(id){
     const el = root.querySelector("#" + CSS.escape(id));
     if (!el) return "";
-    // take first span text (without arrow)
     const span = el.querySelector("span");
     return (span ? span.textContent : el.textContent).trim();
   }
 
   submitBtn.addEventListener("click", async () => {
-    // Validación final del paso 6 con UI
     if (!validateStep(true)) return;
     if (processingPayment) return;
     processingPayment = true;
@@ -2568,7 +2600,6 @@
 })();
 </script>
 </section>
-
 
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
@@ -3231,6 +3262,7 @@
   </div>
 
 </section>
+
 
 
 
