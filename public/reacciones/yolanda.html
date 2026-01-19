@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <!-- SEO -->
-  <title>Reacción real de Yolanda escuchando su canción personalizada | LIRYA</title>
-  <meta name="description" content="Mira la reacción completa de Yolanda al escuchar por primera vez una canción personalizada creada con su historia. Un regalo emocional y único con entrega rápida." />
+  <title>Valoración real de Yolanda sobre su canción personalizada | LIRYA</title>
+  <meta name="description" content="Mira el vídeo completo y la valoración real de Yolanda tras regalar una canción personalizada creada con su historia. Un regalo emocional y único con entrega rápida." />
   <link rel="canonical" href="https://www.lirya.studio/reacciones/yolanda.html" />
   <meta name="robots" content="index,follow" />
 
   <!-- Open Graph -->
   <meta property="og:site_name" content="LIRYA" />
   <meta property="og:type" content="video.other" />
-  <meta property="og:title" content="Reacción real — Yolanda | LIRYA" />
-  <meta property="og:description" content="Reacción completa al escuchar una canción personalizada creada con su historia." />
+  <meta property="og:title" content="Valoración real — Yolanda | LIRYA" />
+  <meta property="og:description" content="Vídeo completo y valoración real de Yolanda tras regalar una canción personalizada creada con una historia real." />
   <meta property="og:url" content="https://www.lirya.studio/reacciones/yolanda.html" />
   <meta property="og:image" content="https://www.lirya.studio/video1.jpg" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Reacción real — Yolanda | LIRYA" />
-  <meta name="twitter:description" content="Reacción completa al escuchar una canción personalizada creada con su historia." />
+  <meta name="twitter:title" content="Valoración real — Yolanda | LIRYA" />
+  <meta name="twitter:description" content="Vídeo completo y valoración real tras regalar una canción personalizada creada con una historia real." />
   <meta name="twitter:image" content="https://www.lirya.studio/video1.jpg" />
 
   <!-- Tipografía -->
@@ -34,7 +34,7 @@
   {
     "@context":"https://schema.org",
     "@type":"WebPage",
-    "name":"Reacción real de Yolanda — LIRYA",
+    "name":"Valoración real de Yolanda — LIRYA",
     "url":"https://www.lirya.studio/reacciones/yolanda.html",
     "isPartOf":{
       "@type":"WebSite",
@@ -125,11 +125,29 @@
       margin-top:14px;
     }
 
-    video{
-      width:100%;
-      border-radius:18px;
+    /* ✅ FIX DESKTOP: vídeo dentro de un “marco” con altura máxima,
+       sin recortar ni deformar y sin obligar a hacer scroll para ver “la otra mitad” */
+    .video-wrap{
       margin:14px 0 8px;
       background:#000;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    video{
+      display:block;
+      width:100%;
+      height:auto;
+      background:#000;
+      border-radius:0;
+      max-height:72vh; /* clave: evita que el vertical se coma toda la pantalla en ordenador */
+    }
+
+    @media (min-width: 900px){
+      video{
+        max-height:560px; /* en escritorio grande queda “hero” pero no gigante */
+      }
     }
 
     .meta{
@@ -221,6 +239,7 @@
     @media (max-width:520px){
       body{padding:16px}
       h1{font-size:24px}
+      video{max-height:none;} /* en móvil dejamos que fluya natural */
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -234,7 +253,7 @@
   <div class="wrap">
 
     <div class="top">
-      <h1>Reacción real — Yolanda</h1>
+      <h1>Valoración real — Yolanda</h1>
       <div class="cta">
         <a class="btn btn-primary" href="/#formulario-lirya">Crear mi canción</a>
         <a class="btn btn-ghost" href="/#reacciones">Volver a reacciones</a>
@@ -242,21 +261,24 @@
     </div>
 
     <p class="sub">
-      Esta es una reacción real al escuchar por primera vez una <strong>canción personalizada</strong> creada desde cero con una historia real.
+      <strong>Importante:</strong> Yolanda es quien <strong>regaló</strong> la canción y dejó esta valoración.
+      El vídeo muestra la reacción real al escucharla por primera vez.
       Si quieres regalar un momento que se recuerde, esto es lo que suele pasar cuando la letra encaja de verdad.
     </p>
 
     <div class="card">
       <div class="meta">
-        <span class="pill"><span class="stars" aria-hidden="true">★★★★★</span> Reacción real</span>
+        <span class="pill"><span class="stars" aria-hidden="true">★★★★★</span> Valoración real</span>
         <span class="pill">🎧 Consejo: ponte auriculares</span>
       </div>
 
-      <!-- Importante: metadata (no "none") para que cargue el poster y no haga raro en móvil -->
-      <video controls playsinline preload="metadata" poster="/video1.jpg">
-        <source src="/video1.mp4" type="video/mp4">
-        Tu navegador no soporta vídeo HTML5.
-      </video>
+      <!-- Importante: metadata para que cargue el poster sin rarezas -->
+      <div class="video-wrap">
+        <video controls playsinline preload="metadata" poster="/video1.jpg">
+          <source src="/video1.mp4" type="video/mp4">
+          Tu navegador no soporta vídeo HTML5.
+        </video>
+      </div>
 
       <div class="meta">
         <span class="pill">🕒 Vídeo completo</span>
