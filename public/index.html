@@ -2155,6 +2155,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
+     (Landing ligera: solo imagen + link a reacción completa)
 ================================ -->
 
 <section class="lirya-reactions">
@@ -2169,86 +2170,126 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     </p>
 
     <!-- ===== ESTRELLAS (SIN NUMERITO PARA NO ROMPER CREDIBILIDAD) ===== -->
-    <div class="lirya-rating">
-      <div class="rating-stars">★★★★★</div>
+    <div class="lirya-rating" aria-label="Valoración de clientes">
+      <div class="rating-stars" aria-hidden="true">★★★★★</div>
       <span class="rating-note">Basado en reacciones reales de clientes</span>
     </div>
   </div>
 
   <!-- ===== CARRUSEL ===== -->
-  <div class="lirya-reactions-carousel">
+  <div class="lirya-reactions-carousel" aria-label="Carrusel de reacciones reales">
 
-    <div class="reaction-card">
-      <video src="/video1.mp4" poster="/video1.jpg" playsinline preload="metadata"></video>
+    <a class="reaction-card" href="/reacciones/yolanda.html" aria-label="Ver reacción completa de Yolanda">
+      <div class="reaction-media">
+        <img src="/video1.jpg" alt="Reacción real de Yolanda al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <div class="play-overlay" aria-hidden="true"></div>
+        <div class="play-badge" aria-hidden="true">▶</div>
+        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+      </div>
       <div class="reaction-content">
-        <div class="stars">★★★★★</div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
         <div class="reaction-name">✔ Yolanda J.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="reaction-card">
-      <video src="/video2.mp4" poster="/video2.jpg" playsinline preload="metadata"></video>
+    <a class="reaction-card" href="/reacciones/laura.html" aria-label="Ver reacción completa de Laura">
+      <div class="reaction-media">
+        <img src="/video2.jpg" alt="Reacción real de Laura al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <div class="play-overlay" aria-hidden="true"></div>
+        <div class="play-badge" aria-hidden="true">▶</div>
+        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+      </div>
       <div class="reaction-content">
-        <div class="stars">★★★★★</div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“Se nos puso la piel de gallina desde el primer segundo.”</p>
         <div class="reaction-name">✔ Laura M.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="reaction-card">
-      <video src="/video3.mov" poster="/video3.jpg" playsinline preload="metadata"></video>
+    <a class="reaction-card" href="/reacciones/andrea.html" aria-label="Ver reacción completa de Andrea">
+      <div class="reaction-media">
+        <img src="/video3.jpg" alt="Reacción real de Andrea al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <div class="play-overlay" aria-hidden="true"></div>
+        <div class="play-badge" aria-hidden="true">▶</div>
+        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+      </div>
       <div class="reaction-content">
-        <div class="stars">★★★★★</div>
+        <div class="ll stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
         <div class="reaction-name">✔ Andrea R.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="reaction-card">
-      <video src="/video4.mov" poster="/video4.jpg" playsinline preload="metadata"></video>
+    <a class="reaction-card" href="/reacciones/carlos.html" aria-label="Ver reacción completa de Carlos">
+      <div class="reaction-media">
+        <img src="/video4.jpg" alt="Reacción real de Carlos al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <div class="play-overlay" aria-hidden="true"></div>
+        <div class="play-badge" aria-hidden="true">▶</div>
+        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+      </div>
       <div class="reaction-content">
-        <div class="stars">★★★★★</div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“Lloramos al escucharla por primera vez.”</p>
         <div class="reaction-name">✔ Carlos M.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="reaction-card">
-      <video src="/video5.mp4" poster="/video5.jpg" playsinline preload="metadata"></video>
+    <a class="reaction-card" href="/reacciones/juan.html" aria-label="Ver reacción completa de Juan">
+      <div class="reaction-media">
+        <img src="/video5.jpg" alt="Reacción real de Juan al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <div class="play-overlay" aria-hidden="true"></div>
+        <div class="play-badge" aria-hidden="true">▶</div>
+        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+      </div>
       <div class="reaction-content">
-        <div class="stars">★★★★★</div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“No esperábamos algo tan personal y tan bonito.”</p>
         <div class="reaction-name">✔ Juan M.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="reaction-card">
-      <video src="/video6.mp4" poster="/video6.PNG" playsinline preload="metadata"></video>
+    <a class="reaction-card" href="/reacciones/teresa.html" aria-label="Ver reacción completa de Teresa">
+      <div class="reaction-media">
+        <img src="/video6.jpg" alt="Reacción real de Teresa al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <div class="play-overlay" aria-hidden="true"></div>
+        <div class="play-badge" aria-hidden="true">▶</div>
+        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+      </div>
       <div class="reaction-content">
-        <div class="stars">★★★★★</div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“Escucharla fue como revivir nuestra historia.”</p>
         <div class="reaction-name">✔ Teresa S.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="reaction-card">
-      <video src="/video7.mp4" poster="/video7.PNG" playsinline preload="metadata"></video>
+    <a class="reaction-card" href="/reacciones/sara.html" aria-label="Ver reacción completa de Sara">
+      <div class="reaction-media">
+        <img src="/video7.jpg" alt="Reacción real de Sara al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <div class="play-overlay" aria-hidden="true"></div>
+        <div class="play-badge" aria-hidden="true">▶</div>
+        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+      </div>
       <div class="reaction-content">
-        <div class="stars">★★★★★</div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“Nos encantó, fue muy especial.”</p>
         <div class="reaction-name">✔ Sara M.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="reaction-card">
-      <video src="/video8.mov" poster="/video8.PNG" playsinline preload="metadata"></video>
+    <a class="reaction-card" href="/reacciones/maria.html" aria-label="Ver reacción completa de María">
+      <div class="reaction-media">
+        <img src="/video8.jpg" alt="Reacción real de María al escuchar su canción por primera vez" loading="lazy" decoding="async">
+        <div class="play-overlay" aria-hidden="true"></div>
+        <div class="play-badge" aria-hidden="true">▶</div>
+        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+      </div>
       <div class="reaction-content">
-        <div class="stars">★★★★★</div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“Consiguió decir justo lo que yo no sabía expresar.”</p>
         <div class="reaction-name">✔ María T.</div>
       </div>
-    </div>
+    </a>
 
   </div>
 
@@ -2335,7 +2376,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   display: none;
 }
 
-/* ===== TARJETA ===== */
+/* ===== TARJETA (ahora es <a>) ===== */
 .reaction-card {
   min-width: 280px;
   max-width: 300px;
@@ -2345,17 +2386,77 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   scroll-snap-align: center;
   border: 2px solid #ff9f3f;
   cursor: pointer;
-  transition: transform 0.35s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  text-decoration: none;
+  color: inherit;
+  outline: none;
 }
 
 .reaction-card:hover {
   transform: translateY(-6px);
 }
 
-/* ===== VIDEO ===== */
-.reaction-card video {
+.reaction-card:focus-visible{
+  outline: 3px solid rgba(255,159,63,0.55);
+  outline-offset: 4px;
+  border-radius: 26px;
+}
+
+/* ===== MEDIA (imagen + play overlay) ===== */
+.reaction-media{
+  position: relative;
+}
+
+.reaction-media img{
   width: 100%;
   display: block;
+}
+
+.play-overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.18);
+  transition: background 0.25s ease;
+}
+
+.play-badge{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-54%);
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: #fff;
+  background: rgba(0,0,0,0.42);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.play-label{
+  position:absolute;
+  left: 50%;
+  top: calc(50% + 44px);
+  transform: translateX(-50%);
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.92);
+  background: rgba(0,0,0,0.35);
+  padding: 6px 10px;
+  border-radius: 999px;
+  letter-spacing: .2px;
+}
+
+.reaction-card:hover .play-overlay{
+  background: rgba(0,0,0,0.26);
+}
+.reaction-card:hover .play-badge{
+  transform: translate(-50%,-56%) scale(1.06);
+  background: rgba(0,0,0,0.52);
 }
 
 /* ===== CONTENIDO ===== */
@@ -2407,6 +2508,11 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   text-decoration: none;
 }
 
+.cta-button:focus-visible{
+  outline: 3px solid rgba(255,159,63,0.55);
+  outline-offset: 4px;
+}
+
 .cta-note {
   margin-top: 14px;
   font-size: 13px;
@@ -2420,22 +2526,15 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     font-size: 32px;
   }
 }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .reaction-card, .play-overlay, .play-badge{
+    transition: none !important;
+  }
+}
 </style>
 
-<script>
-const videos = document.querySelectorAll('.reaction-card video');
-
-videos.forEach(video => {
-  video.addEventListener('click', () => {
-
-    videos.forEach(v => {
-      if (v !== video && !v.paused) v.pause();
-    });
-
-    video.paused ? video.play() : video.pause();
-  });
-});
-</script>
 
 <!-- ===== GARANTÍA DE SATISFACCIÓN REAL ===== -->
 <style>
@@ -2737,6 +2836,7 @@ videos.forEach(video => {
   </div>
 
 </section>
+
 
 
 
