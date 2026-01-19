@@ -912,7 +912,18 @@
     }
   })();
 </script>
-<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (REPARADA Y ROBUSTA) ===== -->
+
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (ROBUSTA + LOADING + PLAYING) =====
+Objetivos:
+- Un solo <audio> estable
+- Click en tarjetas y viñetas -> reproduce/pausa (toggle)
+- Al clicar otra -> para la anterior + activa estado visual en la nueva
+- Feedback visual:
+  - Estado "loading" inmediato al click (aunque el audio tarde / no exista)
+  - Estado "playing" SOLO cuando el audio está realmente sonando
+  - Limpieza total en error/ended/stop
+- Sin parches, sin !important, sin duplicidades
+====================================================================================== -->
 
 <style>
 .examples {
@@ -927,7 +938,7 @@
   position: absolute;
   inset: 0;
   background: rgba(5, 8, 25, 0.78);
-  pointer-events: none; /* ✅ FIX: el overlay nunca bloqueará hover/click */
+  pointer-events: none; /* ✅ overlay no bloquea hover/click */
 }
 
 .examples-inner {
@@ -983,7 +994,7 @@
   border: 1px solid rgba(255,255,255,0.45);
   background: rgba(0,0,0,0.35);
   box-shadow: 0 0 22px rgba(255,255,255,0.18);
-  transition: transform .4s ease, box-shadow .4s ease;
+  transition: transform .4s ease, box-shadow .4s ease, border-color .25s ease;
   cursor: pointer;
 }
 
@@ -1001,8 +1012,42 @@
   box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
+/* ===== LOADING STATE (nuevo) =====
+- Se activa al click inmediatamente.
+- No late (no hay animación de escala), solo “brillo/halo” para indicar que está cargando.
+*/
+@keyframes liryaLoadingGlow {
+  0%   { box-shadow: 0 0 16px rgba(255,255,255,0.20); }
+  50%  { box-shadow: 0 0 34px rgba(255,255,255,0.46); }
+  100% { box-shadow: 0 0 16px rgba(255,255,255,0.20); }
+}
+
+.example-card.loading {
+  border-color: rgba(255,255,255,0.75);
+  animation: liryaLoadingGlow 1.2s ease-in-out infinite;
+}
+
+/* Etiqueta pequeña “Cargando…” */
+.example-card.loading::after{
+  content: "Cargando…";
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.55);
+  color: rgba(255,255,255,0.95);
+  letter-spacing: .2px;
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255,255,255,0.25);
+  pointer-events: none;
+}
+
+/* PLAYING state */
 .example-card.playing {
   box-shadow: 0 0 55px rgba(255,255,255,0.55);
+  border-color: rgba(255,255,255,0.75);
 }
 
 .example-card img {
@@ -1019,6 +1064,11 @@
 
 .example-card.destacada.playing {
   box-shadow: 0 0 70px rgba(255,159,63,0.6);
+}
+
+.example-card.destacada.loading{
+  border-color: rgba(255,159,63,0.95);
+  animation: liryaLoadingGlow 1.2s ease-in-out infinite;
 }
 
 /* BADGE */
@@ -1116,6 +1166,7 @@
   width: 280px;
   height: 350px;
   cursor: pointer;
+  position: relative;
 }
 
 /* Hover real (PC) también para viñetas */
@@ -1135,10 +1186,34 @@
   height: 300px;
   object-fit: contain;
   border-radius: 22px;
-  transition: transform .25s ease; /* ✅ para hover/tap suave */
+  transition: transform .25s ease;
 }
 
-/* ===== FEEDBACK PLAYING (LIMPIO Y CONSISTENTE) ===== */
+/* Loading state para viñetas */
+.style-card.loading::after{
+  content: "Cargando…";
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.55);
+  color: rgba(255,255,255,0.95);
+  letter-spacing: .2px;
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255,255,255,0.25);
+  pointer-events: none;
+}
+
+/* Glow en loading (suave) */
+.style-card.loading img{
+  box-shadow: 0 0 28px rgba(255,255,255,0.35);
+}
+
+/* ===== PLAYING PULSE (latido) =====
+Animamos SOLO la imagen cuando está reproduciendo.
+*/
 @keyframes liryaPlayingPulse {
   0%   { transform: scale(1); }
   50%  { transform: scale(0.94); }
@@ -1174,6 +1249,18 @@
 @media (max-width: 900px) {
   .examples-grid { grid-template-columns: 1fr; }
   .carousel-arrow { display: none; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .example-card.loading,
+  .style-card.loading{
+    animation: none !important;
+  }
+  .example-card.playing img,
+  .style-card.playing img{
+    animation: none !important;
+  }
 }
 </style>
 
@@ -1289,9 +1376,11 @@
   if (!root || !player) return;
 
   let currentCard = null;
+  let pendingCard = null;
 
-  function clearPlayingClasses(){
+  function clearStateClasses(){
     root.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
+    root.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
   }
 
   function stopCurrent() {
@@ -1299,23 +1388,26 @@
       player.pause();
       player.currentTime = 0;
     } catch(_) {}
-    clearPlayingClasses();
+    clearStateClasses();
     currentCard = null;
+    pendingCard = null;
+  }
+
+  function setLoading(card){
+    clearStateClasses();
+    card.classList.add('loading');
   }
 
   function playForCard(card, src){
-    // Toggle: si tocas la misma card -> parar
+    // Toggle: si tocas la misma card mientras está sonando -> parar
     if (currentCard === card) {
       stopCurrent();
       return;
     }
 
-    // Parar lo anterior + limpiar UI
-    stopCurrent();
-
-    // Activar UI en la nueva
-    currentCard = card;
-    card.classList.add('playing');
+    // Estado inmediato: loading (aunque el audio tarde o no exista)
+    pendingCard = card;
+    setLoading(card);
 
     const abs = new URL(src, window.location.href).href;
 
@@ -1326,12 +1418,34 @@
 
     const playPromise = player.play();
     if (playPromise && typeof playPromise.catch === 'function') {
-      playPromise.catch(() => stopCurrent());
+      playPromise.catch(() => {
+        // Si falla (404, bloqueo, etc.) => limpiamos (no se queda “loading” eterno)
+        stopCurrent();
+      });
     }
   }
 
-  // ✅ no pisar handlers
+  // ✅ Solo marcamos .playing cuando el audio realmente suena
+  player.addEventListener('playing', () => {
+    if (!pendingCard) return;
+    clearStateClasses();
+    currentCard = pendingCard;
+    currentCard.classList.add('playing');
+  });
+
+  // Termina -> limpiar
   player.addEventListener('ended', stopCurrent);
+
+  // Error de carga (mp3 inexistente, etc.) -> limpiar
+  player.addEventListener('error', stopCurrent);
+
+  // Si el usuario pausa manualmente en mitad -> limpiar
+  player.addEventListener('pause', () => {
+    const d = Number.isFinite(player.duration) ? player.duration : 0;
+    if (player.currentTime > 0 && (d === 0 || player.currentTime < d)) {
+      stopCurrent();
+    }
+  });
 
   // Cards de tarifas (ejemplos reales)
   root.querySelectorAll('.example-card').forEach(card => {
@@ -1349,18 +1463,7 @@
   root.querySelectorAll('.style-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
-
-    card.addEventListener('click', () => {
-      playForCard(card, src);
-    });
-  });
-
-  // Si el usuario pausa manualmente (en mitad), limpiamos UI
-  player.addEventListener('pause', () => {
-    const d = Number.isFinite(player.duration) ? player.duration : 0;
-    if (player.currentTime > 0 && (d === 0 || player.currentTime < d)) {
-      stopCurrent();
-    }
+    card.addEventListener('click', () => playForCard(card, src));
   });
 
   // Carrusel
@@ -1371,6 +1474,7 @@
   };
 })();
 </script>
+
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -3047,6 +3151,7 @@
   </div>
 
 </section>
+
 
 
 
