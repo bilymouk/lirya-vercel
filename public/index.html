@@ -914,11 +914,6 @@
 </script>
 
 <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (ACTUALIZADO) =====
-Cambios aplicados:
-(1) Botones con intención (3 textos distintos)
-(2) Framing de revisiones en modo "seguridad" (sin meter miedo)
-(4) Player único <audio> (más estable que new Audio), sin tocar tu feedback visual actual
-(3) NO tocado: no se ha añadido overlay/play-pause ni cambios visuales extra de reproducción
 =============================================================== -->
 
 <style>
@@ -1122,21 +1117,32 @@ Cambios aplicados:
   border-radius: 22px;
 }
 
-/* ===== ANIMACIÓN PLAYING (ARREGLADO) =====
-   - Ahora anima la IMAGEN tanto en example-card como style-card
-   - Esto garantiza que se vea el efecto "crecer/disminuir" siempre
-*/
-@keyframes playingPulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(0.94); }
-  100% { transform: scale(1); }
+/* ===== ANIMACION PLAYING (A PRUEBA DE CSS QUE PISA) ===== */
+@keyframes liryaPulseScale {
+  0%   { transform: scale(1) translateZ(0); }
+  50%  { transform: scale(0.94) translateZ(0); }
+  100% { transform: scale(1) translateZ(0); }
 }
 
-.example-card.playing img,
-.style-card.playing img {
-  animation: playingPulse 1.8s ease-in-out infinite;
+/* Animar el CONTENEDOR (muy visible) */
+.example-card.playing,
+.style-card.playing {
+  animation: liryaPulseScale 1.6s ease-in-out infinite !important;
   will-change: transform;
   transform-origin: center;
+}
+
+/* Animar TAMBIEN la IMAGEN (redundante para que se vea sí o sí) */
+.example-card.playing img,
+.style-card.playing img {
+  animation: liryaPulseScale 1.6s ease-in-out infinite !important;
+  will-change: transform;
+  transform-origin: center;
+}
+
+/* Evitar que el hover pise el transform mientras está reproduciendo */
+.example-card.playing:hover {
+  transform: none !important;
 }
 
 /* FLECHAS */
@@ -1263,7 +1269,6 @@ Cambios aplicados:
       </div>
     </div>
 
-    <!-- (4) Player único, invisible. Más estable que crear new Audio() cada vez -->
     <audio id="lirya-examples-player" preload="none" style="display:none;"></audio>
 
   </div>
@@ -1290,7 +1295,6 @@ Cambios aplicados:
   }
 
   function playForCard(card, src){
-    // Toggle: si vuelves a tocar la misma card -> parar
     if (currentCard === card) {
       stopCurrent();
       return;
@@ -1301,7 +1305,6 @@ Cambios aplicados:
     currentCard = card;
     card.classList.add('playing');
 
-    // Cambiar src de forma segura (comparación estable)
     const abs = new URL(src, window.location.href).href;
 
     if (player.src !== abs) {
@@ -1312,7 +1315,6 @@ Cambios aplicados:
     const playPromise = player.play();
     if (playPromise && typeof playPromise.catch === 'function') {
       playPromise.catch(() => {
-        // Si el navegador bloquea reproducción o el src falla, quitamos estado playing
         stopCurrent();
       });
     }
@@ -1320,19 +1322,16 @@ Cambios aplicados:
     player.onended = stopCurrent;
   }
 
-  // Cards de tarifas (ejemplos reales)
   document.querySelectorAll('.example-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
 
     card.addEventListener('click', (e) => {
-      // Si pulsa el CTA, no tocar el audio
       if (e.target && e.target.tagName === 'A') return;
       playForCard(card, src);
     });
   });
 
-  // Cards de estilos musicales
   document.querySelectorAll('.style-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
@@ -1342,15 +1341,12 @@ Cambios aplicados:
     });
   });
 
-  // Si el usuario pausa manualmente (control externo o sistema), limpiamos UI
   player.addEventListener('pause', () => {
-    // Aquí cubrimos pausas manuales (no onended)
     if (player.currentTime > 0 && player.currentTime < player.duration) {
       stopCurrent();
     }
   });
 
-  // Carrusel
   window.scrollStyles = function (dir) {
     const el = document.getElementById('stylesCarousel');
     if (!el) return;
@@ -2842,6 +2838,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
