@@ -27,6 +27,11 @@ function validateEmail(val) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 }
 
+function clampStr(v, max) {
+  const s = String(v || "").trim();
+  return s.length > max ? s.slice(0, max) : s;
+}
+
 function priceFromTarifa(tarifa) {
   if (tarifa === "49") return 4900;
   if (tarifa === "59") return 5900;
@@ -65,23 +70,30 @@ module.exports = async (req, res) => {
   try {
     const f = req.body || {};
 
-    const tarifa = String(f.tarifa || "").trim();
-    const email = String(f.email || "").trim();
-    const recipientName = String(f.recipient_name || "").trim().slice(0, 80);
+    const tarifa = clampStr(f.tarifa, 3);
+    const email = clampStr(f.email, 254);
+    const recipientName = clampStr(f.recipient_name, 80);
 
     const amount = priceFromTarifa(tarifa);
     if (!amount) return res.status(400).json({ error: "Tarifa no válida" });
+
     if (!validateEmail(email)) return res.status(400).json({ error: "Email no válido" });
+
+    // Anti-basura mínimo
+    if (recipientName.length < 2) {
+      return res.status(400).json({ error: "recipient_name no válido" });
+    }
 
     const BASE_URL = resolveBaseUrl(req);
     if (!BASE_URL) return res.status(500).json({ error: "BASE_URL inválida" });
 
-    // IMPORTANTÍSIMO: metadata mínima (lo demás lo procesa webhook al pagar)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       customer_email: email,
+
       billing_address_collection: "required",
+      // Si NO vas a usar Customer en Stripe, quita esto:
       customer_creation: "always",
 
       line_items: [
@@ -101,6 +113,7 @@ module.exports = async (req, res) => {
       success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${BASE_URL}/cancel.html`,
 
+      // Metadata mínima: lo demás que lo maneje Make tras pago
       metadata: {
         email,
         tarifa,
