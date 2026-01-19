@@ -1122,14 +1122,21 @@ Cambios aplicados:
   border-radius: 22px;
 }
 
-.style-card.playing {
-  animation: playingPulse 1.8s ease-in-out infinite;
+/* ===== ANIMACIÓN PLAYING (ARREGLADO) =====
+   - Ahora anima la IMAGEN tanto en example-card como style-card
+   - Esto garantiza que se vea el efecto "crecer/disminuir" siempre
+*/
+@keyframes playingPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
 }
 
-@keyframes playingPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.94); }
-  100% { transform: scale(1); }
+.example-card.playing img,
+.style-card.playing img {
+  animation: playingPulse 1.8s ease-in-out infinite;
+  will-change: transform;
+  transform-origin: center;
 }
 
 /* FLECHAS */
@@ -1294,13 +1301,11 @@ Cambios aplicados:
     currentCard = card;
     card.classList.add('playing');
 
-    // Normaliza a URL absoluta para comparar bien
+    // Cambiar src de forma segura (comparación estable)
     const abs = new URL(src, window.location.href).href;
 
-    // Cambiar src de forma segura
     if (player.src !== abs) {
       player.src = abs;
-      // Asegura que el navegador “cargue” el nuevo src antes de play (mejora estabilidad)
       try { player.load(); } catch(_) {}
     }
 
@@ -1327,7 +1332,7 @@ Cambios aplicados:
     });
   });
 
-  // Cards de estilos musicales (viñetas)
+  // Cards de estilos musicales
   document.querySelectorAll('.style-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
@@ -2837,6 +2842,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
