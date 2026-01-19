@@ -1,5 +1,6 @@
 import Stripe from "stripe";
-import getRawBody from "raw-body";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const config = {
   api: {
@@ -7,36 +8,59 @@ export const config = {
   },
 };
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
+    return res.status(405).send("Method Not Allowed");
   }
 
   const sig = req.headers["stripe-signature"];
   let event;
 
   try {
-    const rawBody = await getRawBody(req);
+    const rawBody = await new Promise((resolve, reject) => {
+      let data = "";
+      req.on("data", (chunk) => (data += chunk));
+      req.on("end", () => resolve(data));
+      req.on("error", reject);
+    });
+
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    console.error("❌ Firma Stripe inválida:", err.message);
-    return res.status(400).send("Webhook Error");
+    console.error("❌ Error verificando webhook:", err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // ✅ Solo enviamos a Make el evento de pago completado
+  // ✅ SOLO CUANDO EL PAGO SE COMPLETA
   if (event.type === "checkout.session.completed") {
-    console.log("💳 Pago recibido. Make se encargará del resto.");
+    const session = event.data.object;
 
-    // Aquí ya no hace falta enviar nada a mano. 
-    // Stripe ya envía la señal al Webhook que configuramos en Make.
-    return res.status(200).json({ status: "success", message: "Processed by Make" });
+    try {
+      const MAKE_WEBHOOK_URL =
+        "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
+
+      await fetch(MAKE_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stripe_session_id: session.id,
+          email: session.customer_email,
+          amount_total: session.amount_total,
+          currency: session.currency,
+          tarifa: session.metadata?.tarifa || null,
+          metadata: session.metadata,
+          estado_pago: "PAGADO",
+        }),
+      });
+
+      console.log("✅ Evento enviado a Make correctamente");
+    } catch (error) {
+      console.error("❌ Error enviando a Make:", error);
+    }
   }
 
-  return res.status(200).json({ received: true });
+  res.status(200).json({ received: true });
 }
