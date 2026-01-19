@@ -1559,802 +1559,734 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
 })();
 </script>
 
-<!-- ================== FORMULARIO LIRYA (VERSIÓN OPTIMIZADA + ACCESIBLE + SIN ROMPER STRIPE) ==================
-ARREGLOS HECHOS (los que te dije):
-1) Semántica real: ahora es un <form> (mejor autocompletado, Enter, accesibilidad). Stripe NO se rompe: seguimos con fetch a /api/payment.
-2) Dropdowns accesibles: aria-expanded/controls, role="listbox"/"option", soporte teclado (Enter/Espacio, flechas, Escape, Tab).
-3) Feedback de error visible: mensajes por campo y resumen por paso (sin meter ruido). El botón ya no es “misterioso”.
-4) Validación scopeada: ya NO escuchamos input de todo el document, solo dentro del formulario.
-5) Coherencia tipográfica: usamos Playfair/Inter (si no están cargadas, cae a serif/sans). Quitamos Georgia forzada global.
-EXTRAS PRO (sin cambiar tu UI):
-- Autocomplete correcto en inputs.
-- Enter para “siguiente” y en el último paso “pagar”.
-- Cierre de dropdown al click fuera y con Escape.
-- No duplico nada; todo va encapsulado dentro de #formulario-lirya.
-========================================================================================================== -->
-
+<!-- ================== FORMULARIO LIRYA (FINAL PRO, SIN ROMPER STRIPE) ================== -->
 <section id="formulario-lirya">
-  <style>
-    /* Scope total */
-    #formulario-lirya * { box-sizing: border-box; }
-    #formulario-lirya {
-      background:
-        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
-        url("musica-neon.png") center/cover no-repeat;
-      padding: 50px 20px;
-      color: #fff;
-    }
-    #formulario-lirya .wrapper { max-width: 520px; margin: 0 auto; }
-
-    /* Tipografía coherente con tu marca */
-    #formulario-lirya h1,
-    #formulario-lirya .step-title,
-    #formulario-lirya button,
-    #formulario-lirya .dropdown-btn { font-family: "Playfair Display", serif; }
-    #formulario-lirya label,
-    #formulario-lirya input,
-    #formulario-lirya textarea,
-    #formulario-lirya .subtitle,
-    #formulario-lirya .micro-safety,
-    #formulario-lirya .step-helper,
-    #formulario-lirya .helper-text,
-    #formulario-lirya .error-text,
-    #formulario-lirya .step-errors { font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-
-    #formulario-lirya h1 { text-align: center; color: #f2c98a; font-size: 36px; margin-bottom: 12px; }
-    #formulario-lirya .subtitle {
-      text-align: center;
-      opacity: .85;
-      margin-bottom: 10px;
-      font-style: italic;
-    }
-    #formulario-lirya .micro-safety {
-      text-align: center;
-      font-size: 13px;
-      opacity: .85;
-      margin-bottom: 28px;
-      font-style: italic;
-    }
-
-    #formulario-lirya .progress { display: flex; gap: 10px; justify-content: center; margin-bottom: 28px; }
-    #formulario-lirya .progress span { width: 36px; height: 4px; background: rgba(255,255,255,.25); border-radius: 999px; }
-    #formulario-lirya .progress span.active { background: #f2c98a; }
-
-    #formulario-lirya .card { background: rgba(255,255,255,.10); border-radius: 18px; padding: 26px; }
-
-    #formulario-lirya .step { display: none; }
-    #formulario-lirya .step.active { display: block; }
-
-    #formulario-lirya .step-title { font-size: 26px; color: #f2c98a; margin-bottom: 6px; }
-    #formulario-lirya .step-helper {
-      font-size: 13px;
-      opacity: .85;
-      margin-bottom: 18px;
-      font-style: italic;
-    }
-
-    #formulario-lirya .question { margin-bottom: 18px; text-align: left; }
-    #formulario-lirya label { display: block; margin-bottom: 6px; font-size: 14px; }
-
-    #formulario-lirya input,
-    #formulario-lirya textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border: none;
-      border-radius: 10px;
-      background: rgba(255,255,255,.88);
-      font-size: 14px;
-      color: #1a1a1a;
-      outline: none;
-      transition: box-shadow .2s ease, transform .2s ease;
-    }
-    #formulario-lirya textarea { height: 90px; resize: none; }
-
-    #formulario-lirya input:focus,
-    #formulario-lirya textarea:focus {
-      box-shadow: 0 0 0 3px rgba(242, 140, 40, .35);
-    }
-
-    .helper-text {
-      font-size: 12.5px;
-      opacity: .78;
-      margin-top: 6px;
-      line-height: 1.4;
-      font-style: italic;
-    }
-
-    /* Errores (visibles, elegantes, sin asustar) */
-    #formulario-lirya .error-text {
-      display: none;
-      margin-top: 6px;
-      font-size: 12.5px;
-      color: rgba(255, 210, 210, 0.95);
-      line-height: 1.35;
-    }
-    #formulario-lirya .field-error input,
-    #formulario-lirya .field-error textarea,
-    #formulario-lirya .field-error .dropdown-btn {
-      box-shadow: 0 0 0 3px rgba(255, 100, 100, .28);
-    }
-    #formulario-lirya .field-error .error-text { display: block; }
-
-    /* Resumen de errores por paso */
-    #formulario-lirya .step-errors {
-      display: none;
-      margin: 10px 0 18px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      background: rgba(255, 90, 90, 0.12);
-      border: 1px solid rgba(255, 130, 130, 0.35);
-      font-size: 13px;
-      line-height: 1.4;
-      text-align: left;
-    }
-    #formulario-lirya .step-errors.show { display: block; }
-
-    /* Dropdown accesible */
-    #formulario-lirya .dropdown { position: relative; }
-    #formulario-lirya .dropdown-btn {
-      width: 100%;
-      padding: 14px 16px;
-      background: rgba(255,255,255,.88);
-      border-radius: 10px;
-      border: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #6e7a84;
-      cursor: pointer;
-      font-size: 14px;
-      outline: none;
-      transition: box-shadow .2s ease, transform .2s ease;
-    }
-    #formulario-lirya .dropdown-btn:focus {
-      box-shadow: 0 0 0 3px rgba(242, 140, 40, .35);
-    }
-
-    #formulario-lirya .dropdown-menu {
-      position: absolute;
-      top: calc(100% + 10px);
-      left: 0;
-      right: 0;
-      background: rgba(255,255,255,.98);
-      border-radius: 14px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.25);
-      padding: 8px 0;
-      display: none;
-      z-index: 50;
-      max-height: 260px;
-      overflow: auto;
-    }
-    #formulario-lirya .dropdown-menu.open { display: block; }
-
-    #formulario-lirya .dropdown-item {
-      padding: 12px 18px;
-      color: #444;
-      font-size: 14px;
-      cursor: pointer;
-      outline: none;
-    }
-    #formulario-lirya .dropdown-item:hover,
-    #formulario-lirya .dropdown-item[aria-selected="true"],
-    #formulario-lirya .dropdown-item.is-active {
-      background: #f4f7fb;
-      color: #111;
-    }
-
-    /* Navegación */
-    #formulario-lirya .nav { display: flex; gap: 12px; margin-top: 22px; }
-    #formulario-lirya button {
-      padding: 14px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    #formulario-lirya .back { background: rgba(255,255,255,.2); color: #fff; }
-    #formulario-lirya .next { background: #f28c28; color: #fff; flex: 1; opacity: .5; }
-    #formulario-lirya .next.enabled { opacity: 1; }
-    #formulario-lirya .next:disabled { cursor: not-allowed; }
-    #formulario-lirya .submit { background: #4caf50; color: #fff; flex: 1; }
-
-    #telefono-box { display: none; }
-  </style>
-
-  <div class="wrapper">
-    <h1>Cuéntanos vuestra historia</h1>
-    <div class="subtitle">
-      No hace falta escribir bonito. Nosotros transformamos tus palabras en una canción emocional.
-    </div>
-    <div class="micro-safety">
-      ✔ No hay respuestas largas · Solo lo esencial
-    </div>
-
-    <div class="progress" id="progress"></div>
-
-    <!-- FORM real (sin romper Stripe: seguimos con fetch) -->
-    <form class="card" id="liryaForm" novalidate>
-
-      <!-- PASO 1 -->
-      <div class="step active" data-step="1">
-        <div class="step-title">Paso 1 de 6 — Personas y tarifa</div>
-        <div class="step-errors" aria-live="polite"></div>
-
-        <div class="question" data-field="recipient_name">
-          <label for="recipient_name">Nombre de quien recibirá la canción *</label>
-          <input id="recipient_name" name="recipient_name" autocomplete="name" required>
-          <div class="error-text">Escribe el nombre de la persona que recibirá la canción.</div>
-        </div>
-
-        <div class="question" data-field="your_name">
-          <label for="your_name">Tu nombre (quien regala) *</label>
-          <input id="your_name" name="your_name" autocomplete="name" required>
-          <div class="error-text">Escribe tu nombre.</div>
-        </div>
-
-        <div class="question" data-field="relationship">
-          <label>Tipo de relación *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="relationship"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="relationship-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="relationship-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Pareja</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Matrimonio</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Ex pareja (reconciliación)</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Amor secreto</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Familiar</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Amistad especial</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona el tipo de relación.</div>
-        </div>
-
-        <div class="question" data-field="tarifa">
-          <label>Tarifa elegida *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="tarifa-btn"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="tarifa-menu"
-            >Selecciona una tarifa <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="tarifa-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0" data-tarifa="49">49€ — Estándar</div>
-              <div class="dropdown-item" role="option" tabindex="-1" data-tarifa="59">59€ — Emocional</div>
-              <div class="dropdown-item" role="option" tabindex="-1" data-tarifa="79">79€ — Prioritaria</div>
-            </div>
-          </div>
-          <input type="hidden" id="tarifa-hidden" name="tarifa" required>
-          <div class="error-text">Selecciona una tarifa para continuar.</div>
-        </div>
-
-        <div class="nav">
-          <button class="next" type="button" disabled>Seguir creando →</button>
-        </div>
-      </div>
-
-      <!-- PASO 2 -->
-      <div class="step" data-step="2">
-        <div class="step-title">Paso 2 de 6 — Historia</div>
-        <div class="step-helper">Escribe con naturalidad. No buscamos perfección, sino verdad.</div>
-        <div class="step-errors" aria-live="polite"></div>
-
-        <div class="question" data-field="how_met">
-          <label for="how_met">¿Cómo os conocisteis? *</label>
-          <textarea id="how_met" name="how_met" required></textarea>
-          <div class="helper-text">Ejemplo: dónde fue, qué sentiste, por qué lo recuerdas.</div>
-          <div class="error-text">Cuéntanos cómo os conocisteis.</div>
-        </div>
-
-        <div class="question" data-field="special_moment">
-          <label for="special_moment">Un momento que lo cambió todo *</label>
-          <textarea id="special_moment" name="special_moment" required></textarea>
-          <div class="helper-text">Una conversación, una despedida, una promesa, un reencuentro…</div>
-          <div class="error-text">Cuéntanos ese momento clave.</div>
-        </div>
-
-        <div class="question" data-field="reason_now">
-          <label>¿Por qué esta canción es importante ahora? *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="reason_now"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="reason_now-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="reason_now-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Aniversario</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Cumpleaños</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Reconciliación</div>
-              <div class="dropdown-item" role="option" tabindex="-1">San Valentín</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Sorpresa sin motivo</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Otro</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona el motivo.</div>
-        </div>
-
-        <div class="nav">
-          <button class="back" type="button">← Atrás</button>
-          <button class="next" type="button" disabled>Seguir creando →</button>
-        </div>
-      </div>
-
-      <!-- PASO 3 -->
-      <div class="step" data-step="3">
-        <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
-        <div class="step-errors" aria-live="polite"></div>
-
-        <div class="question" data-field="three_words">
-          <label for="three_words">Tres palabras que definan a esa persona *</label>
-          <input id="three_words" name="three_words" required>
-          <div class="helper-text">Ejemplo: sensible, fuerte, divertida.</div>
-          <div class="error-text">Escribe 3 palabras.</div>
-        </div>
-
-        <div class="question" data-field="dedication">
-          <label for="dedication">Una frase que te gustaría decirle *</label>
-          <textarea id="dedication" name="dedication" required></textarea>
-          <div class="helper-text">Puede ser simple. Nosotros la convertimos en letra.</div>
-          <div class="error-text">Escribe una frase (aunque sea corta).</div>
-        </div>
-
-        <div class="question" data-field="emotion">
-          <label>¿Qué emoción debe sentir? *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="emotion"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="emotion-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="emotion-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Amor profundo</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Nostalgia</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Alegría</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Emoción intensa</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Calma y ternura</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona una emoción.</div>
-        </div>
-
-        <div class="nav">
-          <button class="back" type="button">← Atrás</button>
-          <button class="next" type="button" disabled>Seguir creando →</button>
-        </div>
-      </div>
-
-      <!-- PASO 4 -->
-      <div class="step" data-step="4">
-        <div class="step-title">Paso 4 de 6 — Música</div>
-        <div class="step-errors" aria-live="polite"></div>
-
-        <div class="question" data-field="song_style">
-          <label>Estilo musical principal *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="song_style"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="song_style-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="song_style-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Balada romántica</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Pop emocional</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Indie acústico</div>
-              <div class="dropdown-item" role="option" tabindex="-1">R&amp;B / Soul</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Rock suave</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Electrónica chill</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Reggaetón lento</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Bachata</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Hip Hop</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Reggae chill</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Jazz</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Flamenco</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Cinematográfico</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona un estilo musical.</div>
-        </div>
-
-        <div class="question" data-field="rhythm">
-          <label>Ritmo *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="rhythm"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="rhythm-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="rhythm-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Lento</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Medio</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Progresivo</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona un ritmo.</div>
-        </div>
-
-        <div class="question" data-field="voice_type">
-          <label>Tipo de voz *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="voice_type"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="voice_type-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="voice_type-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Masculina</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Femenina</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Dúo</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Me da igual</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona un tipo de voz.</div>
-        </div>
-
-        <div class="question" data-field="language">
-          <label>Idioma *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="language"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="language-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="language-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Español</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Inglés</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Spanglish</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Catalán</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona un idioma.</div>
-        </div>
-
-        <div class="nav">
-          <button class="back" type="button">← Atrás</button>
-          <button class="next" type="button" disabled>Seguir creando →</button>
-        </div>
-      </div>
-
-      <!-- PASO 5 -->
-      <div class="step" data-step="5">
-        <div class="step-title">Paso 5 de 6 — Detalles finales</div>
-        <div class="step-errors" aria-live="polite"></div>
-
-        <div class="question" data-field="include_name">
-          <label>¿Quieres que aparezca su nombre? *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="include_name"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="include_name-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="include_name-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Sí</div>
-              <div class="dropdown-item" role="option" tabindex="-1">No</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona Sí o No.</div>
-        </div>
-
-        <div class="question" data-field="dont_mention">
-          <label for="dont_mention">Anécdota o algo que quieras añadir</label>
-          <textarea id="dont_mention" name="dont_mention"></textarea>
-          <div class="helper-text">Opcional. Cualquier detalle ayuda.</div>
-        </div>
-
-        <div class="question" data-field="intensity">
-          <label>Intensidad emocional *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="intensity"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="intensity-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="intensity-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0">Suave</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Emotiva</div>
-              <div class="dropdown-item" role="option" tabindex="-1">Muy intensa</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona una intensidad.</div>
-        </div>
-
-        <div class="nav">
-          <button class="back" type="button">← Atrás</button>
-          <button class="next" type="button" disabled>Seguir creando →</button>
-        </div>
-      </div>
-
-      <!-- PASO 6 -->
-      <div class="step" data-step="6">
-        <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
-        <div class="step-helper">Recibirás un email de confirmación inmediato tras completar el pago.</div>
-        <div class="step-errors" aria-live="polite"></div>
-
-        <div class="question" data-field="email">
-          <label for="email">Email *</label>
-          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
-          <div class="error-text">Escribe un email válido.</div>
-        </div>
-
-        <div class="question" data-field="whatsapp">
-          <label>¿También por WhatsApp? *</label>
-          <div class="dropdown" data-dropdown>
-            <button
-              class="dropdown-btn"
-              id="whatsapp"
-              type="button"
-              data-required
-              data-placeholder="1"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="whatsapp-menu"
-            >Elige una opción <span aria-hidden="true">▾</span></button>
-
-            <div class="dropdown-menu" id="whatsapp-menu" role="listbox" tabindex="-1">
-              <div class="dropdown-item" role="option" tabindex="0" data-whatsapp="si">Sí</div>
-              <div class="dropdown-item" role="option" tabindex="-1" data-whatsapp="no">No</div>
-            </div>
-          </div>
-          <div class="error-text">Selecciona Sí o No.</div>
-        </div>
-
-        <div class="question" id="telefono-box" data-field="phone">
-          <label for="phone">Número de teléfono *</label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
-          <div class="error-text">Escribe tu número de teléfono.</div>
-        </div>
-
-        <div class="nav">
-          <button class="back" type="button">← Atrás</button>
-          <button class="submit" type="button">Pagar y enviar</button>
-        </div>
-      </div>
-
-      <!-- Hidden: tarifa -->
-      <input type="hidden" id="tarifa-hidden-2" name="tarifa_hidden_mirror" value="">
-    </form>
+<style>
+  /* Scope total */
+  #formulario-lirya, #formulario-lirya * { box-sizing: border-box; }
+
+  #formulario-lirya{
+    background:
+      linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+      url("musica-neon.png") center/cover no-repeat;
+    padding:50px 20px;
+    color:#fff;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #formulario-lirya .wrapper{max-width:520px;margin:0 auto}
+  #formulario-lirya h1{
+    text-align:center;color:#f2c98a;
+    font-family:"Playfair Display", serif;
+    font-size:36px;margin-bottom:12px
+  }
+  #formulario-lirya .subtitle{
+    text-align:center;opacity:.85;margin-bottom:10px;font-style:italic;
+    font-family:"Playfair Display", serif;
+  }
+  #formulario-lirya .micro-safety{
+    text-align:center;font-size:13px;opacity:.85;margin-bottom:28px;font-style:italic;
+    font-family:"Playfair Display", serif;
+  }
+
+  #formulario-lirya .progress{display:flex;gap:10px;justify-content:center;margin-bottom:28px}
+  #formulario-lirya .progress span{width:36px;height:4px;background:rgba(255,255,255,.25);border-radius:999px}
+  #formulario-lirya .progress span.active{background:#f2c98a}
+
+  #formulario-lirya .card{background:rgba(255,255,255,.10);border-radius:18px;padding:26px}
+  #formulario-lirya .step{display:none}
+  #formulario-lirya .step.active{display:block}
+
+  #formulario-lirya .step-title{
+    font-size:26px;color:#f2c98a;margin-bottom:6px;
+    font-family:"Playfair Display", serif;
+  }
+  #formulario-lirya .step-helper{
+    font-size:13px;opacity:.8;margin-bottom:18px;font-style:italic;
+    font-family:"Playfair Display", serif;
+  }
+
+  #formulario-lirya .step-errors{
+    display:none;
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 159, 63, 0.14);
+    border: 1px solid rgba(255, 159, 63, 0.35);
+    color: rgba(255,255,255,.92);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  #formulario-lirya .step-errors.show{display:block}
+
+  #formulario-lirya .question{margin-bottom:18px}
+  #formulario-lirya label{display:block;margin-bottom:6px;font-size:14px}
+
+  #formulario-lirya input,
+  #formulario-lirya textarea{
+    width:100%;
+    padding:14px 16px;
+    border:none;
+    border-radius:10px;
+    background:rgba(255,255,255,.88);
+    font-size:14px;
+    color:#1a1a1a;
+    outline: none;
+  }
+
+  #formulario-lirya textarea{height:90px;resize:none}
+
+  #formulario-lirya input:focus-visible,
+  #formulario-lirya textarea:focus-visible,
+  #formulario-lirya .dropdown-btn:focus-visible{
+    outline: 2px solid rgba(242, 201, 138, 0.95);
+    outline-offset: 3px;
+  }
+
+  #formulario-lirya .helper-text{
+    font-size:12.5px;
+    opacity:.75;
+    margin-top:6px;
+    line-height:1.4;
+    font-style:italic;
+    font-family:"Playfair Display", serif;
+  }
+
+  /* Error UI */
+  #formulario-lirya .field-error{
+    outline:2px solid rgba(255, 122, 122, 0.95);
+    outline-offset: 2px;
+  }
+  #formulario-lirya .field-error-msg{
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: rgba(255, 220, 220, 0.95);
+    font-style: italic;
+    display:none;
+    font-family:"Playfair Display", serif;
+  }
+  #formulario-lirya .field-error-msg.show{display:block}
+
+  /* Dropdown */
+  #formulario-lirya .dropdown{position:relative}
+  #formulario-lirya .dropdown-btn{
+    width:100%;
+    padding:14px 16px;
+    background:rgba(255,255,255,.88);
+    border-radius:10px;
+    border:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#9aa3ab;
+    cursor:pointer;
+    font-size:14px;
+    text-align:left;
+  }
+
+  #formulario-lirya .dropdown-menu{
+    position:absolute;top:calc(100% + 10px);left:0;right:0;
+    background:rgba(255,255,255,.96);
+    border-radius:14px;
+    box-shadow:0 18px 40px rgba(0,0,0,.25);
+    padding:10px 0;
+    display:none;
+    z-index:50;
+    max-height: 260px;
+    overflow:auto;
+  }
+  #formulario-lirya .dropdown-menu.open{display:block}
+
+  #formulario-lirya .dropdown-item{
+    padding:12px 18px;color:#7a7a7a;font-size:14px;cursor:pointer
+  }
+  #formulario-lirya .dropdown-item:hover,
+  #formulario-lirya .dropdown-item[aria-selected="true"]{
+    background:#f4f7fb;color:#333
+  }
+
+  /* Nav buttons */
+  #formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
+  #formulario-lirya button{
+    padding:14px;border-radius:10px;border:none;cursor:pointer;font-size:15px
+  }
+  #formulario-lirya .back{background:rgba(255,255,255,.2);color:#fff}
+  #formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.5}
+  #formulario-lirya .next.enabled{opacity:1}
+  #formulario-lirya .next:disabled{cursor:not-allowed}
+  #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
+
+  #telefono-box{display:none}
+</style>
+
+<div class="wrapper">
+  <h1>Cuéntanos vuestra historia</h1>
+  <div class="subtitle">
+    No hace falta escribir bonito. Nosotros transformamos tus palabras en una canción emocional.
   </div>
+  <div class="micro-safety">✔ No hay respuestas largas · Solo lo esencial</div>
 
-  <script>
-    (function () {
-      const root = document.getElementById("formulario-lirya");
-      const form = root.querySelector("#liryaForm");
-      const steps = Array.from(form.querySelectorAll(".step"));
-      const progress = root.querySelector("#progress");
+  <div class="progress" id="progress"></div>
 
-      let stepIndex = 0;
+  <!-- FORM real (Stripe sigue por fetch) -->
+  <form class="card" id="lirya-form" novalidate>
 
-      // progress
-      steps.forEach((_, x) => {
-        const s = document.createElement("span");
-        if (x === 0) s.classList.add("active");
-        progress.appendChild(s);
-      });
+    <!-- PASO 1 -->
+    <div class="step active" data-step="1">
+      <div class="step-title">Paso 1 de 6 — Personas y tarifa</div>
+      <div class="step-errors" aria-live="polite"></div>
 
-      const telefonoBox = form.querySelector("#telefono-box");
-      const phone = form.querySelector("#phone");
-      const tarifaHidden = form.querySelector("#tarifa-hidden");
+      <div class="question">
+        <label for="recipient_name">Nombre de quien recibirá la canción *</label>
+        <input id="recipient_name" name="recipient_name" autocomplete="name" required>
+        <div class="field-error-msg" data-error-for="recipient_name">Completa este campo.</div>
+      </div>
 
-      // helpers
-      const isReduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      <div class="question">
+        <label for="your_name">Tu nombre (quien regala) *</label>
+        <input id="your_name" name="your_name" autocomplete="name" required>
+        <div class="field-error-msg" data-error-for="your_name">Completa este campo.</div>
+      </div>
 
-      function setStepActive(i) {
-        steps.forEach((s, x) => s.classList.toggle("active", x === i));
-        Array.from(progress.children).forEach((p, x) => p.classList.toggle("active", x <= i));
-        stepIndex = i;
-        // focus primer campo del paso para velocidad (CRO)
-        if (!isReduceMotion) {
-          const firstFocusable = steps[i].querySelector("input,textarea,button.dropdown-btn");
-          if (firstFocusable) firstFocusable.focus({ preventScroll: true });
-        }
-        validateStep(true);
+      <div class="question">
+        <label>Tipo de relación *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="relationship" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="relationship-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="relationship-menu" role="listbox">
+            <div class="dropdown-item" role="option">Pareja</div>
+            <div class="dropdown-item" role="option">Matrimonio</div>
+            <div class="dropdown-item" role="option">Ex pareja (reconciliación)</div>
+            <div class="dropdown-item" role="option">Amor secreto</div>
+            <div class="dropdown-item" role="option">Familiar</div>
+            <div class="dropdown-item" role="option">Amistad especial</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="relationship">Elige una opción.</div>
+      </div>
+
+      <div class="question">
+        <label>Tarifa elegida *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="tarifa-btn" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="tarifa-menu">
+            <span>Selecciona una tarifa</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="tarifa-menu" role="listbox">
+            <div class="dropdown-item" role="option" data-tarifa="49">49€ — Estándar</div>
+            <div class="dropdown-item" role="option" data-tarifa="59">59€ — Emocional</div>
+            <div class="dropdown-item" role="option" data-tarifa="79">79€ — Prioritaria</div>
+          </div>
+        </div>
+        <input type="hidden" id="tarifa-hidden" name="tarifa" required>
+        <div class="field-error-msg" data-error-for="tarifa-hidden">Selecciona una tarifa.</div>
+      </div>
+
+      <div class="nav">
+        <button class="next" type="button" disabled>Seguir creando →</button>
+      </div>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="step" data-step="2">
+      <div class="step-title">Paso 2 de 6 — Historia</div>
+      <div class="step-helper">Escribe con naturalidad. No buscamos perfección, sino verdad.</div>
+      <div class="step-errors" aria-live="polite"></div>
+
+      <div class="question">
+        <label for="how_met">¿Cómo os conocisteis? *</label>
+        <textarea id="how_met" name="how_met" required></textarea>
+        <div class="helper-text">Ejemplo: dónde fue, qué sentiste, por qué lo recuerdas.</div>
+        <div class="field-error-msg" data-error-for="how_met">Completa este campo.</div>
+      </div>
+
+      <div class="question">
+        <label for="special_moment">Un momento que lo cambió todo *</label>
+        <textarea id="special_moment" name="special_moment" required></textarea>
+        <div class="helper-text">Una conversación, una despedida, una promesa, un reencuentro…</div>
+        <div class="field-error-msg" data-error-for="special_moment">Completa este campo.</div>
+      </div>
+
+      <div class="question">
+        <label>¿Por qué esta canción es importante ahora? *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="reason_now" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="reason-now-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="reason-now-menu" role="listbox">
+            <div class="dropdown-item" role="option">Aniversario</div>
+            <div class="dropdown-item" role="option">Cumpleaños</div>
+            <div class="dropdown-item" role="option">Reconciliación</div>
+            <div class="dropdown-item" role="option">San Valentín</div>
+            <div class="dropdown-item" role="option">Sorpresa sin motivo</div>
+            <div class="dropdown-item" role="option">Otro</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="reason_now">Elige una opción.</div>
+      </div>
+
+      <div class="nav">
+        <button class="back" type="button">← Atrás</button>
+        <button class="next" type="button" disabled>Seguir creando →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="step" data-step="3">
+      <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
+      <div class="step-errors" aria-live="polite"></div>
+
+      <div class="question">
+        <label for="three_words">Tres palabras que definan a esa persona *</label>
+        <input id="three_words" name="three_words" required>
+        <div class="helper-text">Ejemplo: sensible, fuerte, divertida.</div>
+        <div class="field-error-msg" data-error-for="three_words">Completa este campo.</div>
+      </div>
+
+      <div class="question">
+        <label for="dedication">Una frase que te gustaría decirle *</label>
+        <textarea id="dedication" name="dedication" required></textarea>
+        <div class="helper-text">Puede ser simple. Nosotros la convertimos en letra.</div>
+        <div class="field-error-msg" data-error-for="dedication">Completa este campo.</div>
+      </div>
+
+      <div class="question">
+        <label>¿Qué emoción debe sentir? *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="emotion" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="emotion-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="emotion-menu" role="listbox">
+            <div class="dropdown-item" role="option">Amor profundo</div>
+            <div class="dropdown-item" role="option">Nostalgia</div>
+            <div class="dropdown-item" role="option">Alegría</div>
+            <div class="dropdown-item" role="option">Emoción intensa</div>
+            <div class="dropdown-item" role="option">Calma y ternura</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="emotion">Elige una opción.</div>
+      </div>
+
+      <div class="nav">
+        <button class="back" type="button">← Atrás</button>
+        <button class="next" type="button" disabled>Seguir creando →</button>
+      </div>
+    </div>
+
+    <!-- PASO 4 -->
+    <div class="step" data-step="4">
+      <div class="step-title">Paso 4 de 6 — Música</div>
+      <div class="step-errors" aria-live="polite"></div>
+
+      <div class="question">
+        <label>Estilo musical principal *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="song_style" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="song-style-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="song-style-menu" role="listbox">
+            <div class="dropdown-item" role="option">Balada romántica</div>
+            <div class="dropdown-item" role="option">Pop emocional</div>
+            <div class="dropdown-item" role="option">Indie acústico</div>
+            <div class="dropdown-item" role="option">R&amp;B / Soul</div>
+            <div class="dropdown-item" role="option">Rock suave</div>
+            <div class="dropdown-item" role="option">Electrónica chill</div>
+            <div class="dropdown-item" role="option">Reggaetón lento</div>
+            <div class="dropdown-item" role="option">Bachata</div>
+            <div class="dropdown-item" role="option">Hip Hop</div>
+            <div class="dropdown-item" role="option">Reggae chill</div>
+            <div class="dropdown-item" role="option">Jazz</div>
+            <div class="dropdown-item" role="option">Flamenco</div>
+            <div class="dropdown-item" role="option">Cinematográfico</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="song_style">Elige una opción.</div>
+      </div>
+
+      <div class="question">
+        <label>Ritmo *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="rhythm" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="rhythm-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="rhythm-menu" role="listbox">
+            <div class="dropdown-item" role="option">Lento</div>
+            <div class="dropdown-item" role="option">Medio</div>
+            <div class="dropdown-item" role="option">Progresivo</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="rhythm">Elige una opción.</div>
+      </div>
+
+      <div class="question">
+        <label>Tipo de voz *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="voice_type" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="voice-type-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="voice-type-menu" role="listbox">
+            <div class="dropdown-item" role="option">Masculina</div>
+            <div class="dropdown-item" role="option">Femenina</div>
+            <div class="dropdown-item" role="option">Dúo</div>
+            <div class="dropdown-item" role="option">Me da igual</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="voice_type">Elige una opción.</div>
+      </div>
+
+      <div class="question">
+        <label>Idioma *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="language" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="language-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="language-menu" role="listbox">
+            <div class="dropdown-item" role="option">Español</div>
+            <div class="dropdown-item" role="option">Inglés</div>
+            <div class="dropdown-item" role="option">Spanglish</div>
+            <div class="dropdown-item" role="option">Catalán</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="language">Elige una opción.</div>
+      </div>
+
+      <div class="nav">
+        <button class="back" type="button">← Atrás</button>
+        <button class="next" type="button" disabled>Seguir creando →</button>
+      </div>
+    </div>
+
+    <!-- PASO 5 -->
+    <div class="step" data-step="5">
+      <div class="step-title">Paso 5 de 6 — Detalles finales</div>
+      <div class="step-errors" aria-live="polite"></div>
+
+      <div class="question">
+        <label>¿Quieres que aparezca su nombre? *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="include_name" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="include-name-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="include-name-menu" role="listbox">
+            <div class="dropdown-item" role="option">Sí</div>
+            <div class="dropdown-item" role="option">No</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="include_name">Elige una opción.</div>
+      </div>
+
+      <div class="question">
+        <label for="dont_mention">Anécdota o algo que quieras añadir</label>
+        <textarea id="dont_mention" name="dont_mention"></textarea>
+        <div class="helper-text">Opcional. Cualquier detalle ayuda.</div>
+      </div>
+
+      <div class="question">
+        <label>Intensidad emocional *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="intensity" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="intensity-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="intensity-menu" role="listbox">
+            <div class="dropdown-item" role="option">Suave</div>
+            <div class="dropdown-item" role="option">Emotiva</div>
+            <div class="dropdown-item" role="option">Muy intensa</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="intensity">Elige una opción.</div>
+      </div>
+
+      <div class="nav">
+        <button class="back" type="button">← Atrás</button>
+        <button class="next" type="button" disabled>Seguir creando →</button>
+      </div>
+    </div>
+
+    <!-- PASO 6 -->
+    <div class="step" data-step="6">
+      <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+      <div class="step-helper">Recibirás un email de confirmación inmediato tras completar el pago.</div>
+      <div class="step-errors" aria-live="polite"></div>
+
+      <div class="question">
+        <label for="email">Email *</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+        <div class="field-error-msg" data-error-for="email">Introduce un email válido.</div>
+      </div>
+
+      <div class="question">
+        <label>¿También por WhatsApp? *</label>
+        <div class="dropdown">
+          <button class="dropdown-btn" id="whatsapp" type="button"
+            data-required data-placeholder="1"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="whatsapp-menu">
+            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" id="whatsapp-menu" role="listbox">
+            <div class="dropdown-item" role="option" data-whatsapp="si">Sí</div>
+            <div class="dropdown-item" role="option" data-whatsapp="no">No</div>
+          </div>
+        </div>
+        <div class="field-error-msg" data-error-for="whatsapp">Elige una opción.</div>
+      </div>
+
+      <div class="question" id="telefono-box">
+        <label for="phone">Número de teléfono *</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel">
+        <div class="field-error-msg" data-error-for="phone">Introduce tu teléfono.</div>
+      </div>
+
+      <div class="nav">
+        <button class="back" type="button">← Atrás</button>
+        <button class="submit" type="button">Pagar y enviar</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+(function () {
+  const root = document.getElementById("formulario-lirya");
+  if (!root) return;
+
+  const form = root.querySelector("#lirya-form");
+  const steps = Array.from(root.querySelectorAll(".step"));
+  const progress = root.querySelector("#progress");
+
+  let i = 0;
+
+  // Progress
+  progress.innerHTML = "";
+  steps.forEach((_, x) => {
+    const s = document.createElement("span");
+    if (x === 0) s.classList.add("active");
+    progress.appendChild(s);
+  });
+
+  const telefonoBox = root.querySelector("#telefono-box");
+  const phone = root.querySelector("#phone");
+  const tarifaHidden = root.querySelector("#tarifa-hidden");
+
+  function getStep() { return steps[i]; }
+
+  function setNextState(step, enabled) {
+    const next = step.querySelector(".next");
+    if (!next) return;
+    next.classList.toggle("enabled", enabled);
+    next.disabled = !enabled;
+  }
+
+  function clearErrors(step){
+    step.querySelectorAll(".field-error").forEach(el => el.classList.remove("field-error"));
+    step.querySelectorAll(".field-error-msg.show").forEach(el => el.classList.remove("show"));
+    const box = step.querySelector(".step-errors");
+    if (box) { box.classList.remove("show"); box.textContent = ""; }
+  }
+
+  function showStepError(step, msg){
+    const box = step.querySelector(".step-errors");
+    if (!box) return;
+    box.textContent = msg;
+    box.classList.add("show");
+  }
+
+  function setFieldError(step, id, msg){
+    // Inputs/textareas
+    const field = root.querySelector("#" + CSS.escape(id));
+    if (field) field.classList.add("field-error");
+
+    // Error msg div
+    const err = step.querySelector('.field-error-msg[data-error-for="' + id + '"]');
+    if (err) {
+      if (msg) err.textContent = msg;
+      err.classList.add("show");
+    }
+  }
+
+  function dropdownIsSelected(btn){
+    return !btn.hasAttribute("data-placeholder");
+  }
+
+  function validateEmail(val){
+    // simple + robust enough for client
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(val || "").trim());
+  }
+
+  function validateStep(showUI) {
+    const step = getStep();
+    let ok = true;
+    const missing = [];
+
+    if (showUI) clearErrors(step);
+
+    // Required inputs/textareas
+    step.querySelectorAll("input[required],textarea[required]").forEach(el => {
+      const v = (el.value || "").trim();
+      if (!v) {
+        ok = false;
+        missing.push("Completa los campos obligatorios.");
+        if (showUI) setFieldError(step, el.id, "Completa este campo.");
+        return;
       }
 
-      function setNextState(stepEl, enabled) {
-        const next = stepEl.querySelector(".next");
-        if (!next) return;
-        next.classList.toggle("enabled", enabled);
-        next.disabled = !enabled;
+      if (el.id === "email" && !validateEmail(v)) {
+        ok = false;
+        missing.push("Revisa tu email.");
+        if (showUI) setFieldError(step, "email", "Introduce un email válido.");
       }
+    });
 
-      function clearErrors(stepEl) {
-        const summary = stepEl.querySelector(".step-errors");
-        if (summary) {
-          summary.classList.remove("show");
-          summary.innerHTML = "";
-        }
-        stepEl.querySelectorAll(".field-error").forEach(q => q.classList.remove("field-error"));
+    // Required dropdowns
+    step.querySelectorAll(".dropdown-btn[data-required]").forEach(btn => {
+      if (!dropdownIsSelected(btn)) {
+        ok = false;
+        missing.push("Elige una opción en los desplegables.");
+        if (showUI) setFieldError(step, btn.id, "Elige una opción.");
       }
+    });
 
-      function showStepErrors(stepEl, messages) {
-        const summary = stepEl.querySelector(".step-errors");
-        if (!summary) return;
-        if (!messages.length) {
-          summary.classList.remove("show");
-          summary.innerHTML = "";
-          return;
-        }
-        summary.classList.add("show");
-        summary.innerHTML = "<strong>Te falta completar:</strong><br>• " + messages.join("<br>• ");
+    // WhatsApp => phone required when visible
+    if (step.contains(telefonoBox) && telefonoBox.style.display !== "none") {
+      const v = (phone.value || "").trim();
+      if (!v) {
+        ok = false;
+        missing.push("Añade tu teléfono si quieres WhatsApp.");
+        if (showUI) setFieldError(step, "phone", "Introduce tu teléfono.");
       }
+    }
 
-      function isEmailValid(v) {
-        // Validación razonable (sin ser ultra estrictos)
-        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+    setNextState(step, ok);
+
+    if (showUI && !ok){
+      // compact, no spam
+      showStepError(step, "Te falta completar algún campo marcado para poder continuar.");
+      // focus first error
+      const firstErr = step.querySelector(".field-error");
+      if (firstErr) firstErr.focus({ preventScroll: false });
+    }
+
+    return ok;
+  }
+
+  function render() {
+    steps.forEach((s, x) => s.classList.toggle("active", x === i));
+    Array.from(progress.children).forEach((p, x) => p.classList.toggle("active", x <= i));
+    validateStep(false);
+  }
+
+  // Scoped: input inside form only
+  form.addEventListener("input", () => validateStep(false));
+
+  // Enter to advance (except textarea)
+  form.addEventListener("keydown", (e) => {
+    const step = getStep();
+    const isTextarea = e.target && e.target.tagName === "TEXTAREA";
+    if (e.key === "Enter" && !isTextarea) {
+      const submitBtn = step.querySelector(".submit");
+      const nextBtn = step.querySelector(".next");
+      if (submitBtn) {
+        e.preventDefault();
+        submitBtn.click();
+      } else if (nextBtn) {
+        e.preventDefault();
+        nextBtn.click();
       }
+    }
 
-      function validateStep(silent = false) {
-        const stepEl = steps[stepIndex];
-        if (!stepEl) return false;
+    if (e.key === "Escape") {
+      // close any open menu
+      root.querySelectorAll(".dropdown-menu.open").forEach(m => m.classList.remove("open"));
+      root.querySelectorAll(".dropdown-btn[aria-expanded='true']").forEach(b => b.setAttribute("aria-expanded","false"));
+    }
+  });
 
-        if (!silent) clearErrors(stepEl);
+  // Navigation (scoped)
+  form.addEventListener("click", (e) => {
+    const t = e.target;
 
-        const missing = [];
-        let ok = true;
+    if (t.classList.contains("next")) {
+      if (!validateStep(true)) return;
+      if (i < steps.length - 1) { i++; render(); }
+      return;
+    }
 
-        // Inputs requeridos
-        stepEl.querySelectorAll("input[required],textarea[required]").forEach(el => {
-          const val = (el.value || "").trim();
+    if (t.classList.contains("back")) {
+      if (i > 0) { i--; render(); }
+      return;
+    }
+  });
 
-          // Email específico
-          if (el.type === "email") {
-            if (!val || !isEmailValid(val)) {
-              ok = false;
-              missing.push("Email válido");
-              if (!silent) stepEl.querySelector('[data-field="email"]')?.classList.add("field-error");
-            }
-            return;
-          }
+  // Dropdown logic (scoped)
+  function closeAllMenus(){
+    root.querySelectorAll(".dropdown-menu").forEach(m => m.classList.remove("open"));
+    root.querySelectorAll(".dropdown-btn").forEach(b => b.setAttribute("aria-expanded","false"));
+  }
 
-          if (!val) {
-            ok = false;
-            const fieldWrap = el.closest(".question");
-            const label = fieldWrap?.querySelector("label")?.textContent?.replace("*", "").trim();
-            if (label) missing.push(label);
-            if (!silent) fieldWrap?.classList.add("field-error");
-          }
-        });
+  root.querySelectorAll(".dropdown").forEach(d => {
+    const btn = d.querySelector(".dropdown-btn");
+    const menu = d.querySelector(".dropdown-menu");
+    const items = Array.from(menu.querySelectorAll(".dropdown-item"));
 
-        // Dropdowns requeridos
-        stepEl.querySelectorAll(".dropdown-btn[data-required]").forEach(btn => {
-          if (btn.hasAttribute("data-placeholder")) {
-            ok = false;
-            const fieldWrap = btn.closest(".question");
-            const label = fieldWrap?.querySelector("label")?.textContent?.replace("*", "").trim();
-            if (label) missing.push(label);
-            if (!silent) fieldWrap?.classList.add("field-error");
-          }
-        });
+    function openMenu(){
+      closeAllMenus();
+      menu.classList.add("open");
+      btn.setAttribute("aria-expanded","true");
+    }
 
-        // WhatsApp => teléfono
-        if (stepEl.contains(telefonoBox) && telefonoBox.style.display !== "none") {
-          const v = (phone.value || "").trim();
-          if (!v) {
-            ok = false;
-            missing.push("Número de teléfono");
-            if (!silent) telefonoBox.classList.add("field-error");
-          }
-        }
+    function closeMenu(){
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded","false");
+    }
 
-        // controla boton next
-        setNextState(stepEl, ok);
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (menu.classList.contains("open")) closeMenu();
+      else openMenu();
+    });
 
-        // resumen visual cuando intenta avanzar o pagar
-        if (!silent) showStepErrors(stepEl, Array.from(new Set(missing)));
+    // Items click
+    items.forEach((it) => {
+      it.addEventListener("click", () => {
+        // selection UI
+        items.forEach(x => x.setAttribute("aria-selected","false"));
+        it.setAttribute("aria-selected","true");
 
-        return ok;
-      }
-
-      // ---------------- Dropdown accesible ----------------
-      function closeAllDropdowns(exceptMenu = null) {
-        form.querySelectorAll(".dropdown-menu").forEach(menu => {
-          if (exceptMenu && menu === exceptMenu) return;
-          menu.classList.remove("open");
-          const btnId = menu.getAttribute("id")?.replace("-menu", "");
-          const btn = btnId ? form.querySelector("#" + btnId) : null;
-          if (btn) btn.setAttribute("aria-expanded", "false");
-        });
-      }
-
-      function openDropdown(btn, menu) {
-        closeAllDropdowns(menu);
-        menu.classList.add("open");
-        btn.setAttribute("aria-expanded", "true");
-
-        // activa primer item
-        const items = Array.from(menu.querySelectorAll(".dropdown-item"));
-        items.forEach(it => it.classList.remove("is-active"));
-        const first = items[0];
-        if (first) {
-          first.classList.add("is-active");
-          first.focus({ preventScroll: true });
-        }
-      }
-
-      function selectDropdownItem(btn, menu, item) {
-        btn.textContent = item.textContent + " ▾";
+        // set button text (keep arrow)
+        const label = it.textContent.trim();
+        btn.querySelector("span").textContent = label;
         btn.style.color = "#333";
         btn.removeAttribute("data-placeholder");
-        menu.classList.remove("open");
-        btn.setAttribute("aria-expanded", "false");
+        closeMenu();
 
-        // aria-selected
-        menu.querySelectorAll(".dropdown-item").forEach(it => it.setAttribute("aria-selected", "false"));
-        item.setAttribute("aria-selected", "true");
-
-        // Tarifa
-        if (item.dataset.tarifa) {
-          tarifaHidden.value = item.dataset.tarifa;
-          // mirror opcional
-          const tarifaMirror = form.querySelector("#tarifa-hidden-2");
-          if (tarifaMirror) tarifaMirror.value = item.dataset.tarifa;
+        // Tarifa hidden
+        if (it.dataset.tarifa) {
+          tarifaHidden.value = it.dataset.tarifa;
         }
 
-        // WhatsApp
-        if (item.dataset.whatsapp) {
-          const wants = item.dataset.whatsapp === "si";
+        // WhatsApp toggle
+        if (it.dataset.whatsapp) {
+          const wants = it.dataset.whatsapp === "si";
           telefonoBox.style.display = wants ? "block" : "none";
           if (wants) {
             phone.setAttribute("required", "required");
@@ -2364,228 +2296,92 @@ EXTRAS PRO (sin cambiar tu UI):
           }
         }
 
-        validateStep(true);
+        validateStep(false);
+      });
+    });
+  });
+
+  // Close menus on click outside (scoped but needs document)
+  document.addEventListener("click", (e) => {
+    if (!root.contains(e.target)) return;
+    // click anywhere inside the form but outside dropdown closes open menus
+    if (!e.target.closest(".dropdown")) closeAllMenus();
+  });
+
+  render();
+
+  /* ===================== PAGO (STRIPE) - MISMA LÓGICA, MISMO ENDPOINT ===================== */
+  const submitBtn = root.querySelector(".submit");
+  let processingPayment = false;
+
+  function getDDText(id){
+    const el = root.querySelector("#" + CSS.escape(id));
+    if (!el) return "";
+    // take first span text (without arrow)
+    const span = el.querySelector("span");
+    return (span ? span.textContent : el.textContent).trim();
+  }
+
+  submitBtn.addEventListener("click", async () => {
+    // Validación final del paso 6 con UI
+    if (!validateStep(true)) return;
+    if (processingPayment) return;
+    processingPayment = true;
+
+    submitBtn.disabled = true;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = "Redirigiendo a pago seguro…";
+
+    const data = {
+      recipient_name: root.querySelector("#recipient_name").value,
+      your_name: root.querySelector("#your_name").value,
+      relationship: getDDText("relationship"),
+      tarifa: root.querySelector("#tarifa-hidden").value,
+      how_met: root.querySelector("#how_met").value,
+      special_moment: root.querySelector("#special_moment").value,
+      reason_now: getDDText("reason_now"),
+      three_words: root.querySelector("#three_words").value,
+      dedication: root.querySelector("#dedication").value,
+      emotion: getDDText("emotion"),
+      song_style: getDDText("song_style"),
+      rhythm: getDDText("rhythm"),
+      voice_type: getDDText("voice_type"),
+      language: getDDText("language"),
+      include_name: getDDText("include_name"),
+      dont_mention: root.querySelector("#dont_mention").value,
+      intensity: getDDText("intensity"),
+      email: root.querySelector("#email").value,
+      whatsapp: getDDText("whatsapp"),
+      phone: root.querySelector("#phone").value
+    };
+
+    try {
+      const r = await fetch("/api/payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      if (!r.ok) throw new Error("Error en la petición al servidor");
+
+      const j = await r.json();
+      if (j.url) {
+        window.location.href = j.url;
+      } else {
+        throw new Error("Stripe no devolvió URL");
       }
-
-      form.querySelectorAll("[data-dropdown]").forEach(drop => {
-        const btn = drop.querySelector(".dropdown-btn");
-        const menu = drop.querySelector(".dropdown-menu");
-        if (!btn || !menu) return;
-
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const isOpen = menu.classList.contains("open");
-          if (isOpen) {
-            menu.classList.remove("open");
-            btn.setAttribute("aria-expanded", "false");
-          } else {
-            openDropdown(btn, menu);
-          }
-        });
-
-        // click item
-        menu.querySelectorAll(".dropdown-item").forEach((item) => {
-          item.addEventListener("click", (e) => {
-            e.stopPropagation();
-            selectDropdownItem(btn, menu, item);
-            btn.focus({ preventScroll: true });
-          });
-        });
-
-        // teclado
-        btn.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
-            e.preventDefault();
-            openDropdown(btn, menu);
-          }
-          if (e.key === "Escape") {
-            closeAllDropdowns();
-            btn.focus({ preventScroll: true });
-          }
-        });
-
-        menu.addEventListener("keydown", (e) => {
-          const items = Array.from(menu.querySelectorAll(".dropdown-item"));
-          const active = menu.querySelector(".dropdown-item.is-active") || items[0];
-          let idx = Math.max(0, items.indexOf(active));
-
-          if (e.key === "Escape") {
-            e.preventDefault();
-            menu.classList.remove("open");
-            btn.setAttribute("aria-expanded", "false");
-            btn.focus({ preventScroll: true });
-            return;
-          }
-
-          if (e.key === "ArrowDown") {
-            e.preventDefault();
-            idx = Math.min(items.length - 1, idx + 1);
-            items.forEach(it => it.classList.remove("is-active"));
-            items[idx].classList.add("is-active");
-            items[idx].focus({ preventScroll: true });
-            return;
-          }
-
-          if (e.key === "ArrowUp") {
-            e.preventDefault();
-            idx = Math.max(0, idx - 1);
-            items.forEach(it => it.classList.remove("is-active"));
-            items[idx].classList.add("is-active");
-            items[idx].focus({ preventScroll: true });
-            return;
-          }
-
-          if (e.key === "Enter") {
-            e.preventDefault();
-            const chosen = menu.querySelector(".dropdown-item.is-active") || items[0];
-            if (chosen) {
-              selectDropdownItem(btn, menu, chosen);
-              btn.focus({ preventScroll: true });
-            }
-            return;
-          }
-        });
-      });
-
-      // Cerrar al click fuera / Escape global
-      document.addEventListener("click", (e) => {
-        if (!root.contains(e.target)) return;
-        closeAllDropdowns();
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key !== "Escape") return;
-        closeAllDropdowns();
-      });
-
-      // ---------------- Validación scopeada ----------------
-      form.addEventListener("input", () => validateStep(true));
-
-      // Enter: si estás en un paso y no es textarea, avanza
-      form.addEventListener("keydown", (e) => {
-        const stepEl = steps[stepIndex];
-        if (!stepEl) return;
-
-        // no interferir con textarea
-        if (e.key === "Enter" && e.target && e.target.tagName !== "TEXTAREA") {
-          // si dropdown menu abierto, no avanzar
-          if (form.querySelector(".dropdown-menu.open")) return;
-
-          e.preventDefault();
-
-          if (stepIndex < steps.length - 1) {
-            // intenta avanzar
-            const ok = validateStep(false);
-            if (!ok) return;
-            setStepActive(stepIndex + 1);
-          } else {
-            // último paso: pagar
-            const submitBtn = stepEl.querySelector(".submit");
-            if (submitBtn) submitBtn.click();
-          }
-        }
-      });
-
-      // ---------------- Navegación ----------------
-      form.addEventListener("click", (e) => {
-        const t = e.target;
-        if (!(t instanceof HTMLElement)) return;
-
-        if (t.classList.contains("next")) {
-          const ok = validateStep(false);
-          if (!ok) return;
-          if (stepIndex < steps.length - 1) setStepActive(stepIndex + 1);
-          return;
-        }
-
-        if (t.classList.contains("back")) {
-          if (stepIndex > 0) setStepActive(stepIndex - 1);
-          return;
-        }
-      });
-
-      // init
-      setStepActive(0);
-
-      /* ===================== BOTÓN PAGO (STRIPE) — NO TOCADO EN SU LÓGICA ===================== */
-      const submitBtn = form.querySelector(".submit");
-      let processingPayment = false;
-
-      submitBtn.addEventListener("click", async () => {
-        // Validación del último paso con feedback visible
-        if (!validateStep(false)) return;
-        if (processingPayment) return;
-        processingPayment = true;
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Redirigiendo a pago seguro…";
-
-        // Helper: dropdown seleccionado por id (texto del botón sin la flecha)
-        const getDD = (id) => {
-          const el = document.getElementById(id);
-          if (!el) return "";
-          return el.textContent.replace("▾", "").trim();
-        };
-
-        // Inputs
-        const recipient_name = document.getElementById("recipient_name");
-        const your_name = document.getElementById("your_name");
-        const how_met = document.getElementById("how_met");
-        const special_moment = document.getElementById("special_moment");
-        const three_words = document.getElementById("three_words");
-        const dedication = document.getElementById("dedication");
-        const dont_mention = document.getElementById("dont_mention");
-        const email = document.getElementById("email");
-
-        const data = {
-          recipient_name: recipient_name.value,
-          your_name: your_name.value,
-          relationship: getDD("relationship"),
-          tarifa: tarifaHidden.value,
-          how_met: how_met.value,
-          special_moment: special_moment.value,
-          reason_now: getDD("reason_now"),
-          three_words: three_words.value,
-          dedication: dedication.value,
-          emotion: getDD("emotion"),
-          song_style: getDD("song_style"),
-          rhythm: getDD("rhythm"),
-          voice_type: getDD("voice_type"),
-          language: getDD("language"),
-          include_name: getDD("include_name"),
-          dont_mention: dont_mention.value,
-          intensity: getDD("intensity"),
-          email: email.value,
-          whatsapp: getDD("whatsapp"),
-          phone: phone.value
-        };
-
-        try {
-          const r = await fetch("/api/payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-          });
-
-          if (!r.ok) throw new Error("Error en la petición al servidor");
-
-          const j = await r.json();
-          if (j.url) {
-            window.location.href = j.url;
-          } else {
-            throw new Error("Stripe no devolvió URL");
-          }
-        } catch (err) {
-          alert("Error al iniciar el pago: " + (err.message || "Inténtalo de nuevo"));
-          console.error(err);
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Pagar y enviar";
-          processingPayment = false;
-        }
-      });
-    })();
-  </script>
+    } catch (err) {
+      alert("Error al iniciar el pago: " + (err.message || "Inténtalo de nuevo"));
+      console.error(err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      processingPayment = false;
+    }
+  });
+})();
+</script>
 </section>
+
 
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
@@ -3248,6 +3044,7 @@ EXTRAS PRO (sin cambiar tu UI):
   </div>
 
 </section>
+
 
 
 
