@@ -667,7 +667,7 @@
 
 <!-- =================================
    POR QUÉ ESTA CANCIÓN ES SOLO VUESTRA
-   (CRO + LEGIBILIDAD + SEMÁNTICA + TAP EN MÓVIL)
+   (SEMÁNTICA + ROBUSTEZ + MÓVIL)
 ================================= -->
 <style>
   .lirya-cf-section {
@@ -714,7 +714,8 @@
     transition:
       transform 0.35s cubic-bezier(.34, 1.56, .64, 1),
       box-shadow 0.35s ease,
-      border-color 0.35s ease;
+      border-color 0.35s ease,
+      opacity 0.6s ease;
     cursor: default;
     will-change: transform;
     -webkit-tap-highlight-color: transparent;
@@ -743,12 +744,8 @@
   }
 
   /* ACTIVE */
-  .lirya-cf-card:active {
-    transform: translateY(-4px) scale(0.99);
-  }
-  .lirya-cf-card.garantia:active {
-    transform: translateY(-6px) scale(0.995);
-  }
+  .lirya-cf-card:active { transform: translateY(-4px) scale(0.99); }
+  .lirya-cf-card.garantia:active { transform: translateY(-6px) scale(0.995); }
 
   /* PRESSED móvil */
   .lirya-cf-card.is-pressed {
@@ -788,6 +785,11 @@
     margin: 0 auto;
   }
 
+  .lirya-cf-note {
+    font-weight: 600;
+    color: rgba(26, 26, 26, 0.72);
+  }
+
   /* ===== MÓVIL ===== */
   @media (max-width: 900px) {
     .lirya-cf-section { padding: 80px 20px; }
@@ -800,19 +802,21 @@
       max-width: 520px;
     }
 
-    /* TARJETAS NORMALES */
     .lirya-cf-card {
       padding: 26px 22px;
       border-radius: 14px;
       border-width: 1px;
+
+      /* estado inicial animación entrada */
+      opacity: 0;
+      transform: translateY(26px) scale(0.97);
     }
 
-    /* TARJETA CENTRAL DESTACADA (SIN ILUMINACIÓN EN MÓVIL) */
+    /* Tarjeta destacada en móvil */
     .lirya-cf-card.garantia {
       padding: 38px 28px;
       border-width: 3px;
-      transform: scale(1.06);
-      box-shadow: none; /* 🔴 iluminación eliminada en móvil */
+      box-shadow: none;
     }
 
     .lirya-cf-card h3 { font-size: 20px; }
@@ -821,17 +825,6 @@
     .lirya-cf-card p {
       font-size: 15px;
       max-width: 360px;
-    }
-
-    /* Animación de entrada */
-    .lirya-cf-card {
-      opacity: 0;
-      transform: translateY(26px) scale(0.97);
-      transition:
-        opacity 0.6s ease,
-        transform 0.6s cubic-bezier(.34, 1.56, .64, 1),
-        box-shadow 0.35s ease,
-        border-color 0.35s ease;
     }
 
     .lirya-cf-card.is-visible {
@@ -848,9 +841,9 @@
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .lirya-cf-card {
-      opacity: 1 !important;
-      transform: none !important;
-      transition: none !important;
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
   }
 </style>
@@ -860,7 +853,7 @@
   <div class="lirya-cf-divider" aria-hidden="true"></div>
 
   <div class="lirya-cf-grid">
-    <div class="lirya-cf-card">
+    <div class="lirya-cf-card" data-cf-index="0">
       <div class="lirya-cf-step" aria-hidden="true">1</div>
       <h3>Escrita con vuestra historia real</h3>
       <p>
@@ -869,16 +862,16 @@
       </p>
     </div>
 
-    <div class="lirya-cf-card garantia">
+    <div class="lirya-cf-card garantia" data-cf-index="1">
       <div class="lirya-cf-step" aria-hidden="true">2</div>
       <h3>Revisión incluida</h3>
       <p>
         Incluye <strong>1 revisión</strong> para ajustar una frase, el enfoque o el tono y que encaje de verdad.
-        <span style="font-weight:600; color: rgba(26, 26, 26, 0.72);">(En Premium puedes pedir más ajustes.)</span>
+        <span class="lirya-cf-note">(En Premium puedes pedir más ajustes.)</span>
       </p>
     </div>
 
-    <div class="lirya-cf-card">
+    <div class="lirya-cf-card" data-cf-index="2">
       <div class="lirya-cf-step" aria-hidden="true">3</div>
       <h3>Pensada para emocionar al escucharla</h3>
       <p>
@@ -890,73 +883,80 @@
 </section>
 
 <script>
-  (function () {
-    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+(function () {
+  const mqlReduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  const mqlMobile = window.matchMedia ? window.matchMedia('(max-width: 900px)') : null;
 
-    const cards = Array.from(document.querySelectorAll('.lirya-cf-card'));
-    if (!cards.length) return;
+  const reduceMotion = !!(mqlReduce && mqlReduce.matches);
+  const isMobile = !!(mqlMobile && mqlMobile.matches);
 
-    if (isMobile && !reduceMotion) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const i = cards.indexOf(entry.target);
-          setTimeout(() => entry.target.classList.add('is-visible'), Math.max(0, i) * 150);
-          observer.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
+  const cards = Array.from(document.querySelectorAll('.lirya-cf-card'));
+  if (!cards.length) return;
 
-      cards.forEach(card => observer.observe(card));
-    } else {
-      cards.forEach(card => card.classList.add('is-visible'));
+  // === Entrada con IntersectionObserver (solo móvil y si hay soporte) ===
+  const canObserve = typeof IntersectionObserver !== 'undefined';
+
+  if (isMobile && !reduceMotion && canObserve) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const idx = parseInt(entry.target.getAttribute('data-cf-index') || '0', 10);
+        setTimeout(() => entry.target.classList.add('is-visible'), Math.max(0, idx) * 150);
+
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.25 });
+
+    cards.forEach(card => observer.observe(card));
+  } else {
+    cards.forEach(card => card.classList.add('is-visible'));
+  }
+
+  // === Pressed state (móvil, sin reduced motion) ===
+  if (isMobile && !reduceMotion) {
+    let pressedEl = null;
+
+    function clearPressed() {
+      if (pressedEl) pressedEl.classList.remove('is-pressed');
+      pressedEl = null;
     }
 
-    if (isMobile && !reduceMotion) {
-      let pressedEl = null;
+    function setPressed(el) {
+      clearPressed();
+      pressedEl = el;
+      el.classList.add('is-pressed');
+    }
 
-      function clearPressed() {
-        if (pressedEl) pressedEl.classList.remove('is-pressed');
-        pressedEl = null;
-      }
+    // Pointer events: mejor que solo touch en móviles modernos.
+    const supportsPointer = typeof window.PointerEvent !== 'undefined';
 
-      cards.forEach((card) => {
-        card.addEventListener('touchstart', () => {
-          clearPressed();
-          pressedEl = card;
-          card.classList.add('is-pressed');
-        }, { passive: true });
-
+    cards.forEach((card) => {
+      if (supportsPointer) {
+        card.addEventListener('pointerdown', () => setPressed(card), { passive: true });
+        card.addEventListener('pointerup', clearPressed, { passive: true });
+        card.addEventListener('pointercancel', clearPressed, { passive: true });
+      } else {
+        card.addEventListener('touchstart', () => setPressed(card), { passive: true });
         card.addEventListener('touchend', clearPressed, { passive: true });
         card.addEventListener('touchcancel', clearPressed, { passive: true });
+      }
 
-        card.addEventListener('click', () => {
-          clearPressed();
-          pressedEl = card;
-          card.classList.add('is-pressed');
-          setTimeout(clearPressed, 220);
-        });
+      // Click feedback breve
+      card.addEventListener('click', () => {
+        setPressed(card);
+        setTimeout(clearPressed, 220);
       });
+    });
 
-      document.addEventListener('touchstart', (e) => {
-        if (!e.target.closest('.lirya-cf-card')) clearPressed();
-      }, { passive: true });
-    }
-  })();
+    document.addEventListener('touchstart', (e) => {
+      if (!e.target.closest('.lirya-cf-card')) clearPressed();
+    }, { passive: true });
+  }
+})();
 </script>
 
-<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (ROBUSTA + LOADING + PLAYING) =====
-Objetivos:
-- Un solo <audio> estable
-- Click en tarjetas y viñetas -> reproduce/pausa (toggle)
-- Al clicar otra -> para la anterior + activa estado visual en la nueva
-- Feedback visual:
-  - Estado "loading" inmediato al click (aunque el audio tarde / no exista)
-  - Estado "playing" SOLO cuando el audio está realmente sonando
-  - Limpieza total en error/ended/stop
-- Sin parches, sin !important, sin duplicidades
-====================================================================================== -->
-
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (ROBUSTA + LOADING + PLAYING) ===== -->
 <style>
 .examples {
   position: relative;
@@ -970,7 +970,7 @@ Objetivos:
   position: absolute;
   inset: 0;
   background: rgba(5, 8, 25, 0.78);
-  pointer-events: none; /* ✅ overlay no bloquea hover/click */
+  pointer-events: none;
 }
 
 .examples-inner {
@@ -1028,6 +1028,8 @@ Objetivos:
   box-shadow: 0 0 22px rgba(255,255,255,0.18);
   transition: transform .4s ease, box-shadow .4s ease, border-color .25s ease;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Hover real (PC) */
@@ -1044,10 +1046,7 @@ Objetivos:
   box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
-/* ===== LOADING STATE (nuevo) =====
-- Se activa al click inmediatamente.
-- No late (no hay animación de escala), solo “brillo/halo” para indicar que está cargando.
-*/
+/* ===== LOADING STATE ===== */
 @keyframes liryaLoadingGlow {
   0%   { box-shadow: 0 0 16px rgba(255,255,255,0.20); }
   50%  { box-shadow: 0 0 34px rgba(255,255,255,0.46); }
@@ -1059,7 +1058,6 @@ Objetivos:
   animation: liryaLoadingGlow 1.2s ease-in-out infinite;
 }
 
-/* Etiqueta pequeña “Cargando…” */
 .example-card.loading::after{
   content: "Cargando…";
   position: absolute;
@@ -1199,9 +1197,11 @@ Objetivos:
   height: 350px;
   cursor: pointer;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-/* Hover real (PC) también para viñetas */
+/* Hover real (PC) */
 @media (hover:hover) and (pointer:fine) {
   .style-card:hover img {
     transform: translateY(-4px);
@@ -1219,6 +1219,7 @@ Objetivos:
   object-fit: contain;
   border-radius: 22px;
   transition: transform .25s ease;
+  display: block;
 }
 
 /* Loading state para viñetas */
@@ -1243,7 +1244,7 @@ Objetivos:
   box-shadow: 0 0 28px rgba(255,255,255,0.35);
 }
 
-/* ===== PLAYING PULSE (latido) ===== */
+/* ===== PLAYING PULSE ===== */
 @keyframes liryaPlayingPulse {
   0%   { transform: scale(1); }
   50%  { transform: scale(0.94); }
@@ -1257,7 +1258,7 @@ Objetivos:
   transform-origin: center;
 }
 
-/* FLECHAS */
+/* FLECHAS (convertidas a button) */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -1271,6 +1272,8 @@ Objetivos:
   line-height: 44px;
   cursor: pointer;
   z-index: 50;
+  border: none;
+  padding: 0;
 }
 
 .arrow-left { left: 16px; }
@@ -1294,10 +1297,10 @@ Objetivos:
 }
 </style>
 
-<section class="examples">
+<section class="examples" aria-labelledby="examples-title">
   <div class="examples-inner">
 
-    <h2>Ejemplos reales</h2>
+    <h2 id="examples-title">Ejemplos reales</h2>
 
     <p class="examples-subtitle">
       Cada canción se crea desde cero con la historia real de cada cliente.
@@ -1313,8 +1316,8 @@ Objetivos:
 
     <div class="examples-grid">
 
-      <div class="example-card" data-audio="/audio/test.mp3">
-        <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy">
+      <div class="example-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: Un bonito detalle">
+        <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy" width="1200" height="675" decoding="async">
         <div class="tarifa-info">
           <h3>Un bonito detalle</h3>
           <div class="tarifa-precio">49€</div>
@@ -1329,9 +1332,9 @@ Objetivos:
         </div>
       </div>
 
-      <div class="example-card destacada" data-audio="/audio/test.mp3">
+      <div class="example-card destacada" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: El regalo que emociona de verdad">
         <span class="badge-popular">La más elegida</span>
-        <img src="/Eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy">
+        <img src="/Eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy" width="1200" height="675" decoding="async">
         <div class="tarifa-info">
           <h3>El regalo que emociona de verdad</h3>
           <div class="tarifa-precio">59€</div>
@@ -1348,8 +1351,8 @@ Objetivos:
         </div>
       </div>
 
-      <div class="example-card" data-audio="/audio/test.mp3">
-        <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy">
+      <div class="example-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: Una canción para recordar siempre">
+        <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy" width="1200" height="675" decoding="async">
         <div class="tarifa-info">
           <h3>Una canción para recordar siempre</h3>
           <div class="tarifa-precio">79€</div>
@@ -1373,23 +1376,23 @@ Objetivos:
     </p>
 
     <div class="styles-wrapper">
-      <div class="carousel-arrow arrow-left" onclick="scrollStyles(-1)">‹</div>
-      <div class="carousel-arrow arrow-right" onclick="scrollStyles(1)">›</div>
+      <button class="carousel-arrow arrow-left" type="button" id="stylesArrowLeft" aria-label="Desplazar estilos a la izquierda">‹</button>
+      <button class="carousel-arrow arrow-right" type="button" id="stylesArrowRight" aria-label="Desplazar estilos a la derecha">›</button>
 
-      <div class="styles-carousel" id="stylesCarousel">
-        <div class="style-card" data-audio="/audio/test.mp3"><img loading="lazy" src="/vinetasmusica/flamenco.webp" alt="Ejemplo estilo Flamenco"></div>
-        <div class="style-card" data-audio="/audio/test.mp3"><img loading="lazy" src="/vinetasmusica/cinematografica.webp" alt="Ejemplo estilo Cinematográfico"></div>
-        <div class="style-card" data-audio="/audio/test.mp3"><img loading="lazy" src="/vinetasmusica/reggae.webp" alt="Ejemplo estilo Reggae chill"></div>
-        <div class="style-card" data-audio="/audio/pop.mp3"><img loading="lazy" src="/vinetasmusica/pop.webp" alt="Ejemplo estilo Pop"></div>
-        <div class="style-card" data-audio="/audio/bachata.mp3"><img loading="lazy" src="/vinetasmusica/bachata.webp" alt="Ejemplo estilo Bachata"></div>
-        <div class="style-card" data-audio="/audio/jazz.mp3"><img loading="lazy" src="/vinetasmusica/jazz.webp" alt="Ejemplo estilo Jazz"></div>
-        <div class="style-card" data-audio="/audio/hiphop.mp3"><img loading="lazy" src="/vinetasmusica/hiphop.webp" alt="Ejemplo estilo Hip hop"></div>
-        <div class="style-card" data-audio="/audio/reggaeton.mp3"><img loading="lazy" src="/vinetasmusica/reggaeton.webp" alt="Ejemplo estilo Reggaeton"></div>
-        <div class="style-card" data-audio="/audio/balada.mp3"><img loading="lazy" src="/vinetasmusica/balada.webp" alt="Ejemplo estilo Balada"></div>
-        <div class="style-card" data-audio="/audio/indie.mp3"><img loading="lazy" src="/vinetasmusica/indie.webp" alt="Ejemplo estilo Indie"></div>
-        <div class="style-card" data-audio="/audio/rock.mp3"><img loading="lazy" src="/vinetasmusica/rock.webp" alt="Ejemplo estilo Rock"></div>
-        <div class="style-card" data-audio="/audio/electro.mp3"><img loading="lazy" src="/vinetasmusica/electronica.webp" alt="Ejemplo estilo Electrónica"></div>
-        <div class="style-card" data-audio="/audio/rb.mp3"><img loading="lazy" src="/vinetasmusica/rb.webp" alt="Ejemplo estilo R&amp;B"></div>
+      <div class="styles-carousel" id="stylesCarousel" aria-label="Carrusel de estilos musicales">
+        <div class="style-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Flamenco"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/flamenco.webp" alt="Ejemplo estilo Flamenco"></div>
+        <div class="style-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Cinematográfico"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/cinematografica.webp" alt="Ejemplo estilo Cinematográfico"></div>
+        <div class="style-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Reggae chill"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/reggae.webp" alt="Ejemplo estilo Reggae chill"></div>
+        <div class="style-card" data-audio="/audio/pop.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Pop"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/pop.webp" alt="Ejemplo estilo Pop"></div>
+        <div class="style-card" data-audio="/audio/bachata.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Bachata"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/bachata.webp" alt="Ejemplo estilo Bachata"></div>
+        <div class="style-card" data-audio="/audio/jazz.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Jazz"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/jazz.webp" alt="Ejemplo estilo Jazz"></div>
+        <div class="style-card" data-audio="/audio/hiphop.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Hip hop"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/hiphop.webp" alt="Ejemplo estilo Hip hop"></div>
+        <div class="style-card" data-audio="/audio/reggaeton.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Reggaeton"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/reggaeton.webp" alt="Ejemplo estilo Reggaeton"></div>
+        <div class="style-card" data-audio="/audio/balada.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Balada"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/balada.webp" alt="Ejemplo estilo Balada"></div>
+        <div class="style-card" data-audio="/audio/indie.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Indie"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/indie.webp" alt="Ejemplo estilo Indie"></div>
+        <div class="style-card" data-audio="/audio/rock.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Rock"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rock.webp" alt="Ejemplo estilo Rock"></div>
+        <div class="style-card" data-audio="/audio/electro.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Electrónica"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/electronica.webp" alt="Ejemplo estilo Electrónica"></div>
+        <div class="style-card" data-audio="/audio/rb.mp3" role="button" tabindex="0" aria-label="Reproducir estilo R&B"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rb.webp" alt="Ejemplo estilo R&amp;B"></div>
       </div>
     </div>
 
@@ -1403,34 +1406,46 @@ Objetivos:
 (function () {
   const root = document.querySelector('.examples');
   const player = document.getElementById('lirya-examples-player');
+  const carousel = document.getElementById('stylesCarousel');
+  const arrowLeft = document.getElementById('stylesArrowLeft');
+  const arrowRight = document.getElementById('stylesArrowRight');
+
   if (!root || !player) return;
 
   let currentCard = null;
   let pendingCard = null;
   let loadingTimeoutId = null;
+  let isResetting = false;
 
-  function clearStateClasses(){
-    root.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
-    root.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
-  }
-
-  // ✅ ABORT real: corta reproducción + corta descarga/carga anterior
-  function hardResetAudio(){
-    try { player.pause(); } catch(_) {}
-    try { player.currentTime = 0; } catch(_) {}
-
-    // Esto fuerza a abortar la carga anterior en muchos navegadores
-    try {
-      player.removeAttribute('src');
-      player.load();
-    } catch(_) {}
-  }
+  const FAILSAFE_MS = 8000;
+  const SCROLL_STEP = 340;
 
   function clearLoadingTimeout(){
     if (loadingTimeoutId) {
       clearTimeout(loadingTimeoutId);
       loadingTimeoutId = null;
     }
+  }
+
+  function clearStateClasses(){
+    root.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
+    root.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
+  }
+
+  // ABORT: corta reproducción + intenta cortar carga anterior
+  function hardResetAudio(){
+    isResetting = true;
+    try { player.pause(); } catch(_) {}
+    try { player.currentTime = 0; } catch(_) {}
+
+    // Abort best-effort
+    try {
+      player.removeAttribute('src');
+      player.load();
+    } catch(_) {}
+
+    // libera guard en microtask para que eventos "pause" no nos re-llamen stopCurrent
+    Promise.resolve().then(() => { isResetting = false; });
   }
 
   function stopCurrent() {
@@ -1447,7 +1462,9 @@ Objetivos:
   }
 
   function playForCard(card, src){
-    // Toggle: si tocas la misma card mientras está sonando -> parar
+    if (!src) return;
+
+    // Toggle: misma card mientras está sonando -> parar
     if (currentCard === card) {
       stopCurrent();
       return;
@@ -1462,26 +1479,37 @@ Objetivos:
 
     const abs = new URL(src, window.location.href).href;
 
-    // Asignar src limpio y cargar
+    // Asignar src y cargar
     player.src = abs;
     try { player.load(); } catch(_) {}
 
-    // Failsafe: si en 8s no arranca, limpiamos (evita loading infinito)
+    // Failsafe: evita loading infinito
     clearLoadingTimeout();
     loadingTimeoutId = setTimeout(() => {
-      // Si sigue sin reproducir, limpiamos estado
       stopCurrent();
-    }, 8000);
+    }, FAILSAFE_MS);
 
     const playPromise = player.play();
     if (playPromise && typeof playPromise.catch === 'function') {
-      playPromise.catch(() => {
-        stopCurrent();
-      });
+      playPromise.catch(() => stopCurrent());
     }
   }
 
-  // ✅ Solo marcamos .playing cuando el audio realmente suena
+  function onCardActivate(card, e){
+    // Si el click fue en el CTA (o dentro), no tocar el audio
+    if (e && e.target && e.target.closest && e.target.closest('a')) return;
+    const src = card.dataset.audio;
+    playForCard(card, src);
+  }
+
+  function onCardKeydown(card, e){
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onCardActivate(card, e);
+    }
+  }
+
+  // Solo marcamos .playing cuando el audio realmente suena
   player.addEventListener('playing', () => {
     clearLoadingTimeout();
     if (!pendingCard) return;
@@ -1491,26 +1519,15 @@ Objetivos:
     pendingCard = null;
   });
 
-  // También cuenta como “ya está listo”
-  player.addEventListener('canplay', () => {
-    // Si está en loading, mantenemos loading hasta playing real,
-    // pero al menos sabemos que el audio se cargó y no está muerto.
-  });
-
-  // Termina -> limpiar
   player.addEventListener('ended', stopCurrent);
-
-  // Error de carga -> limpiar
   player.addEventListener('error', stopCurrent);
 
-  // Stalled/waiting: si se queda pillado, no te deja en infinito
-  player.addEventListener('stalled', () => {
-    // lo dejamos, pero si pasan 8s el timeout lo limpia
-  });
-
-  // Pausa manual en mitad -> limpiar
+  // Evita “doble stop” durante el propio reset
   player.addEventListener('pause', () => {
+    if (isResetting) return;
+
     const d = Number.isFinite(player.duration) ? player.duration : 0;
+    // Si se pausa a mitad (no ended), limpiamos UI
     if (player.currentTime > 0 && (d === 0 || player.currentTime < d)) {
       stopCurrent();
     }
@@ -1518,39 +1535,35 @@ Objetivos:
 
   // Cards de tarifas (ejemplos reales)
   root.querySelectorAll('.example-card').forEach(card => {
-    const src = card.dataset.audio;
-    if (!src) return;
-
-    card.addEventListener('click', (e) => {
-      // ✅ Si el click fue en el CTA (o dentro), no tocar el audio
-      if (e.target && e.target.closest('a')) return;
-      playForCard(card, src);
-    });
+    if (!card.dataset.audio) return;
+    card.addEventListener('click', (e) => onCardActivate(card, e));
+    card.addEventListener('keydown', (e) => onCardKeydown(card, e));
   });
 
   // Cards de estilos musicales
   root.querySelectorAll('.style-card').forEach(card => {
-    const src = card.dataset.audio;
-    if (!src) return;
-    card.addEventListener('click', () => playForCard(card, src));
+    if (!card.dataset.audio) return;
+    card.addEventListener('click', (e) => onCardActivate(card, e));
+    card.addEventListener('keydown', (e) => onCardKeydown(card, e));
   });
 
-  // Carrusel
-  window.scrollStyles = function (dir) {
-    const el = document.getElementById('stylesCarousel');
-    if (!el) return;
-    el.scrollBy({ left: dir * 340, behavior: 'smooth' });
-  };
+  // Carrusel (sin globals, sin inline onclick)
+  function scrollStyles(dir){
+    if (!carousel) return;
+    carousel.scrollBy({ left: dir * SCROLL_STEP, behavior: 'smooth' });
+  }
+
+  if (arrowLeft) arrowLeft.addEventListener('click', () => scrollStyles(-1));
+  if (arrowRight) arrowRight.addEventListener('click', () => scrollStyles(1));
 })();
 </script>
 
-
 <!-- =================================
    CÓMO FUNCIONA
-   (VERSIÓN FINAL DEFINITIVA - FIXES)
+   (FINAL - SIN CONFLICTOS + ROBUSTO)
 ================================= -->
 <style>
-.lirya-cf-section {
+.lirya-how-section {
   background: #ffffff;
   padding: 110px 20px;
   text-align: center;
@@ -1558,7 +1571,7 @@ Objetivos:
 }
 
 /* TÍTULO */
-.lirya-cf-title {
+.lirya-how-title {
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 36px;
@@ -1568,20 +1581,15 @@ Objetivos:
 }
 
 /* LÍNEA DECORATIVA */
-.lirya-cf-divider {
+.lirya-how-divider {
   width: 72px;
   height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #c7b58a,
-    transparent
-  );
+  background: linear-gradient(to right, transparent, #c7b58a, transparent);
   margin: 22px auto 64px;
 }
 
 /* GRID */
-.lirya-cf-grid {
+.lirya-how-grid {
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
@@ -1590,7 +1598,7 @@ Objetivos:
 }
 
 /* TARJETA */
-.lirya-cf-card {
+.lirya-how-card {
   background-color: #fcfaf7;
   border-radius: 16px;
   padding: 44px 34px;
@@ -1599,12 +1607,14 @@ Objetivos:
   transition:
     transform 0.35s cubic-bezier(.34,1.56,.64,1),
     box-shadow 0.35s ease,
-    border-color 0.35s ease;
+    border-color 0.35s ease,
+    opacity 0.6s ease;
+  will-change: transform;
 }
 
 /* HOVER */
-@media (hover: hover) {
-  .lirya-cf-card:hover {
+@media (hover: hover) and (pointer:fine) {
+  .lirya-how-card:hover {
     transform: translateY(-8px) scale(1.015);
     box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
     border-color: rgba(199, 181, 138, 0.65);
@@ -1612,7 +1622,7 @@ Objetivos:
 }
 
 /* NÚMERO */
-.lirya-cf-step {
+.lirya-how-step {
   font-family: "Playfair Display", serif;
   color: #000;
   font-size: 18px;
@@ -1620,7 +1630,7 @@ Objetivos:
 }
 
 /* TÍTULO TARJETA */
-.lirya-cf-card h3 {
+.lirya-how-card h3 {
   font-family: "Playfair Display", serif;
   font-size: 22px;
   margin-bottom: 12px;
@@ -1628,7 +1638,7 @@ Objetivos:
 }
 
 /* TEXTO */
-.lirya-cf-card p {
+.lirya-how-card p {
   font-family: "Playfair Display", serif;
   font-size: 14.5px;
   line-height: 1.6;
@@ -1639,16 +1649,10 @@ Objetivos:
 
 /* ===== MÓVIL ===== */
 @media (max-width: 900px) {
-  .lirya-cf-section {
-    padding: 80px 20px;
-  }
+  .lirya-how-section { padding: 80px 20px; }
+  .lirya-how-grid { grid-template-columns: 1fr; gap: 30px; }
 
-  .lirya-cf-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .lirya-cf-card {
+  .lirya-how-card {
     opacity: 0;
     transform: translateY(32px) scale(0.96);
     transition:
@@ -1656,30 +1660,30 @@ Objetivos:
       transform 0.6s cubic-bezier(.34,1.56,.64,1);
   }
 
-  .lirya-cf-card.is-visible {
+  .lirya-how-card.is-visible {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-/* Accesibilidad */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .lirya-cf-card {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  .lirya-how-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 </style>
 
-<section class="lirya-cf-section" aria-labelledby="lirya-how-title">
-  <h2 class="lirya-cf-title" id="lirya-how-title">Cómo funciona</h2>
-  <div class="lirya-cf-divider" aria-hidden="true"></div>
+<section class="lirya-how-section" aria-labelledby="lirya-how-title">
+  <h2 class="lirya-how-title" id="lirya-how-title">Cómo funciona</h2>
+  <div class="lirya-how-divider" aria-hidden="true"></div>
 
-  <div class="lirya-cf-grid">
+  <div class="lirya-how-grid">
 
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step" aria-hidden="true">1</div>
+    <div class="lirya-how-card" data-how-index="0">
+      <div class="lirya-how-step" aria-hidden="true">1</div>
       <h3>Cuéntanos vuestra historia</h3>
       <p>
         Rellena un formulario sencillo en menos de 3 minutos.
@@ -1687,8 +1691,8 @@ Objetivos:
       </p>
     </div>
 
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step" aria-hidden="true">2</div>
+    <div class="lirya-how-card" data-how-index="1">
+      <div class="lirya-how-step" aria-hidden="true">2</div>
       <h3>Creamos tu canción</h3>
       <p>
         Transformamos vuestra historia en una canción personalizada
@@ -1696,8 +1700,8 @@ Objetivos:
       </p>
     </div>
 
-    <div class="lirya-cf-card">
-      <div class="lirya-cf-step" aria-hidden="true">3</div>
+    <div class="lirya-how-card" data-how-index="2">
+      <div class="lirya-how-step" aria-hidden="true">3</div>
       <h3>La recibes y la revisamos</h3>
       <p>
         La recibirás dentro del plazo de tu tarifa con la mejor calidad de sonido.
@@ -1709,25 +1713,32 @@ Objetivos:
 </section>
 
 <script>
-/* Animación escalera móvil (robusta) */
+/* Animación escalera móvil (robusta + sin tocar otras secciones) */
 (function () {
-  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isMobile = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+  const mqlReduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  const mqlMobile = window.matchMedia ? window.matchMedia('(max-width: 900px)') : null;
+
+  const reduce = !!(mqlReduce && mqlReduce.matches);
+  const isMobile = !!(mqlMobile && mqlMobile.matches);
   if (!isMobile || reduce) return;
 
-  const cards = Array.from(document.querySelectorAll('.lirya-cf-card'));
+  const cards = Array.from(document.querySelectorAll('.lirya-how-card'));
   if (!cards.length) return;
 
-  const observer = new IntersectionObserver((entries) => {
+  // Fallback si no hay IntersectionObserver
+  if (typeof IntersectionObserver === 'undefined') {
+    cards.forEach(card => card.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
 
-      const i = cards.indexOf(entry.target);
-      setTimeout(() => {
-        entry.target.classList.add('is-visible');
-      }, Math.max(0, i) * 150);
+      const idx = parseInt(entry.target.getAttribute('data-how-index') || '0', 10);
+      setTimeout(() => entry.target.classList.add('is-visible'), Math.max(0, idx) * 150);
 
-      observer.unobserve(entry.target);
+      obs.unobserve(entry.target);
     });
   }, { threshold: 0.25 });
 
@@ -3220,6 +3231,7 @@ Objetivos:
   </div>
 
 </section>
+
 
 
 
