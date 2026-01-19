@@ -912,8 +912,6 @@
     }
   })();
 </script>
-
-
 <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (ACTUALIZADO) =====
 Cambios aplicados:
 (1) Botones con intención (3 textos distintos)
@@ -1189,7 +1187,6 @@ Cambios aplicados:
             • <strong>Incluye ajustes para que quede perfecta</strong> (1 revisión)
           </div>
           <div class="tarifa-segura"><em>Menor nivel de detalle emocional</em></div>
-          <!-- (1) Botón con intención -->
           <a href="#formulario-lirya" data-tarifa="49">Quiero un detalle bonito</a>
         </div>
       </div>
@@ -1209,7 +1206,6 @@ Cambios aplicados:
           <div class="tarifa-segura">
             <strong>La opción más segura para emocionar de verdad</strong>
           </div>
-          <!-- (1) Botón con intención -->
           <a href="#formulario-lirya" data-tarifa="59">Quiero emocionar de verdad</a>
         </div>
       </div>
@@ -1228,7 +1224,6 @@ Cambios aplicados:
           <div class="tarifa-segura">
             <em>Para quienes buscan el máximo impacto sin límites</em>
           </div>
-          <!-- (1) Botón con intención -->
           <a href="#formulario-lirya" data-tarifa="79">Quiero el máximo impacto</a>
         </div>
       </div>
@@ -1298,15 +1293,20 @@ Cambios aplicados:
     currentCard = card;
     card.classList.add('playing');
 
+    // Normaliza a URL absoluta para comparar bien
+    const abs = new URL(src, window.location.href).href;
+
     // Cambiar src de forma segura
-    if (player.src !== new URL(src, window.location.href).href) {
-      player.src = src;
+    if (player.src !== abs) {
+      player.src = abs;
+      // Asegura que el navegador “cargue” el nuevo src antes de play (mejora estabilidad)
+      try { player.load(); } catch(_) {}
     }
 
     const playPromise = player.play();
     if (playPromise && typeof playPromise.catch === 'function') {
       playPromise.catch(() => {
-        // Si el navegador bloquea autoplay, quitamos estado playing
+        // Si el navegador bloquea reproducción o el src falla, quitamos estado playing
         stopCurrent();
       });
     }
@@ -1323,23 +1323,22 @@ Cambios aplicados:
       // Si pulsa el CTA, no tocar el audio
       if (e.target && e.target.tagName === 'A') return;
       playForCard(card, src);
-    }, { passive: true });
+    });
   });
 
-  // Cards de estilos musicales
+  // Cards de estilos musicales (viñetas)
   document.querySelectorAll('.style-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
 
     card.addEventListener('click', () => {
       playForCard(card, src);
-    }, { passive: true });
+    });
   });
 
   // Si el usuario pausa manualmente (control externo o sistema), limpiamos UI
   player.addEventListener('pause', () => {
-    // Si se pausa porque terminó, ya lo maneja onended.
-    // Aquí cubrimos pausas manuales
+    // Aquí cubrimos pausas manuales (no onended)
     if (player.currentTime > 0 && player.currentTime < player.duration) {
       stopCurrent();
     }
@@ -2836,6 +2835,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
