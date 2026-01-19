@@ -2155,10 +2155,13 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
-     (Landing ligera: solo imagen + link a reacción completa)
+     (Landing ligera: SOLO IMAGEN + link a reacción completa)
+     ✅ Sin botón play nativo (no hay <video> en el carrusel)
+     ✅ Imagen completa (tipo “cover” para que no se corte raro)
+     ✅ Mantiene tarjeta alta como antes (no cuadrada)
 ================================ -->
 
-<section class="lirya-reactions" id="reacciones">
+<section class="lirya-reactions">
 
   <div class="lirya-reactions-header">
     <h2 class="lirya-reactions-title">
@@ -2169,7 +2172,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
       Reacciones reales de personas escuchando por primera vez una canción creada con su historia.
     </p>
 
-    <!-- ===== ESTRELLAS (SIN NUMERITO PARA NO ROMPER CREDIBILIDAD) ===== -->
     <div class="lirya-rating" aria-label="Valoración de clientes">
       <div class="rating-stars" aria-hidden="true">★★★★★</div>
       <span class="rating-note">Basado en reacciones reales de clientes</span>
@@ -2182,9 +2184,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     <a class="reaction-card" href="/reacciones/yolanda.html" aria-label="Ver reacción completa de Yolanda">
       <div class="reaction-media">
         <img src="/video1.jpg" alt="Reacción real de Yolanda al escuchar su canción por primera vez" loading="lazy" decoding="async">
-        <div class="play-overlay" aria-hidden="true"></div>
-        <div class="play-badge" aria-hidden="true">▶</div>
-        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
         <div class="stars" aria-hidden="true">★★★★★</div>
@@ -2196,9 +2196,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     <a class="reaction-card" href="/reacciones/laura.html" aria-label="Ver reacción completa de Laura">
       <div class="reaction-media">
         <img src="/video2.jpg" alt="Reacción real de Laura al escuchar su canción por primera vez" loading="lazy" decoding="async">
-        <div class="play-overlay" aria-hidden="true"></div>
-        <div class="play-badge" aria-hidden="true">▶</div>
-        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
         <div class="stars" aria-hidden="true">★★★★★</div>
@@ -2210,12 +2208,9 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     <a class="reaction-card" href="/reacciones/andrea.html" aria-label="Ver reacción completa de Andrea">
       <div class="reaction-media">
         <img src="/video3.jpg" alt="Reacción real de Andrea al escuchar su canción por primera vez" loading="lazy" decoding="async">
-        <div class="play-overlay" aria-hidden="true"></div>
-        <div class="play-badge" aria-hidden="true">▶</div>
-        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
-        <!-- FIX: quitado "ll" que te rompía la clase -->
         <div class="stars" aria-hidden="true">★★★★★</div>
         <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
         <div class="reaction-name">✔ Andrea R.</div>
@@ -2225,9 +2220,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     <a class="reaction-card" href="/reacciones/carlos.html" aria-label="Ver reacción completa de Carlos">
       <div class="reaction-media">
         <img src="/video4.jpg" alt="Reacción real de Carlos al escuchar su canción por primera vez" loading="lazy" decoding="async">
-        <div class="play-overlay" aria-hidden="true"></div>
-        <div class="play-badge" aria-hidden="true">▶</div>
-        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
         <div class="stars" aria-hidden="true">★★★★★</div>
@@ -2239,9 +2232,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     <a class="reaction-card" href="/reacciones/juan.html" aria-label="Ver reacción completa de Juan">
       <div class="reaction-media">
         <img src="/video5.jpg" alt="Reacción real de Juan al escuchar su canción por primera vez" loading="lazy" decoding="async">
-        <div class="play-overlay" aria-hidden="true"></div>
-        <div class="play-badge" aria-hidden="true">▶</div>
-        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
         <div class="stars" aria-hidden="true">★★★★★</div>
@@ -2253,9 +2244,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     <a class="reaction-card" href="/reacciones/teresa.html" aria-label="Ver reacción completa de Teresa">
       <div class="reaction-media">
         <img src="/video6.jpg" alt="Reacción real de Teresa al escuchar su canción por primera vez" loading="lazy" decoding="async">
-        <div class="play-overlay" aria-hidden="true"></div>
-        <div class="play-badge" aria-hidden="true">▶</div>
-        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
         <div class="stars" aria-hidden="true">★★★★★</div>
@@ -2267,9 +2256,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     <a class="reaction-card" href="/reacciones/sara.html" aria-label="Ver reacción completa de Sara">
       <div class="reaction-media">
         <img src="/video7.jpg" alt="Reacción real de Sara al escuchar su canción por primera vez" loading="lazy" decoding="async">
-        <div class="play-overlay" aria-hidden="true"></div>
-        <div class="play-badge" aria-hidden="true">▶</div>
-        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
         <div class="stars" aria-hidden="true">★★★★★</div>
@@ -2281,9 +2268,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
     <a class="reaction-card" href="/reacciones/maria.html" aria-label="Ver reacción completa de María">
       <div class="reaction-media">
         <img src="/video8.jpg" alt="Reacción real de María al escuchar su canción por primera vez" loading="lazy" decoding="async">
-        <div class="play-overlay" aria-hidden="true"></div>
-        <div class="play-badge" aria-hidden="true">▶</div>
-        <div class="play-label" aria-hidden="true">Ver reacción completa</div>
+        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
       </div>
       <div class="reaction-content">
         <div class="stars" aria-hidden="true">★★★★★</div>
@@ -2320,9 +2305,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 }
 
 /* ===== HEADER ===== */
-.lirya-reactions-header {
-  margin-bottom: 24px;
-}
+.lirya-reactions-header { margin-bottom: 24px; }
 
 /* ===== TÍTULO ===== */
 .lirya-reactions-title {
@@ -2351,13 +2334,11 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   gap: 6px;
   margin-bottom: 18px;
 }
-
 .rating-stars {
   font-size: 26px;
   color: #ff9f3f;
   letter-spacing: 4px;
 }
-
 .rating-note {
   font-size: 13px;
   opacity: 0.7;
@@ -2371,15 +2352,10 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding: 10px 20px;
-
-  /* Mejor UX en móvil */
-  -webkit-overflow-scrolling: touch;
-  scroll-padding-left: 20px;
 }
-
 .lirya-reactions-carousel::-webkit-scrollbar { display: none; }
 
-/* ===== TARJETA (es <a>) ===== */
+/* ===== TARJETA ===== */
 .reaction-card {
   min-width: 280px;
   max-width: 300px;
@@ -2393,74 +2369,59 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   text-decoration: none;
   color: inherit;
   outline: none;
-  display: block;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
 }
-
 .reaction-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 42px rgba(0,0,0,0.10);
+  box-shadow: 0 16px 34px rgba(0,0,0,0.10);
 }
-
 .reaction-card:focus-visible{
   outline: 3px solid rgba(255,159,63,0.55);
   outline-offset: 4px;
+  border-radius: 26px;
 }
 
-/* ===== MEDIA (imagen + play overlay) ===== */
-.reaction-media { position: relative; }
-
+/* ===== MEDIA: mantener “alto” y que se vea bien en vertical ===== */
+.reaction-media{
+  position: relative;
+  /* Altura fija para que NO se vuelva cuadrado */
+  height: 360px;
+  background: #000; /* por si tarda en cargar */
+}
 .reaction-media img{
   width: 100%;
+  height: 100%;
   display: block;
-  /* Evita saltos raros / mejora render */
-  aspect-ratio: 16 / 9;
+  /* Para que se vea como “portada de vídeo”, sin deformar */
   object-fit: cover;
+  object-position: center;
 }
 
-.play-overlay{
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.18);
-  transition: background 0.25s ease;
+/* ===== Overlay suave (sin icono play) ===== */
+.reaction-media::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to top, rgba(0,0,0,0.22), rgba(0,0,0,0.02));
+  pointer-events:none;
+  opacity: 1;
 }
 
-.play-badge{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-54%);
-  width: 64px;
-  height: 64px;
-  border-radius: 999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  color: #fff;
-  background: rgba(0,0,0,0.42);
-  backdrop-filter: blur(2px);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.35);
-  transition: transform 0.25s ease, background 0.25s ease;
-}
-
-.play-label{
+/* Etiqueta “Ver reacción completa” (NO es botón play) */
+.tap-pill{
   position:absolute;
   left: 50%;
-  top: calc(50% + 44px);
+  bottom: 14px;
   transform: translateX(-50%);
   font-size: 12.5px;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255,255,255,0.95);
   background: rgba(0,0,0,0.35);
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: 999px;
   letter-spacing: .2px;
-  white-space: nowrap;
-}
-
-.reaction-card:hover .play-overlay{ background: rgba(0,0,0,0.26); }
-.reaction-card:hover .play-badge{
-  transform: translate(-50%,-56%) scale(1.06);
-  background: rgba(0,0,0,0.52);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+  pointer-events:none;
 }
 
 /* ===== CONTENIDO ===== */
@@ -2468,14 +2429,11 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   background: #ffffff;
   padding: 20px 18px 26px;
 }
-
 .stars {
   color: #f2c98a;
   font-size: 14px;
   margin-bottom: 10px;
-  letter-spacing: 1px;
 }
-
 .reaction-text {
   font-family: "Playfair Display", serif;
   font-size: 15px;
@@ -2483,16 +2441,13 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   line-height: 1.6;
   margin-bottom: 12px;
 }
-
 .reaction-name {
   font-size: 14px;
   color: rgba(26, 26, 26, 0.6);
 }
 
 /* ===== CTA ===== */
-.lirya-reactions-cta {
-  margin-top: 40px;
-}
+.lirya-reactions-cta { margin-top: 40px; }
 
 .cta-text {
   font-family: "Playfair Display", serif;
@@ -2500,7 +2455,6 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   color: #1a1a1a;
   margin-bottom: 18px;
 }
-
 .cta-button {
   display: inline-block;
   background: linear-gradient(135deg, #ff9f3f, #e58b2a);
@@ -2512,12 +2466,10 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   font-weight: 600;
   text-decoration: none;
 }
-
 .cta-button:focus-visible{
   outline: 3px solid rgba(255,159,63,0.55);
   outline-offset: 4px;
 }
-
 .cta-note {
   margin-top: 14px;
   font-size: 13px;
@@ -2528,12 +2480,12 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
 /* ===== MÓVIL ===== */
 @media (max-width: 768px) {
   .lirya-reactions-title { font-size: 32px; }
-  .play-badge{ width: 58px; height: 58px; font-size: 24px; }
+  .reaction-media{ height: 420px; } /* en móvil suele quedar mejor más alto */
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
-  .reaction-card, .play-overlay, .play-badge{
+  .reaction-card{
     transition: none !important;
   }
 }
@@ -2839,6 +2791,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
