@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <!-- SEO -->
-  <title>Valoración real de Teresa sobre su canción personalizada | LIRYA</title>
+  <title>Valoración real de Teresa sobre una canción personalizada | LIRYA</title>
   <meta name="description" content="Mira el vídeo completo y la valoración real de Teresa tras regalar una canción personalizada creada con una historia real. Un regalo emocional y único con entrega rápida." />
   <link rel="canonical" href="https://www.lirya.studio/reacciones/teresa.html" />
   <meta name="robots" content="index,follow" />
@@ -14,7 +14,7 @@
   <meta property="og:site_name" content="LIRYA" />
   <meta property="og:type" content="video.other" />
   <meta property="og:title" content="Valoración real — Teresa | LIRYA" />
-  <meta property="og:description" content="Vídeo completo y valoración real de Teresa tras regalar una canción personalizada creada con una historia real." />
+  <meta property="og:description" content="Vídeo completo y valoración real tras regalar una canción personalizada creada con una historia real." />
   <meta property="og:url" content="https://www.lirya.studio/reacciones/teresa.html" />
   <meta property="og:image" content="https://www.lirya.studio/video6.jpg" />
 
@@ -125,26 +125,22 @@
       margin-top:14px;
     }
 
-    /* ✅ FIX DESKTOP: vídeo dentro de un marco con altura máxima */
-    .video-wrap{
+    /* ✅ FIX DESKTOP: mantener el look Yolanda pero evitar vídeo gigante/cortado */
+    video{
+      width:100%;
+      border-radius:18px;
       margin:14px 0 8px;
       background:#000;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.10);
-    }
 
-    video{
-      display:block;
-      width:100%;
-      height:auto;
-      background:#000;
-      border-radius:0;
+      /* NUEVO (sin cambiar estética): */
       max-height:72vh;
+      object-fit:contain;
     }
 
     @media (min-width: 900px){
-      video{max-height:560px;}
+      video{
+        max-height:560px; /* para que no te obligue a scroll en desktop */
+      }
     }
 
     .meta{
@@ -197,15 +193,53 @@
       margin-top:12px;
     }
 
+    .more{
+      margin-top:14px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:14px 16px;
+    }
+
+    .more h3{
+      margin:0 0 10px;
+      font-family:"Playfair Display",Georgia,serif;
+      color:var(--gold);
+      font-size:18px;
+    }
+
+    .links{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .small-link{
+      display:inline-block;
+      text-decoration:none;
+      color:#fff;
+      background:rgba(255,255,255,.10);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      opacity:.92;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+
+    .small-link:hover{opacity:1;transform:translateY(-1px)}
+    .small-link:focus-visible{outline:3px solid rgba(255,159,63,.55);outline-offset:4px}
+
     @media (max-width:520px){
       body{padding:16px}
       h1{font-size:24px}
+
+      /* en móvil dejamos el vídeo libre */
       video{max-height:none;}
     }
 
     @media (prefers-reduced-motion: reduce){
-      .btn{transition:none}
-      .btn:hover{transform:none}
+      .btn,.small-link{transition:none}
+      .btn:hover,.small-link:hover{transform:none}
     }
   </style>
 </head>
@@ -222,8 +256,9 @@
     </div>
 
     <p class="sub">
-      <strong>Importante:</strong> Teresa es quien <strong>regaló</strong> la canción y dejó esta valoración.
-      El vídeo muestra la reacción real al escucharla por primera vez.
+      Teresa es quien <strong>regaló</strong> la canción y dejó esta valoración.
+      El vídeo muestra la <strong>reacción real</strong> al escucharla por primera vez.
+      Si quieres regalar un momento que se recuerde, esto es lo que suele pasar cuando la letra encaja de verdad.
     </p>
 
     <div class="card">
@@ -232,12 +267,11 @@
         <span class="pill">🎧 Consejo: ponte auriculares</span>
       </div>
 
-      <div class="video-wrap">
-        <video controls playsinline preload="metadata" poster="/video6.jpg">
-          <source src="/video6.mp4" type="video/mp4">
-          Tu navegador no soporta vídeo HTML5.
-        </video>
-      </div>
+      <!-- Importante: metadata para que cargue el poster y no haga raro en móvil -->
+      <video controls playsinline preload="metadata" poster="/video6.jpg">
+        <source src="/video6.mp4" type="video/mp4">
+        Tu navegador no soporta vídeo HTML5.
+      </video>
 
       <div class="meta">
         <span class="pill">🕒 Vídeo completo</span>
@@ -249,13 +283,26 @@
     <div class="after">
       <h2>¿Quieres regalar una reacción así?</h2>
       <p>
-        Cuéntanos vuestra historia (sin escribir perfecto) y la convertimos en una canción personalizada.
+        Cuéntanos vuestra historia (sin escribir perfecto) y la convertimos en una canción personalizada con el estilo que elijas.
         <strong>Revisión incluida</strong> según la tarifa.
       </p>
 
       <div class="cta-bottom">
         <a class="btn btn-primary" href="/#formulario-lirya">Empezar ahora</a>
         <a class="btn btn-ghost" href="/">Volver al inicio</a>
+      </div>
+    </div>
+
+    <div class="more" aria-label="Ver otras reacciones">
+      <h3>Ver otras reacciones</h3>
+      <div class="links">
+        <a class="small-link" href="/reacciones/yolanda.html">Yolanda</a>
+        <a class="small-link" href="/reacciones/laura.html">Laura</a>
+        <a class="small-link" href="/reacciones/andrea.html">Andrea</a>
+        <a class="small-link" href="/reacciones/carlos.html">Carlos</a>
+        <a class="small-link" href="/reacciones/juan.html">Juan</a>
+        <a class="small-link" href="/reacciones/sara.html">Sara</a>
+        <a class="small-link" href="/reacciones/maria.html">María</a>
       </div>
     </div>
 
