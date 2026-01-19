@@ -6,7 +6,7 @@
 
   <!-- SEO -->
   <title>Valoración real de Teresa sobre una canción personalizada | LIRYA</title>
-  <meta name="description" content="Mira el vídeo completo y la valoración real de Teresa tras regalar una canción personalizada creada con una historia real. Un regalo emocional y único con entrega rápida." />
+  <meta name="description" content="Vídeo completo y valoración real de Teresa tras regalar una canción personalizada creada con una historia real. Un regalo emocional y único con entrega rápida." />
   <link rel="canonical" href="https://www.lirya.studio/reacciones/teresa.html" />
   <meta name="robots" content="index,follow" />
 
@@ -14,9 +14,11 @@
   <meta property="og:site_name" content="LIRYA" />
   <meta property="og:type" content="video.other" />
   <meta property="og:title" content="Valoración real — Teresa | LIRYA" />
-  <meta property="og:description" content="Vídeo completo y valoración real tras regalar una canción personalizada creada con una historia real." />
+  <meta property="og:description" content="Vídeo completo y valoración real de Teresa tras regalar una canción personalizada creada con una historia real." />
   <meta property="og:url" content="https://www.lirya.studio/reacciones/teresa.html" />
   <meta property="og:image" content="https://www.lirya.studio/video6.jpg" />
+  <meta property="og:video" content="https://www.lirya.studio/video6.mp4" />
+  <meta property="og:video:type" content="video/mp4" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -29,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- JSON-LD (simple y seguro) -->
+  <!-- JSON-LD: WebPage + VideoObject (SEO PRO sin inventar datos) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -45,6 +47,26 @@
       "@type":"Service",
       "name":"Canciones personalizadas",
       "provider":{"@type":"Organization","name":"LIRYA","url":"https://www.lirya.studio/"}
+    },
+    "primaryImageOfPage":{
+      "@type":"ImageObject",
+      "url":"https://www.lirya.studio/video6.jpg"
+    },
+    "video":{
+      "@type":"VideoObject",
+      "name":"Valoración real de Teresa tras regalar una canción personalizada",
+      "description":"Vídeo completo y valoración real de Teresa tras regalar una canción personalizada creada con una historia real.",
+      "thumbnailUrl":[
+        "https://www.lirya.studio/video6.jpg"
+      ],
+      "contentUrl":"https://www.lirya.studio/video6.mp4",
+      "embedUrl":"https://www.lirya.studio/reacciones/teresa.html",
+      "inLanguage":"es",
+      "publisher":{
+        "@type":"Organization",
+        "name":"LIRYA",
+        "url":"https://www.lirya.studio/"
+      }
     }
   }
   </script>
@@ -125,22 +147,26 @@
       margin-top:14px;
     }
 
-    /* ✅ FIX DESKTOP: mantener el look Yolanda pero evitar vídeo gigante/cortado */
-    video{
-      width:100%;
-      border-radius:18px;
+    /* ✅ MISMO FIX QUE YOLANDA (clave) */
+    .video-wrap{
       margin:14px 0 8px;
       background:#000;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+    }
 
-      /* NUEVO (sin cambiar estética): */
+    video{
+      display:block;
+      width:100%;
+      height:auto;
+      background:#000;
+      border-radius:0;
       max-height:72vh;
-      object-fit:contain;
     }
 
     @media (min-width: 900px){
-      video{
-        max-height:560px; /* para que no te obligue a scroll en desktop */
-      }
+      video{ max-height:560px; }
     }
 
     .meta{
@@ -232,8 +258,6 @@
     @media (max-width:520px){
       body{padding:16px}
       h1{font-size:24px}
-
-      /* en móvil dejamos el vídeo libre */
       video{max-height:none;}
     }
 
@@ -256,8 +280,8 @@
     </div>
 
     <p class="sub">
-      Teresa es quien <strong>regaló</strong> la canción y dejó esta valoración.
-      El vídeo muestra la <strong>reacción real</strong> al escucharla por primera vez.
+      <strong>Importante:</strong> Teresa es quien <strong>regaló</strong> la canción y dejó esta valoración.
+      El vídeo muestra la reacción real al escucharla por primera vez.
       Si quieres regalar un momento que se recuerde, esto es lo que suele pasar cuando la letra encaja de verdad.
     </p>
 
@@ -267,11 +291,12 @@
         <span class="pill">🎧 Consejo: ponte auriculares</span>
       </div>
 
-      <!-- Importante: metadata para que cargue el poster y no haga raro en móvil -->
-      <video controls playsinline preload="metadata" poster="/video6.jpg">
-        <source src="/video6.mp4" type="video/mp4">
-        Tu navegador no soporta vídeo HTML5.
-      </video>
+      <div class="video-wrap">
+        <video controls playsinline preload="metadata" poster="/video6.jpg">
+          <source src="/video6.mp4" type="video/mp4">
+          Tu navegador no soporta vídeo HTML5.
+        </video>
+      </div>
 
       <div class="meta">
         <span class="pill">🕒 Vídeo completo</span>
@@ -293,8 +318,8 @@
       </div>
     </div>
 
-    <div class="more" aria-label="Ver otras reacciones">
-      <h3>Ver otras reacciones</h3>
+    <div class="more" aria-label="Ver otras valoraciones">
+      <h3>Ver otras valoraciones</h3>
       <div class="links">
         <a class="small-link" href="/reacciones/yolanda.html">Yolanda</a>
         <a class="small-link" href="/reacciones/laura.html">Laura</a>
