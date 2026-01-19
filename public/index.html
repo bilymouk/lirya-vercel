@@ -1211,9 +1211,7 @@ Objetivos:
   box-shadow: 0 0 28px rgba(255,255,255,0.35);
 }
 
-/* ===== PLAYING PULSE (latido) =====
-Animamos SOLO la imagen cuando está reproduciendo.
-*/
+/* ===== PLAYING PULSE (latido) ===== */
 @keyframes liryaPlayingPulse {
   0%   { transform: scale(1); }
   50%  { transform: scale(0.94); }
@@ -1377,17 +1375,35 @@ Animamos SOLO la imagen cuando está reproduciendo.
 
   let currentCard = null;
   let pendingCard = null;
+  let loadingTimeoutId = null;
 
   function clearStateClasses(){
     root.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
     root.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
   }
 
-  function stopCurrent() {
+  // ✅ ABORT real: corta reproducción + corta descarga/carga anterior
+  function hardResetAudio(){
+    try { player.pause(); } catch(_) {}
+    try { player.currentTime = 0; } catch(_) {}
+
+    // Esto fuerza a abortar la carga anterior en muchos navegadores
     try {
-      player.pause();
-      player.currentTime = 0;
+      player.removeAttribute('src');
+      player.load();
     } catch(_) {}
+  }
+
+  function clearLoadingTimeout(){
+    if (loadingTimeoutId) {
+      clearTimeout(loadingTimeoutId);
+      loadingTimeoutId = null;
+    }
+  }
+
+  function stopCurrent() {
+    clearLoadingTimeout();
+    hardResetAudio();
     clearStateClasses();
     currentCard = null;
     pendingCard = null;
@@ -1405,21 +1421,29 @@ Animamos SOLO la imagen cuando está reproduciendo.
       return;
     }
 
-    // Estado inmediato: loading (aunque el audio tarde o no exista)
+    // Paramos lo que haya (incluye abort real)
+    stopCurrent();
+
+    // Estado inmediato: loading
     pendingCard = card;
     setLoading(card);
 
     const abs = new URL(src, window.location.href).href;
 
-    if (player.src !== abs) {
-      player.src = abs;
-      try { player.load(); } catch(_) {}
-    }
+    // Asignar src limpio y cargar
+    player.src = abs;
+    try { player.load(); } catch(_) {}
+
+    // Failsafe: si en 8s no arranca, limpiamos (evita loading infinito)
+    clearLoadingTimeout();
+    loadingTimeoutId = setTimeout(() => {
+      // Si sigue sin reproducir, limpiamos estado
+      stopCurrent();
+    }, 8000);
 
     const playPromise = player.play();
     if (playPromise && typeof playPromise.catch === 'function') {
       playPromise.catch(() => {
-        // Si falla (404, bloqueo, etc.) => limpiamos (no se queda “loading” eterno)
         stopCurrent();
       });
     }
@@ -1427,19 +1451,32 @@ Animamos SOLO la imagen cuando está reproduciendo.
 
   // ✅ Solo marcamos .playing cuando el audio realmente suena
   player.addEventListener('playing', () => {
+    clearLoadingTimeout();
     if (!pendingCard) return;
     clearStateClasses();
     currentCard = pendingCard;
     currentCard.classList.add('playing');
+    pendingCard = null;
+  });
+
+  // También cuenta como “ya está listo”
+  player.addEventListener('canplay', () => {
+    // Si está en loading, mantenemos loading hasta playing real,
+    // pero al menos sabemos que el audio se cargó y no está muerto.
   });
 
   // Termina -> limpiar
   player.addEventListener('ended', stopCurrent);
 
-  // Error de carga (mp3 inexistente, etc.) -> limpiar
+  // Error de carga -> limpiar
   player.addEventListener('error', stopCurrent);
 
-  // Si el usuario pausa manualmente en mitad -> limpiar
+  // Stalled/waiting: si se queda pillado, no te deja en infinito
+  player.addEventListener('stalled', () => {
+    // lo dejamos, pero si pasan 8s el timeout lo limpia
+  });
+
+  // Pausa manual en mitad -> limpiar
   player.addEventListener('pause', () => {
     const d = Number.isFinite(player.duration) ? player.duration : 0;
     if (player.currentTime > 0 && (d === 0 || player.currentTime < d)) {
@@ -3151,6 +3188,7 @@ Animamos SOLO la imagen cuando está reproduciendo.
   </div>
 
 </section>
+
 
 
 
