@@ -178,7 +178,7 @@
       font-size:1.05rem;
       line-height:1.55;
       opacity:.95;
-      margin-bottom:6px;
+      margin-bottom:2px; /* CHANGED: más juntas en desktop */
     }
 
     .hero-btn{
@@ -205,7 +205,7 @@
 
     /* PHONE DESKTOP (bajado + flotando) */
     .hero-phone{
-      width:420px;
+      width:315px; /* CHANGED: 25% más pequeña (420 -> 315) */
       height:auto;
       cursor:pointer;
       border-radius:18px;
@@ -500,7 +500,7 @@
           <li>Entrega garantizada antes de San Valentín</li>
         </ul>
 
-        <a href="#formulario-lirya" class="hero-btn">Convertir nuestra historia en canción</a>
+        <a href="#formulario-lirya" class="hero-btn">Crear mi canción ahora</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
 
@@ -541,7 +541,7 @@
         <li>Entrega antes de San Valentín</li>
       </ul>
 
-      <a href="#formulario-lirya" class="hero-btn">Convertir nuestra historia en canción</a>
+      <a href="#formulario-lirya" class="hero-btn">Crear mi canción ahora</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
 
@@ -580,6 +580,24 @@
   const closeBtn = document.getElementById("urgency-close");
   const ctaBtn = document.getElementById("urgency-cta");
 
+  const STORAGE_KEY = "lirya_urgency_hidden_until";
+  const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
+
+  function canShowCard(){
+    try{
+      const until = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
+      return !until || Date.now() > until;
+    }catch(_e){
+      return true;
+    }
+  }
+
+  function setHiddenFor12h(){
+    try{
+      localStorage.setItem(STORAGE_KEY, String(Date.now() + TWELVE_HOURS_MS));
+    }catch(_e){}
+  }
+
   function showCard(){
     if (!card) return;
     card.classList.add("is-visible");
@@ -588,19 +606,22 @@
   function hideCard(){
     if (!card) return;
     card.classList.remove("is-visible");
+    setHiddenFor12h();
   }
 
   if (closeBtn) closeBtn.addEventListener("click", hideCard);
 
-  // Aparece SIEMPRE al cargar (en cada recarga) y con delay de 3s
+  // Aparece max 1 vez cada 12h (por cliente) y con delay de 10s
   window.addEventListener("load", ()=>{
-    setTimeout(showCard, 3000);
+    setTimeout(()=>{
+      if (canShowCard()) showCard();
+    }, 10000);
   });
 
-  // Si clican CTA, la ocultamos para no molestar
+  // Si clican CTA, la ocultamos para no molestar (y no reaparece 12h)
   if (ctaBtn) ctaBtn.addEventListener("click", hideCard);
 
-  // Cerrar con ESC
+  // Cerrar con ESC (y no reaparece 12h)
   document.addEventListener("keydown", (e)=>{
     if (e.key === "Escape" && card && card.classList.contains("is-visible")){
       hideCard();
@@ -2814,6 +2835,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
