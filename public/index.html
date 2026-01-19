@@ -1371,14 +1371,14 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
 
 <!-- =================================
    CÓMO FUNCIONA
-   (VERSIÓN FINAL DEFINITIVA)
+   (VERSIÓN FINAL DEFINITIVA - FIXES)
 ================================= -->
 <style>
 .lirya-cf-section {
   background: #ffffff;
   padding: 110px 20px;
   text-align: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 /* TÍTULO */
@@ -1496,14 +1496,14 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
 }
 </style>
 
-<section class="lirya-cf-section">
-  <h2 class="lirya-cf-title">Cómo funciona</h2>
-  <div class="lirya-cf-divider"></div>
+<section class="lirya-cf-section" aria-labelledby="lirya-how-title">
+  <h2 class="lirya-cf-title" id="lirya-how-title">Cómo funciona</h2>
+  <div class="lirya-cf-divider" aria-hidden="true"></div>
 
   <div class="lirya-cf-grid">
 
     <div class="lirya-cf-card">
-      <div class="lirya-cf-step">1</div>
+      <div class="lirya-cf-step" aria-hidden="true">1</div>
       <h3>Cuéntanos vuestra historia</h3>
       <p>
         Rellena un formulario sencillo en menos de 3 minutos.
@@ -1512,7 +1512,7 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
     </div>
 
     <div class="lirya-cf-card">
-      <div class="lirya-cf-step">2</div>
+      <div class="lirya-cf-step" aria-hidden="true">2</div>
       <h3>Creamos tu canción</h3>
       <p>
         Transformamos vuestra historia en una canción personalizada
@@ -1521,7 +1521,7 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
     </div>
 
     <div class="lirya-cf-card">
-      <div class="lirya-cf-step">3</div>
+      <div class="lirya-cf-step" aria-hidden="true">3</div>
       <h3>La recibes y la revisamos</h3>
       <p>
         La recibirás dentro del plazo de tu tarifa con la mejor calidad de sonido.
@@ -1533,24 +1533,32 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
 </section>
 
 <script>
-/* Animación escalera móvil */
-if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const cards = document.querySelectorAll('.lirya-cf-card');
+/* Animación escalera móvil (robusta) */
+(function () {
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+  if (!isMobile || reduce) return;
+
+  const cards = Array.from(document.querySelectorAll('.lirya-cf-card'));
+  if (!cards.length) return;
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('is-visible');
-        }, index * 150);
-        observer.unobserve(entry.target);
-      }
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+
+      const i = cards.indexOf(entry.target);
+      setTimeout(() => {
+        entry.target.classList.add('is-visible');
+      }, Math.max(0, i) * 150);
+
+      observer.unobserve(entry.target);
     });
   }, { threshold: 0.25 });
 
   cards.forEach(card => observer.observe(card));
-}
+})();
 </script>
+
 
 <!-- ================== FORMULARIO LIRYA (FINAL DEFINITIVO COMPLETO) ================== -->
 <section id="formulario-lirya">
@@ -2850,6 +2858,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
