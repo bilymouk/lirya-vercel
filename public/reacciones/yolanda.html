@@ -6,7 +6,7 @@
 
   <!-- SEO -->
   <title>Valoración real de Yolanda sobre su canción personalizada | LIRYA</title>
-  <meta name="description" content="Vídeo completo y valoración real de Yolanda tras regalar una canción personalizada como regalo de aniversario. Una reacción auténtica y emocional." />
+  <meta name="description" content="Vídeo completo y valoración real de Yolanda tras regalar una canción personalizada creada con una historia real. Un regalo emocional y único con entrega rápida." />
   <link rel="canonical" href="https://www.lirya.studio/reacciones/yolanda.html" />
   <meta name="robots" content="index,follow" />
 
@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- JSON-LD: WebPage + VideoObject -->
+  <!-- JSON-LD: WebPage + VideoObject (SEO PRO sin inventar datos) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -46,11 +46,7 @@
     "about":{
       "@type":"Service",
       "name":"Canciones personalizadas",
-      "provider":{
-        "@type":"Organization",
-        "name":"LIRYA",
-        "url":"https://www.lirya.studio/"
-      }
+      "provider":{"@type":"Organization","name":"LIRYA","url":"https://www.lirya.studio/"}
     },
     "primaryImageOfPage":{
       "@type":"ImageObject",
@@ -111,6 +107,7 @@
       margin:0;
       font-family:"Playfair Display",Georgia,serif;
       font-weight:800;
+      letter-spacing:.2px;
       line-height:1.12;
     }
 
@@ -130,7 +127,13 @@
       border-radius:999px;
       font-family:"Playfair Display",Georgia,serif;
       font-weight:700;
+      letter-spacing:.2px;
+      transition:transform .2s ease, opacity .2s ease;
+      will-change:transform;
     }
+
+    .btn:hover{transform:translateY(-1px)}
+    .btn:focus-visible{outline:3px solid rgba(255,159,63,.55);outline-offset:4px}
 
     .btn-primary{background:linear-gradient(135deg,var(--orange1),var(--orange2))}
     .btn-ghost{background:rgba(255,255,255,.14)}
@@ -138,43 +141,130 @@
 
     .card{
       background:var(--card);
+      border:1px solid rgba(255,255,255,.10);
       border-radius:18px;
       padding:14px 16px;
       margin-top:14px;
     }
 
+    /* FIX DESKTOP: video no gigante */
     .video-wrap{
       margin:14px 0 8px;
       background:#000;
       border-radius:18px;
       overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
     }
 
     video{
+      display:block;
       width:100%;
+      height:auto;
+      background:#000;
+      border-radius:0;
       max-height:72vh;
     }
 
-    @media (min-width:900px){
-      video{max-height:560px;}
+    @media (min-width: 900px){
+      video{ max-height:560px; }
     }
 
     .meta{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
+      align-items:center;
       justify-content:space-between;
       margin-top:10px;
     }
 
     .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
       padding:8px 12px;
       border-radius:999px;
       background:var(--card2);
       font-size:13px;
+      color:var(--text);
+      opacity:.92;
     }
 
     .stars{color:var(--orange1);letter-spacing:2px}
+
+    .after{
+      margin-top:14px;
+      display:grid;
+      gap:10px;
+    }
+
+    .after h2{
+      margin:0;
+      font-family:"Playfair Display",Georgia,serif;
+      color:#fff;
+      font-size:20px;
+      line-height:1.2;
+    }
+
+    .after p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .cta-bottom{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+
+    .more{
+      margin-top:14px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:14px 16px;
+    }
+
+    .more h3{
+      margin:0 0 10px;
+      font-family:"Playfair Display",Georgia,serif;
+      color:var(--gold);
+      font-size:18px;
+    }
+
+    .links{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .small-link{
+      display:inline-block;
+      text-decoration:none;
+      color:#fff;
+      background:rgba(255,255,255,.10);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      opacity:.92;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+
+    .small-link:hover{opacity:1;transform:translateY(-1px)}
+    .small-link:focus-visible{outline:3px solid rgba(255,159,63,.55);outline-offset:4px}
+
+    @media (max-width:520px){
+      body{padding:16px}
+      h1{font-size:24px}
+      video{max-height:none;}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .btn,.small-link{transition:none}
+      .btn:hover,.small-link:hover{transform:none}
+    }
   </style>
 </head>
 
@@ -192,29 +282,63 @@
     <p class="sub">
       <strong>Importante:</strong> Yolanda es quien <strong>regaló</strong> la canción y dejó esta valoración.
       El vídeo muestra la reacción real al escucharla por primera vez.
+      Si quieres regalar un momento que se recuerde, esto es lo que suele pasar cuando la letra encaja de verdad.
     </p>
 
-    <!-- 🔥 BLOQUE SEO NUEVO -->
+    <!-- ✅ BLOQUE SEO ON-PAGE (NUEVO) -->
     <p class="sub">
-      Yolanda encargó esta canción personalizada como <strong>regalo de aniversario</strong>.
-      Buscaba sorprender con algo único que reflejara momentos importantes de su historia.
-      La reacción que se ve en el vídeo es completamente real y muestra lo que ocurre cuando
-      una letra conecta de verdad.
+      Yolanda encargó una <strong>canción personalizada</strong> como regalo emocional para sorprender a una persona especial.
+      Este tipo de regalo funciona porque transforma una historia real en una letra que encaja, emociona y se recuerda.
+      Si estás buscando un regalo diferente, una canción personalizada es una forma única de decir lo que cuesta expresar.
     </p>
 
     <div class="card">
       <div class="meta">
-        <span class="pill"><span class="stars">★★★★★</span> Valoración real</span>
-        <span class="pill">🎧 Ponte auriculares</span>
+        <span class="pill"><span class="stars" aria-hidden="true">★★★★★</span> Valoración real</span>
+        <span class="pill">🎧 Consejo: ponte auriculares</span>
       </div>
 
       <div class="video-wrap">
         <video controls playsinline preload="metadata" poster="/video1.jpg">
           <source src="/video1.mp4" type="video/mp4">
+          Tu navegador no soporta vídeo HTML5.
         </video>
+      </div>
+
+      <div class="meta">
+        <span class="pill">🕒 Vídeo completo</span>
+        <a class="btn btn-soft" href="/#formulario-lirya">Quiero la mía</a>
+        <a class="btn btn-ghost" href="/reacciones/laura.html">Siguiente: Laura →</a>
+      </div>
+    </div>
+
+    <div class="after">
+      <h2>¿Quieres regalar una reacción así?</h2>
+      <p>
+        Cuéntanos vuestra historia (sin escribir perfecto) y la convertimos en una canción personalizada con el estilo que elijas.
+        <strong>Revisión incluida</strong> según la tarifa.
+      </p>
+
+      <div class="cta-bottom">
+        <a class="btn btn-primary" href="/#formulario-lirya">Empezar ahora</a>
+        <a class="btn btn-ghost" href="/">Volver al inicio</a>
+      </div>
+    </div>
+
+    <div class="more" aria-label="Ver otras valoraciones">
+      <h3>Ver otras valoraciones</h3>
+      <div class="links">
+        <a class="small-link" href="/reacciones/laura.html">Laura</a>
+        <a class="small-link" href="/reacciones/andrea.html">Andrea</a>
+        <a class="small-link" href="/reacciones/carlos.html">Carlos</a>
+        <a class="small-link" href="/reacciones/juan.html">Juan</a>
+        <a class="small-link" href="/reacciones/teresa.html">Teresa</a>
+        <a class="small-link" href="/reacciones/sara.html">Sara</a>
+        <a class="small-link" href="/reacciones/maria.html">María</a>
       </div>
     </div>
 
   </div>
 </body>
 </html>
+
