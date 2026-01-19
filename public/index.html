@@ -913,7 +913,16 @@
   })();
 </script>
 
-<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (ACTUALIZADO) =====
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (VERSIÓN FINAL LIMPIA) =====
+Objetivos:
+- Un solo <audio> estable
+- Click en tarjetas y viñetas -> reproduce/pausa (toggle)
+- Al clicar otra -> para la anterior + activa estado visual en la nueva
+- Sin parches, sin !important, sin duplicidades
+- Feedback visual:
+  - example-card: clase .playing (ya existía)
+  - style-card: clase .playing (ya existía)
+  - Animación visible y limpia SOLO cuando está reproduciendo
 =============================================================== -->
 
 <style>
@@ -1117,32 +1126,21 @@
   border-radius: 22px;
 }
 
-/* ===== ANIMACION PLAYING (A PRUEBA DE CSS QUE PISA) ===== */
-@keyframes liryaPulseScale {
-  0%   { transform: scale(1) translateZ(0); }
-  50%  { transform: scale(0.94) translateZ(0); }
-  100% { transform: scale(1) translateZ(0); }
+/* ===== FEEDBACK PLAYING (LIMPIO Y CONSISTENTE) =====
+Animamos SOLO la imagen (más suave, no rompe layout).
+Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
+*/
+@keyframes liryaPlayingPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
 }
 
-/* Animar el CONTENEDOR (muy visible) */
-.example-card.playing,
-.style-card.playing {
-  animation: liryaPulseScale 1.6s ease-in-out infinite !important;
-  will-change: transform;
-  transform-origin: center;
-}
-
-/* Animar TAMBIEN la IMAGEN (redundante para que se vea sí o sí) */
 .example-card.playing img,
 .style-card.playing img {
-  animation: liryaPulseScale 1.6s ease-in-out infinite !important;
+  animation: liryaPlayingPulse 1.8s ease-in-out infinite;
   will-change: transform;
   transform-origin: center;
-}
-
-/* Evitar que el hover pise el transform mientras está reproduciendo */
-.example-card.playing:hover {
-  transform: none !important;
 }
 
 /* FLECHAS */
@@ -1269,6 +1267,7 @@
       </div>
     </div>
 
+    <!-- Player único, invisible -->
     <audio id="lirya-examples-player" preload="none" style="display:none;"></audio>
 
   </div>
@@ -1295,18 +1294,23 @@
   }
 
   function playForCard(card, src){
+    // Toggle: si tocas la misma card -> parar
     if (currentCard === card) {
       stopCurrent();
       return;
     }
 
+    // Parar lo anterior + limpiar UI
     stopCurrent();
 
+    // Activar UI en la nueva
     currentCard = card;
     card.classList.add('playing');
 
+    // URL absoluta para comparar bien
     const abs = new URL(src, window.location.href).href;
 
+    // Cambiar src solo si es distinto (más estable)
     if (player.src !== abs) {
       player.src = abs;
       try { player.load(); } catch(_) {}
@@ -1315,23 +1319,28 @@
     const playPromise = player.play();
     if (playPromise && typeof playPromise.catch === 'function') {
       playPromise.catch(() => {
+        // Si falla reproducción, reseteamos UI
         stopCurrent();
       });
     }
 
+    // Cuando termina, limpiamos UI
     player.onended = stopCurrent;
   }
 
+  // Cards de tarifas (ejemplos reales)
   document.querySelectorAll('.example-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
 
     card.addEventListener('click', (e) => {
+      // Si el click fue en el CTA, no tocar el audio
       if (e.target && e.target.tagName === 'A') return;
       playForCard(card, src);
     });
   });
 
+  // Cards de estilos musicales
   document.querySelectorAll('.style-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
@@ -1341,12 +1350,15 @@
     });
   });
 
+  // Si el usuario pausa manualmente (por sistema), limpiamos UI
   player.addEventListener('pause', () => {
+    // Evita limpiar al inicio/fin; solo si es pausa manual en mitad
     if (player.currentTime > 0 && player.currentTime < player.duration) {
       stopCurrent();
     }
   });
 
+  // Carrusel
   window.scrollStyles = function (dir) {
     const el = document.getElementById('stylesCarousel');
     if (!el) return;
@@ -2838,6 +2850,7 @@ if (window.innerWidth <= 900 && !window.matchMedia('(prefers-reduced-motion: red
   </div>
 
 </section>
+
 
 
 
