@@ -1,11 +1,16 @@
 import Stripe from "stripe";
 import getRawBody from "raw-body";
+import { fetch as undiciFetch } from "undici";
 
 export const config = { api: { bodyParser: false } };
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16",
 });
+
+function getFetch() {
+  return typeof globalThis.fetch === "function" ? globalThis.fetch : undiciFetch;
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
@@ -27,14 +32,18 @@ export default async function handler(req, res) {
   }
 
   try {
-    if (event.type === "checkout.session.completed") {
+    const relevant =
+      event.type === "checkout.session.completed" ||
+      event.type === "checkout.session.async_payment_succeeded"; // opcional, pero pro
+
+    if (relevant) {
       const session = event.data.object;
 
-      // ✅ Solo si está pagado de verdad
       if (session.payment_status !== "paid") {
-        console.log("ℹ️ Session completed but not paid:", {
+        console.log("ℹ️ Session not paid:", {
           sessionId: session.id,
           status: session.payment_status,
+          type: event.type,
         });
         return res.status(200).json({ received: true, ignored: true });
       }
@@ -42,11 +51,9 @@ export default async function handler(req, res) {
       const MAKE_WEBHOOK_URL = (process.env.MAKE_WEBHOOK_URL_PAID || "").trim();
       if (!MAKE_WEBHOOK_URL) {
         console.error("❌ Falta MAKE_WEBHOOK_URL_PAID en env");
-        // 500 => Stripe reintenta (no pierdes el evento)
         return res.status(500).send("Server misconfigured");
       }
 
-      // ✅ Idempotencia: manda event.id para dedupe en Make/Airtable
       const payload = {
         stripe_event_id: event.id,
         stripe_session_id: session.id,
@@ -58,7 +65,8 @@ export default async function handler(req, res) {
         estado_pago: "PAGADO",
       };
 
-      const r = await fetch(MAKE_WEBHOOK_URL, {
+      const doFetch = getFetch();
+      const r = await doFetch(MAKE_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -67,14 +75,10 @@ export default async function handler(req, res) {
       if (!r.ok) {
         const t = await r.text().catch(() => "");
         console.error("❌ Make no OK:", r.status, t);
-        // 500 => Stripe reintenta
         return res.status(500).send("Make webhook failed");
       }
 
-      console.log("✅ Pago procesado y enviado a Make:", {
-        eventId: event.id,
-        sessionId: session.id,
-      });
+      console.log("✅ Pago enviado a Make:", { eventId: event.id, sessionId: session.id });
     }
 
     return res.status(200).json({ received: true });
