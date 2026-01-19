@@ -912,18 +912,7 @@
     }
   })();
 </script>
-
-<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (VERSIÓN FINAL LIMPIA) =====
-Objetivos:
-- Un solo <audio> estable
-- Click en tarjetas y viñetas -> reproduce/pausa (toggle)
-- Al clicar otra -> para la anterior + activa estado visual en la nueva
-- Sin parches, sin !important, sin duplicidades
-- Feedback visual:
-  - example-card: clase .playing (ya existía)
-  - style-card: clase .playing (ya existía)
-  - Animación visible y limpia SOLO cuando está reproduciendo
-=============================================================== -->
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (REPARADA Y ROBUSTA) ===== -->
 
 <style>
 .examples {
@@ -938,6 +927,7 @@ Objetivos:
   position: absolute;
   inset: 0;
   background: rgba(5, 8, 25, 0.78);
+  pointer-events: none; /* ✅ FIX: el overlay nunca bloqueará hover/click */
 }
 
 .examples-inner {
@@ -997,8 +987,17 @@ Objetivos:
   cursor: pointer;
 }
 
-.example-card:hover {
-  transform: translateY(-8px);
+/* Hover real (PC) */
+@media (hover:hover) and (pointer:fine) {
+  .example-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 45px rgba(255,255,255,0.45);
+  }
+}
+
+/* Feedback tap móvil */
+.example-card:active {
+  transform: translateY(-4px);
   box-shadow: 0 0 45px rgba(255,255,255,0.45);
 }
 
@@ -1119,17 +1118,27 @@ Objetivos:
   cursor: pointer;
 }
 
+/* Hover real (PC) también para viñetas */
+@media (hover:hover) and (pointer:fine) {
+  .style-card:hover img {
+    transform: translateY(-4px);
+  }
+}
+
+/* Tap feedback móvil */
+.style-card:active img {
+  transform: translateY(-2px);
+}
+
 .style-card img {
   width: 100%;
   height: 300px;
   object-fit: contain;
   border-radius: 22px;
+  transition: transform .25s ease; /* ✅ para hover/tap suave */
 }
 
-/* ===== FEEDBACK PLAYING (LIMPIO Y CONSISTENTE) =====
-Animamos SOLO la imagen (más suave, no rompe layout).
-Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
-*/
+/* ===== FEEDBACK PLAYING (LIMPIO Y CONSISTENTE) ===== */
 @keyframes liryaPlayingPulse {
   0%   { transform: scale(1); }
   50%  { transform: scale(0.94); }
@@ -1275,13 +1284,14 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
 
 <script>
 (function () {
+  const root = document.querySelector('.examples');
   const player = document.getElementById('lirya-examples-player');
-  if (!player) return;
+  if (!root || !player) return;
 
   let currentCard = null;
 
   function clearPlayingClasses(){
-    document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
+    root.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
   }
 
   function stopCurrent() {
@@ -1307,10 +1317,8 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
     currentCard = card;
     card.classList.add('playing');
 
-    // URL absoluta para comparar bien
     const abs = new URL(src, window.location.href).href;
 
-    // Cambiar src solo si es distinto (más estable)
     if (player.src !== abs) {
       player.src = abs;
       try { player.load(); } catch(_) {}
@@ -1318,30 +1326,27 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
 
     const playPromise = player.play();
     if (playPromise && typeof playPromise.catch === 'function') {
-      playPromise.catch(() => {
-        // Si falla reproducción, reseteamos UI
-        stopCurrent();
-      });
+      playPromise.catch(() => stopCurrent());
     }
-
-    // Cuando termina, limpiamos UI
-    player.onended = stopCurrent;
   }
 
+  // ✅ no pisar handlers
+  player.addEventListener('ended', stopCurrent);
+
   // Cards de tarifas (ejemplos reales)
-  document.querySelectorAll('.example-card').forEach(card => {
+  root.querySelectorAll('.example-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
 
     card.addEventListener('click', (e) => {
-      // Si el click fue en el CTA, no tocar el audio
-      if (e.target && e.target.tagName === 'A') return;
+      // ✅ Si el click fue en el CTA (o dentro), no tocar el audio
+      if (e.target && e.target.closest('a')) return;
       playForCard(card, src);
     });
   });
 
   // Cards de estilos musicales
-  document.querySelectorAll('.style-card').forEach(card => {
+  root.querySelectorAll('.style-card').forEach(card => {
     const src = card.dataset.audio;
     if (!src) return;
 
@@ -1350,10 +1355,10 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
     });
   });
 
-  // Si el usuario pausa manualmente (por sistema), limpiamos UI
+  // Si el usuario pausa manualmente (en mitad), limpiamos UI
   player.addEventListener('pause', () => {
-    // Evita limpiar al inicio/fin; solo si es pausa manual en mitad
-    if (player.currentTime > 0 && player.currentTime < player.duration) {
+    const d = Number.isFinite(player.duration) ? player.duration : 0;
+    if (player.currentTime > 0 && (d === 0 || player.currentTime < d)) {
       stopCurrent();
     }
   });
@@ -1364,10 +1369,8 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
     if (!el) return;
     el.scrollBy({ left: dir * 340, behavior: 'smooth' });
   };
-
 })();
 </script>
-
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -3044,6 +3047,7 @@ Esto aplica tanto a example-card como a style-card, cuando tienen .playing.
   </div>
 
 </section>
+
 
 
 
