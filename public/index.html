@@ -10,6 +10,7 @@
   <link rel="canonical" href="https://www.lirya.studio/" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#ffffff" />
+  <meta name="color-scheme" content="light" />
 
   <!-- Favicons -->
   <link rel="icon" href="/favicon.ico" />
@@ -36,8 +37,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Perf: preload hero bg (si el path y el server lo soportan) -->
-  <link rel="preload" as="image" href="/cascos-neon.avif" type="image/avif" />
+  <!-- Perf: preload hero bg -->
+  <link rel="preload" as="image" href="/cascos-neon.avif" type="image/avif" fetchpriority="high" />
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -78,6 +79,7 @@
       --focus:#1a1a1a;
     }
     *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
     body{font-family:'Inter',sans-serif;background:#fff}
 
     /* HEADER */
@@ -102,10 +104,13 @@
       font-weight:600; letter-spacing:.6px;
       text-decoration:none; white-space:nowrap;
       transition:background .2s ease, transform .2s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
     .cta-header:hover{ background:var(--orange-hover); transform:scale(1.03); }
 
-    /* Focus styles (visibles de verdad) */
+    /* Focus styles */
     .cta-header:focus-visible,
     .hero-btn:focus-visible,
     .urgency-cta:focus-visible,
@@ -178,7 +183,7 @@
       font-size:1.05rem;
       line-height:1.55;
       opacity:.95;
-      margin-bottom:2px; /* CHANGED: más juntas en desktop */
+      margin-bottom:2px;
     }
 
     .hero-btn{
@@ -190,7 +195,9 @@
       font-weight:600;
       letter-spacing:.7px;
       text-decoration:none;
-      display:inline-block;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       transition:background .2s ease, transform .2s ease;
     }
     .hero-btn:hover{ background:var(--orange-hover); transform:translateY(-1px); }
@@ -203,9 +210,9 @@
       opacity:.86;
     }
 
-    /* PHONE DESKTOP (bajado + flotando) */
+    /* PHONE DESKTOP */
     .hero-phone{
-      width:315px; /* CHANGED: 25% más pequeña (420 -> 315) */
+      width:315px;
       height:auto;
       cursor:pointer;
       border-radius:18px;
@@ -213,6 +220,7 @@
       animation:floatPhoneDesktop 5s ease-in-out infinite;
       user-select:none;
       -webkit-user-drag:none;
+      will-change:transform;
     }
 
     /* MOBILE */
@@ -244,6 +252,7 @@
       animation:floatPhoneMobile 5s ease-in-out infinite;
       user-select:none;
       -webkit-user-drag:none;
+      will-change:transform;
     }
 
     .hero-mobile-benefits{
@@ -273,8 +282,9 @@
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
       .hero-phone, .hero-mobile-image{ animation:none; }
-      .cta-header, .hero-btn, .urgency-cta{ transition:none; }
+      .cta-header, .hero-btn, .urgency-cta, .urgency-close{ transition:none; }
     }
 
     /* Responsive */
@@ -309,7 +319,7 @@
       }
     }
 
-    /* ===== URGENCY FLOATING CARD (NEW) ===== */
+    /* ===== URGENCY FLOATING CARD ===== */
     .urgency-card{
       position:fixed;
       right:18px;
@@ -321,16 +331,21 @@
       border-radius:16px;
       box-shadow:0 18px 60px rgba(0,0,0,.18);
       padding:14px;
-      display:none;
+
+      /* Keep in DOM for smooth animation */
+      visibility:hidden;
+      pointer-events:none;
       transform:translateY(14px);
       opacity:0;
-      transition:transform .25s ease, opacity .25s ease;
+      transition:transform .25s ease, opacity .25s ease, visibility 0s linear .25s;
     }
 
     .urgency-card.is-visible{
-      display:block;
+      visibility:visible;
+      pointer-events:auto;
       transform:translateY(0);
       opacity:1;
+      transition:transform .25s ease, opacity .25s ease, visibility 0s;
     }
 
     .urgency-top{
@@ -455,7 +470,7 @@
   </div>
 </header>
 
-<!-- ===== URGENCY FLOATING CARD (NEW) ===== -->
+<!-- ===== URGENCY FLOATING CARD ===== -->
 <aside class="urgency-card" id="urgency-card" aria-live="polite" aria-label="Aviso de demanda y entrega">
   <div class="urgency-top">
     <div class="urgency-icon" aria-hidden="true">⏳</div>
@@ -514,6 +529,9 @@
         role="button"
         tabindex="0"
         aria-label="Reproducir o pausar ejemplo de canción"
+        aria-pressed="false"
+        decoding="async"
+        fetchpriority="high"
       />
     </div>
 
@@ -533,6 +551,8 @@
         role="button"
         tabindex="0"
         aria-label="Reproducir o pausar ejemplo de canción"
+        aria-pressed="false"
+        decoding="async"
       />
 
       <ul class="hero-mobile-benefits">
@@ -548,19 +568,29 @@
   </div>
 </section>
 
-<script>
+<script defer>
 (function () {
-  /* ===== AUDIO DEMO (original) ===== */
   const audio = document.getElementById("lirya-audio");
   const triggers = [
     document.getElementById("mockup-audio-trigger-desktop"),
     document.getElementById("mockup-audio-trigger-mobile")
   ].filter(Boolean);
 
+  function setPressedState(isPlaying){
+    triggers.forEach(el=>{
+      el.setAttribute("aria-pressed", isPlaying ? "true" : "false");
+    });
+  }
+
   function toggleAudio(){
     if (!audio) return;
-    if (audio.paused) audio.play().catch(()=>{});
-    else audio.pause();
+
+    if (audio.paused) {
+      audio.play().then(()=> setPressedState(true)).catch(()=>{});
+    } else {
+      audio.pause();
+      setPressedState(false);
+    }
   }
 
   function onKeyToggle(e){
@@ -575,7 +605,12 @@
     el.addEventListener("keydown", onKeyToggle);
   });
 
-  /* ===== URGENCY CARD (NEW) ===== */
+  if (audio) {
+    audio.addEventListener("ended", ()=> setPressedState(false));
+    audio.addEventListener("pause", ()=> setPressedState(false));
+    audio.addEventListener("play", ()=> setPressedState(true));
+  }
+
   const card = document.getElementById("urgency-card");
   const closeBtn = document.getElementById("urgency-close");
   const ctaBtn = document.getElementById("urgency-cta");
@@ -611,17 +646,14 @@
 
   if (closeBtn) closeBtn.addEventListener("click", hideCard);
 
-  // Aparece max 1 vez cada 12h (por cliente) y con delay de 10s
   window.addEventListener("load", ()=>{
     setTimeout(()=>{
       if (canShowCard()) showCard();
     }, 10000);
   });
 
-  // Si clican CTA, la ocultamos para no molestar (y no reaparece 12h)
   if (ctaBtn) ctaBtn.addEventListener("click", hideCard);
 
-  // Cerrar con ESC (y no reaparece 12h)
   document.addEventListener("keydown", (e)=>{
     if (e.key === "Escape" && card && card.classList.contains("is-visible")){
       hideCard();
@@ -3188,6 +3220,7 @@ Objetivos:
   </div>
 
 </section>
+
 
 
 
