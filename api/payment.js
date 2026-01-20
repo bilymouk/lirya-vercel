@@ -1,9 +1,15 @@
+/**
+ * /api/payment
+ * Crea Checkout Session en Stripe + envía a Make un "pedido pendiente" con TODO el formulario.
+ * Luego Stripe webhook marcará PAGADO usando stripe_session_id.
+ */
 const Stripe = require("stripe");
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16",
 });
 
+/* ===================== CORS (opcional pero seguro) ===================== */
 function isAllowedOrigin(origin) {
   const allowed = new Set([
     "https://lirya.studio",
@@ -22,6 +28,7 @@ function setCors(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
+/* ===================== Utils ===================== */
 function validateEmail(val) {
   const v = String(val || "").trim();
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -61,6 +68,7 @@ function resolveBaseUrl(req) {
   return BASE_URL.replace(/\/+$/, "");
 }
 
+/* ===================== Handler ===================== */
 module.exports = async (req, res) => {
   setCors(req, res);
 
@@ -68,42 +76,27 @@ module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "Método no permitido" });
 
   try {
-    // ✅ FIX: Vercel puede entregar req.body como string
-    let f = req.body;
-    if (typeof f === "string") {
-      try {
-        f = JSON.parse(f);
-      } catch {
-        f = {};
-      }
-    }
-    if (!f || typeof f !== "object") f = {};
+    const f = req.body || {};
 
-    // ✅ Log útil (temporal). Luego lo quitas si quieres.
-    console.log("✅ /api/payment body keys:", Object.keys(f));
-    console.log("✅ tarifa/email:", f.tarifa, f.email);
-
-    const tarifa = clampStr(f.tarifa, 3);
+    // Campos mínimos para Stripe + anti-basura
+    const tarifa = clampStr(f.tarifa, 3);          // "49" | "59" | "79"
     const email = clampStr(f.email, 254);
     const recipientName = clampStr(f.recipient_name, 80);
 
     const amount = priceFromTarifa(tarifa);
     if (!amount) return res.status(400).json({ error: "Tarifa no válida" });
-
     if (!validateEmail(email)) return res.status(400).json({ error: "Email no válido" });
-
-    if (recipientName.length < 2) {
-      return res.status(400).json({ error: "recipient_name no válido" });
-    }
+    if (recipientName.length < 2) return res.status(400).json({ error: "recipient_name no válido" });
 
     const BASE_URL = resolveBaseUrl(req);
     if (!BASE_URL) return res.status(500).json({ error: "BASE_URL inválida" });
 
+    // ✅ Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
-      // payment_method_types ya no es obligatorio en APIs nuevas, pero no molesta
       payment_method_types: ["card"],
       mode: "payment",
       customer_email: email,
+
       billing_address_collection: "required",
       customer_creation: "always",
 
@@ -124,6 +117,7 @@ module.exports = async (req, res) => {
       success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${BASE_URL}/cancel.html`,
 
+      // Metadata mínima (útil para debug y match)
       metadata: {
         email,
         tarifa,
@@ -131,6 +125,39 @@ module.exports = async (req, res) => {
       },
     });
 
+    // ✅ Enviar a Make un pedido "PENDIENTE" con TODO el formulario + stripe_session_id
+    // (no rompemos el pago si Make falla)
+    try {
+      const MAKE_WEBHOOK_URL_PENDING = (process.env.MAKE_WEBHOOK_URL_PENDING || "").trim();
+
+      if (!MAKE_WEBHOOK_URL_PENDING) {
+        console.warn("⚠️ Falta MAKE_WEBHOOK_URL_PENDING en env. Saltando envío a Make (pendiente).");
+      } else {
+        const payload = {
+          ...f, // 👈 IMPORTANTÍSIMO: manda TODO el formulario
+          stripe_session_id: session.id,
+          estado_pago: "PENDIENTE",
+          created_at: new Date().toISOString(),
+        };
+
+        const rr = await fetch(MAKE_WEBHOOK_URL_PENDING, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!rr.ok) {
+          const t = await rr.text().catch(() => "");
+          console.error("❌ Make PENDIENTE no OK:", rr.status, t);
+        } else {
+          console.log("✅ Enviado a Make (PENDIENTE):", session.id);
+        }
+      }
+    } catch (e) {
+      console.error("⚠️ Error enviando a Make (PENDIENTE):", e?.message || e);
+    }
+
+    // ✅ Respuesta al front para redirigir
     return res.status(200).json({ url: session.url });
   } catch (error) {
     console.error("❌ ERROR PAYMENT:", error && error.message ? error.message : error);
