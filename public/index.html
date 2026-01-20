@@ -1908,7 +1908,7 @@
 })();
 </script>
 
-<!-- ================== FORMULARIO LIRYA (FINAL PRO, SIN ROMPER STRIPE) ================== -->
+<!-- ================== FORMULARIO LIRYA (PREMIUM PRO, ROBUSTO, SIN ROMPER STRIPE) ================== -->
 <section id="formulario-lirya">
 <style>
   /* Scope total */
@@ -1916,46 +1916,91 @@
 
   #formulario-lirya{
     background:
-      linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+      linear-gradient(rgba(0,0,0,.58),rgba(0,0,0,.58)),
       url("/musica-neon.png") center/cover no-repeat;
-    padding:50px 20px;
-    color:#fff;
-    font-family: 'Inter', sans-serif;
+    padding: 54px 20px;
+    color: #fff;
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   }
 
-  #formulario-lirya .wrapper{max-width:520px;margin:0 auto}
+  #formulario-lirya .wrapper{max-width:560px;margin:0 auto}
 
-  /* OJO: evitar segundo H1 en la página */
   #formulario-lirya h2{
-    text-align:center;color:#f2c98a;
+    text-align:center;
+    color:#f2c98a;
     font-family:"Playfair Display", serif;
-    font-size:36px;margin-bottom:12px
+    font-size:38px;
+    margin-bottom:12px;
+    letter-spacing: .2px;
   }
 
   #formulario-lirya .subtitle{
-    text-align:center;opacity:.85;margin-bottom:10px;font-style:italic;
+    text-align:center;
+    opacity:.88;
+    margin-bottom:10px;
+    font-style:italic;
     font-family:"Playfair Display", serif;
+    font-size: 15px;
   }
+
   #formulario-lirya .micro-safety{
-    text-align:center;font-size:13px;opacity:.85;margin-bottom:28px;font-style:italic;
+    text-align:center;
+    font-size:13px;
+    opacity:.86;
+    margin-bottom:28px;
+    font-style:italic;
     font-family:"Playfair Display", serif;
   }
 
-  #formulario-lirya .progress{display:flex;gap:10px;justify-content:center;margin-bottom:28px}
-  #formulario-lirya .progress span{width:36px;height:4px;background:rgba(255,255,255,.25);border-radius:999px}
+  #formulario-lirya .progress{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:28px
+  }
+  #formulario-lirya .progress span{
+    width:36px;
+    height:4px;
+    background:rgba(255,255,255,.22);
+    border-radius:999px
+  }
   #formulario-lirya .progress span.active{background:#f2c98a}
 
-  #formulario-lirya .card{background:rgba(255,255,255,.10);border-radius:18px;padding:26px}
+  #formulario-lirya .card{
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 0 18px 45px rgba(0,0,0,.25);
+    backdrop-filter: blur(6px);
+  }
+
   #formulario-lirya .step{display:none}
   #formulario-lirya .step.active{display:block}
 
   #formulario-lirya .step-title{
-    font-size:26px;color:#f2c98a;margin-bottom:6px;
+    font-size:26px;
+    color:#f2c98a;
+    margin-bottom:6px;
     font-family:"Playfair Display", serif;
+    letter-spacing: .15px;
   }
+
   #formulario-lirya .step-helper{
-    font-size:13px;opacity:.8;margin-bottom:18px;font-style:italic;
+    font-size:13px;
+    opacity:.85;
+    margin-bottom:18px;
+    font-style:italic;
     font-family:"Playfair Display", serif;
+    line-height: 1.45;
+  }
+
+  /* (aria-live) para lectores */
+  #formulario-lirya .sr-live{
+    position:absolute;
+    left:-9999px;
+    width:1px;height:1px;
+    overflow:hidden;
   }
 
   #formulario-lirya .step-errors{
@@ -1965,28 +2010,53 @@
     border-radius: 12px;
     background: rgba(255, 159, 63, 0.14);
     border: 1px solid rgba(255, 159, 63, 0.35);
-    color: rgba(255,255,255,.92);
+    color: rgba(255,255,255,.93);
     font-size: 13px;
-    line-height: 1.4;
+    line-height: 1.45;
   }
   #formulario-lirya .step-errors.show{display:block}
 
-  #formulario-lirya .question{margin-bottom:18px}
-  #formulario-lirya label{display:block;margin-bottom:6px;font-size:14px}
+  #formulario-lirya .question{margin-bottom:18px;text-align:left}
 
+  /* Labels más premium */
+  #formulario-lirya label{
+    display:block;
+    margin-bottom:8px;
+    font-size:13.5px;
+    letter-spacing: .2px;
+    color: rgba(255,255,255,.92);
+  }
+
+  /* ===== Inputs premium ===== */
   #formulario-lirya input,
   #formulario-lirya textarea{
     width:100%;
-    padding:14px 16px;
-    border:none;
-    border-radius:10px;
-    background:rgba(255,255,255,.88);
-    font-size:14px;
-    color:#1a1a1a;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.92);
+    color: #121212;
+
+    /* TIPOGRAFÍA PREMIUM PARA TEXTO ESCRITO */
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 15px;
+    letter-spacing: .15px;
+
     outline: none;
+    transition: box-shadow .2s ease, border-color .2s ease, transform .15s ease;
   }
 
-  #formulario-lirya textarea{height:90px;resize:none}
+  #formulario-lirya input::placeholder,
+  #formulario-lirya textarea::placeholder{
+    color: rgba(20,20,20,.55);
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+  }
+
+  #formulario-lirya textarea{
+    height: 96px;
+    resize: vertical;
+  }
 
   #formulario-lirya input:focus-visible,
   #formulario-lirya textarea:focus-visible,
@@ -1995,53 +2065,92 @@
     outline-offset: 3px;
   }
 
+  #formulario-lirya input:focus,
+  #formulario-lirya textarea:focus{
+    border-color: rgba(242,201,138,.55);
+    box-shadow: 0 0 0 6px rgba(242,201,138,.12);
+  }
+
   #formulario-lirya .helper-text{
     font-size:12.5px;
-    opacity:.75;
-    margin-top:6px;
-    line-height:1.4;
+    opacity:.78;
+    margin-top:7px;
+    line-height:1.45;
     font-style:italic;
     font-family:"Playfair Display", serif;
   }
 
   /* Error UI */
   #formulario-lirya .field-error{
-    outline:2px solid rgba(255, 122, 122, 0.95);
-    outline-offset: 2px;
+    border-color: rgba(255, 122, 122, 0.95) !important;
+    box-shadow: 0 0 0 6px rgba(255, 122, 122, 0.10) !important;
   }
+
   #formulario-lirya .field-error-msg{
-    margin-top: 6px;
+    margin-top: 7px;
     font-size: 12.5px;
-    color: rgba(255, 220, 220, 0.95);
+    color: rgba(255, 220, 220, 0.96);
     font-style: italic;
     display:none;
     font-family:"Playfair Display", serif;
   }
   #formulario-lirya .field-error-msg.show{display:block}
 
-  /* Dropdown */
+  /* ===== Dropdown premium ===== */
   #formulario-lirya .dropdown{position:relative}
+
   #formulario-lirya .dropdown-btn{
     width:100%;
-    padding:14px 16px;
-    background:rgba(255,255,255,.88);
-    border-radius:10px;
-    border:none;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.92);
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    color:#9aa3ab;
+
     cursor:pointer;
-    font-size:14px;
     text-align:left;
+
+    /* TIPOGRAFÍA PREMIUM EN “SELECCIÓN” */
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 15px;
+    letter-spacing: .15px;
+
+    transition: box-shadow .2s ease, border-color .2s ease;
+  }
+
+  #formulario-lirya .dropdown-btn .dd-value{
+    color: rgba(20,20,20,.60);
+    font-style: italic;
+  }
+
+  #formulario-lirya .dropdown-btn.selected .dd-value{
+    color: #121212;
+    font-style: normal;
+  }
+
+  #formulario-lirya .dropdown-btn .dd-caret{
+    color: rgba(20,20,20,.55);
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  #formulario-lirya .dropdown-btn:hover{
+    border-color: rgba(242,201,138,.55);
+    box-shadow: 0 0 0 6px rgba(242,201,138,.10);
   }
 
   #formulario-lirya .dropdown-menu{
-    position:absolute;top:calc(100% + 10px);left:0;right:0;
-    background:rgba(255,255,255,.96);
-    border-radius:14px;
+    position:absolute;
+    top:calc(100% + 10px);
+    left:0;right:0;
+    background: rgba(255,255,255,.98);
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 14px;
     box-shadow:0 18px 40px rgba(0,0,0,.25);
-    padding:10px 0;
+    padding: 10px 0;
     display:none;
     z-index:50;
     max-height: 260px;
@@ -2050,28 +2159,57 @@
   #formulario-lirya .dropdown-menu.open{display:block}
 
   #formulario-lirya .dropdown-item{
-    padding:12px 18px;
-    color:#7a7a7a;
+    padding: 12px 18px;
+    color:#3a3a3a;
     font-size:14px;
     cursor:pointer;
     outline: none;
+    font-family: "Playfair Display", Georgia, serif;
+    letter-spacing: .1px;
   }
   #formulario-lirya .dropdown-item:hover,
   #formulario-lirya .dropdown-item[aria-selected="true"],
   #formulario-lirya .dropdown-item:focus{
-    background:#f4f7fb;color:#333
+    background:#f4f7fb;color:#121212
   }
 
-  /* Nav buttons */
+  /* Nav buttons premium */
   #formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
+
   #formulario-lirya button{
-    padding:14px;border-radius:10px;border:none;cursor:pointer;font-size:15px
+    padding:14px 14px;
+    border-radius: 12px;
+    border:none;
+    cursor:pointer;
+    font-size: 15px;
+    font-family: "Playfair Display", Georgia, serif;
+    letter-spacing: .15px;
+    transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
   }
-  #formulario-lirya .back{background:rgba(255,255,255,.2);color:#fff}
-  #formulario-lirya .next{background:#f28c28;color:#fff;flex:1;opacity:.5}
+
+  #formulario-lirya button:active{transform: translateY(1px)}
+
+  #formulario-lirya .back{
+    background: rgba(255,255,255,.18);
+    color:#fff;
+  }
+  #formulario-lirya .back:hover{box-shadow: 0 10px 25px rgba(0,0,0,.25)}
+
+  #formulario-lirya .next{
+    background: linear-gradient(135deg, #f28c28, #e58b2a);
+    color:#fff;
+    flex:1;
+    opacity:.55;
+  }
   #formulario-lirya .next.enabled{opacity:1}
   #formulario-lirya .next:disabled{cursor:not-allowed}
-  #formulario-lirya .submit{background:#4caf50;color:#fff;flex:1}
+
+  #formulario-lirya .submit{
+    background: linear-gradient(135deg, #3fbf64, #2f9e4f);
+    color:#fff;
+    flex:1;
+  }
+  #formulario-lirya .submit:hover{box-shadow: 0 14px 30px rgba(0,0,0,.30)}
 
   #formulario-lirya #telefono-box{display:none}
 </style>
@@ -2085,7 +2223,9 @@
 
   <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <!-- FORM real (Stripe sigue por fetch) -->
+  <!-- Live region global -->
+  <div class="sr-live" id="lirya-live" aria-live="polite"></div>
+
   <form class="card" id="lirya-form" novalidate>
 
     <!-- PASO 1 -->
@@ -2095,13 +2235,13 @@
 
       <div class="question">
         <label for="recipient_name">Nombre de quien recibirá la canción *</label>
-        <input id="recipient_name" name="recipient_name" autocomplete="name" required>
+        <input id="recipient_name" name="recipient_name" autocomplete="name" required placeholder="Ej. Laura">
         <div class="field-error-msg" data-error-for="recipient_name">Completa este campo.</div>
       </div>
 
       <div class="question">
         <label for="your_name">Tu nombre (quien regala) *</label>
-        <input id="your_name" name="your_name" autocomplete="name" required>
+        <input id="your_name" name="your_name" autocomplete="name" required placeholder="Ej. Marcos">
         <div class="field-error-msg" data-error-for="your_name">Completa este campo.</div>
       </div>
 
@@ -2111,18 +2251,19 @@
           <button class="dropdown-btn" id="relationship" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="relationship-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="relationship-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Pareja</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Matrimonio</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Ex pareja (reconciliación)</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Amor secreto</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Familiar</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Amistad especial</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Pareja">Pareja</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Matrimonio">Matrimonio</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Ex pareja (reconciliación)">Ex pareja (reconciliación)</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Amor secreto">Amor secreto</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Familiar">Familiar</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Amistad especial">Amistad especial</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="relationship">Elige una opción.</div>
+        <input type="hidden" id="relationship-hidden" name="relationship" required>
+        <div class="field-error-msg" data-error-for="relationship-hidden">Elige una opción.</div>
       </div>
 
       <div class="question">
@@ -2131,12 +2272,12 @@
           <button class="dropdown-btn" id="tarifa-btn" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="tarifa-menu">
-            <span>Selecciona una tarifa</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Selecciona una tarifa</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="tarifa-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-tarifa="49">49€ — Estándar</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-tarifa="59">59€ — Emocional</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-tarifa="79">79€ — Prioritaria</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="49" data-tarifa="49">49€ — Estándar</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="59" data-tarifa="59">59€ — Emocional</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="79" data-tarifa="79">79€ — Prioritaria</div>
           </div>
         </div>
         <input type="hidden" id="tarifa-hidden" name="tarifa" required>
@@ -2156,14 +2297,14 @@
 
       <div class="question">
         <label for="how_met">¿Cómo os conocisteis? *</label>
-        <textarea id="how_met" name="how_met" required></textarea>
+        <textarea id="how_met" name="how_met" required placeholder="Ej. Fue en una cafetería..."></textarea>
         <div class="helper-text">Ejemplo: dónde fue, qué sentiste, por qué lo recuerdas.</div>
         <div class="field-error-msg" data-error-for="how_met">Completa este campo.</div>
       </div>
 
       <div class="question">
         <label for="special_moment">Un momento que lo cambió todo *</label>
-        <textarea id="special_moment" name="special_moment" required></textarea>
+        <textarea id="special_moment" name="special_moment" required placeholder="Ej. El día que me esperó bajo la lluvia..."></textarea>
         <div class="helper-text">Una conversación, una despedida, una promesa, un reencuentro…</div>
         <div class="field-error-msg" data-error-for="special_moment">Completa este campo.</div>
       </div>
@@ -2174,18 +2315,19 @@
           <button class="dropdown-btn" id="reason_now" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="reason-now-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="reason-now-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Aniversario</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Cumpleaños</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Reconciliación</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">San Valentín</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Sorpresa sin motivo</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Otro</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Aniversario">Aniversario</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Cumpleaños">Cumpleaños</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Reconciliación">Reconciliación</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="San Valentín">San Valentín</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Sorpresa sin motivo">Sorpresa sin motivo</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Otro">Otro</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="reason_now">Elige una opción.</div>
+        <input type="hidden" id="reason_now-hidden" name="reason_now" required>
+        <div class="field-error-msg" data-error-for="reason_now-hidden">Elige una opción.</div>
       </div>
 
       <div class="nav">
@@ -2201,14 +2343,14 @@
 
       <div class="question">
         <label for="three_words">Tres palabras que definan a esa persona *</label>
-        <input id="three_words" name="three_words" required>
+        <input id="three_words" name="three_words" required placeholder="Ej. valiente, dulce, luminosa">
         <div class="helper-text">Ejemplo: sensible, fuerte, divertida.</div>
         <div class="field-error-msg" data-error-for="three_words">Completa este campo.</div>
       </div>
 
       <div class="question">
         <label for="dedication">Una frase que te gustaría decirle *</label>
-        <textarea id="dedication" name="dedication" required></textarea>
+        <textarea id="dedication" name="dedication" required placeholder="Ej. Gracias por elegirme cada día..."></textarea>
         <div class="helper-text">Puede ser simple. Nosotros la convertimos en letra.</div>
         <div class="field-error-msg" data-error-for="dedication">Completa este campo.</div>
       </div>
@@ -2219,17 +2361,18 @@
           <button class="dropdown-btn" id="emotion" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="emotion-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="emotion-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Amor profundo</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Nostalgia</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Alegría</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Emoción intensa</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Calma y ternura</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Amor profundo">Amor profundo</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Nostalgia">Nostalgia</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Alegría">Alegría</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Emoción intensa">Emoción intensa</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Calma y ternura">Calma y ternura</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="emotion">Elige una opción.</div>
+        <input type="hidden" id="emotion-hidden" name="emotion" required>
+        <div class="field-error-msg" data-error-for="emotion-hidden">Elige una opción.</div>
       </div>
 
       <div class="nav">
@@ -2249,25 +2392,26 @@
           <button class="dropdown-btn" id="song_style" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="song-style-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="song-style-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Balada romántica</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Pop emocional</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Indie acústico</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">R&amp;B / Soul</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Rock suave</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Electrónica chill</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Reggaetón lento</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Bachata</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Hip Hop</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Reggae chill</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Jazz</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Flamenco</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Cinematográfico</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Balada romántica">Balada romántica</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Pop emocional">Pop emocional</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Indie acústico">Indie acústico</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="R&B / Soul">R&amp;B / Soul</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Rock suave">Rock suave</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Electrónica chill">Electrónica chill</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Reggaetón lento">Reggaetón lento</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Bachata">Bachata</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Hip Hop">Hip Hop</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Reggae chill">Reggae chill</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Jazz">Jazz</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Flamenco">Flamenco</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Cinematográfico">Cinematográfico</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="song_style">Elige una opción.</div>
+        <input type="hidden" id="song_style-hidden" name="song_style" required>
+        <div class="field-error-msg" data-error-for="song_style-hidden">Elige una opción.</div>
       </div>
 
       <div class="question">
@@ -2276,15 +2420,16 @@
           <button class="dropdown-btn" id="rhythm" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="rhythm-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="rhythm-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Lento</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Medio</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Progresivo</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Lento">Lento</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Medio">Medio</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Progresivo">Progresivo</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="rhythm">Elige una opción.</div>
+        <input type="hidden" id="rhythm-hidden" name="rhythm" required>
+        <div class="field-error-msg" data-error-for="rhythm-hidden">Elige una opción.</div>
       </div>
 
       <div class="question">
@@ -2293,16 +2438,17 @@
           <button class="dropdown-btn" id="voice_type" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="voice-type-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="voice-type-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Masculina</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Femenina</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Dúo</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Me da igual</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Masculina">Masculina</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Femenina">Femenina</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Dúo">Dúo</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Me da igual">Me da igual</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="voice_type">Elige una opción.</div>
+        <input type="hidden" id="voice_type-hidden" name="voice_type" required>
+        <div class="field-error-msg" data-error-for="voice_type-hidden">Elige una opción.</div>
       </div>
 
       <div class="question">
@@ -2311,16 +2457,17 @@
           <button class="dropdown-btn" id="language" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="language-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="language-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Español</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Inglés</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Spanglish</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Catalán</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Español">Español</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Inglés">Inglés</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Spanglish">Spanglish</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Catalán">Catalán</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="language">Elige una opción.</div>
+        <input type="hidden" id="language-hidden" name="language" required>
+        <div class="field-error-msg" data-error-for="language-hidden">Elige una opción.</div>
       </div>
 
       <div class="nav">
@@ -2340,19 +2487,20 @@
           <button class="dropdown-btn" id="include_name" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="include-name-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="include-name-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Sí</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">No</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Sí">Sí</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="No">No</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="include_name">Elige una opción.</div>
+        <input type="hidden" id="include_name-hidden" name="include_name" required>
+        <div class="field-error-msg" data-error-for="include_name-hidden">Elige una opción.</div>
       </div>
 
       <div class="question">
         <label for="dont_mention">Anécdota o algo que quieras añadir</label>
-        <textarea id="dont_mention" name="dont_mention"></textarea>
+        <textarea id="dont_mention" name="dont_mention" placeholder="Opcional. Un detalle pequeño puede hacerlo enorme…"></textarea>
         <div class="helper-text">Opcional. Cualquier detalle ayuda.</div>
       </div>
 
@@ -2362,15 +2510,16 @@
           <button class="dropdown-btn" id="intensity" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="intensity-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="intensity-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Suave</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Emotiva</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false">Muy intensa</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Suave">Suave</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Emotiva">Emotiva</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Muy intensa">Muy intensa</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="intensity">Elige una opción.</div>
+        <input type="hidden" id="intensity-hidden" name="intensity" required>
+        <div class="field-error-msg" data-error-for="intensity-hidden">Elige una opción.</div>
       </div>
 
       <div class="nav">
@@ -2387,7 +2536,7 @@
 
       <div class="question">
         <label for="email">Email *</label>
-        <input id="email" name="email" type="email" autocomplete="email" required>
+        <input id="email" name="email" type="email" autocomplete="email" required placeholder="tu@email.com">
         <div class="field-error-msg" data-error-for="email">Introduce un email válido.</div>
       </div>
 
@@ -2397,19 +2546,20 @@
           <button class="dropdown-btn" id="whatsapp" type="button"
             data-required data-placeholder="1"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="whatsapp-menu">
-            <span>Elige una opción</span><span aria-hidden="true">▾</span>
+            <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="whatsapp-menu" role="listbox">
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-whatsapp="si">Sí</div>
-            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-whatsapp="no">No</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Sí" data-whatsapp="si">Sí</div>
+            <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="No" data-whatsapp="no">No</div>
           </div>
         </div>
-        <div class="field-error-msg" data-error-for="whatsapp">Elige una opción.</div>
+        <input type="hidden" id="whatsapp-hidden" name="whatsapp" required>
+        <div class="field-error-msg" data-error-for="whatsapp-hidden">Elige una opción.</div>
       </div>
 
       <div class="question" id="telefono-box">
         <label for="phone">Número de teléfono *</label>
-        <input id="phone" name="phone" type="tel" autocomplete="tel">
+        <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+34 600 000 000">
         <div class="field-error-msg" data-error-for="phone">Introduce tu teléfono.</div>
       </div>
 
@@ -2424,12 +2574,17 @@
 
 <script>
 (function () {
+  // Guard anti doble-init (Next/Vercel / re-render)
+  if (window.__liryaFormInit) return;
+  window.__liryaFormInit = true;
+
   const root = document.getElementById("formulario-lirya");
   if (!root) return;
 
   const form = root.querySelector("#lirya-form");
   const steps = Array.from(root.querySelectorAll(".step"));
   const progress = root.querySelector("#progress");
+  const live = root.querySelector("#lirya-live");
 
   let i = 0;
 
@@ -2444,6 +2599,12 @@
   const telefonoBox = root.querySelector("#telefono-box");
   const phone = root.querySelector("#phone");
   const tarifaHidden = root.querySelector("#tarifa-hidden");
+
+  function announce(msg){
+    if (!live) return;
+    live.textContent = "";
+    setTimeout(() => { live.textContent = msg; }, 20);
+  }
 
   function getStep() { return steps[i]; }
 
@@ -2466,6 +2627,7 @@
     if (!box) return;
     box.textContent = msg;
     box.classList.add("show");
+    announce(msg);
   }
 
   function setFieldError(step, id, msg){
@@ -2477,10 +2639,6 @@
       if (msg) err.textContent = msg;
       err.classList.add("show");
     }
-  }
-
-  function dropdownIsSelected(btn){
-    return !btn.hasAttribute("data-placeholder");
   }
 
   function validateEmail(val){
@@ -2500,17 +2658,19 @@
         if (showUI) setFieldError(step, el.id, "Completa este campo.");
         return;
       }
-
       if (el.id === "email" && !validateEmail(v)) {
         ok = false;
         if (showUI) setFieldError(step, "email", "Introduce un email válido.");
       }
     });
 
+    // dropdowns -> validan por hidden input asociado
     step.querySelectorAll(".dropdown-btn[data-required]").forEach(btn => {
-      if (!dropdownIsSelected(btn)) {
+      const hidden = root.querySelector("#" + CSS.escape(btn.id + "-hidden"));
+      const v = hidden ? String(hidden.value || "").trim() : "";
+      if (!v) {
         ok = false;
-        if (showUI) setFieldError(step, btn.id, "Elige una opción.");
+        if (showUI) setFieldError(step, btn.id + "-hidden", "Elige una opción.");
       }
     });
 
@@ -2527,7 +2687,7 @@
     if (showUI && !ok){
       showStepError(step, "Te falta completar algún campo marcado para poder continuar.");
       const firstErr = step.querySelector(".field-error");
-      if (firstErr) firstErr.focus({ preventScroll: false });
+      if (firstErr && typeof firstErr.focus === "function") firstErr.focus({ preventScroll: false });
     }
 
     return ok;
@@ -2537,9 +2697,18 @@
     steps.forEach((s, x) => s.classList.toggle("active", x === i));
     Array.from(progress.children).forEach((p, x) => p.classList.toggle("active", x <= i));
     validateStep(false);
+    announce("Paso " + (i+1) + " de " + steps.length);
   }
 
   form.addEventListener("input", () => validateStep(false));
+
+  function closeAllMenus(){
+    root.querySelectorAll(".dropdown-menu.open").forEach(m => m.classList.remove("open"));
+    root.querySelectorAll(".dropdown-btn[aria-expanded='true']").forEach(b => b.setAttribute("aria-expanded","false"));
+  }
+
+  // Cierra menús al hacer scroll (UX)
+  window.addEventListener("scroll", closeAllMenus, { passive: true });
 
   // Enter to advance (except textarea)
   form.addEventListener("keydown", (e) => {
@@ -2558,48 +2727,44 @@
       }
     }
 
-    if (e.key === "Escape") {
-      closeAllMenus();
-    }
+    if (e.key === "Escape") closeAllMenus();
   });
 
-  // Navigation
+  // Navigation (FIX: closest)
   form.addEventListener("click", (e) => {
-    const t = e.target;
+    const nextBtn = e.target.closest && e.target.closest("button.next");
+    const backBtn = e.target.closest && e.target.closest("button.back");
 
-    if (t.classList.contains("next")) {
+    if (nextBtn) {
       if (!validateStep(true)) return;
       if (i < steps.length - 1) { i++; render(); }
       return;
     }
 
-    if (t.classList.contains("back")) {
+    if (backBtn) {
       if (i > 0) { i--; render(); }
       return;
     }
   });
-
-  function closeAllMenus(){
-    root.querySelectorAll(".dropdown-menu.open").forEach(m => m.classList.remove("open"));
-    root.querySelectorAll(".dropdown-btn[aria-expanded='true']").forEach(b => b.setAttribute("aria-expanded","false"));
-  }
 
   function setOptionSelected(items, selectedItem){
     items.forEach(x => x.setAttribute("aria-selected","false"));
     selectedItem.setAttribute("aria-selected","true");
   }
 
+  // Dropdown behavior + hidden values
   root.querySelectorAll(".dropdown").forEach(d => {
     const btn = d.querySelector(".dropdown-btn");
     const menu = d.querySelector(".dropdown-menu");
     const items = Array.from(menu.querySelectorAll(".dropdown-item"));
+    const valueSpan = btn.querySelector(".dd-value");
+
+    const hidden = root.querySelector("#" + CSS.escape(btn.id + "-hidden"));
 
     function openMenu(){
       closeAllMenus();
       menu.classList.add("open");
       btn.setAttribute("aria-expanded","true");
-
-      // focus first option
       const first = items[0];
       if (first) first.focus({ preventScroll: true });
     }
@@ -2627,24 +2792,28 @@
       setOptionSelected(items, it);
 
       const label = it.textContent.trim();
-      btn.querySelector("span").textContent = label;
-      btn.style.color = "#333";
-      btn.removeAttribute("data-placeholder");
-      closeMenu();
+      const value = (it.dataset.value || label).trim();
 
+      if (valueSpan) valueSpan.textContent = label;
+      btn.classList.add("selected");
+
+      if (hidden) hidden.value = value;
+
+      // tarifa: mantiene lo tuyo
       if (it.dataset.tarifa) tarifaHidden.value = it.dataset.tarifa;
 
+      // whatsapp toggle
       if (it.dataset.whatsapp) {
         const wants = it.dataset.whatsapp === "si";
         telefonoBox.style.display = wants ? "block" : "none";
-        if (wants) {
-          phone.setAttribute("required", "required");
-        } else {
+        if (wants) phone.setAttribute("required", "required");
+        else {
           phone.removeAttribute("required");
           phone.value = "";
         }
       }
 
+      closeMenu();
       validateStep(false);
       btn.focus({ preventScroll: true });
     }
@@ -2680,14 +2849,9 @@
     });
   });
 
-  // ✅ Cerrar menús:
-  // - Click fuera del root: cierra
-  // - Click dentro del root pero fuera del dropdown: cierra
+  // Cerrar menús al click fuera
   document.addEventListener("click", (e) => {
-    if (!root.contains(e.target)) {
-      closeAllMenus();
-      return;
-    }
+    if (!root.contains(e.target)) { closeAllMenus(); return; }
     if (!e.target.closest(".dropdown")) closeAllMenus();
   });
 
@@ -2697,11 +2861,9 @@
   const submitBtn = root.querySelector(".submit");
   let processingPayment = false;
 
-  function getDDText(id){
+  function val(id){
     const el = root.querySelector("#" + CSS.escape(id));
-    if (!el) return "";
-    const span = el.querySelector("span");
-    return (span ? span.textContent : el.textContent).trim();
+    return el ? String(el.value || "").trim() : "";
   }
 
   submitBtn.addEventListener("click", async () => {
@@ -2714,26 +2876,26 @@
     submitBtn.textContent = "Redirigiendo a pago seguro…";
 
     const data = {
-      recipient_name: root.querySelector("#recipient_name").value,
-      your_name: root.querySelector("#your_name").value,
-      relationship: getDDText("relationship"),
-      tarifa: root.querySelector("#tarifa-hidden").value,
-      how_met: root.querySelector("#how_met").value,
-      special_moment: root.querySelector("#special_moment").value,
-      reason_now: getDDText("reason_now"),
-      three_words: root.querySelector("#three_words").value,
-      dedication: root.querySelector("#dedication").value,
-      emotion: getDDText("emotion"),
-      song_style: getDDText("song_style"),
-      rhythm: getDDText("rhythm"),
-      voice_type: getDDText("voice_type"),
-      language: getDDText("language"),
-      include_name: getDDText("include_name"),
-      dont_mention: root.querySelector("#dont_mention").value,
-      intensity: getDDText("intensity"),
-      email: root.querySelector("#email").value,
-      whatsapp: getDDText("whatsapp"),
-      phone: root.querySelector("#phone").value
+      recipient_name: val("recipient_name"),
+      your_name: val("your_name"),
+      relationship: val("relationship-hidden"),
+      tarifa: val("tarifa-hidden"),
+      how_met: val("how_met"),
+      special_moment: val("special_moment"),
+      reason_now: val("reason_now-hidden"),
+      three_words: val("three_words"),
+      dedication: val("dedication"),
+      emotion: val("emotion-hidden"),
+      song_style: val("song_style-hidden"),
+      rhythm: val("rhythm-hidden"),
+      voice_type: val("voice_type-hidden"),
+      language: val("language-hidden"),
+      include_name: val("include_name-hidden"),
+      dont_mention: val("dont_mention"),
+      intensity: val("intensity-hidden"),
+      email: val("email"),
+      whatsapp: val("whatsapp-hidden"),
+      phone: val("phone")
     };
 
     try {
@@ -2746,11 +2908,8 @@
       if (!r.ok) throw new Error("Error en la petición al servidor");
 
       const j = await r.json();
-      if (j.url) {
-        window.location.href = j.url;
-      } else {
-        throw new Error("Stripe no devolvió URL");
-      }
+      if (j.url) window.location.href = j.url;
+      else throw new Error("Stripe no devolvió URL");
     } catch (err) {
       alert("Error al iniciar el pago: " + (err.message || "Inténtalo de nuevo"));
       console.error(err);
@@ -3424,6 +3583,7 @@
   </div>
 
 </section>
+
 
 
 
