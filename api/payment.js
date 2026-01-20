@@ -68,7 +68,20 @@ module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "Método no permitido" });
 
   try {
-    const f = req.body || {};
+    // ✅ FIX: Vercel puede entregar req.body como string
+    let f = req.body;
+    if (typeof f === "string") {
+      try {
+        f = JSON.parse(f);
+      } catch {
+        f = {};
+      }
+    }
+    if (!f || typeof f !== "object") f = {};
+
+    // ✅ Log útil (temporal). Luego lo quitas si quieres.
+    console.log("✅ /api/payment body keys:", Object.keys(f));
+    console.log("✅ tarifa/email:", f.tarifa, f.email);
 
     const tarifa = clampStr(f.tarifa, 3);
     const email = clampStr(f.email, 254);
@@ -79,7 +92,6 @@ module.exports = async (req, res) => {
 
     if (!validateEmail(email)) return res.status(400).json({ error: "Email no válido" });
 
-    // Anti-basura mínimo
     if (recipientName.length < 2) {
       return res.status(400).json({ error: "recipient_name no válido" });
     }
@@ -88,12 +100,11 @@ module.exports = async (req, res) => {
     if (!BASE_URL) return res.status(500).json({ error: "BASE_URL inválida" });
 
     const session = await stripe.checkout.sessions.create({
+      // payment_method_types ya no es obligatorio en APIs nuevas, pero no molesta
       payment_method_types: ["card"],
       mode: "payment",
       customer_email: email,
-
       billing_address_collection: "required",
-      // Si NO vas a usar Customer en Stripe, quita esto:
       customer_creation: "always",
 
       line_items: [
@@ -113,7 +124,6 @@ module.exports = async (req, res) => {
       success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${BASE_URL}/cancel.html`,
 
-      // Metadata mínima: lo demás que lo maneje Make tras pago
       metadata: {
         email,
         tarifa,
