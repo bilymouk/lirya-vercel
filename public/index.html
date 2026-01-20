@@ -681,7 +681,7 @@
   </div>
 </section>
 
-<script defer>
+<script>
 (function () {
   const audio = document.getElementById("lirya-audio");
 
@@ -2676,6 +2676,12 @@
 
   function getStep() { return steps[i]; }
 
+  function goToStep(n){
+  const idx = Math.max(0, Math.min(steps.length - 1, n - 1));
+  i = idx;
+  render();
+}
+
   function setNextState(step, enabled) {
     const next = step.querySelector(".next");
     if (!next) return;
@@ -2865,8 +2871,6 @@
 
       if (hidden) hidden.value = value;
 
-      if (it.dataset.tarifa) tarifaHidden.value = it.dataset.tarifa;
-
       if (it.dataset.whatsapp) {
         const wants = it.dataset.whatsapp === "si";
         telefonoBox.style.display = wants ? "block" : "none";
@@ -2955,12 +2959,22 @@
       if (j.url) window.location.href = j.url;
       else throw new Error("Stripe no devolvió URL");
     } catch (err) {
-      alert("Error al iniciar el pago: " + (err.message || "Inténtalo de nuevo"));
-      console.error(err);
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      processingPayment = false;
-    }
+  console.error(err);
+
+  // Asegura que estamos en el paso 6 para que el usuario vea el error
+  goToStep(6);
+
+  const step6 = steps[5]; // paso 6 = índice 5
+  clearErrors(step6);
+  showStepError(step6, "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.");
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = originalText;
+  processingPayment = false;
+
+  // (opcional) sube al inicio del formulario para que se vea el mensaje
+  root.scrollIntoView({ behavior: "smooth", block: "start" });
+}
   });
 })();
 </script>
@@ -3962,6 +3976,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
