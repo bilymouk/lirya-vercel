@@ -174,18 +174,17 @@
       margin-bottom:22px;
     }
 
-    /* ✅ Subline destacada (más grande) */
+    /* ✅ Frase principal: más grande (desktop y móvil) */
     .hero-subline--emphasis{
-      font-size:1.22rem;
+      font-size:1.34rem;   /* más grande */
       font-weight:700;
-      letter-spacing:.2px;
+      letter-spacing:.25px;
+      line-height:1.25;
     }
 
-    /* ✅ En ordenador: forzar 1 línea */
+    /* ✅ Desktop: en 1 línea */
     @media (min-width: 901px){
-      .hero-subline--emphasis{
-        white-space:nowrap;
-      }
+      .hero-subline--emphasis{ white-space:nowrap; }
     }
 
     .hero-benefits{
@@ -235,9 +234,10 @@
       user-select:none;
       -webkit-user-drag:none;
       will-change:transform;
-      /* ✅ Un poco más a la derecha en desktop */
-      margin-left:28px;
       justify-self:end;
+
+      /* ✅ Ajuste: un poco menos a la derecha */
+      margin-left:12px;
     }
 
     /* MOBILE */
@@ -256,6 +256,13 @@
       line-height:1.45;
       opacity:.95;
       margin:0 10px 18px;
+    }
+
+    /* ✅ Mobile: aún más grande */
+    .hero-mobile .hero-subline--emphasis{
+      font-size:1.42rem;
+      line-height:1.28;
+      white-space:normal; /* móvil puede cortar */
     }
 
     .hero-mobile-image{
@@ -319,6 +326,9 @@
         width:85%;
         max-width:360px;
         margin:14px auto 18px;
+
+        /* ✅ Ajuste: un poco a la izquierda (suave) */
+        transform: translateX(-6px);
       }
 
       .hero-mobile-benefits{
@@ -524,6 +534,8 @@
       <div class="hero-text">
         <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
         <h1>Vuestra historia convertida en una canción</h1>
+
+        <!-- ✅ Texto actualizado + más grande -->
         <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
 
         <ul class="hero-benefits">
@@ -556,6 +568,8 @@
     <div class="hero-mobile">
       <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
       <h1>Vuestra historia convertida en una canción</h1>
+
+      <!-- ✅ Texto actualizado + más grande -->
       <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
 
       <img
@@ -3858,6 +3872,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
