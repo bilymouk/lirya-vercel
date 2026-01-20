@@ -956,366 +956,398 @@
 })();
 </script>
 
-<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (ROBUSTA + LOADING + PLAYING) ===== -->
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (OPCIÓN B PRO, SIN RECORTE, ACCESIBLE, ROBUSTA) ===== -->
 <style>
-.examples {
-  position: relative;
-  padding: 50px 20px 0px;
-  background: url('/ondas-neon.jpg') center / cover no-repeat;
-  color: #fff;
-}
-
-.examples::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(5, 8, 25, 0.78);
-  pointer-events: none;
-}
-
-.examples-inner {
-  position: relative;
-  z-index: 2;
-  max-width: 1500px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-/* TÍTULOS */
-.examples h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 38px;
-  color: #d4b483;
-  margin-bottom: 22px;
-  font-weight: 600;
-}
-
-.examples-subtitle {
-  font-family: "Playfair Display", serif;
-  font-size: 16px;
-  opacity: 0.9;
-  margin-bottom: 10px;
-}
-
-.examples-proof {
-  font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 22px;
-}
-
-.examples-note {
-  font-size: 13px;
-  font-style: italic;
-  opacity: 0.8;
-  margin-bottom: 26px;
-}
-
-/* GRID TARIFAS */
-.examples-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  align-items: stretch;
-}
-
-/* TARJETAS */
-.example-card {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.45);
-  background: rgba(0,0,0,0.35);
-  box-shadow: 0 0 22px rgba(255,255,255,0.18);
-  transition: transform .4s ease, box-shadow .4s ease, border-color .25s ease;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-/* Focus visible (accesibilidad) */
-.example-card:focus-visible,
-.style-card:focus-visible,
-.carousel-arrow:focus-visible {
-  outline: 2px solid rgba(212,180,131,0.95);
-  outline-offset: 3px;
-}
-
-/* Hover real (PC) */
-@media (hover:hover) and (pointer:fine) {
-  .example-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 0 45px rgba(255,255,255,0.45);
+  :root{
+    --lirya-gold: #d4b483;
+    --lirya-gold-2: #f2e7c9;
+    --lirya-orange: #ff9f3f;
+    --lirya-orange-2: #e58b2a;
+    --lirya-bg: rgba(5, 8, 25, 0.78);
+    --lirya-card-bg: rgba(0,0,0,0.35);
+    --lirya-border: rgba(255,255,255,0.45);
+    --lirya-shadow: 0 0 22px rgba(255,255,255,0.18);
   }
-}
 
-/* Feedback tap móvil */
-.example-card:active {
-  transform: translateY(-4px);
-  box-shadow: 0 0 45px rgba(255,255,255,0.45);
-}
-
-/* ===== LOADING STATE ===== */
-@keyframes liryaLoadingGlow {
-  0%   { box-shadow: 0 0 16px rgba(255,255,255,0.20); }
-  50%  { box-shadow: 0 0 34px rgba(255,255,255,0.46); }
-  100% { box-shadow: 0 0 16px rgba(255,255,255,0.20); }
-}
-
-.example-card.loading {
-  border-color: rgba(255,255,255,0.75);
-  animation: liryaLoadingGlow 1.2s ease-in-out infinite;
-}
-
-.example-card.loading::after{
-  content: "Cargando…";
-  position: absolute;
-  left: 14px;
-  top: 14px;
-  font-size: 12px;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.55);
-  color: rgba(255,255,255,0.95);
-  letter-spacing: .2px;
-  backdrop-filter: blur(2px);
-  border: 1px solid rgba(255,255,255,0.25);
-  pointer-events: none;
-}
-
-/* PLAYING state */
-.example-card.playing {
-  box-shadow: 0 0 55px rgba(255,255,255,0.55);
-  border-color: rgba(255,255,255,0.75);
-}
-
-/* ===== FIX DEFINITIVO IMÁGENES (NO SE ESTIRAN) ===== */
-.example-media {
-  width: 100%;
-  aspect-ratio: 16 / 9; /* marco fijo 16:9 */
-  background: rgba(0,0,0,0.25);
-  overflow: hidden;
-}
-
-.example-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;       /* recorta sin deformar */
-  object-position: center; /* centra el recorte */
-  display: block;
-}
-
-/* DESTACADA */
-.example-card.destacada {
-  border: 1.5px solid #ff9f3f;
-  box-shadow: 0 0 55px rgba(255,159,63,0.35);
-  z-index: 3;
-}
-
-.example-card.destacada.playing {
-  box-shadow: 0 0 70px rgba(255,159,63,0.6);
-}
-
-.example-card.destacada.loading{
-  border-color: rgba(255,159,63,0.95);
-  animation: liryaLoadingGlow 1.2s ease-in-out infinite;
-}
-
-/* BADGE */
-.badge-popular {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(212,180,131,0.95);
-  color: #1a1a1a;
-  font-family: "Playfair Display", serif;
-  font-size: 13px;
-  padding: 6px 14px;
-  border-radius: 20px;
-}
-
-/* INFO TARIFA */
-.tarifa-info {
-  padding: 26px 22px 30px;
-  text-align: center;
-}
-
-.tarifa-info h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 20px;
-  color: #f2e7c9;
-  margin-bottom: 14px;
-}
-
-.tarifa-precio {
-  font-family: "Playfair Display", serif;
-  font-size: 36px;
-  font-weight: 600;
-  color: #d4b483;
-  margin-bottom: 6px;
-}
-
-.tarifa-entrega {
-  font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 16px;
-}
-
-.tarifa-incluye {
-  font-size: 14px;
-  line-height: 1.6;
-  opacity: 0.85;
-  margin-bottom: 20px;
-}
-
-.tarifa-segura {
-  margin-bottom: 10px;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-/* BOTÓN */
-.tarifa-info a {
-  display: inline-block;
-  background: linear-gradient(135deg, #ff9f3f, #e58b2a);
-  padding: 13px 28px;
-  border-radius: 30px;
-  color: #ffffff;
-  font-family: "Playfair Display", serif;
-  font-size: 14.5px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-/* TEXTO INTERMEDIO */
-.styles-note {
-  margin: 46px 0 16px;
-  font-size: 13px;
-  font-style: italic;
-  opacity: 0.8;
-}
-
-/* ===== CARRUSEL ===== */
-.styles-wrapper {
-  position: relative;
-}
-
-.styles-carousel {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 2px 32px 0px 8px;
-  scroll-snap-type: x mandatory;
-}
-
-.styles-carousel::-webkit-scrollbar { display: none; }
-
-/* VIÑETAS */
-.style-card {
-  min-width: 280px;
-  width: 280px;
-  height: 350px;
-  cursor: pointer;
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  scroll-snap-align: start;
-}
-
-/* Hover real (PC) */
-@media (hover:hover) and (pointer:fine) {
-  .style-card:hover img {
-    transform: translateY(-4px);
+  .examples {
+    position: relative;
+    padding: 50px 20px 0px;
+    background: url('/ondas-neon.jpg') center / cover no-repeat;
+    color: #fff;
   }
-}
 
-/* Tap feedback móvil */
-.style-card:active img {
-  transform: translateY(-2px);
-}
+  .examples::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--lirya-bg);
+    pointer-events: none;
+  }
 
-.style-card img {
-  width: 100%;
-  height: 300px;
-  object-fit: contain;
-  border-radius: 22px;
-  transition: transform .25s ease;
-  display: block;
-}
+  .examples-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1500px;
+    margin: 0 auto;
+    text-align: center;
+  }
 
-/* Loading state para viñetas */
-.style-card.loading::after{
-  content: "Cargando…";
-  position: absolute;
-  left: 14px;
-  top: 14px;
-  font-size: 12px;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.55);
-  color: rgba(255,255,255,0.95);
-  letter-spacing: .2px;
-  backdrop-filter: blur(2px);
-  border: 1px solid rgba(255,255,255,0.25);
-  pointer-events: none;
-}
+  /* TÍTULOS */
+  .examples h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 38px;
+    color: var(--lirya-gold);
+    margin-bottom: 22px;
+    font-weight: 600;
+  }
 
-/* Glow en loading (suave) */
-.style-card.loading img{
-  box-shadow: 0 0 28px rgba(255,255,255,0.35);
-}
+  .examples-subtitle {
+    font-family: "Playfair Display", serif;
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 10px;
+  }
 
-/* ===== PLAYING PULSE ===== */
-@keyframes liryaPlayingPulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(0.94); }
-  100% { transform: scale(1); }
-}
+  .examples-proof {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-bottom: 22px;
+  }
 
-.example-card.playing .example-media img,
-.style-card.playing img {
-  animation: liryaPlayingPulse 1.8s ease-in-out infinite;
-  will-change: transform;
-  transform-origin: center;
-}
+  .examples-note {
+    font-size: 13px;
+    font-style: italic;
+    opacity: 0.8;
+    margin-bottom: 26px;
+  }
 
-/* FLECHAS (convertidas a button) */
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  background: rgba(0,0,0,0.55);
-  border-radius: 50%;
-  color: #fff;
-  font-size: 26px;
-  line-height: 44px;
-  cursor: pointer;
-  z-index: 50;
-  border: none;
-  padding: 0;
-}
+  /* GRID TARIFAS */
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    align-items: stretch;
+  }
 
-.arrow-left { left: 16px; }
-.arrow-right { right: 16px; }
+  /* TARJETA BASE */
+  .example-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--lirya-border);
+    background: var(--lirya-card-bg);
+    box-shadow: var(--lirya-shadow);
+    transition: transform .35s ease, box-shadow .35s ease, border-color .25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-@media (max-width: 900px) {
-  .examples-grid { grid-template-columns: 1fr; }
-  .carousel-arrow { display: none; }
-}
+  /* Hover real (PC) */
+  @media (hover:hover) and (pointer:fine) {
+    .example-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 45px rgba(255,255,255,0.45);
+    }
+  }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce){
+  /* Selección de texto accidental en móvil: fuera */
+  .example-card,
+  .example-card * {
+    user-select: none;
+  }
+  .tarifa-info,
+  .tarifa-info * {
+    user-select: text; /* pero el texto sí puede seleccionarse si el usuario quiere */
+  }
+
+  /* DESTACADA */
+  .example-card.destacada {
+    border: 1.5px solid var(--lirya-orange);
+    box-shadow: 0 0 55px rgba(255,159,63,0.35);
+    z-index: 3;
+  }
+
+  .example-card.destacada.playing {
+    box-shadow: 0 0 70px rgba(255,159,63,0.6);
+  }
+
+  /* BADGE */
+  .badge-popular {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(212,180,131,0.95);
+    color: #1a1a1a;
+    font-family: "Playfair Display", serif;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    z-index: 6;
+    pointer-events: none;
+  }
+
+  /* ===== MEDIA (IMAGEN SIN RECORTE, COMO TU 2ª CAPTURA) ===== */
+  .example-media {
+    position: relative;
+    width: 100%;
+    background: rgba(0,0,0,0.22);
+  }
+
+  /* Botón real que reproduce: ocupa solo el área de imagen */
+  .card-play {
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: block;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .card-play img{
+    width: 100%;
+    height: auto;            /* CLAVE: no recorta, no estira */
+    display: block;
+  }
+
+  /* Overlay sutil al hacer hover/focus en el botón */
+  .card-play::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.24));
+    opacity: 0;
+    transition: opacity .25s ease;
+    pointer-events: none;
+  }
+
+  @media (hover:hover) and (pointer:fine) {
+    .card-play:hover::after { opacity: 1; }
+  }
+
+  /* Focus visible (accesibilidad) */
+  .card-play:focus-visible,
+  .style-card:focus-visible,
+  .carousel-arrow:focus-visible {
+    outline: 2px solid rgba(212,180,131,0.95);
+    outline-offset: 3px;
+  }
+
+  /* ===== LOADING / PLAYING / ERROR ===== */
+  @keyframes liryaLoadingGlow {
+    0%   { box-shadow: 0 0 16px rgba(255,255,255,0.20); }
+    50%  { box-shadow: 0 0 34px rgba(255,255,255,0.46); }
+    100% { box-shadow: 0 0 16px rgba(255,255,255,0.20); }
+  }
+
   .example-card.loading,
-  .style-card.loading{
-    animation: none !important;
+  .style-card.loading {
+    border-color: rgba(255,255,255,0.75);
+    animation: liryaLoadingGlow 1.2s ease-in-out infinite;
   }
-  .example-card.playing .example-media img,
-  .style-card.playing img{
-    animation: none !important;
+
+  .example-card.destacada.loading{
+    border-color: rgba(255,159,63,0.95);
   }
-}
+
+  .state-pill{
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    font-size: 12px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.55);
+    color: rgba(255,255,255,0.95);
+    letter-spacing: .2px;
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255,255,255,0.25);
+    z-index: 7;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-2px);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+
+  .example-card.loading .state-pill,
+  .style-card.loading .state-pill{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .state-pill.error{
+    border-color: rgba(255,120,120,0.55);
+    background: rgba(60,0,0,0.55);
+  }
+
+  .example-card.playing{
+    box-shadow: 0 0 55px rgba(255,255,255,0.55);
+    border-color: rgba(255,255,255,0.75);
+  }
+
+  @keyframes liryaPlayingPulse {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(0.965); }
+    100% { transform: scale(1); }
+  }
+
+  .example-card.playing .card-play img,
+  .style-card.playing img {
+    animation: liryaPlayingPulse 1.8s ease-in-out infinite;
+    will-change: transform;
+    transform-origin: center;
+  }
+
+  /* INFO TARIFA */
+  .tarifa-info {
+    padding: 26px 22px 30px;
+    text-align: center;
+  }
+
+  .tarifa-info h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 20px;
+    color: var(--lirya-gold-2);
+    margin-bottom: 14px;
+  }
+
+  .tarifa-precio {
+    font-family: "Playfair Display", serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--lirya-gold);
+    margin-bottom: 6px;
+  }
+
+  .tarifa-entrega {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+
+  .tarifa-incluye {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin-bottom: 20px;
+  }
+
+  .tarifa-segura {
+    margin-bottom: 10px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  /* CTA (link real) */
+  .tarifa-cta {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--lirya-orange), var(--lirya-orange-2));
+    padding: 13px 28px;
+    border-radius: 30px;
+    color: #ffffff;
+    font-family: "Playfair Display", serif;
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+    z-index: 4; /* blindaje por si metes overlays en el futuro */
+  }
+
+  /* TEXTO INTERMEDIO */
+  .styles-note {
+    margin: 46px 0 16px;
+    font-size: 13px;
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  /* ===== CARRUSEL ===== */
+  .styles-wrapper {
+    position: relative;
+  }
+
+  .styles-carousel {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 2px 32px 0px 8px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; /* iOS */
+  }
+
+  .styles-carousel::-webkit-scrollbar { display: none; }
+
+  /* VIÑETAS: ahora son BUTTON reales */
+  .style-card {
+    min-width: 280px;
+    width: 280px;
+    height: 350px;
+    cursor: pointer;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    scroll-snap-align: start;
+
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+
+  .style-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+    border-radius: 22px;
+    transition: transform .25s ease;
+    display: block;
+  }
+
+  @media (hover:hover) and (pointer:fine) {
+    .style-card:hover img { transform: translateY(-4px); }
+  }
+
+  .style-card:active img { transform: translateY(-2px); }
+
+  /* FLECHAS */
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: rgba(0,0,0,0.55);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 26px;
+    line-height: 44px;
+    cursor: pointer;
+    z-index: 50;
+    border: none;
+    padding: 0;
+  }
+
+  .arrow-left { left: 16px; }
+  .arrow-right { right: 16px; }
+
+  @media (max-width: 900px) {
+    .examples-grid { grid-template-columns: 1fr; }
+    .carousel-arrow { display: none; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .example-card.loading,
+    .style-card.loading{
+      animation: none !important;
+    }
+    .example-card.playing .card-play img,
+    .style-card.playing img{
+      animation: none !important;
+    }
+  }
 </style>
 
 <section class="examples" aria-labelledby="examples-title">
@@ -1337,9 +1369,12 @@
 
     <div class="examples-grid">
 
-      <div class="example-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: Un bonito detalle">
+      <article class="example-card" aria-label="Tarifa 49€ - Un bonito detalle">
         <div class="example-media">
-          <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy" width="1200" height="675" decoding="async">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: Un bonito detalle">
+            <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy" width="1200" height="675" decoding="async">
+          </button>
         </div>
         <div class="tarifa-info">
           <h3>Un bonito detalle</h3>
@@ -1351,14 +1386,17 @@
             • <strong>Incluye ajustes para que quede perfecta</strong> (1 revisión)
           </div>
           <div class="tarifa-segura"><em>Menor nivel de detalle emocional</em></div>
-          <a href="#formulario-lirya" data-tarifa="49">Quiero un detalle bonito</a>
+          <a class="tarifa-cta" href="#formulario-lirya" data-tarifa="49">Quiero un detalle bonito</a>
         </div>
-      </div>
+      </article>
 
-      <div class="example-card destacada" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: El regalo que emociona de verdad">
+      <article class="example-card destacada" aria-label="Tarifa 59€ - El regalo que emociona de verdad">
         <span class="badge-popular">La más elegida</span>
         <div class="example-media">
-          <img src="/Eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy" width="1200" height="675" decoding="async">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: El regalo que emociona de verdad">
+            <img src="/Eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy" width="1200" height="675" decoding="async">
+          </button>
         </div>
         <div class="tarifa-info">
           <h3>El regalo que emociona de verdad</h3>
@@ -1369,16 +1407,17 @@
             • Ideal para regalar (San Valentín, aniversarios…)<br>
             • <strong>Incluye ajustes para que quede perfecta</strong> (hasta 2 revisiones)
           </div>
-          <div class="tarifa-segura">
-            <strong>La opción más segura para emocionar de verdad</strong>
-          </div>
-          <a href="#formulario-lirya" data-tarifa="59">Quiero emocionar de verdad</a>
+          <div class="tarifa-segura"><strong>La opción más segura para emocionar de verdad</strong></div>
+          <a class="tarifa-cta" href="#formulario-lirya" data-tarifa="59">Quiero emocionar de verdad</a>
         </div>
-      </div>
+      </article>
 
-      <div class="example-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: Una canción para recordar siempre">
+      <article class="example-card" aria-label="Tarifa 79€ - Una canción para recordar siempre">
         <div class="example-media">
-          <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy" width="1200" height="675" decoding="async">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: Una canción para recordar siempre">
+            <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy" width="1200" height="675" decoding="async">
+          </button>
         </div>
         <div class="tarifa-info">
           <h3>Una canción para recordar siempre</h3>
@@ -1389,12 +1428,10 @@
             • Prioridad absoluta en creación<br>
             • <strong>Incluye ajustes para que quede perfecta</strong> (hasta 5 revisiones)
           </div>
-          <div class="tarifa-segura">
-            <em>Para quienes buscan el máximo impacto sin límites</em>
-          </div>
-          <a href="#formulario-lirya" data-tarifa="79">Quiero el máximo impacto</a>
+          <div class="tarifa-segura"><em>Para quienes buscan el máximo impacto sin límites</em></div>
+          <a class="tarifa-cta" href="#formulario-lirya" data-tarifa="79">Quiero el máximo impacto</a>
         </div>
-      </div>
+      </article>
 
     </div>
 
@@ -1407,19 +1444,70 @@
       <button class="carousel-arrow arrow-right" type="button" id="stylesArrowRight" aria-label="Desplazar estilos a la derecha">›</button>
 
       <div class="styles-carousel" id="stylesCarousel" aria-label="Carrusel de estilos musicales">
-        <div class="style-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Flamenco"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/flamenco.webp" alt="Ejemplo estilo Flamenco"></div>
-        <div class="style-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Cinematográfico"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/cinematografica.webp" alt="Ejemplo estilo Cinematográfico"></div>
-        <div class="style-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Reggae chill"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/reggae.webp" alt="Ejemplo estilo Reggae chill"></div>
-        <div class="style-card" data-audio="/audio/pop.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Pop"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/pop.webp" alt="Ejemplo estilo Pop"></div>
-        <div class="style-card" data-audio="/audio/bachata.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Bachata"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/bachata.webp" alt="Ejemplo estilo Bachata"></div>
-        <div class="style-card" data-audio="/audio/jazz.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Jazz"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/jazz.webp" alt="Ejemplo estilo Jazz"></div>
-        <div class="style-card" data-audio="/audio/hiphop.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Hip hop"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/hiphop.webp" alt="Ejemplo estilo Hip hop"></div>
-        <div class="style-card" data-audio="/audio/reggaeton.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Reggaeton"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/reggaeton.webp" alt="Ejemplo estilo Reggaeton"></div>
-        <div class="style-card" data-audio="/audio/balada.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Balada"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/balada.webp" alt="Ejemplo estilo Balada"></div>
-        <div class="style-card" data-audio="/audio/indie.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Indie"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/indie.webp" alt="Ejemplo estilo Indie"></div>
-        <div class="style-card" data-audio="/audio/rock.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Rock"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rock.webp" alt="Ejemplo estilo Rock"></div>
-        <div class="style-card" data-audio="/audio/electro.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Electrónica"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/electronica.webp" alt="Ejemplo estilo Electrónica"></div>
-        <div class="style-card" data-audio="/audio/rb.mp3" role="button" tabindex="0" aria-label="Reproducir estilo R&amp;B"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rb.webp" alt="Ejemplo estilo R&amp;B"></div>
+        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Flamenco">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/flamenco.webp" alt="Ejemplo estilo Flamenco">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Cinematográfico">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/cinematografica.webp" alt="Ejemplo estilo Cinematográfico">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Reggae chill">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/reggae.webp" alt="Ejemplo estilo Reggae chill">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/pop.mp3" aria-label="Reproducir estilo Pop">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/pop.webp" alt="Ejemplo estilo Pop">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/bachata.mp3" aria-label="Reproducir estilo Bachata">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/bachata.webp" alt="Ejemplo estilo Bachata">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/jazz.mp3" aria-label="Reproducir estilo Jazz">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/jazz.webp" alt="Ejemplo estilo Jazz">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/hiphop.mp3" aria-label="Reproducir estilo Hip hop">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/hiphop.webp" alt="Ejemplo estilo Hip hop">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/reggaeton.mp3" aria-label="Reproducir estilo Reggaeton">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/reggaeton.webp" alt="Ejemplo estilo Reggaeton">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/balada.mp3" aria-label="Reproducir estilo Balada">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/balada.webp" alt="Ejemplo estilo Balada">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/indie.mp3" aria-label="Reproducir estilo Indie">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/indie.webp" alt="Ejemplo estilo Indie">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/rock.mp3" aria-label="Reproducir estilo Rock">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rock.webp" alt="Ejemplo estilo Rock">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/electro.mp3" aria-label="Reproducir estilo Electrónica">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/electronica.webp" alt="Ejemplo estilo Electrónica">
+        </button>
+
+        <button class="style-card" type="button" data-audio="/audio/rb.mp3" aria-label="Reproducir estilo R&amp;B">
+          <span class="state-pill" aria-hidden="true">Cargando…</span>
+          <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rb.webp" alt="Ejemplo estilo R&amp;B">
+        </button>
       </div>
     </div>
 
@@ -1439,12 +1527,12 @@
 
   if (!root || !player) return;
 
-  let currentCard = null;
-  let pendingCard = null;
-  let loadingTimeoutId = null;
-
   const FAILSAFE_MS = 8000;
   const SCROLL_STEP = 340;
+
+  let currentBtn = null;     // botón que está sonando
+  let pendingBtn = null;     // botón que está cargando
+  let loadingTimeoutId = null;
 
   function clearLoadingTimeout(){
     if (loadingTimeoutId) {
@@ -1453,9 +1541,25 @@
     }
   }
 
-  function clearStateClasses(){
+  function clearStates(){
     root.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
     root.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
+  }
+
+  function setPillText(container, text, isError){
+    const pill = container.querySelector('.state-pill');
+    if (!pill) return;
+    pill.textContent = text;
+    pill.classList.toggle('error', !!isError);
+  }
+
+  function showError(container){
+    setPillText(container, 'Error al reproducir', true);
+    container.classList.add('loading'); // reutilizamos pill visible
+    setTimeout(() => {
+      container.classList.remove('loading');
+      setPillText(container, 'Cargando…', false);
+    }, 1800);
   }
 
   function hardResetAudio(){
@@ -1467,91 +1571,83 @@
     } catch(_) {}
   }
 
-  function stopCurrent() {
+  function stopAll(){
     clearLoadingTimeout();
     hardResetAudio();
-    clearStateClasses();
-    currentCard = null;
-    pendingCard = null;
+    clearStates();
+    currentBtn = null;
+    pendingBtn = null;
   }
 
-  function setLoading(card){
-    clearStateClasses();
-    card.classList.add('loading');
-  }
-
-  function playForCard(card, src){
+  function playForButton(btn){
+    const src = btn && btn.dataset ? btn.dataset.audio : null;
     if (!src) return;
 
-    // Toggle: misma card mientras está sonando -> parar
-    if (currentCard === card) {
-      stopCurrent();
+    // Toggle: si vuelves a tocar lo que suena, paras
+    if (currentBtn === btn) {
+      stopAll();
       return;
     }
 
-    // Paramos lo que haya (incluye abort real)
-    stopCurrent();
+    stopAll();
 
-    // Estado inmediato: loading
-    pendingCard = card;
-    setLoading(card);
+    pendingBtn = btn;
+
+    // Marcamos loading en el contenedor más cercano (tarjeta o style-card)
+    const container = btn.closest('.example-card') || btn.closest('.style-card') || btn;
+    container.classList.add('loading');
+    setPillText(container, 'Cargando…', false);
 
     const abs = new URL(src, window.location.href).href;
-
     player.src = abs;
+
     try { player.load(); } catch(_) {}
 
-    // Failsafe: evita loading infinito
     clearLoadingTimeout();
     loadingTimeoutId = setTimeout(() => {
-      stopCurrent();
+      container.classList.remove('loading');
+      showError(container);
+      stopAll();
     }, FAILSAFE_MS);
 
-    const playPromise = player.play();
-    if (playPromise && typeof playPromise.catch === 'function') {
-      playPromise.catch(() => stopCurrent());
+    const p = player.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {
+        container.classList.remove('loading');
+        showError(container);
+        stopAll();
+      });
     }
   }
 
-  function onCardActivate(card, e){
-    // Si el click fue en el CTA (o dentro), no tocar el audio
-    if (e && e.target && e.target.closest && e.target.closest('a')) return;
-    const src = card.dataset.audio;
-    playForCard(card, src);
-  }
+  // Clicks en botones (ya gestionan Enter/Espacio por defecto)
+  root.querySelectorAll('button[data-audio]').forEach(btn => {
+    btn.addEventListener('click', () => playForButton(btn));
+  });
 
-  function onCardKeydown(card, e){
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onCardActivate(card, e);
-    }
-  }
-
-  // Solo marcamos .playing cuando el audio realmente suena
+  // Estado real “playing”
   player.addEventListener('playing', () => {
     clearLoadingTimeout();
-    if (!pendingCard) return;
-    clearStateClasses();
-    currentCard = pendingCard;
-    currentCard.classList.add('playing');
-    pendingCard = null;
+    if (!pendingBtn) return;
+
+    clearStates();
+    currentBtn = pendingBtn;
+
+    const container = currentBtn.closest('.example-card') || currentBtn.closest('.style-card') || currentBtn;
+    container.classList.add('playing');
+    container.classList.remove('loading');
+
+    pendingBtn = null;
   });
 
-  player.addEventListener('ended', stopCurrent);
-  player.addEventListener('error', stopCurrent);
-
-  // Cards de tarifas (ejemplos reales)
-  root.querySelectorAll('.example-card').forEach(card => {
-    if (!card.dataset.audio) return;
-    card.addEventListener('click', (e) => onCardActivate(card, e));
-    card.addEventListener('keydown', (e) => onCardKeydown(card, e));
-  });
-
-  // Cards de estilos musicales
-  root.querySelectorAll('.style-card').forEach(card => {
-    if (!card.dataset.audio) return;
-    card.addEventListener('click', (e) => onCardActivate(card, e));
-    card.addEventListener('keydown', (e) => onCardKeydown(card, e));
+  player.addEventListener('ended', stopAll);
+  player.addEventListener('error', () => {
+    if (pendingBtn) {
+      const container = pendingBtn.closest('.example-card') || pendingBtn.closest('.style-card') || pendingBtn;
+      container.classList.remove('loading');
+      showError(container);
+    }
+    stopAll();
   });
 
   // Carrusel
@@ -3270,6 +3366,7 @@
   </div>
 
 </section>
+
 
 
 
