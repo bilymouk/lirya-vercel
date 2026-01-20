@@ -245,6 +245,20 @@
       animation:floatPhoneMobile 5s ease-in-out infinite;
     }
 
+    /* DESKTOP: ajusta aquí */
+.hero-phone-wrap--desktop{
+  --play-left: 63.5%;
+  --play-top:  86.5%;
+  --play-size: 10.5%;
+}
+
+/* MOBILE: ajusta aquí */
+.hero-phone-wrap--mobile{
+  --play-left: 62.5%;
+  --play-top:  86.0%;
+  --play-size: 12.5%;
+}
+
     /* PHONE DESKTOP (img ya no anima) */
     .hero-phone{
       width:315px;
@@ -297,42 +311,36 @@
       will-change:transform;
     }
 
-    /* BOTON OVERLAY (NUEVO) */
-    .play-overlay{
-      position:absolute;
-      z-index:6;
+    /* BOTON OVERLAY */
+.play-overlay{
+  position:absolute;
+  z-index:999;
 
-      /* A OJO: alineación sobre el play del mockup.
-         Ajustaremos luego con tus capturas. */
-      left: 46%;
-      top: 68.5%;
+  /* ✅ valores por defecto (DESKTOP) */
+  left: var(--play-left, 63.5%);
+  top:  var(--play-top, 86.5%);
+  width: var(--play-size, 10.5%);
+  aspect-ratio: 1 / 1;
 
-      /* tamaño responsivo en % del ancho del mockup */
-      width: 18.5%;
-      aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
 
-      transform: translate(-50%, -50%);
-      background: transparent;
-      border: 0;
-      padding: 0;
-      cursor: pointer;
+  animation: pulsePlay 1.15s ease-in-out infinite;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+}
 
-      /* latido */
-      animation: pulsePlay 1.15s ease-in-out infinite;
-
-      /* que destaque un poco */
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
-    }
-
-    .play-overlay img{
-      width:100%;
-      height:100%;
-      display:block;
-      object-fit:contain;
-      user-select:none;
-      -webkit-user-drag:none;
-      pointer-events:none; /* el click lo recibe el button */
-    }
+.play-overlay img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
 
     .hero-mobile-benefits{
       list-style:none;
@@ -3966,6 +3974,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
