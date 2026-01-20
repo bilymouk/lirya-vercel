@@ -1,15 +1,9 @@
-/**
- * /api/payment
- * Crea Checkout Session en Stripe + envía a Make un "pedido pendiente" con TODO el formulario.
- * Luego Stripe webhook marcará PAGADO usando stripe_session_id.
- */
 const Stripe = require("stripe");
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16",
 });
 
-/* ===================== CORS (opcional pero seguro) ===================== */
 function isAllowedOrigin(origin) {
   const allowed = new Set([
     "https://lirya.studio",
@@ -28,7 +22,6 @@ function setCors(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
-/* ===================== Utils ===================== */
 function validateEmail(val) {
   const v = String(val || "").trim();
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -68,7 +61,26 @@ function resolveBaseUrl(req) {
   return BASE_URL.replace(/\/+$/, "");
 }
 
-/* ===================== Handler ===================== */
+async function postToMake(url, payload) {
+  if (!url) return { skipped: true, reason: "missing_url" };
+
+  // Node 18+ en Vercel tiene fetch global. Si no, fallará y lo veremos en logs.
+  const r = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  const text = await r.text().catch(() => "");
+  if (!r.ok) {
+    const err = new Error(`Make webhook failed (${r.status}): ${text}`);
+    err.status = r.status;
+    throw err;
+  }
+
+  return { ok: true, status: r.status, text };
+}
+
 module.exports = async (req, res) => {
   setCors(req, res);
 
@@ -78,8 +90,7 @@ module.exports = async (req, res) => {
   try {
     const f = req.body || {};
 
-    // Campos mínimos para Stripe + anti-basura
-    const tarifa = clampStr(f.tarifa, 3);          // "49" | "59" | "79"
+    const tarifa = clampStr(f.tarifa, 3);
     const email = clampStr(f.email, 254);
     const recipientName = clampStr(f.recipient_name, 80);
 
@@ -91,14 +102,12 @@ module.exports = async (req, res) => {
     const BASE_URL = resolveBaseUrl(req);
     if (!BASE_URL) return res.status(500).json({ error: "BASE_URL inválida" });
 
-    // ✅ Stripe Checkout Session
+    // 1) Stripe session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       customer_email: email,
-
       billing_address_collection: "required",
-      customer_creation: "always",
 
       line_items: [
         {
@@ -117,7 +126,7 @@ module.exports = async (req, res) => {
       success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${BASE_URL}/cancel.html`,
 
-      // Metadata mínima (útil para debug y match)
+      // ✅ metadata mínima pero útil
       metadata: {
         email,
         tarifa,
@@ -125,40 +134,28 @@ module.exports = async (req, res) => {
       },
     });
 
-    // ✅ Enviar a Make un pedido "PENDIENTE" con TODO el formulario + stripe_session_id
-    // (no rompemos el pago si Make falla)
+    // 2) Enviar a Make "PENDIENTE" con el formulario + stripe_session_id
+    //    Esto es lo que te rellena Airtable ANTES del pago.
+    const pendingUrl = (process.env.MAKE_WEBHOOK_URL_PENDING || "").trim();
+
+    // ⚠️ Importante: guardas el form completo aquí, y luego Make lo podrá actualizar a PAGADO con el webhook
+    const pendingPayload = {
+      ...f,
+      stripe_session_id: session.id,
+      estado_pago: "PENDIENTE",
+      created_at: new Date().toISOString(),
+    };
+
+    // Si Make falla, NO rompas el pago: cobra igual.
+    // Pero lo LOGUEAMOS para debug.
     try {
-      const MAKE_WEBHOOK_URL_PENDING = (process.env.MAKE_WEBHOOK_URL_PENDING || "").trim();
-
-      if (!MAKE_WEBHOOK_URL_PENDING) {
-        console.warn("⚠️ Falta MAKE_WEBHOOK_URL_PENDING en env. Saltando envío a Make (pendiente).");
-      } else {
-        const payload = {
-          ...f, // 👈 IMPORTANTÍSIMO: manda TODO el formulario
-          stripe_session_id: session.id,
-          estado_pago: "PENDIENTE",
-          created_at: new Date().toISOString(),
-        };
-
-        const rr = await fetch(MAKE_WEBHOOK_URL_PENDING, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        if (!rr.ok) {
-          const t = await rr.text().catch(() => "");
-          console.error("❌ Make PENDIENTE no OK:", rr.status, t);
-        } else {
-          console.log("✅ Enviado a Make (PENDIENTE):", session.id);
-        }
-      }
+      await postToMake(pendingUrl, pendingPayload);
+      console.log("✅ Make PENDING enviado", session.id);
     } catch (e) {
-      console.error("⚠️ Error enviando a Make (PENDIENTE):", e?.message || e);
+      console.error("⚠️ Make PENDING falló:", e.message || e);
     }
 
-    // ✅ Respuesta al front para redirigir
-    return res.status(200).json({ url: session.url });
+    return res.status(200).json({ url: session.url, session_id: session.id });
   } catch (error) {
     console.error("❌ ERROR PAYMENT:", error && error.message ? error.message : error);
     return res.status(500).json({ error: "Error al crear sesión de pago" });
