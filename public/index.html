@@ -135,10 +135,12 @@
       content:""; position:absolute; inset:0;
       background:rgba(0,0,0,.40);
     }
+
+    /* ✅ MENOS MARGEN ARRIBA/ABAJO EN DESKTOP */
     .hero-inner{
       position:relative; z-index:2;
       max-width:1200px; margin:0 auto;
-      padding:56px 40px;
+      padding:40px 40px; /* antes 56px 40px */
     }
 
     /* DESKTOP */
@@ -224,42 +226,38 @@
       opacity:.86;
     }
 
-    /* ========= PHONE WRAPPER + OVERLAY (NUEVO) ========= */
+    /* ========= PHONE WRAPPER + OVERLAY ========= */
     .hero-phone-wrap{
       position:relative;
       display:inline-block;
       justify-self:end;
       margin-left:12px;
-
-      /* el “tamaño” lo define el img, esto solo es contenedor */
       will-change:transform;
     }
 
-    /* animación flotado DESKTOP ahora va en el WRAP (no en el img) */
     .hero-phone-wrap--desktop{
       animation:floatPhoneDesktop 5s ease-in-out infinite;
     }
 
-    /* animación flotado MOBILE ahora va en el WRAP (no en el img) */
     .hero-phone-wrap--mobile{
       animation:floatPhoneMobile 5s ease-in-out infinite;
     }
 
-    /* DESKTOP: ajusta aquí */
-.hero-phone-wrap--desktop{
-  --play-left: 41.5%;
-  --play-top:  64.5%;
-  --play-size: 42.5%;
-}
+    /* DESKTOP variables */
+    .hero-phone-wrap--desktop{
+      --play-left: 41.5%;
+      --play-top:  64.5%;
+      --play-size: 42.5%;
+    }
 
-/* MOBILE: ajusta aquí */
-.hero-phone-wrap--mobile{
-  --play-left: 43%;
-  --play-top:  63%;
-  --play-size: 45%;
-}
+    /* MOBILE variables */
+    .hero-phone-wrap--mobile{
+      --play-left: 43%;
+      --play-top:  63%;
+      --play-size: 45%;
+    }
 
-    /* PHONE DESKTOP (img ya no anima) */
+    /* PHONE DESKTOP */
     .hero-phone{
       width:355px;
       height:auto;
@@ -291,7 +289,6 @@
       margin:0 10px 18px;
     }
 
-    /* ✅ Mobile: aún más grande */
     .hero-mobile .hero-subline--emphasis{
       font-size:1.42rem;
       line-height:1.28;
@@ -313,36 +310,36 @@
     }
 
     /* BOTON OVERLAY */
-.play-overlay{
-  position:absolute;
-  z-index:999;
+    .play-overlay{
+      position:absolute;
+      z-index:999;
 
-  /* ✅ valores por defecto (DESKTOP) */
-  left: var(--play-left, 63.5%);
-  top:  var(--play-top, 86.5%);
-  width: var(--play-size, 10.5%);
-  aspect-ratio: 1 / 1;
+      left: var(--play-left, 63.5%);
+      top:  var(--play-top, 86.5%);
+      width: var(--play-size, 10.5%);
+      aspect-ratio: 1 / 1;
 
-  transform: translate(-50%, -50%) rotate(13deg);
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
+      transform: translate(-50%, -50%) rotate(13deg);
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
 
-  animation: none;
-}
+      animation: none;
+    }
 
-.play-overlay img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:contain;
-  pointer-events:none;
-  user-select:none;
-  -webkit-user-drag:none;
-  animation: pulsePlay 1.15s ease-in-out infinite;
-  transform-origin: 50% 50%;
-}
+    .play-overlay img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:contain;
+      pointer-events:none;
+      user-select:none;
+      -webkit-user-drag:none;
+
+      animation: pulsePlay 1.15s ease-in-out infinite;
+      transform-origin: 50% 50%;
+    }
 
     .hero-mobile-benefits{
       list-style:none;
@@ -357,7 +354,7 @@
       margin-bottom:4px;
     }
 
-    /* ✅ Animations (con 1cm a la izquierda en DESKTOP) */
+    /* Animations */
     @keyframes floatPhoneDesktop{
       0%   { transform:translateX(-6px) translateY(2px); }
       50%  { transform:translateX(-6px) translateY(-6px); }
@@ -369,12 +366,10 @@
       100% { transform:translateY(2px); }
     }
 
-    /* latido botón */
- @keyframes pulsePlay{
-  0%,100% { transform: scale(1); }
-  50%     { transform: scale(1.12); }
-}
-
+    @keyframes pulsePlay{
+      0%,100% { transform: scale(1); }
+      50%     { transform: scale(1.12); }
+    }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
@@ -399,20 +394,18 @@
       .hero-phone-wrap{
         display:block;
         width:fit-content;
-        margin:0 auto;
+        margin:0 auto 4px; /* ✅ controla el hueco debajo del mockup */
       }
 
+      /* ✅ AQUÍ estaba el problema: antes era 14px auto 18px */
       .hero-mobile-image{
         width:85%;
         max-width:360px;
-        margin:14px auto 18px;
+        margin:6px auto 2px; /* ✅ reduce MUCHO el hueco */
       }
 
-      /* ✅ Tu ajuste original de X en móvil ahora va al WRAP,
-         para que también lo siga el botón overlay */
-
       .hero-mobile-benefits{
-        margin:0;
+        margin:0;            /* ✅ sin aire arriba */
         padding:0 10px;
       }
 
@@ -614,7 +607,6 @@
         <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
         <h1>Vuestra historia convertida en una canción</h1>
 
-        <!-- ✅ Texto actualizado + más grande -->
         <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
 
         <ul class="hero-benefits">
@@ -627,7 +619,6 @@
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
 
-      <!-- ✅ WRAP con flotado + overlay -->
       <div class="hero-phone-wrap hero-phone-wrap--desktop">
         <img
           src="/mockup-phone-final.png"
@@ -655,10 +646,8 @@
       <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
       <h1>Vuestra historia convertida en una canción</h1>
 
-      <!-- ✅ Texto actualizado + más grande -->
       <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
 
-      <!-- ✅ WRAP con flotado + overlay -->
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
           src="/mockup-phone-final.png"
@@ -704,7 +693,6 @@
   ].filter(Boolean);
 
   function setPressedState(isPlaying){
-    // Mantiene tu aria-pressed en las imágenes (las que lo tienen)
     const imgTriggers = [
       document.getElementById("mockup-audio-trigger-desktop"),
       document.getElementById("mockup-audio-trigger-mobile")
@@ -3974,6 +3962,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
