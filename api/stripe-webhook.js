@@ -1,24 +1,29 @@
 import Stripe from "stripe";
 import getRawBody from "raw-body";
-import { fetch as undiciFetch } from "undici";
 
-export const config = { api: { bodyParser: false } };
+export const config = {
+  api: {
+    bodyParser: false, // ⚠️ OBLIGATORIO para Stripe
+  },
+};
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16",
 });
 
-function getFetch() {
-  return typeof globalThis.fetch === "function" ? globalThis.fetch : undiciFetch;
-}
-
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
+  if (req.method !== "POST") {
+    return res.status(405).send("Method Not Allowed");
+  }
 
   const sig = req.headers["stripe-signature"];
-  if (!sig) return res.status(400).send("Missing Stripe-Signature");
+  if (!sig) {
+    console.error("❌ Falta Stripe-Signature");
+    return res.status(400).send("Missing Stripe signature");
+  }
 
   let event;
+
   try {
     const rawBody = await getRawBody(req);
     event = stripe.webhooks.constructEvent(
@@ -32,41 +37,37 @@ export default async function handler(req, res) {
   }
 
   try {
-    const relevant =
-      event.type === "checkout.session.completed" ||
-      event.type === "checkout.session.async_payment_succeeded"; // opcional, pero pro
-
-    if (relevant) {
+    // ✅ SOLO cuando el pago se ha completado
+    if (event.type === "checkout.session.completed") {
       const session = event.data.object;
 
+      // Seguridad extra (Stripe a veces dispara eventos previos)
       if (session.payment_status !== "paid") {
-        console.log("ℹ️ Session not paid:", {
-          sessionId: session.id,
-          status: session.payment_status,
-          type: event.type,
-        });
-        return res.status(200).json({ received: true, ignored: true });
+        console.log("ℹ️ Evento recibido pero no pagado:", session.id);
+        return res.status(200).json({ ignored: true });
       }
 
-      const MAKE_WEBHOOK_URL = (process.env.MAKE_WEBHOOK_URL_PAID || "").trim();
-      if (!MAKE_WEBHOOK_URL) {
-        console.error("❌ Falta MAKE_WEBHOOK_URL_PAID en env");
+      const MAKE_WEBHOOK_URL_PAID = (process.env.MAKE_WEBHOOK_URL_PAID || "").trim();
+      if (!MAKE_WEBHOOK_URL_PAID) {
+        console.error("❌ Falta MAKE_WEBHOOK_URL_PAID en variables de entorno");
+        // 500 → Stripe reintentará (no se pierde el evento)
         return res.status(500).send("Server misconfigured");
       }
 
+      // 🔑 Payload CLAVE para Make + Airtable
       const payload = {
-        stripe_event_id: event.id,
-        stripe_session_id: session.id,
+        stripe_event_id: event.id,          // idempotencia
+        stripe_session_id: session.id,      // MATCH con el registro pendiente
         email: session.customer_email,
         amount_total: session.amount_total,
         currency: session.currency,
         tarifa: session.metadata?.tarifa || null,
         metadata: session.metadata || {},
         estado_pago: "PAGADO",
+        paid_at: new Date().toISOString(),
       };
 
-      const doFetch = getFetch();
-      const r = await doFetch(MAKE_WEBHOOK_URL, {
+      const r = await fetch(MAKE_WEBHOOK_URL_PAID, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -74,11 +75,12 @@ export default async function handler(req, res) {
 
       if (!r.ok) {
         const t = await r.text().catch(() => "");
-        console.error("❌ Make no OK:", r.status, t);
+        console.error("❌ Make PAGADO no OK:", r.status, t);
+        // 500 → Stripe reintentará automáticamente
         return res.status(500).send("Make webhook failed");
       }
 
-      console.log("✅ Pago enviado a Make:", { eventId: event.id, sessionId: session.id });
+      console.log("✅ Pago confirmado y enviado a Make:", session.id);
     }
 
     return res.status(200).json({ received: true });
