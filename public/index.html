@@ -1032,6 +1032,14 @@
   touch-action: manipulation;
 }
 
+/* Focus visible (accesibilidad) */
+.example-card:focus-visible,
+.style-card:focus-visible,
+.carousel-arrow:focus-visible {
+  outline: 2px solid rgba(212,180,131,0.95);
+  outline-offset: 3px;
+}
+
 /* Hover real (PC) */
 @media (hover:hover) and (pointer:fine) {
   .example-card:hover {
@@ -1080,8 +1088,19 @@
   border-color: rgba(255,255,255,0.75);
 }
 
-.example-card img {
+/* ===== FIX DEFINITIVO IMÁGENES (NO SE ESTIRAN) ===== */
+.example-media {
   width: 100%;
+  aspect-ratio: 16 / 9; /* marco fijo 16:9 */
+  background: rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+.example-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* recorta sin deformar */
+  object-position: center; /* centra el recorte */
   display: block;
 }
 
@@ -1186,6 +1205,7 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 2px 32px 0px 8px;
+  scroll-snap-type: x mandatory;
 }
 
 .styles-carousel::-webkit-scrollbar { display: none; }
@@ -1199,6 +1219,7 @@
   position: relative;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  scroll-snap-align: start;
 }
 
 /* Hover real (PC) */
@@ -1251,7 +1272,7 @@
   100% { transform: scale(1); }
 }
 
-.example-card.playing img,
+.example-card.playing .example-media img,
 .style-card.playing img {
   animation: liryaPlayingPulse 1.8s ease-in-out infinite;
   will-change: transform;
@@ -1290,7 +1311,7 @@
   .style-card.loading{
     animation: none !important;
   }
-  .example-card.playing img,
+  .example-card.playing .example-media img,
   .style-card.playing img{
     animation: none !important;
   }
@@ -1317,7 +1338,9 @@
     <div class="examples-grid">
 
       <div class="example-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: Un bonito detalle">
-        <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy" width="1200" height="675" decoding="async">
+        <div class="example-media">
+          <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy" width="1200" height="675" decoding="async">
+        </div>
         <div class="tarifa-info">
           <h3>Un bonito detalle</h3>
           <div class="tarifa-precio">49€</div>
@@ -1334,7 +1357,9 @@
 
       <div class="example-card destacada" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: El regalo que emociona de verdad">
         <span class="badge-popular">La más elegida</span>
-        <img src="/Eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy" width="1200" height="675" decoding="async">
+        <div class="example-media">
+          <img src="/Eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy" width="1200" height="675" decoding="async">
+        </div>
         <div class="tarifa-info">
           <h3>El regalo que emociona de verdad</h3>
           <div class="tarifa-precio">59€</div>
@@ -1352,7 +1377,9 @@
       </div>
 
       <div class="example-card" data-audio="/audio/test.mp3" role="button" tabindex="0" aria-label="Reproducir ejemplo: Una canción para recordar siempre">
-        <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy" width="1200" height="675" decoding="async">
+        <div class="example-media">
+          <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy" width="1200" height="675" decoding="async">
+        </div>
         <div class="tarifa-info">
           <h3>Una canción para recordar siempre</h3>
           <div class="tarifa-precio">79€</div>
@@ -1392,7 +1419,7 @@
         <div class="style-card" data-audio="/audio/indie.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Indie"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/indie.webp" alt="Ejemplo estilo Indie"></div>
         <div class="style-card" data-audio="/audio/rock.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Rock"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rock.webp" alt="Ejemplo estilo Rock"></div>
         <div class="style-card" data-audio="/audio/electro.mp3" role="button" tabindex="0" aria-label="Reproducir estilo Electrónica"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/electronica.webp" alt="Ejemplo estilo Electrónica"></div>
-        <div class="style-card" data-audio="/audio/rb.mp3" role="button" tabindex="0" aria-label="Reproducir estilo R&B"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rb.webp" alt="Ejemplo estilo R&amp;B"></div>
+        <div class="style-card" data-audio="/audio/rb.mp3" role="button" tabindex="0" aria-label="Reproducir estilo R&amp;B"><img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rb.webp" alt="Ejemplo estilo R&amp;B"></div>
       </div>
     </div>
 
@@ -1415,7 +1442,6 @@
   let currentCard = null;
   let pendingCard = null;
   let loadingTimeoutId = null;
-  let isResetting = false;
 
   const FAILSAFE_MS = 8000;
   const SCROLL_STEP = 340;
@@ -1432,20 +1458,13 @@
     root.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
   }
 
-  // ABORT: corta reproducción + intenta cortar carga anterior
   function hardResetAudio(){
-    isResetting = true;
     try { player.pause(); } catch(_) {}
     try { player.currentTime = 0; } catch(_) {}
-
-    // Abort best-effort
     try {
       player.removeAttribute('src');
       player.load();
     } catch(_) {}
-
-    // libera guard en microtask para que eventos "pause" no nos re-llamen stopCurrent
-    Promise.resolve().then(() => { isResetting = false; });
   }
 
   function stopCurrent() {
@@ -1479,7 +1498,6 @@
 
     const abs = new URL(src, window.location.href).href;
 
-    // Asignar src y cargar
     player.src = abs;
     try { player.load(); } catch(_) {}
 
@@ -1522,17 +1540,6 @@
   player.addEventListener('ended', stopCurrent);
   player.addEventListener('error', stopCurrent);
 
-  // Evita “doble stop” durante el propio reset
-  player.addEventListener('pause', () => {
-    if (isResetting) return;
-
-    const d = Number.isFinite(player.duration) ? player.duration : 0;
-    // Si se pausa a mitad (no ended), limpiamos UI
-    if (player.currentTime > 0 && (d === 0 || player.currentTime < d)) {
-      stopCurrent();
-    }
-  });
-
   // Cards de tarifas (ejemplos reales)
   root.querySelectorAll('.example-card').forEach(card => {
     if (!card.dataset.audio) return;
@@ -1547,7 +1554,7 @@
     card.addEventListener('keydown', (e) => onCardKeydown(card, e));
   });
 
-  // Carrusel (sin globals, sin inline onclick)
+  // Carrusel
   function scrollStyles(dir){
     if (!carousel) return;
     carousel.scrollBy({ left: dir * SCROLL_STEP, behavior: 'smooth' });
@@ -1557,6 +1564,7 @@
   if (arrowRight) arrowRight.addEventListener('click', () => scrollStyles(1));
 })();
 </script>
+
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -3262,6 +3270,7 @@
   </div>
 
 </section>
+
 
 
 
