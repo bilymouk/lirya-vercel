@@ -3461,170 +3461,227 @@
 })();
 </script>
 
-
-<!-- ===== GARANTÍA DE SATISFACCIÓN REAL ===== -->
+<!-- ===== GARANTÍA (CARDS + CARRUSEL MÓVIL) ===== -->
 <style>
-.lirya-guarantee {
-  position: relative;
-  background: url('/ondas-neon.jpg') center / cover no-repeat;
-  padding: 90px 20px;
-  text-align: center;
-  overflow: hidden;
+.lirya-guarantee{
+  position:relative;
+  background:url('/ondas-neon.jpg') center/cover no-repeat;
+  padding:90px 20px;
+  text-align:center;
+  overflow:hidden;
 }
 
-/* CAPA OSCURA */
-.lirya-guarantee::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
+/* Capa oscura */
+.lirya-guarantee::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(
     circle at top left,
-    rgba(42, 15, 63, 0.70) 0%,
-    rgba(18, 7, 31, 0.78) 45%,
-    rgba(0, 0, 0, 0.92) 100%
+    rgba(42,15,63,0.70) 0%,
+    rgba(18,7,31,0.78) 45%,
+    rgba(0,0,0,0.92) 100%
   );
-  z-index: 1;
+  z-index:1;
+}
+.lirya-guarantee > *{ position:relative; z-index:2; }
+
+.lirya-guarantee h2{
+  font-family:"Playfair Display", serif;
+  font-size:34px;
+  font-weight:800;
+  color:#c7b58a;
+  margin:0 0 10px;
+}
+.lirya-guarantee-sub{
+  font-family:"Playfair Display", serif;
+  font-size:16px;
+  line-height:1.7;
+  color:rgba(255,255,255,0.86);
+  max-width:820px;
+  margin:10px auto 18px;
 }
 
-.lirya-guarantee > * {
-  position: relative;
-  z-index: 2;
+.lirya-guarantee-divider{
+  width:72px;
+  height:2px;
+  background:linear-gradient(to right, transparent, #c7b58a, transparent);
+  margin:18px auto 28px;
 }
 
-/* TÍTULO */
-.lirya-guarantee h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 34px;
-  font-weight: 700;
-  color: #c7b58a;
-  margin-bottom: 18px;
+/* ===== GRID / CARRUSEL ===== */
+.lirya-guarantee-cards{
+  /* Desktop: 3 columnas */
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:18px;
+  max-width:1100px;
+  margin:0 auto 22px;
 }
 
-/* DIVISOR */
-.lirya-guarantee-divider {
-  width: 72px;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #c7b58a,
-    transparent
-  );
-  margin: 22px auto 34px;
+/* Card */
+.lirya-guarantee-card{
+  text-align:left;
+  padding:18px 18px 20px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.16);
+  box-shadow:0 16px 40px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 
-/* TEXTO PRINCIPAL */
-.lirya-guarantee-text {
-  font-family: "Playfair Display", serif;
-  font-size: 16px;
-  line-height: 1.85;
-  color: rgba(255, 255, 255, 0.88);
-  max-width: 760px;
-  margin: 0 auto 18px;
-}
-
-/* LISTA GARANTÍA */
-.lirya-guarantee-list {
-  max-width: 720px;
-  margin: 10px auto 28px;
-  text-align: left;
-  font-family: "Playfair Display", serif;
-  font-size: 15.5px;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.75;
-}
-
-.lirya-guarantee-list li {
-  margin-bottom: 10px;
-}
-
-/* TEXTO JUSTIFICACIÓN FORMULARIO */
-.lirya-guarantee-note {
-  font-family: "Playfair Display", serif;
-  font-size: 15px;
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.65);
-  max-width: 760px;
-  margin: 24px auto 34px;
-  line-height: 1.7;
-}
-  /* ===== LISTA GARANTÍA (CENTRADO REAL) ===== */
-.lirya-guarantee ul {
-  list-style-position: inside;
-  padding-left: 0;
-  margin: 0 auto 26px;
-  max-width: 760px;
-  text-align: center;
-}
-
-.lirya-guarantee li {
-  margin-bottom: 14px;
-}
-
-
-/* CTA FINAL */
-.lirya-guarantee-cta {
-  display: inline-block;
-  background: linear-gradient(135deg, #ff9f3f, #e58b2a);
-  color: #ffffff;
-  font-family: "Playfair Display", serif;
-  font-size: 15px;
-  font-weight: 600;
-  padding: 14px 34px;
-  border-radius: 30px;
-  text-decoration: none;
-  box-shadow: 0 12px 30px rgba(255, 159, 63, 0.35);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.lirya-guarantee-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(255, 159, 63, 0.45);
-}
-
-/* MÓVIL */
-@media (max-width: 768px) {
-  .lirya-guarantee {
-    padding: 75px 20px;
+@media (hover:hover){
+  .lirya-guarantee-card:hover{
+    transform: translateY(-4px);
+    box-shadow:0 22px 54px rgba(0,0,0,0.34);
+    border-color: rgba(255,159,63,0.28);
   }
+}
 
-  .lirya-guarantee h2 {
-    font-size: 28px;
-  }
+.lirya-guarantee-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:"Playfair Display", serif;
+  font-weight:700;
+  font-size:13px;
+  color:rgba(255,255,255,0.9);
+  background:rgba(255,255,255,0.10);
+  border:1px solid rgba(255,255,255,0.14);
+  padding:8px 10px;
+  border-radius:999px;
+  margin-bottom:12px;
+}
 
-  .lirya-guarantee-text,
-  .lirya-guarantee-note {
-    font-size: 15px;
-  }
+.lirya-guarantee-card h3{
+  margin:0 0 8px;
+  font-family:"Playfair Display", serif;
+  font-weight:800;
+  font-size:18px;
+  line-height:1.2;
+  color:#fff;
+}
 
-  .lirya-guarantee-list {
-    font-size: 15px;
+.lirya-guarantee-card p{
+  margin:0;
+  font-family:"Playfair Display", serif;
+  font-size:15px;
+  line-height:1.65;
+  color:rgba(255,255,255,0.82);
+}
+
+/* Nota corta (menos texto) */
+.lirya-guarantee-note{
+  font-family:"Playfair Display", serif;
+  font-size:14px;
+  font-style:italic;
+  color:rgba(255,255,255,0.68);
+  max-width:900px;
+  margin:10px auto 26px;
+  line-height:1.7;
+}
+
+/* CTA */
+.lirya-guarantee-cta{
+  display:inline-block;
+  background:linear-gradient(135deg,#ff9f3f,#e58b2a);
+  color:#fff;
+  font-family:"Playfair Display", serif;
+  font-size:15px;
+  font-weight:700;
+  padding:14px 34px;
+  border-radius:30px;
+  text-decoration:none;
+  box-shadow:0 12px 30px rgba(255,159,63,0.35);
+  transition: transform .25s ease, box-shadow .25s ease, opacity .25s ease;
+}
+.lirya-guarantee-cta:hover{
+  transform:translateY(-2px);
+  box-shadow:0 18px 42px rgba(255,159,63,0.45);
+}
+.lirya-guarantee-cta:focus-visible{
+  outline:3px solid rgba(255,159,63,0.55);
+  outline-offset:4px;
+}
+
+/* ===== MÓVIL: CARRUSEL SWIPE ===== */
+@media (max-width: 900px){
+  .lirya-guarantee{ padding:75px 18px; }
+  .lirya-guarantee h2{ font-size:28px; }
+  .lirya-guarantee-sub{ font-size:15px; }
+
+  .lirya-guarantee-cards{
+    display:flex;
+    gap:16px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    padding:6px 10px 10px;
+    max-width:100%;
   }
+  .lirya-guarantee-cards::-webkit-scrollbar{ display:none; }
+
+  .lirya-guarantee-card{
+    min-width: 78%;
+    scroll-snap-align:center;
+  }
+}
+
+/* Extra: móviles muy pequeños */
+@media (max-width: 420px){
+  .lirya-guarantee-card{ min-width: 86%; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .lirya-guarantee-card,
+  .lirya-guarantee-cta{ transition:none !important; }
 }
 </style>
 
-<section class="lirya-guarantee">
-  <h2>Garantía de satisfacción real</h2>
+<section class="lirya-guarantee" aria-labelledby="lirya-guarantee-title">
+  <h2 id="lirya-guarantee-title">Garantía de satisfacción real</h2>
 
-  <div class="lirya-guarantee-divider"></div>
-
-  <p class="lirya-guarantee-text">
-    Todas nuestras canciones incluyen revisiones según la tarifa elegida.
-    No entregamos una canción hasta que realmente represente vuestra historia.
+  <p class="lirya-guarantee-sub">
+    Revisión incluida según la tarifa. No entregamos la canción hasta que represente vuestra historia.
   </p>
 
-  <ul class="lirya-guarantee-list">
-    <li>   Si al recibirla quieres ajustar una frase, el tono o algún matiz, la revisamos contigo.</li>
-    <li>   Las revisiones están incluidas según la opción que elijas.</li>
-    <li>   Nuestro objetivo es que la canción emocione de verdad, no solo que “suene bonita”.</li>
-  </ul>
+  <div class="lirya-guarantee-divider" aria-hidden="true"></div>
+
+  <!-- Cards: SEO-safe (texto real) + UX (móvil carrusel) -->
+  <div class="lirya-guarantee-cards" aria-label="Puntos de la garantía">
+    <article class="lirya-guarantee-card">
+      <div class="lirya-guarantee-kicker" aria-hidden="true">✅ Revisión incluida</div>
+      <h3>Ajustamos lo que haga falta</h3>
+      <p>
+        Si al recibirla quieres cambiar una frase, el tono o un matiz, la revisamos contigo para que encaje.
+      </p>
+    </article>
+
+    <article class="lirya-guarantee-card">
+      <div class="lirya-guarantee-kicker" aria-hidden="true">🎛️ Según tu tarifa</div>
+      <h3>Revisiones según la opción</h3>
+      <p>
+        Las revisiones están incluidas según la opción que elijas, para mantener el equilibrio entre rapidez y detalle.
+      </p>
+    </article>
+
+    <article class="lirya-guarantee-card">
+      <div class="lirya-guarantee-kicker" aria-hidden="true">❤️ Que emocione de verdad</div>
+      <h3>No buscamos “que suene bonita”</h3>
+      <p>
+        Nuestro objetivo es que la canción emocione y se sienta personal: que cuente vuestra historia con autenticidad.
+      </p>
+    </article>
+  </div>
 
   <p class="lirya-guarantee-note">
-    Por eso pedimos algunos detalles en el formulario: para poder hacerlo bien desde el principio
-    y crear una canción que refleje tu historia con autenticidad.
+    Pedimos algunos detalles en el formulario para acertar desde el principio y reducir revisiones innecesarias.
   </p>
 
-  <a href="#formulario-lirya" class="lirya-guarantee-cta">
+  <a href="#formulario-lirya" class="lirya-guarantee-cta" data-cta="garantia">
     Crear mi canción con tranquilidad
   </a>
 </section>
@@ -3762,6 +3819,7 @@
   </div>
 
 </section>
+
 
 
 
