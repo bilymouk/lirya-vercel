@@ -1,15 +1,12 @@
 import Stripe from "stripe";
-import getRawBody from "raw-body";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const config = {
   api: {
-    bodyParser: false, // ⚠️ OBLIGATORIO para Stripe
+    bodyParser: false,
   },
 };
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2023-10-16",
-});
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -17,75 +14,53 @@ export default async function handler(req, res) {
   }
 
   const sig = req.headers["stripe-signature"];
-  if (!sig) {
-    console.error("❌ Falta Stripe-Signature");
-    return res.status(400).send("Missing Stripe signature");
-  }
-
   let event;
 
   try {
-    const rawBody = await getRawBody(req);
+    const rawBody = await new Promise((resolve, reject) => {
+      let data = "";
+      req.on("data", (chunk) => (data += chunk));
+      req.on("end", () => resolve(data));
+      req.on("error", reject);
+    });
+
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    console.error("❌ Firma Stripe inválida:", err?.message || err);
-    return res.status(400).send("Webhook Error");
+    console.error("❌ Error verificando webhook:", err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  try {
-    // ✅ SOLO cuando el pago se ha completado
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object;
+  // ✅ SOLO CUANDO EL PAGO SE COMPLETA
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
 
-      // Seguridad extra (Stripe a veces dispara eventos previos)
-      if (session.payment_status !== "paid") {
-        console.log("ℹ️ Evento recibido pero no pagado:", session.id);
-        return res.status(200).json({ ignored: true });
-      }
+    try {
+      const MAKE_WEBHOOK_URL =
+        "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
 
-      const MAKE_WEBHOOK_URL_PAID = (process.env.MAKE_WEBHOOK_URL_PAID || "").trim();
-      if (!MAKE_WEBHOOK_URL_PAID) {
-        console.error("❌ Falta MAKE_WEBHOOK_URL_PAID en variables de entorno");
-        // 500 → Stripe reintentará (no se pierde el evento)
-        return res.status(500).send("Server misconfigured");
-      }
-
-      // 🔑 Payload CLAVE para Make + Airtable
-      const payload = {
-        stripe_event_id: event.id,          // idempotencia
-        stripe_session_id: session.id,      // MATCH con el registro pendiente
-        email: session.customer_email,
-        amount_total: session.amount_total,
-        currency: session.currency,
-        tarifa: session.metadata?.tarifa || null,
-        metadata: session.metadata || {},
-        estado_pago: "PAGADO",
-        paid_at: new Date().toISOString(),
-      };
-
-      const r = await fetch(MAKE_WEBHOOK_URL_PAID, {
+      await fetch(MAKE_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          stripe_session_id: session.id,
+          email: session.customer_email,
+          amount_total: session.amount_total,
+          currency: session.currency,
+          tarifa: session.metadata?.tarifa || null,
+          metadata: session.metadata,
+          estado_pago: "PAGADO",
+        }),
       });
 
-      if (!r.ok) {
-        const t = await r.text().catch(() => "");
-        console.error("❌ Make PAGADO no OK:", r.status, t);
-        // 500 → Stripe reintentará automáticamente
-        return res.status(500).send("Make webhook failed");
-      }
-
-      console.log("✅ Pago confirmado y enviado a Make:", session.id);
+      console.log("✅ Evento enviado a Make correctamente");
+    } catch (error) {
+      console.error("❌ Error enviando a Make:", error);
     }
-
-    return res.status(200).json({ received: true });
-  } catch (err) {
-    console.error("❌ Error procesando webhook:", err?.message || err);
-    return res.status(500).send("Webhook handler failed");
   }
+
+  res.status(200).json({ received: true });
 }
