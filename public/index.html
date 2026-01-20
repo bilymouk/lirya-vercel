@@ -666,184 +666,143 @@
 </html>
 
 <!-- =================================
-   POR QUÉ ESTA CANCIÓN ES SOLO VUESTRA
-   (SEMÁNTICA + ROBUSTEZ + MÓVIL)
+   POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
+   (MISMOS ESTILOS QUE "CÓMO FUNCIONA" + TODAS IGUALES)
 ================================= -->
 <style>
-  .lirya-cf-section {
-    background: #ffffff;
-    padding: 110px 20px;
-    text-align: center;
-    font-family: 'Inter', sans-serif;
+  .lirya-cf-section{
+    background:#ffffff;
+    padding:110px 20px;
+    text-align:center;
+    font-family:'Inter', sans-serif;
   }
 
   /* TÍTULO */
-  .lirya-cf-title {
-    font-family: "Playfair Display", serif;
-    color: #c7b58a;
-    font-size: 36px;
-    font-weight: 600;
-    line-height: 1.15;
-    margin: 0;
+  .lirya-cf-title{
+    font-family:"Playfair Display", serif;
+    color:#c7b58a;
+    font-size:36px;
+    font-weight:600;
+    line-height:1.15;
+    margin:0;
   }
 
   /* LÍNEA DECORATIVA */
-  .lirya-cf-divider {
-    width: 72px;
-    height: 2px;
-    background: linear-gradient(to right, transparent, #c7b58a, transparent);
-    margin: 22px auto 64px;
+  .lirya-cf-divider{
+    width:72px;
+    height:2px;
+    background:linear-gradient(to right, transparent, #c7b58a, transparent);
+    margin:22px auto 64px;
   }
 
   /* GRID */
-  .lirya-cf-grid {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 44px;
+  .lirya-cf-grid{
+    max-width:1100px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:44px;
   }
 
-  /* TARJETA */
-  .lirya-cf-card {
-    background-color: #fcfaf7;
-    border-radius: 16px;
-    padding: 44px 34px;
-    border: 1px solid rgba(199, 181, 138, 0.35);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  /* TARJETA (igual que HOW) */
+  .lirya-cf-card{
+    background-color:#fcfaf7;
+    border-radius:16px;
+    padding:44px 34px;
+    border:1px solid rgba(199,181,138,0.35);
+    box-shadow:0 10px 30px rgba(0,0,0,0.06);
     transition:
-      transform 0.35s cubic-bezier(.34, 1.56, .64, 1),
+      transform 0.35s cubic-bezier(.34,1.56,.64,1),
       box-shadow 0.35s ease,
       border-color 0.35s ease,
       opacity 0.6s ease;
-    cursor: default;
-    will-change: transform;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+    cursor:default;
+    will-change:transform;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
   }
 
-  /* TARJETA DESTACADA (desktop) */
-  .lirya-cf-card.garantia {
-    border-color: rgba(199, 181, 138, 0.9);
-    box-shadow: 0 20px 48px rgba(199, 181, 138, 0.4);
-  }
-
-  /* HOVER (solo dispositivos con hover real) */
-  @media (hover: hover) {
-    .lirya-cf-card:hover {
+  /* HOVER (como HOW) */
+  @media (hover: hover) and (pointer:fine){
+    .lirya-cf-card:hover{
       transform: translateY(-8px) scale(1.015);
-      box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
-      border-color: rgba(199, 181, 138, 0.65);
-    }
-
-    .lirya-cf-card.garantia:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 32px 64px rgba(199, 181, 138, 0.5);
-      border-color: rgba(199, 181, 138, 1);
+      box-shadow:0 26px 50px rgba(199,181,138,0.35);
+      border-color:rgba(199,181,138,0.65);
     }
   }
 
-  /* ACTIVE */
-  .lirya-cf-card:active { transform: translateY(-4px) scale(0.99); }
-  .lirya-cf-card.garantia:active { transform: translateY(-6px) scale(0.995); }
+  /* ACTIVE (suave, igual para todas) */
+  .lirya-cf-card:active{
+    transform: translateY(-4px) scale(0.99);
+  }
 
-  /* PRESSED móvil */
-  .lirya-cf-card.is-pressed {
+  /* PRESSED móvil (igual para todas) */
+  .lirya-cf-card.is-pressed{
     transform: translateY(-8px) scale(1.015);
-    box-shadow: 0 26px 50px rgba(199, 181, 138, 0.35);
-    border-color: rgba(199, 181, 138, 0.65);
-  }
-  .lirya-cf-card.garantia.is-pressed {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 32px 64px rgba(199, 181, 138, 0.5);
-    border-color: rgba(199, 181, 138, 1);
+    box-shadow:0 26px 50px rgba(199,181,138,0.35);
+    border-color:rgba(199,181,138,0.65);
   }
 
   /* NÚMERO */
-  .lirya-cf-step {
-    font-family: "Playfair Display", serif;
-    color: #000;
-    font-size: 18px;
-    margin-bottom: 14px;
+  .lirya-cf-step{
+    font-family:"Playfair Display", serif;
+    color:#000;
+    font-size:18px;
+    margin-bottom:14px;
   }
 
   /* TÍTULO TARJETA */
-  .lirya-cf-card h3 {
-    font-family: "Playfair Display", serif;
-    font-size: 22px;
-    margin-bottom: 12px;
-    color: #c7b58a;
+  .lirya-cf-card h3{
+    font-family:"Playfair Display", serif;
+    font-size:22px;
+    margin-bottom:12px;
+    color:#c7b58a;
   }
 
-  /* TEXTO */
-  .lirya-cf-card p {
-    font-family: "Inter", sans-serif;
-    font-size: 15.5px;
-    line-height: 1.65;
-    color: rgba(26, 26, 26, 0.82);
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .lirya-cf-note {
-    font-weight: 600;
-    color: rgba(26, 26, 26, 0.72);
+  /* TEXTO (igual que HOW: Playfair en el párrafo) */
+  .lirya-cf-card p{
+    font-family:"Playfair Display", serif;
+    font-size:14.5px;
+    line-height:1.6;
+    color:rgba(26,26,26,0.75);
+    max-width:320px;
+    margin:0 auto;
   }
 
   /* ===== MÓVIL ===== */
-  @media (max-width: 900px) {
-    .lirya-cf-section { padding: 80px 20px; }
-    .lirya-cf-title { font-size: 32px; }
-    .lirya-cf-divider { margin: 18px auto 40px; }
+  @media (max-width: 900px){
+    .lirya-cf-section{ padding:80px 20px; }
+    .lirya-cf-title{ font-size:32px; }
+    .lirya-cf-divider{ margin:18px auto 40px; }
 
-    .lirya-cf-grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
-      max-width: 520px;
+    .lirya-cf-grid{
+      grid-template-columns:1fr;
+      gap:30px;
+      max-width:520px;
     }
 
-    .lirya-cf-card {
-      padding: 26px 22px;
-      border-radius: 14px;
-      border-width: 1px;
-
-      /* estado inicial animación entrada */
-      opacity: 0;
-      transform: translateY(26px) scale(0.97);
+    /* Entrada animada estilo HOW */
+    .lirya-cf-card{
+      opacity:0;
+      transform: translateY(32px) scale(0.96);
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s cubic-bezier(.34,1.56,.64,1);
+      padding:44px 34px; /* mantenemos look de how */
     }
 
-    /* Tarjeta destacada en móvil */
-    .lirya-cf-card.garantia {
-      padding: 38px 28px;
-      border-width: 3px;
-      box-shadow: none;
-    }
-
-    .lirya-cf-card h3 { font-size: 20px; }
-    .lirya-cf-card.garantia h3 { font-size: 22px; }
-
-    .lirya-cf-card p {
-      font-size: 15px;
-      max-width: 360px;
-    }
-
-    .lirya-cf-card.is-visible {
-      opacity: 1;
+    .lirya-cf-card.is-visible{
+      opacity:1;
       transform: translateY(0) scale(1);
-    }
-
-    .lirya-cf-card.garantia.is-visible {
-      transform: translateY(0) scale(1.06);
-      box-shadow: none;
     }
   }
 
   /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .lirya-cf-card {
-      opacity: 1;
-      transform: none;
-      transition: none;
+  @media (prefers-reduced-motion: reduce){
+    .lirya-cf-card{
+      opacity:1;
+      transform:none;
+      transition:none;
     }
   }
 </style>
@@ -862,12 +821,12 @@
       </p>
     </div>
 
-    <div class="lirya-cf-card garantia" data-cf-index="1">
+    <div class="lirya-cf-card" data-cf-index="1">
       <div class="lirya-cf-step" aria-hidden="true">2</div>
       <h3>Revisión incluida</h3>
       <p>
         Incluye <strong>1 revisión</strong> para ajustar una frase, el enfoque o el tono y que encaje de verdad.
-        <span class="lirya-cf-note">(En Premium puedes pedir más ajustes.)</span>
+        <strong>(En Premium puedes pedir más ajustes.)</strong>
       </p>
     </div>
 
@@ -883,27 +842,27 @@
 </section>
 
 <script>
+/* Animación escalera móvil + pressed state (robusto y aislado) */
 (function () {
   const mqlReduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
   const mqlMobile = window.matchMedia ? window.matchMedia('(max-width: 900px)') : null;
 
-  const reduceMotion = !!(mqlReduce && mqlReduce.matches);
+  const reduce = !!(mqlReduce && mqlReduce.matches);
   const isMobile = !!(mqlMobile && mqlMobile.matches);
 
   const cards = Array.from(document.querySelectorAll('.lirya-cf-card'));
   if (!cards.length) return;
 
-  // === Entrada con IntersectionObserver (solo móvil y si hay soporte) ===
+  // Si no es móvil o reduce motion: visibles ya
   const canObserve = typeof IntersectionObserver !== 'undefined';
 
-  if (isMobile && !reduceMotion && canObserve) {
+  if (isMobile && !reduce && canObserve) {
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
         const idx = parseInt(entry.target.getAttribute('data-cf-index') || '0', 10);
         setTimeout(() => entry.target.classList.add('is-visible'), Math.max(0, idx) * 150);
-
         obs.unobserve(entry.target);
       });
     }, { threshold: 0.25 });
@@ -913,22 +872,20 @@
     cards.forEach(card => card.classList.add('is-visible'));
   }
 
-  // === Pressed state (móvil, sin reduced motion) ===
-  if (isMobile && !reduceMotion) {
+  // Pressed state móvil
+  if (isMobile && !reduce) {
     let pressedEl = null;
 
-    function clearPressed() {
+    function clearPressed(){
       if (pressedEl) pressedEl.classList.remove('is-pressed');
       pressedEl = null;
     }
-
-    function setPressed(el) {
+    function setPressed(el){
       clearPressed();
       pressedEl = el;
       el.classList.add('is-pressed');
     }
 
-    // Pointer events: mejor que solo touch en móviles modernos.
     const supportsPointer = typeof window.PointerEvent !== 'undefined';
 
     cards.forEach((card) => {
@@ -942,7 +899,6 @@
         card.addEventListener('touchcancel', clearPressed, { passive: true });
       }
 
-      // Click feedback breve
       card.addEventListener('click', () => {
         setPressed(card);
         setTimeout(clearPressed, 220);
@@ -3885,6 +3841,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
