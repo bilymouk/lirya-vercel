@@ -247,16 +247,16 @@
 
     /* DESKTOP: ajusta aquí */
 .hero-phone-wrap--desktop{
-  --play-left: 63.5%;
-  --play-top:  86.5%;
-  --play-size: 10.5%;
+  --play-left: 58.5%;
+  --play-top:  83.5%;
+  --play-size: 18.5%;
 }
 
 /* MOBILE: ajusta aquí */
 .hero-phone-wrap--mobile{
-  --play-left: 62.5%;
-  --play-top:  86.0%;
-  --play-size: 12.5%;
+  --play-left: 59.5%;
+  --play-top:  83.0%;
+  --play-size: 20%;
 }
 
     /* PHONE DESKTOP (img ya no anima) */
@@ -357,9 +357,9 @@
 
     /* ✅ Animations (con 1cm a la izquierda en DESKTOP) */
     @keyframes floatPhoneDesktop{
-      0%   { transform:translateX(-1cm) translateY(20px); }
-      50%  { transform:translateX(-1cm) translateY(6px); }
-      100% { transform:translateX(-1cm) translateY(20px); }
+      0%   { transform:translateX(-6px) translateY(2px); }
+      50%  { transform:translateX(-6px) translateY(-6px); }
+      100% { transform:translateX(-6px) translateY(2px); }
     }
     @keyframes floatPhoneMobile{
       0%   { transform:translateY(2px); }
@@ -407,9 +407,6 @@
 
       /* ✅ Tu ajuste original de X en móvil ahora va al WRAP,
          para que también lo siga el botón overlay */
-      .hero-phone-wrap--mobile{
-        transform: translateX(-6px);
-      }
 
       .hero-mobile-benefits{
         margin:0;
@@ -3974,6 +3971,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
