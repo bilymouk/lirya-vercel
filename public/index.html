@@ -2889,19 +2889,19 @@
 </script>
 </section>
 
-
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
      (Landing ligera: SOLO IMAGEN + link a reacción completa)
-     ✅ Sin botón play nativo (no hay <video> en el carrusel)
-     ✅ Mantiene tarjeta alta como antes (no cuadrada)
-     ✅ “Cortafuegos” anti-overlay global (por si tu theme mete ▶ encima)
+     ✅ Sin <video> en el carrusel
+     ✅ Con flechas (accesibilidad/UX)
+     ✅ Sin overlays raros del theme
+     ✅ Mejor CLS: width/height en img
 ================================ -->
 
-<section class="lirya-reactions" id="reacciones">
+<section class="lirya-reactions" id="reacciones" aria-labelledby="lirya-reactions-title">
 
   <div class="lirya-reactions-header">
-    <h2 class="lirya-reactions-title">
+    <h2 class="lirya-reactions-title" id="lirya-reactions-title">
       Así reaccionan cuando escuchan su canción por primera vez
     </h2>
 
@@ -2911,109 +2911,226 @@
 
     <div class="lirya-rating" aria-label="Valoración de clientes">
       <div class="rating-stars" aria-hidden="true">★★★★★</div>
-      <span class="rating-note">Basado en reacciones reales de clientes</span>
+      <span class="rating-note">
+        Basado en experiencias reales de clientes (sin actores, sin guion).
+      </span>
     </div>
   </div>
 
-  <!-- ===== CARRUSEL ===== -->
-  <div class="lirya-reactions-carousel" aria-label="Carrusel de reacciones reales">
+  <!-- ===== CARRUSEL WRAPPER (para fade y botones) ===== -->
+  <div class="lirya-reactions-wrap">
 
-    <a class="reaction-card" href="/reacciones/yolanda.html" aria-label="Ver reacción completa de Yolanda">
-      <div class="reaction-media">
-        <img src="/video1.jpg" alt="Reacción real de Yolanda al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
-        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
-      </div>
-      <div class="reaction-content">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
-        <div class="reaction-name">✔ Yolanda J.</div>
-      </div>
-    </a>
+    <!-- Botón anterior -->
+    <button
+      class="carousel-nav carousel-prev"
+      type="button"
+      aria-label="Ver reacciones anteriores"
+      data-carousel-prev
+    >
+      ‹
+    </button>
 
-    <a class="reaction-card" href="/reacciones/laura.html" aria-label="Ver reacción completa de Laura">
-      <div class="reaction-media">
-        <img src="/video2.jpg" alt="Reacción real de Laura al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
-        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
-      </div>
-      <div class="reaction-content">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="reaction-text">“Se nos puso la piel de gallina desde el primer segundo.”</p>
-        <div class="reaction-name">✔ Laura M.</div>
-      </div>
-    </a>
+    <!-- ===== CARRUSEL ===== -->
+    <div
+      class="lirya-reactions-carousel"
+      aria-label="Carrusel de reacciones reales"
+      role="region"
+      tabindex="0"
+      data-carousel
+    >
 
-    <a class="reaction-card" href="/reacciones/andrea.html" aria-label="Ver reacción completa de Andrea">
-      <div class="reaction-media">
-        <img src="/video3.jpg" alt="Reacción real de Andrea al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
-        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
-      </div>
-      <div class="reaction-content">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
-        <div class="reaction-name">✔ Andrea R.</div>
-      </div>
-    </a>
+      <a class="reaction-card" href="/reacciones/yolanda.html"
+         aria-label="Ver reacción completa de Yolanda"
+         data-cta="reaccion" data-persona="yolanda">
+        <div class="reaction-media">
+          <img
+            src="/video1.jpg"
+            alt="Reacción real de Yolanda al escuchar su canción por primera vez"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="1080"
+            height="1920"
+          >
+          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+        </div>
+        <div class="reaction-content">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
+          <div class="reaction-name">✔ Yolanda J.</div>
+        </div>
+      </a>
 
-    <a class="reaction-card" href="/reacciones/carlos.html" aria-label="Ver reacción completa de Carlos">
-      <div class="reaction-media">
-        <img src="/video4.jpg" alt="Reacción real de Carlos al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
-        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
-      </div>
-      <div class="reaction-content">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="reaction-text">“Lloramos al escucharla por primera vez.”</p>
-        <div class="reaction-name">✔ Carlos M.</div>
-      </div>
-    </a>
+      <a class="reaction-card" href="/reacciones/laura.html"
+         aria-label="Ver reacción completa de Laura"
+         data-cta="reaccion" data-persona="laura">
+        <div class="reaction-media">
+          <img
+            src="/video2.jpg"
+            alt="Reacción real de Laura al escuchar su canción por primera vez"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="1080"
+            height="1920"
+          >
+          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+        </div>
+        <div class="reaction-content">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p class="reaction-text">“Se nos puso la piel de gallina desde el primer segundo.”</p>
+          <div class="reaction-name">✔ Laura M.</div>
+        </div>
+      </a>
 
-    <a class="reaction-card" href="/reacciones/juan.html" aria-label="Ver reacción completa de Juan">
-      <div class="reaction-media">
-        <img src="/video5.jpg" alt="Reacción real de Juan al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
-        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
-      </div>
-      <div class="reaction-content">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="reaction-text">“No esperábamos algo tan personal y tan bonito.”</p>
-        <div class="reaction-name">✔ Juan M.</div>
-      </div>
-    </a>
+      <a class="reaction-card" href="/reacciones/andrea.html"
+         aria-label="Ver reacción completa de Andrea"
+         data-cta="reaccion" data-persona="andrea">
+        <div class="reaction-media">
+          <img
+            src="/video3.jpg"
+            alt="Reacción real de Andrea al escuchar su canción por primera vez"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="1080"
+            height="1920"
+          >
+          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+        </div>
+        <div class="reaction-content">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
+          <div class="reaction-name">✔ Andrea R.</div>
+        </div>
+      </a>
 
-    <a class="reaction-card" href="/reacciones/teresa.html" aria-label="Ver reacción completa de Teresa">
-      <div class="reaction-media">
-        <img src="/video6.jpg" alt="Reacción real de Teresa al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
-        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
-      </div>
-      <div class="reaction-content">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="reaction-text">“Escucharla fue como revivir nuestra historia.”</p>
-        <div class="reaction-name">✔ Teresa S.</div>
-      </div>
-    </a>
+      <a class="reaction-card" href="/reacciones/carlos.html"
+         aria-label="Ver reacción completa de Carlos"
+         data-cta="reaccion" data-persona="carlos">
+        <div class="reaction-media">
+          <img
+            src="/video4.jpg"
+            alt="Reacción real de Carlos al escuchar su canción por primera vez"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="1080"
+            height="1920"
+          >
+          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+        </div>
+        <div class="reaction-content">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p class="reaction-text">“Lloramos al escucharla por primera vez.”</p>
+          <div class="reaction-name">✔ Carlos M.</div>
+        </div>
+      </a>
 
-    <a class="reaction-card" href="/reacciones/sara.html" aria-label="Ver reacción completa de Sara">
-      <div class="reaction-media">
-        <img src="/video7.jpg" alt="Reacción real de Sara al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
-        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
-      </div>
-      <div class="reaction-content">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="reaction-text">“Nos encantó, fue muy especial.”</p>
-        <div class="reaction-name">✔ Sara M.</div>
-      </div>
-    </a>
+      <a class="reaction-card" href="/reacciones/juan.html"
+         aria-label="Ver reacción completa de Juan"
+         data-cta="reaccion" data-persona="juan">
+        <div class="reaction-media">
+          <img
+            src="/video5.jpg"
+            alt="Reacción real de Juan al escuchar su canción por primera vez"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="1080"
+            height="1920"
+          >
+          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+        </div>
+        <div class="reaction-content">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p class="reaction-text">“No esperábamos algo tan personal y tan bonito.”</p>
+          <div class="reaction-name">✔ Juan M.</div>
+        </div>
+      </a>
 
-    <a class="reaction-card" href="/reacciones/maria.html" aria-label="Ver reacción completa de María">
-      <div class="reaction-media">
-        <img src="/video8.jpg" alt="Reacción real de María al escuchar su canción por primera vez" loading="lazy" decoding="async" fetchpriority="low">
-        <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
-      </div>
-      <div class="reaction-content">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="reaction-text">“Consiguió decir justo lo que yo no sabía expresar.”</p>
-        <div class="reaction-name">✔ María T.</div>
-      </div>
-    </a>
+      <a class="reaction-card" href="/reacciones/teresa.html"
+         aria-label="Ver reacción completa de Teresa"
+         data-cta="reaccion" data-persona="teresa">
+        <div class="reaction-media">
+          <img
+            src="/video6.jpg"
+            alt="Reacción real de Teresa al escuchar su canción por primera vez"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="1080"
+            height="1920"
+          >
+          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+        </div>
+        <div class="reaction-content">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p class="reaction-text">“Escucharla fue como revivir nuestra historia.”</p>
+          <div class="reaction-name">✔ Teresa S.</div>
+        </div>
+      </a>
 
+      <a class="reaction-card" href="/reacciones/sara.html"
+         aria-label="Ver reacción completa de Sara"
+         data-cta="reaccion" data-persona="sara">
+        <div class="reaction-media">
+          <img
+            src="/video7.jpg"
+            alt="Reacción real de Sara al escuchar su canción por primera vez"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="1080"
+            height="1920"
+          >
+          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+        </div>
+        <div class="reaction-content">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p class="reaction-text">“Nos encantó, fue muy especial.”</p>
+          <div class="reaction-name">✔ Sara M.</div>
+        </div>
+      </a>
+
+      <a class="reaction-card" href="/reacciones/maria.html"
+         aria-label="Ver reacción completa de María"
+         data-cta="reaccion" data-persona="maria">
+        <div class="reaction-media">
+          <img
+            src="/video8.jpg"
+            alt="Reacción real de María al escuchar su canción por primera vez"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            width="1080"
+            height="1920"
+          >
+          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+        </div>
+        <div class="reaction-content">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p class="reaction-text">“Consiguió decir justo lo que yo no sabía expresar.”</p>
+          <div class="reaction-name">✔ María T.</div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Botón siguiente -->
+    <button
+      class="carousel-nav carousel-next"
+      type="button"
+      aria-label="Ver más reacciones"
+      data-carousel-next
+    >
+      ›
+    </button>
+
+    <!-- Hint móvil/descubribilidad -->
+    <div class="carousel-hint" aria-hidden="true">
+      Desliza para ver más →
+    </div>
   </div>
 
   <!-- ===== PUENTE PSICOLÓGICO + CTA ===== -->
@@ -3022,12 +3139,12 @@
       Tú también puedes regalar una reacción así.
     </p>
 
-    <a href="#formulario-lirya" class="cta-button">
+    <a href="#formulario-lirya" class="cta-button" data-cta="crear-cancion" aria-label="Crear mi canción ahora">
       Crear mi canción ahora
     </a>
 
     <p class="cta-note">
-      La mayoría de estas canciones se crearon con la opción recomendada.
+      La opción recomendada es la más elegida por quienes buscan el mejor equilibrio entre emoción y detalle.
     </p>
   </div>
 
@@ -3035,220 +3152,314 @@
 
 <style>
 /* ===== SECCIÓN ===== */
-.lirya-reactions {
-  background: #fcfaf7;
-  padding: 60px 20px 70px;
-  text-align: center;
+.lirya-reactions{
+  background:#fcfaf7;
+  padding:60px 20px 70px;
+  text-align:center;
 }
 
 /* ===== HEADER ===== */
-.lirya-reactions-header { margin-bottom: 24px; }
+.lirya-reactions-header{ margin-bottom:24px; }
 
 /* ===== TÍTULO ===== */
-.lirya-reactions-title {
-  font-family: "Playfair Display", serif;
-  font-size: 38px;
-  font-weight: 600;
-  color: #d4b483;
-  margin-bottom: 18px;
-  line-height: 1.2;
+.lirya-reactions-title{
+  font-family:"Playfair Display", serif;
+  font-size:38px;
+  font-weight:600;
+  color:#d4b483;
+  margin-bottom:18px;
+  line-height:1.2;
 }
 
 /* ===== SUBTÍTULO ===== */
-.lirya-reactions-subtitle {
-  font-family: "Playfair Display", serif;
-  font-size: 16px;
-  color: rgba(26, 26, 26, 0.75);
-  max-width: 760px;
-  margin: 0 auto 14px;
+.lirya-reactions-subtitle{
+  font-family:"Playfair Display", serif;
+  font-size:16px;
+  color:rgba(26,26,26,0.75);
+  max-width:760px;
+  margin:0 auto 14px;
 }
 
 /* ===== RATING ===== */
-.lirya-rating {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 18px;
+.lirya-rating{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  margin-bottom:18px;
 }
-.rating-stars {
-  font-size: 26px;
-  color: #ff9f3f;
-  letter-spacing: 4px;
+.rating-stars{
+  font-size:26px;
+  color:#ff9f3f;
+  letter-spacing:4px;
 }
-.rating-note {
-  font-size: 13px;
-  opacity: 0.7;
-  font-style: italic;
+.rating-note{
+  font-size:13px;
+  opacity:0.75;
+  font-style:italic;
+}
+
+/* ===== WRAPPER (fade + botones) ===== */
+.lirya-reactions-wrap{
+  position:relative;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+/* Fades laterales para indicar scroll */
+.lirya-reactions-wrap::before,
+.lirya-reactions-wrap::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:52px;
+  pointer-events:none;
+  z-index:2;
+}
+.lirya-reactions-wrap::before{
+  left:0;
+  background:linear-gradient(to right, #fcfaf7, rgba(252,250,247,0));
+}
+.lirya-reactions-wrap::after{
+  right:0;
+  background:linear-gradient(to left, #fcfaf7, rgba(252,250,247,0));
 }
 
 /* ===== CARRUSEL ===== */
-.lirya-reactions-carousel {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 10px 20px;
-  -webkit-overflow-scrolling: touch;
+.lirya-reactions-carousel{
+  display:flex;
+  gap:24px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding:10px 56px; /* espacio para botones */
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
 }
-.lirya-reactions-carousel::-webkit-scrollbar { display: none; }
+.lirya-reactions-carousel::-webkit-scrollbar{ display:none; }
 
 /* ===== TARJETA ===== */
-.reaction-card {
-  min-width: 280px;
-  max-width: 300px;
-  background: #ffffff;
-  border-radius: 26px;
-  overflow: hidden;
-  scroll-snap-align: center;
-  border: 2px solid #ff9f3f;
-  cursor: pointer;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  text-decoration: none;
-  color: inherit;
-  outline: none;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
-  touch-action: manipulation;
+.reaction-card{
+  min-width:280px;
+  max-width:300px;
+  background:#fff;
+  border-radius:26px;
+  overflow:hidden;
+  scroll-snap-align:center;
+  border:2px solid #ff9f3f;
+  cursor:pointer;
+  transition:transform .35s ease, box-shadow .35s ease;
+  text-decoration:none;
+  color:inherit;
+  outline:none;
+  box-shadow:0 10px 26px rgba(0,0,0,0.06);
+  touch-action:manipulation;
 }
 
-@media (hover:hover) {
-  .reaction-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 34px rgba(0,0,0,0.10);
+@media (hover:hover){
+  .reaction-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 16px 34px rgba(0,0,0,0.10);
   }
 }
 
 .reaction-card:focus-visible{
-  outline: 3px solid rgba(255,159,63,0.55);
-  outline-offset: 4px;
-  border-radius: 26px;
+  outline:3px solid rgba(255,159,63,0.55);
+  outline-offset:4px;
+  border-radius:26px;
 }
 
 /* ===== MEDIA (ALTA, NO CUADRADA) ===== */
 .reaction-media{
-  position: relative;
-  height: 360px;
-  background: #000;
-  overflow: hidden;
+  position:relative;
+  height:360px;
+  background:#000;
+  overflow:hidden;
 }
 
-/*
-  IMPORTANTE:
-  - Si tu poster es vertical: object-fit: cover queda muy bien tipo “miniatura de vídeo”.
-  - Si prefieres que NUNCA se recorte nada (aunque salga con bandas):
-    cambia object-fit: cover -> object-fit: contain
-*/
+/* Imagen */
 .reaction-media img{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
 }
 
 /* ===== CORTAFUEGOS ANTI “PLAY” GLOBAL =====
-   Si algún CSS global mete ::before/::after con ▶ en enlaces o imágenes,
-   esto lo neutraliza dentro de esta sección.
+   (IMPORTANTE: NO matamos .reaction-media::after porque es nuestro degradado)
 */
-.lirya-reactions .reaction-media::before,
-.lirya-reactions .reaction-media::after,
 .lirya-reactions .reaction-card::before,
 .lirya-reactions .reaction-card::after{
-  content: none !important;
+  content:none !important;
 }
 
-/* En vez del overlay global, ponemos el nuestro (controlado) */
+/* Degradado controlado (YA NO se rompe) */
 .lirya-reactions .reaction-media::after{
   content:"";
   position:absolute;
   inset:0;
-  background: linear-gradient(to top, rgba(0,0,0,0.22), rgba(0,0,0,0.02));
+  background:linear-gradient(to top, rgba(0,0,0,0.22), rgba(0,0,0,0.02));
   pointer-events:none;
 }
 
 /* Etiqueta discreta */
 .tap-pill{
   position:absolute;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
-  font-size: 12.5px;
-  color: rgba(255,255,255,0.95);
-  background: rgba(0,0,0,0.35);
-  padding: 8px 12px;
-  border-radius: 999px;
-  letter-spacing: .2px;
-  backdrop-filter: blur(2px);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+  left:50%;
+  bottom:14px;
+  transform:translateX(-50%);
+  font-size:12.5px;
+  color:rgba(255,255,255,0.95);
+  background:rgba(0,0,0,0.35);
+  padding:8px 12px;
+  border-radius:999px;
+  letter-spacing:.2px;
+  backdrop-filter:blur(2px);
+  box-shadow:0 10px 26px rgba(0,0,0,0.22);
   pointer-events:none;
 }
 
 /* ===== CONTENIDO ===== */
-.reaction-content {
-  background: #ffffff;
-  padding: 20px 18px 26px;
+.reaction-content{
+  background:#fff;
+  padding:20px 18px 26px;
 }
-.stars {
-  color: #f2c98a;
-  font-size: 14px;
-  margin-bottom: 10px;
+.stars{
+  color:#f2c98a;
+  font-size:14px;
+  margin-bottom:10px;
 }
-.reaction-text {
-  font-family: "Playfair Display", serif;
-  font-size: 15px;
-  color: rgba(26, 26, 26, 0.8);
-  line-height: 1.6;
-  margin-bottom: 12px;
+.reaction-text{
+  font-family:"Playfair Display", serif;
+  font-size:15px;
+  color:rgba(26,26,26,0.8);
+  line-height:1.6;
+  margin-bottom:12px;
 }
-.reaction-name {
-  font-size: 14px;
-  color: rgba(26, 26, 26, 0.6);
+.reaction-name{
+  font-size:14px;
+  color:rgba(26,26,26,0.6);
+}
+
+/* ===== Botones carrusel ===== */
+.carousel-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;
+  height:40px;
+  border-radius:999px;
+  border:1px solid rgba(26,26,26,0.12);
+  background:rgba(255,255,255,0.92);
+  box-shadow:0 10px 26px rgba(0,0,0,0.10);
+  cursor:pointer;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  line-height:1;
+  user-select:none;
+}
+.carousel-prev{ left:10px; }
+.carousel-next{ right:10px; }
+
+.carousel-nav:focus-visible{
+  outline:3px solid rgba(255,159,63,0.55);
+  outline-offset:3px;
+}
+
+@media (hover:hover){
+  .carousel-nav:hover{
+    transform:translateY(-50%) scale(1.04);
+  }
+}
+
+/* Hint */
+.carousel-hint{
+  margin-top:10px;
+  font-size:12.5px;
+  opacity:0.65;
+  font-style:italic;
 }
 
 /* ===== CTA ===== */
-.lirya-reactions-cta { margin-top: 40px; }
+.lirya-reactions-cta{ margin-top:40px; }
 
-.cta-text {
-  font-family: "Playfair Display", serif;
-  font-size: 20px;
-  color: #1a1a1a;
-  margin-bottom: 18px;
+.cta-text{
+  font-family:"Playfair Display", serif;
+  font-size:20px;
+  color:#1a1a1a;
+  margin-bottom:18px;
 }
-.cta-button {
-  display: inline-block;
-  background: linear-gradient(135deg, #ff9f3f, #e58b2a);
-  color: #fff;
-  padding: 14px 36px;
-  border-radius: 30px;
-  font-family: "Playfair Display", serif;
-  font-size: 15px;
-  font-weight: 600;
-  text-decoration: none;
+.cta-button{
+  display:inline-block;
+  background:linear-gradient(135deg, #ff9f3f, #e58b2a);
+  color:#fff;
+  padding:14px 36px;
+  border-radius:30px;
+  font-family:"Playfair Display", serif;
+  font-size:15px;
+  font-weight:600;
+  text-decoration:none;
 }
 .cta-button:focus-visible{
-  outline: 3px solid rgba(255,159,63,0.55);
-  outline-offset: 4px;
+  outline:3px solid rgba(255,159,63,0.55);
+  outline-offset:4px;
 }
-.cta-note {
-  margin-top: 14px;
-  font-size: 13px;
-  opacity: 0.7;
-  font-style: italic;
+.cta-note{
+  margin-top:14px;
+  font-size:13px;
+  opacity:0.7;
+  font-style:italic;
 }
 
 /* ===== MÓVIL ===== */
-@media (max-width: 768px) {
-  .lirya-reactions-title { font-size: 32px; }
-  .reaction-media{ height: 420px; }
+@media (max-width:768px){
+  .lirya-reactions-title{ font-size:32px; }
+  .reaction-media{ height:420px; }
+  .lirya-reactions-carousel{ padding:10px 46px; }
+  .carousel-nav{ width:36px; height:36px; font-size:24px; }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
-  .reaction-card{
-    transition: none !important;
-  }
+  .reaction-card{ transition:none !important; }
+  .lirya-reactions-carousel{ scroll-behavior:auto; }
 }
 </style>
+
+<script>
+/* Carrusel: botones prev/next (sin librerías) */
+(() => {
+  const carousel = document.querySelector('[data-carousel]');
+  if (!carousel) return;
+
+  const prev = document.querySelector('[data-carousel-prev]');
+  const next = document.querySelector('[data-carousel-next]');
+
+  const getStep = () => {
+    const firstCard = carousel.querySelector('.reaction-card');
+    if (!firstCard) return 320;
+    const cardWidth = firstCard.getBoundingClientRect().width;
+    return Math.round(cardWidth + 24); // 24 = gap
+  };
+
+  const scrollByStep = (dir) => {
+    carousel.scrollBy({ left: dir * getStep(), behavior: 'smooth' });
+  };
+
+  prev?.addEventListener('click', () => scrollByStep(-1));
+  next?.addEventListener('click', () => scrollByStep(1));
+
+  /* Teclado: flechas izquierda/derecha cuando el carrusel está enfocado */
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); scrollByStep(-1); }
+    if (e.key === 'ArrowRight'){ e.preventDefault(); scrollByStep(1); }
+  });
+})();
+</script>
 
 
 <!-- ===== GARANTÍA DE SATISFACCIÓN REAL ===== -->
@@ -3551,6 +3762,7 @@
   </div>
 
 </section>
+
 
 
 
