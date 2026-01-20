@@ -174,6 +174,20 @@
       margin-bottom:22px;
     }
 
+    /* ✅ Subline destacada (más grande) */
+    .hero-subline--emphasis{
+      font-size:1.22rem;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+
+    /* ✅ En ordenador: forzar 1 línea */
+    @media (min-width: 901px){
+      .hero-subline--emphasis{
+        white-space:nowrap;
+      }
+    }
+
     .hero-benefits{
       list-style:none;
       margin-bottom:22px;
@@ -221,6 +235,9 @@
       user-select:none;
       -webkit-user-drag:none;
       will-change:transform;
+      /* ✅ Un poco más a la derecha en desktop */
+      margin-left:28px;
+      justify-self:end;
     }
 
     /* MOBILE */
@@ -507,7 +524,7 @@
       <div class="hero-text">
         <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
         <h1>Vuestra historia convertida en una canción</h1>
-        <p class="hero-subline">Una canción que dirá lo que a veces no sabes expresar</p>
+        <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
 
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
@@ -539,7 +556,7 @@
     <div class="hero-mobile">
       <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
       <h1>Vuestra historia convertida en una canción</h1>
-      <p class="hero-subline">Una canción que dirá lo que a veces no sabes expresar</p>
+      <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
 
       <img
         src="/mockup-phone-final.png"
@@ -3841,6 +3858,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
