@@ -136,11 +136,10 @@
       background:rgba(0,0,0,.40);
     }
 
-    /* ✅ MENOS MARGEN ARRIBA/ABAJO EN DESKTOP */
     .hero-inner{
       position:relative; z-index:2;
       max-width:1200px; margin:0 auto;
-      padding:40px 40px; /* antes 56px 40px */
+      padding:40px 40px;
     }
 
     /* DESKTOP */
@@ -177,15 +176,12 @@
       margin-bottom:22px;
     }
 
-    /* ✅ Frase principal: más grande (desktop y móvil) */
     .hero-subline--emphasis{
       font-size:1.34rem;
       font-weight:700;
       letter-spacing:.25px;
       line-height:1.25;
     }
-
-    /* ✅ Desktop: en 1 línea */
     @media (min-width: 901px){
       .hero-subline--emphasis{ white-space:nowrap; }
     }
@@ -226,7 +222,6 @@
       opacity:.86;
     }
 
-    /* ========= PHONE WRAPPER + OVERLAY ========= */
     .hero-phone-wrap{
       position:relative;
       display:inline-block;
@@ -234,37 +229,26 @@
       margin-left:12px;
       will-change:transform;
     }
+    .hero-phone-wrap--desktop{ animation:floatPhoneDesktop 5s ease-in-out infinite; }
+    .hero-phone-wrap--mobile{ animation:floatPhoneMobile 5s ease-in-out infinite; }
 
-    .hero-phone-wrap--desktop{
-      animation:floatPhoneDesktop 5s ease-in-out infinite;
-    }
-
-    .hero-phone-wrap--mobile{
-      animation:floatPhoneMobile 5s ease-in-out infinite;
-    }
-
-    /* DESKTOP variables */
     .hero-phone-wrap--desktop{
       --play-left: 39%;
       --play-top:  75%;
       --play-size: 56%;
     }
-
-    /* MOBILE variables */
     .hero-phone-wrap--mobile{
       --play-left: 41%;
       --play-top:  74%;
       --play-size: 52%;
     }
 
-    /* PHONE DESKTOP */
     .hero-phone{
       width:355px;
       height:auto;
       margin-top:24px;
-      cursor:pointer;
+      cursor:default; /* ⬅️ ya no dispara audio */
       border-radius:18px;
-
       user-select:none;
       -webkit-user-drag:none;
       will-change:transform;
@@ -301,7 +285,7 @@
       height:auto;
       margin:8px auto 6px;
       display:block;
-      cursor:pointer;
+      cursor:default; /* ⬅️ ya no dispara audio */
       border-radius:18px;
 
       user-select:none;
@@ -341,6 +325,12 @@
       transform-origin: 50% 50%;
     }
 
+    /* ✅ NUEVO: cuando está sonando, el latido se apaga */
+    .play-overlay.is-playing img{
+      animation: none !important;
+      transform: none !important;
+    }
+
     .hero-mobile-benefits{
       list-style:none;
       margin:4px 0 14px;
@@ -377,6 +367,7 @@
       .hero-phone-wrap--desktop,
       .hero-phone-wrap--mobile{ animation:none; }
       .play-overlay{ animation:none; }
+      .play-overlay img{ animation:none !important; }
       .cta-header, .hero-btn, .urgency-cta, .urgency-close{ transition:none; }
     }
 
@@ -394,18 +385,17 @@
       .hero-phone-wrap{
         display:block;
         width:fit-content;
-        margin:4px auto 6px; /* ✅ controla el hueco debajo del mockup */
+        margin:4px auto 6px;
       }
 
-      /* ✅ AQUÍ estaba el problema: antes era 14px auto 18px */
       .hero-mobile-image{
         width:85%;
         max-width:360px;
-        margin:6px auto 2px; /* ✅ reduce MUCHO el hueco */
+        margin:6px auto 2px;
       }
 
       .hero-mobile-benefits{
-        margin:0;            /* ✅ sin aire arriba */
+        margin:0;
         padding:0 10px;
       }
 
@@ -627,15 +617,17 @@
           alt="Ejemplo de canción personalizada"
           width="420"
           height="840"
-          role="button"
-          tabindex="0"
-          aria-label="Reproducir o pausar ejemplo de canción"
-          aria-pressed="false"
           decoding="async"
           fetchpriority="high"
         />
 
-        <button class="play-overlay" id="mockup-audio-overlay-desktop" type="button" aria-label="Reproducir o pausar ejemplo">
+        <button
+          class="play-overlay"
+          id="mockup-audio-overlay-desktop"
+          type="button"
+          aria-label="Reproducir o pausar ejemplo"
+          aria-pressed="false"
+        >
           <img src="/boton.png" alt="">
         </button>
       </div>
@@ -656,14 +648,16 @@
           alt="Ejemplo de canción personalizada"
           width="360"
           height="720"
-          role="button"
-          tabindex="0"
-          aria-label="Reproducir o pausar ejemplo de canción"
-          aria-pressed="false"
           decoding="async"
         />
 
-        <button class="play-overlay" id="mockup-audio-overlay-mobile" type="button" aria-label="Reproducir o pausar ejemplo">
+        <button
+          class="play-overlay"
+          id="mockup-audio-overlay-mobile"
+          type="button"
+          aria-label="Reproducir o pausar ejemplo"
+          aria-pressed="false"
+        >
           <img src="/boton.png" alt="">
         </button>
       </div>
@@ -684,54 +678,60 @@
 <script>
 (function () {
   const audio = document.getElementById("lirya-audio");
+  if (!audio) return;
 
-  const triggers = [
-    document.getElementById("mockup-audio-trigger-desktop"),
-    document.getElementById("mockup-audio-trigger-mobile"),
+  // ✅ SOLO los botones overlay disparan audio
+  const overlayButtons = [
     document.getElementById("mockup-audio-overlay-desktop"),
     document.getElementById("mockup-audio-overlay-mobile")
   ].filter(Boolean);
 
-  function setPressedState(isPlaying){
-    const imgTriggers = [
-      document.getElementById("mockup-audio-trigger-desktop"),
-      document.getElementById("mockup-audio-trigger-mobile")
-    ].filter(Boolean);
-
-    imgTriggers.forEach(el=>{
-      el.setAttribute("aria-pressed", isPlaying ? "true" : "false");
+  function setOverlayState(isPlaying){
+    overlayButtons.forEach(btn => {
+      btn.classList.toggle("is-playing", !!isPlaying);
+      btn.setAttribute("aria-pressed", isPlaying ? "true" : "false");
     });
   }
 
-  function toggleAudio(){
-    if (!audio) return;
-
+  function toggleAudioFromOverlay(){
+    // Si está pausado -> reproducir (y apagar latido)
     if (audio.paused) {
-      audio.play().then(()=> setPressedState(true)).catch(()=>{});
-    } else {
-      audio.pause();
-      setPressedState(false);
+      audio.play().then(() => {
+        setOverlayState(true);
+      }).catch(() => {
+        // si el navegador bloquea autoplay, no hacemos nada
+        setOverlayState(false);
+      });
+      return;
     }
+
+    // Si está sonando -> pausar (y volver latido)
+    audio.pause();
+    setOverlayState(false);
   }
 
   function onKeyToggle(e){
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      toggleAudio();
+      toggleAudioFromOverlay();
     }
   }
 
-  triggers.forEach(el=>{
-    el.addEventListener("click", toggleAudio);
-    el.addEventListener("keydown", onKeyToggle);
+  overlayButtons.forEach(btn => {
+    btn.addEventListener("click", toggleAudioFromOverlay);
+    btn.addEventListener("keydown", onKeyToggle);
   });
 
-  if (audio) {
-    audio.addEventListener("ended", ()=> setPressedState(false));
-    audio.addEventListener("pause", ()=> setPressedState(false));
-    audio.addEventListener("play", ()=> setPressedState(true));
-  }
+  // ✅ Si termina la música, vuelve el latido
+  audio.addEventListener("ended", () => setOverlayState(false));
 
+  // ✅ Si por lo que sea se pausa (ej: user pausa desde controles externos), vuelve el latido
+  audio.addEventListener("pause", () => setOverlayState(false));
+
+  // ✅ Si se reproduce, se apaga el latido
+  audio.addEventListener("play", () => setOverlayState(true));
+
+  /* ===== URGENCY CARD (sin cambios) ===== */
   const card = document.getElementById("urgency-card");
   const closeBtn = document.getElementById("urgency-close");
   const ctaBtn = document.getElementById("urgency-cta");
@@ -4060,6 +4060,7 @@
 </div>
   </div>
 </section>
+
 
 
 
