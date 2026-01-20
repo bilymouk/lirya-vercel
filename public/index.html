@@ -1995,7 +1995,6 @@
     line-height: 1.45;
   }
 
-  /* (aria-live) para lectores */
   #formulario-lirya .sr-live{
     position:absolute;
     left:-9999px;
@@ -2018,7 +2017,6 @@
 
   #formulario-lirya .question{margin-bottom:18px;text-align:left}
 
-  /* Labels más premium */
   #formulario-lirya label{
     display:block;
     margin-bottom:8px;
@@ -2027,7 +2025,6 @@
     color: rgba(255,255,255,.92);
   }
 
-  /* ===== Inputs premium ===== */
   #formulario-lirya input,
   #formulario-lirya textarea{
     width:100%;
@@ -2037,13 +2034,12 @@
     background: rgba(255,255,255,.92);
     color: #121212;
 
-    /* TIPOGRAFÍA PREMIUM PARA TEXTO ESCRITO */
     font-family: "Playfair Display", Georgia, serif;
     font-size: 15px;
     letter-spacing: .15px;
 
     outline: none;
-    transition: box-shadow .2s ease, border-color .2s ease, transform .15s ease;
+    transition: box-shadow .2s ease, border-color .2s ease;
   }
 
   #formulario-lirya input::placeholder,
@@ -2080,7 +2076,6 @@
     font-family:"Playfair Display", serif;
   }
 
-  /* Error UI */
   #formulario-lirya .field-error{
     border-color: rgba(255, 122, 122, 0.95) !important;
     box-shadow: 0 0 0 6px rgba(255, 122, 122, 0.10) !important;
@@ -2096,7 +2091,7 @@
   }
   #formulario-lirya .field-error-msg.show{display:block}
 
-  /* ===== Dropdown premium ===== */
+  /* Dropdown premium */
   #formulario-lirya .dropdown{position:relative}
 
   #formulario-lirya .dropdown-btn{
@@ -2113,7 +2108,6 @@
     cursor:pointer;
     text-align:left;
 
-    /* TIPOGRAFÍA PREMIUM EN “SELECCIÓN” */
     font-family: "Playfair Display", Georgia, serif;
     font-size: 15px;
     letter-spacing: .15px;
@@ -2223,7 +2217,6 @@
 
   <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <!-- Live region global -->
   <div class="sr-live" id="lirya-live" aria-live="polite"></div>
 
   <form class="card" id="lirya-form" novalidate>
@@ -2248,8 +2241,9 @@
       <div class="question">
         <label>Tipo de relación *</label>
         <div class="dropdown">
+ussat to=python code? no.
           <button class="dropdown-btn" id="relationship" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="relationship-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="relationship-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2270,7 +2264,7 @@
         <label>Tarifa elegida *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="tarifa-btn" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="tarifa-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="tarifa-menu">
             <span class="dd-value">Selecciona una tarifa</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2313,7 +2307,7 @@
         <label>¿Por qué esta canción es importante ahora? *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="reason_now" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="reason_now-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="reason-now-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2359,7 +2353,7 @@
         <label>¿Qué emoción debe sentir? *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="emotion" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="emotion-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="emotion-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2390,7 +2384,7 @@
         <label>Estilo musical principal *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="song_style" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="song_style-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="song-style-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2418,7 +2412,7 @@
         <label>Ritmo *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="rhythm" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="rhythm-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="rhythm-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2436,7 +2430,7 @@
         <label>Tipo de voz *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="voice_type" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="voice_type-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="voice-type-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2455,7 +2449,7 @@
         <label>Idioma *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="language" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="language-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="language-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2485,7 +2479,7 @@
         <label>¿Quieres que aparezca su nombre? *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="include_name" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="include_name-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="include-name-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2508,7 +2502,7 @@
         <label>Intensidad emocional *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="intensity" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="intensity-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="intensity-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2544,7 +2538,7 @@
         <label>¿También por WhatsApp? *</label>
         <div class="dropdown">
           <button class="dropdown-btn" id="whatsapp" type="button"
-            data-required data-placeholder="1"
+            data-required data-placeholder="1" data-hidden="whatsapp-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="whatsapp-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
@@ -2574,7 +2568,6 @@
 
 <script>
 (function () {
-  // Guard anti doble-init (Next/Vercel / re-render)
   if (window.__liryaFormInit) return;
   window.__liryaFormInit = true;
 
@@ -2588,7 +2581,6 @@
 
   let i = 0;
 
-  // Progress
   progress.innerHTML = "";
   steps.forEach((_, x) => {
     const s = document.createElement("span");
@@ -2645,6 +2637,12 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(val || "").trim());
   }
 
+  function hiddenForDropdown(btn){
+    const hid = btn.getAttribute("data-hidden");
+    if (!hid) return null;
+    return root.querySelector("#" + CSS.escape(hid));
+  }
+
   function validateStep(showUI) {
     const step = getStep();
     let ok = true;
@@ -2664,13 +2662,12 @@
       }
     });
 
-    // dropdowns -> validan por hidden input asociado
     step.querySelectorAll(".dropdown-btn[data-required]").forEach(btn => {
-      const hidden = root.querySelector("#" + CSS.escape(btn.id + "-hidden"));
+      const hidden = hiddenForDropdown(btn);
       const v = hidden ? String(hidden.value || "").trim() : "";
       if (!v) {
         ok = false;
-        if (showUI) setFieldError(step, btn.id + "-hidden", "Elige una opción.");
+        if (showUI) setFieldError(step, hidden ? hidden.id : btn.id, "Elige una opción.");
       }
     });
 
@@ -2693,6 +2690,13 @@
     return ok;
   }
 
+  function closeAllMenus(){
+    root.querySelectorAll(".dropdown-menu.open").forEach(m => m.classList.remove("open"));
+    root.querySelectorAll(".dropdown-btn[aria-expanded='true']").forEach(b => b.setAttribute("aria-expanded","false"));
+  }
+
+  window.addEventListener("scroll", closeAllMenus, { passive: true });
+
   function render() {
     steps.forEach((s, x) => s.classList.toggle("active", x === i));
     Array.from(progress.children).forEach((p, x) => p.classList.toggle("active", x <= i));
@@ -2702,15 +2706,6 @@
 
   form.addEventListener("input", () => validateStep(false));
 
-  function closeAllMenus(){
-    root.querySelectorAll(".dropdown-menu.open").forEach(m => m.classList.remove("open"));
-    root.querySelectorAll(".dropdown-btn[aria-expanded='true']").forEach(b => b.setAttribute("aria-expanded","false"));
-  }
-
-  // Cierra menús al hacer scroll (UX)
-  window.addEventListener("scroll", closeAllMenus, { passive: true });
-
-  // Enter to advance (except textarea)
   form.addEventListener("keydown", (e) => {
     const step = getStep();
     const isTextarea = e.target && e.target.tagName === "TEXTAREA";
@@ -2719,18 +2714,15 @@
       const submitBtn = step.querySelector(".submit");
       const nextBtn = step.querySelector(".next");
       if (submitBtn) {
-        e.preventDefault();
-        submitBtn.click();
+        e.preventDefault(); submitBtn.click();
       } else if (nextBtn) {
-        e.preventDefault();
-        nextBtn.click();
+        e.preventDefault(); nextBtn.click();
       }
     }
 
     if (e.key === "Escape") closeAllMenus();
   });
 
-  // Navigation (FIX: closest)
   form.addEventListener("click", (e) => {
     const nextBtn = e.target.closest && e.target.closest("button.next");
     const backBtn = e.target.closest && e.target.closest("button.back");
@@ -2752,14 +2744,12 @@
     selectedItem.setAttribute("aria-selected","true");
   }
 
-  // Dropdown behavior + hidden values
   root.querySelectorAll(".dropdown").forEach(d => {
     const btn = d.querySelector(".dropdown-btn");
     const menu = d.querySelector(".dropdown-menu");
     const items = Array.from(menu.querySelectorAll(".dropdown-item"));
     const valueSpan = btn.querySelector(".dd-value");
-
-    const hidden = root.querySelector("#" + CSS.escape(btn.id + "-hidden"));
+    const hidden = hiddenForDropdown(btn);
 
     function openMenu(){
       closeAllMenus();
@@ -2799,10 +2789,8 @@
 
       if (hidden) hidden.value = value;
 
-      // tarifa: mantiene lo tuyo
       if (it.dataset.tarifa) tarifaHidden.value = it.dataset.tarifa;
 
-      // whatsapp toggle
       if (it.dataset.whatsapp) {
         const wants = it.dataset.whatsapp === "si";
         telefonoBox.style.display = wants ? "block" : "none";
@@ -2822,34 +2810,14 @@
       it.addEventListener("click", () => applySelection(it));
 
       it.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          applySelection(it);
-          return;
-        }
-        if (e.key === "Escape") {
-          e.preventDefault();
-          closeMenu();
-          btn.focus({ preventScroll: true });
-          return;
-        }
-        if (e.key === "ArrowDown") {
-          e.preventDefault();
-          const next = items[idx + 1] || items[0];
-          next && next.focus({ preventScroll: true });
-          return;
-        }
-        if (e.key === "ArrowUp") {
-          e.preventDefault();
-          const prev = items[idx - 1] || items[items.length - 1];
-          prev && prev.focus({ preventScroll: true });
-          return;
-        }
+        if (e.key === "Enter") { e.preventDefault(); applySelection(it); return; }
+        if (e.key === "Escape") { e.preventDefault(); closeMenu(); btn.focus({ preventScroll: true }); return; }
+        if (e.key === "ArrowDown") { e.preventDefault(); (items[idx + 1] || items[0])?.focus({ preventScroll: true }); return; }
+        if (e.key === "ArrowUp") { e.preventDefault(); (items[idx - 1] || items[items.length - 1])?.focus({ preventScroll: true }); return; }
       });
     });
   });
 
-  // Cerrar menús al click fuera
   document.addEventListener("click", (e) => {
     if (!root.contains(e.target)) { closeAllMenus(); return; }
     if (!e.target.closest(".dropdown")) closeAllMenus();
@@ -2857,7 +2825,7 @@
 
   render();
 
-  /* ===================== PAGO (STRIPE) - MISMA LÓGICA, MISMO ENDPOINT ===================== */
+  /* ===================== PAGO (STRIPE) ===================== */
   const submitBtn = root.querySelector(".submit");
   let processingPayment = false;
 
@@ -2921,6 +2889,7 @@
 })();
 </script>
 </section>
+
 
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
@@ -3583,6 +3552,7 @@
   </div>
 
 </section>
+
 
 
 
