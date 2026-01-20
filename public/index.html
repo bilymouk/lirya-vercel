@@ -176,7 +176,7 @@
 
     /* ✅ Frase principal: más grande (desktop y móvil) */
     .hero-subline--emphasis{
-      font-size:1.34rem;   /* más grande */
+      font-size:1.34rem;
       font-weight:700;
       letter-spacing:.25px;
       line-height:1.25;
@@ -229,14 +229,14 @@
       height:auto;
       cursor:pointer;
       border-radius:18px;
-      transform:translate(-20px, 20px);
+
+      /* ❗ NO ponemos transform aquí porque la animación usa transform */
       animation:floatPhoneDesktop 5s ease-in-out infinite;
+
       user-select:none;
       -webkit-user-drag:none;
       will-change:transform;
       justify-self:end;
-
-      /* ✅ Ajuste: un poco menos a la derecha */
       margin-left:12px;
     }
 
@@ -262,7 +262,7 @@
     .hero-mobile .hero-subline--emphasis{
       font-size:1.42rem;
       line-height:1.28;
-      white-space:normal; /* móvil puede cortar */
+      white-space:normal;
     }
 
     .hero-mobile-image{
@@ -292,11 +292,11 @@
       margin-bottom:4px;
     }
 
-    /* Animations */
+    /* ✅ Animations (con 1cm a la izquierda en DESKTOP) */
     @keyframes floatPhoneDesktop{
-      0%   { transform:translateY(20px); }
-      50%  { transform:translateY(6px); }
-      100% { transform:translateY(20px); }
+      0%   { transform:translateX(-1cm) translateY(20px); }
+      50%  { transform:translateX(-1cm) translateY(6px); }
+      100% { transform:translateX(-1cm) translateY(20px); }
     }
     @keyframes floatPhoneMobile{
       0%   { transform:translateY(2px); }
@@ -327,7 +327,7 @@
         max-width:360px;
         margin:14px auto 18px;
 
-        /* ✅ Ajuste: un poco a la izquierda (suave) */
+        /* ✅ (esto solo afecta a móvil) */
         transform: translateX(-6px);
       }
 
@@ -359,7 +359,6 @@
       box-shadow:0 18px 60px rgba(0,0,0,.18);
       padding:14px;
 
-      /* Keep in DOM for smooth animation */
       visibility:hidden;
       pointer-events:none;
       transform:translateY(14px);
@@ -695,6 +694,7 @@
 
 </body>
 </html>
+
 
 <!-- =================================
    POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
@@ -3872,6 +3872,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
