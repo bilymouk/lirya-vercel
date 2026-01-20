@@ -956,7 +956,7 @@
 })();
 </script>
 
-<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (OPCIÓN B PRO, SIN RECORTE, ACCESIBLE, ROBUSTA) ===== -->
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (OPCIÓN B PRO + 6 MEJORAS) ===== -->
 <style>
   :root{
     --lirya-gold: #d4b483;
@@ -1049,16 +1049,6 @@
     }
   }
 
-  /* Selección de texto accidental en móvil: fuera */
-  .example-card,
-  .example-card * {
-    user-select: none;
-  }
-  .tarifa-info,
-  .tarifa-info * {
-    user-select: text; /* pero el texto sí puede seleccionarse si el usuario quiere */
-  }
-
   /* DESTACADA */
   .example-card.destacada {
     border: 1.5px solid var(--lirya-orange);
@@ -1085,7 +1075,7 @@
     pointer-events: none;
   }
 
-  /* ===== MEDIA (IMAGEN SIN RECORTE, COMO TU 2ª CAPTURA) ===== */
+  /* ===== MEDIA (IMAGEN SIN RECORTE) ===== */
   .example-media {
     position: relative;
     width: 100%;
@@ -1103,11 +1093,24 @@
     display: block;
     cursor: pointer;
     touch-action: manipulation;
+    position: relative;
+  }
+
+  /* (Mejora #6) Bloquea selección SOLO en la zona interactiva */
+  .card-play,
+  .card-play * {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* (Mejora #3) Feedback claro en loading */
+  .card-play[aria-busy="true"] {
+    cursor: progress;
   }
 
   .card-play img{
     width: 100%;
-    height: auto;            /* CLAVE: no recorta, no estira */
+    height: auto;
     display: block;
   }
 
@@ -1251,7 +1254,7 @@
     font-weight: 600;
     text-decoration: none;
     position: relative;
-    z-index: 4; /* blindaje por si metes overlays en el futuro */
+    z-index: 4;
   }
 
   /* TEXTO INTERMEDIO */
@@ -1274,12 +1277,12 @@
     scroll-behavior: smooth;
     padding: 2px 32px 0px 8px;
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch; /* iOS */
+    -webkit-overflow-scrolling: touch;
   }
 
   .styles-carousel::-webkit-scrollbar { display: none; }
 
-  /* VIÑETAS: ahora son BUTTON reales */
+  /* VIÑETAS: BUTTON reales */
   .style-card {
     min-width: 280px;
     width: 280px;
@@ -1294,6 +1297,17 @@
     background: transparent;
     padding: 0;
     margin: 0;
+  }
+
+  /* Bloquea selección también aquí */
+  .style-card,
+  .style-card *{
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .style-card[aria-busy="true"]{
+    cursor: progress;
   }
 
   .style-card img {
@@ -1372,7 +1386,7 @@
       <article class="example-card" aria-label="Tarifa 49€ - Un bonito detalle">
         <div class="example-media">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
-          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: Un bonito detalle">
+          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: Un bonito detalle" aria-busy="false">
             <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy" width="1200" height="675" decoding="async">
           </button>
         </div>
@@ -1394,7 +1408,7 @@
         <span class="badge-popular">La más elegida</span>
         <div class="example-media">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
-          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: El regalo que emociona de verdad">
+          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: El regalo que emociona de verdad" aria-busy="false">
             <img src="/Eres-mi-amor-card.jpg" alt="Ejemplo canción personalizada de pareja" loading="lazy" width="1200" height="675" decoding="async">
           </button>
         </div>
@@ -1415,7 +1429,7 @@
       <article class="example-card" aria-label="Tarifa 79€ - Una canción para recordar siempre">
         <div class="example-media">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
-          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: Una canción para recordar siempre">
+          <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: Una canción para recordar siempre" aria-busy="false">
             <img src="/amigas-card.jpg" alt="Ejemplo canción personalizada para amigas" loading="lazy" width="1200" height="675" decoding="async">
           </button>
         </div>
@@ -1444,76 +1458,74 @@
       <button class="carousel-arrow arrow-right" type="button" id="stylesArrowRight" aria-label="Desplazar estilos a la derecha">›</button>
 
       <div class="styles-carousel" id="stylesCarousel" aria-label="Carrusel de estilos musicales">
-        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Flamenco">
+        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Flamenco" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/flamenco.webp" alt="Ejemplo estilo Flamenco">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Cinematográfico">
+        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Cinematográfico" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/cinematografica.webp" alt="Ejemplo estilo Cinematográfico">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Reggae chill">
+        <button class="style-card" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir estilo Reggae chill" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/reggae.webp" alt="Ejemplo estilo Reggae chill">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/pop.mp3" aria-label="Reproducir estilo Pop">
+        <button class="style-card" type="button" data-audio="/audio/pop.mp3" aria-label="Reproducir estilo Pop" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/pop.webp" alt="Ejemplo estilo Pop">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/bachata.mp3" aria-label="Reproducir estilo Bachata">
+        <button class="style-card" type="button" data-audio="/audio/bachata.mp3" aria-label="Reproducir estilo Bachata" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/bachata.webp" alt="Ejemplo estilo Bachata">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/jazz.mp3" aria-label="Reproducir estilo Jazz">
+        <button class="style-card" type="button" data-audio="/audio/jazz.mp3" aria-label="Reproducir estilo Jazz" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/jazz.webp" alt="Ejemplo estilo Jazz">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/hiphop.mp3" aria-label="Reproducir estilo Hip hop">
+        <button class="style-card" type="button" data-audio="/audio/hiphop.mp3" aria-label="Reproducir estilo Hip hop" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/hiphop.webp" alt="Ejemplo estilo Hip hop">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/reggaeton.mp3" aria-label="Reproducir estilo Reggaeton">
+        <button class="style-card" type="button" data-audio="/audio/reggaeton.mp3" aria-label="Reproducir estilo Reggaeton" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/reggaeton.webp" alt="Ejemplo estilo Reggaeton">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/balada.mp3" aria-label="Reproducir estilo Balada">
+        <button class="style-card" type="button" data-audio="/audio/balada.mp3" aria-label="Reproducir estilo Balada" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/balada.webp" alt="Ejemplo estilo Balada">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/indie.mp3" aria-label="Reproducir estilo Indie">
+        <button class="style-card" type="button" data-audio="/audio/indie.mp3" aria-label="Reproducir estilo Indie" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/indie.webp" alt="Ejemplo estilo Indie">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/rock.mp3" aria-label="Reproducir estilo Rock">
+        <button class="style-card" type="button" data-audio="/audio/rock.mp3" aria-label="Reproducir estilo Rock" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rock.webp" alt="Ejemplo estilo Rock">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/electro.mp3" aria-label="Reproducir estilo Electrónica">
+        <button class="style-card" type="button" data-audio="/audio/electro.mp3" aria-label="Reproducir estilo Electrónica" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/electronica.webp" alt="Ejemplo estilo Electrónica">
         </button>
 
-        <button class="style-card" type="button" data-audio="/audio/rb.mp3" aria-label="Reproducir estilo R&amp;B">
+        <button class="style-card" type="button" data-audio="/audio/rb.mp3" aria-label="Reproducir estilo R&amp;B" aria-busy="false">
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <img loading="lazy" decoding="async" width="280" height="300" src="/vinetasmusica/rb.webp" alt="Ejemplo estilo R&amp;B">
         </button>
       </div>
     </div>
 
-    <!-- Player único, invisible -->
     <audio id="lirya-examples-player" preload="none" style="display:none;"></audio>
-
   </div>
 </section>
 
@@ -1530,8 +1542,8 @@
   const FAILSAFE_MS = 8000;
   const SCROLL_STEP = 340;
 
-  let currentBtn = null;     // botón que está sonando
-  let pendingBtn = null;     // botón que está cargando
+  let currentBtn = null;
+  let pendingBtn = null;
   let loadingTimeoutId = null;
 
   function clearLoadingTimeout(){
@@ -1544,6 +1556,11 @@
   function clearStates(){
     root.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
     root.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
+    root.querySelectorAll('[aria-busy="true"]').forEach(el => el.setAttribute('aria-busy','false'));
+  }
+
+  function containerOf(el){
+    return el.closest('.example-card') || el.closest('.style-card') || el;
   }
 
   function setPillText(container, text, isError){
@@ -1555,7 +1572,7 @@
 
   function showError(container){
     setPillText(container, 'Error al reproducir', true);
-    container.classList.add('loading'); // reutilizamos pill visible
+    container.classList.add('loading');
     setTimeout(() => {
       container.classList.remove('loading');
       setPillText(container, 'Cargando…', false);
@@ -1579,11 +1596,29 @@
     pendingBtn = null;
   }
 
-  function playForButton(btn){
-    const src = btn && btn.dataset ? btn.dataset.audio : null;
-    if (!src) return;
+  /* (Mejora #4) Validación de data-audio (solo mismo origen o relativo) */
+  function safeAudioUrl(raw){
+    if (!raw) return null;
+    const trimmed = String(raw).trim();
 
-    // Toggle: si vuelves a tocar lo que suena, paras
+    // Bloquea esquemas raros
+    if (/^\s*javascript:/i.test(trimmed) || /^\s*data:/i.test(trimmed)) return null;
+
+    try {
+      const url = new URL(trimmed, window.location.href);
+      // Acepta solo mismo origen
+      if (url.origin !== window.location.origin) return null;
+      return url.href;
+    } catch {
+      return null;
+    }
+  }
+
+  function playForButton(btn){
+    const raw = btn && btn.dataset ? btn.dataset.audio : null;
+    const safe = safeAudioUrl(raw);
+    if (!safe) return;
+
     if (currentBtn === btn) {
       stopAll();
       return;
@@ -1592,20 +1627,19 @@
     stopAll();
 
     pendingBtn = btn;
+    const container = containerOf(btn);
 
-    // Marcamos loading en el contenedor más cercano (tarjeta o style-card)
-    const container = btn.closest('.example-card') || btn.closest('.style-card') || btn;
     container.classList.add('loading');
     setPillText(container, 'Cargando…', false);
+    btn.setAttribute('aria-busy','true');
 
-    const abs = new URL(src, window.location.href).href;
-    player.src = abs;
-
+    player.src = safe;
     try { player.load(); } catch(_) {}
 
     clearLoadingTimeout();
     loadingTimeoutId = setTimeout(() => {
       container.classList.remove('loading');
+      btn.setAttribute('aria-busy','false');
       showError(container);
       stopAll();
     }, FAILSAFE_MS);
@@ -1614,50 +1648,74 @@
     if (p && typeof p.catch === 'function') {
       p.catch(() => {
         container.classList.remove('loading');
+        btn.setAttribute('aria-busy','false');
         showError(container);
         stopAll();
       });
     }
   }
 
-  // Clicks en botones (ya gestionan Enter/Espacio por defecto)
-  root.querySelectorAll('button[data-audio]').forEach(btn => {
-    btn.addEventListener('click', () => playForButton(btn));
+  /* (Mejora #1) Event delegation: un solo listener */
+  root.addEventListener('click', (e) => {
+    const btn = e.target && e.target.closest ? e.target.closest('button[data-audio]') : null;
+    if (!btn || !root.contains(btn)) return;
+    playForButton(btn);
   });
 
-  // Estado real “playing”
   player.addEventListener('playing', () => {
     clearLoadingTimeout();
     if (!pendingBtn) return;
 
     clearStates();
-    currentBtn = pendingBtn;
 
-    const container = currentBtn.closest('.example-card') || currentBtn.closest('.style-card') || currentBtn;
+    currentBtn = pendingBtn;
+    const container = containerOf(currentBtn);
+
     container.classList.add('playing');
     container.classList.remove('loading');
+    currentBtn.setAttribute('aria-busy','false');
 
     pendingBtn = null;
   });
 
   player.addEventListener('ended', stopAll);
+
   player.addEventListener('error', () => {
     if (pendingBtn) {
-      const container = pendingBtn.closest('.example-card') || pendingBtn.closest('.style-card') || pendingBtn;
+      const container = containerOf(pendingBtn);
       container.classList.remove('loading');
+      pendingBtn.setAttribute('aria-busy','false');
       showError(container);
     }
     stopAll();
   });
 
-  // Carrusel
+  /* (Mejora #2) Si cambias de pestaña o se oculta, paramos todo */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAll();
+  });
+
+  /* Carrusel */
   function scrollStyles(dir){
     if (!carousel) return;
     carousel.scrollBy({ left: dir * SCROLL_STEP, behavior: 'smooth' });
   }
 
+  /* (Mejora #5) Oculta flechas si no hay overflow */
+  function updateArrows(){
+    if (!carousel || !arrowLeft || !arrowRight) return;
+    const hasOverflow = carousel.scrollWidth > carousel.clientWidth + 2;
+    arrowLeft.style.display = hasOverflow ? '' : 'none';
+    arrowRight.style.display = hasOverflow ? '' : 'none';
+  }
+
   if (arrowLeft) arrowLeft.addEventListener('click', () => scrollStyles(-1));
   if (arrowRight) arrowRight.addEventListener('click', () => scrollStyles(1));
+
+  // Recalcular flechas al cargar y al redimensionar
+  window.addEventListener('load', updateArrows);
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
 })();
 </script>
 
@@ -3366,6 +3424,7 @@
   </div>
 
 </section>
+
 
 
 
