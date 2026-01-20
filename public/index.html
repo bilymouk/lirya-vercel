@@ -328,8 +328,7 @@
   padding: 0;
   cursor: pointer;
 
-  animation: pulsePlay 1.15s ease-in-out infinite;
-  filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+  animation: none;
 }
 
 .play-overlay img{
@@ -340,6 +339,8 @@
   pointer-events:none;
   user-select:none;
   -webkit-user-drag:none;
+  animation: pulsePlay 1.15s ease-in-out infinite;
+  transform-origin: 50% 50%;
 }
 
     .hero-mobile-benefits{
@@ -368,10 +369,11 @@
     }
 
     /* latido botón */
-    @keyframes pulsePlay{
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50%      { transform: translate(-50%, -50%) scale(1.12); }
-    }
+ @keyframes pulsePlay{
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.12); }
+}
+
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
@@ -3971,6 +3973,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
