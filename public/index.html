@@ -1746,7 +1746,7 @@
 })();
 </script>
 
-<!-- ================== FORMULARIO LIRYA (FINAL PRO, FIX STRIPE + ERRORES REALES) ================== -->
+<!-- ================== FORMULARIO LIRYA (FINAL PRO, SIN ROMPER STRIPE) ================== -->
 <section id="formulario-lirya">
 <style>
   /* Scope total */
@@ -2437,6 +2437,7 @@
       menu.classList.add("open");
       btn.setAttribute("aria-expanded","true");
 
+      // focus first option
       const first = items[0];
       if (first) first.focus({ preventScroll: true });
     }
@@ -2469,10 +2470,8 @@
       btn.removeAttribute("data-placeholder");
       closeMenu();
 
-      // ✅ Tarifa hidden (clave para /api/payment)
       if (it.dataset.tarifa) tarifaHidden.value = it.dataset.tarifa;
 
-      // ✅ WhatsApp toggle
       if (it.dataset.whatsapp) {
         const wants = it.dataset.whatsapp === "si";
         telefonoBox.style.display = wants ? "block" : "none";
@@ -2519,7 +2518,9 @@
     });
   });
 
-  // Cerrar menús al clicar fuera
+  // ✅ Cerrar menús:
+  // - Click fuera del root: cierra
+  // - Click dentro del root pero fuera del dropdown: cierra
   document.addEventListener("click", (e) => {
     if (!root.contains(e.target)) {
       closeAllMenus();
@@ -2530,7 +2531,7 @@
 
   render();
 
-  /* ===================== PAGO (STRIPE) - FIX ROBUSTO + ERROR REAL DEL BACKEND ===================== */
+  /* ===================== PAGO (STRIPE) - MISMA LÓGICA, MISMO ENDPOINT ===================== */
   const submitBtn = root.querySelector(".submit");
   let processingPayment = false;
 
@@ -2541,38 +2542,8 @@
     return (span ? span.textContent : el.textContent).trim();
   }
 
-  function val(id){
-    const el = root.querySelector("#" + CSS.escape(id));
-    return (el && "value" in el) ? String(el.value || "").trim() : "";
-  }
-
-  function hardGuardBeforePay(){
-    const tarifa = val("tarifa-hidden");
-    const email  = val("email");
-    const rec    = val("recipient_name");
-
-    if (!tarifa || !/^(49|59|79)$/.test(tarifa)) {
-      alert("Te falta seleccionar la tarifa (Paso 1).");
-      return false;
-    }
-    if (!email) {
-      alert("Te falta el email (Paso 6).");
-      return false;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      alert("Introduce un email válido.");
-      return false;
-    }
-    if (!rec || rec.length < 2) {
-      alert("Te falta el nombre de quien recibe la canción (Paso 1).");
-      return false;
-    }
-    return true;
-  }
-
   submitBtn.addEventListener("click", async () => {
     if (!validateStep(true)) return;
-    if (!hardGuardBeforePay()) return;
     if (processingPayment) return;
     processingPayment = true;
 
@@ -2581,26 +2552,26 @@
     submitBtn.textContent = "Redirigiendo a pago seguro…";
 
     const data = {
-      recipient_name: val("recipient_name"),
-      your_name: val("your_name"),
+      recipient_name: root.querySelector("#recipient_name").value,
+      your_name: root.querySelector("#your_name").value,
       relationship: getDDText("relationship"),
-      tarifa: val("tarifa-hidden"),
-      how_met: val("how_met"),
-      special_moment: val("special_moment"),
+      tarifa: root.querySelector("#tarifa-hidden").value,
+      how_met: root.querySelector("#how_met").value,
+      special_moment: root.querySelector("#special_moment").value,
       reason_now: getDDText("reason_now"),
-      three_words: val("three_words"),
-      dedication: val("dedication"),
+      three_words: root.querySelector("#three_words").value,
+      dedication: root.querySelector("#dedication").value,
       emotion: getDDText("emotion"),
       song_style: getDDText("song_style"),
       rhythm: getDDText("rhythm"),
       voice_type: getDDText("voice_type"),
       language: getDDText("language"),
       include_name: getDDText("include_name"),
-      dont_mention: val("dont_mention"),
+      dont_mention: root.querySelector("#dont_mention").value,
       intensity: getDDText("intensity"),
-      email: val("email"),
+      email: root.querySelector("#email").value,
       whatsapp: getDDText("whatsapp"),
-      phone: val("phone")
+      phone: root.querySelector("#phone").value
     };
 
     try {
@@ -2610,16 +2581,10 @@
         body: JSON.stringify(data)
       });
 
-      // ✅ Leer JSON aunque sea error para sacar el mensaje real
-      let j = null;
-      try { j = await r.json(); } catch(_) {}
+      if (!r.ok) throw new Error("Error en la petición al servidor");
 
-      if (!r.ok) {
-        const msg = (j && (j.error || j.details)) ? (j.error || j.details) : `HTTP ${r.status}`;
-        throw new Error(msg);
-      }
-
-      if (j && j.url) {
+      const j = await r.json();
+      if (j.url) {
         window.location.href = j.url;
       } else {
         throw new Error("Stripe no devolvió URL");
@@ -2627,7 +2592,6 @@
     } catch (err) {
       alert("Error al iniciar el pago: " + (err.message || "Inténtalo de nuevo"));
       console.error(err);
-
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
       processingPayment = false;
@@ -2636,7 +2600,6 @@
 })();
 </script>
 </section>
-
 
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
@@ -3299,6 +3262,7 @@
   </div>
 
 </section>
+
 
 
 
