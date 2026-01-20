@@ -114,7 +114,8 @@
     .cta-header:focus-visible,
     .hero-btn:focus-visible,
     .urgency-cta:focus-visible,
-    .urgency-close:focus-visible{
+    .urgency-close:focus-visible,
+    .play-overlay:focus-visible{
       outline:2px solid var(--focus);
       outline-offset:4px;
     }
@@ -223,21 +224,38 @@
       opacity:.86;
     }
 
-    /* PHONE DESKTOP */
+    /* ========= PHONE WRAPPER + OVERLAY (NUEVO) ========= */
+    .hero-phone-wrap{
+      position:relative;
+      display:inline-block;
+      justify-self:end;
+      margin-left:12px;
+
+      /* el “tamaño” lo define el img, esto solo es contenedor */
+      will-change:transform;
+    }
+
+    /* animación flotado DESKTOP ahora va en el WRAP (no en el img) */
+    .hero-phone-wrap--desktop{
+      animation:floatPhoneDesktop 5s ease-in-out infinite;
+    }
+
+    /* animación flotado MOBILE ahora va en el WRAP (no en el img) */
+    .hero-phone-wrap--mobile{
+      animation:floatPhoneMobile 5s ease-in-out infinite;
+    }
+
+    /* PHONE DESKTOP (img ya no anima) */
     .hero-phone{
       width:315px;
       height:auto;
       cursor:pointer;
       border-radius:18px;
 
-      /* ❗ NO ponemos transform aquí porque la animación usa transform */
-      animation:floatPhoneDesktop 5s ease-in-out infinite;
-
       user-select:none;
       -webkit-user-drag:none;
       will-change:transform;
-      justify-self:end;
-      margin-left:12px;
+      display:block;
     }
 
     /* MOBILE */
@@ -273,10 +291,47 @@
       display:block;
       cursor:pointer;
       border-radius:18px;
-      animation:floatPhoneMobile 5s ease-in-out infinite;
+
       user-select:none;
       -webkit-user-drag:none;
       will-change:transform;
+    }
+
+    /* BOTON OVERLAY (NUEVO) */
+    .play-overlay{
+      position:absolute;
+      z-index:6;
+
+      /* A OJO: alineación sobre el play del mockup.
+         Ajustaremos luego con tus capturas. */
+      left: 50%;
+      top: 73.8%;
+
+      /* tamaño responsivo en % del ancho del mockup */
+      width: 12.2%;
+      aspect-ratio: 1 / 1;
+
+      transform: translate(-50%, -50%);
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+
+      /* latido */
+      animation: pulsePlay 1.15s ease-in-out infinite;
+
+      /* que destaque un poco */
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+    }
+
+    .play-overlay img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:contain;
+      user-select:none;
+      -webkit-user-drag:none;
+      pointer-events:none; /* el click lo recibe el button */
     }
 
     .hero-mobile-benefits{
@@ -304,10 +359,18 @@
       100% { transform:translateY(2px); }
     }
 
+    /* latido botón */
+    @keyframes pulsePlay{
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50%      { transform: translate(-50%, -50%) scale(1.12); }
+    }
+
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       html{scroll-behavior:auto}
-      .hero-phone, .hero-mobile-image{ animation:none; }
+      .hero-phone-wrap--desktop,
+      .hero-phone-wrap--mobile{ animation:none; }
+      .play-overlay{ animation:none; }
       .cta-header, .hero-btn, .urgency-cta, .urgency-close{ transition:none; }
     }
 
@@ -322,12 +385,21 @@
       .hero-desktop{ display:none; }
       .hero-mobile{ display:block; text-align:center; }
 
+      .hero-phone-wrap{
+        display:block;
+        width:fit-content;
+        margin:0 auto;
+      }
+
       .hero-mobile-image{
         width:85%;
         max-width:360px;
         margin:14px auto 18px;
+      }
 
-        /* ✅ (esto solo afecta a móvil) */
+      /* ✅ Tu ajuste original de X en móvil ahora va al WRAP,
+         para que también lo siga el botón overlay */
+      .hero-phone-wrap--mobile{
         transform: translateX(-6px);
       }
 
@@ -547,20 +619,27 @@
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
 
-      <img
-        src="/mockup-phone-final.png"
-        class="hero-phone"
-        id="mockup-audio-trigger-desktop"
-        alt="Ejemplo de canción personalizada"
-        width="420"
-        height="840"
-        role="button"
-        tabindex="0"
-        aria-label="Reproducir o pausar ejemplo de canción"
-        aria-pressed="false"
-        decoding="async"
-        fetchpriority="high"
-      />
+      <!-- ✅ WRAP con flotado + overlay -->
+      <div class="hero-phone-wrap hero-phone-wrap--desktop">
+        <img
+          src="/mockup-phone-final.png"
+          class="hero-phone"
+          id="mockup-audio-trigger-desktop"
+          alt="Ejemplo de canción personalizada"
+          width="420"
+          height="840"
+          role="button"
+          tabindex="0"
+          aria-label="Reproducir o pausar ejemplo de canción"
+          aria-pressed="false"
+          decoding="async"
+          fetchpriority="high"
+        />
+
+        <button class="play-overlay" id="mockup-audio-overlay-desktop" type="button" aria-label="Reproducir o pausar ejemplo">
+          <img src="/boton.png" alt="">
+        </button>
+      </div>
     </div>
 
     <!-- MOBILE -->
@@ -571,19 +650,26 @@
       <!-- ✅ Texto actualizado + más grande -->
       <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
 
-      <img
-        src="/mockup-phone-final.png"
-        class="hero-mobile-image"
-        id="mockup-audio-trigger-mobile"
-        alt="Ejemplo de canción personalizada"
-        width="360"
-        height="720"
-        role="button"
-        tabindex="0"
-        aria-label="Reproducir o pausar ejemplo de canción"
-        aria-pressed="false"
-        decoding="async"
-      />
+      <!-- ✅ WRAP con flotado + overlay -->
+      <div class="hero-phone-wrap hero-phone-wrap--mobile">
+        <img
+          src="/mockup-phone-final.png"
+          class="hero-mobile-image"
+          id="mockup-audio-trigger-mobile"
+          alt="Ejemplo de canción personalizada"
+          width="360"
+          height="720"
+          role="button"
+          tabindex="0"
+          aria-label="Reproducir o pausar ejemplo de canción"
+          aria-pressed="false"
+          decoding="async"
+        />
+
+        <button class="play-overlay" id="mockup-audio-overlay-mobile" type="button" aria-label="Reproducir o pausar ejemplo">
+          <img src="/boton.png" alt="">
+        </button>
+      </div>
 
       <ul class="hero-mobile-benefits">
         <li>Letra basada en vuestra historia</li>
@@ -601,13 +687,22 @@
 <script defer>
 (function () {
   const audio = document.getElementById("lirya-audio");
+
   const triggers = [
     document.getElementById("mockup-audio-trigger-desktop"),
-    document.getElementById("mockup-audio-trigger-mobile")
+    document.getElementById("mockup-audio-trigger-mobile"),
+    document.getElementById("mockup-audio-overlay-desktop"),
+    document.getElementById("mockup-audio-overlay-mobile")
   ].filter(Boolean);
 
   function setPressedState(isPlaying){
-    triggers.forEach(el=>{
+    // Mantiene tu aria-pressed en las imágenes (las que lo tienen)
+    const imgTriggers = [
+      document.getElementById("mockup-audio-trigger-desktop"),
+      document.getElementById("mockup-audio-trigger-mobile")
+    ].filter(Boolean);
+
+    imgTriggers.forEach(el=>{
       el.setAttribute("aria-pressed", isPlaying ? "true" : "false");
     });
   }
@@ -694,7 +789,6 @@
 
 </body>
 </html>
-
 
 <!-- =================================
    POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
@@ -3872,6 +3966,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
