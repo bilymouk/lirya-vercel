@@ -3567,7 +3567,7 @@
 })();
 </script>
 
-<!-- ===== GARANTÍA (CARDS + CARRUSEL MÓVIL) ===== -->
+ <!-- ===== GARANTÍA + MINI FAQ (CARDS + CARRUSEL MÓVIL) ===== -->
 <style>
 .lirya-guarantee{
   position:relative;
@@ -3615,9 +3615,8 @@
   margin:18px auto 28px;
 }
 
-/* ===== GRID / CARRUSEL ===== */
+/* ===== CARDS ===== */
 .lirya-guarantee-cards{
-  /* Desktop: 3 columnas */
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
   gap:18px;
@@ -3625,7 +3624,6 @@
   margin:0 auto 22px;
 }
 
-/* Card */
 .lirya-guarantee-card{
   text-align:left;
   padding:18px 18px 20px;
@@ -3634,15 +3632,13 @@
   border:1px solid rgba(255,255,255,0.16);
   box-shadow:0 16px 40px rgba(0,0,0,0.25);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 
 @media (hover:hover){
   .lirya-guarantee-card:hover{
     transform: translateY(-4px);
     box-shadow:0 22px 54px rgba(0,0,0,0.34);
-    border-color: rgba(255,159,63,0.28);
   }
 }
 
@@ -3666,7 +3662,6 @@
   font-family:"Playfair Display", serif;
   font-weight:800;
   font-size:18px;
-  line-height:1.2;
   color:#fff;
 }
 
@@ -3678,15 +3673,59 @@
   color:rgba(255,255,255,0.82);
 }
 
-/* Nota corta (menos texto) */
-.lirya-guarantee-note{
-  font-family:"Playfair Display", serif;
-  font-size:14px;
-  font-style:italic;
-  color:rgba(255,255,255,0.68);
+/* ===== MINI FAQ ===== */
+.lirya-guarantee-faq{
   max-width:900px;
-  margin:10px auto 26px;
-  line-height:1.7;
+  margin:22px auto 26px;
+  text-align:left;
+}
+
+.lirya-guarantee-faq-title{
+  font-family:"Playfair Display", serif;
+  font-size:22px;
+  color:#c7b58a;
+  margin:0 0 14px;
+  text-align:center;
+}
+
+.lirya-faq-item{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:10px;
+}
+
+.lirya-faq-item summary{
+  cursor:pointer;
+  font-family:"Playfair Display", serif;
+  font-size:15px;
+  font-weight:700;
+  color:#fff;
+  list-style:none;
+}
+
+.lirya-faq-item summary::-webkit-details-marker{
+  display:none;
+}
+
+.lirya-faq-item summary::after{
+  content:"+";
+  float:right;
+  color:#c7b58a;
+  font-size:18px;
+}
+
+.lirya-faq-item[open] summary::after{
+  content:"–";
+}
+
+.lirya-faq-body{
+  margin-top:10px;
+  font-family:"Playfair Display", serif;
+  font-size:14.5px;
+  line-height:1.6;
+  color:rgba(255,255,255,0.82);
 }
 
 /* CTA */
@@ -3701,49 +3740,21 @@
   border-radius:30px;
   text-decoration:none;
   box-shadow:0 12px 30px rgba(255,159,63,0.35);
-  transition: transform .25s ease, box-shadow .25s ease, opacity .25s ease;
-}
-.lirya-guarantee-cta:hover{
-  transform:translateY(-2px);
-  box-shadow:0 18px 42px rgba(255,159,63,0.45);
-}
-.lirya-guarantee-cta:focus-visible{
-  outline:3px solid rgba(255,159,63,0.55);
-  outline-offset:4px;
 }
 
-/* ===== MÓVIL: CARRUSEL SWIPE ===== */
-@media (max-width: 900px){
+/* ===== MÓVIL ===== */
+@media (max-width:900px){
   .lirya-guarantee{ padding:75px 18px; }
-  .lirya-guarantee h2{ font-size:28px; }
-  .lirya-guarantee-sub{ font-size:15px; }
-
   .lirya-guarantee-cards{
     display:flex;
-    gap:16px;
     overflow-x:auto;
+    gap:16px;
     scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
-    padding:6px 10px 10px;
-    max-width:100%;
   }
-  .lirya-guarantee-cards::-webkit-scrollbar{ display:none; }
-
   .lirya-guarantee-card{
-    min-width: 78%;
+    min-width:78%;
     scroll-snap-align:center;
   }
-}
-
-/* Extra: móviles muy pequeños */
-@media (max-width: 420px){
-  .lirya-guarantee-card{ min-width: 86%; }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .lirya-guarantee-card,
-  .lirya-guarantee-cta{ transition:none !important; }
 }
 </style>
 
@@ -3754,40 +3765,69 @@
     Revisión incluida según la tarifa. No entregamos la canción hasta que represente vuestra historia.
   </p>
 
-  <div class="lirya-guarantee-divider" aria-hidden="true"></div>
+  <div class="lirya-guarantee-divider"></div>
 
-  <!-- Cards: SEO-safe (texto real) + UX (móvil carrusel) -->
-  <div class="lirya-guarantee-cards" aria-label="Puntos de la garantía">
+  <div class="lirya-guarantee-cards">
     <article class="lirya-guarantee-card">
-      <div class="lirya-guarantee-kicker" aria-hidden="true"> Revisión incluida</div>
+      <div class="lirya-guarantee-kicker">Revisión incluida</div>
       <h3>Ajustamos lo que haga falta</h3>
-      <p>
-        Si al recibirla quieres cambiar una frase, el tono o un matiz, la revisamos contigo para que encaje.
-      </p>
+      <p>Si al recibirla quieres cambiar una frase, el tono o un matiz, la revisamos contigo.</p>
     </article>
 
     <article class="lirya-guarantee-card">
-      <div class="lirya-guarantee-kicker" aria-hidden="true"> Según tu tarifa</div>
+      <div class="lirya-guarantee-kicker">Según tu tarifa</div>
       <h3>Revisiones según la opción</h3>
-      <p>
-        Las revisiones están incluidas según la opción que elijas, para mantener el equilibrio entre rapidez y detalle.
-      </p>
+      <p>Las revisiones están incluidas según la opción que elijas.</p>
     </article>
 
     <article class="lirya-guarantee-card">
-      <div class="lirya-guarantee-kicker" aria-hidden="true"> Que emocione de verdad</div>
+      <div class="lirya-guarantee-kicker">Que emocione de verdad</div>
       <h3>No buscamos “que suene bonita”</h3>
-      <p>
-        Nuestro objetivo es que la canción emocione y se sienta personal: que cuente vuestra historia con autenticidad.
-      </p>
+      <p>Buscamos que la canción se sienta personal y auténtica.</p>
     </article>
   </div>
 
-  <p class="lirya-guarantee-note">
-    Pedimos algunos detalles en el formulario para acertar desde el principio y reducir revisiones innecesarias.
-  </p>
+  <!-- MINI FAQ -->
+  <div class="lirya-guarantee-faq">
+    <h3 class="lirya-guarantee-faq-title">Dudas rápidas antes de crear la tuya</h3>
 
-  <a href="#formulario-lirya" class="lirya-guarantee-cta" data-cta="garantia">
+    <details class="lirya-faq-item">
+      <summary>¿Cuándo la recibo?</summary>
+      <div class="lirya-faq-body">
+        Los plazos dependen de la tarifa elegida y se cuentan en días naturales desde que completas el formulario.
+      </div>
+    </details>
+
+    <details class="lirya-faq-item">
+      <summary>¿Puedo cambiar la letra o el estilo?</summary>
+      <div class="lirya-faq-body">
+        Sí. Incluimos revisión según tu tarifa para ajustar letra, tono, emoción o estilo.
+      </div>
+    </details>
+
+    <details class="lirya-faq-item">
+      <summary>¿En qué formato se entrega?</summary>
+      <div class="lirya-faq-body">
+        Entregamos la canción en MP3 y WAV, lista para escuchar o regalar.
+      </div>
+    </details>
+
+    <details class="lirya-faq-item">
+      <summary>¿El pago es seguro?</summary>
+      <div class="lirya-faq-body">
+        El pago es único y se procesa mediante Stripe (pago seguro).
+      </div>
+    </details>
+
+    <details class="lirya-faq-item">
+      <summary>¿Hay devolución?</summary>
+      <div class="lirya-faq-body">
+        No hay devolución automática: trabajamos por revisión para que el resultado encaje con vuestra historia.
+      </div>
+    </details>
+  </div>
+
+  <a href="#formulario-lirya" class="lirya-guarantee-cta">
     Crear mi canción con tranquilidad
   </a>
 </section>
@@ -3991,6 +4031,7 @@
     © 2024 Lirya. Todos los derechos reservados.
   </div>
 </section>
+
 
 
 
