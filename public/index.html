@@ -3831,8 +3831,7 @@
     Crear mi canción con tranquilidad
   </a>
 </section>
-
-<!-- ===== CIERRE FINAL / CONTACTO (MEJORADO) ===== -->
+<!-- ===== CIERRE FINAL / CONTACTO (MEJORADO + LEGAL) ===== -->
 <style>
 .lirya-final-section{
   background:#fcfaf7;
@@ -3968,9 +3967,26 @@
   font-style:italic;
 }
 
+/* Legal */
 .lirya-footer-legal{
   font-size:13px;
   color:rgba(26,26,26,0.45);
+  margin-top:24px;
+}
+
+.lirya-footer-links{
+  margin-top:6px;
+  font-size:12.5px;
+}
+
+.lirya-footer-links a{
+  color:rgba(26,26,26,0.45);
+  text-decoration:none;
+  margin:0 6px;
+}
+
+.lirya-footer-links a:hover{
+  text-decoration:underline;
 }
 
 @media (max-width:768px){
@@ -3992,12 +4008,11 @@
     <div class="lirya-final-pill">🎧 Listo para regalar</div>
   </div>
 
-  <!-- CTA final (lo más importante del cierre) -->
   <div class="lirya-final-cta">
-    <a class="lirya-final-btn lirya-final-btn-primary" href="#formulario-lirya" data-cta="final-crear">
+    <a class="lirya-final-btn lirya-final-btn-primary" href="#formulario-lirya">
       Crear mi canción ahora
     </a>
-    <a class="lirya-final-btn lirya-final-btn-ghost" href="#reacciones" data-cta="final-ver-reacciones">
+    <a class="lirya-final-btn lirya-final-btn-ghost" href="#reacciones">
       Ver reacciones reales
     </a>
   </div>
@@ -4007,7 +4022,7 @@
     <p>Escríbenos y te ayudamos a elegir la mejor opción para tu caso.</p>
 
     <div class="lirya-contact-methods">
-      <a href="mailto:ayuda@lirya.studio" class="lirya-contact-email" aria-label="Enviar correo a soporte">
+      <a href="mailto:ayuda@lirya.studio" class="lirya-contact-email">
         ✉️ ayuda@lirya.studio
       </a>
 
@@ -4016,7 +4031,6 @@
         target="_blank"
         rel="noopener noreferrer"
         class="lirya-contact-whatsapp"
-        aria-label="Abrir conversación de WhatsApp"
       >
         💬 WhatsApp (respuesta rápida)
       </a>
@@ -4029,6 +4043,11 @@
 
   <div class="lirya-footer-legal">
     © 2024 Lirya. Todos los derechos reservados.
+    <div class="lirya-footer-links">
+      <a href="/privacidad" target="_blank" rel="noopener">Privacidad</a> ·
+      <a href="/aviso-legal" target="_blank" rel="noopener">Aviso legal</a> ·
+      <a href="/cookies" target="_blank" rel="noopener">Cookies</a>
+    </div>
   </div>
 </section>
 
