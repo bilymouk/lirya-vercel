@@ -197,6 +197,25 @@
       .success-container{padding:2.2rem 1.6rem}
     }
   </style>
+  <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '893462606511287');
+fbq('track', 'PageView');
+</script>
+<noscript>
+<img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
+
 </head>
 
 <body>
@@ -250,5 +269,26 @@
     const id = new URLSearchParams(window.location.search).get("session_id");
     if(id) document.getElementById("sessionId").textContent = "ID de sesión: " + id;
   </script>
+  <script>
+(function () {
+  if (typeof window.fbq !== "function") return;
+
+  // Anti-duplicado si recargan la página
+  const key = "lirya_purchase_" + (new URLSearchParams(location.search).get("session_id") || "noid");
+  if (sessionStorage.getItem(key)) return;
+  sessionStorage.setItem(key, "1");
+
+  // (Opcional) si quieres pasar session_id como dato
+  const session_id = new URLSearchParams(location.search).get("session_id");
+
+  window.fbq("track", "Purchase", {
+    content_name: "Pedido LIRYA",
+    currency: "EUR",
+    // value: 49,  // <-- mejor si lo puedes saber
+    ...(session_id ? { order_id: session_id } : {})
+  });
+})();
+</script>
+
 </body>
 </html>
