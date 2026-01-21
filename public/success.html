@@ -191,104 +191,85 @@
       font-size: .9rem;
       border-top: 1px solid rgba(212,165,116,.15);
     }
-
-    @media(max-width:768px){
-      h1{font-size:2rem}
-      .success-container{padding:2.2rem 1.6rem}
-    }
   </style>
-  <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '893462606511287');
-fbq('track', 'PageView');
-</script>
-<noscript>
-<img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
-</noscript>
-<!-- End Meta Pixel Code -->
 
+  <!-- META PIXEL -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '893462606511287');
+  fbq('track', 'PageView');
+  </script>
 </head>
 
 <body>
-  <div class="background-animation"><div class="wave"></div></div>
 
-  <header>
-    <div class="header-content">
-      <div class="logo">LIRYA</div>
+<div class="background-animation"><div class="wave"></div></div>
+
+<header>
+  <div class="header-content">
+    <div class="logo">LIRYA</div>
+  </div>
+</header>
+
+<main>
+  <div class="success-container">
+    <div class="success-icon">
+      <svg viewBox="0 0 52 52"><polyline points="14 27 22 35 38 19"/></svg>
     </div>
-  </header>
 
-  <main>
-    <div class="success-container">
-      <div class="success-icon">
-        <svg viewBox="0 0 52 52"><polyline points="14 27 22 35 38 19"/></svg>
-      </div>
+    <h1>Pago confirmado</h1>
 
-      <h1>Pago confirmado</h1>
+    <p class="success-message">
+      Gracias por confiar en <strong>Lirya</strong>.  
+      Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.
+    </p>
 
-      <p class="success-message">
-        Gracias por confiar en <strong>Lirya</strong>.  
-        Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.
-      </p>
-
-      <div class="info-box">
-        <h3>¿Qué ocurre ahora?</h3>
-        <ul>
-          <li>Revisamos tu historia y emociones con cuidado</li>
-          <li>Creamos una letra única pensada solo para ti</li>
-          <li>Producimos tu canción según el estilo elegido</li>
-          <li>Te avisaremos en cuanto esté lista</li>
-        </ul>
-      </div>
-
-      <p class="success-message">
-        El tiempo de entrega depende de la tarifa seleccionada.  
-        Si necesitas cualquier cosa, puedes responder al email de confirmación.
-      </p>
-
-      <p class="session-id" id="sessionId"></p>
-
-      <a href="/" class="btn-home">Volver al inicio</a>
+    <div class="info-box">
+      <h3>¿Qué ocurre ahora?</h3>
+      <ul>
+        <li>Revisamos tu historia y emociones con cuidado</li>
+        <li>Creamos una letra única pensada solo para ti</li>
+        <li>Producimos tu canción según el estilo elegido</li>
+        <li>Te avisaremos en cuanto esté lista</li>
+      </ul>
     </div>
-  </main>
 
-  <footer>
-    © 2024 Lirya · Todos los derechos reservados
-  </footer>
+    <p class="success-message">
+      El tiempo de entrega depende de la tarifa seleccionada.  
+      Si necesitas cualquier cosa, puedes responder al email de confirmación.
+    </p>
 
-  <script>
-    const id = new URLSearchParams(window.location.search).get("session_id");
-    if(id) document.getElementById("sessionId").textContent = "ID de sesión: " + id;
-  </script>
-  <script>
-(function () {
-  if (typeof window.fbq !== "function") return;
+    <p class="session-id" id="sessionId"></p>
 
-  // Anti-duplicado si recargan la página
-  const key = "lirya_purchase_" + (new URLSearchParams(location.search).get("session_id") || "noid");
-  if (sessionStorage.getItem(key)) return;
-  sessionStorage.setItem(key, "1");
+    <a href="/" class="btn-home">Volver al inicio</a>
+  </div>
+</main>
 
-  // (Opcional) si quieres pasar session_id como dato
-  const session_id = new URLSearchParams(location.search).get("session_id");
+<footer>
+  © 2024 Lirya · Todos los derechos reservados
+</footer>
 
- <script>
+<!-- Mostrar session_id -->
+<script>
+  const sid = new URLSearchParams(location.search).get("session_id");
+  if (sid) document.getElementById("sessionId").textContent = "ID de sesión: " + sid;
+</script>
+
+<!-- PURCHASE con VALUE REAL DESDE STRIPE -->
+<script>
 (async function () {
   if (typeof window.fbq !== "function") return;
 
   const session_id = new URLSearchParams(location.search).get("session_id");
   if (!session_id) return;
 
-  // Anti-duplicado por sesión (si recargan success)
   const key = "lirya_purchase_" + session_id;
   if (sessionStorage.getItem(key)) return;
   sessionStorage.setItem(key, "1");
@@ -298,23 +279,17 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     if (!r.ok) throw new Error("No se pudo leer checkout-session");
 
     const data = await r.json();
-
-    // Opcional: solo disparar si Stripe dice paid
     if (data.payment_status && data.payment_status !== "paid") return;
 
     window.fbq("track", "Purchase", {
       content_name: "Pedido LIRYA",
-      currency: (data.currency || "EUR"),
+      currency: data.currency || "EUR",
       value: Number(data.value || 0),
       order_id: session_id
     });
   } catch (e) {
-    // Si falla, mejor NO disparar Purchase sin value real (evita ruido)
     console.error("Purchase error:", e);
   }
-})();
-</script>
-
 })();
 </script>
 
