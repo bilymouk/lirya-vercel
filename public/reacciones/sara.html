@@ -266,6 +266,77 @@
       .btn:hover,.small-link:hover{transform:none}
     }
   </style>
+  <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '893462606511287');
+fbq('track', 'PageView');
+</script>
+<noscript>
+<img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
+<script>
+(function () {
+  // Si el pixel no está cargado, no hacemos nada
+  if (typeof window.fbq !== "function") return;
+
+  // Anti-duplicados por sesión
+  const once = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+      fn();
+    } catch (e) {
+      fn();
+    }
+  };
+
+  // ---- 1) VIEWCONTENT al entrar en la página de vídeo ----
+  // (esto es “consumir contenido”: han visto una valoración)
+  once("lirya_vc_video_sara", () => {
+    window.fbq("track", "ViewContent", {
+      content_name: "Reaccion - sara",
+      content_category: "Video testimonial",
+      page_type: "reacciones"
+    });
+  });
+
+  // ---- 2) LEAD: clic en cualquier enlace/botón que lleve al formulario ----
+  // Aquí tus CTAs son <a href="/#formulario-lirya">
+  document.addEventListener("click", function (e) {
+    const el = e.target.closest("a, button");
+    if (!el) return;
+
+    const href = (el.getAttribute("href") || "").trim();
+
+    // Detecta enlaces al formulario en home (con o sin / delante)
+    const goesToForm =
+      href === "/#formulario-lirya" ||
+      href === "#formulario-lirya" ||
+      href.endsWith("/#formulario-lirya") ||
+      href.endsWith("#formulario-lirya");
+
+    if (!goesToForm) return;
+
+    window.fbq("track", "Lead", {
+      content_name: "CTA -> Formulario (desde video)",
+      button_text: (el.textContent || "").trim().slice(0, 80) || "cta",
+      source_page: location.pathname
+    });
+  }, true);
+
+})();
+</script>
+  
 </head>
 
 <body>
