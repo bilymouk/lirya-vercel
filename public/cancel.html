@@ -145,11 +145,6 @@
       font-size:1.25rem;
     }
 
-    .info-box p{
-      color:#b0b0b0;
-      line-height:1.8;
-    }
-
     .info-box ul{
       list-style:none;
       margin-top:1rem;
@@ -222,51 +217,82 @@
       .btn{width:100%}
     }
   </style>
+
+  <!-- META PIXEL -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '893462606511287');
+  fbq('track', 'PageView');
+  </script>
 </head>
 
 <body>
-  <div class="background-animation"><div class="wave"></div></div>
 
-  <header>
-    <div class="header-content">
-      <div class="logo">LIRYA</div>
+<div class="background-animation"><div class="wave"></div></div>
+
+<header>
+  <div class="header-content">
+    <div class="logo">LIRYA</div>
+  </div>
+</header>
+
+<main>
+  <div class="cancel-container">
+    <div class="cancel-icon">
+      <svg viewBox="0 0 52 52">
+        <line x1="16" y1="16" x2="36" y2="36"/>
+        <line x1="36" y1="16" x2="16" y2="36"/>
+      </svg>
     </div>
-  </header>
 
-  <main>
-    <div class="cancel-container">
-      <div class="cancel-icon">
-        <svg viewBox="0 0 52 52">
-          <line x1="16" y1="16" x2="36" y2="36"/>
-          <line x1="36" y1="16" x2="16" y2="36"/>
-        </svg>
-      </div>
+    <h1>El pago no se ha completado</h1>
 
-      <h1>El pago no se ha completado</h1>
+    <p class="cancel-message">
+      El proceso de pago se ha interrumpido.  
+      No se ha realizado ningún cargo y puedes volver a intentarlo cuando quieras.
+    </p>
 
-      <p class="cancel-message">
-        El proceso de pago se ha interrumpido.  
-        No se ha realizado ningún cargo y puedes volver a intentarlo cuando quieras.
-      </p>
-
-      <div class="info-box">
-        <h3>¿Qué puedes hacer ahora?</h3>
-        <ul>
-          <li>Volver a intentar el pago cuando estés listo</li>
-          <li>Revisar tranquilamente tu pedido</li>
-          <li>Contactarnos si has tenido cualquier duda</li>
-        </ul>
-      </div>
-
-      <div class="button-group">
-        <a href="/" class="btn btn-primary">Intentar de nuevo</a>
-        <a href="/" class="btn btn-secondary">Volver al inicio</a>
-      </div>
+    <div class="info-box">
+      <h3>¿Qué puedes hacer ahora?</h3>
+      <ul>
+        <li>Volver a intentar el pago cuando estés listo</li>
+        <li>Revisar tranquilamente tu pedido</li>
+        <li>Contactarnos si has tenido cualquier duda</li>
+      </ul>
     </div>
-  </main>
 
-  <footer>
-    © 2024 Lirya · Todos los derechos reservados
-  </footer>
+    <div class="button-group">
+      <a href="/#formulario-lirya" class="btn btn-primary">Intentar de nuevo</a>
+      <a href="/" class="btn btn-secondary">Volver al inicio</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2024 Lirya · Todos los derechos reservados
+</footer>
+
+<!-- EVENTO: CHECKOUT ABANDONADO -->
+<script>
+(function () {
+  if (typeof window.fbq !== "function") return;
+
+  const key = "lirya_checkout_abandoned";
+  if (sessionStorage.getItem(key)) return;
+  sessionStorage.setItem(key, "1");
+
+  fbq("trackCustom", "CheckoutAbandoned", {
+    content_name: "Pago cancelado Stripe"
+  });
+})();
+</script>
+
 </body>
 </html>
