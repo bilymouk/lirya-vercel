@@ -548,6 +548,7 @@
       }
     }
   </style>
+  
   <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -889,34 +890,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       obs.observe(formSection);
     }
   });
-
-  // ========= 3) INITIATECHECKOUT: cuando empieza a rellenar el formulario =========
-  // (primer focus o primer input dentro de la sección)
-  function fireInitiateCheckout() {
-    once("lirya_ic_form", () => {
-      window.fbq("track", "InitiateCheckout", {
-        content_name: "Inicio Formulario",
-        content_category: "Formulario"
-      });
-    });
-  }
-
-  document.addEventListener("focusin", function (e) {
-    const formSection = document.getElementById(FORM_ID);
-    if (!formSection) return;
-    if (formSection.contains(e.target)) {
-      fireInitiateCheckout();
-    }
-  });
-
-  document.addEventListener("input", function (e) {
-    const formSection = document.getElementById(FORM_ID);
-    if (!formSection) return;
-    if (formSection.contains(e.target)) {
-      fireInitiateCheckout();
-    }
-  });
-
+  
 })();
 </script>
   
@@ -3045,6 +3019,25 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   /* ===================== PAGO (STRIPE) ===================== */
   const submitBtn = root.querySelector(".submit");
   let processingPayment = false;
+  // ===== META EVENTS HELPERS =====
+  const onceSession = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+      fn();
+    } catch (e) { fn(); }
+  };
+
+  const track = (eventName, payload) => {
+    if (typeof window.fbq !== "function") return;
+    window.fbq("track", eventName, payload || {});
+  };
+
+  const getTarifa = () => {
+    const v = val("tarifa-hidden");
+    const n = Number(String(v).replace(/[^\d.]/g, ""));
+    return Number.isFinite(n) ? n : undefined;
+  };
 
   function val(id){
     const el = root.querySelector("#" + CSS.escape(id));
@@ -3055,7 +3048,17 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     if (!validateStep(true)) return;
     if (processingPayment) return;
     processingPayment = true;
-
+    
+    // ✅ INITIATE CHECKOUT: intención real de pagar
+    onceSession("lirya_initiate_checkout", () => {
+      const value = getTarifa();
+      track("InitiateCheckout", {
+        content_name: "Formulario LIRYA",
+        currency: "EUR",
+        ...(value ? { value } : {})
+      });
+    });
+    
     submitBtn.disabled = true;
     const originalText = submitBtn.textContent;
     submitBtn.textContent = "Redirigiendo a pago seguro…";
@@ -3093,6 +3096,16 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       if (!r.ok) throw new Error("Error en la petición al servidor");
 
       const j = await r.json();
+            // ✅ Stripe session creada (antes del redirect)
+      onceSession("lirya_add_payment_info", () => {
+        const value = getTarifa();
+        track("AddPaymentInfo", {
+          content_name: "Stripe Checkout",
+          currency: "EUR",
+          ...(value ? { value } : {})
+        });
+      });
+      
       if (j.url) window.location.href = j.url;
       else throw new Error("Stripe no devolvió URL");
     } catch (err) {
@@ -4197,6 +4210,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
