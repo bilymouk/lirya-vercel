@@ -281,12 +281,40 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   // (Opcional) si quieres pasar session_id como dato
   const session_id = new URLSearchParams(location.search).get("session_id");
 
-  window.fbq("track", "Purchase", {
-    content_name: "Pedido LIRYA",
-    currency: "EUR",
-    // value: 49,  // <-- mejor si lo puedes saber
-    ...(session_id ? { order_id: session_id } : {})
-  });
+ <script>
+(async function () {
+  if (typeof window.fbq !== "function") return;
+
+  const session_id = new URLSearchParams(location.search).get("session_id");
+  if (!session_id) return;
+
+  // Anti-duplicado por sesión (si recargan success)
+  const key = "lirya_purchase_" + session_id;
+  if (sessionStorage.getItem(key)) return;
+  sessionStorage.setItem(key, "1");
+
+  try {
+    const r = await fetch("/api/checkout-session?session_id=" + encodeURIComponent(session_id));
+    if (!r.ok) throw new Error("No se pudo leer checkout-session");
+
+    const data = await r.json();
+
+    // Opcional: solo disparar si Stripe dice paid
+    if (data.payment_status && data.payment_status !== "paid") return;
+
+    window.fbq("track", "Purchase", {
+      content_name: "Pedido LIRYA",
+      currency: (data.currency || "EUR"),
+      value: Number(data.value || 0),
+      order_id: session_id
+    });
+  } catch (e) {
+    // Si falla, mejor NO disparar Purchase sin value real (evita ruido)
+    console.error("Purchase error:", e);
+  }
+})();
+</script>
+
 })();
 </script>
 
