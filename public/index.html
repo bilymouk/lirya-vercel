@@ -801,6 +801,125 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 })();
 </script>
 
+  <script>
+(function () {
+  // Si el pixel no está cargado, no hacemos nada
+  if (typeof window.fbq !== "function") return;
+
+  // ========= Helpers anti-duplicados =========
+  const once = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+      fn();
+    } catch (e) {
+      // Si sessionStorage falla, dispara igualmente
+      fn();
+    }
+  };
+
+  const FORM_HASH = "#formulario-lirya";
+  const FORM_ID = "formulario-lirya";
+
+  // ========= 1) LEAD: click en cualquier CTA que lleve al formulario =========
+  document.addEventListener("click", function (e) {
+    const el = e.target.closest("a, button");
+    if (!el) return;
+
+    // Caso A: enlaces <a href="#formulario-lirya">
+    if (el.tagName === "A") {
+      const href = (el.getAttribute("href") || "").trim();
+      if (href === FORM_HASH || href.endsWith(FORM_HASH)) {
+        window.fbq("track", "Lead", {
+          content_name: "CTA -> Formulario",
+          button_text: (el.textContent || "").trim().slice(0, 80) || "cta",
+          destination: FORM_HASH
+        });
+      }
+      return;
+    }
+
+    // Caso B: botones <button> que con JS hacen scroll al formulario
+    // Si tus botones no son <a>, añade data-go-form="1" y ya está.
+    // Ejemplo: <button data-go-form="1">Crear mi canción</button>
+    if (el.hasAttribute("data-go-form")) {
+      window.fbq("track", "Lead", {
+        content_name: "CTA -> Formulario (button)",
+        button_text: (el.textContent || "").trim().slice(0, 80) || "cta",
+        destination: FORM_HASH
+      });
+    }
+  }, true);
+
+  // ========= 2) VIEWCONTENT: cuando el usuario VE el formulario =========
+  function fireViewContent() {
+    once("lirya_vc_form", () => {
+      window.fbq("track", "ViewContent", {
+        content_name: "Formulario LIRYA",
+        content_category: "Formulario"
+      });
+    });
+  }
+
+  // Si llegan directamente con URL .../#formulario-lirya
+  if (location.hash === FORM_HASH) {
+    fireViewContent();
+  }
+
+  // Si cambian el hash (click en CTA)
+  window.addEventListener("hashchange", function () {
+    if (location.hash === FORM_HASH) fireViewContent();
+  });
+
+  // Si es scroll (misma página) -> IntersectionObserver
+  window.addEventListener("load", function () {
+    const formSection = document.getElementById(FORM_ID);
+    if (!formSection) return;
+
+    if ("IntersectionObserver" in window) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            fireViewContent();
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+
+      obs.observe(formSection);
+    }
+  });
+
+  // ========= 3) INITIATECHECKOUT: cuando empieza a rellenar el formulario =========
+  // (primer focus o primer input dentro de la sección)
+  function fireInitiateCheckout() {
+    once("lirya_ic_form", () => {
+      window.fbq("track", "InitiateCheckout", {
+        content_name: "Inicio Formulario",
+        content_category: "Formulario"
+      });
+    });
+  }
+
+  document.addEventListener("focusin", function (e) {
+    const formSection = document.getElementById(FORM_ID);
+    if (!formSection) return;
+    if (formSection.contains(e.target)) {
+      fireInitiateCheckout();
+    }
+  });
+
+  document.addEventListener("input", function (e) {
+    const formSection = document.getElementById(FORM_ID);
+    if (!formSection) return;
+    if (formSection.contains(e.target)) {
+      fireInitiateCheckout();
+    }
+  });
+
+})();
+</script>
+  
 </body>
 </html>
 
@@ -1483,7 +1602,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
           <span class="state-pill" aria-hidden="true">Cargando…</span>
           <button class="card-play" type="button" data-audio="/audio/test.mp3" aria-label="Reproducir ejemplo: Un bonito detalle" aria-busy="false">
             <img src="/papa-card.jpg" alt="Ejemplo canción personalizada para padre" loading="lazy" width="1200" height="675" decoding="async">
-          </button>
+          </>
         </div>
         <div class="tarifa-info">
           <h3>Un bonito detalle</h3>
@@ -4078,6 +4197,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
