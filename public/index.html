@@ -894,6 +894,21 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   
 })();
 </script>
+
+<script>
+(function () {
+  // Pausa todos los <audio> excepto el que se está reproduciendo
+  document.addEventListener("play", function (e) {
+    const target = e.target;
+    if (!(target instanceof HTMLMediaElement)) return;
+    if (target.tagName !== "AUDIO") return;
+
+    document.querySelectorAll("audio").forEach((a) => {
+      if (a !== target && !a.paused) a.pause();
+    });
+  }, true); // <- CAPTURE: importante para pillar el play antes
+})();
+</script>
   
 </body>
 </html>
@@ -4211,6 +4226,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
