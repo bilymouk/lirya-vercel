@@ -884,95 +884,183 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 })();
 </script>
 
-  <script>
+ <script>
 (function () {
   // Si el pixel no está cargado, no hacemos nada
   if (typeof window.fbq !== "function") return;
 
-  // ========= Helpers anti-duplicados =========
+  // ========= Helpers =========
   const once = (key, fn) => {
     try {
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, "1");
       fn();
     } catch (e) {
-      // Si sessionStorage falla, dispara igualmente
       fn();
     }
   };
 
+  const getCookie = (name) => {
+    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return m ? decodeURIComponent(m[2]) : null;
+  };
+
+  const newEventId = () => {
+    // event_id para deduplicar Pixel + CAPI
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+  };
+
+  // ========= CAPI caller (a tu endpoint de Vercel) =========
+  async function sendCapiEvent(payload) {
+    try {
+      const res = await fetch("/api/meta-capi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // keepalive ayuda en Safari cuando navegas rápido / cambias de página
+        keepalive: true,
+        body: JSON.stringify(payload),
+      });
+
+      // Si quieres, puedes descomentar esto temporalmente para debug:
+      // const txt = await res.text();
+      // console.log("CAPI:", res.status, txt);
+
+      return res.ok;
+    } catch (e) {
+      // console.log("CAPI error:", e);
+      return false;
+    }
+  }
+
   const FORM_HASH = "#formulario-lirya";
   const FORM_ID = "formulario-lirya";
 
-  // ========= 1) LEAD: click en cualquier CTA que lleve al formulario =========
-  document.addEventListener("click", function (e) {
-    const el = e.target.closest("a, button");
-    if (!el) return;
+  // ========= 1) LEAD: click en CTA hacia formulario =========
+  document.addEventListener(
+    "click",
+    function (e) {
+      const el = e.target.closest("a, button");
+      if (!el) return;
 
-    // Caso A: enlaces <a href="#formulario-lirya">
-    if (el.tagName === "A") {
-      const href = (el.getAttribute("href") || "").trim();
-      if (href === FORM_HASH || href.endsWith(FORM_HASH)) {
-        window.fbq("track", "Lead", {
-          content_name: "CTA -> Formulario",
-          button_text: (el.textContent || "").trim().slice(0, 80) || "cta",
-          destination: FORM_HASH
-        });
+      let isFormCta = false;
+      let btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
+
+      // Caso A: enlaces <a href="#formulario-lirya">
+      if (el.tagName === "A") {
+        const href = (el.getAttribute("href") || "").trim();
+        if (href === FORM_HASH || href.endsWith(FORM_HASH)) isFormCta = true;
       }
-      return;
-    }
 
-    // Caso B: botones <button> que con JS hacen scroll al formulario
-    // Si tus botones no son <a>, añade data-go-form="1" y ya está.
-    // Ejemplo: <button data-go-form="1">Crear mi canción</button>
-    if (el.hasAttribute("data-go-form")) {
-      window.fbq("track", "Lead", {
-        content_name: "CTA -> Formulario (button)",
-        button_text: (el.textContent || "").trim().slice(0, 80) || "cta",
-        destination: FORM_HASH
+      // Caso B: botones con data-go-form (por si los usas)
+      if (el.tagName === "BUTTON" && el.hasAttribute("data-go-form")) {
+        isFormCta = true;
+      }
+
+      if (!isFormCta) return;
+
+      const eventId = newEventId();
+
+      // PIXEL
+      window.fbq(
+        "track",
+        "Lead",
+        {
+          content_name: "CTA -> Formulario",
+          button_text: btnText,
+          destination: FORM_HASH,
+        },
+        { eventID: eventId }
+      );
+
+      // CAPI
+      sendCapiEvent({
+        event_name: "Lead",
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId,
+        event_source_url: window.location.href,
+        action_source: "website",
+        user_data: {
+          // si Safari deja, perfecto; si no, no pasa nada
+          fbp: getCookie("_fbp") || undefined,
+          fbc: getCookie("_fbc") || undefined,
+          client_user_agent: navigator.userAgent,
+        },
+        custom_data: {
+          content_name: "CTA -> Formulario",
+          button_text: btnText,
+          destination: FORM_HASH,
+        },
       });
-    }
-  }, true);
+    },
+    true
+  );
 
   // ========= 2) VIEWCONTENT: cuando el usuario VE el formulario =========
   function fireViewContent() {
     once("lirya_vc_form", () => {
-      window.fbq("track", "ViewContent", {
-        content_name: "Formulario LIRYA",
-        content_category: "Formulario"
+      const eventId = newEventId();
+
+      // PIXEL
+      window.fbq(
+        "track",
+        "ViewContent",
+        {
+          content_name: "Formulario LIRYA",
+          content_category: "Formulario",
+        },
+        { eventID: eventId }
+      );
+
+      // CAPI
+      sendCapiEvent({
+        event_name: "ViewContent",
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId,
+        event_source_url: window.location.href,
+        action_source: "website",
+        user_data: {
+          fbp: getCookie("_fbp") || undefined,
+          fbc: getCookie("_fbc") || undefined,
+          client_user_agent: navigator.userAgent,
+        },
+        custom_data: {
+          content_name: "Formulario LIRYA",
+          content_category: "Formulario",
+        },
       });
     });
   }
 
   // Si llegan directamente con URL .../#formulario-lirya
-  if (location.hash === FORM_HASH) {
-    fireViewContent();
-  }
+  if (location.hash === FORM_HASH) fireViewContent();
 
   // Si cambian el hash (click en CTA)
   window.addEventListener("hashchange", function () {
     if (location.hash === FORM_HASH) fireViewContent();
   });
 
-  // Si es scroll (misma página) -> IntersectionObserver
+  // Si es scroll -> IntersectionObserver
   window.addEventListener("load", function () {
     const formSection = document.getElementById(FORM_ID);
     if (!formSection) return;
 
     if ("IntersectionObserver" in window) {
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            fireViewContent();
-            obs.disconnect();
-          }
-        });
-      }, { threshold: 0.25 });
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              fireViewContent();
+              obs.disconnect();
+            }
+          });
+        },
+        { threshold: 0.25 }
+      );
 
       obs.observe(formSection);
     }
   });
-  
 })();
 </script>
 
@@ -4307,6 +4395,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
