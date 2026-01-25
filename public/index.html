@@ -443,11 +443,15 @@
       .hero-title-rest{ font-size: .95em; }
     }
 
-    /* 2) En móvil: subline 10% más pequeña */
+    /* 2) En móvil: subline +5% (respecto a 1.42rem) */
     @media (max-width:900px){
       .hero-mobile .hero-subline--emphasis{
-        font-size: 1.44rem; /* 1.45rem * 0.9 */
-        line-height: 1.26;
+        font-size: 1.491rem; /* 1.42rem * 1.05 */
+        line-height: 1.24;
+      }
+      .hero-mobile .hero-subline--emphasis .hero-special{
+        font-size: 1.10em; /* +10% solo "alguien especial" */
+        display:inline-block;
       }
     }
 
@@ -731,8 +735,8 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
       <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-      <!-- Móvil: 3 líneas (no 4) -->
-      <p class="hero-subline hero-subline--emphasis">Una canción única<br>para alguien especial<br>creada con vuestra historia</p>
+      <!-- Móvil: 3 líneas EXACTAS + "alguien especial" 10% más grande -->
+      <p class="hero-subline hero-subline--emphasis">Una canción única para<br><span class="hero-special">alguien especial</span><br>creada con vuestra historia</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
@@ -990,6 +994,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   
 </body>
 </html>
+
 <!-- =================================
    POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
    (MISMOS ESTILOS QUE "CÓMO FUNCIONA" + TODAS IGUALES)
@@ -4303,6 +4308,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
