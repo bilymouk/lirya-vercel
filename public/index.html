@@ -1037,23 +1037,45 @@
   });
 
   window.addEventListener("load", function () {
-    const formSection = document.getElementById(FORM_ID);
-    if (!formSection) return;
+  const formSection = document.getElementById(FORM_ID);
+  if (!formSection) {
+    log("ViewContent: NO encuentro el elemento", FORM_ID);
+    return;
+  }
 
-    if ("IntersectionObserver" in window) {
-      const obs = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
+  if ("IntersectionObserver" in window) {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            log("ViewContent: formulario visible -> FIRE");
             fireViewContent();
             obs.disconnect();
-            break;
           }
-        }
-      }, { threshold: 0.25 });
+        });
+      },
+      {
+        threshold: 0.01,          // ✅ antes era 0.25
+        rootMargin: "200px 0px"   // ✅ dispara un poco antes
+      }
+    );
 
-      obs.observe(formSection);
-    }
-  });
+    obs.observe(formSection);
+    log("ViewContent: observer activo");
+  } else {
+    // Fallback por si no existe IntersectionObserver
+    log("ViewContent: no IntersectionObserver, fallback scroll");
+    const onScroll = () => {
+      const r = formSection.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        fireViewContent();
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+});
 
   // ========= 3) INITIATE CHECKOUT =========
   // Aquí lo hacemos robusto: detecta click en el botón real de pagar.
@@ -4475,6 +4497,7 @@
 </div>
   </div>
 </section>
+
 
 
 
