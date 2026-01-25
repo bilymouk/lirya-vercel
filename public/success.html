@@ -193,7 +193,7 @@
     }
   </style>
 
-  <!-- META PIXEL -->
+  <!-- META PIXEL (no disparo Purchase aquí; solo inicializo) -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -205,7 +205,6 @@
   'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '893462606511287');
   fbq('set', 'autoConfig', 'false', '893462606511287');
-  fbq('track', 'PageView');
   </script>
 </head>
 
@@ -263,34 +262,150 @@
   if (sid) document.getElementById("sessionId").textContent = "ID de sesión: " + sid;
 </script>
 
-<!-- PURCHASE con VALUE REAL DESDE STRIPE -->
+<!-- ===== PURCHASE (PIXEL + CAPI, Safari-proof) ===== -->
 <script>
 (async function () {
-  if (typeof window.fbq !== "function") return;
-
-  const session_id = new URLSearchParams(location.search).get("session_id");
+  const urlParams = new URLSearchParams(location.search);
+  const session_id = urlParams.get("session_id");
   if (!session_id) return;
 
+  // Dedupe local (evita repetir Purchase si recargan)
   const key = "lirya_purchase_" + session_id;
   if (sessionStorage.getItem(key)) return;
   sessionStorage.setItem(key, "1");
 
+  // Debug opcional: añade &debug_meta=1
+  const DEBUG = urlParams.get("debug_meta") === "1";
+  const log = (...args) => { if (DEBUG) console.log("[META SUCCESS]", ...args); };
+
+  // Test Events opcional: ?test_event_code=XXXX
+  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+
+  const hasFbq = typeof window.fbq === "function";
+
+  const getCookie = (name) => {
+    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return m ? decodeURIComponent(m[2]) : null;
+  };
+
+  const setCookie = (name, value, days) => {
+    const maxAge = days * 24 * 60 * 60;
+    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+  };
+
+  const newEventId = () => {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+  };
+
+  // Asegura _fbp (first-party) -> ayuda en Safari
+  function ensureFbp() {
+    let fbp = getCookie("_fbp");
+    if (fbp) return fbp;
+    const ts = Date.now();
+    const rnd = Math.floor(Math.random() * 1e10);
+    fbp = `fb.1.${ts}.${rnd}`;
+    setCookie("_fbp", fbp, 90);
+    return fbp;
+  }
+
+  // Asegura _fbc si hay fbclid en URL
+  function ensureFbc() {
+    const existing = getCookie("_fbc");
+    if (existing) return existing;
+
+    const fbclid = urlParams.get("fbclid");
+    if (!fbclid) return null;
+
+    const ts = Date.now();
+    const fbc = `fb.1.${ts}.${fbclid}`;
+    setCookie("_fbc", fbc, 90);
+    return fbc;
+  }
+
+  const FBP = ensureFbp();
+  const FBC = ensureFbc();
+
+  async function sendCapiEvent(body) {
+    try {
+      const res = await fetch("/api/meta-capi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify(body),
+      });
+      const ok = res.ok;
+
+      if (DEBUG) {
+        const txt = await res.text().catch(() => "");
+        log("CAPI", ok ? "OK" : "FAIL", res.status, txt.slice(0, 400));
+      }
+
+      return ok;
+    } catch (e) {
+      log("CAPI error", e);
+      return false;
+    }
+  }
+
+  // 1) Lee la sesión de Stripe para value/currency reales
+  let data;
   try {
     const r = await fetch("/api/checkout-session?session_id=" + encodeURIComponent(session_id));
     if (!r.ok) throw new Error("No se pudo leer checkout-session");
+    data = await r.json();
 
-    const data = await r.json();
-    if (data.payment_status && data.payment_status !== "paid") return;
-
-    window.fbq("track", "Purchase", {
-      content_name: "Pedido LIRYA",
-      currency: data.currency || "EUR",
-      value: Number(data.value || 0),
-      order_id: session_id
-    });
+    // Seguridad
+    if (data.payment_status && data.payment_status !== "paid") {
+      log("Payment no paid, stop:", data.payment_status);
+      return;
+    }
   } catch (e) {
-    console.error("Purchase error:", e);
+    console.error("Purchase: error leyendo Stripe session:", e);
+    return;
   }
+
+  const currency = (data.currency || "EUR").toUpperCase();
+  const value = Number(data.value || 0);
+
+  // 2) Dispara Purchase por Pixel + CAPI con el MISMO event_id (dedupe)
+  const eventId = newEventId();
+
+  // Pixel (si existe)
+  if (hasFbq) {
+    try {
+      window.fbq("track", "Purchase", {
+        content_name: "Pedido LIRYA",
+        currency,
+        value,
+        order_id: session_id
+      }, { eventID: eventId });
+
+      log("Pixel Purchase fired", eventId);
+    } catch (e) {
+      log("Pixel error", e);
+    }
+  } else {
+    log("Pixel no disponible (Safari puede bloquearlo)");
+  }
+
+  // CAPI (siempre)
+  await sendCapiEvent({
+    event_name: "Purchase",
+    event_id: eventId,
+    event_source_url: window.location.href,
+    fbp: FBP || undefined,
+    fbc: FBC || undefined,
+    custom_data: {
+      content_name: "Pedido LIRYA",
+      currency,
+      value,
+      order_id: session_id
+    },
+    ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {})
+  });
+
+  log("CAPI Purchase sent", eventId, { value, currency, session_id });
 })();
 </script>
 
