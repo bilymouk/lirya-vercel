@@ -414,9 +414,20 @@
       font-size: 1.12em; /* un poco más grande que el resto del H1 */
       display:inline-block;
       line-height: 1;
+
+      /* NUEVO: más luminoso */
+      color:#ffd27a;
+      text-shadow:
+        0 0 10px rgba(255,210,122,.45),
+        0 0 22px rgba(255,210,122,.35);
     }
     @media (max-width:900px){
-      .hero-title-sv{ font-size: 1.16em; }
+      .hero-title-sv{
+        font-size: 1.16em;
+        text-shadow:
+          0 0 9px rgba(255,210,122,.42),
+          0 0 20px rgba(255,210,122,.32);
+      }
     }
 
     /* ===== CAMBIOS PEDIDOS (SOLO LOS QUE HAS DICHO) ===== */
@@ -427,7 +438,7 @@
       .hero-title-rest{ font-size: .95em; }
     }
 
-    /* 2) En móvil: subline 10% más pequeña + en 3 líneas */
+    /* 2) En móvil: subline 10% más pequeña */
     @media (max-width:900px){
       .hero-mobile .hero-subline--emphasis{
         font-size: 1.278rem; /* 1.42rem * 0.9 */
@@ -435,7 +446,16 @@
       }
     }
 
-    /* 3) Frase "Producción limitada..." justo encima del CTA (desktop + móvil) */
+    /* 3) En desktop: subline en 2 líneas + 20% más grande */
+    @media (min-width:901px){
+      .hero-desktop .hero-subline--emphasis{
+        font-size: 1.608rem; /* 1.34rem * 1.2 */
+        line-height: 1.18;
+        white-space: normal; /* anula el nowrap */
+      }
+    }
+
+    /* 4) Frase "Producción limitada..." justo encima del CTA (desktop + móvil) */
     .hero-quality{
       font-family:'Playfair Display',serif;
       font-size:1.02rem;
@@ -660,7 +680,8 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
         <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
         <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-        <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial, creada con vuestra historia</p>
+        <!-- Desktop: 2 líneas + 20% más grande -->
+        <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial,<br>creada con vuestra historia</p>
 
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
@@ -705,8 +726,8 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
       <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-      <!-- En 3 líneas (móvil) -->
-      <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial,<br>creada con vuestra<br>historia</p>
+      <!-- Móvil: 3 líneas (no 4) -->
+      <p class="hero-subline hero-subline--emphasis">Una canción única<br>para alguien especial<br>creada con vuestra historia</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
@@ -4278,6 +4299,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
