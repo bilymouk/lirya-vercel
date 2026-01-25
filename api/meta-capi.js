@@ -13,17 +13,15 @@ export default async function handler(req, res) {
     });
   }
 
-  const body = req.body || {};
-  const event_name = body.event_name;
-  const event_id = body.event_id;
-  const event_time = body.event_time || Math.floor(Date.now() / 1000);
-  const custom_data = body.custom_data || {};
-  const event_source_url = body.event_source_url || "";
-  const action_source = body.action_source || "website";
-
-  // opcional
-  const fbp = body.fbp;
-  const fbc = body.fbc;
+  const {
+    event_name,
+    event_id,
+    custom_data = {},
+    event_source_url,
+    fbp,
+    fbc,
+    test_event_code
+  } = req.body || {};
 
   if (!event_name || !event_id) {
     return res.status(400).json({ ok: false, error: "Missing event_name or event_id" });
@@ -36,29 +34,29 @@ export default async function handler(req, res) {
 
   const ua = req.headers["user-agent"] || "";
 
-  // cookies si existen
-  const cookie = req.headers.cookie || "";
-  const fbpMatch = cookie.match(/(?:^|;\s*)_fbp=([^;]+)/);
-  const fbcMatch = cookie.match(/(?:^|;\s*)_fbc=([^;]+)/);
-
   const payload = {
     data: [
       {
         event_name,
-        event_time,
+        event_time: Math.floor(Date.now() / 1000),
         event_id,
-        action_source,
-        event_source_url,
+        action_source: "website",
+        event_source_url: event_source_url || "",
         user_data: {
           client_ip_address: ip,
           client_user_agent: ua,
-          fbp: (fbp || (fbpMatch ? decodeURIComponent(fbpMatch[1]) : undefined)) || undefined,
-          fbc: (fbc || (fbcMatch ? decodeURIComponent(fbcMatch[1]) : undefined)) || undefined,
+          fbp: fbp || undefined,
+          fbc: fbc || undefined
         },
         custom_data
       }
     ]
   };
+
+  // ✅ Test Events: Meta exige esto en el body (no dentro del item)
+  if (test_event_code) {
+    payload.test_event_code = test_event_code;
+  }
 
   const url = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
 
@@ -69,10 +67,5 @@ export default async function handler(req, res) {
   });
 
   const data = await r.json();
-
-  if (!r.ok) {
-    return res.status(500).json({ ok: false, meta: data });
-  }
-
   return res.status(200).json({ ok: true, meta: data });
 }
