@@ -409,14 +409,36 @@
       }
     }
 
-    /* ===== CAMBIO MÍNIMO SOLO PARA AGRANDAR "San Valentín" EN EL H1 ===== */
+    /* ===== CAMBIOS PEDIDOS (MÍNIMOS) ===== */
+
+    /* 1) "San Valentín" aún más grande dentro del H1 */
     .hero-title-sv{
-      font-size: 1.12em; /* un poco más grande que el resto del H1 */
+      font-size: 1.22em; /* más grande aún */
       display:inline-block;
       line-height: 1;
     }
     @media (max-width:900px){
-      .hero-title-sv{ font-size: 1.16em; }
+      .hero-title-sv{ font-size: 1.26em; }
+    }
+
+    /* 2) Frase "Una canción única..." más grande:
+          - Desktop: +50% y en 2 líneas
+          - Mobile: +20%
+    */
+    @media (min-width: 901px){
+      .hero-subline--emphasis{
+        font-size: 2.01rem; /* 1.34rem * 1.5 = 2.01rem */
+        line-height: 1.18;
+        white-space: normal; /* permitir salto de línea */
+        max-width: 520px;     /* fuerza a 2 líneas aprox con tu layout actual */
+      }
+    }
+    @media (max-width: 900px){
+      .hero-mobile .hero-subline--emphasis{
+        font-size: 1.704rem; /* 1.42rem * 1.2 = 1.704rem */
+        line-height: 1.22;
+        white-space: normal;
+      }
     }
 
     /* ===== URGENCY FLOATING CARD ===== */
@@ -627,12 +649,13 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
         <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
         <h1>El regalo de <span class="hero-title-sv">San Valentín</span> que no olvidará</h1>
 
-        <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial, creada con vuestra historia</p>
+        <!-- En 2 líneas (forzado con <br>) -->
+        <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial,<br>creada con vuestra historia</p>
 
         <ul class="hero-benefits">
-          <li>Letra basada en vuestra historia real</li>
+          <!-- ELIMINADO: "Letra basada en vuestra historia real" -->
           <li>Revisión incluida</li>
-          <li>Entrega garantizada antes de San Valentín</li>
+          <li>Entrega garantizada antes del 14 de febrero</li>
         </ul>
 
         <a href="#formulario-lirya" class="hero-btn">Crear mi canción ahora</a>
@@ -668,7 +691,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
       <h1>El regalo de <span class="hero-title-sv">San Valentín</span> que no olvidará</h1>
 
-      <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial, creada con vuestra historia</p>
+      <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial,<br>creada con vuestra historia</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
@@ -4236,6 +4259,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
