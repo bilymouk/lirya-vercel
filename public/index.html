@@ -182,14 +182,18 @@
       letter-spacing:.25px;
       line-height:1.25;
     }
-   @media (min-width:901px){
-  .hero-desktop .hero-subline--emphasis{
-    font-size: 1.47rem;   /* +10% */
-    line-height: 1.22;
-    white-space: normal; /* permite salto */
-    max-width: 520px;    /* fuerza 2 líneas */
-  }
-}
+    @media (min-width:901px){
+      .hero-desktop .hero-subline--emphasis{
+        font-size: 1.617rem;   /* +10% (sobre 1.47rem) */
+        line-height: 1.20;
+        white-space: normal;
+        max-width: 520px;      /* mantiene el layout */
+      }
+      .hero-desktop .hero-subline--emphasis .hero-line1{
+        white-space: nowrap;   /* fuerza que la primera línea NO se parta (evita 3 líneas) */
+        display:inline-block;
+      }
+    }
 
     .hero-benefits{
       list-style:none;
@@ -443,7 +447,7 @@
       .hero-title-rest{ font-size: .95em; }
     }
 
-    /* 2) En móvil: subline +5% (respecto a 1.42rem) */
+    /* 2) En móvil: subline +5% (respecto a 1.42rem) + "alguien especial" 10% más grande */
     @media (max-width:900px){
       .hero-mobile .hero-subline--emphasis{
         font-size: 1.491rem; /* 1.42rem * 1.05 */
@@ -452,15 +456,6 @@
       .hero-mobile .hero-subline--emphasis .hero-special{
         font-size: 1.10em; /* +10% solo "alguien especial" */
         display:inline-block;
-      }
-    }
-
-    /* 3) En desktop: subline en 2 líneas + 20% más grande */
-    @media (min-width:901px){
-      .hero-desktop .hero-subline--emphasis{
-        font-size: 1.608rem; /* 1.34rem * 1.2 */
-        line-height: 1.18;
-        white-space: normal; /* anula el nowrap */
       }
     }
 
@@ -689,8 +684,8 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
         <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
         <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-        <!-- Desktop: 2 líneas + 20% más grande -->
-        <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial,<br>creada con vuestra historia</p>
+        <!-- Desktop: 2 líneas, +10% más grande y evitando que se parta en 3 -->
+        <p class="hero-subline hero-subline--emphasis"><span class="hero-line1">Una canción única para alguien especial,</span><br>creada con vuestra historia</p>
 
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
@@ -4308,6 +4303,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
