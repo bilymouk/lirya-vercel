@@ -421,33 +421,32 @@
       .hero-title-sv{ font-size: 1.26em; }
     }
 
-    /* Desktop: frase +50% (ya estaba) */
+    /* Desktop: frase +50% */
     @media (min-width: 901px){
       .hero-subline--emphasis{
-        font-size: 2.01rem; /* 1.34rem * 1.5 */
+        font-size: 2.01rem;
         line-height: 1.18;
         white-space: normal;
         max-width: 520px;
       }
     }
 
-    /* Mobile:
-       - "que no olvidará" 5% más pequeño (solo ese fragmento)
-       - subline 10% más pequeño y en 3 líneas
-    */
+    /* Mobile: "que no olvidará" 5% más pequeño */
     .hero-title-rest{ display:inline; }
-
     @media (max-width: 900px){
-      .hero-title-rest{ font-size: .95em; } /* 5% más pequeño */
+      .hero-title-rest{ font-size: .95em; }
+    }
 
+    /* Mobile: subline 10% más pequeña y en 3 líneas */
+    @media (max-width: 900px){
       .hero-mobile .hero-subline--emphasis{
-        font-size: 1.278rem; /* 1.42rem * 0.9 */
+        font-size: 1.278rem; /* 1.42 * 0.9 */
         line-height: 1.22;
         white-space: normal;
       }
     }
 
-    /* Frase "Producción limitada..." justo encima del CTA (desktop+mobile) */
+    /* Frase "Producción limitada..." encima del CTA */
     .hero-quality{
       font-family:'Playfair Display',serif;
       font-size:1.02rem;
@@ -539,10 +538,8 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
           <li>Entrega garantizada antes del 14 de febrero</li>
         </ul>
 
-        <!-- NUEVO: justo encima del CTA -->
-        <div class="hero-quality">Producción limitada diaria para garantizar calidad</div>
+        <div class="hero-quality">Producción limitada diaria para garantizar calidad.</div>
 
-        <!-- CTA: nuevo texto -->
         <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
@@ -575,7 +572,6 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     <div class="hero-mobile">
       <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-      <!-- En 3 líneas en móvil -->
       <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial,<br>creada con vuestra<br>historia</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
@@ -601,15 +597,12 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       </div>
 
       <ul class="hero-mobile-benefits">
-        <!-- ELIMINADO: "Letra basada en vuestra historia" -->
         <li>Revisión incluida</li>
         <li>Entrega garantizada antes del 14 de febrero</li>
       </ul>
 
-      <!-- NUEVO: justo encima del CTA -->
-      <div class="hero-quality">Producción limitada diaria para garantizar calidad</div>
+      <div class="hero-quality">Producción limitada diaria para garantizar calidad.</div>
 
-      <!-- CTA: nuevo texto -->
       <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
@@ -4148,6 +4141,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
