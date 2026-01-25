@@ -409,6 +409,16 @@
       }
     }
 
+    /* ===== CAMBIO MÍNIMO SOLO PARA AGRANDAR "San Valentín" EN EL H1 ===== */
+    .hero-title-sv{
+      font-size: 1.12em; /* un poco más grande que el resto del H1 */
+      display:inline-block;
+      line-height: 1;
+    }
+    @media (max-width:900px){
+      .hero-title-sv{ font-size: 1.16em; }
+    }
+
     /* ===== URGENCY FLOATING CARD ===== */
     .urgency-card{
       position:fixed;
@@ -614,10 +624,10 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
-        <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
-        <h1>Vuestra historia convertida en una canción</h1>
+        <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
+        <h1>El regalo de <span class="hero-title-sv">San Valentín</span> que no olvidará</h1>
 
-        <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
+        <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial, creada con vuestra historia</p>
 
         <ul class="hero-benefits">
           <li>Letra basada en vuestra historia real</li>
@@ -655,10 +665,10 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-      <span class="hero-badge">El regalo que no olvidará este San Valentín</span>
-      <h1>Vuestra historia convertida en una canción</h1>
+      <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
+      <h1>El regalo de <span class="hero-title-sv">San Valentín</span> que no olvidará</h1>
 
-      <p class="hero-subline hero-subline--emphasis">Una canción que dará vida a vuestros sentimientos</p>
+      <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial, creada con vuestra historia</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
@@ -912,6 +922,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   
 </body>
 </html>
+
 <!-- =================================
    POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
    (MISMOS ESTILOS QUE "CÓMO FUNCIONA" + TODAS IGUALES)
@@ -4225,6 +4236,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
