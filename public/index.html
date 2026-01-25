@@ -3210,7 +3210,9 @@
   /* ===================== PAGO (STRIPE) ===================== */
   const submitBtn = root.querySelector(".submit");
   let processingPayment = false;
-  // ===== META EVENTS HELPERS =====
+  // ===== META EVENTS HELPERS (PIXEL + CAPI, Safari-friendly) =====
+  const hasFbq = typeof window.fbq === "function";
+
   const onceSession = (key, fn) => {
     try {
       if (sessionStorage.getItem(key)) return;
@@ -3219,9 +3221,36 @@
     } catch (e) { fn(); }
   };
 
-  const track = (eventName, payload) => {
-    if (typeof window.fbq !== "function") return;
-    window.fbq("track", eventName, payload || {});
+  const getCookie = (name) => {
+    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return m ? decodeURIComponent(m[2]) : null;
+  };
+
+  const newEventId = () => {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+  };
+
+  const urlParams = new URLSearchParams(location.search);
+  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+
+  async function sendCapiEvent(body) {
+    try {
+      const res = await fetch("/api/meta-capi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify(body),
+      });
+      return res.ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  const trackPixel = (eventName, payload, eventId) => {
+    if (!hasFbq) return;
+    window.fbq("track", eventName, payload || {}, eventId ? { eventID: eventId } : undefined);
   };
 
   const getTarifa = () => {
@@ -3240,13 +3269,33 @@
     if (processingPayment) return;
     processingPayment = true;
     
-    // ✅ INITIATE CHECKOUT: intención real de pagar
+        let checkoutEventId = null;
+
+    // ✅ INITIATE CHECKOUT: intención real de pagar (Pixel si existe + CAPI siempre)
     onceSession("lirya_initiate_checkout", () => {
+      checkoutEventId = newEventId();
       const value = getTarifa();
-      track("InitiateCheckout", {
+
+      // Pixel (Chrome/Android/etc)
+      trackPixel("InitiateCheckout", {
         content_name: "Formulario LIRYA",
         currency: "EUR",
         ...(value ? { value } : {})
+      }, checkoutEventId);
+
+      // CAPI (Safari/Opera/iOS, etc)
+      sendCapiEvent({
+        event_name: "InitiateCheckout",
+        event_id: checkoutEventId,
+        event_source_url: window.location.href,
+        fbp: getCookie("_fbp") || undefined,
+        fbc: getCookie("_fbc") || undefined,
+        custom_data: {
+          content_name: "Formulario LIRYA",
+          currency: "EUR",
+          ...(value ? { value } : {})
+        },
+        ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
       });
     });
     
@@ -3288,12 +3337,30 @@
 
       const j = await r.json();
             // ✅ Stripe session creada (antes del redirect)
-      onceSession("lirya_add_payment_info", () => {
+           onceSession("lirya_add_payment_info", () => {
+        const eventId = newEventId();
         const value = getTarifa();
-        track("AddPaymentInfo", {
+
+        // Pixel
+        trackPixel("AddPaymentInfo", {
           content_name: "Stripe Checkout",
           currency: "EUR",
           ...(value ? { value } : {})
+        }, eventId);
+
+        // CAPI
+        sendCapiEvent({
+          event_name: "AddPaymentInfo",
+          event_id: eventId,
+          event_source_url: window.location.href,
+          fbp: getCookie("_fbp") || undefined,
+          fbc: getCookie("_fbc") || undefined,
+          custom_data: {
+            content_name: "Stripe Checkout",
+            currency: "EUR",
+            ...(value ? { value } : {})
+          },
+          ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
         });
       });
       
@@ -4401,6 +4468,7 @@
 </div>
   </div>
 </section>
+
 
 
 
