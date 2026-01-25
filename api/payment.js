@@ -91,11 +91,16 @@ module.exports = async (req, res) => {
         success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${BASE_URL}/cancel.html`,
 
-        metadata: {
-          email: f.email || "",
-          tarifa: f.tarifa || "",
-          recipient_name: f.recipient_name || "",
-        },
+       metadata: {
+  email: f.email || "",
+  tarifa: f.tarifa || "",
+  recipient_name: f.recipient_name || "",
+
+  // ✅ para Purchase en success.html (dedupe + matching)
+  event_id: f.event_id || "",
+  fbp: f.fbp || "",
+  fbc: f.fbc || "",
+},
       });
     } catch (stripeErr) {
       console.error("❌ STRIPE ERROR:", stripeErr);
