@@ -858,56 +858,33 @@
 </script>
 
 <script>
-/* ===== PIXEL + CAPI (BIEN HECHO) =====
-   - PageView: Pixel + CAPI con el MISMO event_id (dedupe)
-   - Lead: al click a #formulario-lirya (Pixel + CAPI)
-   - ViewContent: cuando el formulario es visible (Pixel + CAPI)
-   - Cookies _fbp/_fbc first-party para mejorar Safari (ITP)
-   - test_event_code soportado (?test_event_code=XXXX) y se pasa a CAPI
+/* ===== PIXEL + CAPI (LIMPIO, SIN DUPLICADOS, SAFARI FRIENDLY) =====
+  - PageView: Pixel + CAPI con MISMO event_id (dedupe)
+  - Lead: click a #formulario-lirya (Pixel + CAPI)
+  - ViewContent: cuando #formulario-lirya se ve (Pixel + CAPI)
+  - InitiateCheckout: cuando se hace click en el botón de pagar (por selector)
+  - Cookies first-party _fbp/_fbc para mejorar Safari (ITP)
+  - Test Events: ?test_event_code=XXXX se envía en body a CAPI
+  - Debug: ?debug_meta=1 para logs en consola
 */
 (function () {
   const hasFbq = typeof window.fbq === "function";
-  // ===== PAGEVIEW (Pixel + CAPI, deduplicado) =====
-once("lirya_pageview", () => {
-  const eventId = newEventId();
-
-  log("PageView fired", eventId);
-
-  // Pixel (si no está bloqueado)
-  if (hasFbq) {
-    window.fbq("track", "PageView", {}, { eventID: eventId });
-  }
-
-  // CAPI (siempre, incluso Safari / ITP)
-  sendCapiEvent({
-    event_name: "PageView",
-    event_id: eventId,
-    event_source_url: window.location.href,
-    fbp: getCookie("_fbp") || undefined,
-    fbc: getCookie("_fbc") || undefined,
-    custom_data: {
-      page_path: location.pathname,
-      page_title: document.title
-    },
-    ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {})
-  });
-});
 
   const urlParams = new URLSearchParams(location.search);
   const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
   const DEBUG = urlParams.get("debug_meta") === "1";
-
   const log = (...args) => { if (DEBUG) console.log("[META]", ...args); };
 
   const FORM_HASH = "#formulario-lirya";
   const FORM_ID = "formulario-lirya";
 
+  // ========= helpers =========
   const once = (key, fn) => {
     try {
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, "1");
       fn();
-    } catch (e) {
+    } catch (_e) {
       fn();
     }
   };
@@ -919,7 +896,8 @@ once("lirya_pageview", () => {
 
   const setCookie = (name, value, days) => {
     const maxAge = days * 24 * 60 * 60;
-    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+    document.cookie =
+      `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
   };
 
   const newEventId = () => {
@@ -927,12 +905,11 @@ once("lirya_pageview", () => {
     return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
   };
 
-  // ===== 1) Garantiza _fbp first-party (ayuda mucho en Safari) =====
+  // ========= cookies ITP (Safari) =========
   function ensureFbp() {
     let fbp = getCookie("_fbp");
     if (fbp) return fbp;
 
-    // Formato típico: fb.1.<timestamp>.<random>
     const ts = Date.now();
     const rnd = Math.floor(Math.random() * 1e10);
     fbp = `fb.1.${ts}.${rnd}`;
@@ -940,7 +917,6 @@ once("lirya_pageview", () => {
     return fbp;
   }
 
-  // ===== 2) Si hay fbclid, crea _fbc =====
   function ensureFbc() {
     const existing = getCookie("_fbc");
     if (existing) return existing;
@@ -954,10 +930,10 @@ once("lirya_pageview", () => {
     return fbc;
   }
 
-  // Asegura cookies
   const FBP = ensureFbp();
   const FBC = ensureFbc();
 
+  // ========= CAPI =========
   async function sendCapiEvent(body) {
     try {
       const res = await fetch("/api/meta-capi", {
@@ -967,27 +943,24 @@ once("lirya_pageview", () => {
         body: JSON.stringify(body),
       });
 
-      const ok = res.ok;
       if (DEBUG) {
         const txt = await res.text().catch(() => "");
-        log("CAPI", ok ? "OK" : "FAIL", res.status, txt.slice(0, 400));
+        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
       }
-      return ok;
+      return res.ok;
     } catch (e) {
       log("CAPI error", e);
       return false;
     }
   }
 
-  // helper para enviar Pixel + CAPI con mismo event_id
-  function trackEvent(eventName, customData, options) {
-    const eventId = options?.eventId || newEventId();
-    const eventSourceUrl = options?.eventSourceUrl || window.location.href;
+  function trackEvent(eventName, customData = {}, opts = {}) {
+    const eventId = opts.eventId || newEventId();
 
-    // Pixel
+    // Pixel (si existe)
     if (hasFbq) {
       try {
-        window.fbq("track", eventName, customData || {}, { eventID: eventId });
+        window.fbq("track", eventName, customData, { eventID: eventId });
         log("Pixel", eventName, eventId);
       } catch (e) {
         log("Pixel error", e);
@@ -996,31 +969,31 @@ once("lirya_pageview", () => {
       log("Pixel NO disponible (Safari puede bloquearlo)");
     }
 
-    // CAPI
-    sendCapiEvent({
+    // CAPI (siempre)
+    const capiBody = {
       event_name: eventName,
       event_id: eventId,
-      event_source_url: eventSourceUrl,
-
-      // user matching básico (server añade IP+UA)
+      event_source_url: window.location.href,
       fbp: FBP || undefined,
       fbc: FBC || undefined,
-
-      custom_data: customData || {},
-
+      custom_data: customData,
       ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
-    });
+    };
 
+    sendCapiEvent(capiBody);
     return eventId;
   }
 
-  // ===== PAGEVIEW (al cargar) =====
-  // IMPORTANTE: lo hacemos aquí para poder meter eventID y deduplicar con CAPI
-  once("lirya_pv", () => {
-    trackEvent("PageView", {}, { eventSourceUrl: window.location.href });
+  // ========= 0) PAGEVIEW =========
+  // Nota: NO lo dispares en el script del Pixel. Aquí lo hacemos con eventID para dedupe con CAPI.
+  once("lirya_pageview", () => {
+    trackEvent("PageView", {
+      page_path: location.pathname,
+      page_title: document.title,
+    });
   });
 
-  // ===== LEAD: click en CTA a formulario =====
+  // ========= 1) LEAD (click CTA a formulario) =========
   document.addEventListener("click", function (e) {
     const el = e.target.closest("a, button");
     if (!el) return;
@@ -1033,6 +1006,7 @@ once("lirya_pageview", () => {
       if (href === FORM_HASH || href.endsWith(FORM_HASH)) isFormCta = true;
     }
 
+    // por si tienes botones que navegan al form
     if (el.tagName === "BUTTON" && el.hasAttribute("data-go-form")) {
       isFormCta = true;
     }
@@ -1046,9 +1020,9 @@ once("lirya_pageview", () => {
     });
   }, true);
 
-  // ===== VIEWCONTENT: cuando el formulario se ve =====
+  // ========= 2) VIEWCONTENT (cuando el form es visible) =========
   function fireViewContent() {
-    once("lirya_vc_form", () => {
+    once("lirya_viewcontent_form", () => {
       trackEvent("ViewContent", {
         content_name: "Formulario LIRYA",
         content_category: "Formulario",
@@ -1068,30 +1042,34 @@ once("lirya_pageview", () => {
 
     if ("IntersectionObserver" in window) {
       const obs = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             fireViewContent();
             obs.disconnect();
+            break;
           }
-        });
+        }
       }, { threshold: 0.25 });
 
       obs.observe(formSection);
     }
   });
-  // ===== INITIATECHECKOUT: click en botón que inicia el pago =====
-  document.addEventListener("click", function (e) {
-    const el = e.target.closest("[data-initiate-checkout]");
-    if (!el) return;
 
-    // Evita duplicados por doble click
+  // ========= 3) INITIATE CHECKOUT =========
+  // Aquí lo hacemos robusto: detecta click en el botón real de pagar.
+  // En tu formulario el botón es: <button class="submit" type="button">Pagar y enviar</button>
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest("button.submit, #formulario-lirya .submit");
+    if (!btn) return;
+
     once("lirya_initiate_checkout", () => {
       trackEvent("InitiateCheckout", {
         content_name: "Checkout iniciado",
-        content_category: "Checkout"
+        content_category: "Checkout",
       });
     });
   }, true);
+
 })();
 </script>
 
@@ -4493,6 +4471,7 @@ once("lirya_pageview", () => {
 </div>
   </div>
 </section>
+
 
 
 
