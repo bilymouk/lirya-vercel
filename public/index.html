@@ -1054,6 +1054,19 @@
       obs.observe(formSection);
     }
   });
+  // ===== INITIATECHECKOUT: click en botón que inicia el pago =====
+  document.addEventListener("click", function (e) {
+    const el = e.target.closest("[data-initiate-checkout]");
+    if (!el) return;
+
+    // Evita duplicados por doble click
+    once("lirya_initiate_checkout", () => {
+      trackEvent("InitiateCheckout", {
+        content_name: "Checkout iniciado",
+        content_category: "Checkout"
+      });
+    });
+  }, true);
 })();
 </script>
 
@@ -4388,6 +4401,7 @@
 </div>
   </div>
 </section>
+
 
 
 
