@@ -183,13 +183,13 @@
     }
     @media (min-width:901px){
       .hero-desktop .hero-subline--emphasis{
-        font-size: 2.2875rem;   /* +25% (sobre 1.83rem) */
+        font-size: 2.2875rem;
         line-height: 1.18;
         white-space: normal;
-        max-width: 520px;      /* mantiene el layout */
+        max-width: 520px;
       }
       .hero-desktop .hero-subline--emphasis .hero-line1{
-        white-space: normal;   /* permite que se reparta en 3 líneas */
+        white-space: normal;
         display:inline;
       }
     }
@@ -255,7 +255,7 @@
       width:355px;
       height:auto;
       margin-top:24px;
-      cursor:default; /* ⬅️ ya no dispara audio */
+      cursor:default;
       border-radius:18px;
       user-select:none;
       -webkit-user-drag:none;
@@ -293,7 +293,7 @@
       height:auto;
       margin:8px auto 6px;
       display:block;
-      cursor:default; /* ⬅️ ya no dispara audio */
+      cursor:default;
       border-radius:18px;
 
       user-select:none;
@@ -333,7 +333,6 @@
       transform-origin: 50% 50%;
     }
 
-    /* ✅ NUEVO: cuando está sonando, el latido se apaga */
     .play-overlay.is-playing img{
       animation: none !important;
       transform: none !important;
@@ -419,11 +418,9 @@
 
     /* ===== CAMBIO MÍNIMO SOLO PARA AGRANDAR "San Valentín" EN EL H1 ===== */
     .hero-title-sv{
-      font-size: 1.12em; /* un poco más grande que el resto del H1 */
+      font-size: 1.12em;
       display:inline-block;
       line-height: 1;
-
-      /* NUEVO: más luminoso */
       color:#ffd27a;
       text-shadow:
         0 0 10px rgba(255,210,122,.45),
@@ -438,8 +435,6 @@
       }
     }
 
-    /* ===== CAMBIOS PEDIDOS (SOLO LOS QUE HAS DICHO) ===== */
-
     /* 1) En móvil: "que no olvidará" 5% más pequeño */
     .hero-title-rest{ display:inline; }
     @media (max-width:900px){
@@ -449,11 +444,11 @@
     /* 2) En móvil: subline +5% (respecto a 1.42rem) + "alguien especial" 10% más grande */
     @media (max-width:900px){
       .hero-mobile .hero-subline--emphasis{
-        font-size: 1.491rem; /* 1.42rem * 1.05 */
+        font-size: 1.491rem;
         line-height: 1.24;
       }
       .hero-mobile .hero-subline--emphasis .hero-special{
-        font-size: 1.10em; /* +10% solo "alguien especial" */
+        font-size: 1.10em;
         display:inline-block;
       }
     }
@@ -467,21 +462,20 @@
       margin-top:10px;
       margin-bottom:10px;
     }
-   @media (max-width:900px){
-  .hero-quality{
-    font-size:.88rem;
-    line-height:1.25;
-    margin-top:12px;
-    margin-bottom:10px;
-  }
-}
     @media (max-width:900px){
-  .hero-mobile-benefits li{
-    font-size:.92rem;
-    line-height:1.2;
-  }
-}
-
+      .hero-quality{
+        font-size:.88rem;
+        line-height:1.25;
+        margin-top:12px;
+        margin-bottom:10px;
+      }
+    }
+    @media (max-width:900px){
+      .hero-mobile-benefits li{
+        font-size:.92rem;
+        line-height:1.2;
+      }
+    }
 
     /* ===== URGENCY FLOATING CARD ===== */
     .urgency-card{
@@ -622,26 +616,26 @@
       }
     }
   </style>
-  
-  <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '893462606511287');
-fbq('set', 'autoConfig', 'false', '893462606511287');
-fbq('track', 'PageView');
-</script>
-<noscript>
-<img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
-</noscript>
-<!-- End Meta Pixel Code -->
+
+  <!-- ===== META PIXEL (NO PageView aquí: lo disparamos con eventID en el script de abajo para dedupe con CAPI) ===== -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '893462606511287');
+  fbq('set', 'autoConfig', 'false', '893462606511287');
+  </script>
+
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- ===== END META PIXEL ===== -->
 </head>
 
 <body>
@@ -688,10 +682,8 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
-        <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
         <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-        <!-- ✅ MODIFICADO SOLO ESTO: ahora se fuerza a 3 líneas en desktop -->
         <p class="hero-subline hero-subline--emphasis">
           Una canción única para<br>
           alguien especial, creada <br>
@@ -703,7 +695,6 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
           <li>Producción limitada diaria para garantizar calidad</li>
         </ul>
 
-        <!-- CTA: nuevo texto -->
         <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
@@ -734,10 +725,8 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-      <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
       <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-      <!-- Móvil: 3 líneas EXACTAS + "alguien especial" 10% más grande -->
       <p class="hero-subline hero-subline--emphasis">Una canción única para<br><span class="hero-special">alguien especial</span><br>creada con vuestra historia</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
@@ -763,12 +752,10 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       </div>
 
       <ul class="hero-mobile-benefits">
-        <!-- ELIMINADO en móvil: "Letra basada en vuestra historia" -->
         <li>Producción limitada diaria para garantizar calidad</li>
         <li>Entrega garantizada antes del 14 de febrero</li>
       </ul>
 
-      <!-- CTA: nuevo texto -->
       <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
@@ -777,11 +764,11 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </section>
 
 <script>
+/* ===== AUDIO + URGENCY (igual que tenías) ===== */
 (function () {
   const audio = document.getElementById("lirya-audio");
   if (!audio) return;
 
-  // ✅ SOLO los botones overlay disparan audio
   const overlayButtons = [
     document.getElementById("mockup-audio-overlay-desktop"),
     document.getElementById("mockup-audio-overlay-mobile")
@@ -795,18 +782,10 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   }
 
   function toggleAudioFromOverlay(){
-    // Si está pausado -> reproducir (y apagar latido)
     if (audio.paused) {
-      audio.play().then(() => {
-        setOverlayState(true);
-      }).catch(() => {
-        // si el navegador bloquea autoplay, no hacemos nada
-        setOverlayState(false);
-      });
+      audio.play().then(() => setOverlayState(true)).catch(() => setOverlayState(false));
       return;
     }
-
-    // Si está sonando -> pausar (y volver latido)
     audio.pause();
     setOverlayState(false);
   }
@@ -823,16 +802,10 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     btn.addEventListener("keydown", onKeyToggle);
   });
 
-  // ✅ Si termina la música, vuelve el latido
   audio.addEventListener("ended", () => setOverlayState(false));
-
-  // ✅ Si por lo que sea se pausa (ej: user pausa desde controles externos), vuelve el latido
   audio.addEventListener("pause", () => setOverlayState(false));
-
-  // ✅ Si se reproduce, se apaga el latido
   audio.addEventListener("play", () => setOverlayState(true));
 
-  /* ===== URGENCY CARD (sin cambios) ===== */
   const card = document.getElementById("urgency-card");
   const closeBtn = document.getElementById("urgency-close");
   const ctaBtn = document.getElementById("urgency-cta");
@@ -885,12 +858,25 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </script>
 
 <script>
+/* ===== PIXEL + CAPI (BIEN HECHO) =====
+   - PageView: Pixel + CAPI con el MISMO event_id (dedupe)
+   - Lead: al click a #formulario-lirya (Pixel + CAPI)
+   - ViewContent: cuando el formulario es visible (Pixel + CAPI)
+   - Cookies _fbp/_fbc first-party para mejorar Safari (ITP)
+   - test_event_code soportado (?test_event_code=XXXX) y se pasa a CAPI
+*/
 (function () {
-  // Si el pixel no está cargado, no hacemos nada con Pixel,
-  // pero CAPI sí puede funcionar aunque Pixel esté capado.
   const hasFbq = typeof window.fbq === "function";
 
-  // ========= Helpers =========
+  const urlParams = new URLSearchParams(location.search);
+  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+  const DEBUG = urlParams.get("debug_meta") === "1";
+
+  const log = (...args) => { if (DEBUG) console.log("[META]", ...args); };
+
+  const FORM_HASH = "#formulario-lirya";
+  const FORM_ID = "formulario-lirya";
+
   const once = (key, fn) => {
     try {
       if (sessionStorage.getItem(key)) return;
@@ -906,17 +892,47 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     return m ? decodeURIComponent(m[2]) : null;
   };
 
+  const setCookie = (name, value, days) => {
+    const maxAge = days * 24 * 60 * 60;
+    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+  };
+
   const newEventId = () => {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
     return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
   };
 
-  // Si quieres probar en Test Events:
-  // añade a la URL: ?test_event_code=TU_CODIGO
-  const urlParams = new URLSearchParams(location.search);
-  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+  // ===== 1) Garantiza _fbp first-party (ayuda mucho en Safari) =====
+  function ensureFbp() {
+    let fbp = getCookie("_fbp");
+    if (fbp) return fbp;
 
-  // ========= CAPI caller =========
+    // Formato típico: fb.1.<timestamp>.<random>
+    const ts = Date.now();
+    const rnd = Math.floor(Math.random() * 1e10);
+    fbp = `fb.1.${ts}.${rnd}`;
+    setCookie("_fbp", fbp, 90);
+    return fbp;
+  }
+
+  // ===== 2) Si hay fbclid, crea _fbc =====
+  function ensureFbc() {
+    const existing = getCookie("_fbc");
+    if (existing) return existing;
+
+    const fbclid = urlParams.get("fbclid");
+    if (!fbclid) return null;
+
+    const ts = Date.now();
+    const fbc = `fb.1.${ts}.${fbclid}`;
+    setCookie("_fbc", fbc, 90);
+    return fbc;
+  }
+
+  // Asegura cookies
+  const FBP = ensureFbp();
+  const FBC = ensureFbc();
+
   async function sendCapiEvent(body) {
     try {
       const res = await fetch("/api/meta-capi", {
@@ -925,16 +941,61 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
         keepalive: true,
         body: JSON.stringify(body),
       });
-      return res.ok;
+
+      const ok = res.ok;
+      if (DEBUG) {
+        const txt = await res.text().catch(() => "");
+        log("CAPI", ok ? "OK" : "FAIL", res.status, txt.slice(0, 400));
+      }
+      return ok;
     } catch (e) {
+      log("CAPI error", e);
       return false;
     }
   }
 
-  const FORM_HASH = "#formulario-lirya";
-  const FORM_ID = "formulario-lirya";
+  // helper para enviar Pixel + CAPI con mismo event_id
+  function trackEvent(eventName, customData, options) {
+    const eventId = options?.eventId || newEventId();
+    const eventSourceUrl = options?.eventSourceUrl || window.location.href;
 
-  // ========= 1) LEAD: click en CTA hacia formulario =========
+    // Pixel
+    if (hasFbq) {
+      try {
+        window.fbq("track", eventName, customData || {}, { eventID: eventId });
+        log("Pixel", eventName, eventId);
+      } catch (e) {
+        log("Pixel error", e);
+      }
+    } else {
+      log("Pixel NO disponible (Safari puede bloquearlo)");
+    }
+
+    // CAPI
+    sendCapiEvent({
+      event_name: eventName,
+      event_id: eventId,
+      event_source_url: eventSourceUrl,
+
+      // user matching básico (server añade IP+UA)
+      fbp: FBP || undefined,
+      fbc: FBC || undefined,
+
+      custom_data: customData || {},
+
+      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+    });
+
+    return eventId;
+  }
+
+  // ===== PAGEVIEW (al cargar) =====
+  // IMPORTANTE: lo hacemos aquí para poder meter eventID y deduplicar con CAPI
+  once("lirya_pv", () => {
+    trackEvent("PageView", {}, { eventSourceUrl: window.location.href });
+  });
+
+  // ===== LEAD: click en CTA a formulario =====
   document.addEventListener("click", function (e) {
     const el = e.target.closest("a, button");
     if (!el) return;
@@ -953,68 +1014,19 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 
     if (!isFormCta) return;
 
-    const eventId = newEventId();
-
-    // PIXEL (si existe)
-    if (hasFbq) {
-      window.fbq(
-        "track",
-        "Lead",
-        {
-          content_name: "CTA -> Formulario",
-          button_text: btnText,
-          destination: FORM_HASH,
-        },
-        { eventID: eventId }
-      );
-    }
-
-    // CAPI (siempre)
-    sendCapiEvent({
-      event_name: "Lead",
-      event_id: eventId,
-      event_source_url: window.location.href,
-      fbp: getCookie("_fbp") || undefined,
-      fbc: getCookie("_fbc") || undefined,
-      custom_data: {
-        content_name: "CTA -> Formulario",
-        button_text: btnText,
-        destination: FORM_HASH,
-      },
-      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+    trackEvent("Lead", {
+      content_name: "CTA -> Formulario",
+      button_text: btnText,
+      destination: FORM_HASH,
     });
   }, true);
 
-  // ========= 2) VIEWCONTENT: cuando el usuario VE el formulario =========
+  // ===== VIEWCONTENT: cuando el formulario se ve =====
   function fireViewContent() {
     once("lirya_vc_form", () => {
-      const eventId = newEventId();
-
-      // PIXEL (si existe)
-      if (hasFbq) {
-        window.fbq(
-          "track",
-          "ViewContent",
-          {
-            content_name: "Formulario LIRYA",
-            content_category: "Formulario",
-          },
-          { eventID: eventId }
-        );
-      }
-
-      // CAPI
-      sendCapiEvent({
-        event_name: "ViewContent",
-        event_id: eventId,
-        event_source_url: window.location.href,
-        fbp: getCookie("_fbp") || undefined,
-        fbc: getCookie("_fbc") || undefined,
-        custom_data: {
-          content_name: "Formulario LIRYA",
-          content_category: "Formulario",
-        },
-        ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+      trackEvent("ViewContent", {
+        content_name: "Formulario LIRYA",
+        content_category: "Formulario",
       });
     });
   }
@@ -1046,8 +1058,8 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </script>
 
 <script>
+/* Pausa todos los <audio> excepto el que se está reproduciendo */
 (function () {
-  // Pausa todos los <audio> excepto el que se está reproduciendo
   document.addEventListener("play", function (e) {
     const target = e.target;
     if (!(target instanceof HTMLMediaElement)) return;
@@ -1056,10 +1068,10 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     document.querySelectorAll("audio").forEach((a) => {
       if (a !== target && !a.paused) a.pause();
     });
-  }, true); // <- CAPTURE: importante para pillar el play antes
+  }, true);
 })();
 </script>
-  
+
 </body>
 </html>
 
@@ -4376,6 +4388,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
