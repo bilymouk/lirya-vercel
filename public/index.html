@@ -409,44 +409,33 @@
       }
     }
 
-    /* ===== CAMBIOS PEDIDOS (MÍNIMOS) ===== */
-
-    /* "San Valentín" grande */
+    /* ===== CAMBIO MÍNIMO SOLO PARA AGRANDAR "San Valentín" EN EL H1 ===== */
     .hero-title-sv{
-      font-size: 1.22em;
+      font-size: 1.12em; /* un poco más grande que el resto del H1 */
       display:inline-block;
       line-height: 1;
     }
     @media (max-width:900px){
-      .hero-title-sv{ font-size: 1.26em; }
+      .hero-title-sv{ font-size: 1.16em; }
     }
 
-    /* Desktop: frase +50% */
-    @media (min-width: 901px){
-      .hero-subline--emphasis{
-        font-size: 2.01rem;
-        line-height: 1.18;
-        white-space: normal;
-        max-width: 520px;
-      }
-    }
+    /* ===== CAMBIOS PEDIDOS (SOLO LOS QUE HAS DICHO) ===== */
 
-    /* Mobile: "que no olvidará" 5% más pequeño */
+    /* 1) En móvil: "que no olvidará" 5% más pequeño */
     .hero-title-rest{ display:inline; }
-    @media (max-width: 900px){
+    @media (max-width:900px){
       .hero-title-rest{ font-size: .95em; }
     }
 
-    /* Mobile: subline 10% más pequeña y en 3 líneas */
-    @media (max-width: 900px){
+    /* 2) En móvil: subline 10% más pequeña + en 3 líneas */
+    @media (max-width:900px){
       .hero-mobile .hero-subline--emphasis{
-        font-size: 1.278rem; /* 1.42 * 0.9 */
+        font-size: 1.278rem; /* 1.42rem * 0.9 */
         line-height: 1.22;
-        white-space: normal;
       }
     }
 
-    /* Frase "Producción limitada..." encima del CTA */
+    /* 3) Frase "Producción limitada..." justo encima del CTA (desktop + móvil) */
     .hero-quality{
       font-family:'Playfair Display',serif;
       font-size:1.02rem;
@@ -460,6 +449,145 @@
         font-size:1rem;
         margin-top:12px;
         margin-bottom:10px;
+      }
+    }
+
+    /* ===== URGENCY FLOATING CARD ===== */
+    .urgency-card{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:2000;
+      width:min(420px, calc(100vw - 36px));
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:16px;
+      box-shadow:0 18px 60px rgba(0,0,0,.18);
+      padding:14px;
+
+      visibility:hidden;
+      pointer-events:none;
+      transform:translateY(14px);
+      opacity:0;
+      transition:transform .25s ease, opacity .25s ease, visibility 0s linear .25s;
+    }
+
+    .urgency-card.is-visible{
+      visibility:visible;
+      pointer-events:auto;
+      transform:translateY(0);
+      opacity:1;
+      transition:transform .25s ease, opacity .25s ease, visibility 0s;
+    }
+
+    .urgency-top{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .urgency-icon{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,138,42,.12);
+      color:var(--orange);
+      flex:0 0 auto;
+      font-weight:800;
+      font-family:'Playfair Display',serif;
+    }
+
+    .urgency-content{
+      flex:1 1 auto;
+      padding-top:2px;
+    }
+
+    .urgency-title{
+      font-family:'Playfair Display',serif;
+      font-weight:800;
+      letter-spacing:.2px;
+      font-size:1.02rem;
+      color:#121212;
+      margin-bottom:4px;
+    }
+
+    .urgency-sub{
+      font-size:.93rem;
+      line-height:1.35;
+      color:rgba(0,0,0,.72);
+      margin-bottom:8px;
+    }
+
+    .urgency-check{
+      font-size:.93rem;
+      line-height:1.35;
+      color:rgba(0,0,0,.82);
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+    }
+
+    .urgency-check b{
+      color:#0f7a2a;
+      font-weight:700;
+    }
+
+    .urgency-actions{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .urgency-cta{
+      background:var(--orange);
+      color:#fff;
+      padding:12px 16px;
+      border-radius:12px;
+      font-family:'Playfair Display',serif;
+      font-weight:700;
+      letter-spacing:.5px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:1 1 auto;
+      transition:background .2s ease, transform .2s ease;
+    }
+    .urgency-cta:hover{
+      background:var(--orange-hover);
+      transform:translateY(-1px);
+    }
+
+    .urgency-close{
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:rgba(0,0,0,.55);
+      flex:0 0 auto;
+      transition:background .2s ease, color .2s ease;
+    }
+    .urgency-close:hover{
+      background:rgba(0,0,0,.06);
+      color:rgba(0,0,0,.75);
+    }
+
+    @media (max-width:900px){
+      .urgency-card{
+        left:12px;
+        right:12px;
+        bottom:12px;
+        width:auto;
+        border-radius:18px;
       }
     }
   </style>
@@ -529,17 +657,21 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
+        <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
         <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-        <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial,<br>creada con vuestra historia</p>
+        <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial, creada con vuestra historia</p>
 
         <ul class="hero-benefits">
+          <li>Letra basada en vuestra historia real</li>
           <li>Revisión incluida</li>
           <li>Entrega garantizada antes del 14 de febrero</li>
         </ul>
 
+        <!-- NUEVO: justo encima del CTA -->
         <div class="hero-quality">Producción limitada diaria para garantizar calidad.</div>
 
+        <!-- CTA: nuevo texto -->
         <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
@@ -570,8 +702,10 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
+      <!-- ELIMINADO: frase "El regalo que no olvidará este..." -->
       <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
+      <!-- En 3 líneas (móvil) -->
       <p class="hero-subline hero-subline--emphasis">Una canción única para alguien especial,<br>creada con vuestra<br>historia</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
@@ -597,12 +731,15 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       </div>
 
       <ul class="hero-mobile-benefits">
+        <!-- ELIMINADO en móvil: "Letra basada en vuestra historia" -->
         <li>Revisión incluida</li>
         <li>Entrega garantizada antes del 14 de febrero</li>
       </ul>
 
+      <!-- NUEVO: justo encima del CTA -->
       <div class="hero-quality">Producción limitada diaria para garantizar calidad.</div>
 
+      <!-- CTA: nuevo texto -->
       <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
@@ -4141,6 +4278,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </div>
   </div>
 </section>
+
 
 
 
