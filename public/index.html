@@ -867,6 +867,31 @@
 */
 (function () {
   const hasFbq = typeof window.fbq === "function";
+  // ===== PAGEVIEW (Pixel + CAPI, deduplicado) =====
+once("lirya_pageview", () => {
+  const eventId = newEventId();
+
+  log("PageView fired", eventId);
+
+  // Pixel (si no está bloqueado)
+  if (hasFbq) {
+    window.fbq("track", "PageView", {}, { eventID: eventId });
+  }
+
+  // CAPI (siempre, incluso Safari / ITP)
+  sendCapiEvent({
+    event_name: "PageView",
+    event_id: eventId,
+    event_source_url: window.location.href,
+    fbp: getCookie("_fbp") || undefined,
+    fbc: getCookie("_fbc") || undefined,
+    custom_data: {
+      page_path: location.pathname,
+      page_title: document.title
+    },
+    ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {})
+  });
+});
 
   const urlParams = new URLSearchParams(location.search);
   const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
@@ -4468,6 +4493,7 @@
 </div>
   </div>
 </section>
+
 
 
 
