@@ -2968,7 +2968,6 @@
 
   </form>
 </div>
-
 <script>
 (function () {
   if (window.__liryaFormInit) return;
@@ -2993,7 +2992,6 @@
 
   const telefonoBox = root.querySelector("#telefono-box");
   const phone = root.querySelector("#phone");
-  const tarifaHidden = root.querySelector("#tarifa-hidden");
 
   function announce(msg){
     if (!live) return;
@@ -3004,10 +3002,10 @@
   function getStep() { return steps[i]; }
 
   function goToStep(n){
-  const idx = Math.max(0, Math.min(steps.length - 1, n - 1));
-  i = idx;
-  render();
-}
+    const idx = Math.max(0, Math.min(steps.length - 1, n - 1));
+    i = idx;
+    render();
+  }
 
   function setNextState(step, enabled) {
     const next = step.querySelector(".next");
@@ -3235,7 +3233,7 @@
   /* ===================== PAGO (STRIPE) ===================== */
   const submitBtn = root.querySelector(".submit");
   let processingPayment = false;
-  // ===== META EVENTS HELPERS (PIXEL + CAPI, Safari-friendly) =====
+
   const hasFbq = typeof window.fbq === "function";
 
   const onceSession = (key, fn) => {
@@ -3250,6 +3248,34 @@
     const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
     return m ? decodeURIComponent(m[2]) : null;
   };
+
+  const setCookie = (name, value, days) => {
+    const maxAge = days * 24 * 60 * 60;
+    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+  };
+
+  // ✅ asegura _fbp aunque Pixel esté bloqueado (Safari)
+  function ensureFbp() {
+    let fbp = getCookie("_fbp");
+    if (fbp) return fbp;
+    const ts = Date.now();
+    const rnd = Math.floor(Math.random() * 1e10);
+    fbp = `fb.1.${ts}.${rnd}`;
+    setCookie("_fbp", fbp, 90);
+    return fbp;
+  }
+
+  // ✅ si hay fbclid crea _fbc
+  function ensureFbc() {
+    const existing = getCookie("_fbc");
+    if (existing) return existing;
+    const fbclid = new URLSearchParams(location.search).get("fbclid");
+    if (!fbclid) return "";
+    const ts = Date.now();
+    const fbc = `fb.1.${ts}.${fbclid}`;
+    setCookie("_fbc", fbc, 90);
+    return fbc;
+  }
 
   const newEventId = () => {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
@@ -3278,43 +3304,50 @@
     window.fbq("track", eventName, payload || {}, eventId ? { eventID: eventId } : undefined);
   };
 
+  function val(id){
+    const el = root.querySelector("#" + CSS.escape(id));
+    return el ? String(el.value || "").trim() : "";
+  }
+
   const getTarifa = () => {
     const v = val("tarifa-hidden");
     const n = Number(String(v).replace(/[^\d.]/g, ""));
     return Number.isFinite(n) ? n : undefined;
   };
 
-  function val(id){
-    const el = root.querySelector("#" + CSS.escape(id));
-    return el ? String(el.value || "").trim() : "";
-  }
-
   submitBtn.addEventListener("click", async () => {
     if (!validateStep(true)) return;
     if (processingPayment) return;
     processingPayment = true;
-    
-        let checkoutEventId = null;
 
-    // ✅ INITIATE CHECKOUT: intención real de pagar (Pixel si existe + CAPI siempre)
+    // ✅ cookies listas para Safari
+    const fbp = ensureFbp();
+    const fbc = ensureFbc();
+
+    // ✅ event_id del checkout (lo guardamos para mandarlo a Stripe metadata)
+    let checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || "";
+
+    // INITIATE CHECKOUT (Pixel si existe + CAPI siempre)
     onceSession("lirya_initiate_checkout", () => {
       checkoutEventId = newEventId();
+      sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId);
+
       const value = getTarifa();
 
-      // Pixel (Chrome/Android/etc)
+      // Pixel
       trackPixel("InitiateCheckout", {
         content_name: "Formulario LIRYA",
         currency: "EUR",
         ...(value ? { value } : {})
       }, checkoutEventId);
 
-      // CAPI (Safari/Opera/iOS, etc)
+      // CAPI
       sendCapiEvent({
         event_name: "InitiateCheckout",
         event_id: checkoutEventId,
         event_source_url: window.location.href,
-        fbp: getCookie("_fbp") || undefined,
-        fbc: getCookie("_fbc") || undefined,
+        fbp: fbp || undefined,
+        fbc: fbc || undefined,
         custom_data: {
           content_name: "Formulario LIRYA",
           currency: "EUR",
@@ -3323,7 +3356,7 @@
         ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
       });
     });
-    
+
     submitBtn.disabled = true;
     const originalText = submitBtn.textContent;
     submitBtn.textContent = "Redirigiendo a pago seguro…";
@@ -3348,7 +3381,12 @@
       intensity: val("intensity-hidden"),
       email: val("email"),
       whatsapp: val("whatsapp-hidden"),
-      phone: val("phone")
+      phone: val("phone"),
+
+      // ✅✅✅ ESTO ES LO IMPORTANTE DEL PASO 1:
+      event_id: checkoutEventId || "",
+      fbp: fbp || "",
+      fbc: fbc || "",
     };
 
     try {
@@ -3361,25 +3399,24 @@
       if (!r.ok) throw new Error("Error en la petición al servidor");
 
       const j = await r.json();
-            // ✅ Stripe session creada (antes del redirect)
-           onceSession("lirya_add_payment_info", () => {
+
+      // AddPaymentInfo (antes del redirect)
+      onceSession("lirya_add_payment_info", () => {
         const eventId = newEventId();
         const value = getTarifa();
 
-        // Pixel
         trackPixel("AddPaymentInfo", {
           content_name: "Stripe Checkout",
           currency: "EUR",
           ...(value ? { value } : {})
         }, eventId);
 
-        // CAPI
         sendCapiEvent({
           event_name: "AddPaymentInfo",
           event_id: eventId,
           event_source_url: window.location.href,
-          fbp: getCookie("_fbp") || undefined,
-          fbc: getCookie("_fbc") || undefined,
+          fbp: fbp || undefined,
+          fbc: fbc || undefined,
           custom_data: {
             content_name: "Stripe Checkout",
             currency: "EUR",
@@ -3388,33 +3425,31 @@
           ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
         });
       });
-      
-     if (j.url) {
-  setTimeout(() => {
-    window.location.href = j.url;
-  }, 150); // ⏱️ 150 ms es suficiente
-}
-      else throw new Error("Stripe no devolvió URL");
+
+      if (j.url) {
+        setTimeout(() => { window.location.href = j.url; }, 150);
+      } else {
+        throw new Error("Stripe no devolvió URL");
+      }
     } catch (err) {
-  console.error(err);
+      console.error(err);
 
-  // Asegura que estamos en el paso 6 para que el usuario vea el error
-  goToStep(6);
+      goToStep(6);
 
-  const step6 = steps[5]; // paso 6 = índice 5
-  clearErrors(step6);
-  showStepError(step6, "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.");
+      const step6 = steps[5];
+      clearErrors(step6);
+      showStepError(step6, "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.");
 
-  submitBtn.disabled = false;
-  submitBtn.textContent = originalText;
-  processingPayment = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      processingPayment = false;
 
-  // (opcional) sube al inicio del formulario para que se vea el mensaje
-  root.scrollIntoView({ behavior: "smooth", block: "start" });
-}
+      root.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   });
 })();
 </script>
+
 </section>
 
 <!-- ===============================
@@ -4497,6 +4532,7 @@
 </div>
   </div>
 </section>
+
 
 
 
