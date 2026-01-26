@@ -256,7 +256,7 @@
     <h1>El pago no se ha completado</h1>
 
     <p class="cancel-message">
-      El proceso de pago se ha interrumpido.  
+      El proceso de pago se ha interrumpido.
       No se ha realizado ningún cargo y puedes volver a intentarlo cuando quieras.
     </p>
 
@@ -280,20 +280,125 @@
   © 2024 Lirya · Todos los derechos reservados
 </footer>
 
-<!-- EVENTO: CHECKOUT ABANDONADO -->
+<!-- ✅ TRACKING CANCEL (Safari-proof: Pixel si existe + CAPI siempre) -->
 <script>
 (function () {
-  if (typeof window.fbq !== "function") return;
+  const hasFbq = typeof window.fbq === "function";
 
-  const key = "lirya_checkout_abandoned";
-  if (sessionStorage.getItem(key)) return;
-  sessionStorage.setItem(key, "1");
+  const once = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+      fn();
+    } catch (e) { fn(); }
+  };
 
-  fbq("trackCustom", "CheckoutAbandoned", {
-    content_name: "Pago cancelado Stripe"
+  const urlParams = new URLSearchParams(location.search);
+  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+  const DEBUG = urlParams.get("debug_meta") === "1";
+  const log = (...args) => { if (DEBUG) console.log("[META CANCEL]", ...args); };
+
+  const getCookie = (name) => {
+    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return m ? decodeURIComponent(m[2]) : null;
+  };
+
+  const setCookie = (name, value, days) => {
+    const maxAge = days * 24 * 60 * 60;
+    document.cookie =
+      `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+  };
+
+  function ensureFbp() {
+    let fbp = getCookie("_fbp");
+    if (fbp) return fbp;
+    const ts = Date.now();
+    const rnd = Math.floor(Math.random() * 1e10);
+    fbp = `fb.1.${ts}.${rnd}`;
+    setCookie("_fbp", fbp, 90);
+    return fbp;
+  }
+
+  function ensureFbc() {
+    const existing = getCookie("_fbc");
+    if (existing) return existing;
+    const fbclid = urlParams.get("fbclid");
+    if (!fbclid) return null;
+    const ts = Date.now();
+    const fbc = `fb.1.${ts}.${fbclid}`;
+    setCookie("_fbc", fbc, 90);
+    return fbc;
+  }
+
+  const FBP = ensureFbp();
+  const FBC = ensureFbc();
+
+  const newEventId = () => {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+  };
+
+  async function sendCapiEvent(body) {
+    try {
+      const res = await fetch("/api/meta-capi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify(body),
+      });
+      if (DEBUG) {
+        const txt = await res.text().catch(() => "");
+        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
+      }
+      return res.ok;
+    } catch (e) {
+      log("CAPI error", e);
+      return false;
+    }
+  }
+
+  function track(eventName, customData = {}, opts = {}) {
+    const eventId = opts.eventId || newEventId();
+
+    // Pixel (solo si existe)
+    if (hasFbq) {
+      try {
+        window.fbq("track", eventName, customData, { eventID: eventId });
+        log("Pixel", eventName, eventId);
+      } catch (e) {
+        log("Pixel error", e);
+      }
+    } else {
+      log("Pixel NO disponible (Safari puede bloquearlo)");
+    }
+
+    // CAPI (SIEMPRE)
+    sendCapiEvent({
+      event_name: eventName,
+      event_id: eventId,
+      event_source_url: window.location.href,
+      action_source: "website",
+      fbp: FBP || undefined,
+      fbc: FBC || undefined,
+      custom_data: customData,
+      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+    });
+
+    return eventId;
+  }
+
+  // ✅ Evento recomendado en cancel: InitiateCheckout (para retargeting/optimización)
+  once("lirya_cancel_initiatecheckout", () => {
+    track("InitiateCheckout", {
+      content_name: "Stripe Checkout (Cancel)",
+      page_type: "cancel",
+      source_page: location.pathname
+    });
   });
+
 })();
 </script>
 
 </body>
 </html>
+
