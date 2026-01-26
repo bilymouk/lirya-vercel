@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
 
     // --- 2. CALCULAR PRECIO SEGÚN TARIFA ---
     let amount;
-    if (f.tarifa == "49") amount = 100;
+    if (f.tarifa == "49") amount = 4900;
     else if (f.tarifa == "59") amount = 5900;
     else if (f.tarifa == "79") amount = 7900;
     else {
@@ -30,10 +30,6 @@ module.exports = async (req, res) => {
     }
 
     // --- 3. BASE_URL INFALIBLE (dominio real) ---
-    // Prioridad:
-    // 1) SITE_URL (ideal: https://lirya.studio)
-    // 2) Host real del request (sirve para dominio custom)
-    // 3) VERCEL_URL como fallback
     const envUrl = (process.env.SITE_URL || "").trim();
 
     const proto = (req.headers["x-forwarded-proto"] || "https")
@@ -91,22 +87,27 @@ module.exports = async (req, res) => {
         success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${BASE_URL}/cancel.html`,
 
-       metadata: {
-  email: f.email || "",
-  tarifa: f.tarifa || "",
-  recipient_name: f.recipient_name || "",
+        // ✅ LO CLAVE para Purchase por CAPI (webhook):
+        // - event_id: dedupe
+        // - fbp/fbc: matching
+        // - event_source_url: coherencia del evento
+        metadata: {
+          email: f.email || "",
+          tarifa: f.tarifa || "",
+          recipient_name: f.recipient_name || "",
 
-  // ✅ para Purchase en success.html (dedupe + matching)
-  event_id: f.event_id || "",
-  fbp: f.fbp || "",
-  fbc: f.fbc || "",
-},
+          event_id: f.event_id || "",
+          fbp: f.fbp || "",
+          fbc: f.fbc || "",
+          event_source_url: f.event_source_url || "",
+        },
       });
     } catch (stripeErr) {
       console.error("❌ STRIPE ERROR:", stripeErr);
       return res.status(500).json({
         error: "Error al crear sesión de pago (Stripe)",
-        details: stripeErr && stripeErr.message ? stripeErr.message : String(stripeErr),
+        details:
+          stripeErr && stripeErr.message ? stripeErr.message : String(stripeErr),
       });
     }
 
@@ -117,7 +118,6 @@ module.exports = async (req, res) => {
       const MAKE_WEBHOOK_URL =
         "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe"; // Pedido_cancion_web
 
-      // fetch puede no existir en algunos runtimes -> fallback seguro
       const doFetch = typeof fetch === "function" ? fetch : null;
 
       if (!doFetch) {
@@ -128,8 +128,8 @@ module.exports = async (req, res) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...f,
-            id_de_pago: session.id,   // 🔑 CLAVE
-            estado_pago: "Pendiente", // 🔑 CLAVE
+            id_de_pago: session.id,
+            estado_pago: "Pendiente",
           }),
         });
 
@@ -141,7 +141,6 @@ module.exports = async (req, res) => {
 
     // --- 6. DEVOLVER URL PARA REDIRIGIR A STRIPE ---
     return res.status(200).json({ url: session.url });
-
   } catch (error) {
     console.error("❌ ERROR PAYMENT:", error);
     return res.status(500).json({
