@@ -1,6 +1,7 @@
 // /api/meta-capi.js
 export default async function handler(req, res) {
   if (req.method !== "POST") {
+    res.setHeader("Cache-Control", "no-store");
     return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
@@ -66,6 +67,8 @@ export default async function handler(req, res) {
           client_user_agent: ua,
           fbp: finalFbp,
           fbc: finalFbc,
+          ...(user_data?.em ? { em: user_data.em } : {}),
+          ...(user_data?.ph ? { ph: user_data.ph } : {}),
           // Si en el futuro quieres añadir más señales:
           // em: user_data.em, ph: user_data.ph, etc (hasheadas)
         },
