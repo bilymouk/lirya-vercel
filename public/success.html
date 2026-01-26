@@ -275,8 +275,12 @@
   const log = (...args) => { if (DEBUG) console.log("[META SUCCESS]", ...args); };
 
   const key = "lirya_purchase_" + session_id;
+try {
   if (sessionStorage.getItem(key)) return;
   sessionStorage.setItem(key, "1");
+} catch (e) {
+  // Safari/Private Mode: si sessionStorage falla, seguimos sin dedupe
+}
 
   const hasFbq = typeof window.fbq === "function";
 
