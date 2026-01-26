@@ -11,11 +11,9 @@ export const config = {
 function sha256(input) {
   return crypto.createHash("sha256").update(String(input || "")).digest("hex");
 }
-
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
 }
-
 function safeNumber(n, fallback = 0) {
   const x = Number(n);
   return Number.isFinite(x) ? x : fallback;
@@ -48,6 +46,12 @@ export default async function handler(req, res) {
   // ✅ SOLO CUANDO EL PAGO SE COMPLETA
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
+
+    // ✅ Seguridad extra: solo si está pagado
+    if (session.payment_status && session.payment_status !== "paid") {
+      console.log("⚠️ checkout.session.completed pero NO paid:", session.payment_status);
+      return res.status(200).json({ received: true, skipped: "not_paid" });
+    }
 
     // ===== 1) ENVÍO A MAKE (lo tuyo) =====
     try {
@@ -83,24 +87,26 @@ export default async function handler(req, res) {
       } else {
         const amountTotal = safeNumber(session.amount_total, 0); // céntimos
         const value = amountTotal / 100;
-
         const currency = String(session.currency || "eur").toUpperCase();
 
-        // Dedupe: si guardaste event_id en metadata al iniciar checkout, lo usa
-        const eventId =
-          session.metadata?.event_id ||
-          `purchase_${session.id}_${Date.now()}`;
+        // ✅ Dedupe estable:
+        // - si viene event_id desde /api/payment -> úsalo
+        // - si no, usa algo fijo (session.id) para que no cambie con retries
+        const eventId = (session.metadata?.event_id || `purchase_${session.id}`).toString();
 
-        // Match signals (mejor que nada incluso si Pixel está bloqueado)
+        // ✅ Email hash (mejora matching)
         const email = normalizeEmail(session.customer_email);
         const em = email ? sha256(email) : undefined;
 
         const fbp = session.metadata?.fbp || undefined;
         const fbc = session.metadata?.fbc || undefined;
 
-        const eventSourceUrl =
-          session.metadata?.event_source_url ||
-          (process.env.SITE_URL ? `${process.env.SITE_URL}/success.html` : "");
+        // ✅ URL estable (si en metadata vino vacío, fallback)
+        const siteUrl = (process.env.SITE_URL || "").trim();
+        const fallbackUrl = siteUrl
+          ? (siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`) + "/success.html"
+          : "";
+        const eventSourceUrl = session.metadata?.event_source_url || fallbackUrl;
 
         const payload = {
           data: [
