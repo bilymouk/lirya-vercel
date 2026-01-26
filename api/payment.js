@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
 
     // --- 2. CALCULAR PRECIO SEGÚN TARIFA ---
     let amount;
-    if (f.tarifa == "49") amount = 4900;
+    if (f.tarifa == "39") amount = 3900;
     else if (f.tarifa == "59") amount = 5900;
     else if (f.tarifa == "79") amount = 7900;
     else {
