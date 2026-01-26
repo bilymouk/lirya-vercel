@@ -263,7 +263,7 @@
   if (sid) document.getElementById("sessionId").textContent = "ID de sesión: " + sid;
 </script>
 
-<!-- ✅ PURCHASE (PIXEL + CAPI) con VALUE REAL DESDE STRIPE -->
+<!-- ✅ PURCHASE (PIXEL + CAPI) usando METADATA (Safari/Opera proof) -->
 <script>
 (async function () {
   const urlParams = new URLSearchParams(location.search);
@@ -274,7 +274,6 @@
   const DEBUG = urlParams.get("debug_meta") === "1";
   const log = (...args) => { if (DEBUG) console.log("[META SUCCESS]", ...args); };
 
-  // dedupe por sesión (evita dobles Purchase)
   const key = "lirya_purchase_" + session_id;
   if (sessionStorage.getItem(key)) return;
   sessionStorage.setItem(key, "1");
@@ -305,20 +304,12 @@
     const existing = getCookie("_fbc");
     if (existing) return existing;
     const fbclid = urlParams.get("fbclid");
-    if (!fbclid) return null;
+    if (!fbclid) return "";
     const ts = Date.now();
     const fbc = `fb.1.${ts}.${fbclid}`;
     setCookie("_fbc", fbc, 90);
     return fbc;
   };
-
-  const newEventId = () => {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-  };
-
-  const FBP = ensureFbp();
-  const FBC = ensureFbc();
 
   async function sendCapiEvent(body) {
     try {
@@ -341,25 +332,30 @@
   }
 
   try {
-    // 1) leer datos reales de Stripe
+    // 1) leer datos reales de Stripe (incluye metadata)
     const r = await fetch("/api/checkout-session?session_id=" + encodeURIComponent(session_id));
     if (!r.ok) throw new Error("No se pudo leer checkout-session");
 
     const data = await r.json();
 
-    // Si tienes payment_status y no está paid, no dispares Purchase
-    if (data.payment_status && data.payment_status !== "paid") {
-      log("Stripe session no pagada, no disparamos Purchase");
-      return;
-    }
-
     const currency = (data.currency || "EUR").toUpperCase();
     const value = Number(data.value || 0);
 
-    // 2) disparar Purchase (dedupe Pixel + CAPI con el mismo event_id)
-    const eventId = newEventId();
+    // ✅ IMPORTANTÍSIMO: usar metadata que viene del payment (Safari-proof)
+    const md = data.metadata || {};
+    const metaEventId = (md.event_id || "").toString().trim();
+    const metaFbp = (md.fbp || "").toString().trim();
+    const metaFbc = (md.fbc || "").toString().trim();
 
-    // Pixel (si existe)
+    // Fallback a cookies si faltara metadata (compras antiguas)
+    const FBP = metaFbp || ensureFbp();
+    const FBC = metaFbc || ensureFbc();
+
+    // event_id: si hay metadata -> dedupe perfecto con el InitiateCheckout
+    // si no hay -> usa session_id (estable y único)
+    const eventId = metaEventId || ("purchase_" + session_id);
+
+    // 2) Pixel (si existe). En Safari puede no disparar, pero CAPI lo cubre.
     if (hasFbq) {
       try {
         window.fbq("track", "Purchase", {
@@ -376,7 +372,7 @@
       log("Pixel NO disponible (Safari puede bloquearlo)");
     }
 
-    // CAPI (SIEMPRE)
+    // 3) CAPI (SIEMPRE)
     await sendCapiEvent({
       event_name: "Purchase",
       event_id: eventId,
@@ -404,4 +400,3 @@
 
 </body>
 </html>
-
