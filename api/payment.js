@@ -99,7 +99,7 @@ module.exports = async (req, res) => {
           event_id: f.event_id || "",
           fbp: f.fbp || "",
           fbc: f.fbc || "",
-          event_source_url: f.event_source_url || "",
+          event_source_url: f.event_source_url || `${BASE_URL}/success.html`,
         },
       });
     } catch (stripeErr) {
