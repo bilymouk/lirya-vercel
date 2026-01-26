@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       session_id,
       amount_total,               // en céntimos
-      value: amount_total / 100,  // 49 / 59 / 79
+      value: amount_total / 100,  // 39 / 59 / 79
       currency,                   // EUR
       payment_status: session.payment_status || "",
       metadata: session.metadata || {}
