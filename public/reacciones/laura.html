@@ -363,8 +363,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   
 <script>
 (function () {
-  // Si el pixel no está cargado, no hacemos nada
-  if (typeof window.fbq !== "function") return;
+  const hasFbq = typeof window.fbq === "function";
 
   // Anti-duplicados por sesión
   const once = (key, fn) => {
@@ -377,25 +376,118 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     }
   };
 
-  // ---- 1) VIEWCONTENT al entrar en la página de vídeo ----
-  // (esto es “consumir contenido”: han visto una valoración)
+  const urlParams = new URLSearchParams(location.search);
+  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+  const DEBUG = urlParams.get("debug_meta") === "1";
+  const log = (...args) => { if (DEBUG) console.log("[META LAURA]", ...args); };
+
+  // Cookies helpers (Safari-friendly)
+  const getCookie = (name) => {
+    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return m ? decodeURIComponent(m[2]) : null;
+  };
+
+  const setCookie = (name, value, days) => {
+    const maxAge = days * 24 * 60 * 60;
+    document.cookie =
+      `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+  };
+
+  function ensureFbp() {
+    let fbp = getCookie("_fbp");
+    if (fbp) return fbp;
+    const ts = Date.now();
+    const rnd = Math.floor(Math.random() * 1e10);
+    fbp = `fb.1.${ts}.${rnd}`;
+    setCookie("_fbp", fbp, 90);
+    return fbp;
+  }
+
+  function ensureFbc() {
+    const existing = getCookie("_fbc");
+    if (existing) return existing;
+    const fbclid = urlParams.get("fbclid");
+    if (!fbclid) return null;
+    const ts = Date.now();
+    const fbc = `fb.1.${ts}.${fbclid}`;
+    setCookie("_fbc", fbc, 90);
+    return fbc;
+  }
+
+  const FBP = ensureFbp();
+  const FBC = ensureFbc();
+
+  const newEventId = () => {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+  };
+
+  async function sendCapiEvent(body) {
+    try {
+      const res = await fetch("/api/meta-capi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify(body),
+      });
+      if (DEBUG) {
+        const txt = await res.text().catch(() => "");
+        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
+      }
+      return res.ok;
+    } catch (e) {
+      log("CAPI error", e);
+      return false;
+    }
+  }
+
+  function track(eventName, customData = {}, opts = {}) {
+    const eventId = opts.eventId || newEventId();
+
+    // Pixel (solo si existe)
+    if (hasFbq) {
+      try {
+        window.fbq("track", eventName, customData, { eventID: eventId });
+        log("Pixel", eventName, eventId);
+      } catch (e) {
+        log("Pixel error", e);
+      }
+    } else {
+      log("Pixel NO disponible (Safari puede bloquearlo)");
+    }
+
+    // CAPI (SIEMPRE)
+    sendCapiEvent({
+      event_name: eventName,
+      event_id: eventId,
+      event_source_url: window.location.href,
+      action_source: "website",
+      fbp: FBP || undefined,
+      fbc: FBC || undefined,
+      custom_data: customData,
+      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+    });
+
+    return eventId;
+  }
+
+  // 1) ViewContent al entrar en la página (testimonial)
   once("lirya_vc_video_laura", () => {
-    window.fbq("track", "ViewContent", {
+    track("ViewContent", {
       content_name: "Reaccion - laura",
       content_category: "Video testimonial",
-      page_type: "reacciones"
+      page_type: "reacciones",
+      source_page: location.pathname
     });
   });
 
-  // ---- 2) LEAD: clic en cualquier enlace/botón que lleve al formulario ----
-  // Aquí tus CTAs son <a href="/#formulario-lirya">
+  // 2) Lead al click hacia el formulario (1 por sesión)
   document.addEventListener("click", function (e) {
     const el = e.target.closest("a, button");
     if (!el) return;
 
     const href = (el.getAttribute("href") || "").trim();
 
-    // Detecta enlaces al formulario en home (con o sin / delante)
     const goesToForm =
       href === "/#formulario-lirya" ||
       href === "#formulario-lirya" ||
@@ -404,10 +496,15 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 
     if (!goesToForm) return;
 
-    window.fbq("track", "Lead", {
-      content_name: "CTA -> Formulario (desde video)",
-      button_text: (el.textContent || "").trim().slice(0, 80) || "cta",
-      source_page: location.pathname
+    const btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
+
+    once("lirya_lead_laura_to_form", () => {
+      track("Lead", {
+        content_name: "CTA -> Formulario (desde video)",
+        button_text: btnText,
+        source_page: location.pathname,
+        destination: "/#formulario-lirya"
+      });
     });
   }, true);
 
