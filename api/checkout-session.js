@@ -1,7 +1,9 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import Stripe from "stripe";
 
-module.exports = async (req, res) => {
-  // CORS (mismo estilo que tu payment)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+export default async function handler(req, res) {
+  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -12,33 +14,30 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const session_id = (req.query.session_id || "").toString().trim();
-    if (!session_id) return res.status(400).json({ error: "session_id requerido" });
+    const session_id = String(req.query.session_id || "").trim();
+    if (!session_id) {
+      return res.status(400).json({ error: "session_id requerido" });
+    }
 
-    // Recupera la sesión de Stripe
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    // amount_total viene en céntimos
     const amount_total = session.amount_total || 0;
     const currency = (session.currency || "eur").toUpperCase();
 
-    // Si quieres: metadata útil
-    const tarifa = session.metadata?.tarifa || "";
-    const recipient_name = session.metadata?.recipient_name || "";
-
     return res.status(200).json({
       session_id,
-      amount_total,               // 4900 / 5900 / 7900
+      amount_total,               // en céntimos
       value: amount_total / 100,  // 49 / 59 / 79
-      currency,                   // "EUR"
-      tarifa,
-      recipient_name
+      currency,                   // EUR
+      payment_status: session.payment_status || "",
+      metadata: session.metadata || {}
     });
   } catch (err) {
-    console.error("❌ ERROR checkout-session:", err);
+    console.error("❌ checkout-session error:", err);
     return res.status(500).json({
-      error: "No se pudo recuperar la sesión",
-      details: err && err.message ? err.message : String(err),
+      error: "No se pudo leer checkout-session",
+      details: String(err?.message || err),
     });
   }
-};
+}
+
