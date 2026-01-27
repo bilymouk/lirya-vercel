@@ -237,6 +237,14 @@
       margin-left:12px;
       will-change:transform;
     }
+    /* ===== Columna derecha (imagen + beneficios debajo) ===== */
+.hero-media{
+  justify-self:end;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
     .hero-phone-wrap--desktop{ animation:floatPhoneDesktop 5s ease-in-out infinite; }
     .hero-phone-wrap--mobile{ animation:floatPhoneMobile 5s ease-in-out infinite; }
 
@@ -463,7 +471,9 @@
   display:block;          /* ✅ visible en desktop */
   margin-top:16px;
   max-width:355px;        /* alinear con ancho del mockup */
+ text-align:left;
 }
+.hero-benefits--text{ display:none; }  /* oculto en desktop */
 
 .hero-benefits--text{
   display:none;           /* ✅ oculto en desktop */
@@ -474,6 +484,9 @@
   .hero-benefits--image{
     display:none;         /* ✅ oculto en móvil */
   }
+  .hero-benefits--image{ display:none; }
+.hero-benefits--text{ display:block; }
+
   .hero-benefits--text{
     display:block;        /* ✅ visible en móvil (si lo usas) */
   }
@@ -738,7 +751,8 @@
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
       </div>
 
-      <div class="hero-phone-wrap hero-phone-wrap--desktop">
+      <div class="hero-media">
+  <div class="hero-phone-wrap hero-phone-wrap--desktop">
         <img
           src="/mockup-phone-final.png"
           class="hero-phone"
@@ -4581,6 +4595,7 @@
 </div>
   </div>
 </section>
+
 
 
 
