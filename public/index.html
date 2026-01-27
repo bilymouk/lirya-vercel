@@ -430,13 +430,18 @@
         line-height:1.25;
       }
 
-      .hero-mobile .hero-btn{
-    margin-top:22px !important; /* ⬇️ botón un poco más cerca */
-    margin-bottom:6px;          /* ⬇️ clave: reduce el hueco inferior */
+  @media (max-width:900px){
+  .hero-mobile .hero-btn{
+    margin-top:18px !important; /* ⬇️ aún más compacto */
+    margin-bottom:2px;          /* ⬇️ casi pegado */
   }
 
   .hero-mobile-benefits{
-    margin-top:2px;             /* ⬇️ lista más pegada al botón */
+    margin-top:0;               /* ⬇️ elimina hueco superior */
+  }
+
+  .hero-mobile-benefits li{
+    margin-top:0;
   }
 }
 
@@ -4583,6 +4588,7 @@
 </div>
   </div>
 </section>
+
 
 
 
