@@ -1,3 +1,4 @@
+te pego el codigo completo y me dices que cambiar para que cancion en el mvl sea un 40% mas grande:
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -161,12 +162,12 @@
       color:rgba(255,255,255,.82);
       font-style:italic;
     }
-    .hero-text h1{
-      font-family:'Playfair Display',serif;
-      font-size:3.65rem;
-      line-height:1.12;
-      margin-bottom:16px;
-    }
+.hero-text h1{
+  font-family:'Playfair Display',serif;
+  font-size:3.15rem; /* ⬇️ más pequeño */
+  line-height:1.12;
+  margin-bottom:16px;
+}
     .hero-subline{
       font-family:'Playfair Display',serif;
       font-size:1.08rem;
@@ -266,12 +267,12 @@
     /* MOBILE */
     .hero-mobile{ display:none; text-align:center; }
 
-    .hero-mobile h1{
-      font-family:'Playfair Display',serif;
-      font-size:2.95rem;
-      line-height:1.12;
-      margin-bottom:18px;
-    }
+  .hero-mobile h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.55rem; /* ⬇️ móvil más compacto */
+  line-height:1.12;
+  margin-bottom:18px;
+}
 
     .hero-mobile .hero-subline{
       font-family:'Playfair Display',serif;
@@ -417,23 +418,43 @@
     }
 
     /* ===== CAMBIO MÍNIMO SOLO PARA AGRANDAR "San Valentín" EN EL H1 ===== */
-    .hero-title-sv{
-      font-size: 1.12em;
-      display:inline-block;
-      line-height: 1;
-      color:#ffd27a;
-      text-shadow:
-        0 0 10px rgba(255,210,122,.45),
-        0 0 22px rgba(255,210,122,.35);
+  .hero-title-sv{
+  font-size: 1.22em; /* ⬆️ mantiene impacto */
+  display:inline-block;
+  line-height: 1;
+  color:#ffd27a;
+  text-shadow:
+    0 0 10px rgba(255,210,122,.45),
+    0 0 22px rgba(255,210,122,.35);
+}
+    /* ===== HERO TITLE: PALABRA "CANCIÓN" MÁS GRANDE ===== */
+.hero-title-song{
+  font-size: 1.6em;
+  font-weight: 800;
+  color:#ffd27a;
+  display:inline-block;
+  line-height:1;
+  text-shadow:
+    0 0 12px rgba(255,210,122,.55),
+    0 0 26px rgba(255,210,122,.4);
+}
+
+
     }
-    @media (max-width:900px){
-      .hero-title-sv{
-        font-size: 1.16em;
-        text-shadow:
-          0 0 9px rgba(255,210,122,.42),
-          0 0 20px rgba(255,210,122,.32);
-      }
-    }
+  @media (max-width:900px){
+  .hero-title-sv{
+    font-size: 1.26em; /* ⬆️ mantiene jerarquía */
+    text-shadow:
+      0 0 9px rgba(255,210,122,.42),
+      0 0 20px rgba(255,210,122,.32);
+  }
+      .hero-title-song{
+    font-size: 1.60em;
+    text-shadow:
+      0 0 10px rgba(255,210,122,.5),
+      0 0 22px rgba(255,210,122,.38);
+  }
+}
 
     /* 1) En móvil: "que no olvidará" 5% más pequeño */
     .hero-title-rest{ display:inline; }
@@ -682,13 +703,14 @@
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
-        <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
+    <h1>
+  Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
+  lista para regalar en <span class="hero-title-sv">San Valentín</span>
+</h1>
 
-        <p class="hero-subline hero-subline--emphasis">
-          Una canción única para<br>
-          alguien especial, creada <br>
-          con vuestra historia real.
-        </p>
+<p class="hero-subline hero-subline--emphasis">
+  Una canción única, escrita con vuestra historia, para emocionarle de verdad.
+</p>
 
         <ul class="hero-benefits">
           <li>Entrega garantizada antes del 14 de febrero</li>
@@ -725,9 +747,14 @@
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-      <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
+    <h1>
+  Convierte vuestra historia en una <span class="hero-title-sv">canción</span><br>
+  para regalar en <span class="hero-title-sv">San Valentín</span>
+</h1>
 
-      <p class="hero-subline hero-subline--emphasis">Una canción única para<br><span class="hero-special">alguien especial</span><br>creada con vuestra historia</p>
+<p class="hero-subline hero-subline--emphasis">
+  Una canción única, escrita con vuestra historia, para emocionarle de verdad.
+</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
@@ -4534,6 +4561,7 @@
 </div>
   </div>
 </section>
+
 
 
 
