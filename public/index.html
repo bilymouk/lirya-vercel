@@ -893,11 +893,53 @@
 
   if (closeBtn) closeBtn.addEventListener("click", hideCard);
 
-  window.addEventListener("load", ()=>{
-    setTimeout(()=>{
-      if (canShowCard()) showCard();
-    }, 10000);
-  });
+ // ===== Mostrar urgencia SOLO si: han pasado 20s Y scroll >= 50% =====
+let timeOk = false;
+let scrollOk = false;
+let shown = false;
+
+// 1) Condición tiempo (20s)
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    timeOk = true;
+    maybeShow();
+  }, 20000);
+});
+
+// 2) Condición scroll (>= 50%)
+function updateScrollOk(){
+  const doc = document.documentElement;
+  const scrollTop = window.pageYOffset || doc.scrollTop || 0;
+  const scrollHeight = doc.scrollHeight || 0;
+  const clientHeight = doc.clientHeight || 0;
+
+  const maxScroll = Math.max(1, scrollHeight - clientHeight);
+  const progress = scrollTop / maxScroll; // 0..1
+
+  scrollOk = progress >= 0.5;
+}
+
+function maybeShow(){
+  if (shown) return;
+  if (!card) return;
+  if (!canShowCard()) return;
+
+  if (timeOk && scrollOk){
+    shown = true;
+    showCard();
+    window.removeEventListener("scroll", onScroll, { passive: true });
+  }
+}
+
+function onScroll(){
+  updateScrollOk();
+  maybeShow();
+}
+
+// Inicializa estado y escucha scroll
+updateScrollOk();
+window.addEventListener("scroll", onScroll, { passive: true });
+
 
   if (ctaBtn) ctaBtn.addEventListener("click", hideCard);
 
@@ -4587,6 +4629,7 @@
 </div>
   </div>
 </section>
+
 
 
 
