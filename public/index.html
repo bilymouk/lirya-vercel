@@ -161,12 +161,12 @@
       color:rgba(255,255,255,.82);
       font-style:italic;
     }
-    .hero-text h1{
-      font-family:'Playfair Display',serif;
-      font-size:3.65rem;
-      line-height:1.12;
-      margin-bottom:16px;
-    }
+.hero-text h1{
+  font-family:'Playfair Display',serif;
+  font-size:3.15rem; /* ⬇️ más pequeño */
+  line-height:1.12;
+  margin-bottom:16px;
+}
     .hero-subline{
       font-family:'Playfair Display',serif;
       font-size:1.08rem;
@@ -266,12 +266,12 @@
     /* MOBILE */
     .hero-mobile{ display:none; text-align:center; }
 
-    .hero-mobile h1{
-      font-family:'Playfair Display',serif;
-      font-size:2.95rem;
-      line-height:1.12;
-      margin-bottom:18px;
-    }
+  .hero-mobile h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.55rem; /* ⬇️ móvil más compacto */
+  line-height:1.12;
+  margin-bottom:18px;
+}
 
     .hero-mobile .hero-subline{
       font-family:'Playfair Display',serif;
@@ -417,23 +417,25 @@
     }
 
     /* ===== CAMBIO MÍNIMO SOLO PARA AGRANDAR "San Valentín" EN EL H1 ===== */
-    .hero-title-sv{
-      font-size: 1.12em;
-      display:inline-block;
-      line-height: 1;
-      color:#ffd27a;
-      text-shadow:
-        0 0 10px rgba(255,210,122,.45),
-        0 0 22px rgba(255,210,122,.35);
+  .hero-title-sv{
+  font-size: 1.22em; /* ⬆️ mantiene impacto */
+  display:inline-block;
+  line-height: 1;
+  color:#ffd27a;
+  text-shadow:
+    0 0 10px rgba(255,210,122,.45),
+    0 0 22px rgba(255,210,122,.35);
+}
+
     }
-    @media (max-width:900px){
-      .hero-title-sv{
-        font-size: 1.16em;
-        text-shadow:
-          0 0 9px rgba(255,210,122,.42),
-          0 0 20px rgba(255,210,122,.32);
-      }
-    }
+  @media (max-width:900px){
+  .hero-title-sv{
+    font-size: 1.26em; /* ⬆️ mantiene jerarquía */
+    text-shadow:
+      0 0 9px rgba(255,210,122,.42),
+      0 0 20px rgba(255,210,122,.32);
+  }
+}
 
     /* 1) En móvil: "que no olvidará" 5% más pequeño */
     .hero-title-rest{ display:inline; }
@@ -4537,6 +4539,7 @@
 </div>
   </div>
 </section>
+
 
 
 
