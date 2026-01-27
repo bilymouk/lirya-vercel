@@ -204,11 +204,7 @@
     max-width: 520px;
   }
 }
-      .hero-desktop .hero-subline--emphasis .hero-line1{
-        white-space: normal;
-        display:inline;
-      }
-
+     
     .hero-benefits{
       list-style:none;
       margin-bottom:22px;
@@ -733,6 +729,16 @@
 </aside>
 
 <section class="hero">
+  <img
+    src="/cascos-neon.avif"
+    alt=""
+    class="hero-bg"
+    width="1600"
+    height="900"
+    decoding="async"
+    fetchpriority="high"
+    loading="eager"
+  >
   <div class="hero-inner">
 
     <audio id="lirya-audio" preload="none">
@@ -1116,7 +1122,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
     });
   });
 
-  // ========= 1) LEAD (click CTA a formulario) =========
+  // ========= 1) START FORM (click CTA a formulario) =========
   document.addEventListener("click", function (e) {
     const el = e.target.closest("a, button");
     if (!el) return;
@@ -4658,6 +4664,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
