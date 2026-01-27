@@ -160,6 +160,8 @@
   content:"";
   position:absolute;
   inset:0;
+  z-index:1;              /* ✅ ESTO ES LO QUE TE FALTA */
+  pointer-events:none; 
   background:
     linear-gradient(
       rgba(0,0,0,.78),
@@ -4681,6 +4683,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
