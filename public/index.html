@@ -1537,10 +1537,28 @@ window.addEventListener("scroll", onScroll, { passive: true });
   .examples-inner {
     position: relative;
     z-index: 2;
-    max-width: 1500px;
+    max-width: 1100px;
     margin: 0 auto;
     text-align: center;
   }
+  /* (Premium) Ancho de lectura + ritmo */
+.examples-subtitle,
+.examples-proof,
+.examples-note,
+.styles-note{
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.examples-subtitle{ margin-bottom: 8px; }
+.examples-proof{ margin-bottom: 14px; }
+.examples-note{ margin-bottom: 22px; }
+
+/* Un poco más de aire al final */
+.examples{
+  padding-bottom: 56px;
+}
 
   /* TÍTULOS */
   .examples h2 {
@@ -1584,20 +1602,21 @@ window.addEventListener("scroll", onScroll, { passive: true });
     position: relative;
     border-radius: 18px;
     overflow: hidden;
-    border: 1px solid var(--lirya-border);
+    border: 1px solid rgba(255,255,255,0.30);
     background: var(--lirya-card-bg);
-    box-shadow: var(--lirya-shadow);
+    box-shadow: 0 12px 34px rgba(0,0,0,0.22);  
     transition: transform .35s ease, box-shadow .35s ease, border-color .25s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
   /* Hover real (PC) */
-  @media (hover:hover) and (pointer:fine) {
-    .example-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 0 45px rgba(255,255,255,0.45);
-    }
+ @media (hover:hover) and (pointer:fine) {
+  .example-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 60px rgba(0,0,0,0.32);
+    border-color: rgba(255,255,255,0.45);
   }
+}
 
   /* DESTACADA */
   .example-card.destacada {
@@ -1803,9 +1822,23 @@ window.addEventListener("scroll", onScroll, { passive: true });
     font-size: 14.5px;
     font-weight: 600;
     text-decoration: none;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
     position: relative;
     z-index: 4;
   }
+  @media (hover:hover) and (pointer:fine) {
+  .tarifa-cta:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+    filter: brightness(1.03);
+  }
+}
+
+.tarifa-cta:active{
+  transform: translateY(0px) scale(0.99);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+}
 
   /* TEXTO INTERMEDIO */
   .styles-note {
@@ -4681,6 +4714,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
