@@ -2324,6 +2324,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 
 /* TÍTULO */
 .lirya-how-title {
+  letter-spacing: 0.3px;
   font-family: "Playfair Display", serif;
   color: #c7b58a;
   font-size: 36px;
@@ -2337,7 +2338,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
   width: 72px;
   height: 2px;
   background: linear-gradient(to right, transparent, #c7b58a, transparent);
-  margin: 22px auto 64px;
+  margin: 18px auto 54px;
 }
 
 /* GRID */
@@ -2351,11 +2352,13 @@ window.addEventListener("scroll", onScroll, { passive: true });
 
 /* TARJETA */
 .lirya-how-card {
+  display: flex;
+  flex-direction: column;
   background-color: #fcfaf7;
   border-radius: 16px;
   padding: 44px 34px;
   border: 1px solid rgba(199, 181, 138, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.07);
   transition:
     transform 0.35s cubic-bezier(.34,1.56,.64,1),
     box-shadow 0.35s ease,
@@ -2391,6 +2394,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 
 /* TEXTO */
 .lirya-how-card p {
+  flex: 1;
   font-family: "Playfair Display", serif;
   font-size: 14.5px;
   line-height: 1.6;
@@ -4721,6 +4725,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
