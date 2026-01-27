@@ -32,12 +32,24 @@
   <meta name="twitter:image" content="https://www.lirya.studio/og.jpg" />
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap"
+      media="print"
+      onload="this.media='all'">
+
+<noscript>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap">
+</noscript>
 
   <!-- Perf: preload hero bg -->
-  <link rel="preload" as="image" href="/cascos-neon.avif" type="image/avif" fetchpriority="low" />
+  <link rel="preload" as="image" href="/cascos-neon.avif" type="image/avif" fetchpriority="high" />
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -79,7 +91,10 @@
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:#fff}
+   body{
+  font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:#fff;
+}
 
     /* HEADER */
     header{
@@ -193,7 +208,6 @@
         white-space: normal;
         display:inline;
       }
-    }
 
     .hero-benefits{
       list-style:none;
@@ -4629,6 +4643,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
