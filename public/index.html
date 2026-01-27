@@ -161,12 +161,12 @@
       color:rgba(255,255,255,.82);
       font-style:italic;
     }
-.hero-text h1{
-  font-family:'Playfair Display',serif;
-  font-size:3.15rem; /* ⬇️ más pequeño */
-  line-height:1.12;
-  margin-bottom:16px;
-}
+    .hero-text h1{
+      font-family:'Playfair Display',serif;
+      font-size:3.65rem;
+      line-height:1.12;
+      margin-bottom:16px;
+    }
     .hero-subline{
       font-family:'Playfair Display',serif;
       font-size:1.08rem;
@@ -182,12 +182,12 @@
       line-height:1.25;
     }
     @media (min-width:901px){
-  .hero-desktop .hero-subline--emphasis{
-    font-size: 1.75rem; /* ⬇️ más pequeña, jerarquía correcta */
-    line-height: 1.25;
-    white-space: normal;
-    max-width: 520px;
-  }
+      .hero-desktop .hero-subline--emphasis{
+        font-size: 2.2875rem;
+        line-height: 1.18;
+        white-space: normal;
+        max-width: 520px;
+      }
       .hero-desktop .hero-subline--emphasis .hero-line1{
         white-space: normal;
         display:inline;
@@ -229,11 +229,7 @@
       font-style:italic;
       opacity:.86;
     }
-/* Nota secundaria bajo el CTA (solo desktop) */
-.hero-note--secondary{
-  opacity:.78;
-  margin-top:4px;
-}
+
     .hero-phone-wrap{
       position:relative;
       display:inline-block;
@@ -241,14 +237,6 @@
       margin-left:12px;
       will-change:transform;
     }
-    /* ===== Columna derecha (imagen + beneficios debajo) ===== */
-.hero-media{
-  justify-self:end;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
     .hero-phone-wrap--desktop{ animation:floatPhoneDesktop 5s ease-in-out infinite; }
     .hero-phone-wrap--mobile{ animation:floatPhoneMobile 5s ease-in-out infinite; }
 
@@ -278,12 +266,12 @@
     /* MOBILE */
     .hero-mobile{ display:none; text-align:center; }
 
-  .hero-mobile h1{
-  font-family:'Playfair Display',serif;
-  font-size:2.55rem; /* ⬇️ móvil más compacto */
-  line-height:1.12;
-  margin-bottom:18px;
-}
+    .hero-mobile h1{
+      font-family:'Playfair Display',serif;
+      font-size:2.95rem;
+      line-height:1.12;
+      margin-bottom:18px;
+    }
 
     .hero-mobile .hero-subline{
       font-family:'Playfair Display',serif;
@@ -429,94 +417,29 @@
     }
 
     /* ===== CAMBIO MÍNIMO SOLO PARA AGRANDAR "San Valentín" EN EL H1 ===== */
-  .hero-title-sv{
-  font-size: 1.22em; /* ⬆️ mantiene impacto */
-  display:inline-block;
-  line-height: 1;
-  color:#ffd27a;
-  text-shadow:
-    0 0 10px rgba(255,210,122,.45),
-    0 0 22px rgba(255,210,122,.35);
-}
-    /* ===== HERO TITLE: PALABRA "CANCIÓN" MÁS GRANDE ===== */
-.hero-title-song{
-  font-size: 1.6em;
-  font-weight: 800;
-  color:#ffd27a;
-  display:inline-block;
-  line-height:1;
-  text-shadow:
-    0 0 12px rgba(255,210,122,.55),
-    0 0 26px rgba(255,210,122,.4);
-}
-
-  @media (max-width:900px){
-  .hero-title-sv{
-    font-size: 1.26em; /* ⬆️ mantiene jerarquía */
-    text-shadow:
-      0 0 9px rgba(255,210,122,.42),
-      0 0 20px rgba(255,210,122,.32);
-  }
-      .hero-title-song{
-    font-size: 1.60em;
-    text-shadow:
-      0 0 10px rgba(255,210,122,.5),
-      0 0 22px rgba(255,210,122,.38);
-  }
-}
+    .hero-title-sv{
+      font-size: 1.12em;
+      display:inline-block;
+      line-height: 1;
+      color:#ffd27a;
+      text-shadow:
+        0 0 10px rgba(255,210,122,.45),
+        0 0 22px rgba(255,210,122,.35);
+    }
+    @media (max-width:900px){
+      .hero-title-sv{
+        font-size: 1.16em;
+        text-shadow:
+          0 0 9px rgba(255,210,122,.42),
+          0 0 20px rgba(255,210,122,.32);
+      }
+    }
 
     /* 1) En móvil: "que no olvidará" 5% más pequeño */
     .hero-title-rest{ display:inline; }
     @media (max-width:900px){
       .hero-title-rest{ font-size: .95em; }
     }
-/* ===== BENEFITS debajo de la imagen SOLO en DESKTOP ===== */
-/* ===== BENEFITS (control limpio) ===== */
-/* Desktop: ocultamos el bloque de texto, mostramos el de la derecha */
-.hero-benefits--text{ display:none; }
-/* Desktop: texto justo debajo del mockup, mismo estilo que hero-note--secondary */
-.hero-benefits--image{
-  display:block;
-  margin-top:4px;           /* ⬅️ casi pegado al móvil */
-  width:355px;
-  text-align:left;
-}
-
-.hero-benefits--image li{
-  list-style:none;
-  font-family:'Playfair Display',serif;
-  font-size:.92rem;         /* ⬅️ MISMO tamaño que hero-note */
-  font-style:italic;        /* ⬅️ MISMO estilo */
-  opacity:.78;              /* ⬅️ MISMA jerarquía visual */
-  line-height:1.25;
-}
-
-/* Mobile: no usamos ninguno de esos UL; usamos .hero-mobile-benefits */
-@media (max-width:900px){
-  .hero-note--secondary{ display:none; } /* solo desktop */
-}
-.hero-benefits--image{
-  display:block;
-  margin-top:0;
-  padding-top:0;
-  width:355px;
-  text-align:left;
-}
-
-.hero-benefits--image li{
-  list-style:none;
-  font-family:'Playfair Display',serif;
-  font-size:.92rem;
-  font-style:italic;
-  opacity:.78;
-  line-height:1.25;
-  margin:0;
-  padding:0;
-}
-
-@media (max-width:900px){
-  .hero-benefits--image{ display:none; }
-}
 
     /* 2) En móvil: subline +5% (respecto a 1.42rem) + "alguien especial" 10% más grande */
     @media (max-width:900px){
@@ -752,68 +675,59 @@
 <section class="hero">
   <div class="hero-inner">
 
-        <audio id="lirya-audio" preload="none">
+    <audio id="lirya-audio" preload="none">
       <source src="/audio/amor.mp3" type="audio/mpeg" />
     </audio>
 
     <!-- DESKTOP -->
     <div class="hero-desktop">
       <div class="hero-text">
-        <h1>
-          Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
-          lista para regalar en <span class="hero-title-sv">San Valentín</span>
-        </h1>
+        <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
         <p class="hero-subline hero-subline--emphasis">
-          Escrita con vuestra historia, para emocionarle de verdad.
+          Una canción única para<br>
+          alguien especial, creada <br>
+          con vuestra historia real.
         </p>
+
+        <ul class="hero-benefits">
+          <li>Entrega garantizada antes del 14 de febrero</li>
+          <li>Producción limitada diaria para garantizar calidad</li>
+        </ul>
 
         <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
-        <span class="hero-note hero-note--secondary">Producción limitada diaria para garantizar calidad</span>
       </div>
 
-      <div class="hero-media">
-        <div class="hero-phone-wrap hero-phone-wrap--desktop">
-          <img
-            src="/mockup-phone-final.png"
-            class="hero-phone"
-            id="mockup-audio-trigger-desktop"
-            alt="Ejemplo de canción personalizada"
-            width="420"
-            height="840"
-            decoding="async"
-            fetchpriority="high"
-          />
+      <div class="hero-phone-wrap hero-phone-wrap--desktop">
+        <img
+          src="/mockup-phone-final.png"
+          class="hero-phone"
+          id="mockup-audio-trigger-desktop"
+          alt="Ejemplo de canción personalizada"
+          width="420"
+          height="840"
+          decoding="async"
+          fetchpriority="high"
+        />
 
-          <button
-            class="play-overlay"
-            id="mockup-audio-overlay-desktop"
-            type="button"
-            aria-label="Reproducir o pausar ejemplo"
-            aria-pressed="false"
-          >
-            <img src="/boton.png" alt="">
-          </button>
-        </div>
-
-        <!-- SOLO ESTA FRASE debajo del móvil (DESKTOP) -->
-        <ul class="hero-benefits hero-benefits--image">
-          <li>Entrega garantizada antes del 14 de febrero</li>
-        </ul>
+        <button
+          class="play-overlay"
+          id="mockup-audio-overlay-desktop"
+          type="button"
+          aria-label="Reproducir o pausar ejemplo"
+          aria-pressed="false"
+        >
+          <img src="/boton.png" alt="">
+        </button>
       </div>
     </div>
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-      <h1>
-        Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
-        para regalar en <span class="hero-title-sv">San Valentín</span>
-      </h1>
+      <h1>El regalo de <span class="hero-title-sv">San Valentín</span> <span class="hero-title-rest">que no olvidará</span></h1>
 
-      <p class="hero-subline hero-subline--emphasis">
-        Escrita con vuestra historia, para emocionarle de verdad.
-      </p>
+      <p class="hero-subline hero-subline--emphasis">Una canción única para<br><span class="hero-special">alguien especial</span><br>creada con vuestra historia</p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
@@ -845,7 +759,6 @@
       <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
-
 
   </div>
 </section>
@@ -4621,6 +4534,7 @@
 </div>
   </div>
 </section>
+
 
 
 
