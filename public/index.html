@@ -1043,25 +1043,40 @@ window.addEventListener("scroll", onScroll, { passive: true });
 
   // ========= CAPI =========
   async function sendCapiEvent(body) {
-    try {
-      const res = await fetch("/api/meta-capi", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        keepalive: true,
-        body: JSON.stringify(body),
-      });
+  const url = "/api/meta-capi";
+  const payload = JSON.stringify(body);
 
-      if (DEBUG) {
-        const txt = await res.text().catch(() => "");
-        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
-      }
-      return res.ok;
-    } catch (e) {
-      log("CAPI error", e);
-      return false;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: payload,
+    });
+
+    if (DEBUG) {
+      const txt = await res.text().catch(() => "");
+      log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
     }
-  }
+    return res.ok;
+  } catch (e) {
+    log("CAPI fetch error", e);
 
+    // Fallback: sendBeacon (mejor en cierres de pestaña / Safari)
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: "application/json" });
+        const ok = navigator.sendBeacon(url, blob);
+        log("CAPI sendBeacon", ok ? "OK" : "FAIL");
+        return ok;
+      }
+    } catch (e2) {
+      log("CAPI sendBeacon error", e2);
+    }
+
+    return false;
+  }
+}
   function trackEvent(eventName, customData = {}, opts = {}) {
     const eventId = opts.eventId || newEventId();
 
@@ -1121,11 +1136,11 @@ window.addEventListener("scroll", onScroll, { passive: true });
 
     if (!isFormCta) return;
 
-    trackEvent("Lead", {
-      content_name: "CTA -> Formulario",
-      button_text: btnText,
-      destination: FORM_HASH,
-    });
+    trackEvent("StartForm", {
+  content_name: "CTA -> Formulario",
+  button_text: btnText,
+  destination: FORM_HASH,
+});
   }, true);
 
   // ========= 2) VIEWCONTENT (cuando el form es visible) =========
@@ -4643,6 +4658,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
