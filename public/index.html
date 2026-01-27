@@ -474,11 +474,21 @@
 /* ===== BENEFITS (control limpio) ===== */
 /* Desktop: ocultamos el bloque de texto, mostramos el de la derecha */
 .hero-benefits--text{ display:none; }
+/* Desktop: texto justo debajo del mockup, mismo estilo que hero-note--secondary */
 .hero-benefits--image{
   display:block;
-  margin-top:16px;
+  margin-top:4px;           /* ⬅️ casi pegado al móvil */
   width:355px;
   text-align:left;
+}
+
+.hero-benefits--image li{
+  list-style:none;
+  font-family:'Playfair Display',serif;
+  font-size:.92rem;         /* ⬅️ MISMO tamaño que hero-note */
+  font-style:italic;        /* ⬅️ MISMO estilo */
+  opacity:.78;              /* ⬅️ MISMA jerarquía visual */
+  line-height:1.25;
 }
 
 /* Mobile: no usamos ninguno de esos UL; usamos .hero-mobile-benefits */
@@ -4590,6 +4600,7 @@
 </div>
   </div>
 </section>
+
 
 
 
