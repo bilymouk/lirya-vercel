@@ -458,7 +458,13 @@
     @media (max-width:900px){
       .hero-title-rest{ font-size: .95em; }
     }
+.hero-benefits--image{
+  display: none;
+}
 
+.hero-benefits--text{
+  display: block;
+}
     /* 2) En móvil: subline +5% (respecto a 1.42rem) + "alguien especial" 10% más grande */
     @media (max-width:900px){
       .hero-mobile .hero-subline--emphasis{
@@ -740,6 +746,11 @@
           <img src="/boton.png" alt="">
         </button>
       </div>
+      <ul class="hero-benefits hero-benefits--image">
+  <li>Entrega garantizada antes del 14 de febrero</li>
+  <li>Producción limitada diaria para garantizar calidad</li>
+</ul>
+
     </div>
 
     <!-- MOBILE -->
@@ -4246,6 +4257,7 @@
     gap:16px;
     scroll-snap-type:x mandatory;
   }
+
   .lirya-guarantee-card{
     min-width:78%;
     scroll-snap-align:center;
@@ -4555,6 +4567,7 @@
 </div>
   </div>
 </section>
+
 
 
 
