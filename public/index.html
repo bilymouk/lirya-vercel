@@ -493,9 +493,29 @@
 
 /* Mobile: no usamos ninguno de esos UL; usamos .hero-mobile-benefits */
 @media (max-width:900px){
-  .hero-benefits--image{ display:none; }
-  .hero-benefits--text{ display:none; } /* evita que aparezca bajo el texto en móvil */
   .hero-note--secondary{ display:none; } /* solo desktop */
+}
+.hero-benefits--image{
+  display:block;
+  margin-top:0;
+  padding-top:0;
+  width:355px;
+  text-align:left;
+}
+
+.hero-benefits--image li{
+  list-style:none;
+  font-family:'Playfair Display',serif;
+  font-size:.92rem;
+  font-style:italic;
+  opacity:.78;
+  line-height:1.25;
+  margin:0;
+  padding:0;
+}
+
+@media (max-width:900px){
+  .hero-benefits--image{ display:none; }
 }
 
     /* 2) En móvil: subline +5% (respecto a 1.42rem) + "alguien especial" 10% más grande */
@@ -736,64 +756,63 @@
       <source src="/audio/amor.mp3" type="audio/mpeg" />
     </audio>
 
-   
-    <!-- MOBILE -->
-    <div class="hero-mobile"><!-- DESKTOP -->
-<div class="hero-desktop">
-  <div class="hero-text">
-    <h1>
-      Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
-      lista para regalar en <span class="hero-title-sv">San Valentín</span>
-    </h1>
-
-    <p class="hero-subline hero-subline--emphasis">
-      Escrita con vuestra historia, para emocionarle de verdad.
-    </p>
-
-    <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
-    <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
-    <span class="hero-note hero-note--secondary">Producción limitada diaria para garantizar calidad</span>
-  </div>
-
-  <div class="hero-media">
-    <div class="hero-phone-wrap hero-phone-wrap--desktop">
-      <img
-        src="/mockup-phone-final.png"
-        class="hero-phone"
-        id="mockup-audio-trigger-desktop"
-        alt="Ejemplo de canción personalizada"
-        width="420"
-        height="840"
-        decoding="async"
-        fetchpriority="high"
-      />
-
-      <button
-        class="play-overlay"
-        id="mockup-audio-overlay-desktop"
-        type="button"
-        aria-label="Reproducir o pausar ejemplo"
-        aria-pressed="false"
-      >
-        <img src="/boton.png" alt="">
-      </button>
+    <!-- DESKTOP -->
+        <!-- SOLO ESTA FRASE debajo del móvil (DESKTOP) -->
+        <ul class="hero-benefits hero-benefits--image">
+          <li>Entrega garantizada antes del 14 de febrero</li>
+        </ul>
+      </div>
     </div>
+<div class="hero-desktop">
+      <div class="hero-text">
+        <h1>
+          Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
+          lista para regalar en <span class="hero-title-sv">San Valentín</span>
+        </h1>
 
-    <!-- SOLO ESTA FRASE debajo del móvil (DESKTOP) -->
-    <ul class="hero-benefits hero-benefits--image">
-      <li>Entrega garantizada antes del 14 de febrero</li>
-    </ul>
-  </div>
-</div>
-      
-    <h1>
-  Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
-  para regalar en <span class="hero-title-sv">San Valentín</span>
-</h1>
+        <p class="hero-subline hero-subline--emphasis">
+          Escrita con vuestra historia, para emocionarle de verdad.
+        </p>
 
-<p class="hero-subline hero-subline--emphasis">
-  Escrita con vuestra historia, para emocionarle de verdad.
-</p>
+        <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
+        <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
+        <span class="hero-note hero-note--secondary">Producción limitada diaria para garantizar calidad</span>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-phone-wrap hero-phone-wrap--desktop">
+          <img
+            src="/mockup-phone-final.png"
+            class="hero-phone"
+            id="mockup-audio-trigger-desktop"
+            alt="Ejemplo de canción personalizada"
+            width="420"
+            height="840"
+            decoding="async"
+            fetchpriority="high"
+          />
+
+          <button
+            class="play-overlay"
+            id="mockup-audio-overlay-desktop"
+            type="button"
+            aria-label="Reproducir o pausar ejemplo"
+            aria-pressed="false"
+          >
+            <img src="/boton.png" alt="">
+          </button>
+        </div>
+        
+    <!-- MOBILE -->
+    <div class="hero-mobile">
+      <h1>
+        Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
+        para regalar en <span class="hero-title-sv">San Valentín</span>
+      </h1>
+
+      <p class="hero-subline hero-subline--emphasis">
+        Escrita con vuestra historia, para emocionarle de verdad.
+      </p>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
@@ -4600,6 +4619,7 @@
 </div>
   </div>
 </section>
+
 
 
 
