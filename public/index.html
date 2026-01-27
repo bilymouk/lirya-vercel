@@ -105,12 +105,15 @@
       display:flex; justify-content:space-between; align-items:center;
       padding:14px 24px; gap:16px;
     }
-    .logo{
-      font-family:'Playfair Display',serif;
-      font-weight:800; letter-spacing:2px;
-      font-size:26px; color:var(--gold);
-      user-select:none;
-    }
+  .logo{
+  font-family:'Playfair Display',serif;
+  font-weight:800;
+  letter-spacing:2px;
+  font-size:26px;
+  color:var(--gold);
+  user-select:none;
+  text-decoration:none;
+}
     .cta-header{
       background:var(--orange); color:#fff;
       padding:10px 28px; border-radius:12px;
@@ -717,7 +720,7 @@
 
 <header>
   <div class="header-container">
-    <div class="logo">LIRYA</div>
+    <a class="logo" href="/" aria-label="Ir a inicio">LIRYA</a>
     <a href="#formulario-lirya" class="cta-header">Crear mi canción</a>
   </div>
 </header>
@@ -4683,6 +4686,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
