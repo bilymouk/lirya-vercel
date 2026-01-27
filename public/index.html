@@ -241,6 +241,13 @@
 @media (max-width:900px){
   .hero-note--stack{ display:none; }
 }
+    /* Resaltar entrega garantizada con el mismo color que "canción" */
+.hero-note--highlight{
+  color:#ffd27a;
+  text-shadow:
+    0 0 10px rgba(255,210,122,.45),
+    0 0 22px rgba(255,210,122,.35);
+}
 
     .hero-phone-wrap{
       position:relative;
@@ -723,7 +730,9 @@
 
         <a href="#formulario-lirya" class="hero-btn">Crear el regalo perfecto</a>
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
-        <span class="hero-note hero-note--stack">Entrega garantizada antes del 14 de febrero</span>
+        <span class="hero-note hero-note--stack hero-note--highlight">
+  Entrega garantizada antes del 14 de febrero
+</span>
         <span class="hero-note hero-note--stack">Producción limitada diaria para garantizar calidad</span>
 
       </div>
@@ -4569,6 +4578,7 @@
 </div>
   </div>
 </section>
+
 
 
 
