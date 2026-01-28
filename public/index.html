@@ -3718,74 +3718,9 @@ root.addEventListener("click", (e) => {
   const submitBtn = root.querySelector(".submit");
   let processingPayment = false;
 
-  const hasFbq = typeof window.fbq === "function";
-
-  const onceSession = (key, fn) => {
-    try {
-      if (sessionStorage.getItem(key)) return;
-      sessionStorage.setItem(key, "1");
-      fn();
-    } catch (e) { fn(); }
-  };
-
-  const getCookie = (name) => {
-    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-    return m ? decodeURIComponent(m[2]) : null;
-  };
-
-  const setCookie = (name, value, days) => {
-    const maxAge = days * 24 * 60 * 60;
-    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
-  };
-
-  // ✅ asegura _fbp aunque Pixel esté bloqueado (Safari)
-  function ensureFbp() {
-    let fbp = getCookie("_fbp");
-    if (fbp) return fbp;
-    const ts = Date.now();
-    const rnd = Math.floor(Math.random() * 1e10);
-    fbp = `fb.1.${ts}.${rnd}`;
-    setCookie("_fbp", fbp, 90);
-    return fbp;
-  }
-
-  // ✅ si hay fbclid crea _fbc
-  function ensureFbc() {
-    const existing = getCookie("_fbc");
-    if (existing) return existing;
-    const fbclid = new URLSearchParams(location.search).get("fbclid");
-    if (!fbclid) return "";
-    const ts = Date.now();
-    const fbc = `fb.1.${ts}.${fbclid}`;
-    setCookie("_fbc", fbc, 90);
-    return fbc;
-  }
-
-  const newEventId = () => {
+    const newEventId = () => {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
     return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-  };
-
-  const urlParams = new URLSearchParams(location.search);
-  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
-
-  async function sendCapiEvent(body) {
-    try {
-      const res = await fetch("/api/meta-capi", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        keepalive: true,
-        body: JSON.stringify(body),
-      });
-      return res.ok;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  const trackPixel = (eventName, payload, eventId) => {
-    if (!hasFbq) return;
-    window.fbq("track", eventName, payload || {}, eventId ? { eventID: eventId } : undefined);
   };
 
   function val(id){
@@ -3803,43 +3738,27 @@ root.addEventListener("click", (e) => {
     if (!validateStep(true)) return;
     if (processingPayment) return;
     processingPayment = true;
+    // ✅ event_id estable para dedupe en webhook (una vez por intento)
+let checkoutEventId = "";
+try {
+  checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || "";
+} catch (_) {}
 
-    // ✅ cookies listas para Safari
-    const fbp = ensureFbp();
-    const fbc = ensureFbc();
+if (!checkoutEventId) {
+  checkoutEventId = newEventId();
+  try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch (_) {}
+}
 
-    // ✅ event_id del checkout (lo guardamos para mandarlo a Stripe metadata)
-    let checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || "";
+// ✅ leer cookies si existen (sin inventarlas)
+const readCookie = (name) => {
+  const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
+  return m ? decodeURIComponent(m[1]) : "";
+};
 
-    // INITIATE CHECKOUT (Pixel si existe + CAPI siempre)
-    onceSession("lirya_initiate_checkout", () => {
-      checkoutEventId = newEventId();
-      sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId);
-
-      const value = getTarifa();
-
-      // Pixel
-      trackPixel("InitiateCheckout", {
-        content_name: "Formulario LIRYA",
-        currency: "EUR",
-        ...(value ? { value } : {})
-      }, checkoutEventId);
-
-      // CAPI
-      sendCapiEvent({
-        event_name: "InitiateCheckout",
-        event_id: checkoutEventId,
-        event_source_url: window.location.href,
-        fbp: fbp || undefined,
-        fbc: fbc || undefined,
-        custom_data: {
-          content_name: "Formulario LIRYA",
-          currency: "EUR",
-          ...(value ? { value } : {})
-        },
-        ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
-      });
-    });
+const fbpCookie = readCookie("_fbp");
+const fbcCookie = readCookie("_fbc");
+}
+})();
 
     submitBtn.disabled = true;
     const originalText = submitBtn.textContent;
@@ -3869,9 +3788,11 @@ root.addEventListener("click", (e) => {
 
       // ✅✅✅ ESTO ES LO IMPORTANTE DEL PASO 1:
       event_id: checkoutEventId || "",
-      fbp: fbp || "",
-      fbc: fbc || "",
-      event_source_url: (window.location.origin + "/success.html"),
+    event_id: checkoutEventId,
+    fbp: fbpCookie,
+    fbc: fbcCookie,
+    event_source_url: (window.location.origin + "/success.html"),
+
     };
 
     try {
@@ -3885,46 +3806,13 @@ root.addEventListener("click", (e) => {
 
       const j = await r.json();
 
-      // AddPaymentInfo (antes del redirect)
-      onceSession("lirya_add_payment_info", () => {
-  // ✅ event_id fijo para AddPaymentInfo (dedupe perfecto Pixel + CAPI)
-  let addPaymentEventId = sessionStorage.getItem("lirya_add_payment_event_id") || "";
-  if (!addPaymentEventId) {
-    addPaymentEventId = newEventId();
-    sessionStorage.setItem("lirya_add_payment_event_id", addPaymentEventId);
-  }
-
-  const value = getTarifa();
-
-  trackPixel("AddPaymentInfo", {
-    content_name: "Stripe Checkout",
-    currency: "EUR",
-    ...(value ? { value } : {})
-  }, addPaymentEventId);
-
-  sendCapiEvent({
-    event_name: "AddPaymentInfo",
-    event_id: addPaymentEventId,
-    event_source_url: window.location.href,
-    fbp: fbp || undefined,
-    fbc: fbc || undefined,
-    custom_data: {
-      content_name: "Stripe Checkout",
-      currency: "EUR",
-      ...(value ? { value } : {})
-    },
-    ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
-  });
-});
-
+}
+})();
 
       if (j.url) {
   try {
-    // 🔥 LIMPIEZA CRÍTICA antes de salir a Stripe
-    sessionStorage.removeItem("lirya_initiate_checkout");
-    sessionStorage.removeItem("lirya_add_payment_info");
-    sessionStorage.removeItem("lirya_add_payment_event_id"); 
-  } catch (_) {}
+   } catch (_) {}
+  try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
 
   setTimeout(() => {
     processingPayment = false;
@@ -5174,6 +5062,7 @@ root.addEventListener("click", (e) => {
 </div>
   </div>
 </section>
+
 
 
 
