@@ -3961,7 +3961,8 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
             fetchpriority="low"
             width="1080"
             height="1920"
-          >
+            >
+          <div class="play-badge" aria-hidden="true"></div>
           <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
         </div>
         <div class="reaction-content">
@@ -4294,6 +4295,55 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
   display:block;
   object-fit:cover;
   object-position:center;
+}
+  /* ===== PLAY ICON centrado (decorativo, no accionable) ===== */
+.play-badge{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  width:64px;
+  height:64px;
+  border-radius:999px;
+
+  /* elegante, sin “botón raro” */
+  background:rgba(0,0,0,0.18);
+  backdrop-filter: blur(2px);
+
+  pointer-events:none;     /* ✅ IMPORTANTÍSIMO: no intercepta clicks */
+  z-index:2;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Triángulo play blanco, fino y elegante */
+.play-badge::before{
+  content:"";
+  display:block;
+  width:0;
+  height:0;
+
+  border-left:16px solid rgba(255,255,255,0.95);
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+
+  margin-left:3px; /* centra ópticamente */
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
+}
+
+/* Un pelín más grande en móvil (se ve mejor) */
+@media (max-width:768px){
+  .play-badge{
+    width:74px;
+    height:74px;
+  }
+  .play-badge::before{
+    border-left-width:18px;
+    border-top-width:11px;
+    border-bottom-width:11px;
+  }
 }
 
 /* ===== CORTAFUEGOS ANTI “PLAY” GLOBAL =====
@@ -4982,6 +5032,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
