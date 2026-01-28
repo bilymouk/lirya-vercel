@@ -1317,6 +1317,23 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 window.LIRYA_TRACK = function(eventName, customData, opts){
   return trackEvent(eventName, customData || {}, opts || {});
 };
+  // ===== Purchase seguro (1 vez por sesión, con value obligatorio) =====
+window.LIRYA_PURCHASE = function(data){
+  if (!data || !data.value) {
+    log("Purchase NO disparado: falta value");
+    return;
+  }
+
+  once("lirya_purchase_fired", () => {
+    trackEvent("Purchase", {
+      currency: "EUR",
+      value: Number(data.value),
+      content_name: "Canción personalizada",
+      content_type: "product",
+      plan: data.plan || undefined,
+    });
+  });
+};
 
   // ========= 0) PAGEVIEW =========
   // Nota: NO lo dispares en el script del Pixel. Aquí lo hacemos con eventID para dedupe con CAPI.
@@ -5066,6 +5083,7 @@ window.LIRYA_TRACK = function(eventName, customData, opts){
 </div>
   </div>
 </section>
+
 
 
 
