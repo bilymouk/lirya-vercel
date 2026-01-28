@@ -1531,9 +1531,11 @@ window.LIRYA_PURCHASE = function(data){
   }
 
   /* ACTIVE (suave, igual para todas) */
+ @media (hover: hover) and (pointer:fine){
   .lirya-cf-card:active{
     transform: translateY(-4px) scale(0.99);
   }
+}
 
   /* PRESSED móvil (igual para todas) */
   .lirya-cf-card.is-pressed{
@@ -1625,7 +1627,7 @@ window.LIRYA_PURCHASE = function(data){
       <h3>Revisión incluida</h3>
       <p>
         Incluye <strong>1 revisión</strong> para ajustar una frase, el enfoque o el tono y que encaje de verdad.
-        <strong>(En Premium puedes pedir más ajustes.)</strong>
+        <strong>(Si necesitas más ajustes, Premium lo incluye.)</strong>
       </p>
     </div>
 
@@ -1668,7 +1670,7 @@ window.LIRYA_PURCHASE = function(data){
 
     cards.forEach(card => observer.observe(card));
   } else {
-    cards.forEach(card => card.classList.add('is-visible'));
+    // En desktop no hace falta is-visible (no hay animación), no añadimos clases
   }
 
   // Pressed state móvil
@@ -1702,6 +1704,7 @@ window.LIRYA_PURCHASE = function(data){
     document.addEventListener('touchstart', (e) => {
       if (!e.target.closest('.lirya-cf-card')) clearPressed();
     }, { passive: true });
+    window.addEventListener('scroll', clearPressed, { passive: true });
   }
 })();
 </script>
@@ -5084,6 +5087,7 @@ window.LIRYA_PURCHASE = function(data){
 </div>
   </div>
 </section>
+
 
 
 
