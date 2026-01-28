@@ -192,21 +192,6 @@
       border-top: 1px solid rgba(212,165,116,.15);
     }
   </style>
-
-  <!-- META PIXEL (puede bloquearse en Safari, por eso mandamos CAPI SIEMPRE abajo) -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '893462606511287');
-  fbq('set', 'autoConfig', 'false', '893462606511287');
-
-  </script>
 </head>
 
 <body>
@@ -257,61 +242,20 @@
   © 2024 Lirya · Todos los derechos reservados
 </footer>
 
-<!-- Mostrar session_id -->
 <script>
-  const sid = new URLSearchParams(location.search).get("session_id");
-  if (sid) document.getElementById("sessionId").textContent = "ID de sesión: " + sid;
+  // Mostrar session_id (opcional, útil para soporte)
+  (function () {
+    const sid = new URLSearchParams(location.search).get("session_id");
+    const el = document.getElementById("sessionId");
+    if (sid && el) el.textContent = "ID de sesión: " + sid;
+  })();
 </script>
-  <script>
-(async function () {
-  const sid = new URLSearchParams(location.search).get("session_id");
-  if (!sid) return;
 
-  // evita doble disparo si refrescan
-  const key = "lirya_purchase_pixel_" + sid;
-  try { if (sessionStorage.getItem(key)) return; } catch(_) {}
-
-  try {
-    const r = await fetch("/api/checkout-session?session_id=" + encodeURIComponent(sid), {
-      method: "GET",
-      headers: { "Accept": "application/json" },
-      cache: "no-store"
-    });
-
-    if (!r.ok) return;
-    const j = await r.json();
-
-    // Solo si está pagado
-    if (String(j.payment_status || "").toLowerCase() !== "paid") return;
-
-    const value = Number(j.value || 0);
-    const currency = (j.currency || "EUR").toUpperCase();
-
-    // event_id para dedupe con CAPI webhook:
-    // - si tu metadata trae event_id (lo ideal), usamos ese
-    // - si no, uno estable
-    const eventId = (j.metadata && j.metadata.event_id) ? String(j.metadata.event_id) : ("purchase_" + sid);
-
-    // Marca como disparado
-    try { sessionStorage.setItem(key, "1"); } catch(_) {}
-
-    // Pixel Purchase (si existe)
-    if (typeof window.fbq === "function") {
-      window.fbq("track", "Purchase",
-        {
-          currency: currency,
-          value: value,
-          content_name: "Canción personalizada",
-          content_type: "product",
-          plan: (j.metadata && j.metadata.tarifa) ? String(j.metadata.tarifa) : undefined,
-        },
-        { eventID: eventId } // ✅ dedupe con CAPI webhook
-      );
-    }
-  } catch (e) {
-    // silencioso
-  }
-})();
+<script>
+  // Limpieza: por si el usuario vuelve atrás/adelante, quitamos el intento de checkout
+  (function () {
+    try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+  })();
 </script>
 
 </body>
