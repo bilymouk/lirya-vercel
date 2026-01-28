@@ -717,6 +717,49 @@
         border-radius:18px;
       }
     }
+    /* ===== TOP STRIP (una línea fina) ===== */
+.top-strip{
+  position:relative;
+  z-index:1100;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 12px;
+
+  background:rgba(212,180,131,.18);
+  border-bottom:1px solid rgba(0,0,0,.06);
+
+  font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size:.82rem;
+  color:rgba(0,0,0,.78);
+
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.top-strip__text b{
+  color:rgba(0,0,0,.9);
+  font-weight:700;
+}
+
+.top-strip__dot{
+  width:6px;
+  height:6px;
+  border-radius:999px;
+  background:var(--orange);
+  box-shadow:0 0 0 3px rgba(255,138,42,.22);
+  flex:0 0 auto;
+}
+
+/* Móvil: aún más compacto */
+@media (max-width:900px){
+  .top-strip{
+    height:28px;
+    font-size:.76rem;
+  }
+}
   </style>
 
   <!-- ===== META PIXEL (NO PageView aquí: lo disparamos con eventID en el script de abajo para dedupe con CAPI) ===== -->
@@ -741,6 +784,14 @@
 </head>
 
 <body>
+  
+<!-- ===== TOP STRIP ===== -->
+<div class="top-strip" id="top-strip" role="status" aria-live="polite">
+  <span class="top-strip__dot" aria-hidden="true"></span>
+  <span class="top-strip__text">
+    <b>800+ canciones entregadas</b> · Entrega garantizada antes del 14 de febrero
+  </span>
+</div>
 
 <header>
   <div class="header-container">
@@ -4864,6 +4915,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
