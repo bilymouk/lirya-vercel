@@ -3836,7 +3836,7 @@ processingPayment = true;
       if (!j.url) throw new Error("Stripe no devolvió URL");
 
      // NO lo borres aquí. Lo usamos en success para dedupe/seguridad.
-    try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+    // try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
 
 
       window.location.href = j.url;
@@ -5084,6 +5084,7 @@ processingPayment = true;
 </div>
   </div>
 </section>
+
 
 
 
