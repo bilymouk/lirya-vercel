@@ -2858,7 +2858,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
           <button class="dropdown-btn" id="tarifa-btn" type="button"
             data-required data-placeholder="1" data-hidden="tarifa-hidden"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="tarifa-menu">
-            <span class="dd-value">Selecciona una tarifa</span><span class="dd-caret" aria-hidden="true">▾</span>
+            <span class="dd-value" id="tarifa-dd-value">Selecciona una tarifa</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
           <div class="dropdown-menu" id="tarifa-menu" role="listbox">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="39" data-tarifa="39">39€ — Estándar</div>
@@ -3637,6 +3637,55 @@ window.addEventListener("scroll", onScroll, { passive: true });
     }
   });
 })();
+</script>
+</script>
+
+<!-- Preselección de tarifa en formulario -->
+<script>
+  (function () {
+    document.addEventListener("click", function (e) {
+      const a = e.target.closest("a.tarifa-cta[data-tarifa]");
+      if (!a) return;
+
+      const tarifa = (a.getAttribute("data-tarifa") || "").trim();
+      if (!tarifa) return;
+
+      try { sessionStorage.setItem("lirya_pref_tarifa", tarifa); } catch(_) {}
+    }, true);
+
+    function applyTarifaIfAny(){
+      let tarifa = "";
+      try { tarifa = sessionStorage.getItem("lirya_pref_tarifa") || ""; } catch(_) {}
+      tarifa = (tarifa || "").trim();
+      if (!tarifa) return;
+
+      const hidden = document.getElementById("tarifa-hidden");
+      const btn = document.getElementById("tarifa-btn");
+      const valueSpan = document.getElementById("tarifa-dd-value");
+
+      if (!hidden || !btn || !valueSpan) return;
+
+      hidden.value = tarifa;
+
+      const label = tarifa === "39" ? "39€ — Estándar"
+                  : tarifa === "59" ? "59€ — Emocional"
+                  : tarifa === "79" ? "79€ — Prioritaria"
+                  : (tarifa + "€");
+
+      valueSpan.textContent = label;
+      btn.classList.add("selected");
+
+      try { sessionStorage.removeItem("lirya_pref_tarifa"); } catch(_) {}
+
+      try {
+        const form = document.getElementById("lirya-form");
+        if (form) form.dispatchEvent(new Event("input", { bubbles: true }));
+      } catch(_) {}
+    }
+
+    applyTarifaIfAny();
+    window.addEventListener("load", applyTarifaIfAny);
+  })();
 </script>
 
 </section>
@@ -4724,6 +4773,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
