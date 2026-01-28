@@ -388,13 +388,12 @@
   }
 
   // ✅ Evento recomendado en cancel: InitiateCheckout (para retargeting/optimización)
-  once("lirya_cancel_initiatecheckout", () => {
-    track("InitiateCheckout", {
-      content_name: "Stripe Checkout (Cancel)",
-      page_type: "cancel",
-      source_page: location.pathname
-    });
+ once("lirya_checkout_canceled", () => {
+  track("CheckoutCanceled", {
+    page_type: "cancel",
+    source_page: location.pathname
   });
+});
 
 })();
 </script>
