@@ -3886,6 +3886,7 @@ root.addEventListener("click", (e) => {
       event_id: checkoutEventId || "",
       fbp: fbp || "",
       fbc: fbc || "",
+      event_source_url: (window.location.origin + "/success.html"),
     };
 
     try {
@@ -3933,8 +3934,19 @@ root.addEventListener("click", (e) => {
 
 
       if (j.url) {
-        setTimeout(() => { window.location.href = j.url; }, 150);
-      } else {
+  try {
+    // 🔥 LIMPIEZA CRÍTICA antes de salir a Stripe
+    sessionStorage.removeItem("lirya_initiate_checkout");
+    sessionStorage.removeItem("lirya_add_payment_info");
+    sessionStorage.removeItem("lirya_add_payment_event_id"); 
+  } catch (_) {}
+
+  setTimeout(() => {
+    processingPayment = false;
+    window.location.href = j.url;
+  }, 150);
+}
+        else {
         throw new Error("Stripe no devolvió URL");
       }
     } catch (err) {
@@ -3994,13 +4006,9 @@ root.addEventListener("click", (e) => {
 
       try { sessionStorage.removeItem("lirya_pref_tarifa"); } catch(_) {}
 
-      try {
-        const form = document.getElementById("lirya-form");
-        if (form) form.dispatchEvent(new Event("input", { bubbles: true }));
-      } catch(_) {}
-    
+       
       setTimeout(() => {
-      try {
+    try {
     const form = document.getElementById("lirya-form");
     if (form) form.dispatchEvent(new Event("input", { bubbles: true }));
     } catch(_) {}
@@ -5154,6 +5162,7 @@ root.addEventListener("click", (e) => {
 </div>
   </div>
 </section>
+
 
 
 
