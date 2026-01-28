@@ -4072,7 +4072,7 @@ root.addEventListener("click", (e) => {
   tabindex="0"
   data-carousel
 >
-         <a class="reaction-card" href="/reacciones/yolanda.html"
+<a class="reaction-card" href="/reacciones/yolanda.html"
          aria-label="Ver reacción completa de Yolanda"
          data-cta="reaccion" data-persona="yolanda">
         <div class="reaction-media">
@@ -4417,6 +4417,11 @@ root.addEventListener("click", (e) => {
   background:#000;
   overflow:hidden;
 }
+  .reaction-media,
+.reaction-content{
+  position:relative;
+  z-index:1;
+}
 
 /* Imagen */
 .reaction-media img{
@@ -4476,10 +4481,9 @@ root.addEventListener("click", (e) => {
   }
 }
 
-/* ===== CORTAFUEGOS ANTI “PLAY” GLOBAL =====
-  
+/* ===== CORTAFUEGOS ANTI “PLAY” GLOBAL ===== */
 .lirya-reactions .reaction-card *{
- pointer-events:none; /* todo lo decorativo no recibe click */
+  pointer-events:none; /* todo lo decorativo no recibe click */
 }
 .lirya-reactions .reaction-card{
   pointer-events:auto; /* el <a> sí es clicable */
@@ -4624,8 +4628,12 @@ root.addEventListener("click", (e) => {
   .reaction-media{
     height:420px;
   }
+  
+   .tap-pill{
+    font-size:13px;
+    padding:11px 14px;
+  }
 
-  /* 🔥 OCULTAMOS FLECHAS EN MÓVIL */
   .carousel-nav{
     display:none;
   }
@@ -5181,6 +5189,7 @@ root.addEventListener("click", (e) => {
 </div>
   </div>
 </section>
+
 
 
 
