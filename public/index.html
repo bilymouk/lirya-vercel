@@ -945,7 +945,7 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     timeOk = true;
     maybeShow();
-  }, 20000);
+  }, 15000);
 });
 
 // 2) Condición scroll (>= 50%)
@@ -969,7 +969,7 @@ function maybeShow(){
   if (timeOk && scrollOk){
     shown = true;
     showCard();
-    window.removeEventListener("scroll", onScroll, { passive: true });
+    window.removeEventListener("scroll", onScroll, passiveScrollOpts);
   }
 }
 
@@ -979,8 +979,9 @@ function onScroll(){
 }
 
 // Inicializa estado y escucha scroll
+const passiveScrollOpts = { passive: true };
 updateScrollOk();
-window.addEventListener("scroll", onScroll, { passive: true });
+window.addEventListener("scroll", onScroll, passiveScrollOpts);
 
 
   if (ctaBtn) ctaBtn.addEventListener("click", hideCard);
@@ -4827,6 +4828,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
