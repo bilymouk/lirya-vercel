@@ -1181,14 +1181,13 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
   const FORM_ID = "formulario-lirya";
 
   // ========= helpers =========
-  const once = (key, fn) => {
-    try {
-      if (sessionStorage.getItem(key)) return;
-      sessionStorage.setItem(key, "1");
-     } catch (_e) {
-      fn();
-    }
-  };
+const once = (key, fn) => {
+  try {
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch (_e) {}
+  fn();
+};
 
   const getCookie = (name) => {
     const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
@@ -1339,10 +1338,7 @@ window.LIRYA_PURCHASE = function(data){
   // ========= 0) PAGEVIEW =========
   // Nota: NO lo dispares en el script del Pixel. Aquí lo hacemos con eventID para dedupe con CAPI.
   once("lirya_pageview", () => {
-    trackEvent("PageView", {
-      page_path: location.pathname,
-      page_title: document.title,
-    });
+    trackEvent("PageView", {});
   });
 
   // ========= 1) START FORM (click CTA a formulario) =========
@@ -1365,7 +1361,7 @@ window.LIRYA_PURCHASE = function(data){
 
     if (!isFormCta) return;
 
-    trackEvent("StartForm", {
+   trackEvent("Lead", {
   content_name: "CTA -> Formulario",
   button_text: btnText,
   destination: FORM_HASH,
@@ -3844,7 +3840,7 @@ once("lirya_initiatecheckout_" + checkoutEventId, () => {
       event_id: checkoutEventId,
       fbp: fbpCookie,
       fbc: fbcCookie,
-      event_source_url: (window.location.origin + "/success.html"),
+      event_source_url: window.location.href,
     };
 
     try {
@@ -5108,6 +5104,7 @@ once("lirya_initiatecheckout_" + checkoutEventId, () => {
 </div>
   </div>
 </section>
+
 
 
 
