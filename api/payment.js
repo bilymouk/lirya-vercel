@@ -1,8 +1,19 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
+const ALLOWED_ORIGINS = [
+  "https://lirya.com",
+  "https://www.lirya.com",
+  ];
+  
 module.exports = async (req, res) => {
   // --- 1. CONFIGURACIÓN CORS ---
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const origin = req.headers.origin;
+
+if (ALLOWED_ORIGINS.includes(origin)) {
+  res.setHeader("Access-Control-Allow-Origin", origin);
+}
+  
+  res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
