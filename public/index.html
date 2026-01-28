@@ -352,6 +352,7 @@
     }
     .hero-phone-wrap--desktop{ animation:floatPhoneDesktop 5s ease-in-out infinite; }
     .hero-phone-wrap--mobile{ animation:floatPhoneMobile 5s ease-in-out infinite; }
+    .hero-phone-wrap{ position:relative; z-index:3; }
 
     .hero-phone-wrap--desktop{
       --play-left: 44.3%;
@@ -970,7 +971,8 @@
   width="360"
   height="720"
   decoding="async"
-  loading="lazy"
+  loading="eager"
+  fetchpriority="high"        
 />
 
         <button
@@ -1104,7 +1106,7 @@ let scrollOk = false;
 let shown = false;
 
 // 1) Condición tiempo (15s)
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     timeOk = true;
     maybeShow();
@@ -5066,6 +5068,7 @@ root.addEventListener("click", (e) => {
 </div>
   </div>
 </section>
+
 
 
 
