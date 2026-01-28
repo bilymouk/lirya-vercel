@@ -2,8 +2,19 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+const ALLOWED_ORIGINS = [
+  "https://lirya.com",
+  "https://www.lirya.com",
+];
+
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+
+  const origin = req.headers.origin;
+
+if (ALLOWED_ORIGINS.includes(origin)) {
+  res.setHeader("Access-Control-Allow-Origin", origin);
+}
+
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Cache-Control", "no-store");
