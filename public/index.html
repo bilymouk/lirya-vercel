@@ -3901,29 +3901,36 @@ root.addEventListener("click", (e) => {
 
       // AddPaymentInfo (antes del redirect)
       onceSession("lirya_add_payment_info", () => {
-        const eventId = newEventId();
-        const value = getTarifa();
+  // ✅ event_id fijo para AddPaymentInfo (dedupe perfecto Pixel + CAPI)
+  let addPaymentEventId = sessionStorage.getItem("lirya_add_payment_event_id") || "";
+  if (!addPaymentEventId) {
+    addPaymentEventId = newEventId();
+    sessionStorage.setItem("lirya_add_payment_event_id", addPaymentEventId);
+  }
 
-        trackPixel("AddPaymentInfo", {
-          content_name: "Stripe Checkout",
-          currency: "EUR",
-          ...(value ? { value } : {})
-        }, eventId);
+  const value = getTarifa();
 
-        sendCapiEvent({
-          event_name: "AddPaymentInfo",
-          event_id: eventId,
-          event_source_url: window.location.href,
-          fbp: fbp || undefined,
-          fbc: fbc || undefined,
-          custom_data: {
-            content_name: "Stripe Checkout",
-            currency: "EUR",
-            ...(value ? { value } : {})
-          },
-          ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
-        });
-      });
+  trackPixel("AddPaymentInfo", {
+    content_name: "Stripe Checkout",
+    currency: "EUR",
+    ...(value ? { value } : {})
+  }, addPaymentEventId);
+
+  sendCapiEvent({
+    event_name: "AddPaymentInfo",
+    event_id: addPaymentEventId,
+    event_source_url: window.location.href,
+    fbp: fbp || undefined,
+    fbc: fbc || undefined,
+    custom_data: {
+      content_name: "Stripe Checkout",
+      currency: "EUR",
+      ...(value ? { value } : {})
+    },
+    ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+  });
+});
+
 
       if (j.url) {
         setTimeout(() => { window.location.href = j.url; }, 150);
@@ -5147,6 +5154,7 @@ root.addEventListener("click", (e) => {
 </div>
   </div>
 </section>
+
 
 
 
