@@ -717,7 +717,7 @@
         border-radius:18px;
       }
     }
-    /* ===== TOP STRIP (una línea fina) ===== */
+   /* ===== TOP STRIP (responsive inteligente) ===== */
 .top-strip{
   position:relative;
   z-index:1100;
@@ -725,7 +725,7 @@
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
+  gap:6px;
   padding:0 12px;
 
   background:rgba(212,180,131,.18);
@@ -739,9 +739,13 @@
   overflow:hidden;
 }
 
-.top-strip__text b{
+.top-strip__item b{
   color:rgba(0,0,0,.9);
   font-weight:700;
+}
+
+.top-strip__sep{
+  opacity:.5;
 }
 
 .top-strip__dot{
@@ -753,12 +757,19 @@
   flex:0 0 auto;
 }
 
-/* Móvil: aún más compacto */
+/* Por defecto: desktop visible */
+.top-strip--mobile{ display:none; }
+.top-strip--desktop{ display:inline; }
+
+/* ===== MÓVIL ===== */
 @media (max-width:900px){
   .top-strip{
     height:28px;
     font-size:.76rem;
   }
+
+  .top-strip--desktop{ display:none; }
+  .top-strip--mobile{ display:inline; }
 }
   </style>
 
@@ -786,10 +797,29 @@
 <body>
   
 <!-- ===== TOP STRIP ===== -->
-<div class="top-strip" id="top-strip" role="status" aria-live="polite">
+<div class="top-strip" role="status" aria-live="polite">
   <span class="top-strip__dot" aria-hidden="true"></span>
-  <span class="top-strip__text">
-    <b>800+ canciones entregadas</b> · Entrega garantizada antes del 14 de febrero
+
+  <span class="top-strip__item">
+    <b>800+ canciones entregadas</b>
+  </span>
+
+  <span class="top-strip__sep">·</span>
+
+  <span class="top-strip__item top-strip--desktop">
+    Entrega garantizada antes del 14 de febrero
+  </span>
+
+  <span class="top-strip__sep top-strip--desktop">·</span>
+
+  <span class="top-strip__item top-strip--desktop">
+    Revisión incluida
+  </span>
+
+  <span class="top-strip__sep top-strip--mobile">·</span>
+
+  <span class="top-strip__item top-strip--mobile">
+    Pago seguro
   </span>
 </div>
 
@@ -4915,6 +4945,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
