@@ -3714,27 +3714,28 @@ root.addEventListener("click", (e) => {
     if (!e.target.closest(".dropdown")) closeAllMenus();
   });
 
+    // Exponer helpers para otros scripts (pago, etc.)
+  window.validateStep = validateStep;
+  window.goToStep = goToStep;
+  window.clearErrors = clearErrors;
+  window.showStepError = showStepError;
+  
   render();
+  })();
+</script>
 
 <script>
+/* ===================== PAGO (STRIPE) — SOLO WEBHOOK ===================== */
 (function () {
-  if (window.__liryaFormInit) return;
-  window.__liryaFormInit = true;
+  if (window.__liryaPaymentInit) return;
+  window.__liryaPaymentInit = true;
 
   const root = document.getElementById("formulario-lirya");
   if (!root) return;
 
-  const form = root.querySelector("#lirya-form");
-  const steps = Array.from(root.querySelectorAll(".step"));
-  const progress = root.querySelector("#progress");
-  const live = root.querySelector("#lirya-live");
-
-  let i = 0;
-
-  // ... (AQUÍ va TODO tu código de steps/validación/dropdowns tal cual lo tienes, NO lo toco)
-
-  /* ===================== PAGO (STRIPE) — SOLO WEBHOOK ===================== */
   const submitBtn = root.querySelector(".submit");
+  if (!submitBtn) return;
+
   let processingPayment = false;
 
   const newEventId = () => {
@@ -3752,12 +3753,24 @@ root.addEventListener("click", (e) => {
     return el ? String(el.value || "").trim() : "";
   }
 
-  submitBtn.addEventListener("click", async () => {
-    // valida paso 6
-    if (!validateStep(true)) return;
+    const safeValidateStep = (showUI) => {
+    try { return typeof window.validateStep === "function" ? window.validateStep(showUI) : true; } catch(_) { return true; }
+  };
+  const safeGoToStep = (n) => { try { if (typeof window.goToStep === "function") window.goToStep(n); } catch(_) {} };
+  const safeClearErrors = (stepEl) => { try { if (typeof window.clearErrors === "function") window.clearErrors(stepEl); } catch(_) {} };
+  const safeShowStepError = (stepEl, msg) => { try { if (typeof window.showStepError === "function") window.showStepError(stepEl, msg); } catch(_) {} };
 
-    if (processingPayment) return;
-    processingPayment = true;
+  submitBtn.addEventListener("click", async () => {
+    
+   if (processingPayment) return;
+
+if (!safeValidateStep(true)) {
+ 
+  submitBtn.disabled = false;
+  return;
+}
+
+processingPayment = true;
 
     // event_id estable por intento
     let checkoutEventId = "";
@@ -3803,7 +3816,7 @@ root.addEventListener("click", (e) => {
       whatsapp: val("whatsapp-hidden"),
       phone: val("phone"),
 
-      // ✅ lo único importante para dedupe/matching en webhook
+      // dedupe / matching
       event_id: checkoutEventId,
       fbp: fbpCookie,
       fbc: fbcCookie,
@@ -3822,8 +3835,9 @@ root.addEventListener("click", (e) => {
       const j = await r.json();
       if (!j.url) throw new Error("Stripe no devolvió URL");
 
-      // opcional: liberar el event id porque ya “salimos” a Stripe
-      try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+     // NO lo borres aquí. Lo usamos en success para dedupe/seguridad.
+    try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+
 
       window.location.href = j.url;
 
@@ -3831,11 +3845,13 @@ root.addEventListener("click", (e) => {
       console.error(err);
 
       // volvemos a paso 6 y mostramos error
-      goToStep(6);
+      safeGoToStep(6);
 
-      const step6 = steps[5];
-      clearErrors(step6);
-      showStepError(step6, "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.");
+      const step6 = root.querySelector('.step[data-step="6"]') || null;
+      if (step6) {
+        safeClearErrors(step6);
+        safeShowStepError(step6, "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.");
+      }
 
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
@@ -5068,6 +5084,7 @@ root.addEventListener("click", (e) => {
 </div>
   </div>
 </section>
+
 
 
 
