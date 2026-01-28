@@ -1,4 +1,3 @@
-quiero que mi boton cta de abajo ponga crear mi cancion personalizada , ademas debajo pero dentro del cta quiero que ponga ⭐ 800+ personas ya lo hicieron estilo elegante estrella elegante mismo color que mi logo lirya. aqui te dejp el codigo:
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -283,6 +282,40 @@ quiero que mi boton cta de abajo ponga crear mi cancion personalizada , ademas d
       transition:background .2s ease, transform .2s ease;
     }
     .hero-btn:hover{ background:var(--orange-hover); transform:translateY(-1px); }
+/* ===== HERO CTA (2 líneas dentro del botón) ===== */
+.hero-btn.hero-btn--stack{
+  flex-direction:column;
+  gap:6px;
+  /* NO cambiamos el padding original del botón para no tocar layout */
+  text-align:center;
+}
+
+.hero-btn__main{
+  font-weight:800;         /* más gordo */
+  line-height:1.05;
+}
+
+.hero-btn__sub{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+
+  font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size:.74rem;        /* más pequeño */
+  font-weight:500;
+  letter-spacing:.15px;
+
+  color:rgba(255,255,255,.88);
+}
+
+.hero-btn__star{
+  color: var(--gold);      /* dorado del logo */
+  text-shadow:
+    0 0 6px rgba(212,180,131,.35),
+    0 0 14px rgba(212,180,131,.25);
+  transform: translateY(-.5px);
+}
 
     .hero-note{
       display:block;
@@ -882,7 +915,11 @@ quiero que mi boton cta de abajo ponga crear mi cancion personalizada , ademas d
   Escrita con vuestra historia, para emocionarle de verdad.
 </p>
 
-        <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
+        <a href="#formulario-lirya" class="hero-btn hero-btn--stack">
+  <span class="hero-btn__main">Crear mi canción personalizada</span>
+  <span class="hero-btn__sub"><span class="hero-btn__star" aria-hidden="true">⭐</span> 800+ personas ya lo hicieron</span>
+</a>
+
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
         <span class="hero-note hero-note--stack hero-note--highlight">
   Entrega garantizada antes del 14 de febrero
@@ -953,7 +990,11 @@ quiero que mi boton cta de abajo ponga crear mi cancion personalizada , ademas d
         <li class="hero-note--highlight">Entrega garantizada antes del 14 de febrero</li>
       </ul>
 
-      <a href="#formulario-lirya" class="hero-btn">Crear mi canción</a>
+      <a href="#formulario-lirya" class="hero-btn hero-btn--stack">
+  <span class="hero-btn__main">Crear mi canción personalizada</span>
+  <span class="hero-btn__sub"><span class="hero-btn__star" aria-hidden="true">⭐</span> 800+ personas ya lo hicieron</span>
+</a>
+
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
     </div>
 
@@ -4941,6 +4982,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
