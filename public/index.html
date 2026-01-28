@@ -1185,8 +1185,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
     try {
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, "1");
-      fn();
-    } catch (_e) {
+     } catch (_e) {
       fn();
     }
   };
@@ -3747,6 +3746,14 @@ root.addEventListener("click", (e) => {
     const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
     return m ? decodeURIComponent(m[1]) : "";
   };
+  
+const once = (key, fn) => {
+  try {
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch(_) {}
+  fn();
+};
 
   function val(id){
     const el = root.querySelector("#" + CSS.escape(id));
@@ -3780,6 +3787,25 @@ processingPayment = true;
       checkoutEventId = newEventId();
       try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
     }
+    
+    // ===== INITIATECHECKOUT (Pixel + CAPI) con event_id estable =====
+once("lirya_initiatecheckout_" + checkoutEventId, () => {
+  const tarifa = Number(val("tarifa-hidden") || 0);
+
+  if (typeof window.LIRYA_TRACK === "function") {
+    window.LIRYA_TRACK(
+      "InitiateCheckout",
+      {
+        currency: "EUR",
+        value: tarifa,
+        content_name: "Canción personalizada",
+        content_type: "product",
+        plan: tarifa ? String(tarifa) : undefined,
+      },
+      { eventId: checkoutEventId } // 
+    );
+  }
+});
 
     // solo leer cookies si existen (no inventar)
     const fbpCookie = readCookie("_fbp");
@@ -5084,6 +5110,7 @@ processingPayment = true;
 </div>
   </div>
 </section>
+
 
 
 
