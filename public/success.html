@@ -341,6 +341,12 @@ try {
     if (!r.ok) throw new Error("No se pudo leer checkout-session");
 
     const data = await r.json();
+    
+    // 🔒 GUARD CRÍTICO: solo disparamos Purchase si Stripe dice PAID
+  if (data.payment_status !== "paid") {
+  log("Pago no completado, no disparamos Purchase:", data.payment_status);
+  return;
+ }
 
     const currency = (data.currency || "EUR").toUpperCase();
     const value = Number(data.value || 0);
