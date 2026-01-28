@@ -110,8 +110,6 @@
 }
 </script>
 
-  </script>
-
   <style>
     :root{
       --gold:#d4b483;
@@ -780,6 +778,7 @@
   <img
     src="/cascos-neon.avif"
     alt=""
+    aria-hidden="true"
     class="hero-bg"
     width="1600"
     height="900"
@@ -867,7 +866,7 @@
           aria-label="Reproducir o pausar ejemplo"
           aria-pressed="false"
         >
-          <img src="/boton.png" alt="">
+          <img src="/boton.png" alt="" aria-hidden="true">
         </button>
       </div>
 
@@ -961,12 +960,12 @@
 
   if (closeBtn) closeBtn.addEventListener("click", hideCard);
 
- // ===== Mostrar urgencia SOLO si: han pasado 20s Y scroll >= 50% =====
+ // ===== Mostrar urgencia SOLO si: han pasado 15s Y scroll >= 50% =====
 let timeOk = false;
 let scrollOk = false;
 let shown = false;
 
-// 1) Condición tiempo (20s)
+// 1) Condición tiempo (15s)
 window.addEventListener("load", () => {
   setTimeout(() => {
     timeOk = true;
@@ -4865,6 +4864,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
