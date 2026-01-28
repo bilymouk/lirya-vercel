@@ -1018,26 +1018,33 @@
     });
   }
 
-  function toggleAudioFromOverlay(){
-    if (audio.paused) {
-      audio.play().then(() => setOverlayState(true)).catch(() => setOverlayState(false));
-      return;
-    }
-    audio.pause();
-    setOverlayState(false);
-  }
+function isActuallyVisible(el){
+  return !!(el && (el.offsetWidth || el.offsetHeight || el.getClientRects().length));
+}
 
-  function onKeyToggle(e){
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      toggleAudioFromOverlay();
-    }
-  }
+function toggleAudioFromOverlay(e){
+  const btn = e?.currentTarget;
+  if (btn && !isActuallyVisible(btn)) return; // evita overlay oculto/control fantasma
 
-  overlayButtons.forEach(btn => {
-    btn.addEventListener("click", toggleAudioFromOverlay);
-    btn.addEventListener("keydown", onKeyToggle);
-  });
+  if (audio.paused) {
+    audio.play().then(() => setOverlayState(true)).catch(() => setOverlayState(false));
+    return;
+  }
+  audio.pause();
+  setOverlayState(false);
+}
+
+function onKeyToggle(e){
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    toggleAudioFromOverlay(e);
+  }
+}
+
+ overlayButtons.forEach(btn => {
+  btn.addEventListener("click", (e) => toggleAudioFromOverlay(e));
+  btn.addEventListener("keydown", onKeyToggle);
+});
 
   audio.addEventListener("ended", () => setOverlayState(false));
   audio.addEventListener("pause", () => setOverlayState(false));
@@ -1047,17 +1054,26 @@
   const closeBtn = document.getElementById("urgency-close");
   const ctaBtn = document.getElementById("urgency-cta");
 
-  const STORAGE_KEY = "lirya_urgency_hidden_until";
-  const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
+const STORAGE_KEY = "lirya_urgency_hidden_until";
+const SESSION_KEY = "lirya_urgency_shown_session";
+const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
 
-  function canShowCard(){
-    try{
-      const until = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
-      return !until || Date.now() > until;
-    }catch(_e){
-      return true;
-    }
+function canShowCard(){
+  // 1) si hay bloqueo por 12h en localStorage, no mostrar
+  try{
+    const until = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
+    if (until && Date.now() <= until) return false;
+  }catch(_e){
+    // localStorage puede fallar (Safari privado). No hacemos return true aquí.
   }
+
+  // 2) fallback: si ya se mostró esta sesión, no mostrar
+  try{
+    if (sessionStorage.getItem(SESSION_KEY)) return false;
+  }catch(_e2){}
+
+  return true;
+}
 
   function setHiddenFor12h(){
     try{
@@ -1065,10 +1081,14 @@
     }catch(_e){}
   }
 
-  function showCard(){
-    if (!card) return;
-    card.classList.add("is-visible");
-  }
+ function showCard(){
+  if (!card) return;
+
+  // marcamos mostrado en sesión (para Safari privado / bloqueos)
+  try{ sessionStorage.setItem(SESSION_KEY, "1"); }catch(_e){}
+
+  card.classList.add("is-visible");
+}
 
   function hideCard(){
     if (!card) return;
@@ -5038,6 +5058,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
