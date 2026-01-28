@@ -191,7 +191,7 @@
   content:"";
   position:absolute;
   inset:0;
-  z-index:1;              /* ✅ ESTO ES LO QUE TE FALTA */
+  z-index:1;              
   pointer-events:none; 
   background:
     linear-gradient(
@@ -896,8 +896,7 @@
   width="1600"
   height="900"
   decoding="async"
-  fetchpriority="high"
-  loading="eager"
+    loading="eager"
 >
   <div class="hero-inner">
 
@@ -1241,6 +1240,21 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
   const url = "/api/meta-capi";
   const payload = JSON.stringify(body);
 
+  // 1) Prefer beacon (mejor en cierres / iOS / Safari)
+  try {
+    if (navigator.sendBeacon) {
+      const blob = new Blob([payload], { type: "application/json" });
+      const ok = navigator.sendBeacon(url, blob);
+      if (ok) {
+        log("CAPI sendBeacon OK");
+        return true;
+      }
+    }
+  } catch (e) {
+    log("CAPI sendBeacon error", e);
+  }
+
+  // 2) fallback fetch
   try {
     const res = await fetch(url, {
       method: "POST",
@@ -1256,22 +1270,10 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
     return res.ok;
   } catch (e) {
     log("CAPI fetch error", e);
-
-    // Fallback: sendBeacon (mejor en cierres de pestaña / Safari)
-    try {
-      if (navigator.sendBeacon) {
-        const blob = new Blob([payload], { type: "application/json" });
-        const ok = navigator.sendBeacon(url, blob);
-        log("CAPI sendBeacon", ok ? "OK" : "FAIL");
-        return ok;
-      }
-    } catch (e2) {
-      log("CAPI sendBeacon error", e2);
-    }
-
     return false;
   }
 }
+
   function trackEvent(eventName, customData = {}, opts = {}) {
     const eventId = opts.eventId || newEventId();
 
@@ -1463,6 +1465,7 @@ window.LIRYA_PURCHASE = function(data){
 
 </body>
 </html>
+
 <!-- =================================
    POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
    (MISMOS ESTILOS QUE "CÓMO FUNCIONA" + TODAS IGUALES)
@@ -5083,6 +5086,7 @@ window.LIRYA_PURCHASE = function(data){
 </div>
   </div>
 </section>
+
 
 
 
