@@ -1122,15 +1122,26 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
     }
 
     // CAPI (siempre)
-    const capiBody = {
-      event_name: eventName,
-      event_id: eventId,
-      event_source_url: window.location.href,
-      fbp: FBP || undefined,
-      fbc: FBC || undefined,
-      custom_data: customData,
-      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
-    };
+  const capiBody = {
+  event_name: eventName,
+  event_time: Math.floor(Date.now() / 1000),
+  event_id: eventId,
+  event_source_url: window.location.href,
+  action_source: "website",
+
+  // compat: por si tu backend lee esto en raíz
+  fbp: FBP || undefined,
+  fbc: FBC || undefined,
+
+  user_data: {
+    fbp: FBP || undefined,
+    fbc: FBC || undefined,
+    client_user_agent: navigator.userAgent || undefined,
+  },
+
+  custom_data: customData,
+  ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+};
 
     sendCapiEvent(capiBody);
     return eventId;
@@ -4828,6 +4839,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
