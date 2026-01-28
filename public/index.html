@@ -1312,6 +1312,11 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
     sendCapiEvent(capiBody);
     return eventId;
   }
+  
+  // ===== Exponer tracker global para disparar eventos desde cualquier parte =====
+window.LIRYA_TRACK = function(eventName, customData, opts){
+  return trackEvent(eventName, customData || {}, opts || {});
+};
 
   // ========= 0) PAGEVIEW =========
   // Nota: NO lo dispares en el script del Pixel. Aquí lo hacemos con eventID para dedupe con CAPI.
@@ -5061,6 +5066,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
