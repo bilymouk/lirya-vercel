@@ -205,7 +205,7 @@
   'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '893462606511287');
   fbq('set', 'autoConfig', 'false', '893462606511287');
-  fbq('track', 'PageView');
+
   </script>
 </head>
 
@@ -261,6 +261,57 @@
 <script>
   const sid = new URLSearchParams(location.search).get("session_id");
   if (sid) document.getElementById("sessionId").textContent = "ID de sesión: " + sid;
+</script>
+  <script>
+(async function () {
+  const sid = new URLSearchParams(location.search).get("session_id");
+  if (!sid) return;
+
+  // evita doble disparo si refrescan
+  const key = "lirya_purchase_pixel_" + sid;
+  try { if (sessionStorage.getItem(key)) return; } catch(_) {}
+
+  try {
+    const r = await fetch("/api/checkout-session?session_id=" + encodeURIComponent(sid), {
+      method: "GET",
+      headers: { "Accept": "application/json" },
+      cache: "no-store"
+    });
+
+    if (!r.ok) return;
+    const j = await r.json();
+
+    // Solo si está pagado
+    if (String(j.payment_status || "").toLowerCase() !== "paid") return;
+
+    const value = Number(j.value || 0);
+    const currency = (j.currency || "EUR").toUpperCase();
+
+    // event_id para dedupe con CAPI webhook:
+    // - si tu metadata trae event_id (lo ideal), usamos ese
+    // - si no, uno estable
+    const eventId = (j.metadata && j.metadata.event_id) ? String(j.metadata.event_id) : ("purchase_" + sid);
+
+    // Marca como disparado
+    try { sessionStorage.setItem(key, "1"); } catch(_) {}
+
+    // Pixel Purchase (si existe)
+    if (typeof window.fbq === "function") {
+      window.fbq("track", "Purchase",
+        {
+          currency: currency,
+          value: value,
+          content_name: "Canción personalizada",
+          content_type: "product",
+          plan: (j.metadata && j.metadata.tarifa) ? String(j.metadata.tarifa) : undefined,
+        },
+        { eventID: eventId } // ✅ dedupe con CAPI webhook
+      );
+    }
+  } catch (e) {
+    // silencioso
+  }
+})();
 </script>
 
 </body>
