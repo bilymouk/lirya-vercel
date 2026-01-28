@@ -263,26 +263,5 @@
   if (sid) document.getElementById("sessionId").textContent = "ID de sesión: " + sid;
 </script>
 
-  <script>
-(async function () {
-  const sid = new URLSearchParams(location.search).get("session_id");
-  if (!sid) return;
-
-  try {
-    const r = await fetch("/api/checkout-session?session_id=" + encodeURIComponent(sid));
-    if (!r.ok) return;
-
-    const data = await r.json();
-    if (data.payment_status !== "paid") {
-      // Si quieres ser estricto, redirige a cancel:
-      // window.location.href = "/cancel.html";
-      // O muestra un aviso suave:
-      const el = document.querySelector(".success-message");
-      if (el) el.innerHTML = "Tu pago aún no aparece como confirmado. Si acabas de pagar, espera 1 minuto. Si no, vuelve a intentarlo.";
-    }
-  } catch (_) {}
-})();
-</script>
-
 </body>
 </html>
