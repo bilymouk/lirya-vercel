@@ -789,7 +789,7 @@
   font-weight:800;
 }
 
-.top-strip--desktop{ display:inline; }
+.top-strip--desktop{ display:inline-flex; }
 .top-strip--mobile{ display:none; }
 
 @media (max-width:900px){
@@ -798,7 +798,7 @@
     font-size:.76rem;
   }
   .top-strip--desktop{ display:none; }
-  .top-strip--mobile{ display:inline; }
+  .top-strip--mobile{ display:inline-flex; }
 }
 
   </style>
@@ -831,7 +831,7 @@
 
   <!-- DESKTOP -->
   <span class="top-strip__dot top-strip--desktop" aria-hidden="true"></span>
-  <span class="top-strip__item top-strip--desktop top-strip__highlight"><b>Regalo único</b></span>
+  <span class="top-strip__item top-strip--desktop top-strip__highlight">Regalo único</span>
   <span class="top-strip__sep top-strip--desktop">·</span>
   <span class="top-strip__item top-strip--desktop">800+ canciones entregadas</span>
   <span class="top-strip__sep top-strip--desktop">·</span>
@@ -4982,6 +4982,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
