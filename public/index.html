@@ -4065,14 +4065,14 @@ root.addEventListener("click", (e) => {
 
     <!-- ===== CARRUSEL ===== -->
     <div
-      class="lirya-reactions-carousel"
-      aria-label="Carrusel de reacciones reales"
-      role="region"
-      tabindex="0"
-      data-carousel
-    >
-
-      <a class="reaction-card" href="/reacciones/yolanda.html"
+  class="lirya-reactions-carousel"
+  role="region"
+  aria-roledescription="carrusel"
+  aria-label="Carrusel de reacciones reales"
+  tabindex="0"
+  data-carousel
+>
+         <a class="reaction-card" href="/reacciones/yolanda.html"
          aria-label="Ver reacción completa de Yolanda"
          data-cta="reaccion" data-persona="yolanda">
         <div class="reaction-media">
@@ -4477,11 +4477,12 @@ root.addEventListener("click", (e) => {
 }
 
 /* ===== CORTAFUEGOS ANTI “PLAY” GLOBAL =====
-   (IMPORTANTE: NO matamos .reaction-media::after porque es nuestro degradado)
-*/
-.lirya-reactions .reaction-card::before,
-.lirya-reactions .reaction-card::after{
-  content:none !important;
+  
+.lirya-reactions .reaction-card *{
+ pointer-events:none; /* todo lo decorativo no recibe click */
+}
+.lirya-reactions .reaction-card{
+  pointer-events:auto; /* el <a> sí es clicable */
 }
 
 /* Degradado controlado (YA NO se rompe) */
@@ -4495,6 +4496,19 @@ root.addEventListener("click", (e) => {
 
 /* Etiqueta discreta */
 .tap-pill{
+  position:absolute;
+  left:14px;
+  bottom:14px;
+  z-index:3;
+  padding:10px 12px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.38);
+  color:rgba(255,255,255,0.95);
+  font-size:12.5px;
+  font-family:"Playfair Display", serif;
+  letter-spacing:.1px;
+  backdrop-filter: blur(3px);
+  pointer-events:none; /* ✅ no intercepta click */
   display:flex;
   align-items:center;
   gap:8px;
@@ -4636,13 +4650,17 @@ root.addEventListener("click", (e) => {
 </style>
 
 <script>
+  
 /* Carrusel: botones prev/next (sin librerías) */
 (() => {
-  const carousel = document.querySelector('[data-carousel]');
+  const section = document.getElementById('reacciones');
+  if (!section) return;
+
+  const carousel = section.querySelector('[data-carousel]');
   if (!carousel) return;
 
-  const prev = document.querySelector('[data-carousel-prev]');
-  const next = document.querySelector('[data-carousel-next]');
+  const prev = section.querySelector('[data-carousel-prev]');
+  const next = section.querySelector('[data-carousel-next]');
 
   const getStep = () => {
     const firstCard = carousel.querySelector('.reaction-card');
@@ -4658,12 +4676,12 @@ root.addEventListener("click", (e) => {
   prev?.addEventListener('click', () => scrollByStep(-1));
   next?.addEventListener('click', () => scrollByStep(1));
 
-  /* Teclado: flechas izquierda/derecha cuando el carrusel está enfocado */
   carousel.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') { e.preventDefault(); scrollByStep(-1); }
     if (e.key === 'ArrowRight'){ e.preventDefault(); scrollByStep(1); }
   });
 })();
+
 </script>
 
  <!-- ===== GARANTÍA + MINI FAQ (CARDS + CARRUSEL MÓVIL) ===== -->
@@ -4933,6 +4951,7 @@ root.addEventListener("click", (e) => {
     Crear mi canción con tranquilidad
   </a>
 </section>
+
 <!-- ===== CIERRE FINAL / CONTACTO (MEJORADO + LEGAL) ===== -->
 <style>
 .lirya-final-section{
@@ -5162,6 +5181,7 @@ root.addEventListener("click", (e) => {
 </div>
   </div>
 </section>
+
 
 
 
