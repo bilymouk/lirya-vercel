@@ -1713,16 +1713,17 @@ window.LIRYA_PURCHASE = function(data){
 
 <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (OPCIÓN B PRO + 6 MEJORAS) ===== -->
 <style>
-  :root{
-    --lirya-gold: #d4b483;
-    --lirya-gold-2: #f2e7c9;
-    --lirya-orange: #ff9f3f;
-    --lirya-orange-2: #e58b2a;
-    --lirya-bg: rgba(5, 8, 25, 0.78);
-    --lirya-card-bg: rgba(0,0,0,0.35);
-    --lirya-border: rgba(255,255,255,0.45);
-    --lirya-shadow: 0 0 22px rgba(255,255,255,0.18);
-  }
+ .examples{
+  --lirya-gold: #d4b483;
+  --lirya-gold-2: #f2e7c9;
+  --lirya-orange: #ff9f3f;
+  --lirya-orange-2: #e58b2a;
+  --lirya-bg: rgba(5, 8, 25, 0.78);
+  --lirya-card-bg: rgba(0,0,0,0.35);
+  --lirya-border: rgba(255,255,255,0.45);
+  --lirya-shadow: 0 0 22px rgba(255,255,255,0.18);
+}
+
 
   .examples {
     position: relative;
@@ -2459,8 +2460,9 @@ window.LIRYA_PURCHASE = function(data){
 
     currentBtn = pendingBtn;
     const container = containerOf(currentBtn);
-
+ 
     container.classList.add('playing');
+    setPillText(container, 'Reproduciendo', false);
     container.classList.remove('loading');
     currentBtn.setAttribute('aria-busy','false');
 
@@ -2549,6 +2551,10 @@ window.LIRYA_PURCHASE = function(data){
 
     // Intentamos aplicar ya
     setTimeout(() => { applyTarifa(tarifa); }, 0);
+    setTimeout(() => {
+  const formEl = document.getElementById("formulario-lirya");
+  if (formEl) formEl.scrollIntoView({ behavior: "smooth", block: "start" });
+}, 50);
   }, true);
 
   // 2) Fallback: si ya hay tarifa guardada, aplicarla cuando el DOM esté listo
@@ -5089,6 +5095,7 @@ window.LIRYA_PURCHASE = function(data){
 </div>
   </div>
 </section>
+
 
 
 
