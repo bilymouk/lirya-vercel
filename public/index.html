@@ -3064,12 +3064,11 @@ window.LIRYA_PURCHASE = function(data){
   filter: none;
 }
 
-#formulario-lirya .next:disabled{
+#formulario-lirya .next[aria-disabled="true"]{
   cursor: not-allowed;
   opacity: .40;
   box-shadow: none;
 }
-
 
   #formulario-lirya .submit{
     background: linear-gradient(135deg, #3fbf64, #2f9e4f);
@@ -3151,7 +3150,7 @@ window.LIRYA_PURCHASE = function(data){
       </div>
 
       <div class="nav">
-    <button class="next" type="button" disabled>Seguir creando →</button>
+    <button class="next" type="button" aria-disabled="true">Seguir creando →</button>
      </div>
      <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
@@ -3199,7 +3198,8 @@ window.LIRYA_PURCHASE = function(data){
 
       <div class="nav">
         <button class="back" type="button">← Atrás</button>
-        <button class="next" type="button" disabled>Seguir creando →</button>
+        <button class="next" type="button" aria-disabled="true">Seguir creando →</button>
+
         </div>
         <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
@@ -3245,7 +3245,7 @@ window.LIRYA_PURCHASE = function(data){
 
       <div class="nav">
        <button class="back" type="button">← Atrás</button>
-       <button class="next" type="button" disabled>Seguir creando →</button>
+       <button class="next" type="button" aria-disabled="true">Seguir creando →</button>
      </div>
      <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
@@ -3341,7 +3341,7 @@ window.LIRYA_PURCHASE = function(data){
 
       <div class="nav">
         <button class="back" type="button">← Atrás</button>
-        <button class="next" type="button" disabled>Seguir creando →</button>
+        <button class="next" type="button" aria-disabled="true">Seguir creando →</button>
       </div>
       <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
@@ -3394,7 +3394,7 @@ window.LIRYA_PURCHASE = function(data){
 
       <div class="nav">
         <button class="back" type="button">← Atrás</button>
-        <button class="next" type="button" disabled>Seguir creando →</button>
+        <button class="next" type="button" aria-disabled="true">Seguir creando →</button>
       </div>
       <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
@@ -3481,12 +3481,13 @@ window.LIRYA_PURCHASE = function(data){
     render();
   }
 
-  function setNextState(step, enabled) {
-    const next = step.querySelector(".next");
-    if (!next) return;
-    next.classList.toggle("enabled", enabled);
-    next.disabled = !enabled;
-  }
+ function setNextState(step, enabled) {
+  const next = step.querySelector(".next");
+  if (!next) return;
+
+  next.classList.toggle("enabled", enabled);
+  next.setAttribute("aria-disabled", enabled ? "false" : "true");
+}
 
   function clearErrors(step){
     step.querySelectorAll(".field-error").forEach(el => el.classList.remove("field-error"));
@@ -3609,27 +3610,24 @@ window.LIRYA_PURCHASE = function(data){
     const backBtn = e.target.closest && e.target.closest("button.back");
 
     if (nextBtn) {
-      if (!validateStep(true)) return;
-      if (i < steps.length - 1) { i++; render(); }
-      return;
-    }
+  const isDisabled = nextBtn.getAttribute("aria-disabled") === "true";
+
+  // Si está "bloqueado", damos feedback inmediato (esto sí funciona porque NO hay disabled)
+  if (isDisabled) {
+    validateStep(true);
+    return;
+  }
+
+  if (!validateStep(true)) return;
+  if (i < steps.length - 1) { i++; render(); }
+  return;
+}
 
     if (backBtn) {
       if (i > 0) { i--; render(); }
       return;
     }
   });
-  // UX: si intentan continuar sin completar, mostramos errores aunque el botón esté disabled
-root.addEventListener("click", (e) => {
-  const next = e.target.closest && e.target.closest(".next");
-  if (!next) return;
-
-  // Si está disabled, forzamos feedback inmediato
-  if (next.disabled) {
-    e.preventDefault();
-    validateStep(true);
-  }
-}, true);
 
   function setOptionSelected(items, selectedItem){
     items.forEach(x => x.setAttribute("aria-selected","false"));
@@ -5110,6 +5108,7 @@ once("lirya_initiatecheckout_" + checkoutEventId, () => {
 </div>
   </div>
 </section>
+
 
 
 
