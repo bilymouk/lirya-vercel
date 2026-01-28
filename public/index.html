@@ -2771,7 +2771,9 @@ window.LIRYA_PURCHASE = function(data){
 <section id="formulario-lirya">
 <style>
   /* Scope total */
- io-lirya * { box-sizing: border-box; }
+#formulario-lirya, 
+#formulario-lirya * { box-sizing: border-box; }
+
 
   #formulario-lirya{
     background:
@@ -3029,6 +3031,21 @@ window.LIRYA_PURCHASE = function(data){
   /* Nav buttons premium */
   #formulario-lirya .nav{display:flex;gap:12px;margin-top:22px}
 
+  #formulario-lirya .next-hint{
+  margin-top: 10px;
+  font-size: 12.5px;
+  opacity: .78;
+  font-style: italic;
+  font-family:"Playfair Display", serif;
+  text-align: center;
+}
+#formulario-lirya .next.enabled + .next-hint{
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
   #formulario-lirya button{
     padding:14px 14px;
     border-radius: 12px;
@@ -3049,13 +3066,24 @@ window.LIRYA_PURCHASE = function(data){
   #formulario-lirya .back:hover{box-shadow: 0 10px 25px rgba(0,0,0,.25)}
 
   #formulario-lirya .next{
-    background: linear-gradient(135deg, #f28c28, #e58b2a);
-    color:#fff;
-    flex:1;
-    opacity:.55;
-  }
-  #formulario-lirya .next.enabled{opacity:1}
-  #formulario-lirya .next:disabled{cursor:not-allowed}
+  background: linear-gradient(135deg, #f28c28, #e58b2a);
+  color:#fff;
+  flex:1;
+  opacity:.55;
+  filter: grayscale(0.15);
+}
+
+#formulario-lirya .next.enabled{
+  opacity:1;
+  filter: none;
+}
+
+#formulario-lirya .next:disabled{
+  cursor: not-allowed;
+  opacity: .40;
+  box-shadow: none;
+}
+
 
   #formulario-lirya .submit{
     background: linear-gradient(135deg, #3fbf64, #2f9e4f);
@@ -3137,8 +3165,9 @@ window.LIRYA_PURCHASE = function(data){
       </div>
 
       <div class="nav">
-        <button class="next" type="button" disabled>Seguir creando →</button>
-      </div>
+    <button class="next" type="button" disabled>Seguir creando →</button>
+     </div>
+     <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
 
     <!-- PASO 2 -->
@@ -3185,7 +3214,8 @@ window.LIRYA_PURCHASE = function(data){
       <div class="nav">
         <button class="back" type="button">← Atrás</button>
         <button class="next" type="button" disabled>Seguir creando →</button>
-      </div>
+        </div>
+        <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
 
     <!-- PASO 3 -->
@@ -3228,9 +3258,10 @@ window.LIRYA_PURCHASE = function(data){
       </div>
 
       <div class="nav">
-        <button class="back" type="button">← Atrás</button>
-        <button class="next" type="button" disabled>Seguir creando →</button>
-      </div>
+       <button class="back" type="button">← Atrás</button>
+       <button class="next" type="button" disabled>Seguir creando →</button>
+     </div>
+     <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
 
     <!-- PASO 4 -->
@@ -3326,6 +3357,7 @@ window.LIRYA_PURCHASE = function(data){
         <button class="back" type="button">← Atrás</button>
         <button class="next" type="button" disabled>Seguir creando →</button>
       </div>
+      <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
 
     <!-- PASO 5 -->
@@ -3378,6 +3410,7 @@ window.LIRYA_PURCHASE = function(data){
         <button class="back" type="button">← Atrás</button>
         <button class="next" type="button" disabled>Seguir creando →</button>
       </div>
+      <div class="next-hint" aria-live="polite">Completa los campos marcados para continuar.</div>
     </div>
 
     <!-- PASO 6 -->
@@ -3600,6 +3633,17 @@ window.LIRYA_PURCHASE = function(data){
       return;
     }
   });
+  // UX: si intentan continuar sin completar, mostramos errores aunque el botón esté disabled
+root.addEventListener("click", (e) => {
+  const next = e.target.closest && e.target.closest(".next");
+  if (!next) return;
+
+  // Si está disabled, forzamos feedback inmediato
+  if (next.disabled) {
+    e.preventDefault();
+    validateStep(true);
+  }
+}, true);
 
   function setOptionSelected(items, selectedItem){
     items.forEach(x => x.setAttribute("aria-selected","false"));
@@ -3903,7 +3947,7 @@ window.LIRYA_PURCHASE = function(data){
     }
   });
 })();
-</script>
+
 </script>
 
 <!-- Preselección de tarifa en formulario -->
@@ -3947,6 +3991,13 @@ window.LIRYA_PURCHASE = function(data){
         const form = document.getElementById("lirya-form");
         if (form) form.dispatchEvent(new Event("input", { bubbles: true }));
       } catch(_) {}
+    
+      setTimeout(() => {
+      try {
+    const form = document.getElementById("lirya-form");
+    if (form) form.dispatchEvent(new Event("input", { bubbles: true }));
+    } catch(_) {}
+    }, 0);
     }
 
     applyTarifaIfAny();
@@ -4598,7 +4649,7 @@ window.LIRYA_PURCHASE = function(data){
     if (e.key === 'ArrowRight'){ e.preventDefault(); scrollByStep(1); }
   });
 })();
-</script> 
+</script>
 
  <!-- ===== GARANTÍA + MINI FAQ (CARDS + CARRUSEL MÓVIL) ===== -->
 <style>
@@ -5096,6 +5147,7 @@ window.LIRYA_PURCHASE = function(data){
 </div>
   </div>
 </section>
+
 
 
 
