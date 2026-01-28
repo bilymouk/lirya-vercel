@@ -282,18 +282,24 @@
       transition:background .2s ease, transform .2s ease;
     }
     .hero-btn:hover{ background:var(--orange-hover); transform:translateY(-1px); }
-    /* ===== HERO CTA (2 líneas dentro del botón) ===== */
+/* ===== HERO CTA (2 líneas dentro del botón) ===== */
 .hero-btn.hero-btn--stack{
   flex-direction:column;
-  gap:6px;
-  padding:14px 36px;          /* mantiene tu tamaño, pero deja aire */
+  gap:5px;
+  padding:16px 40px;        /* un poco más alto para jerarquía */
   text-align:center;
 }
 
+/* TEXTO PRINCIPAL – muy protagonista */
 .hero-btn__main{
-  line-height:1.05;
+  font-family:'Playfair Display',serif;
+  font-weight:800;         /* 🔥 más gordo */
+  font-size:1.05rem;       /* 🔥 domina claramente */
+  line-height:1.1;
+  letter-spacing:.6px;
 }
 
+/* TEXTO SECUNDARIO – discreto y elegante */
 .hero-btn__sub{
   display:flex;
   align-items:center;
@@ -301,28 +307,22 @@
   gap:6px;
 
   font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size:.86rem;
-  font-weight:600;
-  letter-spacing:.2px;
+  font-size:.74rem;        /* ⬇️ más pequeño */
+  font-weight:500;
+  letter-spacing:.15px;
 
-  color:rgba(255,255,255,.92);
-  opacity:.95;
+  color:rgba(255,255,255,.85);
 }
 
-/* Estrella elegante color logo (gold) */
+/* ⭐ Estrella dorada elegante (MISMO COLOR QUE LOGO LIRYA) */
 .hero-btn__star{
-  color: var(--gold);
-  text-shadow: 0 0 10px rgba(212,180,131,.35);
+  color: var(--gold);      /* ✅ mismo dorado del logo */
+  text-shadow:
+    0 0 6px rgba(212,180,131,.35),
+    0 0 14px rgba(212,180,131,.25);
   transform: translateY(-.5px);
 }
-
-    .hero-note{
-      display:block;
-      margin-top:12px;
-      font-size:.92rem;
-      font-style:italic;
-      opacity:.86;
-    }
+    
 /* Desktop: notas pegadas debajo de "Empieza ahora..." */
 .hero-note--stack{
   margin-top:0;      /* sin margen entre líneas */
@@ -4980,6 +4980,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
