@@ -205,7 +205,7 @@
   'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '893462606511287');
   fbq('set', 'autoConfig', 'false', '893462606511287');
-  fbq('track', 'PageView');
+  fbq('track');
   </script>
 </head>
 
@@ -263,132 +263,24 @@
   if (sid) document.getElementById("sessionId").textContent = "ID de sesión: " + sid;
 </script>
 
-<!-- ✅ PURCHASE (PIXEL + CAPI) usando METADATA (Safari/Opera proof) -->
-<script>
+  <script>
 (async function () {
-  const urlParams = new URLSearchParams(location.search);
-  const session_id = urlParams.get("session_id");
-  if (!session_id) return;
-
-  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
-  const DEBUG = urlParams.get("debug_meta") === "1";
-  const log = (...args) => { if (DEBUG) console.log("[META SUCCESS]", ...args); };
-
-  const key = "lirya_purchase_" + session_id;
-try {
-  if (sessionStorage.getItem(key)) return;
-  sessionStorage.setItem(key, "1");
-} catch (e) {
-  // Safari/Private Mode: si sessionStorage falla, seguimos sin dedupe
-}
-
-  const hasFbq = typeof window.fbq === "function";
-
-  const getCookie = (name) => {
-    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-    return m ? decodeURIComponent(m[2]) : null;
-  };
-
-  const setCookie = (name, value, days) => {
-    const maxAge = days * 24 * 60 * 60;
-    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
-  };
-
-  const ensureFbp = () => {
-    let fbp = getCookie("_fbp");
-    if (fbp) return fbp;
-    const ts = Date.now();
-    const rnd = Math.floor(Math.random() * 1e10);
-    fbp = `fb.1.${ts}.${rnd}`;
-    setCookie("_fbp", fbp, 90);
-    return fbp;
-  };
-
-  const ensureFbc = () => {
-    const existing = getCookie("_fbc");
-    if (existing) return existing;
-    const fbclid = urlParams.get("fbclid");
-    if (!fbclid) return "";
-    const ts = Date.now();
-    const fbc = `fb.1.${ts}.${fbclid}`;
-    setCookie("_fbc", fbc, 90);
-    return fbc;
-  };
-
-  async function sendCapiEvent(body) {
-    try {
-      const res = await fetch("/api/meta-capi", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        keepalive: true,
-        body: JSON.stringify(body),
-      });
-
-      if (DEBUG) {
-        const txt = await res.text().catch(() => "");
-        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 400));
-      }
-      return res.ok;
-    } catch (e) {
-      log("CAPI error", e);
-      return false;
-    }
-  }
+  const sid = new URLSearchParams(location.search).get("session_id");
+  if (!sid) return;
 
   try {
-    // 1) leer datos reales de Stripe (incluye metadata)
-    const r = await fetch("/api/checkout-session?session_id=" + encodeURIComponent(session_id));
-    if (!r.ok) throw new Error("No se pudo leer checkout-session");
+    const r = await fetch("/api/checkout-session?session_id=" + encodeURIComponent(sid));
+    if (!r.ok) return;
 
     const data = await r.json();
-    
-    // 🔒 GUARD CRÍTICO: solo disparamos Purchase si Stripe dice PAID
-  if (data.payment_status !== "paid") {
-  log("Pago no completado, no disparamos Purchase:", data.payment_status);
-  return;
- }
-
-    const currency = (data.currency || "EUR").toUpperCase();
-    const value = Number(data.value || 0);
-
-    // ✅ IMPORTANTÍSIMO: usar metadata que viene del payment (Safari-proof)
-    const md = data.metadata || {};
-    const metaEventId = (md.event_id || "").toString().trim();
-    const metaFbp = (md.fbp || "").toString().trim();
-    const metaFbc = (md.fbc || "").toString().trim();
-
-    // Fallback a cookies si faltara metadata (compras antiguas)
-    const FBP = metaFbp || ensureFbp();
-    const FBC = metaFbc || ensureFbc();
-
-    // event_id: si hay metadata -> dedupe perfecto con el InitiateCheckout
-    // si no hay -> usa session_id (estable y único)
-    const eventId = metaEventId || ("purchase_" + session_id);
-
-    // 2) Pixel (si existe). En Safari puede no disparar, pero CAPI lo cubre.
-    if (hasFbq) {
-      try {
-        window.fbq("track", "Purchase", {
-          content_name: "Pedido LIRYA",
-          currency,
-          value,
-          order_id: session_id
-        }, { eventID: eventId });
-        log("Pixel Purchase", eventId);
-      } catch (e) {
-        log("Pixel error", e);
-      }
-    } else {
-      log("Pixel NO disponible (Safari puede bloquearlo)");
+    if (data.payment_status !== "paid") {
+      // Si quieres ser estricto, redirige a cancel:
+      // window.location.href = "/cancel.html";
+      // O muestra un aviso suave:
+      const el = document.querySelector(".success-message");
+      if (el) el.innerHTML = "Tu pago aún no aparece como confirmado. Si acabas de pagar, espera 1 minuto. Si no, vuelve a intentarlo.";
     }
-
-    // 3) CAPI (SIEMPRE)
-   
-    log("Purchase enviado (Pixel + CAPI)", { eventId, value, currency });
-
-  } catch (e) {
-    console.error("Purchase error:", e);
-  }
+  } catch (_) {}
 })();
 </script>
 
