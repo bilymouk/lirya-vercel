@@ -3,8 +3,8 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const ALLOWED_ORIGINS = [
-  "https://lirya.com",
-  "https://www.lirya.com",
+  "https://lirya.studio",
+  "https://www.lirya.studio",
 ];
 
 export default async function handler(req, res) {
