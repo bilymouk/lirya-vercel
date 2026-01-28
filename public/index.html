@@ -2308,7 +2308,67 @@ window.addEventListener("scroll", onScroll, { passive: true });
   updateArrows();
 })();
 </script>
+<script>
+(function () {
+  const STORAGE_KEY = "lirya_pref_tarifa";
 
+  function labelFromTarifa(t){
+    if (t === "39") return "39€ — Estándar";
+    if (t === "59") return "59€ — Emocional";
+    if (t === "79") return "79€ — Prioritaria";
+    return t + "€";
+  }
+
+  function applyTarifa(tarifa){
+    const hidden = document.getElementById("tarifa-hidden");
+    const btn = document.getElementById("tarifa-btn");
+    if (!hidden || !btn) return false;
+
+    const valueSpan = btn.querySelector(".dd-value"); // ✅ tu caso real
+    hidden.value = tarifa;
+
+    if (valueSpan) valueSpan.textContent = labelFromTarifa(tarifa);
+    btn.classList.add("selected");
+
+    // Dispara validación del formulario (tu script escucha "input")
+    const form = document.getElementById("lirya-form");
+    if (form) form.dispatchEvent(new Event("input", { bubbles: true }));
+
+    return true;
+  }
+
+  // 1) Al hacer click en una tarifa, aplicar INMEDIATO (sin recargar)
+  document.addEventListener("click", function (e) {
+    const a = e.target.closest("a.tarifa-cta[data-tarifa]");
+    if (!a) return;
+
+    const tarifa = (a.getAttribute("data-tarifa") || "").trim();
+    if (!tarifa) return;
+
+    // Guardamos por si el form aún no está en DOM (builders raros)
+    try { sessionStorage.setItem(STORAGE_KEY, tarifa); } catch(_) {}
+
+    // Intentamos aplicar ya
+    setTimeout(() => { applyTarifa(tarifa); }, 0);
+  }, true);
+
+  // 2) Fallback: si ya hay tarifa guardada, aplicarla cuando el DOM esté listo
+  function applyStored(){
+    let tarifa = "";
+    try { tarifa = (sessionStorage.getItem(STORAGE_KEY) || "").trim(); } catch(_) {}
+    if (!tarifa) return;
+
+    const ok = applyTarifa(tarifa);
+    if (ok) {
+      try { sessionStorage.removeItem(STORAGE_KEY); } catch(_) {}
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", applyStored);
+  window.addEventListener("load", applyStored);
+  window.addEventListener("hashchange", applyStored);
+})();
+</script>
 
 <!-- =================================
    CÓMO FUNCIONA
@@ -4773,6 +4833,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 </div>
   </div>
 </section>
+
 
 
 
