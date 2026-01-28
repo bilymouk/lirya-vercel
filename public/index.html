@@ -52,7 +52,7 @@
 </noscript>
 
   <!-- Perf: preload hero bg -->
-  <link rel="preload" as="image" href="/cascos-neon.avif" type="image/avif" fetchpriority="high" />
+  <link rel="preload" as="image" href="/cascos-neon-1600.avif" type="image/avif" fetchpriority="high" />
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -886,17 +886,19 @@
 </aside>
 
 <section class="hero">
-  <img
-    src="/cascos-neon.avif"
-    alt=""
-    aria-hidden="true"
-    class="hero-bg"
-    width="1600"
-    height="900"
-    decoding="async"
-    fetchpriority="high"
-    loading="eager"
-  >
+ <img
+  src="/cascos-neon-1600.avif"
+  srcset="/cascos-neon-800.avif 800w, /cascos-neon-1200.avif 1200w, /cascos-neon-1600.avif 1600w"
+  sizes="100vw"
+  alt=""
+  aria-hidden="true"
+  class="hero-bg"
+  width="1600"
+  height="900"
+  decoding="async"
+  fetchpriority="high"
+  loading="eager"
+>
   <div class="hero-inner">
 
     <audio id="lirya-audio" preload="none">
@@ -964,14 +966,15 @@
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
-          src="/mockup-phone-final.png"
-          class="hero-mobile-image"
-          id="mockup-audio-trigger-mobile"
-          alt="Ejemplo de canción personalizada"
-          width="360"
-          height="720"
-          decoding="async"
-        />
+  src="/mockup-phone-final.png"
+  class="hero-mobile-image"
+  id="mockup-audio-trigger-mobile"
+  alt="Ejemplo de canción personalizada"
+  width="360"
+  height="720"
+  decoding="async"
+  loading="lazy"
+/>
 
         <button
           class="play-overlay"
@@ -5058,6 +5061,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </div>
   </div>
 </section>
+
 
 
 
