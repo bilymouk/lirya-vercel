@@ -1428,21 +1428,6 @@ window.LIRYA_PURCHASE = function(data){
   }
 });
 
-  // ========= 3) INITIATE CHECKOUT =========
-  // Aquí lo hacemos robusto: detecta click en el botón real de pagar.
-  // En tu formulario el botón es: <button class="submit" type="button">Pagar y enviar</button>
-  document.addEventListener("click", function (e) {
-    const btn = e.target.closest("button.submit, #formulario-lirya .submit");
-    if (!btn) return;
-
-    once("lirya_initiate_checkout", () => {
-      trackEvent("InitiateCheckout", {
-        content_name: "Checkout iniciado",
-        content_category: "Checkout",
-      });
-    });
-  }, true);
-
 })();
 </script>
 
@@ -5189,6 +5174,7 @@ root.addEventListener("click", (e) => {
 </div>
   </div>
 </section>
+
 
 
 
