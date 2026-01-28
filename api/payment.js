@@ -1,8 +1,8 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const ALLOWED_ORIGINS = [
-  "https://lirya.com",
-  "https://www.lirya.com",
+  "https://lirya.studio",
+  "https://www.lirya.studio",
   ];
   
 module.exports = async (req, res) => {
