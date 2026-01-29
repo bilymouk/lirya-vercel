@@ -218,7 +218,7 @@
     }
   </style>
 
-  <!-- ===== META PIXEL (NO PageView automático aquí) ===== -->
+  <!-- ===== META PIXEL (solo init, sin PageView) ===== -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -231,6 +231,7 @@
   fbq('init', '893462606511287');
   fbq('set', 'autoConfig', 'false', '893462606511287');
   </script>
+
   <noscript>
     <img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
@@ -284,7 +285,7 @@
 </footer>
 
 <script>
-/* ===== Tracking en Cancel + limpieza del checkout_event_id ===== */
+/* ===== Cancel: track custom event + CAPI + cleanup ===== */
 (function () {
   const hasFbq = typeof window.fbq === "function";
 
@@ -293,10 +294,18 @@
   const DEBUG = urlParams.get("debug_meta") === "1";
   const log = (...args) => { if (DEBUG) console.log("[META][CANCEL]", ...args); };
 
-  function getCookie(name) {
+  const once = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch(_) {}
+    fn();
+  };
+
+  const getCookie = (name) => {
     const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
     return m ? decodeURIComponent(m[2]) : "";
-  }
+  };
 
   const FBP = getCookie("_fbp");
   const FBC = getCookie("_fbc");
@@ -309,14 +318,16 @@
     const url = "/api/meta-capi";
     const payload = JSON.stringify(body);
 
+    // beacon
     try {
       if (navigator.sendBeacon) {
         const blob = new Blob([payload], { type: "application/json" });
         const ok = navigator.sendBeacon(url, blob);
-        if (ok) { log("CAPI sendBeacon OK"); return true; }
+        if (ok) return true;
       }
-    } catch (e) { log("CAPI sendBeacon error", e); }
+    } catch (e) {}
 
+    // fetch fallback
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -326,35 +337,34 @@
       });
       if (DEBUG) {
         const txt = await res.text().catch(() => "");
-        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
+        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 200));
       }
       return res.ok;
     } catch (e) {
-      log("CAPI fetch error", e);
       return false;
     }
   }
 
-  function fire(eventName, eventId) {
-    const event_source_url = window.location.origin + window.location.pathname;
+  const checkoutEventId = getCheckoutEventId(); // puede venir vacío (ok)
+  const event_source_url = window.location.origin + window.location.pathname;
 
-    // Pixel
+  once("lirya_cancel_fired_" + (checkoutEventId || "noid"), () => {
+    // Pixel: custom
     if (hasFbq) {
       try {
-        window.fbq("trackCustom", eventName, {}, eventId ? { eventID: eventId } : undefined);
-        log("Pixel", eventName, eventId || "(no eventId)");
+        if (checkoutEventId) window.fbq("trackCustom", "CancelCheckout", {}, { eventID: checkoutEventId });
+        else window.fbq("trackCustom", "CancelCheckout");
+        log("Pixel CancelCheckout", checkoutEventId || "(no eventId)");
       } catch (e) {
         log("Pixel error", e);
       }
-    } else {
-      log("Pixel NO disponible (Safari puede bloquearlo)");
     }
 
-    // CAPI
+    // CAPI: custom
     const capiBody = {
-      event_name: eventName,
+      event_name: "CancelCheckout",
       event_time: Math.floor(Date.now() / 1000),
-      event_id: eventId || undefined,
+      event_id: checkoutEventId || undefined,
       event_source_url,
       action_source: "website",
       user_data: {
@@ -366,20 +376,9 @@
     };
 
     sendCapiEvent(capiBody);
-  }
+  });
 
-  // 1) Intentamos reutilizar el event_id del checkout si existe (dedupe)
-  const checkoutEventId = getCheckoutEventId();
-
-  // 2) PageView + CancelCheckout
-  // (si no hay eventId, igual mandamos sin dedupe)
-  try {
-    if (hasFbq) window.fbq("track", "PageView", {}, checkoutEventId ? { eventID: checkoutEventId } : undefined);
-  } catch(_) {}
-
-  fire("CancelCheckout", checkoutEventId || "");
-
-  // 3) Limpieza: al llegar a cancel, reseteamos el intento
+  // Limpieza: al llegar a cancel, reseteamos el intento para reintentar limpio
   try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
 })();
 </script>
