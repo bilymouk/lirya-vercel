@@ -271,33 +271,40 @@ fbq('set', 'autoConfig', 'false', '893462606511287');
   src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </noscript>
 
-<!-- ===== SUCCESS: PURCHASE (Pixel + CAPI) con DEDUPE ===== -->
+<!-- ===== SUCCESS: PURCHASE (Pixel + CAPI) BACKUP via Stripe session_id (DEDUPED) ===== -->
 <script>
 (function () {
   const hasFbq = typeof window.fbq === "function";
 
   const urlParams = new URLSearchParams(location.search);
+  const sessionId = urlParams.get("session_id") || "";
   const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
   const DEBUG = urlParams.get("debug_meta") === "1";
   const log = (...args) => { if (DEBUG) console.log("[META-SUCCESS]", ...args); };
 
+  if (!sessionId) {
+    log("No session_id en URL → no Purchase");
+    return;
+  }
+
+  const once = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch(_) {}
+    fn();
+  };
+
+  // === cookies first-party (Safari/ITP) ===
   const getCookie = (name) => {
     const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
     return m ? decodeURIComponent(m[2]) : null;
   };
-
   const setCookie = (name, value, days) => {
     const maxAge = days * 24 * 60 * 60;
     document.cookie =
       `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
   };
-
-  const newEventId = () => {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-  };
-
-  // Safari/ITP: asegurar _fbp y _fbc first-party
   function ensureFbp() {
     let fbp = getCookie("_fbp");
     if (fbp) return fbp;
@@ -307,20 +314,16 @@ fbq('set', 'autoConfig', 'false', '893462606511287');
     setCookie("_fbp", fbp, 90);
     return fbp;
   }
-
   function ensureFbc() {
     const existing = getCookie("_fbc");
     if (existing) return existing;
-
     const fbclid = urlParams.get("fbclid");
     if (!fbclid) return null;
-
     const ts = Date.now();
     const fbc = `fb.1.${ts}.${fbclid}`;
     setCookie("_fbc", fbc, 90);
     return fbc;
   }
-
   const FBP = ensureFbp();
   const FBC = ensureFbc();
 
@@ -328,21 +331,16 @@ fbq('set', 'autoConfig', 'false', '893462606511287');
     const url = "/api/meta-capi";
     const payload = JSON.stringify(body);
 
-    // 1) Prefer beacon
+    // 1) beacon
     try {
       if (navigator.sendBeacon) {
         const blob = new Blob([payload], { type: "application/json" });
         const ok = navigator.sendBeacon(url, blob);
-        if (ok) {
-          log("CAPI sendBeacon OK");
-          return true;
-        }
+        if (ok) return true;
       }
-    } catch (e) {
-      log("CAPI sendBeacon error", e);
-    }
+    } catch (e) {}
 
-    // 2) fallback fetch
+    // 2) fetch fallback
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -350,97 +348,95 @@ fbq('set', 'autoConfig', 'false', '893462606511287');
         keepalive: true,
         body: payload,
       });
-
       if (DEBUG) {
         const txt = await res.text().catch(() => "");
-        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
+        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 200));
       }
       return res.ok;
     } catch (e) {
-      log("CAPI fetch error", e);
       return false;
     }
   }
 
-  const once = (key, fn) => {
-    try {
-      if (sessionStorage.getItem(key)) return;
-      sessionStorage.setItem(key, "1");
-    } catch(_e) {}
-    fn();
-  };
-
-  // 1) event_id del checkout (dedupe con InitiateCheckout)
-  let checkoutEventId = "";
-  try { checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) {}
-  const eventId = checkoutEventId || newEventId();
-
-  // 2) value/plan guardados antes de ir a Stripe
-  let value = "";
-  let plan = "";
-  try {
-    value = sessionStorage.getItem("lirya_purchase_value") || "";
-    plan = sessionStorage.getItem("lirya_purchase_plan") || "";
-  } catch(_) {}
-
-  const numericValue = Number(value || 0);
-
-  if (!numericValue) {
-    log("Purchase NO disparado: falta lirya_purchase_value en sessionStorage");
-    return;
+  // === 1) Lee checkout-session desde backend (fuente de verdad) ===
+  async function getCheckoutSession() {
+    const url = `/api/checkout-session?session_id=${encodeURIComponent(sessionId)}`;
+    const r = await fetch(url, { method: "GET", cache: "no-store" });
+    if (!r.ok) throw new Error("checkout-session not ok");
+    return await r.json();
   }
 
   const event_source_url = window.location.origin + window.location.pathname;
 
-  once("lirya_purchase_fired_" + eventId, () => {
-    const customData = {
-      currency: "EUR",
-      value: numericValue,
-      content_name: "Canción personalizada",
-      content_type: "product",
-      plan: plan || undefined,
-    };
+  once("lirya_purchase_success_" + sessionId, async () => {
+    try {
+      const data = await getCheckoutSession();
 
-    // Pixel
-    if (hasFbq) {
-      try {
-        window.fbq("track", "Purchase", customData, { eventID: eventId });
-        log("Pixel Purchase", eventId);
-      } catch (e) {
-        log("Pixel error", e);
+      // ✅ Solo si pagado
+      if ((data.payment_status || "").toLowerCase() !== "paid") {
+        log("Payment status != paid → no Purchase", data.payment_status);
+        return;
       }
-    }
 
-    // CAPI
-    const capiBody = {
-      event_name: "Purchase",
-      event_time: Math.floor(Date.now() / 1000),
-      event_id: eventId,
-      event_source_url: event_source_url,
-      action_source: "website",
+      const value = Number(data.value || 0);
+      const currency = (data.currency || "EUR").toUpperCase();
 
-      fbp: FBP || undefined,
-      fbc: FBC || undefined,
+      // ✅ event_id estable (el que venía en metadata desde /api/payment)
+      const eventId =
+        (data.metadata && data.metadata.event_id) ? String(data.metadata.event_id) : `purchase_${sessionId}`;
 
-      user_data: {
+      const plan =
+        (data.metadata && (data.metadata.tarifa || data.metadata.plan)) ? String(data.metadata.tarifa || data.metadata.plan) : undefined;
+
+      const customData = {
+        currency,
+        value,
+        content_name: "Canción personalizada",
+        content_type: "product",
+        plan,
+      };
+
+      // Pixel
+      if (hasFbq) {
+        try {
+          window.fbq("track", "Purchase", customData, { eventID: eventId });
+          log("Pixel Purchase", eventId);
+        } catch (e) {
+          log("Pixel error", e);
+        }
+      }
+
+      // CAPI (backup)
+      const capiBody = {
+        event_name: "Purchase",
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId,
+        event_source_url: event_source_url,
+        action_source: "website",
+
         fbp: FBP || undefined,
         fbc: FBC || undefined,
-        client_user_agent: navigator.userAgent || undefined,
-      },
 
-      custom_data: customData,
-      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
-    };
+        user_data: {
+          fbp: FBP || undefined,
+          fbc: FBC || undefined,
+          client_user_agent: navigator.userAgent || undefined,
+        },
 
-    sendCapiEvent(capiBody);
+        custom_data: customData,
+        ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+      };
+
+      await sendCapiEvent(capiBody);
+
+      // Limpieza
+      try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+    } catch (err) {
+      log("Error Purchase success:", err);
+    }
   });
-
-  // 3) Limpieza FINAL (después del Purchase)
-  try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
-  try { sessionStorage.removeItem("lirya_purchase_value"); } catch(_) {}
-  try { sessionStorage.removeItem("lirya_purchase_plan"); } catch(_) {}
 })();
 </script>
-
+  
 </body>
 </html>
