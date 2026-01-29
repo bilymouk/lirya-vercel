@@ -1173,7 +1173,13 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
   const hasFbq = typeof window.fbq === "function";
 
   const urlParams = new URLSearchParams(location.search);
-  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+
+let TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+try{
+  if (TEST_EVENT_CODE) sessionStorage.setItem("lirya_test_event_code", TEST_EVENT_CODE);
+  else TEST_EVENT_CODE = sessionStorage.getItem("lirya_test_event_code") || "";
+}catch(_){}
+
   const DEBUG = urlParams.get("debug_meta") === "1";
   const log = (...args) => { if (DEBUG) console.log("[META]", ...args); };
 
@@ -1339,6 +1345,45 @@ function trackEvent(eventName, customData = {}, opts = {}) {
   window.LIRYA_TRACK = function(eventName, customData, opts){
   return trackEvent(eventName, customData || {}, opts || {});
 };
+
+  // ========= VIEWCONTENT: demo reproducido (Audio HERO) =========
+(function bindHeroAudioViewContent(){
+  const a = document.getElementById("lirya-audio");
+  if (!a) return;
+
+  a.addEventListener("play", () => {
+    if (a.__lirya_vc_fired) return;   // 1 vez por carga
+    a.__lirya_vc_fired = true;
+
+    trackEvent("ViewContent", {
+      content_name: "Ejemplo audio (Hero)",
+      content_category: "Audio",
+      content_type: "demo",
+      placement: "hero"
+    });
+  }, { passive: true });
+})();
+
+  // ========= VIEWCONTENT: cualquier audio marcado como demo =========
+// En otras secciones solo añades: data-lirya-demo="1" data-demo-name="..."
+(function bindMarkedDemoAudios(){
+  document.querySelectorAll('audio[data-lirya-demo="1"]').forEach((a, idx) => {
+    a.addEventListener("play", () => {
+      if (a.__lirya_vc_fired) return;
+      a.__lirya_vc_fired = true;
+
+      const name = (a.getAttribute("data-demo-name") || `Ejemplo real ${idx + 1}`).trim();
+
+      trackEvent("ViewContent", {
+        content_name: name,
+        content_category: "Audio",
+        content_type: "demo",
+        placement: a.getAttribute("data-demo-placement") || undefined
+      });
+    }, { passive: true });
+  });
+})();
+
  
 window.LIRYA_PURCHASE = function(data){
   if (!data || !data.value) {
@@ -1364,10 +1409,10 @@ window.LIRYA_PURCHASE = function(data){
 };
 
   // ========= 0) PAGEVIEW =========
-  // Nota: NO lo dispares en el script del Pixel. Aquí lo hacemos con eventID para dedupe con CAPI.
-  once("lirya_pageview", () => {
-    trackEvent("PageView", {});
-  });
+
+// Safari/iOS: NO usar sessionStorage para PageView
+trackEvent("PageView", {});
+
 
   // ========= 1) START FORM (click CTA a formulario) =========
   document.addEventListener("click", function (e) {
@@ -1395,63 +1440,6 @@ window.LIRYA_PURCHASE = function(data){
   destination: FORM_HASH,
 });
   }, true);
-
-  // ========= 2) VIEWCONTENT (cuando el form es visible) =========
-  function fireViewContent() {
-    once("lirya_viewcontent_form", () => {
-      trackEvent("ViewContent", {
-        content_name: "Formulario LIRYA",
-        content_category: "Formulario",
-      });
-    });
-  }
-
-  if (location.hash === FORM_HASH) fireViewContent();
-
-  window.addEventListener("hashchange", function () {
-    if (location.hash === FORM_HASH) fireViewContent();
-  });
-
-  window.addEventListener("load", function () {
-  const formSection = document.getElementById(FORM_ID);
-  if (!formSection) {
-    log("ViewContent: NO encuentro el elemento", FORM_ID);
-    return;
-  }
-
-  if ("IntersectionObserver" in window) {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            log("ViewContent: formulario visible -> FIRE");
-            fireViewContent();
-            obs.disconnect();
-          }
-        });
-      },
-      {
-        threshold: 0.01,          // ✅ antes era 0.25
-        rootMargin: "200px 0px"   // ✅ dispara un poco antes
-      }
-    );
-
-    obs.observe(formSection);
-    log("ViewContent: observer activo");
-  } else {
-    // Fallback por si no existe IntersectionObserver
-    log("ViewContent: no IntersectionObserver, fallback scroll");
-    const onScroll = () => {
-      const r = formSection.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) {
-        fireViewContent();
-        window.removeEventListener("scroll", onScroll);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-  }
-});
 
 })();
 </script>
@@ -3809,14 +3797,16 @@ if (!safeValidateStep(true)) {
 
 processingPayment = true;
 
-    // event_id estable por intento
     let checkoutEventId = "";
-    try { checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) {}
+try { checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) {}
 
-    if (!checkoutEventId) {
-      checkoutEventId = newEventId();
-      try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
-    }
+if (!checkoutEventId) checkoutEventId = window.__lirya_checkout_event_id || "";
+
+if (!checkoutEventId) {
+  checkoutEventId = newEventId();
+  window.__lirya_checkout_event_id = checkoutEventId;
+  try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
+}
     
        // ===== INITIATECHECKOUT (Pixel + CAPI) con event_id estable =====
     once("lirya_initiatecheckout_" + checkoutEventId, async () => {
@@ -5157,6 +5147,7 @@ processingPayment = true;
 </div>
   </div>
 </section>
+
 
 
 
