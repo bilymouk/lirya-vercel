@@ -243,7 +243,7 @@
 </footer>
 
 <script>
-  // Mostrar session_id (opcional, útil para soporte)
+  // Mostrar session_id (solo informativo)
   (function () {
     const sid = new URLSearchParams(location.search).get("session_id");
     const el = document.getElementById("sessionId");
@@ -251,7 +251,7 @@
   })();
 </script>
 
-<!-- ===== META PIXEL (solo init, sin PageView) ===== -->
+<!-- ===== META PIXEL (SOLO INIT, SIN TRACK) ===== -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -265,8 +265,9 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '893462606511287');
 fbq('set', 'autoConfig', 'false', '893462606511287');
 </script>
-  
+
 <script>
+/* ===== LIMPIEZA POST-COMPRA (ANTI DUPLICADOS) ===== */
 (function () {
   const sid = new URLSearchParams(location.search).get("session_id") || "";
   const key = "lirya_success_cleaned_" + (sid || "no_sid");
@@ -279,6 +280,13 @@ fbq('set', 'autoConfig', 'false', '893462606511287');
   try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
   try { sessionStorage.removeItem("lirya_purchase_value"); } catch(_) {}
   try { sessionStorage.removeItem("lirya_purchase_plan"); } catch(_) {}
+
+  try {
+    Object.keys(sessionStorage).forEach((k) => {
+      if (k.startsWith("lirya_initiatecheckout_")) sessionStorage.removeItem(k);
+      if (k.startsWith("lirya_vc_")) sessionStorage.removeItem(k);
+    });
+  } catch(_) {}
 })();
 </script>
 
