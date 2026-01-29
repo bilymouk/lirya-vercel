@@ -251,6 +251,40 @@
   })();
 </script>
 
+  <script>
+(function () {
+  const sid = new URLSearchParams(location.search).get("session_id") || "";
+  if (!sid) return;
+
+  // (Opcional) puedes crear un <div id="paymentSummary"></div> en el HTML si quieres mostrarlo
+  // const summary = document.getElementById("paymentSummary");
+
+  fetch(`/api/checkout-session?session_id=${encodeURIComponent(sid)}`, {
+    method: "GET",
+    headers: { "Accept": "application/json" },
+    cache: "no-store",
+  })
+    .then(r => r.json())
+    .then(data => {
+      // Si no está pagado, mejor no decir “confirmado”
+      if (!data || data.error) return;
+
+      // Recomendación: si quieres máxima seguridad visual:
+      // si no es paid, podrías cambiar el texto del h1 a "Pago en revisión"
+      if (data.payment_status && data.payment_status !== "paid") {
+        const h1 = document.querySelector("h1");
+        if (h1) h1.textContent = "Pago en revisión";
+      }
+
+      // Si quieres mostrar el total pagado:
+      // const value = (Number(data.value) || 0).toFixed(2);
+      // const currency = String(data.currency || "EUR");
+      // if (summary) summary.textContent = `Importe: ${value} ${currency}`;
+    })
+    .catch(() => {});
+})();
+</script>
+
 <!-- ===== META PIXEL (SOLO INIT, SIN TRACK) ===== -->
 <script>
 !function(f,b,e,v,n,t,s)
