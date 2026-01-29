@@ -1,8 +1,13 @@
-// /api/stripe-webhook.js
 const Stripe = require("stripe");
 const crypto = require("crypto");
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// En Vercel, para webhooks de Stripe necesitamos el body RAW.
+// Este export le dice a Vercel que NO lo convierta a JSON.
+module.exports.config = {
+  api: { bodyParser: false },
+};
 
 // ===== helpers =====
 function sha256(input) {
@@ -39,12 +44,11 @@ function buildBaseUrl(req) {
   return "";
 }
 
-// ✅ RAW BODY real (Buffer). Stripe lo recomienda así.
-async function readRawBodyBuffer(req) {
+async function readRawBody(req) {
   return await new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on("data", (chunk) => chunks.push(chunk));
-    req.on("end", () => resolve(Buffer.concat(chunks)));
+    let data = "";
+    req.on("data", (chunk) => (data += chunk));
+    req.on("end", () => resolve(data));
     req.on("error", reject);
   });
 }
@@ -52,53 +56,49 @@ async function readRawBodyBuffer(req) {
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
 
-  // Stripe solo manda POST
-  if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
-
-  const sig = req.headers["stripe-signature"];
-  if (!sig) {
-    // Si falta, es que NO viene de Stripe o hay proxy raro
-    console.error("❌ Falta stripe-signature header");
-    return res.status(400).send("Webhook Error: Missing stripe-signature");
+  if (req.method !== "POST") {
+    res.statusCode = 405;
+    return res.end("Method Not Allowed");
   }
 
+  const sig = req.headers["stripe-signature"];
   let event;
+
   try {
-    const rawBody = await readRawBodyBuffer(req);
+    const rawBody = await readRawBody(req);
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    console.error("❌ Error verificando webhook:", err?.message || err);
-    return res.status(400).send(`Webhook Error: ${err?.message || err}`);
+    console.error("❌ Webhook signature error:", err?.message || err);
+    res.statusCode = 400;
+    return res.end(`Webhook Error: ${err?.message || err}`);
   }
 
-  // ✅ Responder 200 SIEMPRE al final (si algo interno falla, Stripe puede reintentar)
+  // Siempre responde 200 al final para que Stripe no reintente por errores tuyos
   try {
-    // Nos interesa SOLO cuando el checkout se completa
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
 
-      // Extra seguridad: solo si está pagado
+      // ✅ Seguridad: solo si está pagado
       if (session.payment_status && session.payment_status !== "paid") {
-        console.log("⚠️ checkout.session.completed pero NO paid:", session.payment_status);
+        console.log("⚠️ completed pero NO paid:", session.payment_status);
       } else {
         const baseUrl = buildBaseUrl(req);
-        const fallbackSuccessUrl = baseUrl ? `${baseUrl}/success.html` : "";
 
-        // Value
-        const amountTotal = safeNumber(session.amount_total, 0); // céntimos
+        // Importes
+        const amountTotal = safeNumber(session.amount_total, 0);
         const value = amountTotal / 100;
         const currency = String(session.currency || "eur").toUpperCase();
 
-        // ✅ event_id estable para dedupe (ideal: el que tú guardas en metadata desde /api/payment)
-        // - si existe session.metadata.event_id → perfecto
-        // - si no → fallback estable
+        // ✅ event_id estable (DEDUPE META)
+        // Si viene desde /api/payment -> metadata.event_id
+        // Si no, fallback estable por sesión
         const eventId = String(session.metadata?.event_id || `purchase_${session.id}`);
 
-        // Matching
+        // Matching (mejora atribución)
         const email = normalizeEmail(session.customer_email);
         const em = email ? sha256(email) : undefined;
 
@@ -110,16 +110,13 @@ module.exports = async (req, res) => {
 
         const eventSourceUrl =
           String(session.metadata?.event_source_url || "").trim() ||
-          fallbackSuccessUrl ||
-          undefined;
+          (baseUrl ? `${baseUrl}/` : undefined);
 
         const tarifa = session.metadata?.tarifa || null;
 
-        // ===== 1) ENVÍO A MAKE =====
-        // Stripe puede reintentar → dedupe en Make por stripe_event_id
+        // ===== (A) Enviar a Make (opcional, pero tú lo tienes) =====
         try {
           const MAKE_WEBHOOK_URL =
-            process.env.MAKE_WEBHOOK_URL ||
             "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
 
           await fetch(MAKE_WEBHOOK_URL, {
@@ -137,18 +134,18 @@ module.exports = async (req, res) => {
             }),
           });
 
-          console.log("✅ Make OK:", event.id);
-        } catch (error) {
-          console.error("❌ Error enviando a Make:", error);
+          console.log("✅ Enviado a Make");
+        } catch (e) {
+          console.error("⚠️ Make error (no rompemos):", e);
         }
 
-        // ===== 2) META CAPI PURCHASE (server-side) =====
+        // ===== (B) META CAPI Purchase (SERVER-SIDE) =====
         try {
           const PIXEL_ID = process.env.META_PIXEL_ID;
           const ACCESS_TOKEN = process.env.META_CAPI_TOKEN;
 
           if (!PIXEL_ID || !ACCESS_TOKEN) {
-            console.warn("⚠️ Falta META_PIXEL_ID o META_CAPI_TOKEN → salto CAPI Purchase");
+            console.warn("⚠️ Falta META_PIXEL_ID o META_CAPI_TOKEN");
           } else {
             const payload = {
               data: [
@@ -158,9 +155,7 @@ module.exports = async (req, res) => {
                     ? Number(event.created)
                     : Math.floor(Date.now() / 1000),
 
-                  // ✅ clave: esto permite dedupe perfecto
                   event_id: eventId,
-
                   action_source: "website",
                   event_source_url: eventSourceUrl,
 
@@ -200,17 +195,17 @@ module.exports = async (req, res) => {
               console.log("✅ Meta CAPI Purchase OK:", meta);
             }
           }
-        } catch (err) {
-          console.error("❌ Error enviando Meta CAPI Purchase:", err);
+        } catch (e) {
+          console.error("❌ CAPI error:", e);
         }
       }
     }
 
-    // ✅ 200 SIEMPRE
-    return res.status(200).json({ received: true });
+    res.statusCode = 200;
+    return res.end(JSON.stringify({ received: true }));
   } catch (e) {
     console.error("❌ Webhook handler error:", e);
-    // aunque falle algo tuyo, devuelve 200 para no reintentos infinitos
-    return res.status(200).json({ received: true, warning: "handler_error" });
+    res.statusCode = 200;
+    return res.end(JSON.stringify({ received: true, warning: "handler_error" }));
   }
 };
