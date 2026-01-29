@@ -1346,13 +1346,19 @@ window.LIRYA_PURCHASE = function(data){
     return;
   }
 
-  once("lirya_purchase_fired", () => {
+  // ✅ clave única por compra
+  const key = "lirya_purchase_fired_" + String(data.event_id || data.session_id || data.value || "x");
+
+  once(key, () => {
     trackEvent("Purchase", {
       currency: "EUR",
       value: Number(data.value),
       content_name: "Canción personalizada",
       content_type: "product",
       plan: data.plan || undefined,
+    }, {
+      // ✅ si nos pasan event_id, lo usamos como eventID para dedupe
+      eventId: data.event_id || undefined
     });
   });
 };
@@ -5151,6 +5157,7 @@ processingPayment = true;
 </div>
   </div>
 </section>
+
 
 
 
