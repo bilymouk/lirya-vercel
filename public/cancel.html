@@ -285,7 +285,7 @@
 </footer>
 
 <script>
-/* ===== Cancel: track custom event + CAPI + cleanup ===== */
+/* ===== Cancel: track custom event + CAPI + cleanup (NO FAIL si falta event_id) ===== */
 (function () {
   const hasFbq = typeof window.fbq === "function";
 
@@ -345,10 +345,13 @@
     }
   }
 
-  const checkoutEventId = getCheckoutEventId(); // puede venir vacío (ok)
+  const checkoutEventId = getCheckoutEventId(); // puede venir vacío
+  const fallbackEventId =
+    checkoutEventId || ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
+
   const event_source_url = window.location.origin + window.location.pathname;
 
-  once("lirya_cancel_fired_" + (checkoutEventId || "noid"), () => {
+  once("lirya_cancel_fired_" + fallbackEventId, () => {
     // Pixel: custom
     if (hasFbq) {
       try {
@@ -360,11 +363,11 @@
       }
     }
 
-    // CAPI: custom
+    // CAPI: SIEMPRE con event_id (tu backend lo requiere)
     const capiBody = {
       event_name: "CancelCheckout",
       event_time: Math.floor(Date.now() / 1000),
-      event_id: checkoutEventId || undefined,
+      event_id: fallbackEventId,
       event_source_url,
       action_source: "website",
       user_data: {
