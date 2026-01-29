@@ -264,16 +264,17 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 
 fbq('init', '893462606511287');
 fbq('set', 'autoConfig', 'false', '893462606511287');
-</script>
-
-<noscript>
-  <img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
-</noscript>
-
-<!-- Limpieza final -->
+  
 <script>
 (function () {
+  const sid = new URLSearchParams(location.search).get("session_id") || "";
+  const key = "lirya_success_cleaned_" + (sid || "no_sid");
+
+  try {
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch (_) {}
+
   try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
   try { sessionStorage.removeItem("lirya_purchase_value"); } catch(_) {}
   try { sessionStorage.removeItem("lirya_purchase_plan"); } catch(_) {}
