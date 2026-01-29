@@ -266,7 +266,7 @@
     }
   </style>
 
-  <!-- Meta Pixel Code (SOLO UNA VEZ) -->
+  <!-- ===== META PIXEL (solo init, SIN PageView) ===== -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -276,15 +276,15 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
+
   fbq('init', '893462606511287');
   fbq('set', 'autoConfig', 'false', '893462606511287');
-  fbq('track', 'PageView');
   </script>
+
   <noscript>
     <img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   </noscript>
-  <!-- End Meta Pixel Code -->
 </head>
 
 <body>
@@ -363,21 +363,19 @@
   (function () {
     const hasFbq = typeof window.fbq === "function";
 
+    const urlParams = new URLSearchParams(location.search);
+    const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+    const DEBUG = urlParams.get("debug_meta") === "1";
+    const log = (...args) => { if (DEBUG) console.log("[META CARLOS]", ...args); };
+
     // Anti-duplicados por sesión
     const once = (key, fn) => {
       try {
         if (sessionStorage.getItem(key)) return;
         sessionStorage.setItem(key, "1");
-        fn();
-      } catch (e) {
-        fn();
-      }
+      } catch(_) {}
+      fn();
     };
-
-    const urlParams = new URLSearchParams(location.search);
-    const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
-    const DEBUG = urlParams.get("debug_meta") === "1";
-    const log = (...args) => { if (DEBUG) console.log("[META CARLOS]", ...args); };
 
     // Cookies helpers (Safari-friendly)
     const getCookie = (name) => {
@@ -420,13 +418,34 @@
       return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
     };
 
+    // URL limpia (sin query params)
+    const event_source_url = window.location.origin + window.location.pathname;
+
     async function sendCapiEvent(body) {
+      const url = "/api/meta-capi";
+      const payload = JSON.stringify(body);
+
+      // 1) beacon (mejor iOS/Safari)
       try {
-        const res = await fetch("/api/meta-capi", {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: "application/json" });
+          const ok = navigator.sendBeacon(url, blob);
+          if (ok) {
+            log("CAPI sendBeacon OK");
+            return true;
+          }
+        }
+      } catch (e) {
+        log("CAPI beacon error", e);
+      }
+
+      // 2) fetch fallback
+      try {
+        const res = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           keepalive: true,
-          body: JSON.stringify(body),
+          body: payload,
         });
         if (DEBUG) {
           const txt = await res.text().catch(() => "");
@@ -434,7 +453,7 @@
         }
         return res.ok;
       } catch (e) {
-        log("CAPI error", e);
+        log("CAPI fetch error", e);
         return false;
       }
     }
@@ -442,7 +461,7 @@
     function track(eventName, customData = {}, opts = {}) {
       const eventId = opts.eventId || newEventId();
 
-      // Pixel (solo si existe)
+      // Pixel (si existe)
       if (hasFbq) {
         try {
           window.fbq("track", eventName, customData, { eventID: eventId });
@@ -454,14 +473,25 @@
         log("Pixel NO disponible (Safari puede bloquearlo)");
       }
 
-      // CAPI (SIEMPRE)
+      // CAPI (siempre)
       sendCapiEvent({
         event_name: eventName,
+        event_time: Math.floor(Date.now() / 1000),
         event_id: eventId,
-        event_source_url: window.location.href,
+        event_source_url,
         action_source: "website",
+
+        // compat: tu endpoint acepta fbp/fbc fuera
         fbp: FBP || undefined,
         fbc: FBC || undefined,
+
+        // y también acepta user_data (mejor)
+        user_data: {
+          fbp: FBP || undefined,
+          fbc: FBC || undefined,
+          client_user_agent: navigator.userAgent || undefined,
+        },
+
         custom_data: customData,
         ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
       });
@@ -469,8 +499,13 @@
       return eventId;
     }
 
-    // 1) ViewContent al entrar en la página (testimonial)
-    once("lirya_vc_video_carlos", () => {
+    // 0) PageView (dedupe sesión) — ahora sí, controlado
+    once("lirya_pageview_carlos", () => {
+      track("PageView", {});
+    });
+
+    // 1) ViewContent (testimonial)
+    once("lirya_viewcontent_carlos", () => {
       track("ViewContent", {
         content_name: "Reaccion - carlos",
         content_category: "Video testimonial",
@@ -479,7 +514,7 @@
       });
     });
 
-    // 2) Lead al click hacia el formulario (1 por sesión)
+    // 2) Lead (click hacia formulario)
     document.addEventListener("click", function (e) {
       const el = e.target.closest("a, button");
       if (!el) return;
@@ -496,7 +531,8 @@
 
       const btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
 
-      once("lirya_lead_carlos_to_form", () => {
+      // dedupe por href (mejor que key fija)
+      once("lirya_lead_carlos_to_form_" + href, () => {
         track("Lead", {
           content_name: "CTA -> Formulario (desde video)",
           button_text: btnText,
