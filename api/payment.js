@@ -3,19 +3,20 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const ALLOWED_ORIGINS = [
   "https://lirya.studio",
   "https://www.lirya.studio",
-  ];
-  
+];
+
 module.exports = async (req, res) => {
-  // --- 1. CONFIGURACIÓN CORS ---
+  // --- 1) CORS ---
   const origin = req.headers.origin;
 
-if (ALLOWED_ORIGINS.includes(origin)) {
-  res.setHeader("Access-Control-Allow-Origin", origin);
-}
-  
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
   res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Cache-Control", "no-store");
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") {
@@ -26,7 +27,7 @@ if (ALLOWED_ORIGINS.includes(origin)) {
     const f = req.body || {};
     console.log("📥 FORM DATA RECIBIDO:", f.email);
 
-    // --- 2. CALCULAR PRECIO SEGÚN TARIFA ---
+    // --- 2) PRECIO SEGÚN TARIFA ---
     let amount;
     if (f.tarifa == "39") amount = 3900;
     else if (f.tarifa == "59") amount = 5900;
@@ -35,12 +36,12 @@ if (ALLOWED_ORIGINS.includes(origin)) {
       return res.status(400).json({ error: "Tarifa no válida" });
     }
 
-    // --- 2.1 VALIDACIÓN MÍNIMA (evita sesiones basura) ---
+    // --- 2.1) VALIDACIÓN MÍNIMA ---
     if (!f.email || typeof f.email !== "string" || !f.email.includes("@")) {
       return res.status(400).json({ error: "Email no válido" });
     }
 
-    // --- 3. BASE_URL INFALIBLE (dominio real) ---
+    // --- 3) BASE_URL INFALIBLE (dominio real) ---
     const envUrl = (process.env.SITE_URL || "").trim();
 
     const proto = (req.headers["x-forwarded-proto"] || "https")
@@ -69,7 +70,7 @@ if (ALLOWED_ORIGINS.includes(origin)) {
 
     console.log("🌍 BASE_URL:", BASE_URL);
 
-    // --- 4. CREAR SESIÓN DE STRIPE ---
+    // --- 4) CREAR SESIÓN DE STRIPE ---
     let session;
     try {
       session = await stripe.checkout.sessions.create({
@@ -80,6 +81,9 @@ if (ALLOWED_ORIGINS.includes(origin)) {
 
         billing_address_collection: "required",
         customer_creation: "always",
+
+        // ✅ muy útil para debugging y atribución
+        client_reference_id: f.event_id || undefined,
 
         line_items: [
           {
@@ -95,13 +99,14 @@ if (ALLOWED_ORIGINS.includes(origin)) {
           },
         ],
 
+        // ✅ Asegúrate de que existen estos archivos
         success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${BASE_URL}/cancel.html`,
 
-        // ✅ LO CLAVE para Purchase por CAPI (webhook):
+        // ✅ CLAVE para Purchase por CAPI (webhook):
         // - event_id: dedupe
         // - fbp/fbc: matching
-        // - event_source_url: coherencia del evento
+        // - event_source_url: URL REAL donde ocurrió el evento (landing)
         metadata: {
           email: f.email || "",
           tarifa: f.tarifa || "",
@@ -110,7 +115,9 @@ if (ALLOWED_ORIGINS.includes(origin)) {
           event_id: f.event_id || "",
           fbp: f.fbp || "",
           fbc: f.fbc || "",
-          event_source_url: f.event_source_url || `${BASE_URL}/success.html`,
+
+          // ✅ IMPORTANTE: NO debe ser success.html, debe ser la landing (o path real)
+          event_source_url: f.event_source_url || `${BASE_URL}/`,
         },
       });
     } catch (stripeErr) {
@@ -124,7 +131,7 @@ if (ALLOWED_ORIGINS.includes(origin)) {
 
     console.log("✅ STRIPE SESSION CREADA:", session.id);
 
-    // --- 5. ENVIAR DATOS A MAKE (PEDIDO PRE-PAGO, YA CON ID) ---
+    // --- 5) ENVIAR DATOS A MAKE (PEDIDO PRE-PAGO, YA CON ID) ---
     try {
       const MAKE_WEBHOOK_URL =
         "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe"; // Pedido_cancion_web
@@ -150,7 +157,7 @@ if (ALLOWED_ORIGINS.includes(origin)) {
       console.error("⚠️ Error enviando a Make (seguimos igual):", makeError);
     }
 
-    // --- 6. DEVOLVER URL PARA REDIRIGIR A STRIPE ---
+    // --- 6) DEVOLVER URL PARA REDIRIGIR A STRIPE ---
     return res.status(200).json({ url: session.url });
   } catch (error) {
     console.error("❌ ERROR PAYMENT:", error);
