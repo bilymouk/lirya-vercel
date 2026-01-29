@@ -341,7 +341,9 @@
     </div>
 
   </div>
-  <script>
+  
+  <!-- ===== META PIXEL (solo init, SIN PageView) ===== -->
+<script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -350,37 +352,34 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
+
 fbq('init', '893462606511287');
 fbq('set', 'autoConfig', 'false', '893462606511287');
-fbq('track', 'PageView');
 </script>
+
 <noscript>
-<img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
+  <img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 </noscript>
-<!-- End Meta Pixel Code -->
 
 <script>
 (function () {
   const hasFbq = typeof window.fbq === "function";
-
-  // Anti-duplicados por sesión
-  const once = (key, fn) => {
-    try {
-      if (sessionStorage.getItem(key)) return;
-      sessionStorage.setItem(key, "1");
-      fn();
-    } catch (e) {
-      fn();
-    }
-  };
 
   const urlParams = new URLSearchParams(location.search);
   const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
   const DEBUG = urlParams.get("debug_meta") === "1";
   const log = (...args) => { if (DEBUG) console.log("[META ANDREA]", ...args); };
 
-  // Cookies helpers (Safari-friendly)
+  const once = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch(_) {}
+    fn();
+  };
+
+  // cookies helpers (Safari-friendly)
   const getCookie = (name) => {
     const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
     return m ? decodeURIComponent(m[2]) : null;
@@ -421,13 +420,33 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
   };
 
+  const event_source_url = window.location.origin + window.location.pathname;
+
   async function sendCapiEvent(body) {
+    const url = "/api/meta-capi";
+    const payload = JSON.stringify(body);
+
+    // 1) beacon (mejor iOS/Safari)
     try {
-      const res = await fetch("/api/meta-capi", {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: "application/json" });
+        const ok = navigator.sendBeacon(url, blob);
+        if (ok) {
+          log("CAPI sendBeacon OK");
+          return true;
+        }
+      }
+    } catch (e) {
+      log("CAPI beacon error", e);
+    }
+
+    // 2) fetch fallback
+    try {
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         keepalive: true,
-        body: JSON.stringify(body),
+        body: payload,
       });
       if (DEBUG) {
         const txt = await res.text().catch(() => "");
@@ -435,7 +454,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       }
       return res.ok;
     } catch (e) {
-      log("CAPI error", e);
+      log("CAPI fetch error", e);
       return false;
     }
   }
@@ -443,7 +462,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   function track(eventName, customData = {}, opts = {}) {
     const eventId = opts.eventId || newEventId();
 
-    // Pixel (solo si existe)
+    // Pixel (si existe)
     if (hasFbq) {
       try {
         window.fbq("track", eventName, customData, { eventID: eventId });
@@ -451,18 +470,21 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       } catch (e) {
         log("Pixel error", e);
       }
-    } else {
-      log("Pixel NO disponible (Safari puede bloquearlo)");
     }
 
-    // CAPI (SIEMPRE)
+    // CAPI
     sendCapiEvent({
       event_name: eventName,
       event_id: eventId,
-      event_source_url: window.location.href,
+      event_source_url,
       action_source: "website",
       fbp: FBP || undefined,
       fbc: FBC || undefined,
+      user_data: {
+        fbp: FBP || undefined,
+        fbc: FBC || undefined,
+        client_user_agent: navigator.userAgent || undefined,
+      },
       custom_data: customData,
       ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
     });
@@ -470,8 +492,13 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     return eventId;
   }
 
-  // 1) ViewContent al entrar en la página (testimonial)
-  once("lirya_vc_video_andrea", () => {
+  // 0) PageView (dedupe sesión)
+  once("lirya_pageview_andrea", () => {
+    track("PageView", {});
+  });
+
+  // 1) ViewContent (testimonial)
+  once("lirya_viewcontent_andrea", () => {
     track("ViewContent", {
       content_name: "Reaccion - andrea",
       content_category: "Video testimonial",
@@ -480,13 +507,12 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     });
   });
 
-  // 2) Lead al click hacia el formulario
+  // 2) Lead (click hacia formulario)
   document.addEventListener("click", function (e) {
     const el = e.target.closest("a, button");
     if (!el) return;
 
     const href = (el.getAttribute("href") || "").trim();
-
     const goesToForm =
       href === "/#formulario-lirya" ||
       href === "#formulario-lirya" ||
@@ -497,7 +523,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 
     const btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
 
-    once("lirya_lead_andrea_to_form_" + btnText, () => {
+    once("lirya_lead_andrea_" + btnText, () => {
       track("Lead", {
         content_name: "CTA -> Formulario (desde video)",
         button_text: btnText,
@@ -509,5 +535,6 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
 
 })();
 </script>
+
 </body>
 </html>
