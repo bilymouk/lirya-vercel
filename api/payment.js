@@ -1,3 +1,5 @@
+// /api/payment.js (o /api/payment/index.js según tu estructura)
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const ALLOWED_ORIGINS = [
@@ -25,11 +27,15 @@ module.exports = async (req, res) => {
 
   try {
     const f = req.body || {};
-    
-    // ✅ TEST EVENTS (Meta): si viene test_event_code en la URL, lo arrastramos hasta Stripe
-   const testEventCode = String(f.test_event_code || "").trim();
-   const testQS = testEventCode ? `&test_event_code=${encodeURIComponent(testEventCode)}` : "";
-   const cancelQS = testEventCode ? `?test_event_code=${encodeURIComponent(testEventCode)}` : "";
+
+    // ✅ Meta Test Events: si te llega test_event_code (solo testing), lo pasamos a success/cancel
+    const testEventCode = String(f.test_event_code || "").trim();
+    const testQS = testEventCode
+      ? `&test_event_code=${encodeURIComponent(testEventCode)}`
+      : "";
+    const cancelQS = testEventCode
+      ? `?test_event_code=${encodeURIComponent(testEventCode)}`
+      : "";
 
     console.log("📥 FORM DATA RECIBIDO:", f.email);
 
@@ -88,7 +94,7 @@ module.exports = async (req, res) => {
         billing_address_collection: "required",
         customer_creation: "always",
 
-        // ✅ muy útil para debugging y atribución
+        // ✅ útil para debugging/atribución (no rompe nada si va vacío)
         client_reference_id: f.event_id || undefined,
 
         line_items: [
@@ -105,14 +111,11 @@ module.exports = async (req, res) => {
           },
         ],
 
-        // ✅ Asegúrate de que existen estos archivos
+        // ✅ success/cancel
         success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}${testQS}`,
         cancel_url: `${BASE_URL}/cancel.html${cancelQS}`,
 
-        // ✅ CLAVE para Purchase por CAPI (webhook):
-        // - event_id: dedupe
-        // - fbp/fbc: matching
-        // - event_source_url: URL REAL donde ocurrió el evento (landing)
+        // ✅ CLAVE para CAPI Purchase en webhook
         metadata: {
           email: f.email || "",
           tarifa: f.tarifa || "",
@@ -122,7 +125,7 @@ module.exports = async (req, res) => {
           fbp: f.fbp || "",
           fbc: f.fbc || "",
 
-          // ✅ IMPORTANTE: NO debe ser success.html, debe ser la landing (o path real)
+          // ✅ Debe ser la URL REAL donde ocurrió la acción (landing / página del formulario)
           event_source_url: f.event_source_url || `${BASE_URL}/`,
         },
       });
@@ -137,10 +140,10 @@ module.exports = async (req, res) => {
 
     console.log("✅ STRIPE SESSION CREADA:", session.id);
 
-    // --- 5) ENVIAR DATOS A MAKE (PEDIDO PRE-PAGO, YA CON ID) ---
+    // --- 5) ENVIAR DATOS A MAKE (pre-pago) ---
     try {
       const MAKE_WEBHOOK_URL =
-        "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe"; // Pedido_cancion_web
+        "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe";
 
       const doFetch = typeof fetch === "function" ? fetch : null;
 
@@ -173,3 +176,4 @@ module.exports = async (req, res) => {
     });
   }
 };
+;
