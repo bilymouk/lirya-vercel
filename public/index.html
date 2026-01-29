@@ -3844,37 +3844,43 @@ if (!checkoutEventId) {
   try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
 }
     
-       // ===== INITIATECHECKOUT (Pixel + CAPI) con event_id estable =====
-    once("lirya_initiatecheckout_" + checkoutEventId, async () => {
-      const tarifa = Number(val("tarifa-hidden") || 0);
-      try { sessionStorage.setItem("lirya_purchase_value", String(tarifa)); } catch(_) {}
-      try { sessionStorage.setItem("lirya_purchase_plan", String(tarifa)); } catch(_) {}
+    const j = await r.json();
+if (!j.url) throw new Error("Stripe no devolvió URL");
 
-      // ✅ evita eventos basura
-      if (!tarifa || ![39, 59, 79].includes(tarifa)) return;
+// ✅ AHORA sí: ya tenemos URL real de Stripe → InitiateCheckout real
+once("lirya_initiatecheckout_" + checkoutEventId, async () => {
+  const tarifa = Number(val("tarifa-hidden") || 0);
+  try { sessionStorage.setItem("lirya_purchase_value", String(tarifa)); } catch(_) {}
+  try { sessionStorage.setItem("lirya_purchase_plan", String(tarifa)); } catch(_) {}
 
-      // (Opcional) hash del email para futuras mejoras (NO rompe nada)
-      const emailRaw = (val("email") || "").trim().toLowerCase();
-      let em;
-      try {
-        if (emailRaw && window.crypto?.subtle) {
-          em = await sha256Hex(emailRaw);
-        }
-      } catch (_) {}
+  // ✅ evita eventos basura
+  if (!tarifa || ![39, 59, 79].includes(tarifa)) return;
 
-      if (typeof window.LIRYA_TRACK === "function") {
-        window.LIRYA_TRACK(
-          "InitiateCheckout",
-          {
-            currency: "EUR",
-            value: tarifa,
-            content_name: "Canción personalizada",
-            content_type: "product",
-            plan: String(tarifa),
-          },
-          { eventId: checkoutEventId }
-        );
-      }
+  // (Opcional) hash del email para mejorar matching
+  const emailRaw = (val("email") || "").trim().toLowerCase();
+  let em;
+  try {
+    if (emailRaw && window.crypto?.subtle) {
+      em = await sha256Hex(emailRaw);
+    }
+  } catch (_) {}
+
+  if (typeof window.LIRYA_TRACK === "function") {
+    window.LIRYA_TRACK(
+      "InitiateCheckout",
+      {
+        currency: "EUR",
+        value: tarifa,
+        content_name: "Canción personalizada",
+        content_type: "product",
+        plan: String(tarifa),
+      },
+      { eventId: checkoutEventId }
+    );
+  }
+});
+
+window.location.href = j.url;
 
       // ✅ Si quieres guardar em para backend (opcional, no imprescindible)
       // try { if (em) sessionStorage.setItem("lirya_em_hash", em); } catch(_) {}
@@ -5206,6 +5212,7 @@ if (!checkoutEventId) {
 </div>
   </div>
 </section>
+
 
 
 
