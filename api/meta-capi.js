@@ -82,9 +82,9 @@ export default async function handler(req, res) {
 
   // event_source_url: mejor NO mandar vacío
   const finalEventSourceUrl =
-    String(event_source_url || "").trim() ||
-    (req.headers?.referer ? String(req.headers.referer) : "") ||
-    "";
+  String(event_source_url || "").trim() ||
+  (req.headers?.referer ? String(req.headers.referer) : "") ||
+  (req.headers?.origin ? String(req.headers.origin) : "");
 
   const payload = {
     data: [
@@ -100,9 +100,9 @@ export default async function handler(req, res) {
 
         user_data: {
           // Prioridad: lo que ve el servidor
-          client_ip_address: ip || user_data?.client_ip_address,
-          client_user_agent: ua || user_data?.client_user_agent,
-
+          client_ip_address: ip || 
+          client_user_agent: ua ||
+            
           ...(finalFbp ? { fbp: finalFbp } : {}),
           ...(finalFbc ? { fbc: finalFbc } : {}),
           ...(em ? { em } : {}),
