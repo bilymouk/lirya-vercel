@@ -266,26 +266,26 @@
       .btn:hover,.small-link:hover{transform:none}
     }
   </style>
-  <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '893462606511287');
-fbq('set', 'autoConfig', 'false', '893462606511287');
-fbq('track', 'PageView');
-</script>
-<noscript>
-<img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
-</noscript>
-<!-- End Meta Pixel Code -->
 
+  <!-- ===== META PIXEL (solo init, SIN PageView) ===== -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', '893462606511287');
+  fbq('set', 'autoConfig', 'false', '893462606511287');
+  </script>
+
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
+  </noscript>
 </head>
 
 <body>
@@ -305,7 +305,7 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
       Si quieres regalar un momento que se recuerde, esto es lo que suele pasar cuando la letra encaja de verdad.
     </p>
 
-    <!-- ✅ BLOQUE SEO ON-PAGE (DIFERENTE A SARA: ENFOQUE ROMÁNTICO / PAREJA) -->
+    <!-- ✅ BLOQUE SEO ON-PAGE (ENFOQUE ROMÁNTICO / PAREJA) -->
     <p class="sub">
       Si lo tuyo es un <strong>regalo romántico</strong>, esto funciona especialmente bien para <strong>sorprender a tu pareja</strong>.
       Es perfecto para un <strong>aniversario</strong>, una <strong>declaración</strong>, una pedida, una boda o incluso <strong>San Valentín</strong>.
@@ -359,154 +359,192 @@ src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
     </div>
 
   </div>
-<script>
-(function () {
-  const hasFbq = typeof window.fbq === "function";
 
-  // Anti-duplicados por sesión
-  const once = (key, fn) => {
-    try {
-      if (sessionStorage.getItem(key)) return;
-      sessionStorage.setItem(key, "1");
-      fn();
-    } catch (e) {
-      fn();
-    }
-  };
+  <script>
+  (function () {
+    const hasFbq = typeof window.fbq === "function";
 
-  const urlParams = new URLSearchParams(location.search);
-  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
-  const DEBUG = urlParams.get("debug_meta") === "1";
-  const log = (...args) => { if (DEBUG) console.log("[META MARIA]", ...args); };
+    const urlParams = new URLSearchParams(location.search);
+    const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+    const DEBUG = urlParams.get("debug_meta") === "1";
+    const log = (...args) => { if (DEBUG) console.log("[META MARIA]", ...args); };
 
-  // Cookies helpers (Safari-friendly)
-  const getCookie = (name) => {
-    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-    return m ? decodeURIComponent(m[2]) : null;
-  };
-
-  const setCookie = (name, value, days) => {
-    const maxAge = days * 24 * 60 * 60;
-    document.cookie =
-      `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
-  };
-
-  function ensureFbp() {
-    let fbp = getCookie("_fbp");
-    if (fbp) return fbp;
-    const ts = Date.now();
-    const rnd = Math.floor(Math.random() * 1e10);
-    fbp = `fb.1.${ts}.${rnd}`;
-    setCookie("_fbp", fbp, 90);
-    return fbp;
-  }
-
-  function ensureFbc() {
-    const existing = getCookie("_fbc");
-    if (existing) return existing;
-    const fbclid = urlParams.get("fbclid");
-    if (!fbclid) return null;
-    const ts = Date.now();
-    const fbc = `fb.1.${ts}.${fbclid}`;
-    setCookie("_fbc", fbc, 90);
-    return fbc;
-  }
-
-  const FBP = ensureFbp();
-  const FBC = ensureFbc();
-
-  const newEventId = () => {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-  };
-
-  async function sendCapiEvent(body) {
-    try {
-      const res = await fetch("/api/meta-capi", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        keepalive: true,
-        body: JSON.stringify(body),
-      });
-      if (DEBUG) {
-        const txt = await res.text().catch(() => "");
-        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
-      }
-      return res.ok;
-    } catch (e) {
-      log("CAPI error", e);
-      return false;
-    }
-  }
-
-  function track(eventName, customData = {}, opts = {}) {
-    const eventId = opts.eventId || newEventId();
-
-    // Pixel (solo si existe)
-    if (hasFbq) {
+    // Anti-duplicados por sesión
+    const once = (key, fn) => {
       try {
-        window.fbq("track", eventName, customData, { eventID: eventId });
-        log("Pixel", eventName, eventId);
-      } catch (e) {
-        log("Pixel error", e);
-      }
-    } else {
-      log("Pixel NO disponible (Safari puede bloquearlo)");
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, "1");
+      } catch(_) {}
+      fn();
+    };
+
+    // Cookies helpers (Safari-friendly)
+    const getCookie = (name) => {
+      const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return m ? decodeURIComponent(m[2]) : null;
+    };
+
+    const setCookie = (name, value, days) => {
+      const maxAge = days * 24 * 60 * 60;
+      document.cookie =
+        `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+    };
+
+    function ensureFbp() {
+      let fbp = getCookie("_fbp");
+      if (fbp) return fbp;
+      const ts = Date.now();
+      const rnd = Math.floor(Math.random() * 1e10);
+      fbp = `fb.1.${ts}.${rnd}`;
+      setCookie("_fbp", fbp, 90);
+      return fbp;
     }
 
-    // CAPI (SIEMPRE)
-    sendCapiEvent({
-      event_name: eventName,
-      event_id: eventId,
-      event_source_url: window.location.href,
-      action_source: "website",
-      fbp: FBP || undefined,
-      fbc: FBC || undefined,
-      custom_data: customData,
-      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+    function ensureFbc() {
+      const existing = getCookie("_fbc");
+      if (existing) return existing;
+      const fbclid = urlParams.get("fbclid");
+      if (!fbclid) return null;
+      const ts = Date.now();
+      const fbc = `fb.1.${ts}.${fbclid}`;
+      setCookie("_fbc", fbc, 90);
+      return fbc;
+    }
+
+    const FBP = ensureFbp();
+    const FBC = ensureFbc();
+
+    const newEventId = () => {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+    };
+
+    // URL limpia (sin query params)
+    const event_source_url = window.location.origin + window.location.pathname;
+
+    async function sendCapiEvent(body) {
+      const url = "/api/meta-capi";
+      const payload = JSON.stringify(body);
+
+      // 1) beacon (mejor iOS/Safari)
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: "application/json" });
+          const ok = navigator.sendBeacon(url, blob);
+          if (ok) {
+            log("CAPI sendBeacon OK");
+            return true;
+          }
+        }
+      } catch (e) {
+        log("CAPI beacon error", e);
+      }
+
+      // 2) fetch fallback
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          keepalive: true,
+          body: payload,
+        });
+        if (DEBUG) {
+          const txt = await res.text().catch(() => "");
+          log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
+        }
+        return res.ok;
+      } catch (e) {
+        log("CAPI fetch error", e);
+        return false;
+      }
+    }
+
+    function track(eventName, customData = {}, opts = {}) {
+      const eventId = opts.eventId || newEventId();
+
+      // Pixel (si existe)
+      if (hasFbq) {
+        try {
+          window.fbq("track", eventName, customData, { eventID: eventId });
+          log("Pixel", eventName, eventId);
+        } catch (e) {
+          log("Pixel error", e);
+        }
+      } else {
+        log("Pixel NO disponible (Safari puede bloquearlo)");
+      }
+
+      // CAPI (siempre)
+      sendCapiEvent({
+        event_name: eventName,
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId,
+        event_source_url,
+        action_source: "website",
+
+        // compat: tu endpoint acepta fbp/fbc fuera
+        fbp: FBP || undefined,
+        fbc: FBC || undefined,
+
+        // y también acepta user_data (mejor)
+        user_data: {
+          fbp: FBP || undefined,
+          fbc: FBC || undefined,
+          client_user_agent: navigator.userAgent || undefined,
+        },
+
+        custom_data: customData,
+        ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+      });
+
+      return eventId;
+    }
+
+    // 0) PageView (dedupe sesión) — controlado
+    once("lirya_pageview_maria", () => {
+      track("PageView", {});
     });
 
-    return eventId;
-  }
-
-  // 1) ViewContent al entrar en la página (testimonial)
-  once("lirya_vc_video_maria", () => {
-    track("ViewContent", {
-      content_name: "Reaccion - maria",
-      content_category: "Video testimonial",
-      page_type: "reacciones",
-      source_page: location.pathname
-    });
-  });
-
-  // 2) Lead al click hacia el formulario (1 por sesión)
-  document.addEventListener("click", function (e) {
-    const el = e.target.closest("a, button");
-    if (!el) return;
-
-    const href = (el.getAttribute("href") || "").trim();
-
-    const goesToForm =
-      href === "/#formulario-lirya" ||
-      href === "#formulario-lirya" ||
-      href.endsWith("/#formulario-lirya") ||
-      href.endsWith("#formulario-lirya");
-
-    if (!goesToForm) return;
-
-    const btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
-
-    once("lirya_lead_maria_to_form", () => {
-      track("Lead", {
-        content_name: "CTA -> Formulario (desde video)",
-        button_text: btnText,
-        source_page: location.pathname,
-        destination: "/#formulario-lirya"
+    // 1) ViewContent (testimonial)
+    once("lirya_viewcontent_maria", () => {
+      track("ViewContent", {
+        content_name: "Reaccion - maria",
+        content_category: "Video testimonial",
+        page_type: "reacciones",
+        source_page: location.pathname
       });
     });
-  }, true);
 
-})();
-</script>
+    // 2) Lead al click hacia el formulario
+    document.addEventListener("click", function (e) {
+      const el = e.target.closest("a, button");
+      if (!el) return;
+
+      const href = (el.getAttribute("href") || "").trim();
+
+      const goesToForm =
+        href === "/#formulario-lirya" ||
+        href === "#formulario-lirya" ||
+        href.endsWith("/#formulario-lirya") ||
+        href.endsWith("#formulario-lirya");
+
+      if (!goesToForm) return;
+
+      const btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
+
+      // dedupe más estable (como laura): 1 por href
+      once("lirya_lead_maria_to_form_" + href, () => {
+        track("Lead", {
+          content_name: "CTA -> Formulario (desde video)",
+          button_text: btnText,
+          source_page: location.pathname,
+          destination: "/#formulario-lirya"
+        });
+      });
+    }, true);
+
+  })();
+  </script>
+
 </body>
 </html>
