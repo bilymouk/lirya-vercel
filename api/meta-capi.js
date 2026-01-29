@@ -1,8 +1,21 @@
 // /api/meta-capi.js
 
+import crypto from "crypto";
+
+function sha256(input) {
+  return crypto.createHash("sha256").update(String(input || "")).digest("hex");
+}
+function normEmail(email) {
+  return String(email || "").trim().toLowerCase();
+}
+function normPhone(ph) {
+  return String(ph || "").replace(/[^\d+]/g, "").trim();
+}
+
 export default async function handler(req, res) {
+  res.setHeader("Cache-Control", "no-store");
+
   if (req.method !== "POST") {
-    res.setHeader("Cache-Control", "no-store");
     return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
@@ -26,9 +39,9 @@ export default async function handler(req, res) {
     event_source_url,
     fbp,
     fbc,
-    user_data = {},      // ✅ soporta user_data
+    user_data = {},      // soporta user_data
     action_source,       // opcional
-    test_event_code,     // ✅ test events
+    test_event_code,     // test events
   } = body;
 
   if (!event_name || !event_id) {
@@ -41,15 +54,37 @@ export default async function handler(req, res) {
 
   // IP real (Vercel / proxy)
   const ip =
-    (req.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
+    (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim() ||
     req.socket?.remoteAddress ||
     "";
 
-  const ua = req.headers["user-agent"] || "";
+  const ua = (req.headers["user-agent"] || "").toString();
 
-  // ✅ fbp/fbc: lo acepta de ambas formas
+  // fbp/fbc: acepta de ambas formas
   const finalFbp = user_data?.fbp || fbp || undefined;
   const finalFbc = user_data?.fbc || fbc || undefined;
+
+  // ✅ Matching avanzado opcional:
+  // - Si en algún momento mandas email/phone raw (NO hash) desde front,
+  //   lo hash-eamos aquí (más limpio).
+  let em = user_data?.em;
+  let ph = user_data?.ph;
+
+  // Si mandas user_data.email o user_data.phone en el futuro:
+  if (!em && user_data?.email) {
+    const e = normEmail(user_data.email);
+    em = e ? sha256(e) : undefined;
+  }
+  if (!ph && user_data?.phone) {
+    const p = normPhone(user_data.phone);
+    ph = p ? sha256(p) : undefined;
+  }
+
+  // event_source_url: mejor NO mandar vacío
+  const finalEventSourceUrl =
+    String(event_source_url || "").trim() ||
+    (req.headers?.referer ? String(req.headers.referer) : "") ||
+    "";
 
   const payload = {
     data: [
@@ -61,17 +96,17 @@ export default async function handler(req, res) {
 
         event_id,
         action_source: action_source || "website",
-        event_source_url: event_source_url || "",
+        event_source_url: finalEventSourceUrl,
 
         user_data: {
-          client_ip_address: ip,
-          client_user_agent: ua,
-          fbp: finalFbp,
-          fbc: finalFbc,
-          ...(user_data?.em ? { em: user_data.em } : {}),
-          ...(user_data?.ph ? { ph: user_data.ph } : {}),
-          // Si en el futuro quieres añadir más señales:
-          // em: user_data.em, ph: user_data.ph, etc (hasheadas)
+          // Prioridad: lo que ve el servidor
+          client_ip_address: ip || user_data?.client_ip_address,
+          client_user_agent: ua || user_data?.client_user_agent,
+
+          ...(finalFbp ? { fbp: finalFbp } : {}),
+          ...(finalFbc ? { fbc: finalFbc } : {}),
+          ...(em ? { em } : {}),
+          ...(ph ? { ph } : {}),
         },
 
         custom_data,
@@ -79,10 +114,8 @@ export default async function handler(req, res) {
     ],
   };
 
-  // ✅ Test Events: Meta lo exige a nivel raíz del payload
-  if (test_event_code) {
-    payload.test_event_code = test_event_code;
-  }
+  // Test Events: Meta lo exige a nivel raíz
+  if (test_event_code) payload.test_event_code = test_event_code;
 
   const url = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
 
@@ -95,7 +128,6 @@ export default async function handler(req, res) {
 
     const data = await r.json().catch(() => ({}));
 
-    // Si Meta devuelve error, lo tratamos como fallo para que lo veas claro
     if (!r.ok || data?.error) {
       return res.status(500).json({
         ok: false,
