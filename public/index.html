@@ -1052,6 +1052,22 @@ function onKeyToggle(e){
   audio.addEventListener("pause", () => setOverlayState(false));
   audio.addEventListener("play", () => setOverlayState(true));
 
+  let __lirya_viewcontent_audio_fired = false;
+
+audio.addEventListener("play", () => {
+  if (__lirya_viewcontent_audio_fired) return;
+  __lirya_viewcontent_audio_fired = true;
+
+  if (typeof window.LIRYA_TRACK === "function") {
+    window.LIRYA_TRACK("ViewContent", {
+      content_name: "Ejemplo audio (Hero)",
+      content_category: "Audio example",
+      placement: "hero"
+    });
+  }
+});
+
+
   const card = document.getElementById("urgency-card");
   const closeBtn = document.getElementById("urgency-close");
   const ctaBtn = document.getElementById("urgency-cta");
@@ -1434,11 +1450,14 @@ trackEvent("PageView", {});
 
     if (!isFormCta) return;
 
-   trackEvent("Lead", {
-  content_name: "CTA -> Formulario",
-  button_text: btnText,
-  destination: FORM_HASH,
+   once("lirya_lead_fired", () => {
+  trackEvent("Lead", {
+    content_name: "CTA -> Formulario",
+    button_text: btnText,
+    destination: FORM_HASH,
+  });
 });
+
   }, true);
 
 })();
@@ -2327,6 +2346,30 @@ trackEvent("PageView", {});
 
   if (!root || !player) return;
 
+    // ===== META: ViewContent cuando se escucha un ejemplo (una vez por sesión) =====
+  const VC_KEY = "lirya_vc_example_fired";
+
+  function fireViewContentFromExample(btn, audioUrl){
+    try{
+      if (sessionStorage.getItem(VC_KEY)) return;
+      sessionStorage.setItem(VC_KEY, "1");
+    }catch(_){}
+
+    const label =
+      (btn && (btn.getAttribute("aria-label") || btn.dataset.label || btn.textContent || "")).trim();
+
+    const isStyle = btn && btn.classList.contains("style-card");
+
+    if (typeof window.LIRYA_TRACK === "function") {
+      window.LIRYA_TRACK("ViewContent", {
+        content_name: label || (isStyle ? "Ejemplo estilo musical" : "Ejemplo real"),
+        content_category: isStyle ? "Estilos musicales" : "Ejemplos reales",
+        content_type: "audio",
+        audio_url: audioUrl ? String(audioUrl).slice(0, 200) : undefined
+      });
+    }
+  }
+
   const FAILSAFE_MS = 8000;
   const SCROLL_STEP = 340;
 
@@ -2457,6 +2500,8 @@ trackEvent("PageView", {});
     clearStates();
 
     currentBtn = pendingBtn;
+        // Dispara ViewContent cuando REALMENTE está sonando
+    fireViewContentFromExample(currentBtn, player.currentSrc || player.src);
     const container = containerOf(currentBtn);
  
     container.classList.add('playing');
@@ -2506,6 +2551,7 @@ trackEvent("PageView", {});
   window.addEventListener('resize', updateArrows);
   updateArrows();
 })();
+ 
 </script>
 <script>
 (function () {
@@ -4616,8 +4662,7 @@ if (!checkoutEventId) {
 </style>
 
 <script>
-  
-/* Carrusel: botones prev/next (sin librerías) */
+/* Carrusel + ViewContent en click de viñetas */
 (() => {
   const section = document.getElementById('reacciones');
   if (!section) return;
@@ -4646,8 +4691,30 @@ if (!checkoutEventId) {
     if (e.key === 'ArrowLeft') { e.preventDefault(); scrollByStep(-1); }
     if (e.key === 'ArrowRight'){ e.preventDefault(); scrollByStep(1); }
   });
-})();
 
+  // ===== META: ViewContent cuando hacen click en una reacción (viñeta) =====
+  section.addEventListener('click', (e) => {
+    const a = e.target?.closest?.('a.reaction-card[href]');
+    if (!a || !section.contains(a)) return;
+
+    // No dispares si es un link al formulario (por si algún día cambias algo)
+    const href = (a.getAttribute('href') || '').trim();
+    if (!href || href.startsWith('#formulario-lirya')) return;
+
+    const persona = (a.getAttribute('data-persona') || '').trim();
+    const label = (a.getAttribute('aria-label') || '').trim();
+
+    if (typeof window.LIRYA_TRACK === 'function') {
+      window.LIRYA_TRACK('ViewContent', {
+        content_name: label || (persona ? `Reacción ${persona}` : 'Reacción real'),
+        content_category: 'Reacciones',
+        content_type: 'video_page',
+        persona: persona || undefined,
+        destination: href
+      });
+    }
+  }, true);
+})();
 </script>
 
  <!-- ===== GARANTÍA + MINI FAQ (CARDS + CARRUSEL MÓVIL) ===== -->
@@ -5147,6 +5214,7 @@ if (!checkoutEventId) {
 </div>
   </div>
 </section>
+
 
 
 
