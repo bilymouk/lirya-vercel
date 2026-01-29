@@ -25,6 +25,12 @@ module.exports = async (req, res) => {
 
   try {
     const f = req.body || {};
+    
+    // ✅ TEST EVENTS (Meta): si viene test_event_code en la URL, lo arrastramos hasta Stripe
+   const testEventCode = String(f.test_event_code || "").trim();
+   const testQS = testEventCode ? `&test_event_code=${encodeURIComponent(testEventCode)}` : "";
+   const cancelQS = testEventCode ? `?test_event_code=${encodeURIComponent(testEventCode)}` : "";
+
     console.log("📥 FORM DATA RECIBIDO:", f.email);
 
     // --- 2) PRECIO SEGÚN TARIFA ---
@@ -100,8 +106,8 @@ module.exports = async (req, res) => {
         ],
 
         // ✅ Asegúrate de que existen estos archivos
-        success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${BASE_URL}/cancel.html`,
+        success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}${testQS}`,
+        cancel_url: `${BASE_URL}/cancel.html${cancelQS}`,
 
         // ✅ CLAVE para Purchase por CAPI (webhook):
         // - event_id: dedupe
