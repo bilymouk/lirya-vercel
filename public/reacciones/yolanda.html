@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- JSON-LD: WebPage + VideoObject (SEO PRO sin inventar datos) -->
+  <!-- JSON-LD: WebPage + VideoObject -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -147,7 +147,6 @@
       margin-top:14px;
     }
 
-    /* ✅ evita vídeo gigante/cortado en desktop */
     .video-wrap{
       margin:14px 0 8px;
       background:#000;
@@ -267,7 +266,7 @@
     }
   </style>
 
-  <!-- ===== META PIXEL (solo init, SIN PageView) ===== -->
+  <!-- ===== META PIXEL (solo init) ===== -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -360,16 +359,27 @@
 
   </div>
 
+  <!-- ✅ TRACKING FINAL: ViewContent al cargar página + Lead al clicar CTA a formulario -->
   <script>
   (function () {
     const hasFbq = typeof window.fbq === "function";
-
     const urlParams = new URLSearchParams(location.search);
-    const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
-    const DEBUG = urlParams.get("debug_meta") === "1";
-    const log = (...args) => { if (DEBUG) console.log("[META YOLANDA]", ...args); };
 
-    // Anti-duplicados por sesión
+    // ✅ conserva test_event_code al navegar entre páginas
+    let TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+    try{
+      if (TEST_EVENT_CODE) sessionStorage.setItem("lirya_test_event_code", TEST_EVENT_CODE);
+      else TEST_EVENT_CODE = sessionStorage.getItem("lirya_test_event_code") || "";
+    }catch(_){}
+
+    const DEBUG = urlParams.get("debug_meta") === "1";
+    const log = (...args) => { if (DEBUG) console.log("[META REACCION:YOLANDA]", ...args); };
+
+    const PERSONA = "yolanda";
+    const PAGE_TYPE = "reacciones";
+    const CONTENT_NAME = "Reacción - Yolanda (página)";
+
+    // ===== anti-duplicados por sesión =====
     const once = (key, fn) => {
       try {
         if (sessionStorage.getItem(key)) return;
@@ -378,7 +388,7 @@
       fn();
     };
 
-    // Cookies helpers (Safari-friendly)
+    // ===== cookies (Safari-friendly / ITP) =====
     const getCookie = (name) => {
       const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return m ? decodeURIComponent(m[2]) : null;
@@ -419,14 +429,15 @@
       return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
     };
 
-    // URL limpia (sin query params)
+    // URL limpia (sin query/hash)
     const event_source_url = window.location.origin + window.location.pathname;
 
+    // ===== CAPI sender =====
     async function sendCapiEvent(body) {
       const url = "/api/meta-capi";
       const payload = JSON.stringify(body);
 
-      // 1) beacon (mejor iOS/Safari)
+      // beacon first (mejor iOS/Safari)
       try {
         if (navigator.sendBeacon) {
           const blob = new Blob([payload], { type: "application/json" });
@@ -440,7 +451,7 @@
         log("CAPI beacon error", e);
       }
 
-      // 2) fetch fallback
+      // fetch fallback
       try {
         const res = await fetch(url, {
           method: "POST",
@@ -448,6 +459,7 @@
           keepalive: true,
           body: payload,
         });
+
         if (DEBUG) {
           const txt = await res.text().catch(() => "");
           log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
@@ -459,10 +471,11 @@
       }
     }
 
+    // ===== track unified (Pixel + CAPI) =====
     function track(eventName, customData = {}, opts = {}) {
       const eventId = opts.eventId || newEventId();
 
-      // Pixel (si existe)
+      // Pixel
       if (hasFbq) {
         try {
           window.fbq("track", eventName, customData, { eventID: eventId });
@@ -471,10 +484,10 @@
           log("Pixel error", e);
         }
       } else {
-        log("Pixel NO disponible (Safari puede bloquearlo)");
+        log("Pixel NO disponible (bloqueado / Safari)");
       }
 
-      // CAPI (siempre)
+      // CAPI
       sendCapiEvent({
         event_name: eventName,
         event_time: Math.floor(Date.now() / 1000),
@@ -482,11 +495,10 @@
         event_source_url,
         action_source: "website",
 
-        // compat: endpoint acepta fbp/fbc fuera
+        // compat: si tu endpoint acepta fbp/fbc en raíz
         fbp: FBP || undefined,
         fbc: FBC || undefined,
 
-        // user_data (mejor)
         user_data: {
           fbp: FBP || undefined,
           fbc: FBC || undefined,
@@ -500,33 +512,99 @@
       return eventId;
     }
 
-    // 0) PageView (1 vez por sesión)
-    once("lirya_pageview_yolanda", () => {
-      track("PageView", {});
+    // =========================================================
+    // 1) VIEWCONTENT al CARGAR la PÁGINA (lo que tú querías)
+    // =========================================================
+    once("lirya_viewcontent_" + PERSONA, () => {
+      track("ViewContent", {
+        content_name: CONTENT_NAME,
+        content_category: "Video testimonial",
+        content_type: "video_page",
+        page_type: PAGE_TYPE,
+        persona: PERSONA,
+        source_page: window.location.pathname
+      });
     });
 
-    // 1) ViewContent SOLO cuando el usuario le da PLAY al vídeo (o toca el vídeo en iOS)
-    (() => {
+    // =========================================================
+    // 2) LEAD SOLO cuando clican CTA a formulario (/#formulario-lirya)
+    // =========================================================
+    function isFormLink(el){
+      if (!el) return false;
+      const href = (el.getAttribute("href") || "").trim();
+      if (!href) return false;
+      return href === "/#formulario-lirya" || href.endsWith("/#formulario-lirya") || href === "#formulario-lirya";
+    }
+
+    document.addEventListener("click", function(e){
+      const a = e.target.closest("a");
+      if (!a) return;
+
+      if (!isFormLink(a)) return;
+
+      const btnText = (a.textContent || "").trim().slice(0, 80) || "cta";
+
+      // lead 1 vez por sesión (si quieres 1 por click, quita once)
+      once("lirya_lead_" + PERSONA, () => {
+        track("Lead", {
+          content_name: "CTA -> Formulario (reacciones)",
+          button_text: btnText,
+          persona: PERSONA,
+          source_page: window.location.pathname,
+          destination: "/#formulario-lirya"
+        });
+      });
+    }, true);
+
+    // =========================================================
+    // 3) (OPCIONAL) VideoPlay como custom event
+    //    NO ViewContent aquí. NO Lead aquí.
+    //    Si no lo quieres, borra este bloque.
+    // =========================================================
+    (function(){
       const video = document.querySelector("video");
       if (!video) return;
 
-      const key = "lirya_viewcontent_yolanda_video_play";
+      const key = "lirya_video_play_" + PERSONA;
 
       const fire = () => {
         once(key, () => {
-          track("ViewContent", {
-            content_name: "Reaccion - yolanda (play)",
-            content_category: "Video testimonial",
-            page_type: "reacciones",
-            persona: "yolanda",
-            source_page: window.location.pathname
+          // Pixel custom
+          if (hasFbq) {
+            try { window.fbq("trackCustom", "VideoPlay", { persona: PERSONA, source_page: window.location.pathname }); }
+            catch(_) {}
+          }
+
+          // CAPI custom (mismo endpoint)
+          sendCapiEvent({
+            event_name: "VideoPlay",
+            event_time: Math.floor(Date.now() / 1000),
+            event_id: newEventId(),
+            event_source_url,
+            action_source: "website",
+            fbp: FBP || undefined,
+            fbc: FBC || undefined,
+            user_data: {
+              fbp: FBP || undefined,
+              fbc: FBC || undefined,
+              client_user_agent: navigator.userAgent || undefined,
+            },
+            custom_data: {
+              persona: PERSONA,
+              page_type: PAGE_TYPE,
+              source_page: window.location.pathname
+            },
+            ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
           });
+
+          log("Custom VideoPlay fired");
         });
       };
 
       video.addEventListener("play", fire, { passive: true });
-      video.addEventListener("pointerdown", fire, { passive: true });
+      // en iOS a veces se “inicia” con interacción previa
       video.addEventListener("touchstart", fire, { passive: true });
+      video.addEventListener("pointerdown", fire, { passive: true });
     })();
 
   })();
