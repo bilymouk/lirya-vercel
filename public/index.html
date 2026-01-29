@@ -2357,7 +2357,7 @@ once("lirya_pageview_home", () => {
 }
 
 
-  const FAILSAFE_MS = 8000;
+  const FAILSAFE_MS = 12000;
   const SCROLL_STEP = 340;
 
   let currentBtn = null;
@@ -3823,8 +3823,7 @@ once("lirya_pageview_home", () => {
     const safeShowStepError = (stepEl, msg) => { try { if (typeof window.showStepError === "function") window.showStepError(stepEl, msg); } catch(_) {} };
 
     submitBtn.addEventListener("click", async () => {
-      console.log("✅ CLICK SUBMIT detectado"); // <-- deja esto para probar y luego lo quitas
-
+      
       if (processingPayment) return;
 
       // Validación
@@ -3933,8 +3932,7 @@ once("lirya_pageview_home", () => {
       }
     });
 
-    console.log("✅ Payment init OK: listener enganchado a .submit");
-    return true;
+     return true;
   }
 
   // 1) Intento al cargar DOM
@@ -4632,8 +4630,8 @@ once("lirya_pageview_home", () => {
     const label = (a.getAttribute('aria-label') || '').trim();
 
   if (typeof window.LIRYA_TRACK === 'function') {
-   
-  window.LIRYA_TRACK('Lead', {
+
+  window.LIRYA_TRACK('ViewContent', {
   content_name: label || (persona ? `Reacción ${persona}` : 'Reacción real'),
   content_category: 'Reacciones',
   content_type: 'video_page',
@@ -5145,6 +5143,7 @@ once("lirya_pageview_home", () => {
 </section>
 </body>
 </html>
+
 
 
 
