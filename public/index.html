@@ -1463,9 +1463,6 @@ once("lirya_pageview_home", () => {
 })();
 </script>
 
-</body>
-</html>
-
 <!-- =================================
    POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
    (MISMOS ESTILOS QUE "CÓMO FUNCIONA" + TODAS IGUALES)
@@ -3954,58 +3951,6 @@ once("lirya_pageview_home", () => {
 
 })();
 </script>
-
-<!-- Preselección de tarifa en formulario -->
-<script>
-  (function () {
-    document.addEventListener("click", function (e) {
-      const a = e.target.closest("a.tarifa-cta[data-tarifa]");
-      if (!a) return;
-
-      const tarifa = (a.getAttribute("data-tarifa") || "").trim();
-      if (!tarifa) return;
-
-      try { sessionStorage.setItem("lirya_pref_tarifa", tarifa); } catch(_) {}
-    }, true);
-
-    function applyTarifaIfAny(){
-      let tarifa = "";
-      try { tarifa = sessionStorage.getItem("lirya_pref_tarifa") || ""; } catch(_) {}
-      tarifa = (tarifa || "").trim();
-      if (!tarifa) return;
-
-      const hidden = document.getElementById("tarifa-hidden");
-      const btn = document.getElementById("tarifa-btn");
-      const valueSpan = document.getElementById("tarifa-dd-value");
-
-      if (!hidden || !btn || !valueSpan) return;
-
-      hidden.value = tarifa;
-
-      const label = tarifa === "39" ? "39€ — Estándar"
-                  : tarifa === "59" ? "59€ — Emocional"
-                  : tarifa === "79" ? "79€ — Prioritaria"
-                  : (tarifa + "€");
-
-      valueSpan.textContent = label;
-      btn.classList.add("selected");
-
-      try { sessionStorage.removeItem("lirya_pref_tarifa"); } catch(_) {}
-
-       
-      setTimeout(() => {
-    try {
-    const form = document.getElementById("lirya-form");
-    if (form) form.dispatchEvent(new Event("input", { bubbles: true }));
-    } catch(_) {}
-    }, 0);
-    }
-
-    applyTarifaIfAny();
-    window.addEventListener("load", applyTarifaIfAny);
-  })();
-</script>
-
 </section>
 
 <!-- ===============================
@@ -5198,6 +5143,8 @@ once("lirya_pageview_home", () => {
 </div>
   </div>
 </section>
+</body>
+</html>
 
 
 
