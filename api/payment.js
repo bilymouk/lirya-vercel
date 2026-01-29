@@ -113,7 +113,7 @@ module.exports = async (req, res) => {
         ],
 
         // ✅ success/cancel
-        success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}${testQS}`,
+        success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&event_id=${encodeURIComponent(f.event_id || "")}${testQS}`,
         cancel_url: `${BASE_URL}/cancel.html${cancelQS}`,
 
         // ✅ CLAVE para CAPI Purchase en webhook
