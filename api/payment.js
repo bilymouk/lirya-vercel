@@ -1,5 +1,3 @@
-// /api/payment.js (o /api/payment/index.js según tu estructura)
-
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const ALLOWED_ORIGINS = [
@@ -28,7 +26,7 @@ module.exports = async (req, res) => {
   try {
     const f = req.body || {};
 
-    // ✅ Meta Test Events: si te llega test_event_code (solo testing), lo pasamos a success/cancel
+    // ✅ Meta Test Events (solo testing): si llega, lo pasamos a success/cancel
     const testEventCode = String(f.test_event_code || "").trim();
     const testQS = testEventCode
       ? `&test_event_code=${encodeURIComponent(testEventCode)}`
@@ -82,6 +80,9 @@ module.exports = async (req, res) => {
 
     console.log("🌍 BASE_URL:", BASE_URL);
 
+    // ✅ Event source URL limpio (por si alguien lo manda con query/hash)
+    const safeEventSourceUrl = String(f.event_source_url || "").trim() || `${BASE_URL}/`;
+
     // --- 4) CREAR SESIÓN DE STRIPE ---
     let session;
     try {
@@ -94,7 +95,7 @@ module.exports = async (req, res) => {
         billing_address_collection: "required",
         customer_creation: "always",
 
-        // ✅ útil para debugging/atribución (no rompe nada si va vacío)
+        // ✅ útil para debugging/atribución (dedupe)
         client_reference_id: f.event_id || undefined,
 
         line_items: [
@@ -125,8 +126,8 @@ module.exports = async (req, res) => {
           fbp: f.fbp || "",
           fbc: f.fbc || "",
 
-          // ✅ Debe ser la URL REAL donde ocurrió la acción (landing / página del formulario)
-          event_source_url: f.event_source_url || `${BASE_URL}/`,
+          // ✅ URL REAL donde ocurrió la acción (landing/form)
+          event_source_url: safeEventSourceUrl,
         },
       });
     } catch (stripeErr) {
@@ -155,6 +156,11 @@ module.exports = async (req, res) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...f,
+
+            // ✅ claves para dedupe/track en Make
+            stripe_session_id: session.id,
+            meta_event_id: f.event_id || "",
+
             id_de_pago: session.id,
             estado_pago: "Pendiente",
           }),
@@ -176,4 +182,3 @@ module.exports = async (req, res) => {
     });
   }
 };
-;
