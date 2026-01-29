@@ -1,8 +1,11 @@
-// /api/stripe-webhook.js
-const Stripe = require("stripe");
-const crypto = require("crypto");
+import Stripe from "stripe";
+import crypto from "crypto";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+export const config = {
+  api: { bodyParser: false },
+};
 
 // ===== helpers =====
 function sha256(input) {
@@ -38,33 +41,25 @@ function buildBaseUrl(req) {
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   return "";
 }
-
-// ✅ RAW BODY real (Buffer). Stripe lo recomienda así.
-async function readRawBodyBuffer(req) {
+async function readRawBody(req) {
   return await new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on("data", (chunk) => chunks.push(chunk));
-    req.on("end", () => resolve(Buffer.concat(chunks)));
+    let data = "";
+    req.on("data", (chunk) => (data += chunk));
+    req.on("end", () => resolve(data));
     req.on("error", reject);
   });
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
-  // Stripe solo manda POST
   if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
   const sig = req.headers["stripe-signature"];
-  if (!sig) {
-    // Si falta, es que NO viene de Stripe o hay proxy raro
-    console.error("❌ Falta stripe-signature header");
-    return res.status(400).send("Webhook Error: Missing stripe-signature");
-  }
-
   let event;
+
   try {
-    const rawBody = await readRawBodyBuffer(req);
+    const rawBody = await readRawBody(req);
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
@@ -75,30 +70,29 @@ module.exports = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err?.message || err}`);
   }
 
-  // ✅ Responder 200 SIEMPRE al final (si algo interno falla, Stripe puede reintentar)
+  // ✅ IMPORTANTE: siempre devolver 200 al final (Stripe no reintenta por fallos tuyos)
   try {
-    // Nos interesa SOLO cuando el checkout se completa
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
 
-      // Extra seguridad: solo si está pagado
+      // Seguridad extra: solo si está pagado
       if (session.payment_status && session.payment_status !== "paid") {
         console.log("⚠️ checkout.session.completed pero NO paid:", session.payment_status);
       } else {
         const baseUrl = buildBaseUrl(req);
         const fallbackSuccessUrl = baseUrl ? `${baseUrl}/success.html` : "";
 
-        // Value
+        // Datos base
         const amountTotal = safeNumber(session.amount_total, 0); // céntimos
         const value = amountTotal / 100;
         const currency = String(session.currency || "eur").toUpperCase();
 
-        // ✅ event_id estable para dedupe (ideal: el que tú guardas en metadata desde /api/payment)
-        // - si existe session.metadata.event_id → perfecto
-        // - si no → fallback estable
+        // ✅ Dedupe Purchase estable
+        // - si viene event_id desde /api/payment -> úsalo (dedupe pixel/capi)
+        // - si no, fallback estable
         const eventId = String(session.metadata?.event_id || `purchase_${session.id}`);
 
-        // Matching
+        // Matching extra
         const email = normalizeEmail(session.customer_email);
         const em = email ? sha256(email) : undefined;
 
@@ -108,6 +102,7 @@ module.exports = async (req, res) => {
         const clientIp = getClientIp(req) || undefined;
         const clientUa = (req.headers["user-agent"] || "").toString() || undefined;
 
+        // URL coherente
         const eventSourceUrl =
           String(session.metadata?.event_source_url || "").trim() ||
           fallbackSuccessUrl ||
@@ -116,10 +111,9 @@ module.exports = async (req, res) => {
         const tarifa = session.metadata?.tarifa || null;
 
         // ===== 1) ENVÍO A MAKE =====
-        // Stripe puede reintentar → dedupe en Make por stripe_event_id
+        // ⚠️ Stripe puede reintentar. Deduplica en Make por stripe_event_id (event.id)
         try {
           const MAKE_WEBHOOK_URL =
-            process.env.MAKE_WEBHOOK_URL ||
             "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
 
           await fetch(MAKE_WEBHOOK_URL, {
@@ -137,7 +131,7 @@ module.exports = async (req, res) => {
             }),
           });
 
-          console.log("✅ Make OK:", event.id);
+          console.log("✅ Evento enviado a Make correctamente");
         } catch (error) {
           console.error("❌ Error enviando a Make:", error);
         }
@@ -148,19 +142,18 @@ module.exports = async (req, res) => {
           const ACCESS_TOKEN = process.env.META_CAPI_TOKEN;
 
           if (!PIXEL_ID || !ACCESS_TOKEN) {
-            console.warn("⚠️ Falta META_PIXEL_ID o META_CAPI_TOKEN → salto CAPI Purchase");
+            console.warn("⚠️ Falta META_PIXEL_ID o META_CAPI_TOKEN, salto CAPI Purchase");
           } else {
             const payload = {
               data: [
                 {
                   event_name: "Purchase",
+                  // mejor: usar timestamp del evento Stripe
                   event_time: Number.isFinite(Number(event.created))
                     ? Number(event.created)
                     : Math.floor(Date.now() / 1000),
 
-                  // ✅ clave: esto permite dedupe perfecto
                   event_id: eventId,
-
                   action_source: "website",
                   event_source_url: eventSourceUrl,
 
@@ -206,11 +199,11 @@ module.exports = async (req, res) => {
       }
     }
 
-    // ✅ 200 SIEMPRE
     return res.status(200).json({ received: true });
   } catch (e) {
     console.error("❌ Webhook handler error:", e);
-    // aunque falle algo tuyo, devuelve 200 para no reintentos infinitos
+    // Aunque falle algo interno, devuelve 200 para evitar reintentos infinitos
     return res.status(200).json({ received: true, warning: "handler_error" });
   }
-};
+} 
+
