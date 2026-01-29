@@ -1052,21 +1052,7 @@ function onKeyToggle(e){
   audio.addEventListener("pause", () => setOverlayState(false));
   audio.addEventListener("play", () => setOverlayState(true));
 
-  let __lirya_viewcontent_audio_fired = false;
-
-audio.addEventListener("play", () => {
-  if (__lirya_viewcontent_audio_fired) return;
-  __lirya_viewcontent_audio_fired = true;
-
-  if (typeof window.LIRYA_TRACK === "function") {
-    window.LIRYA_TRACK("ViewContent", {
-      content_name: "Ejemplo audio (Hero)",
-      content_category: "Audio example",
-      placement: "hero"
-    });
-  }
-});
-
+  
 
   const card = document.getElementById("urgency-card");
   const closeBtn = document.getElementById("urgency-close");
@@ -1424,11 +1410,10 @@ window.LIRYA_PURCHASE = function(data){
   });
 };
 
-  // ========= 0) PAGEVIEW =========
-
-// Safari/iOS: NO usar sessionStorage para PageView
-trackEvent("PageView", {});
-
+// ========= 0) PAGEVIEW =========
+once("lirya_pageview_home", () => {
+  trackEvent("PageView", {});
+});
 
   // ========= 1) START FORM (click CTA a formulario) =========
   document.addEventListener("click", function (e) {
@@ -2347,28 +2332,33 @@ trackEvent("PageView", {});
   if (!root || !player) return;
 
     // ===== META: ViewContent cuando se escucha un ejemplo (una vez por sesión) =====
-  const VC_KEY = "lirya_vc_example_fired";
+ function fireViewContentFromExample(btn, audioUrl){
+  const audioKey = String(audioUrl || "").trim();
+  if (!audioKey) return;
 
-  function fireViewContentFromExample(btn, audioUrl){
-    try{
-      if (sessionStorage.getItem(VC_KEY)) return;
-      sessionStorage.setItem(VC_KEY, "1");
-    }catch(_){}
+  // ✅ 1 vez por audio por sesión (no global)
+  const VC_KEY = "lirya_vc_audio_" + audioKey;
 
-    const label =
-      (btn && (btn.getAttribute("aria-label") || btn.dataset.label || btn.textContent || "")).trim();
+  try{
+    if (sessionStorage.getItem(VC_KEY)) return;
+    sessionStorage.setItem(VC_KEY, "1");
+  }catch(_){}
 
-    const isStyle = btn && btn.classList.contains("style-card");
+  const label =
+    (btn && (btn.getAttribute("aria-label") || btn.dataset.label || btn.textContent || "")).trim();
 
-    if (typeof window.LIRYA_TRACK === "function") {
-      window.LIRYA_TRACK("ViewContent", {
-        content_name: label || (isStyle ? "Ejemplo estilo musical" : "Ejemplo real"),
-        content_category: isStyle ? "Estilos musicales" : "Ejemplos reales",
-        content_type: "audio",
-        audio_url: audioUrl ? String(audioUrl).slice(0, 200) : undefined
-      });
-    }
+  const isStyle = btn && btn.classList.contains("style-card");
+
+  if (typeof window.LIRYA_TRACK === "function") {
+    window.LIRYA_TRACK("ViewContent", {
+      content_name: label || (isStyle ? "Ejemplo estilo musical" : "Ejemplo real"),
+      content_category: isStyle ? "Estilos musicales" : "Ejemplos reales",
+      content_type: "audio",
+      audio_url: audioKey.slice(0, 200)
+    });
   }
+}
+
 
   const FAILSAFE_MS = 8000;
   const SCROLL_STEP = 340;
@@ -4705,13 +4695,15 @@ if (!checkoutEventId) {
     const label = (a.getAttribute('aria-label') || '').trim();
 
     if (typeof window.LIRYA_TRACK === 'function') {
-      window.LIRYA_TRACK('ViewContent', {
-        content_name: label || (persona ? `Reacción ${persona}` : 'Reacción real'),
-        content_category: 'Reacciones',
-        content_type: 'video_page',
-        persona: persona || undefined,
-        destination: href
-      });
+      
+  window.LIRYA_TRACK('Lead', {
+  content_name: label || (persona ? `Reacción ${persona}` : 'Reacción real'),
+  content_category: 'Reacciones',
+  content_type: 'video_page',
+  persona: persona || undefined,
+  destination: href
+});
+
     }
   }, true);
 })();
@@ -5214,6 +5206,7 @@ if (!checkoutEventId) {
 </div>
   </div>
 </section>
+
 
 
 
