@@ -147,7 +147,7 @@
       margin-top:14px;
     }
 
-    /* ✅ MISMO FIX QUE LAURA: evita vídeo gigante/cortado en desktop */
+    /* ✅ evita vídeo gigante/cortado en desktop */
     .video-wrap{
       margin:14px 0 8px;
       background:#000;
@@ -306,7 +306,6 @@
       Si quieres regalar un momento que se recuerde, esto es lo que suele pasar cuando la letra encaja de verdad.
     </p>
 
-    <!-- ✅ BLOQUE SEO ON-PAGE (NUEVO) -->
     <p class="sub">
       Yolanda encargó una <strong>canción personalizada</strong> como regalo emocional para sorprender a una persona especial.
       Este tipo de regalo funciona porque transforma una historia real en una letra que encaja, emociona y se recuerda.
@@ -483,11 +482,11 @@
         event_source_url,
         action_source: "website",
 
-        // compat: tu endpoint acepta fbp/fbc fuera
+        // compat: endpoint acepta fbp/fbc fuera
         fbp: FBP || undefined,
         fbc: FBC || undefined,
 
-        // y también acepta user_data (mejor)
+        // user_data (mejor)
         user_data: {
           fbp: FBP || undefined,
           fbc: FBC || undefined,
@@ -501,47 +500,34 @@
       return eventId;
     }
 
-    // 0) PageView (dedupe sesión) — controlado
+    // 0) PageView (1 vez por sesión)
     once("lirya_pageview_yolanda", () => {
       track("PageView", {});
     });
 
-    // 1) ViewContent al entrar en la página (testimonial)
-    once("lirya_viewcontent_yolanda", () => {
-      track("ViewContent", {
-        content_name: "Reaccion - yolanda",
-        content_category: "Video testimonial",
-        page_type: "reacciones",
-        source_page: location.pathname
-      });
-    });
+    // 1) ViewContent SOLO cuando el usuario le da PLAY al vídeo (o toca el vídeo en iOS)
+    (() => {
+      const video = document.querySelector("video");
+      if (!video) return;
 
-    // 2) Lead al click hacia el formulario
-    document.addEventListener("click", function (e) {
-      const el = e.target.closest("a, button");
-      if (!el) return;
+      const key = "lirya_viewcontent_yolanda_video_play";
 
-      const href = (el.getAttribute("href") || "").trim();
-
-      const goesToForm =
-        href === "/#formulario-lirya" ||
-        href === "#formulario-lirya" ||
-        href.endsWith("/#formulario-lirya") ||
-        href.endsWith("#formulario-lirya");
-
-      if (!goesToForm) return;
-
-      const btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
-
-      once("lirya_lead_yolanda_to_form_" + href, () => {
-        track("Lead", {
-          content_name: "CTA -> Formulario (desde video)",
-          button_text: btnText,
-          source_page: location.pathname,
-          destination: "/#formulario-lirya"
+      const fire = () => {
+        once(key, () => {
+          track("ViewContent", {
+            content_name: "Reaccion - yolanda (play)",
+            content_category: "Video testimonial",
+            page_type: "reacciones",
+            persona: "yolanda",
+            source_page: window.location.pathname
+          });
         });
-      });
-    }, true);
+      };
+
+      video.addEventListener("play", fire, { passive: true });
+      video.addEventListener("pointerdown", fire, { passive: true });
+      video.addEventListener("touchstart", fire, { passive: true });
+    })();
 
   })();
   </script>
