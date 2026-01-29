@@ -1,4 +1,4 @@
-este es mi codigo antiguo import Stripe from "stripe";
+import Stripe from "stripe";
 import crypto from "crypto";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
