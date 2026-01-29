@@ -1271,53 +1271,75 @@ const once = (key, fn) => {
     return false;
   }
 }
+function trackEvent(eventName, customData = {}, opts = {}) {
+  opts = opts || {};
+  customData = customData || {};
 
-  function trackEvent(eventName, customData = {}, opts = {}) {
-    const eventId = opts.eventId || newEventId();
+  // event_id único/estable (si lo pasas desde fuera)
+  const eventId =
+    opts.eventId ||
+    opts.event_id ||
+    customData.event_id ||
+    newEventId();
 
-    // Pixel (si existe)
-    if (hasFbq) {
-      try {
-        window.fbq("track", eventName, customData, { eventID: eventId });
-        log("Pixel", eventName, eventId);
-      } catch (e) {
-        log("Pixel error", e);
-      }
-    } else {
-      log("Pixel NO disponible (Safari puede bloquearlo)");
+  // event_source_url limpio (sin query/hash)
+  const event_source_url =
+    opts.event_source_url ||
+    (window.location.origin + window.location.pathname);
+
+  // user_data real: viene en opts.user_data o en customData.user_data (si lo mandas)
+  const mergedUserData = {
+    ...(customData.user_data || {}),
+    ...(opts.user_data || {}),
+  };
+
+  // custom_data no debe llevar user_data dentro
+  const cleanCustomData = { ...customData };
+  delete cleanCustomData.user_data;
+
+  // Pixel (si existe)
+  if (hasFbq) {
+    try {
+      window.fbq("track", eventName, cleanCustomData, { eventID: eventId });
+      log("Pixel", eventName, eventId);
+    } catch (e) {
+      log("Pixel error", e);
     }
+  } else {
+    log("Pixel NO disponible (Safari puede bloquearlo)");
+  }
 
-    // CAPI (siempre)
+  // CAPI
   const capiBody = {
-  event_name: eventName,
-  event_time: Math.floor(Date.now() / 1000),
-  event_id: eventId,
-  event_source_url: window.location.href,
-  action_source: "website",
+    event_name: eventName,
+    event_time: Math.floor(Date.now() / 1000),
+    event_id: eventId,
+    event_source_url: event_source_url,
+    action_source: "website",
 
-  // compat: por si tu backend lee esto en raíz
-  fbp: FBP || undefined,
-  fbc: FBC || undefined,
-
-  user_data: {
+    // compat por si backend lo lee en raíz
     fbp: FBP || undefined,
     fbc: FBC || undefined,
-    client_user_agent: navigator.userAgent || undefined,
-  },
 
-  custom_data: customData,
-  ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
-};
+    user_data: {
+      fbp: FBP || undefined,
+      fbc: FBC || undefined,
+      client_user_agent: navigator.userAgent || undefined,
+      ...mergedUserData,
+    },
 
-    sendCapiEvent(capiBody);
-    return eventId;
-  }
-  
-  // ===== Exponer tracker global para disparar eventos desde cualquier parte =====
-window.LIRYA_TRACK = function(eventName, customData, opts){
+    custom_data: cleanCustomData,
+    ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+  };
+
+  sendCapiEvent(capiBody);
+  return eventId;
+}
+
+  window.LIRYA_TRACK = function(eventName, customData, opts){
   return trackEvent(eventName, customData || {}, opts || {});
 };
-  // ===== Purchase seguro (1 vez por sesión, con value obligatorio) =====
+ 
 window.LIRYA_PURCHASE = function(data){
   if (!data || !data.value) {
     log("Purchase NO disparado: falta value");
@@ -3740,7 +3762,15 @@ window.LIRYA_PURCHASE = function(data){
     const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
     return m ? decodeURIComponent(m[1]) : "";
   };
-  
+
+    async function sha256Hex(str) {
+    const enc = new TextEncoder().encode(String(str || ""));
+    const buf = await crypto.subtle.digest("SHA-256", enc);
+    return Array.from(new Uint8Array(buf))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+ 
 const once = (key, fn) => {
   try {
     if (sessionStorage.getItem(key)) return;
@@ -3782,24 +3812,39 @@ processingPayment = true;
       try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
     }
     
-    // ===== INITIATECHECKOUT (Pixel + CAPI) con event_id estable =====
-once("lirya_initiatecheckout_" + checkoutEventId, () => {
-  const tarifa = Number(val("tarifa-hidden") || 0);
+       // ===== INITIATECHECKOUT (Pixel + CAPI) con event_id estable =====
+    once("lirya_initiatecheckout_" + checkoutEventId, async () => {
+      const tarifa = Number(val("tarifa-hidden") || 0);
 
-  if (typeof window.LIRYA_TRACK === "function") {
-    window.LIRYA_TRACK(
-      "InitiateCheckout",
-      {
-        currency: "EUR",
-        value: tarifa,
-        content_name: "Canción personalizada",
-        content_type: "product",
-        plan: tarifa ? String(tarifa) : undefined,
-      },
-      { eventId: checkoutEventId } // 
-    );
-  }
-});
+      // ✅ evita eventos basura
+      if (!tarifa || ![39, 59, 79].includes(tarifa)) return;
+
+      // (Opcional) hash del email para futuras mejoras (NO rompe nada)
+      const emailRaw = (val("email") || "").trim().toLowerCase();
+      let em;
+      try {
+        if (emailRaw && window.crypto?.subtle) {
+          em = await sha256Hex(emailRaw);
+        }
+      } catch (_) {}
+
+      if (typeof window.LIRYA_TRACK === "function") {
+        window.LIRYA_TRACK(
+          "InitiateCheckout",
+          {
+            currency: "EUR",
+            value: tarifa,
+            content_name: "Canción personalizada",
+            content_type: "product",
+            plan: String(tarifa),
+          },
+          { eventId: checkoutEventId }
+        );
+      }
+
+      // ✅ Si quieres guardar em para backend (opcional, no imprescindible)
+      // try { if (em) sessionStorage.setItem("lirya_em_hash", em); } catch(_) {}
+    });
 
     // solo leer cookies si existen (no inventar)
     const fbpCookie = readCookie("_fbp");
@@ -3840,7 +3885,7 @@ once("lirya_initiatecheckout_" + checkoutEventId, () => {
       event_id: checkoutEventId,
       fbp: fbpCookie,
       fbc: fbcCookie,
-      event_source_url: window.location.href,
+      event_source_url: window.location.origin + window.location.pathname,
     };
 
     try {
@@ -5104,6 +5149,7 @@ once("lirya_initiatecheckout_" + checkoutEventId, () => {
 </div>
   </div>
 </section>
+
 
 
 
