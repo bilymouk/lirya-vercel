@@ -1,7 +1,13 @@
-// /api/meta-capi.js
+// /api/meta-capi.js (Vercel Serverless - CommonJS)
 
-import crypto from "crypto";
+const crypto = require("crypto");
 
+const ALLOWED_ORIGINS = [
+  "https://lirya.studio",
+  "https://www.lirya.studio",
+];
+
+// ===== helpers =====
 function sha256(input) {
   return crypto.createHash("sha256").update(String(input || "")).digest("hex");
 }
@@ -12,20 +18,28 @@ function normPhone(ph) {
   return String(ph || "").replace(/[^\d+]/g, "").trim();
 }
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
+  // ===== CORS =====
+  const origin = req.headers.origin;
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Cache-Control", "no-store");
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ ok: false, error: "Method not allowed" });
-  }
+  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method !== "POST") return res.status(405).json({ ok: false, error: "Method not allowed" });
 
   const PIXEL_ID = process.env.META_PIXEL_ID;
   const ACCESS_TOKEN = process.env.META_CAPI_TOKEN;
 
+  // ⚠️ NO rompas el frontend por faltar env vars
   if (!PIXEL_ID || !ACCESS_TOKEN) {
-    return res.status(500).json({
+    return res.status(200).json({
       ok: false,
-      error: "Missing META_PIXEL_ID or META_CAPI_TOKEN env vars",
+      warning: "Missing META_PIXEL_ID or META_CAPI_TOKEN env vars",
     });
   }
 
@@ -34,20 +48,22 @@ export default async function handler(req, res) {
   const {
     event_name,
     event_id,
-    event_time, // opcional
+    event_time,         // opcional
     custom_data = {},
     event_source_url,
     fbp,
     fbc,
-    user_data = {},      // soporta user_data
-    action_source,       // opcional
-    test_event_code,     // test events
+    user_data = {},     // opcional
+    action_source,      // opcional
+    test_event_code,    // opcional
   } = body;
 
-  if (!event_name || !event_id) {
-    return res.status(400).json({
+  // ✅ Recomendación: event_id SIEMPRE que puedas (dedupe),
+  // pero si un evento te llega sin event_id, no rompas UX.
+  if (!event_name) {
+    return res.status(200).json({
       ok: false,
-      error: "Missing event_name or event_id",
+      warning: "Missing event_name",
       received: { event_name, event_id },
     });
   }
@@ -55,36 +71,33 @@ export default async function handler(req, res) {
   // IP real (Vercel / proxy)
   const ip =
     (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim() ||
-    req.socket?.remoteAddress ||
-    "";
+    (req.socket && req.socket.remoteAddress ? String(req.socket.remoteAddress) : "");
 
   const ua = (req.headers["user-agent"] || "").toString();
 
   // fbp/fbc: acepta de ambas formas
-  const finalFbp = user_data?.fbp || fbp || undefined;
-  const finalFbc = user_data?.fbc || fbc || undefined;
+  const finalFbp = user_data.fbp || fbp || undefined;
+  const finalFbc = user_data.fbc || fbc || undefined;
 
-  // ✅ Matching avanzado opcional:
-  // - Si en algún momento mandas email/phone raw (NO hash) desde front,
-  //   lo hash-eamos aquí (más limpio).
-  let em = user_data?.em;
-  let ph = user_data?.ph;
+  // Matching avanzado opcional:
+  // si mandas email/phone raw en el futuro, aquí se hashea
+  let em = user_data.em;
+  let ph = user_data.ph;
 
-  // Si mandas user_data.email o user_data.phone en el futuro:
-  if (!em && user_data?.email) {
+  if (!em && user_data.email) {
     const e = normEmail(user_data.email);
     em = e ? sha256(e) : undefined;
   }
-  if (!ph && user_data?.phone) {
+  if (!ph && user_data.phone) {
     const p = normPhone(user_data.phone);
     ph = p ? sha256(p) : undefined;
   }
 
-  // event_source_url: mejor NO mandar vacío
+  // event_source_url: mejor NO vacío
   const finalEventSourceUrl =
-  String(event_source_url || "").trim() ||
-  (req.headers?.referer ? String(req.headers.referer) : "") ||
-  (req.headers?.origin ? String(req.headers.origin) : "");
+    String(event_source_url || "").trim() ||
+    (req.headers.referer ? String(req.headers.referer) : "") ||
+    (req.headers.origin ? String(req.headers.origin) : "");
 
   const payload = {
     data: [
@@ -94,26 +107,26 @@ export default async function handler(req, res) {
           ? Number(event_time)
           : Math.floor(Date.now() / 1000),
 
-        event_id,
+        // Si viene event_id, lo usamos; si no, lo omitimos
+        ...(event_id ? { event_id: String(event_id) } : {}),
+
         action_source: action_source || "website",
-        event_source_url: finalEventSourceUrl,
+        ...(finalEventSourceUrl ? { event_source_url: finalEventSourceUrl } : {}),
 
-       user_data: {
-  ...(ip ? { client_ip_address: ip } : {}),
-  ...(ua ? { client_user_agent: ua } : {}),
-  ...(finalFbp ? { fbp: finalFbp } : {}),
-  ...(finalFbc ? { fbc: finalFbc } : {}),
-  ...(em ? { em } : {}),
-  ...(ph ? { ph } : {}),
-},
+        user_data: {
+          ...(ip ? { client_ip_address: ip } : {}),
+          ...(ua ? { client_user_agent: ua } : {}),
+          ...(finalFbp ? { fbp: finalFbp } : {}),
+          ...(finalFbc ? { fbc: finalFbc } : {}),
+          ...(em ? { em } : {}),
+          ...(ph ? { ph } : {}),
+        },
 
-        custom_data,
+        custom_data: { ...custom_data },
       },
     ],
+    ...(test_event_code ? { test_event_code: String(test_event_code) } : {}),
   };
-
-  // Test Events: Meta lo exige a nivel raíz
-  if (test_event_code) payload.test_event_code = test_event_code;
 
   const url = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
 
@@ -124,22 +137,21 @@ export default async function handler(req, res) {
       body: JSON.stringify(payload),
     });
 
-    const data = await r.json().catch(() => ({}));
+    const meta = await r.json().catch(() => ({}));
 
-    if (!r.ok || data?.error) {
-      return res.status(500).json({
-        ok: false,
-        error: "Meta CAPI request failed",
-        meta: data,
-      });
+    // ✅ IMPORTANTÍSIMO: responder 200 aunque Meta falle (no rompas tu flow)
+    if (!r.ok || meta.error) {
+      console.error("❌ Meta CAPI failed:", meta);
+      return res.status(200).json({ ok: false, meta });
     }
 
-    return res.status(200).json({ ok: true, meta: data });
+    return res.status(200).json({ ok: true, meta });
   } catch (err) {
-    return res.status(500).json({
+    console.error("❌ Server error calling Meta CAPI:", err);
+    return res.status(200).json({
       ok: false,
       error: "Server error calling Meta CAPI",
-      details: String(err?.message || err),
+      details: String(err && err.message ? err.message : err),
     });
   }
-}
+};
