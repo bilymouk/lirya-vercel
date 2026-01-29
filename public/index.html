@@ -3815,6 +3815,8 @@ processingPayment = true;
        // ===== INITIATECHECKOUT (Pixel + CAPI) con event_id estable =====
     once("lirya_initiatecheckout_" + checkoutEventId, async () => {
       const tarifa = Number(val("tarifa-hidden") || 0);
+      try { sessionStorage.setItem("lirya_purchase_value", String(tarifa)); } catch(_) {}
+      try { sessionStorage.setItem("lirya_purchase_plan", String(tarifa)); } catch(_) {}
 
       // ✅ evita eventos basura
       if (!tarifa || ![39, 59, 79].includes(tarifa)) return;
@@ -5149,6 +5151,7 @@ processingPayment = true;
 </div>
   </div>
 </section>
+
 
 
 
