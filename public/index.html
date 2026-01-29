@@ -3770,200 +3770,186 @@ once("lirya_pageview_home", () => {
 </script>
 
 <script>
-/* ===================== PAGO (STRIPE) — SOLO WEBHOOK ===================== */
+/* ===================== PAGO (STRIPE) — ROBUSTO (builder-proof) ===================== */
 (function () {
   if (window.__liryaPaymentInit) return;
   window.__liryaPaymentInit = true;
 
-  const root = document.getElementById("formulario-lirya");
-  if (!root) return;
+  function initPayment() {
+    const root = document.getElementById("formulario-lirya");
+    if (!root) return false;
 
-  const submitBtn = root.querySelector(".submit");
-  if (!submitBtn) return;
+    const submitBtn = root.querySelector(".submit");
+    if (!submitBtn) return false;
 
-  let processingPayment = false;
+    // 👇 Si ya estaba inicializado por accidente, evitamos duplicar listener
+    if (submitBtn.__liryaBound) return true;
+    submitBtn.__liryaBound = true;
 
-  const newEventId = () => {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-  };
+    let processingPayment = false;
 
-  const readCookie = (name) => {
-    const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
-    return m ? decodeURIComponent(m[1]) : "";
-  };
-
-    async function sha256Hex(str) {
-    const enc = new TextEncoder().encode(String(str || ""));
-    const buf = await crypto.subtle.digest("SHA-256", enc);
-    return Array.from(new Uint8Array(buf))
-      .map(b => b.toString(16).padStart(2, "0"))
-      .join("");
-  }
- 
-const once = (key, fn) => {
-  try {
-    if (sessionStorage.getItem(key)) return;
-    sessionStorage.setItem(key, "1");
-  } catch(_) {}
-  fn();
-};
-
-  function val(id){
-    const el = root.querySelector("#" + CSS.escape(id));
-    return el ? String(el.value || "").trim() : "";
-  }
-
-    const safeValidateStep = (showUI) => {
-    try { return typeof window.validateStep === "function" ? window.validateStep(showUI) : true; } catch(_) { return true; }
-  };
-  const safeGoToStep = (n) => { try { if (typeof window.goToStep === "function") window.goToStep(n); } catch(_) {} };
-  const safeClearErrors = (stepEl) => { try { if (typeof window.clearErrors === "function") window.clearErrors(stepEl); } catch(_) {} };
-  const safeShowStepError = (stepEl, msg) => { try { if (typeof window.showStepError === "function") window.showStepError(stepEl, msg); } catch(_) {} };
-
-  submitBtn.addEventListener("click", async () => {
-    
-   if (processingPayment) return;
-
-if (!safeValidateStep(true)) {
- 
-  submitBtn.disabled = false;
-  return;
-}
-
-processingPayment = true;
-
-    let checkoutEventId = "";
-try { checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) {}
-
-if (!checkoutEventId) checkoutEventId = window.__lirya_checkout_event_id || "";
-
-if (!checkoutEventId) {
-  checkoutEventId = newEventId();
-  window.__lirya_checkout_event_id = checkoutEventId;
-  try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
-}
-    
-    const j = await r.json();
-if (!j.url) throw new Error("Stripe no devolvió URL");
-
-// ✅ AHORA sí: ya tenemos URL real de Stripe → InitiateCheckout real
-once("lirya_initiatecheckout_" + checkoutEventId, async () => {
-  const tarifa = Number(val("tarifa-hidden") || 0);
-  try { sessionStorage.setItem("lirya_purchase_value", String(tarifa)); } catch(_) {}
-  try { sessionStorage.setItem("lirya_purchase_plan", String(tarifa)); } catch(_) {}
-
-  // ✅ evita eventos basura
-  if (!tarifa || ![39, 59, 79].includes(tarifa)) return;
-
-  // (Opcional) hash del email para mejorar matching
-  const emailRaw = (val("email") || "").trim().toLowerCase();
-  let em;
-  try {
-    if (emailRaw && window.crypto?.subtle) {
-      em = await sha256Hex(emailRaw);
-    }
-  } catch (_) {}
-
-  if (typeof window.LIRYA_TRACK === "function") {
-    window.LIRYA_TRACK(
-      "InitiateCheckout",
-      {
-        currency: "EUR",
-        value: tarifa,
-        content_name: "Canción personalizada",
-        content_type: "product",
-        plan: String(tarifa),
-      },
-      { eventId: checkoutEventId }
-    );
-  }
-});
-
-window.location.href = j.url;
-
-      // ✅ Si quieres guardar em para backend (opcional, no imprescindible)
-      // try { if (em) sessionStorage.setItem("lirya_em_hash", em); } catch(_) {}
-    });
-
-    // solo leer cookies si existen (no inventar)
-    const fbpCookie = readCookie("_fbp");
-    const fbcCookie = readCookie("_fbc");
-
-    submitBtn.disabled = true;
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = "Redirigiendo a pago seguro…";
-
-    const data = {
-      recipient_name: val("recipient_name"),
-      your_name: val("your_name"),
-      relationship: val("relationship-hidden"),
-      tarifa: val("tarifa-hidden"),
-
-      how_met: val("how_met"),
-      special_moment: val("special_moment"),
-      reason_now: val("reason_now-hidden"),
-
-      three_words: val("three_words"),
-      dedication: val("dedication"),
-      emotion: val("emotion-hidden"),
-
-      song_style: val("song_style-hidden"),
-      rhythm: val("rhythm-hidden"),
-      voice_type: val("voice_type-hidden"),
-      language: val("language-hidden"),
-
-      include_name: val("include_name-hidden"),
-      dont_mention: val("dont_mention"),
-      intensity: val("intensity-hidden"),
-
-      email: val("email"),
-      whatsapp: val("whatsapp-hidden"),
-      phone: val("phone"),
-
-      // dedupe / matching
-      event_id: checkoutEventId,
-      fbp: fbpCookie,
-      fbc: fbcCookie,
-      event_source_url: window.location.origin + window.location.pathname,
+    const newEventId = () => {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
     };
 
-    try {
-      const r = await fetch("/api/payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+    const readCookie = (name) => {
+      const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
+      return m ? decodeURIComponent(m[1]) : "";
+    };
 
-      if (!r.ok) throw new Error("Error en la petición al servidor");
+    async function sha256Hex(str) {
+      const enc = new TextEncoder().encode(String(str || ""));
+      const buf = await crypto.subtle.digest("SHA-256", enc);
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+    }
 
-      const j = await r.json();
-      if (!j.url) throw new Error("Stripe no devolvió URL");
+    const once = (key, fn) => {
+      try {
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, "1");
+      } catch(_) {}
+      fn();
+    };
 
-     // NO lo borres aquí. Lo usamos en success para dedupe/seguridad.
-    // try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+    function val(id){
+      const el = root.querySelector("#" + CSS.escape(id));
+      return el ? String(el.value || "").trim() : "";
+    }
 
+    const safeValidateStep = (showUI) => {
+      try { return typeof window.validateStep === "function" ? window.validateStep(showUI) : true; }
+      catch(_) { return true; }
+    };
+    const safeGoToStep = (n) => { try { if (typeof window.goToStep === "function") window.goToStep(n); } catch(_) {} };
+    const safeClearErrors = (stepEl) => { try { if (typeof window.clearErrors === "function") window.clearErrors(stepEl); } catch(_) {} };
+    const safeShowStepError = (stepEl, msg) => { try { if (typeof window.showStepError === "function") window.showStepError(stepEl, msg); } catch(_) {} };
 
-      window.location.href = j.url;
+    submitBtn.addEventListener("click", async () => {
+      console.log("✅ CLICK SUBMIT detectado"); // <-- deja esto para probar y luego lo quitas
 
-    } catch (err) {
-      console.error(err);
+      if (processingPayment) return;
 
-      // volvemos a paso 6 y mostramos error
-      safeGoToStep(6);
+      // Validación
+      if (!safeValidateStep(true)) return;
 
-      const step6 = root.querySelector('.step[data-step="6"]') || null;
-      if (step6) {
-        safeClearErrors(step6);
-        safeShowStepError(step6, "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.");
+      processingPayment = true;
+
+      // event_id estable
+      let checkoutEventId = "";
+      try { checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) {}
+      if (!checkoutEventId) checkoutEventId = window.__lirya_checkout_event_id || "";
+      if (!checkoutEventId) {
+        checkoutEventId = newEventId();
+        window.__lirya_checkout_event_id = checkoutEventId;
+        try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
       }
 
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      processingPayment = false;
+      // InitiateCheckout (solo una vez)
+      once("lirya_initiatecheckout_" + checkoutEventId, async () => {
+        const tarifa = Number(val("tarifa-hidden") || 0);
+        if (!tarifa || ![39,59,79].includes(tarifa)) return;
 
-      root.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+        const emailRaw = (val("email") || "").trim().toLowerCase();
+        try { if (emailRaw && window.crypto?.subtle) await sha256Hex(emailRaw); } catch(_) {}
+
+        if (typeof window.LIRYA_TRACK === "function") {
+          window.LIRYA_TRACK("InitiateCheckout", {
+            currency: "EUR",
+            value: tarifa,
+            content_name: "Canción personalizada",
+            content_type: "product",
+            plan: String(tarifa),
+          }, { eventId: checkoutEventId });
+        }
+      });
+
+      const fbpCookie = readCookie("_fbp");
+      const fbcCookie = readCookie("_fbc");
+
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Redirigiendo a pago seguro…";
+
+      const data = {
+        recipient_name: val("recipient_name"),
+        your_name: val("your_name"),
+        relationship: val("relationship-hidden"),
+        tarifa: val("tarifa-hidden"),
+
+        how_met: val("how_met"),
+        special_moment: val("special_moment"),
+        reason_now: val("reason_now-hidden"),
+
+        three_words: val("three_words"),
+        dedication: val("dedication"),
+        emotion: val("emotion-hidden"),
+
+        song_style: val("song_style-hidden"),
+        rhythm: val("rhythm-hidden"),
+        voice_type: val("voice_type-hidden"),
+        language: val("language-hidden"),
+
+        include_name: val("include_name-hidden"),
+        dont_mention: val("dont_mention"),
+        intensity: val("intensity-hidden"),
+
+        email: val("email"),
+        whatsapp: val("whatsapp-hidden"),
+        phone: val("phone"),
+
+        event_id: checkoutEventId,
+        fbp: fbpCookie,
+        fbc: fbcCookie,
+        event_source_url: window.location.origin + window.location.pathname,
+      };
+
+      try {
+        const r = await fetch("/api/payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (!r.ok) throw new Error("Error en la petición al servidor");
+        const j = await r.json();
+        if (!j.url) throw new Error("Stripe no devolvió URL");
+
+        window.location.href = j.url;
+
+      } catch (err) {
+        console.error("❌ Error iniciando pago:", err);
+
+        safeGoToStep(6);
+
+        const step6 = root.querySelector('.step[data-step="6"]') || null;
+        if (step6) {
+          safeClearErrors(step6);
+          safeShowStepError(step6, "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.");
+        }
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        processingPayment = false;
+
+        root.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    console.log("✅ Payment init OK: listener enganchado a .submit");
+    return true;
+  }
+
+  // 1) Intento al cargar DOM
+  document.addEventListener("DOMContentLoaded", () => {
+    if (initPayment()) return;
+
+    // 2) Reintentos (builder tardón)
+    let tries = 0;
+    const t = setInterval(() => {
+      tries++;
+      if (initPayment() || tries >= 30) clearInterval(t);
+    }, 250);
   });
 
 })();
@@ -5212,6 +5198,7 @@ window.location.href = j.url;
 </div>
   </div>
 </section>
+
 
 
 
