@@ -4694,8 +4694,8 @@ if (!checkoutEventId) {
     const persona = (a.getAttribute('data-persona') || '').trim();
     const label = (a.getAttribute('aria-label') || '').trim();
 
-    if (typeof window.LIRYA_TRACK === 'function') {
-      
+  if (typeof window.LIRYA_TRACK === 'function') {
+   
   window.LIRYA_TRACK('Lead', {
   content_name: label || (persona ? `Reacción ${persona}` : 'Reacción real'),
   content_category: 'Reacciones',
@@ -5206,6 +5206,7 @@ if (!checkoutEventId) {
 </div>
   </div>
 </section>
+
 
 
 
