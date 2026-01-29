@@ -98,16 +98,14 @@ export default async function handler(req, res) {
         action_source: action_source || "website",
         event_source_url: finalEventSourceUrl,
 
-        user_data: {
-          // Prioridad: lo que ve el servidor
-          client_ip_address: ip || 
-          client_user_agent: ua ||
-            
-          ...(finalFbp ? { fbp: finalFbp } : {}),
-          ...(finalFbc ? { fbc: finalFbc } : {}),
-          ...(em ? { em } : {}),
-          ...(ph ? { ph } : {}),
-        },
+       user_data: {
+  ...(ip ? { client_ip_address: ip } : {}),
+  ...(ua ? { client_user_agent: ua } : {}),
+  ...(finalFbp ? { fbp: finalFbp } : {}),
+  ...(finalFbc ? { fbc: finalFbc } : {}),
+  ...(em ? { em } : {}),
+  ...(ph ? { ph } : {}),
+},
 
         custom_data,
       },
