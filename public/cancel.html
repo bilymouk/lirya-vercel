@@ -232,11 +232,7 @@
   fbq('set', 'autoConfig', 'false', '893462606511287');
   </script>
 
-  <noscript>
-    <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
-  </noscript>
-</head>
+  </head>
 
 <body>
 
@@ -285,7 +281,7 @@
 </footer>
 
 <script>
-/* ===== Cancel: track custom event + CAPI + cleanup (NO FAIL si falta event_id) ===== */
+/* ===== Cancel: track custom event + CAPI + cleanup (SIN duplicar) ===== */
 (function () {
   const hasFbq = typeof window.fbq === "function";
 
@@ -313,6 +309,13 @@
   function getCheckoutEventId() {
     try { return sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) { return ""; }
   }
+
+  // ✅ MISMO event_id para Pixel y CAPI (dedupe real)
+  const checkoutEventId = getCheckoutEventId();
+  const eventId =
+    checkoutEventId || ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
+
+  const event_source_url = window.location.origin + window.location.pathname;
 
   async function sendCapiEvent(body) {
     const url = "/api/meta-capi";
@@ -345,35 +348,27 @@
     }
   }
 
-  const checkoutEventId = getCheckoutEventId(); // puede venir vacío
-  const fallbackEventId =
-    checkoutEventId || ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
-
-  const event_source_url = window.location.origin + window.location.pathname;
-
-  once("lirya_cancel_fired_" + fallbackEventId, () => {
+  once("lirya_cancel_fired_" + eventId, () => {
     // Pixel: custom
     if (hasFbq) {
       try {
-        if (checkoutEventId) window.fbq("trackCustom", "CancelCheckout", {}, { eventID: checkoutEventId });
-        else window.fbq("trackCustom", "CancelCheckout");
-        log("Pixel CancelCheckout", checkoutEventId || "(no eventId)");
+        window.fbq("trackCustom", "CancelCheckout", {}, { eventID: eventId });
+        log("Pixel CancelCheckout", eventId);
       } catch (e) {
         log("Pixel error", e);
       }
     }
 
-    // CAPI: SIEMPRE con event_id (tu backend lo requiere)
+    // CAPI: mismo event_id
     const capiBody = {
       event_name: "CancelCheckout",
       event_time: Math.floor(Date.now() / 1000),
-      event_id: fallbackEventId,
+      event_id: eventId,
       event_source_url,
       action_source: "website",
       user_data: {
         fbp: FBP || undefined,
         fbc: FBC || undefined,
-        client_user_agent: navigator.userAgent || undefined,
       },
       ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
     };
@@ -381,7 +376,7 @@
     sendCapiEvent(capiBody);
   });
 
-  // Limpieza: al llegar a cancel, reseteamos el intento para reintentar limpio
+  // ✅ Limpieza para reintento limpio
   try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
 })();
 </script>
