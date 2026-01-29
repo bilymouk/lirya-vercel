@@ -475,6 +475,7 @@ fbq('set', 'autoConfig', 'false', '893462606511287');
     // CAPI
     sendCapiEvent({
       event_name: eventName,
+      event_time: Math.floor(Date.now() / 1000),
       event_id: eventId,
       event_source_url,
       action_source: "website",
@@ -523,7 +524,7 @@ fbq('set', 'autoConfig', 'false', '893462606511287');
 
     const btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
 
-    once("lirya_lead_andrea_" + btnText, () => {
+    once("lirya_lead_andrea_to_form_" + href, () => {
       track("Lead", {
         content_name: "CTA -> Formulario (desde video)",
         button_text: btnText,
