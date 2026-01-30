@@ -900,9 +900,15 @@
 >
   <div class="hero-inner">
 
-    <audio id="lirya-audio" preload="none">
-      <source src="/audio/amor.mp3" type="audio/mpeg" />
-    </audio>
+   <audio
+  id="lirya-audio"
+  preload="none"
+  data-lirya-audio-example="1"
+  data-audio-placement="hero"
+>
+  <source src="/audio/amor.mp3" type="audio/mpeg" />
+</audio>
+
 
     <!-- DESKTOP -->
     <div class="hero-desktop">
@@ -1348,45 +1354,22 @@ function trackEvent(eventName, customData = {}, opts = {}) {
   return trackEvent(eventName, customData || {}, opts || {});
 };
 
-  // ========= VIEWCONTENT: demo reproducido (Audio HERO) =========
-(function bindHeroAudioViewContent(){
-  const a = document.getElementById("lirya-audio");
-  if (!a) return;
+// ========= EVENTO CUSTOM: reproducción de ejemplos de audio =========
+(function bindAudioExamplePlays(){
+  document.querySelectorAll('audio[data-lirya-audio-example="1"]').forEach((audio, idx) => {
+    audio.addEventListener("play", () => {
+      if (audio.__lirya_audio_example_fired) return;
+      audio.__lirya_audio_example_fired = true;
 
-  a.addEventListener("play", () => {
-    if (a.__lirya_vc_fired) return;   // 1 vez por carga
-    a.__lirya_vc_fired = true;
+      const placement = audio.getAttribute("data-audio-placement") || "unknown";
 
-    trackEvent("ViewContent", {
-      content_name: "Ejemplo audio (Hero)",
-      content_category: "Audio",
-      content_type: "demo",
-      placement: "hero"
-    });
-  }, { passive: true });
-})();
-
-  // ========= VIEWCONTENT: cualquier audio marcado como demo =========
-// En otras secciones solo añades: data-lirya-demo="1" data-demo-name="..."
-(function bindMarkedDemoAudios(){
-  document.querySelectorAll('audio[data-lirya-demo="1"]').forEach((a, idx) => {
-    a.addEventListener("play", () => {
-      if (a.__lirya_vc_fired) return;
-      a.__lirya_vc_fired = true;
-
-      const name = (a.getAttribute("data-demo-name") || `Ejemplo real ${idx + 1}`).trim();
-
-      trackEvent("ViewContent", {
-        content_name: name,
-        content_category: "Audio",
-        content_type: "demo",
-        placement: a.getAttribute("data-demo-placement") || undefined
+      trackEvent("AudioExamplePlay", {
+        placement: placement
       });
     }, { passive: true });
   });
 })();
 
- 
 window.LIRYA_PURCHASE = function(data){
   if (!data || !data.value) {
     log("Purchase NO disparado: falta value");
@@ -1414,36 +1397,6 @@ window.LIRYA_PURCHASE = function(data){
 once("lirya_pageview_home", () => {
   trackEvent("PageView", {});
 });
-
-  // ========= 1) START FORM (click CTA a formulario) =========
-  document.addEventListener("click", function (e) {
-    const el = e.target.closest("a, button");
-    if (!el) return;
-
-    let isFormCta = false;
-    const btnText = (el.textContent || "").trim().slice(0, 80) || "cta";
-
-    if (el.tagName === "A") {
-      const href = (el.getAttribute("href") || "").trim();
-      if (href === FORM_HASH || href.endsWith(FORM_HASH)) isFormCta = true;
-    }
-
-    // por si tienes botones que navegan al form
-    if (el.tagName === "BUTTON" && el.hasAttribute("data-go-form")) {
-      isFormCta = true;
-    }
-
-    if (!isFormCta) return;
-
-   once("lirya_lead_fired", () => {
-  trackEvent("Lead", {
-    content_name: "CTA -> Formulario",
-    button_text: btnText,
-    destination: FORM_HASH,
-  });
-});
-
-  }, true);
 
 })();
 </script>
@@ -2327,36 +2280,7 @@ once("lirya_pageview_home", () => {
   const arrowRight = document.getElementById('stylesArrowRight');
 
   if (!root || !player) return;
-
-    // ===== META: ViewContent cuando se escucha un ejemplo (una vez por sesión) =====
- function fireViewContentFromExample(btn, audioUrl){
-  const audioKey = String(audioUrl || "").trim();
-  if (!audioKey) return;
-
-  // ✅ 1 vez por audio por sesión (no global)
-  const VC_KEY = "lirya_vc_audio_" + audioKey;
-
-  try{
-    if (sessionStorage.getItem(VC_KEY)) return;
-    sessionStorage.setItem(VC_KEY, "1");
-  }catch(_){}
-
-  const label =
-    (btn && (btn.getAttribute("aria-label") || btn.dataset.label || btn.textContent || "")).trim();
-
-  const isStyle = btn && btn.classList.contains("style-card");
-
-  if (typeof window.LIRYA_TRACK === "function") {
-    window.LIRYA_TRACK("ViewContent", {
-      content_name: label || (isStyle ? "Ejemplo estilo musical" : "Ejemplo real"),
-      content_category: isStyle ? "Estilos musicales" : "Ejemplos reales",
-      content_type: "audio",
-      audio_url: audioKey.slice(0, 200)
-    });
-  }
-}
-
-
+  
   const FAILSAFE_MS = 12000;
   const SCROLL_STEP = 340;
 
@@ -2481,24 +2405,36 @@ once("lirya_pageview_home", () => {
   });
 
   player.addEventListener('playing', () => {
-    clearLoadingTimeout();
-    if (!pendingBtn) return;
+  clearLoadingTimeout();
+  if (!pendingBtn) return;
 
-    clearStates();
+  clearStates();
 
-    currentBtn = pendingBtn;
-        // Dispara ViewContent cuando REALMENTE está sonando
-    fireViewContentFromExample(currentBtn, player.currentSrc || player.src);
-    const container = containerOf(currentBtn);
- 
-    container.classList.add('playing');
-    setPillText(container, 'Reproduciendo', false);
-    container.classList.remove('loading');
-    currentBtn.setAttribute('aria-busy','false');
+  currentBtn = pendingBtn;
 
-    pendingBtn = null;
-  });
+  // ========= EVENTO CUSTOM: AudioExamplePlay =========
+  if (!currentBtn.__lirya_audio_example_fired) {
+    currentBtn.__lirya_audio_example_fired = true;
 
+    const placement = currentBtn.classList.contains("style-card")
+      ? "estilos"
+      : "ejemplos-reales";
+
+    trackEvent("AudioExamplePlay", {
+      placement: placement
+    });
+  }
+
+  const container = containerOf(currentBtn);
+
+  container.classList.add('playing');
+  setPillText(container, 'Reproduciendo', false);
+  container.classList.remove('loading');
+  currentBtn.setAttribute('aria-busy','false');
+
+  pendingBtn = null;
+});
+    
   player.addEventListener('ended', stopAll);
 
   player.addEventListener('error', () => {
@@ -3501,6 +3437,39 @@ once("lirya_pageview_home", () => {
   const live = root.querySelector("#lirya-live");
 
   let i = 0;
+    // ===== META: helpers dedupe (Lead) =====
+  const onceSession = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch(_) {}
+    fn();
+  };
+
+  const newEventId = () => {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+  };
+
+  function fireLeadStep1(){
+    onceSession("lirya_lead_step1_fired", () => {
+      let leadEventId = "";
+      try { leadEventId = sessionStorage.getItem("lirya_lead_event_id") || ""; } catch(_) {}
+      if (!leadEventId) {
+        leadEventId = newEventId();
+        try { sessionStorage.setItem("lirya_lead_event_id", leadEventId); } catch(_) {}
+      }
+
+      if (typeof window.LIRYA_TRACK === "function") {
+        window.LIRYA_TRACK("Lead", {
+          content_name: "Paso 1 completado",
+          step: 1,
+          plan: (root.querySelector("#tarifa-hidden")?.value || "").trim() || undefined,
+          relationship: (root.querySelector("#relationship-hidden")?.value || "").trim() || undefined
+        }, { eventId: leadEventId });
+      }
+    });
+  }
 
   progress.innerHTML = "";
   steps.forEach((_, x) => {
@@ -3657,13 +3626,19 @@ once("lirya_pageview_home", () => {
     if (nextBtn) {
   const isDisabled = nextBtn.getAttribute("aria-disabled") === "true";
 
-  // Si está "bloqueado", damos feedback inmediato (esto sí funciona porque NO hay disabled)
   if (isDisabled) {
     validateStep(true);
     return;
   }
 
+  // Validación final antes de avanzar
   if (!validateStep(true)) return;
+
+  // ✅ LEAD REAL: solo al completar el paso 1 y avanzar
+  if (i === 0) { // i=0 => Paso 1
+    fireLeadStep1();
+  }
+
   if (i < steps.length - 1) { i++; render(); }
   return;
 }
@@ -5143,6 +5118,7 @@ once("lirya_pageview_home", () => {
 </section>
 </body>
 </html>
+
 
 
 
