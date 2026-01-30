@@ -44,11 +44,14 @@ function buildBaseUrl(req) {
   return "";
 }
 
+// ✅ CRÍTICO: raw body como Buffer (firma Stripe correcta)
 async function readRawBody(req) {
   return await new Promise((resolve, reject) => {
-    let data = "";
-    req.on("data", (chunk) => (data += chunk));
-    req.on("end", () => resolve(data));
+    const chunks = [];
+    req.on("data", (chunk) =>
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
+    );
+    req.on("end", () => resolve(Buffer.concat(chunks)));
     req.on("error", reject);
   });
 }
@@ -93,13 +96,20 @@ module.exports = async (req, res) => {
         const value = amountTotal / 100;
         const currency = String(session.currency || "eur").toUpperCase();
 
-        // ✅ event_id estable (DEDUPE META)
-        // Si viene desde /api/payment -> metadata.event_id
-        // Si no, fallback estable por sesión
-        const eventId = String(session.metadata?.event_id || `purchase_${session.id}`);
+        // ✅ event_id estable para dedupe Meta:
+        // 1) metadata.event_id (lo mandas desde /api/payment)
+        // 2) client_reference_id (también lo mandas desde /api/payment)
+        // 3) fallback estable por sesión
+        const eventId = String(
+          session.metadata?.event_id ||
+            session.client_reference_id ||
+            `purchase_${session.id}`
+        );
 
-        // Matching (mejora atribución)
-        const email = normalizeEmail(session.customer_email);
+        // ✅ Email robusto (a veces viene aquí)
+        const email = normalizeEmail(
+          session.customer_email || session.customer_details?.email
+        );
         const em = email ? sha256(email) : undefined;
 
         const fbp = session.metadata?.fbp || undefined;
@@ -114,27 +124,32 @@ module.exports = async (req, res) => {
 
         const tarifa = session.metadata?.tarifa || null;
 
-        // ===== (A) Enviar a Make (opcional, pero tú lo tienes) =====
+        // ===== (A) Enviar a Make (opcional) =====
         try {
           const MAKE_WEBHOOK_URL =
             "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
 
-          await fetch(MAKE_WEBHOOK_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              stripe_event_id: event.id, // ✅ dedupe en Make
-              stripe_session_id: session.id,
-              email: session.customer_email,
-              amount_total: session.amount_total,
-              currency: session.currency,
-              tarifa,
-              metadata: session.metadata,
-              estado_pago: "PAGADO",
-            }),
-          });
+          // En Vercel normalmente fetch existe. Si no existe, no rompemos.
+          if (typeof fetch !== "function") {
+            console.warn("⚠️ fetch no disponible en este runtime. Saltando Make.");
+          } else {
+            await fetch(MAKE_WEBHOOK_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                stripe_event_id: event.id, // ✅ dedupe en Make
+                stripe_session_id: session.id,
+                email: email || (session.customer_email || ""),
+                amount_total: session.amount_total,
+                currency: session.currency,
+                tarifa,
+                metadata: session.metadata,
+                estado_pago: "PAGADO",
+              }),
+            });
 
-          console.log("✅ Enviado a Make");
+            console.log("✅ Enviado a Make");
+          }
         } catch (e) {
           console.error("⚠️ Make error (no rompemos):", e);
         }
@@ -146,6 +161,8 @@ module.exports = async (req, res) => {
 
           if (!PIXEL_ID || !ACCESS_TOKEN) {
             console.warn("⚠️ Falta META_PIXEL_ID o META_CAPI_TOKEN");
+          } else if (typeof fetch !== "function") {
+            console.warn("⚠️ fetch no disponible en este runtime. Saltando Meta CAPI.");
           } else {
             const payload = {
               data: [
@@ -205,6 +222,8 @@ module.exports = async (req, res) => {
     return res.end(JSON.stringify({ received: true }));
   } catch (e) {
     console.error("❌ Webhook handler error:", e);
+
+    // ✅ OJO: devolvemos 200 igualmente para que Stripe no reintente por tu error interno
     res.statusCode = 200;
     return res.end(JSON.stringify({ received: true, warning: "handler_error" }));
   }
