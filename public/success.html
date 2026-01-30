@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pago confirmado – Lirya</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -196,133 +196,167 @@
 
 <body>
 
-<div class="background-animation"><div class="wave"></div></div>
+  <div class="background-animation"><div class="wave"></div></div>
 
-<header>
-  <div class="header-content">
-    <div class="logo">LIRYA</div>
-  </div>
-</header>
-
-<main>
-  <div class="success-container">
-    <div class="success-icon">
-      <svg viewBox="0 0 52 52"><polyline points="14 27 22 35 38 19"/></svg>
+  <header>
+    <div class="header-content">
+      <div class="logo">LIRYA</div>
     </div>
+  </header>
 
-    <h1>Pago confirmado</h1>
+  <main>
+    <div class="success-container">
+      <div class="success-icon">
+        <svg viewBox="0 0 52 52"><polyline points="14 27 22 35 38 19"/></svg>
+      </div>
 
-    <p class="success-message">
-      Gracias por confiar en <strong>Lirya</strong>.
-      Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.
-    </p>
+      <!-- ✅ No afirmamos "confirmado" hasta verificar -->
+      <h1 id="paymentTitle">Estamos confirmando tu pago…</h1>
 
-    <div class="info-box">
-      <h3>¿Qué ocurre ahora?</h3>
-      <ul>
-        <li>Revisamos tu historia y emociones con cuidado</li>
-        <li>Creamos una letra única pensada solo para ti</li>
-        <li>Producimos tu canción según el estilo elegido</li>
-        <li>Te avisaremos en cuanto esté lista</li>
-      </ul>
+      <p class="success-message" id="paymentMsg">
+        Gracias por confiar en <strong>Lirya</strong>.
+        Estamos verificando el pago y confirmando tu pedido.
+      </p>
+
+      <div class="info-box">
+        <h3>¿Qué ocurre ahora?</h3>
+        <ul>
+          <li>Revisamos tu historia y emociones con cuidado</li>
+          <li>Creamos una letra única pensada solo para ti</li>
+          <li>Producimos tu canción según el estilo elegido</li>
+          <li>Te avisaremos en cuanto esté lista</li>
+        </ul>
+      </div>
+
+      <p class="success-message" id="deliveryNote">
+        El tiempo de entrega depende de la tarifa seleccionada.
+        Si necesitas cualquier cosa, puedes responder al email de confirmación.
+      </p>
+
+      <p class="session-id" id="sessionId"></p>
+
+      <a href="/" class="btn-home">Volver al inicio</a>
     </div>
+  </main>
 
-    <p class="success-message">
-      El tiempo de entrega depende de la tarifa seleccionada.
-      Si necesitas cualquier cosa, puedes responder al email de confirmación.
-    </p>
-
-    <p class="session-id" id="sessionId"></p>
-
-    <a href="/" class="btn-home">Volver al inicio</a>
-  </div>
-</main>
-
-<footer>
-  © 2024 Lirya · Todos los derechos reservados
-</footer>
-
-<script>
-  // Mostrar session_id (solo informativo)
-  (function () {
-    const sid = new URLSearchParams(location.search).get("session_id");
-    const el = document.getElementById("sessionId");
-    if (sid && el) el.textContent = "ID de sesión: " + sid;
-  })();
-</script>
+  <footer>
+    © 2024 Lirya · Todos los derechos reservados
+  </footer>
 
   <script>
-(function () {
-  const sid = new URLSearchParams(location.search).get("session_id") || "";
-  if (!sid) return;
+    // Mostrar session_id (solo informativo)
+    (function () {
+      const sid = new URLSearchParams(location.search).get("session_id");
+      const el = document.getElementById("sessionId");
+      if (sid && el) el.textContent = "ID de sesión: " + sid;
+    })();
+  </script>
 
-  // (Opcional) puedes crear un <div id="paymentSummary"></div> en el HTML si quieres mostrarlo
-  // const summary = document.getElementById("paymentSummary");
+  <!-- ✅ META PIXEL (INIT) — arriba, antes de cualquier posible track -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
 
-  fetch(`/api/checkout-session?session_id=${encodeURIComponent(sid)}`, {
-    method: "GET",
-    headers: { "Accept": "application/json" },
-    cache: "no-store",
-  })
-    .then(r => r.json())
-    .then(data => {
-      // Si no está pagado, mejor no decir “confirmado”
-      if (!data || data.error) return;
+  fbq('init', '893462606511287');
+  fbq('set', 'autoConfig', 'false', '893462606511287');
+  </script>
 
-      // Recomendación: si quieres máxima seguridad visual:
-      // si no es paid, podrías cambiar el texto del h1 a "Pago en revisión"
-      if (data.payment_status && data.payment_status !== "paid") {
-        const h1 = document.querySelector("h1");
-        if (h1) h1.textContent = "Pago en revisión";
-      }
+  <!-- ✅ Verificación real del pago + (opcional) Purchase browser con dedupe -->
+  <script>
+  (function () {
+    const qs = new URLSearchParams(location.search);
+    const sid = qs.get("session_id") || "";
+    const eventId = qs.get("event_id") || ""; // viene desde success_url del /api/payment
 
-      // Si quieres mostrar el total pagado:
-      // const value = (Number(data.value) || 0).toFixed(2);
-      // const currency = String(data.currency || "EUR");
-      // if (summary) summary.textContent = `Importe: ${value} ${currency}`;
+    const titleEl = document.getElementById("paymentTitle");
+    const msgEl = document.getElementById("paymentMsg");
+
+    if (!sid) {
+      if (titleEl) titleEl.textContent = "Pago en revisión";
+      if (msgEl) msgEl.textContent = "No encontramos el ID de la sesión. Si no recibes el email, escríbenos.";
+      return;
+    }
+
+    fetch(`/api/checkout-session?session_id=${encodeURIComponent(sid)}`, {
+      method: "GET",
+      headers: { "Accept": "application/json" },
+      cache: "no-store",
     })
-    .catch(() => {});
-})();
-</script>
+      .then(r => r.json())
+      .then(data => {
+        if (!data || data.error) {
+          if (titleEl) titleEl.textContent = "Pago en revisión";
+          if (msgEl) msgEl.textContent = "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
+          return;
+        }
 
-<!-- ===== META PIXEL (SOLO INIT, SIN TRACK) ===== -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
+        const paid = String(data.payment_status || "").toLowerCase() === "paid";
 
-fbq('init', '893462606511287');
-fbq('set', 'autoConfig', 'false', '893462606511287');
-</script>
+        if (!paid) {
+          if (titleEl) titleEl.textContent = "Pago en revisión";
+          if (msgEl) msgEl.textContent = "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
+          return;
+        }
 
-<script>
-/* ===== LIMPIEZA POST-COMPRA (ANTI DUPLICADOS) ===== */
-(function () {
-  const sid = new URLSearchParams(location.search).get("session_id") || "";
-  const key = "lirya_success_cleaned_" + (sid || "no_sid");
+        // ✅ Confirmado de verdad
+        if (titleEl) titleEl.textContent = "Pago confirmado";
+        if (msgEl) msgEl.innerHTML =
+          `Gracias por confiar en <strong>Lirya</strong>.
+           Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.`;
 
-  try {
-    if (sessionStorage.getItem(key)) return;
-    sessionStorage.setItem(key, "1");
-  } catch (_) {}
+        // ✅ (OPCIONAL) Purchase en navegador con dedupe por event_id o session_id
+        // Si ya envías Purchase por CAPI en webhook, esto mejora matching y se dedupea con event_id.
+        try {
+          const key = "lirya_browser_purchase_" + (eventId || sid);
+          if (!sessionStorage.getItem(key)) {
+            sessionStorage.setItem(key, "1");
 
-  try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
-  try { sessionStorage.removeItem("lirya_purchase_value"); } catch(_) {}
-  try { sessionStorage.removeItem("lirya_purchase_plan"); } catch(_) {}
+            const value = Number(data.value || 0);
+            const currency = String(data.currency || "EUR").toUpperCase();
 
-  try {
-    Object.keys(sessionStorage).forEach((k) => {
-      if (k.startsWith("lirya_initiatecheckout_")) sessionStorage.removeItem(k);
-      if (k.startsWith("lirya_vc_")) sessionStorage.removeItem(k);
-    });
-  } catch(_) {}
-})();
-</script>
+            if (typeof window.fbq === "function" && value > 0) {
+              const opts = eventId ? { eventID: eventId } : undefined;
+              window.fbq("track", "Purchase", { value, currency }, opts);
+            }
+          }
+        } catch (_) {}
+      })
+      .catch(() => {
+        if (titleEl) titleEl.textContent = "Pago en revisión";
+        if (msgEl) msgEl.textContent = "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
+      });
+  })();
+  </script>
+
+  <!-- ✅ Limpieza post-compra (anti duplicados) -->
+  <script>
+  (function () {
+    const sid = new URLSearchParams(location.search).get("session_id") || "";
+    const key = "lirya_success_cleaned_" + (sid || "no_sid");
+
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch (_) {}
+
+    try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+    try { sessionStorage.removeItem("lirya_purchase_value"); } catch(_) {}
+    try { sessionStorage.removeItem("lirya_purchase_plan"); } catch(_) {}
+
+    try {
+      Object.keys(sessionStorage).forEach((k) => {
+        if (k.startsWith("lirya_initiatecheckout_")) sessionStorage.removeItem(k);
+        if (k.startsWith("lirya_vc_")) sessionStorage.removeItem(k);
+      });
+    } catch(_) {}
+  })();
+  </script>
 
 </body>
 </html>
