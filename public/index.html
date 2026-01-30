@@ -4620,7 +4620,6 @@ try {
 </style>
 
 <script>
-/* Carrusel + ViewContent en click de viñetas */
 (() => {
   const section = document.getElementById('reacciones');
   if (!section) return;
@@ -4631,11 +4630,19 @@ try {
   const prev = section.querySelector('[data-carousel-prev]');
   const next = section.querySelector('[data-carousel-next]');
 
+  const onceSession = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch(_) {}
+    fn();
+  };
+
   const getStep = () => {
     const firstCard = carousel.querySelector('.reaction-card');
     if (!firstCard) return 320;
     const cardWidth = firstCard.getBoundingClientRect().width;
-    return Math.round(cardWidth + 24); // 24 = gap
+    return Math.round(cardWidth + 24);
   };
 
   const scrollByStep = (dir) => {
@@ -4650,19 +4657,18 @@ try {
     if (e.key === 'ArrowRight'){ e.preventDefault(); scrollByStep(1); }
   });
 
-  // ===== META: ViewContent cuando hacen click en una reacción (viñeta) =====
+  // ViewContent al click en una reacción
   section.addEventListener('click', (e) => {
     const a = e.target?.closest?.('a.reaction-card[href]');
     if (!a || !section.contains(a)) return;
 
-    // No dispares si es un link al formulario (por si algún día cambias algo)
     const href = (a.getAttribute('href') || '').trim();
     if (!href || href.startsWith('#formulario-lirya')) return;
 
     const persona = (a.getAttribute('data-persona') || '').trim();
     const label = (a.getAttribute('aria-label') || '').trim();
 
-     if (typeof window.LIRYA_TRACK === 'function') {
+    if (typeof window.LIRYA_TRACK === 'function') {
       const dedupeKey = "lirya_vc_reaction_" + href;
 
       onceSession(dedupeKey, () => {
@@ -4675,7 +4681,6 @@ try {
         });
       });
     }
-
   }, true);
 })();
 </script>
@@ -5179,6 +5184,7 @@ try {
 </section>
 </body>
 </html>
+
 
 
 
