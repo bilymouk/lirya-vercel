@@ -26,14 +26,11 @@ module.exports = async (req, res) => {
   try {
     const f = req.body || {};
 
-    // ✅ Meta Test Events (solo testing): si llega, lo pasamos a success/cancel
-    const testEventCode = String(f.test_event_code || "").trim();
-    const testQS = testEventCode
-      ? `&test_event_code=${encodeURIComponent(testEventCode)}`
-      : "";
-    const cancelQS = testEventCode
-      ? `?test_event_code=${encodeURIComponent(testEventCode)}`
-      : "";
+    // ✅ event_id OBLIGATORIO (clave para dedupe Purchase del webhook)
+    const eventId = String(f.event_id || "").trim();
+    if (!eventId) {
+      return res.status(400).json({ error: "Falta event_id" });
+    }
 
     console.log("📥 FORM DATA RECIBIDO:", f.email);
 
@@ -81,7 +78,8 @@ module.exports = async (req, res) => {
     console.log("🌍 BASE_URL:", BASE_URL);
 
     // ✅ Event source URL limpio (por si alguien lo manda con query/hash)
-    const safeEventSourceUrl = String(f.event_source_url || "").trim() || `${BASE_URL}/`;
+    const safeEventSourceUrl =
+      String(f.event_source_url || "").trim() || `${BASE_URL}/`;
 
     // --- 4) CREAR SESIÓN DE STRIPE ---
     let session;
@@ -96,7 +94,7 @@ module.exports = async (req, res) => {
         customer_creation: "always",
 
         // ✅ útil para debugging/atribución (dedupe)
-        client_reference_id: f.event_id || undefined,
+        client_reference_id: eventId,
 
         line_items: [
           {
@@ -112,21 +110,37 @@ module.exports = async (req, res) => {
           },
         ],
 
-        // ✅ success/cancel
-        success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&event_id=${encodeURIComponent(f.event_id || "")}${testQS}`,
-        cancel_url: `${BASE_URL}/cancel.html${cancelQS}`,
+        // ✅ success/cancel (SIN test_event_code aquí, Opción A)
+        success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&event_id=${encodeURIComponent(
+          eventId
+        )}`,
+        cancel_url: `${BASE_URL}/cancel.html`,
 
-        // ✅ CLAVE para CAPI Purchase en webhook
+        // ✅ CLAVE: replicar metadata también a PaymentIntent
+        // (por si tu webhook usa payment_intent.succeeded)
+        payment_intent_data: {
+          metadata: {
+            email: f.email || "",
+            tarifa: f.tarifa || "",
+            recipient_name: f.recipient_name || "",
+
+            event_id: eventId,
+            fbp: f.fbp || "",
+            fbc: f.fbc || "",
+            event_source_url: safeEventSourceUrl,
+          },
+        },
+
+        // ✅ metadata en sesión (por si usas checkout.session.completed)
         metadata: {
           email: f.email || "",
           tarifa: f.tarifa || "",
           recipient_name: f.recipient_name || "",
 
-          event_id: f.event_id || "",
+          event_id: eventId,
           fbp: f.fbp || "",
           fbc: f.fbc || "",
 
-          // ✅ URL REAL donde ocurrió la acción (landing/form)
           event_source_url: safeEventSourceUrl,
         },
       });
@@ -159,7 +173,7 @@ module.exports = async (req, res) => {
 
             // ✅ claves para dedupe/track en Make
             stripe_session_id: session.id,
-            meta_event_id: f.event_id || "",
+            meta_event_id: eventId,
 
             id_de_pago: session.id,
             estado_pago: "Pendiente",
