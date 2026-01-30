@@ -1311,10 +1311,25 @@ function trackEvent(eventName, customData = {}, opts = {}) {
   const cleanCustomData = { ...customData };
   delete cleanCustomData.user_data;
 
-  // Pixel (si existe)
-  if (hasFbq) {
+   if (hasFbq) {
     try {
-      window.fbq("track", eventName, cleanCustomData, { eventID: eventId });
+      const STANDARD = new Set([
+        "PageView",
+        "ViewContent",
+        "InitiateCheckout",
+        "AddPaymentInfo",
+        "Purchase",
+        "Lead",
+        "CompleteRegistration",
+        "Contact",
+      ]);
+
+      if (STANDARD.has(eventName)) {
+        window.fbq("track", eventName, cleanCustomData, { eventID: eventId });
+      } else {
+        window.fbq("trackCustom", eventName, cleanCustomData, { eventID: eventId });
+      }
+
       log("Pixel", eventName, eventId);
     } catch (e) {
       log("Pixel error", e);
@@ -1397,7 +1412,55 @@ window.LIRYA_PURCHASE = function(data){
 once("lirya_pageview_home", () => {
   trackEvent("PageView", {});
 });
+  
+// ========= 1) LEAD: click hacia el formulario =========
+(function bindLeadClicks(){
+  const leadSelectors = [
+    'a[href="#formulario-lirya"]',
+    '#urgency-cta',
+    '.cta-header',
+    '.hero-btn',
+  ];
 
+  document.addEventListener("click", (e) => {
+    const el = e.target && e.target.closest ? e.target.closest(leadSelectors.join(",")) : null;
+    if (!el) return;
+
+    once("lirya_lead_click", () => {
+      trackEvent("Lead", { source: "cta_to_form" });
+    });
+  }, { passive: true });
+})();
+
+// ========= 2) VIEWCONTENT: cuando el formulario entra en pantalla =========
+(function bindFormViewContent(){
+  const formSection = document.getElementById("formulario-lirya");
+  if (!formSection) return;
+
+  const fire = () => once("lirya_viewcontent_form", () => {
+    trackEvent("ViewContent", {
+      content_name: "Formulario Lirya",
+      content_type: "form"
+    });
+  });
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          fire();
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.35 });
+
+    io.observe(formSection);
+    return;
+  }
+
+  // Fallback
+  window.addEventListener("scroll", fire, { passive: true });
+})();
 })();
 </script>
 
@@ -5118,6 +5181,7 @@ once("lirya_pageview_home", () => {
 </section>
 </body>
 </html>
+
 
 
 
