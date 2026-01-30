@@ -232,7 +232,7 @@
   fbq('set', 'autoConfig', 'false', '893462606511287');
   </script>
 
-  </head>
+</head>
 
 <body>
 
@@ -299,8 +299,8 @@
   };
 
   const getCookie = (name) => {
-    const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-    return m ? decodeURIComponent(m[2]) : "";
+    const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
+    return m ? decodeURIComponent(m[1]) : "";
   };
 
   const FBP = getCookie("_fbp");
@@ -310,12 +310,21 @@
     try { return sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) { return ""; }
   }
 
-  // ✅ MISMO event_id para Pixel y CAPI (dedupe real)
+  // ✅ Dedupe correcto: NO uses el mismo event_id exacto del checkout para cancel
   const checkoutEventId = getCheckoutEventId();
   const eventId =
-    checkoutEventId || ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
+    checkoutEventId ? (checkoutEventId + "_cancel") : ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
 
-  const event_source_url = window.location.origin + window.location.pathname;
+  // ✅ Mejor atribución: URL completa (sin hash)
+  const event_source_url = (function(){
+    try {
+      const u = new URL(window.location.href);
+      u.hash = "";
+      return u.toString();
+    } catch(_) {
+      return window.location.origin + window.location.pathname;
+    }
+  })();
 
   async function sendCapiEvent(body) {
     const url = "/api/meta-capi";
@@ -359,7 +368,7 @@
       }
     }
 
-    // CAPI: mismo event_id
+    // CAPI (si existe tu endpoint /api/meta-capi)
     const capiBody = {
       event_name: "CancelCheckout",
       event_time: Math.floor(Date.now() / 1000),
@@ -367,8 +376,8 @@
       event_source_url,
       action_source: "website",
       user_data: {
-        fbp: FBP || undefined,
-        fbc: FBC || undefined,
+        ...(FBP ? { fbp: FBP } : {}),
+        ...(FBC ? { fbc: FBC } : {}),
       },
       ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
     };
@@ -376,7 +385,8 @@
     sendCapiEvent(capiBody);
   });
 
-  // ✅ Limpieza para reintento limpio
+  // ✅ Limpieza para reintento limpio:
+  // Si prefieres mantener el mismo checkout_event_id al volver (no recomendado), comenta esta línea.
   try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
 })();
 </script>
