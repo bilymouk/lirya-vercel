@@ -3818,9 +3818,9 @@ once("lirya_pageview_home", () => {
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
     }
 
-    const _memOnce = new Set();
+  const _memOnce = new Set();
 
-const once = (key, fn) => {
+const onceAsync = async (key, fn) => {
   if (_memOnce.has(key)) return;
   _memOnce.add(key);
 
@@ -3829,7 +3829,11 @@ const once = (key, fn) => {
     sessionStorage.setItem(key, "1");
   } catch (_e) {}
 
-  fn();
+  try {
+    return await fn();
+  } catch (e) {
+    console.warn("onceAsync error:", e);
+  }
 };
 
     function val(id){
@@ -3864,22 +3868,28 @@ const once = (key, fn) => {
         try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
       }
 
+     const emailRaw = (val("email") || "").trim().toLowerCase();
+let emailHash = "";
+try { 
+  if (emailRaw && window.crypto?.subtle) {
+    emailHash = await sha256Hex(emailRaw);
+  }
+} catch (_) {}
+ 
       // InitiateCheckout (solo una vez)
-      once("lirya_initiatecheckout_" + checkoutEventId, async () => {
-        const tarifa = Number(val("tarifa-hidden") || 0);
-        if (!tarifa || ![39,59,79].includes(tarifa)) return;
+      await onceAsync("lirya_initiatecheckout_" + checkoutEventId, async () => {
+  const tarifa = Number(val("tarifa-hidden") || 0);
+  if (!tarifa || ![39,59,79].includes(tarifa)) return;
 
-        const emailRaw = (val("email") || "").trim().toLowerCase();
-        try { if (emailRaw && window.crypto?.subtle) await sha256Hex(emailRaw); } catch(_) {}
-
-        if (typeof window.LIRYA_TRACK === "function") {
+          if (typeof window.LIRYA_TRACK === "function") {
           window.LIRYA_TRACK("InitiateCheckout", {
-            currency: "EUR",
-            value: tarifa,
-            content_name: "Canción personalizada",
-            content_type: "product",
-            plan: String(tarifa),
-          }, { eventId: checkoutEventId });
+  currency: "EUR",
+  value: tarifa,
+  content_name: "Canción personalizada",
+  content_type: "product",
+  plan: String(tarifa),
+  email_hash: emailHash || undefined
+}, { eventId: checkoutEventId });
         }
       });
 
@@ -3920,7 +3930,7 @@ const once = (key, fn) => {
         event_id: checkoutEventId,
         fbp: fbpCookie,
         fbc: fbcCookie,
-        event_source_url: window.location.origin + window.location.pathname,
+        event_source_url: window.location.href,
       };
 
       try {
@@ -5169,6 +5179,7 @@ const once = (key, fn) => {
 </section>
 </body>
 </html>
+
 
 
 
