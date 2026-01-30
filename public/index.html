@@ -1171,7 +1171,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 /* ===== PIXEL + CAPI (LIMPIO, SIN DUPLICADOS, SAFARI FRIENDLY) =====
 */
 (function () {
-  const hasFbq = typeof window.fbq === "function";
+  const hasFbq = () => typeof window.fbq === "function";
 
   const urlParams = new URLSearchParams(location.search);
 
@@ -1304,7 +1304,7 @@ function trackEvent(eventName, customData = {}, opts = {}) {
   const cleanCustomData = { ...customData };
   delete cleanCustomData.user_data;
 
-   if (hasFbq) {
+  if (hasFbq()) {
     try {
       const STANDARD = new Set([
         "PageView",
@@ -1338,10 +1338,6 @@ function trackEvent(eventName, customData = {}, opts = {}) {
     event_id: eventId,
     event_source_url: event_source_url,
     action_source: "website",
-
-    // compat por si backend lo lee en raíz
-    fbp: FBP || undefined,
-    fbc: FBC || undefined,
 
     user_data: {
       fbp: FBP || undefined,
@@ -3818,13 +3814,19 @@ once("lirya_pageview_home", () => {
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
     }
 
-    const once = (key, fn) => {
-      try {
-        if (sessionStorage.getItem(key)) return;
-        sessionStorage.setItem(key, "1");
-      } catch(_) {}
-      fn();
-    };
+    const _memOnce = new Set();
+
+const once = (key, fn) => {
+  if (_memOnce.has(key)) return;
+  _memOnce.add(key);
+
+  try {
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch (_e) {}
+
+  fn();
+};
 
     function val(id){
       const el = root.querySelector("#" + CSS.escape(id));
@@ -5163,6 +5165,7 @@ once("lirya_pageview_home", () => {
 </section>
 </body>
 </html>
+
 
 
 
