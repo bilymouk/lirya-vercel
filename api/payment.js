@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "Falta event_id" });
     }
 
-    console.log("📥 FORM DATA RECIBIDO:", f.email);
+    console.log("📥 FORM DATA RECIBIDO (email ok):", !!f.email);
 
     // --- 2) PRECIO SEGÚN TARIFA ---
     let amount;
@@ -77,9 +77,17 @@ module.exports = async (req, res) => {
 
     console.log("🌍 BASE_URL:", BASE_URL);
 
-    // ✅ Event source URL limpio (por si alguien lo manda con query/hash)
-    const safeEventSourceUrl =
-      String(f.event_source_url || "").trim() || `${BASE_URL}/`;
+    // ✅ Event source URL limpio (sin query ni hash)
+let safeEventSourceUrl = String(f.event_source_url || "").trim();
+
+if (safeEventSourceUrl) {
+  try {
+    const u = new URL(safeEventSourceUrl);
+    safeEventSourceUrl = u.origin + u.pathname; // sin query ni hash
+  } catch (_) {}
+} else {
+  safeEventSourceUrl = `${BASE_URL}/`;
+}
 
     // --- 4) CREAR SESIÓN DE STRIPE ---
     let session;
@@ -114,7 +122,8 @@ module.exports = async (req, res) => {
         success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&event_id=${encodeURIComponent(
           eventId
         )}`,
-        cancel_url: `${BASE_URL}/cancel.html`,
+        
+        cancel_url: `${BASE_URL}/cancel.html?event_id=${encodeURIComponent(eventId)}`,
 
         // ✅ CLAVE: replicar metadata también a PaymentIntent
         // (por si tu webhook usa payment_intent.succeeded)
