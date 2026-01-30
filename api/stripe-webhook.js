@@ -115,9 +115,6 @@ module.exports = async (req, res) => {
         const fbp = session.metadata?.fbp || undefined;
         const fbc = session.metadata?.fbc || undefined;
 
-        const clientIp = getClientIp(req) || undefined;
-        const clientUa = (req.headers["user-agent"] || "").toString() || undefined;
-
         const eventSourceUrl =
           String(session.metadata?.event_source_url || "").trim() ||
           (baseUrl ? `${baseUrl}/` : undefined);
@@ -180,9 +177,7 @@ module.exports = async (req, res) => {
                     ...(em ? { em } : {}),
                     ...(fbp ? { fbp } : {}),
                     ...(fbc ? { fbc } : {}),
-                    ...(clientIp ? { client_ip_address: clientIp } : {}),
-                    ...(clientUa ? { client_user_agent: clientUa } : {}),
-                  },
+                    },
 
                   custom_data: {
                     currency,
