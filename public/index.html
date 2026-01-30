@@ -1169,13 +1169,6 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 
 <script>
 /* ===== PIXEL + CAPI (LIMPIO, SIN DUPLICADOS, SAFARI FRIENDLY) =====
-  - PageView: Pixel + CAPI con MISMO event_id (dedupe)
-  - Lead: click a #formulario-lirya (Pixel + CAPI)
-  - ViewContent: cuando #formulario-lirya se ve (Pixel + CAPI)
-  - InitiateCheckout: cuando se hace click en el botón de pagar (por selector)
-  - Cookies first-party _fbp/_fbc para mejorar Safari (ITP)
-  - Test Events: ?test_event_code=XXXX se envía en body a CAPI
-  - Debug: ?debug_meta=1 para logs en consola
 */
 (function () {
   const hasFbq = typeof window.fbq === "function";
@@ -1413,7 +1406,7 @@ once("lirya_pageview_home", () => {
   trackEvent("PageView", {});
 });
   
-// ========= 2) VIEWCONTENT: cuando el formulario entra en pantalla =========
+// ========= 2) VIEWCONTENT: cuando el formulario SE VE DE VERDAD =========
 (function bindFormViewContent(){
   const formSection = document.getElementById("formulario-lirya");
   if (!formSection) return;
@@ -1425,23 +1418,35 @@ once("lirya_pageview_home", () => {
     });
   });
 
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((en) => {
-        if (en.isIntersecting) {
-          fire();
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.35 });
-
-    io.observe(formSection);
+  // Fallback sin IntersectionObserver
+  if (!("IntersectionObserver" in window)) {
+    window.addEventListener("scroll", fire, { passive: true });
     return;
   }
 
-  // Fallback
-  window.addEventListener("scroll", fire, { passive: true });
+  let timer = null;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (en.isIntersecting && en.intersectionRatio >= 0.6) {
+        if (timer) return;
+
+        timer = setTimeout(() => {
+          fire();
+          io.disconnect();
+        }, 800);
+      } else {
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+      }
+    });
+  }, { threshold: [0.6] });
+
+  io.observe(formSection);
 })();
+
 })();
 </script>
 
@@ -5171,6 +5176,7 @@ once("lirya_pageview_home", () => {
 </section>
 </body>
 </html>
+
 
 
 
