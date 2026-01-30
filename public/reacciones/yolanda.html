@@ -359,7 +359,12 @@
 
   </div>
 
-  <!-- ✅ TRACKING FINAL: ViewContent al cargar página + Lead al clicar CTA a formulario -->
+  <!-- ✅ TRACKING FINAL (REPARADO):
+       - PageView al cargar (Pixel + CAPI)
+       - ViewContent al cargar (Pixel + CAPI)
+       - VideoPlay SOLO al darle play al vídeo (Pixel + CAPI)
+       - ❌ NO Lead aquí (Lead SOLO existe en el Paso 1 del formulario al darle "Siguiente")
+  -->
   <script>
   (function () {
     const hasFbq = typeof window.fbq === "function";
@@ -475,7 +480,7 @@
     function track(eventName, customData = {}, opts = {}) {
       const eventId = opts.eventId || newEventId();
 
-      // Pixel
+      // Pixel (estándar)
       if (hasFbq) {
         try {
           window.fbq("track", eventName, customData, { eventID: eventId });
@@ -487,7 +492,7 @@
         log("Pixel NO disponible (bloqueado / Safari)");
       }
 
-      // CAPI
+      // CAPI (mismo event_id para dedupe)
       sendCapiEvent({
         event_name: eventName,
         event_time: Math.floor(Date.now() / 1000),
@@ -513,6 +518,13 @@
     }
 
     // =========================================================
+    // 0) PAGEVIEW al CARGAR la PÁGINA
+    // =========================================================
+    once("lirya_pageview_" + PERSONA, () => {
+      track("PageView", {});
+    });
+
+    // =========================================================
     // 1) VIEWCONTENT al CARGAR la PÁGINA (lo que tú querías)
     // =========================================================
     once("lirya_viewcontent_" + PERSONA, () => {
@@ -527,85 +539,37 @@
     });
 
     // =========================================================
-    // 2) LEAD SOLO cuando clican CTA a formulario (/#formulario-lirya)
+    // 2) VIDEOPLAY SOLO cuando le dan PLAY al video (evento estándar)
+    //    ❌ NO custom event
     // =========================================================
-    function isFormLink(el){
-      if (!el) return false;
-      const href = (el.getAttribute("href") || "").trim();
-      if (!href) return false;
-      return href === "/#formulario-lirya" || href.endsWith("/#formulario-lirya") || href === "#formulario-lirya";
-    }
-
-    document.addEventListener("click", function(e){
-      const a = e.target.closest("a");
-      if (!a) return;
-
-      if (!isFormLink(a)) return;
-
-      const btnText = (a.textContent || "").trim().slice(0, 80) || "cta";
-
-      // lead 1 vez por sesión (si quieres 1 por click, quita once)
-      once("lirya_lead_" + PERSONA, () => {
-        track("Lead", {
-          content_name: "CTA -> Formulario (reacciones)",
-          button_text: btnText,
-          persona: PERSONA,
-          source_page: window.location.pathname,
-          destination: "/#formulario-lirya"
-        });
-      });
-    }, true);
-
-    // =========================================================
-    // 3) (OPCIONAL) VideoPlay como custom event
-    //    NO ViewContent aquí. NO Lead aquí.
-    //    Si no lo quieres, borra este bloque.
-    // =========================================================
-    (function(){
+    (function bindVideoPlay(){
       const video = document.querySelector("video");
       if (!video) return;
 
-      const key = "lirya_video_play_" + PERSONA;
+      const key = "lirya_videoplay_" + PERSONA;
 
       const fire = () => {
         once(key, () => {
-          // Pixel custom
-          if (hasFbq) {
-            try { window.fbq("trackCustom", "VideoPlay", { persona: PERSONA, source_page: window.location.pathname }); }
-            catch(_) {}
-          }
-
-          // CAPI custom (mismo endpoint)
-          sendCapiEvent({
-            event_name: "VideoPlay",
-            event_time: Math.floor(Date.now() / 1000),
-            event_id: newEventId(),
-            event_source_url,
-            action_source: "website",
-            fbp: FBP || undefined,
-            fbc: FBC || undefined,
-            user_data: {
-              fbp: FBP || undefined,
-              fbc: FBC || undefined,
-              client_user_agent: navigator.userAgent || undefined,
-            },
-            custom_data: {
-              persona: PERSONA,
-              page_type: PAGE_TYPE,
-              source_page: window.location.pathname
-            },
-            ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+          track("VideoPlay", {
+            content_name: "Reacción Yolanda",
+            content_category: "Reacciones",
+            content_type: "video_testimonial",
+            page_type: PAGE_TYPE,
+            persona: PERSONA,
+            source_page: window.location.pathname
           });
-
-          log("Custom VideoPlay fired");
         });
       };
 
       video.addEventListener("play", fire, { passive: true });
-      // en iOS a veces se “inicia” con interacción previa
+      // iOS: a veces el primer gesto es touch
       video.addEventListener("touchstart", fire, { passive: true });
-      video.addEventListener("pointerdown", fire, { passive: true });
     })();
+
+    // =========================================================
+    // ❌ NO LEAD AQUÍ
+    // Lead SOLO se dispara en el formulario, al dar "Siguiente" en el Paso 1.
+    // =========================================================
 
   })();
   </script>
