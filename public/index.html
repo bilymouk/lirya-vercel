@@ -2415,20 +2415,26 @@ once("lirya_pageview_home", () => {
 
     currentBtn = pendingBtn;
 
-    // ===== TRACK: AudioExamplePlay (como HOME, pero con player único) =====
-    // 1 vez por botón
-    if (!currentBtn.__lirya_audio_example_fired) {
-      currentBtn.__lirya_audio_example_fired = true;
+      // ===== TRACK: AudioExamplePlay / Replay =====
+  const placement = currentBtn.classList.contains("style-card")
+    ? "estilos"
+    : "ejemplos-reales";
 
-      const placement = currentBtn.classList.contains("style-card")
-        ? "estilos"
-        : "ejemplos-reales";
+  const audioSrc = (currentBtn.dataset.audio || "").trim();
+  const label = (currentBtn.getAttribute("aria-label") || "").trim();
 
-      if (typeof window.LIRYA_TRACK === "function") {
-        window.LIRYA_TRACK("AudioExamplePlay", { placement });
-      }
-    }
+  if (typeof window.LIRYA_TRACK === "function") {
+    const firstTime = !currentBtn.__lirya_audio_example_fired;
+    currentBtn.__lirya_audio_example_fired = true;
 
+    window.LIRYA_TRACK(firstTime ? "AudioExamplePlay" : "AudioExampleReplay", {
+      placement,
+      audio_src: audioSrc,
+      label
+    });
+  }
+
+  
     const container = containerOf(currentBtn);
 
     container.classList.add('playing');
@@ -2496,10 +2502,8 @@ once("lirya_pageview_home", () => {
     // Marcamos flag en el evento para que el listener global pueda respetarlo
     // (y además evitamos burbujeo hacia listeners que estén en capture/bubble)
     e.__lirya_no_lead = true;
+// no cortamos propagación; el listener global debe respetar el flag
 
-    // Esto NO impide navegar al hash, solo impide que lo “escuchen” otros handlers
-    // (si tu Lead está en document capture, esto lo frena igual)
-    e.stopImmediatePropagation();
   }, true);
 
 })();
@@ -5165,6 +5169,7 @@ const once = (key, fn) => {
 </section>
 </body>
 </html>
+
 
 
 
