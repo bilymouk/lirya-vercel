@@ -19,6 +19,7 @@ const ALLOWED_EVENT_NAMES = new Set([
   "Contact",
   "CancelCheckout",
   "AudioExamplePlay",
+  "VideoPlay",
 ]);
 
 // ===== helpers =====
@@ -118,6 +119,19 @@ module.exports = async (req, res) => {
   // Matching avanzado opcional:
   // si mandas email/phone raw en el futuro, aquí se hashea
   let em = user_data && user_data.em;
+  // Si no viene em, intentamos rescatar email_hash de sitios comunes
+if (!em) {
+  const maybe =
+    (body && body.email_hash) ||
+    (custom_data && custom_data.email_hash) ||
+    (user_data && user_data.email_hash);
+
+  if (maybe && typeof maybe === "string") {
+    const h = maybe.trim().toLowerCase();
+    // si ya es sha256 (64 hex), lo aceptamos tal cual
+    if (/^[a-f0-9]{64}$/.test(h)) em = h;
+  }
+}
   let ph = user_data && user_data.ph;
 
   if (!em && user_data && user_data.email) {
