@@ -4659,11 +4659,20 @@ try {
 
   // ViewContent al click en una reacción
   section.addEventListener('click', (e) => {
-    const a = e.target?.closest?.('a.reaction-card[href]');
+    const a = (e.target && e.target.closest)
+      ? e.target.closest('a.reaction-card[href]')
+      : null;
+
     if (!a || !section.contains(a)) return;
 
-    const href = (a.getAttribute('href') || '').trim();
+    let href = (a.getAttribute('href') || '').trim();
     if (!href || href.startsWith('#formulario-lirya')) return;
+
+    // normaliza href para dedupe (evita duplicar por querys)
+    try {
+      const u = new URL(href, window.location.href);
+      href = u.pathname;
+    } catch(_) {}
 
     const persona = (a.getAttribute('data-persona') || '').trim();
     const label = (a.getAttribute('aria-label') || '').trim();
@@ -5184,6 +5193,7 @@ try {
 </section>
 </body>
 </html>
+
 
 
 
