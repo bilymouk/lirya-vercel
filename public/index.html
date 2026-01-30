@@ -1413,25 +1413,6 @@ once("lirya_pageview_home", () => {
   trackEvent("PageView", {});
 });
   
-// ========= 1) LEAD: click hacia el formulario =========
-(function bindLeadClicks(){
-  const leadSelectors = [
-    'a[href="#formulario-lirya"]',
-    '#urgency-cta',
-    '.cta-header',
-    '.hero-btn',
-  ];
-
-  document.addEventListener("click", (e) => {
-    const el = e.target && e.target.closest ? e.target.closest(leadSelectors.join(",")) : null;
-    if (!el) return;
-
-    once("lirya_lead_click", () => {
-      trackEvent("Lead", { source: "cta_to_form" });
-    });
-  }, { passive: true });
-})();
-
 // ========= 2) VIEWCONTENT: cuando el formulario entra en pantalla =========
 (function bindFormViewContent(){
   const formSection = document.getElementById("formulario-lirya");
@@ -5181,6 +5162,7 @@ once("lirya_pageview_home", () => {
 </section>
 </body>
 </html>
+
 
 
 
