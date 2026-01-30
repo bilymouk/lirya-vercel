@@ -252,7 +252,7 @@
     })();
   </script>
 
-  <!-- ✅ META PIXEL (INIT) — arriba, antes de cualquier posible track -->
+  <!-- ✅ META PIXEL (INIT) — antes de cualquier posible track -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -267,7 +267,7 @@
   fbq('set', 'autoConfig', 'false', '893462606511287');
   </script>
 
-  <!-- ✅ Verificación real del pago + (opcional) Purchase browser con dedupe -->
+  <!-- ✅ Verificación real del pago + Purchase browser (OPCIONAL) -->
   <script>
   (function () {
     const qs = new URLSearchParams(location.search);
@@ -277,11 +277,13 @@
     const titleEl = document.getElementById("paymentTitle");
     const msgEl = document.getElementById("paymentMsg");
 
-    if (!sid) {
+    function setReviewState() {
       if (titleEl) titleEl.textContent = "Pago en revisión";
-      if (msgEl) msgEl.textContent = "No encontramos el ID de la sesión. Si no recibes el email, escríbenos.";
-      return;
+      if (msgEl) msgEl.textContent =
+        "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
     }
+
+    if (!sid) { setReviewState(); return; }
 
     fetch(`/api/checkout-session?session_id=${encodeURIComponent(sid)}`, {
       method: "GET",
@@ -290,19 +292,10 @@
     })
       .then(r => r.json())
       .then(data => {
-        if (!data || data.error) {
-          if (titleEl) titleEl.textContent = "Pago en revisión";
-          if (msgEl) msgEl.textContent = "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
-          return;
-        }
+        if (!data || data.error) { setReviewState(); return; }
 
         const paid = String(data.payment_status || "").toLowerCase() === "paid";
-
-        if (!paid) {
-          if (titleEl) titleEl.textContent = "Pago en revisión";
-          if (msgEl) msgEl.textContent = "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
-          return;
-        }
+        if (!paid) { setReviewState(); return; }
 
         // ✅ Confirmado de verdad
         if (titleEl) titleEl.textContent = "Pago confirmado";
@@ -310,12 +303,12 @@
           `Gracias por confiar en <strong>Lirya</strong>.
            Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.`;
 
-        // ✅ (OPCIONAL) Purchase en navegador con dedupe por event_id o session_id
-        // Si ya envías Purchase por CAPI en webhook, esto mejora matching y se dedupea con event_id.
+        // ✅ (OPCIONAL) Purchase en navegador con dedupe
+        // Si ya envías Purchase por CAPI en webhook, esto puede mejorar matching y se dedupea con event_id.
         try {
-          const key = "lirya_browser_purchase_" + (eventId || sid);
-          if (!sessionStorage.getItem(key)) {
-            sessionStorage.setItem(key, "1");
+          const dedupeKey = "lirya_browser_purchase_" + (eventId || sid);
+          if (!sessionStorage.getItem(dedupeKey)) {
+            sessionStorage.setItem(dedupeKey, "1");
 
             const value = Number(data.value || 0);
             const currency = String(data.currency || "EUR").toUpperCase();
@@ -327,10 +320,7 @@
           }
         } catch (_) {}
       })
-      .catch(() => {
-        if (titleEl) titleEl.textContent = "Pago en revisión";
-        if (msgEl) msgEl.textContent = "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
-      });
+      .catch(() => { setReviewState(); });
   })();
   </script>
 
