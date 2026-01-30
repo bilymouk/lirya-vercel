@@ -8,9 +8,12 @@ const ALLOWED_ORIGINS = [
 ];
 
 export default async function handler(req, res) {
+  // --- CORS + headers ---
   const origin = req.headers.origin;
 
-  if (ALLOWED_ORIGINS.includes(origin)) {
+  // Si viene origin y está permitido, lo devolvemos.
+  // Si no viene origin (casos típicos de navegación), NO bloqueamos.
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
@@ -27,30 +30,39 @@ export default async function handler(req, res) {
 
   try {
     const session_id = String(req.query.session_id || "").trim();
-    if (!session_id) return res.status(400).json({ error: "session_id requerido" });
+    if (!session_id) {
+      return res.status(400).json({ error: "session_id requerido" });
+    }
 
-    // ✅ validación mínima (evita basura)
+    // ✅ validación mínima: evita basura / inputs raros
+    // Stripe suele usar cs_test_... o cs_live_...
     if (!/^cs_(test|live)_[A-Za-z0-9]+$/.test(session_id)) {
       return res.status(400).json({ error: "session_id inválido" });
     }
 
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    const amount_total = session.amount_total || 0;
-    const currency = (session.currency || "eur").toUpperCase();
+    const amount_total = Number(session.amount_total || 0);
+    const value = amount_total / 100;
+    const currency = String(session.currency || "eur").toUpperCase();
+    const payment_status = String(session.payment_status || "");
 
+    // ✅ Respuesta MINIMALISTA (lo necesario para pintar el success sin filtrar metadata)
     return res.status(200).json({
       session_id: session.id,
-      amount_total,
-      value: amount_total / 100,
+      payment_status, // "paid" es lo que te interesa
+      value,
       currency,
-      payment_status: session.payment_status || "",
+      // opcional (por si quieres mostrarlo o debug ligero):
       customer_email: session.customer_email || "",
-      metadata: { ...(session.metadata || {}) },
     });
   } catch (err) {
     console.error("❌ checkout-session error:", err);
-    return res.status(500).json({
+
+    // Stripe a veces devuelve statusCode dentro del error
+    const status = Number(err?.statusCode || 500);
+
+    return res.status(status).json({
       error: "No se pudo leer checkout-session",
       details: String(err?.message || err),
     });
