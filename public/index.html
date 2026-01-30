@@ -3678,12 +3678,18 @@ once("lirya_pageview_home", () => {
   // Validación final antes de avanzar
   if (!validateStep(true)) return;
 
-  // ✅ LEAD REAL: solo al completar el paso 1 y avanzar
-  if (i === 0) { // i=0 => Paso 1
+     const prevStepIndex = i;
+
+  if (i < steps.length - 1) { 
+    i++; 
+    render(); 
+  }
+
+  // ✅ LEAD REAL: solo si acabas de avanzar desde el paso 1 -> paso 2
+  if (prevStepIndex === 0 && i === 1) {
     fireLeadStep1();
   }
 
-  if (i < steps.length - 1) { i++; render(); }
   return;
 }
 
@@ -4648,17 +4654,20 @@ once("lirya_pageview_home", () => {
     const persona = (a.getAttribute('data-persona') || '').trim();
     const label = (a.getAttribute('aria-label') || '').trim();
 
-  if (typeof window.LIRYA_TRACK === 'function') {
+     if (typeof window.LIRYA_TRACK === 'function') {
+      const dedupeKey = "lirya_vc_reaction_" + href;
 
-  window.LIRYA_TRACK('ViewContent', {
-  content_name: label || (persona ? `Reacción ${persona}` : 'Reacción real'),
-  content_category: 'Reacciones',
-  content_type: 'video_page',
-  persona: persona || undefined,
-  destination: href
-});
-
+      onceSession(dedupeKey, () => {
+        window.LIRYA_TRACK('ViewContent', {
+          content_name: label || (persona ? `Reacción ${persona}` : 'Reacción real'),
+          content_category: 'Reacciones',
+          content_type: 'video_page',
+          persona: persona || undefined,
+          destination: href
+        });
+      });
     }
+
   }, true);
 })();
 </script>
@@ -5162,6 +5171,7 @@ once("lirya_pageview_home", () => {
 </section>
 </body>
 </html>
+
 
 
 
