@@ -7,6 +7,20 @@ const ALLOWED_ORIGINS = [
   "https://www.lirya.studio",
 ];
 
+// (Opcional) lista blanca de eventos permitidos
+const ALLOWED_EVENT_NAMES = new Set([
+  "PageView",
+  "ViewContent",
+  "InitiateCheckout",
+  "AddPaymentInfo",
+  "Purchase",
+  "Lead",
+  "CompleteRegistration",
+  "Contact",
+  "CancelCheckout",
+  "AudioExamplePlay",
+]);
+
 // ===== helpers =====
 function sha256(input) {
   return crypto.createHash("sha256").update(String(input || "")).digest("hex");
@@ -17,25 +31,33 @@ function normEmail(email) {
 function normPhone(ph) {
   return String(ph || "").replace(/[^\d+]/g, "").trim();
 }
+function clampStr(s, max = 2000) {
+  const x = String(s || "");
+  return x.length > max ? x.slice(0, max) : x;
+}
 
 module.exports = async (req, res) => {
   // ===== CORS =====
   const origin = req.headers.origin;
+
   if (ALLOWED_ORIGINS.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
+
   res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
   res.setHeader("Cache-Control", "no-store");
 
   if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST") return res.status(405).json({ ok: false, error: "Method not allowed" });
+  if (req.method !== "POST") {
+    return res.status(405).json({ ok: false, error: "Method not allowed" });
+  }
 
   const PIXEL_ID = process.env.META_PIXEL_ID;
   const ACCESS_TOKEN = process.env.META_CAPI_TOKEN;
 
-  // ⚠️ NO rompas el frontend por faltar env vars
+  // ⚠️ No rompas UX si faltan env vars
   if (!PIXEL_ID || !ACCESS_TOKEN) {
     return res.status(200).json({
       ok: false,
@@ -45,25 +67,39 @@ module.exports = async (req, res) => {
 
   const body = req.body || {};
 
-  const {
+  let {
     event_name,
     event_id,
-    event_time,         // opcional
+    event_time,
     custom_data = {},
     event_source_url,
     fbp,
     fbc,
-    user_data = {},     // opcional
-    action_source,      // opcional
-    test_event_code,    // opcional
+    user_data = {},
+    action_source,
+    test_event_code,
   } = body;
 
-  // ✅ Recomendación: event_id SIEMPRE que puedas (dedupe),
-  // pero si un evento te llega sin event_id, no rompas UX.
+  event_name = clampStr(event_name, 80).trim();
+  event_id = clampStr(event_id, 120).trim();
+  event_source_url = clampStr(event_source_url, 2000).trim();
+  test_event_code = clampStr(test_event_code, 120).trim();
+
+  // ✅ No rompas UX si no hay event_name, pero devuelve warning
   if (!event_name) {
     return res.status(200).json({
       ok: false,
       warning: "Missing event_name",
+      received: { event_name, event_id },
+    });
+  }
+
+  // (Opcional) filtra nombres raros (evita basura)
+  if (!ALLOWED_EVENT_NAMES.has(event_name)) {
+    // Si prefieres ser ultra-permisivo, comenta este bloque.
+    return res.status(200).json({
+      ok: false,
+      warning: "event_name not allowed",
       received: { event_name, event_id },
     });
   }
@@ -75,29 +111,47 @@ module.exports = async (req, res) => {
 
   const ua = (req.headers["user-agent"] || "").toString();
 
-  // fbp/fbc: acepta de ambas formas
-  const finalFbp = user_data.fbp || fbp || undefined;
-  const finalFbc = user_data.fbc || fbc || undefined;
+  // fbp/fbc: acepta ambas formas
+  const finalFbp = (user_data && user_data.fbp) || fbp || undefined;
+  const finalFbc = (user_data && user_data.fbc) || fbc || undefined;
 
   // Matching avanzado opcional:
   // si mandas email/phone raw en el futuro, aquí se hashea
-  let em = user_data.em;
-  let ph = user_data.ph;
+  let em = user_data && user_data.em;
+  let ph = user_data && user_data.ph;
 
-  if (!em && user_data.email) {
+  if (!em && user_data && user_data.email) {
     const e = normEmail(user_data.email);
     em = e ? sha256(e) : undefined;
   }
-  if (!ph && user_data.phone) {
+  if (!ph && user_data && user_data.phone) {
     const p = normPhone(user_data.phone);
     ph = p ? sha256(p) : undefined;
   }
 
-  // event_source_url: mejor NO vacío
+  // event_source_url: mejor no vacío
   const finalEventSourceUrl =
-    String(event_source_url || "").trim() ||
+    event_source_url ||
     (req.headers.referer ? String(req.headers.referer) : "") ||
     (req.headers.origin ? String(req.headers.origin) : "");
+
+  // Sanitiza custom_data (suave)
+  if (custom_data && typeof custom_data === "object") {
+    // limit básico por seguridad/ruido
+    const safe = {};
+    const entries = Object.entries(custom_data).slice(0, 50);
+    for (const [k, v] of entries) {
+      const kk = clampStr(k, 80);
+      if (!kk) continue;
+      if (typeof v === "string") safe[kk] = clampStr(v, 500);
+      else if (typeof v === "number" || typeof v === "boolean") safe[kk] = v;
+      else if (v == null) continue;
+      else safe[kk] = clampStr(JSON.stringify(v), 500);
+    }
+    custom_data = safe;
+  } else {
+    custom_data = {};
+  }
 
   const payload = {
     data: [
@@ -107,7 +161,6 @@ module.exports = async (req, res) => {
           ? Number(event_time)
           : Math.floor(Date.now() / 1000),
 
-        // Si viene event_id, lo usamos; si no, lo omitimos
         ...(event_id ? { event_id: String(event_id) } : {}),
 
         action_source: action_source || "website",
@@ -139,7 +192,7 @@ module.exports = async (req, res) => {
 
     const meta = await r.json().catch(() => ({}));
 
-    // ✅ IMPORTANTÍSIMO: responder 200 aunque Meta falle (no rompas tu flow)
+    // ✅ Responder 200 aunque Meta falle (no rompas tu flow)
     if (!r.ok || meta.error) {
       console.error("❌ Meta CAPI failed:", meta);
       return res.status(200).json({ ok: false, meta });
