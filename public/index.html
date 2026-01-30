@@ -1406,47 +1406,6 @@ once("lirya_pageview_home", () => {
   trackEvent("PageView", {});
 });
   
-// ========= 2) VIEWCONTENT: cuando el formulario SE VE DE VERDAD =========
-(function bindFormViewContent(){
-  const formSection = document.getElementById("formulario-lirya");
-  if (!formSection) return;
-
-  const fire = () => once("lirya_viewcontent_form", () => {
-    trackEvent("ViewContent", {
-      content_name: "Formulario Lirya",
-      content_type: "form"
-    });
-  });
-
-  // Fallback sin IntersectionObserver
-  if (!("IntersectionObserver" in window)) {
-    window.addEventListener("scroll", fire, { passive: true });
-    return;
-  }
-
-  let timer = null;
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting && en.intersectionRatio >= 0.6) {
-        if (timer) return;
-
-        timer = setTimeout(() => {
-          fire();
-          io.disconnect();
-        }, 800);
-      } else {
-        if (timer) {
-          clearTimeout(timer);
-          timer = null;
-        }
-      }
-    });
-  }, { threshold: [0.6] });
-
-  io.observe(formSection);
-})();
-
 })();
 </script>
 
@@ -5204,6 +5163,7 @@ once("lirya_pageview_home", () => {
 </section>
 </body>
 </html>
+
 
 
 
