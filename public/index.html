@@ -3931,7 +3931,7 @@ try {
         event_id: checkoutEventId,
         fbp: fbpCookie,
         fbc: fbcCookie,
-        event_source_url: window.location.href,
+        event_source_url: window.location.origin + window.location.pathname,
       };
 
       try {
@@ -5186,6 +5186,7 @@ try {
 </section>
 </body>
 </html>
+
 
 
 
