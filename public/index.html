@@ -3785,6 +3785,8 @@ once("lirya_pageview_home", () => {
 
 <script>
 /* ===================== PAGO (STRIPE) — ROBUSTO (builder-proof) ===================== */
+<script>
+/* ===================== PAGO (STRIPE) — ROBUSTO (builder-proof) ===================== */
 (function () {
   if (window.__liryaPaymentInit) return;
   window.__liryaPaymentInit = true;
@@ -3796,7 +3798,7 @@ once("lirya_pageview_home", () => {
     const submitBtn = root.querySelector(".submit");
     if (!submitBtn) return false;
 
-    // 👇 Si ya estaba inicializado por accidente, evitamos duplicar listener
+    // Evita duplicar listener
     if (submitBtn.__liryaBound) return true;
     submitBtn.__liryaBound = true;
 
@@ -3815,42 +3817,60 @@ once("lirya_pageview_home", () => {
     async function sha256Hex(str) {
       const enc = new TextEncoder().encode(String(str || ""));
       const buf = await crypto.subtle.digest("SHA-256", enc);
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+      return Array.from(new Uint8Array(buf))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
     }
 
-  const _memOnce = new Set();
+    const _memOnce = new Set();
+    const onceAsync = async (key, fn) => {
+      if (_memOnce.has(key)) return;
+      _memOnce.add(key);
 
-const onceAsync = async (key, fn) => {
-  if (_memOnce.has(key)) return;
-  _memOnce.add(key);
+      try {
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, "1");
+      } catch (_e) {}
 
-  try {
-    if (sessionStorage.getItem(key)) return;
-    sessionStorage.setItem(key, "1");
-  } catch (_e) {}
+      try {
+        return await fn();
+      } catch (e) {
+        console.warn("onceAsync error:", e);
+      }
+    };
 
-  try {
-    return await fn();
-  } catch (e) {
-    console.warn("onceAsync error:", e);
-  }
-};
-
-    function val(id){
+    function val(id) {
       const el = root.querySelector("#" + CSS.escape(id));
       return el ? String(el.value || "").trim() : "";
     }
 
     const safeValidateStep = (showUI) => {
-      try { return typeof window.validateStep === "function" ? window.validateStep(showUI) : true; }
-      catch(_) { return true; }
+      try {
+        return typeof window.validateStep === "function" ? window.validateStep(showUI) : true;
+      } catch (_) {
+        return true;
+      }
     };
-    const safeGoToStep = (n) => { try { if (typeof window.goToStep === "function") window.goToStep(n); } catch(_) {} };
-    const safeClearErrors = (stepEl) => { try { if (typeof window.clearErrors === "function") window.clearErrors(stepEl); } catch(_) {} };
-    const safeShowStepError = (stepEl, msg) => { try { if (typeof window.showStepError === "function") window.showStepError(stepEl, msg); } catch(_) {} };
+
+    const safeGoToStep = (n) => {
+      try {
+        if (typeof window.goToStep === "function") window.goToStep(n);
+      } catch (_) {}
+    };
+
+    const safeClearErrors = (stepEl) => {
+      try {
+        if (typeof window.clearErrors === "function") window.clearErrors(stepEl);
+      } catch (_) {}
+    };
+
+    const safeShowStepError = (stepEl, msg) => {
+      try {
+        if (typeof window.showStepError === "function") window.showStepError(stepEl, msg);
+      } catch (_) {}
+    };
 
     submitBtn.addEventListener("click", async () => {
-      
       if (processingPayment) return;
 
       // Validación
@@ -3858,49 +3878,63 @@ const onceAsync = async (key, fn) => {
 
       processingPayment = true;
 
-      // event_id estable
+      // event_id estable por sesión de checkout
       let checkoutEventId = "";
-      try { checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) {}
+      try { checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch (_) {}
       if (!checkoutEventId) checkoutEventId = window.__lirya_checkout_event_id || "";
       if (!checkoutEventId) {
         checkoutEventId = newEventId();
         window.__lirya_checkout_event_id = checkoutEventId;
-        try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch(_) {}
+        try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch (_) {}
       }
 
-     const emailRaw = (val("email") || "").trim().toLowerCase();
-let emailHash = "";
-try { 
-  if (emailRaw && window.crypto?.subtle) {
-    emailHash = await sha256Hex(emailRaw);
-  }
-} catch (_) {}
- 
-      // InitiateCheckout (solo una vez)
-      await onceAsync("lirya_initiatecheckout_" + checkoutEventId, async () => {
-  const tarifa = Number(val("tarifa-hidden") || 0);
-  if (!tarifa || ![39,59,79].includes(tarifa)) return;
+      // Hash email (si se puede)
+      const emailRaw = (val("email") || "").trim().toLowerCase();
+      let emailHash = "";
+      try {
+        if (emailRaw && window.crypto?.subtle) emailHash = await sha256Hex(emailRaw);
+      } catch (_) {}
 
-          if (typeof window.LIRYA_TRACK === "function") {
-      window.LIRYA_TRACK("InitiateCheckout", {
-  currency: "EUR",
-  value: tarifa,
-  content_name: "Canción personalizada",
-  content_type: "product",
-  plan: String(tarifa),
-  user_data: {
-    em: emailHash || undefined
-  }
-}, { eventId: checkoutEventId });
+      // Tarifa correcta (AJUSTA AQUÍ si tu negocio es 39/59/79)
+      const tarifa = Number(val("tarifa-hidden") || 0);
+      if (!tarifa || ![39, 59, 79].includes(tarifa)) {
+        console.warn("Tarifa inválida:", tarifa);
+        processingPayment = false;
+        return;
+      }
 
-
+      // Cookies Meta
       const fbpCookie = readCookie("_fbp");
       const fbcCookie = readCookie("_fbc");
 
+      // UI
       submitBtn.disabled = true;
       const originalText = submitBtn.textContent;
       submitBtn.textContent = "Redirigiendo a pago seguro…";
 
+      // 1) TRACK InitiateCheckout (solo 1 vez) — PERO NO BLOQUEA EL PAGO
+      await onceAsync("lirya_initiatecheckout_" + checkoutEventId, async () => {
+        try {
+          if (typeof window.LIRYA_TRACK === "function") {
+            window.LIRYA_TRACK(
+              "InitiateCheckout",
+              {
+                currency: "EUR",
+                value: tarifa,
+                content_name: "Canción personalizada",
+                content_type: "product",
+                plan: String(tarifa),
+                user_data: { em: emailHash || undefined }
+              },
+              { eventId: checkoutEventId }
+            );
+          }
+        } catch (e) {
+          console.warn("Track InitiateCheckout falló (no pasa nada):", e);
+        }
+      });
+
+      // 2) PAGO SIEMPRE (independiente de Meta)
       const data = {
         recipient_name: val("recipient_name"),
         your_name: val("your_name"),
@@ -3938,20 +3972,24 @@ try {
         const r = await fetch("/api/payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
         });
 
-        if (!r.ok) throw new Error("Error en la petición al servidor");
-        const j = await r.json();
+        const text = await r.text(); // leemos SIEMPRE para debug
+        let j = {};
+        try { j = JSON.parse(text); } catch (_) {}
+
+        if (!r.ok) {
+          throw new Error("Server " + r.status + " — " + (j?.details || j?.error || text || "sin detalles"));
+        }
         if (!j.url) throw new Error("Stripe no devolvió URL");
 
+        // Redirección
         window.location.href = j.url;
-
       } catch (err) {
         console.error("❌ Error iniciando pago:", err);
 
         safeGoToStep(6);
-
         const step6 = root.querySelector('.step[data-step="6"]') || null;
         if (step6) {
           safeClearErrors(step6);
@@ -3966,23 +4004,21 @@ try {
       }
     });
 
-     return true;
+    return true;
   }
 
-  // 1) Intento al cargar DOM
   document.addEventListener("DOMContentLoaded", () => {
     if (initPayment()) return;
 
-    // 2) Reintentos (builder tardón)
     let tries = 0;
     const t = setInterval(() => {
       tries++;
       if (initPayment() || tries >= 30) clearInterval(t);
     }, 250);
   });
-
 })();
 </script>
+
 </section>
 
 <!-- ===============================
@@ -5186,6 +5222,7 @@ try {
 </section>
 </body>
 </html>
+
 
 
 
