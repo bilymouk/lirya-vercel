@@ -3882,16 +3882,17 @@ try {
   if (!tarifa || ![39,59,79].includes(tarifa)) return;
 
           if (typeof window.LIRYA_TRACK === "function") {
-          window.LIRYA_TRACK("InitiateCheckout", {
+      window.LIRYA_TRACK("InitiateCheckout", {
   currency: "EUR",
   value: tarifa,
   content_name: "Canción personalizada",
   content_type: "product",
   plan: String(tarifa),
-  email_hash: emailHash || undefined
+  user_data: {
+    em: emailHash || undefined
+  }
 }, { eventId: checkoutEventId });
-        }
-      });
+
 
       const fbpCookie = readCookie("_fbp");
       const fbcCookie = readCookie("_fbc");
@@ -5185,6 +5186,7 @@ try {
 </section>
 </body>
 </html>
+
 
 
 
