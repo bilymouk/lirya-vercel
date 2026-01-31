@@ -218,8 +218,8 @@ module.exports = async (req, res) => {
   } catch (e) {
     console.error("❌ Webhook handler error:", e);
 
-    // ✅ OJO: devolvemos 200 igualmente para que Stripe no reintente por tu error interno
-    res.statusCode = 200;
+    // ✅ Mejor: deja que Stripe reintente si tu lógica falló
+  res.statusCode = 500;
     return res.end(JSON.stringify({ received: true, warning: "handler_error" }));
   }
 };
