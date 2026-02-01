@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago no completado – Lirya</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    body{
+      font-family:'Montserrat',sans-serif;
+      color:#e0e0e0;
+      background:#0a0a0a;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    header{
+      background:#fff;
+      padding:.4rem 2rem;
+      border-bottom:1px solid rgba(212,165,116,.15);
+    }
+
+    .header-content{
+      max-width:1400px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+    }
+
+    .logo{
+      font-family:'Playfair Display',serif;
+      font-size:1.8rem;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      background:linear-gradient(135deg,#d4a574,#e8c896,#d4a574);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    main{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+      position:relative;
+    }
+
+    .background-animation{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      overflow:hidden;
+    }
+
+    .wave{
+      position:absolute;
+      width:200%;
+      height:200%;
+      background:radial-gradient(circle,rgba(212,165,116,.035) 1px,transparent 1px);
+      background-size:50px 50px;
+      animation:wave 22s linear infinite;
+    }
+
+    @keyframes wave{
+      from{transform:translate(0,0)}
+      to{transform:translate(-50%,-50%)}
+    }
+
+    .cancel-container{
+      position:relative;
+      z-index:1;
+      max-width:620px;
+      width:100%;
+      background:rgba(20,20,20,.96);
+      border:1px solid rgba(212,165,116,.25);
+      border-radius:14px;
+      padding:3rem 2.5rem;
+      text-align:center;
+      box-shadow:0 15px 50px rgba(0,0,0,.6);
+    }
+
+    .cancel-icon{
+      width:78px;
+      height:78px;
+      margin:0 auto 1.8rem;
+      background:linear-gradient(135deg,#ef4444,#dc2626);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      animation:pop .5s ease-out;
+    }
+
+    @keyframes pop{
+      0%{transform:scale(0)}
+      70%{transform:scale(1.1)}
+      100%{transform:scale(1)}
+    }
+
+    .cancel-icon svg{
+      width:44px;
+      height:44px;
+      stroke:#fff;
+      stroke-width:3;
+      fill:none;
+      stroke-linecap:round;
+    }
+
+    h1{
+      font-family:'Playfair Display',serif;
+      font-size:2.4rem;
+      margin-bottom:1rem;
+      background:linear-gradient(135deg,#d4a574,#e8c896,#d4a574);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .cancel-message{
+      font-size:1.1rem;
+      color:#b8b8b8;
+      line-height:1.8;
+      margin-bottom:2.2rem;
+    }
+
+    .info-box{
+      background:rgba(212,165,116,.06);
+      border:1px solid rgba(212,165,116,.25);
+      border-radius:10px;
+      padding:1.6rem;
+      margin-bottom:2rem;
+      text-align:left;
+    }
+
+    .info-box h3{
+      font-family:'Playfair Display',serif;
+      color:#d4a574;
+      margin-bottom:1rem;
+      font-size:1.25rem;
+    }
+
+    .info-box ul{
+      list-style:none;
+      margin-top:1rem;
+    }
+
+    .info-box li{
+      margin-bottom:.6rem;
+      display:flex;
+      align-items:flex-start;
+      color:#b0b0b0;
+    }
+
+    .info-box li::before{
+      content:"•";
+      color:#d4a574;
+      margin-right:.8rem;
+      font-weight:bold;
+    }
+
+    .button-group{
+      display:flex;
+      gap:1rem;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:1rem 2.4rem;
+      border-radius:8px;
+      font-weight:700;
+      text-decoration:none;
+      transition:.3s;
+      font-size:1rem;
+      text-align:center;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,#ff6b35,#ff8c42);
+      color:#fff;
+      box-shadow:0 6px 20px rgba(255,107,53,.35);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      box-shadow:0 8px 26px rgba(255,107,53,.45);
+    }
+
+    .btn-secondary{
+      border:1px solid #d4a574;
+      color:#d4a574;
+      background:transparent;
+    }
+
+    .btn-secondary:hover{
+      background:rgba(212,165,116,.1);
+    }
+
+    footer{
+      padding:1.5rem;
+      text-align:center;
+      color:#808080;
+      font-size:.9rem;
+      border-top:1px solid rgba(212,165,116,.15);
+    }
+
+    @media(max-width:768px){
+      h1{font-size:2rem}
+      .cancel-container{padding:2.2rem 1.6rem}
+      .button-group{flex-direction:column}
+      .btn{width:100%}
+    }
+  </style>
+
+  <!-- ===== META PIXEL (solo init, sin PageView) ===== -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '893462606511287');
+  fbq('set', 'autoConfig', 'false', '893462606511287');
+  </script>
+
+</head>
+
+<body>
+
+<div class="background-animation"><div class="wave"></div></div>
+
+<header>
+  <div class="header-content">
+    <div class="logo">LIRYA</div>
+  </div>
+</header>
+
+<main>
+  <div class="cancel-container">
+    <div class="cancel-icon">
+      <svg viewBox="0 0 52 52">
+        <line x1="16" y1="16" x2="36" y2="36"/>
+        <line x1="36" y1="16" x2="16" y2="36"/>
+      </svg>
+    </div>
+
+    <h1>El pago no se ha completado</h1>
+
+    <p class="cancel-message">
+      El proceso de pago se ha interrumpido.
+      No se ha realizado ningún cargo y puedes volver a intentarlo cuando quieras.
+    </p>
+
+    <div class="info-box">
+      <h3>¿Qué puedes hacer ahora?</h3>
+      <ul>
+        <li>Volver a intentar el pago cuando estés listo</li>
+        <li>Revisar tranquilamente tu pedido</li>
+        <li>Contactarnos si has tenido cualquier duda</li>
+      </ul>
+    </div>
+
+    <div class="button-group">
+      <a href="/#formulario-lirya" class="btn btn-primary">Intentar de nuevo</a>
+      <a href="/" class="btn btn-secondary">Volver al inicio</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2025–2026 Lirya · Todos los derechos reservados
+</footer>
+
+<script>
+/* ===== Cancel: track custom event + CAPI + cleanup (SIN duplicar) ===== */
+(function () {
+  const hasFbq = typeof window.fbq === "function";
+
+  const urlParams = new URLSearchParams(location.search);
+  const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+  const DEBUG = urlParams.get("debug_meta") === "1";
+  const log = (...args) => { if (DEBUG) console.log("[META][CANCEL]", ...args); };
+
+  const once = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch(_) {}
+    fn();
+  };
+
+  const getCookie = (name) => {
+    const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
+    return m ? decodeURIComponent(m[1]) : "";
+  };
+
+  const FBP = getCookie("_fbp");
+  const FBC = getCookie("_fbc");
+
+  function getCheckoutEventId() {
+    try { return sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) { return ""; }
+  }
+
+  // ✅ Dedupe correcto: NO uses el mismo event_id exacto del checkout para cancel
+  const checkoutEventId = getCheckoutEventId();
+  const eventId =
+    checkoutEventId ? (checkoutEventId + "_cancel") : ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
+
+  // ✅ Mejor atribución: URL completa (sin hash)
+  const event_source_url = (function(){
+    try {
+      const u = new URL(window.location.href);
+      u.hash = "";
+      return u.toString();
+    } catch(_) {
+      return window.location.origin + window.location.pathname;
+    }
+  })();
+
+  async function sendCapiEvent(body) {
+    const url = "/api/meta-capi";
+    const payload = JSON.stringify(body);
+
+    // beacon
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: "application/json" });
+        const ok = navigator.sendBeacon(url, blob);
+        if (ok) return true;
+      }
+    } catch (e) {}
+
+    // fetch fallback
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: payload,
+      });
+      if (DEBUG) {
+        const txt = await res.text().catch(() => "");
+        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 200));
+      }
+      return res.ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  once("lirya_cancel_fired_" + eventId, () => {
+    // Pixel: custom
+    if (hasFbq) {
+      try {
+        window.fbq("trackCustom", "CancelCheckout", {}, { eventID: eventId });
+        log("Pixel CancelCheckout", eventId);
+      } catch (e) {
+        log("Pixel error", e);
+      }
+    }
+
+    // CAPI
+    const capiBody = {
+      event_name: "CancelCheckout",
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: eventId,
+      event_source_url,
+      action_source: "website",
+      user_data: {
+        ...(FBP ? { fbp: FBP } : {}),
+        ...(FBC ? { fbc: FBC } : {}),
+      },
+      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+    };
+
+    sendCapiEvent(capiBody);
+  });
+
+  // ✅ Limpieza para reintento limpio
+  try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+})();
+</script>
+
+</body>
+</html>
