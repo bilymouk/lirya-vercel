@@ -303,22 +303,10 @@
           `Gracias por confiar en <strong>Lirya</strong>.
            Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.`;
 
-        // ✅ (OPCIONAL) Purchase en navegador con dedupe
-        // Si ya envías Purchase por CAPI en webhook, esto puede mejorar matching y se dedupea con event_id.
-        try {
-          const dedupeKey = "lirya_browser_purchase_" + (eventId || sid);
-          if (!sessionStorage.getItem(dedupeKey)) {
-            sessionStorage.setItem(dedupeKey, "1");
+                // 🚫 Purchase en navegador DESACTIVADO (evitar duplicados)
+        // Purchase queda SOLO en webhook (server-side).
+        // Si más adelante queremos activarlo, lo haremos cuando confirmemos dedupe con el mismo event_id.
 
-            const value = Number(data.value || 0);
-            const currency = String(data.currency || "EUR").toUpperCase();
-
-            if (typeof window.fbq === "function" && value > 0) {
-              const opts = eventId ? { eventID: eventId } : undefined;
-              window.fbq("track", "Purchase", { value, currency }, opts);
-            }
-          }
-        } catch (_) {}
       })
       .catch(() => { setReviewState(); });
   })();
