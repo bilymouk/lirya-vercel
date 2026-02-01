@@ -10,6 +10,9 @@
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#ffffff" />
   <meta name="color-scheme" content="light" />
+  
+  <!-- Performance hints -->
+  <meta http-equiv="x-dns-prefetch-control" content="on">
 
   <!-- Favicons -->
   <link rel="icon" href="/favicon.ico" />
@@ -37,6 +40,12 @@
   <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Stripe & Meta: preconnect para reducir latencia en pago y tracking -->
+<link rel="dns-prefetch" href="https://checkout.stripe.com">
+<link rel="dns-prefetch" href="https://api.stripe.com">
+<link rel="dns-prefetch" href="https://connect.facebook.net">
+<link rel="preconnect" href="https://checkout.stripe.com" crossorigin>
 
 <link rel="preload"
       as="style"
@@ -108,7 +117,10 @@
     { "@type": "Offer", "priceCurrency": "EUR", "price": "79", "name": "Premium","url": "https://www.lirya.studio/#tarifas" }
   ]
 }
-</script>
+  </script>
+
+  <!-- Prefetch crítico: calentamos conexión al backend de pago -->
+  <link rel="dns-prefetch" href="https://www.lirya.studio">
 
   <style>
     :root{
@@ -804,6 +816,9 @@
 
   </style>
 
+    <!-- Resource hints para mejor performance -->
+  <link rel="dns-prefetch" href="https://www.facebook.com">
+
   <!-- ===== META PIXEL (NO PageView aquí: lo disparamos con eventID en el script de abajo para dedupe con CAPI) ===== -->
   <script>
   !function(f,b,e,v,n,t,s)
@@ -826,6 +841,56 @@
 </head>
 
 <body>
+
+<!-- ===== LIRYA GLOBAL UTILITIES (evita duplicación) ===== -->
+<script>
+(function() {
+  if (window.LIRYA_UTILS) return;
+
+  // ✅ NUEVO: Constantes de configuración centralizadas
+  window.LIRYA_CONFIG = {
+    // Tiempos (ms)
+    URGENCY_DELAY: 15000,           // 15 segundos antes de mostrar urgency card
+    URGENCY_SCROLL_THRESHOLD: 0.5,  // 50% de scroll
+    URGENCY_HIDE_DURATION: 43200000, // 12 horas (12 * 60 * 60 * 1000)
+    
+    AUDIO_FAILSAFE_TIMEOUT: 12000,  // 12 segundos timeout carga audio
+    
+    PAYMENT_TIMEOUT: 25000,         // 25 segundos timeout Stripe
+    
+    FORM_RETRY_INTERVAL: 250,       // 250ms entre reintentos de init
+    FORM_MAX_RETRIES: 30,           // máximo 30 reintentos
+    
+    ANIMATION_STAGGER_DELAY: 150,   // 150ms entre animaciones escalera
+    
+    // Carousel
+    CAROUSEL_SCROLL_STEP: 340       // píxeles por scroll en carruseles
+  };
+
+  window.LIRYA_UTILS = {
+    // Genera event_id único
+    newEventId: function() {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+    },
+
+    // Ejecuta función solo una vez por sesión
+    onceSession: function(key, fn) {
+      try {
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, "1");
+      } catch(_) {}
+      fn();
+    },
+
+    // Sanitiza string para evitar XSS en tracking
+    sanitize: function(str) {
+      return String(str || "").replace(/[<>"']/g, "");
+    }
+  };
+})();
+</script>
+
   
 <!-- ===== TOP STRIP ===== -->
 <div class="top-strip" role="status" aria-live="polite">
@@ -945,14 +1010,14 @@
           decoding="async"
           >
 
-        <button
+       <button
           class="play-overlay"
           id="mockup-audio-overlay-desktop"
           type="button"
           aria-label="Reproducir o pausar ejemplo"
           aria-pressed="false"
         >
-          <img src="/boton.png" alt="" aria-hidden="true">
+          <img src="/boton.png" alt="" aria-hidden="true" width="120" height="120">
         </button>
       </div>
     </div>
@@ -988,7 +1053,7 @@
           aria-label="Reproducir o pausar ejemplo"
           aria-pressed="false"
         >
-          <img src="/boton.png" alt="" aria-hidden="true">
+          <img src="/boton.png" alt="" aria-hidden="true" width="120" height="120">
         </button>
       </div>
 
@@ -1011,6 +1076,10 @@
 <script>
 /* ===== AUDIO + URGENCY (igual que tenías) ===== */
 (function () {
+  // ✅ NUEVO: Evita inicializar múltiples veces
+  if (window.__lirya_hero_audio_init) return;
+  window.__lirya_hero_audio_init = true;
+
   const audio = document.getElementById("lirya-audio");
   if (!audio) return;
 
@@ -1066,7 +1135,7 @@ function onKeyToggle(e){
 
 const STORAGE_KEY = "lirya_urgency_hidden_until";
 const SESSION_KEY = "lirya_urgency_shown_session";
-const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
+const TWELVE_HOURS_MS = window.LIRYA_CONFIG.URGENCY_HIDE_DURATION;
 
 function canShowCard(){
   // 1) si hay bloqueo por 12h en localStorage, no mostrar
@@ -1115,10 +1184,10 @@ let shown = false;
 
 // 1) Condición tiempo (15s)
 document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
+ setTimeout(() => {
     timeOk = true;
     maybeShow();
-  }, 15000);
+  }, window.LIRYA_CONFIG.URGENCY_DELAY);
 });
 
 // 2) Condición scroll (>= 50%)
@@ -1131,7 +1200,7 @@ function updateScrollOk(){
   const maxScroll = Math.max(1, scrollHeight - clientHeight);
   const progress = scrollTop / maxScroll; // 0..1
 
-  scrollOk = progress >= 0.5;
+  scrollOk = progress >= window.LIRYA_CONFIG.URGENCY_SCROLL_THRESHOLD;
 }
 
 function maybeShow(){
@@ -1207,10 +1276,7 @@ const once = (key, fn) => {
       `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
   };
 
-  const newEventId = () => {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-  };
+ const newEventId = window.LIRYA_UTILS.newEventId;
 
   // ========= cookies ITP (Safari) =========
   function ensureFbp() {
@@ -1408,6 +1474,10 @@ once("lirya_pageview_home", () => {
 <script>
 /* Pausa todos los <audio> excepto el que se está reproduciendo */
 (function () {
+  // ✅ NUEVO: Evita registrar el listener múltiples veces
+  if (window.__lirya_audio_pause_init) return;
+  window.__lirya_audio_pause_init = true;
+
   document.addEventListener("play", function (e) {
     const target = e.target;
     if (!(target instanceof HTMLMediaElement)) return;
@@ -1619,7 +1689,7 @@ once("lirya_pageview_home", () => {
         if (!entry.isIntersecting) return;
 
         const idx = parseInt(entry.target.getAttribute('data-cf-index') || '0', 10);
-        setTimeout(() => entry.target.classList.add('is-visible'), Math.max(0, idx) * 150);
+        setTimeout(() => entry.target.classList.add('is-visible'), Math.max(0, idx) * window.LIRYA_CONFIG.ANIMATION_STAGGER_DELAY);
         obs.unobserve(entry.target);
       });
     }, { threshold: 0.25 });
@@ -2276,6 +2346,10 @@ once("lirya_pageview_home", () => {
   </section>
   <script>
   (function () {
+    // ✅ NUEVO: Evita inicializar múltiples veces
+    if (window.__lirya_examples_audio_init) return;
+    window.__lirya_examples_audio_init = true;
+
     const root = document.querySelector('.examples');
     const player = document.getElementById('lirya-examples-player');
     const carousel = document.getElementById('stylesCarousel');
@@ -2284,11 +2358,12 @@ once("lirya_pageview_home", () => {
   
     if (!root || !player) return;
   
-    const FAILSAFE_MS = 12000;
-    const SCROLL_STEP = 340;
-  
+   const FAILSAFE_MS = window.LIRYA_CONFIG.AUDIO_FAILSAFE_TIMEOUT;
+    const SCROLL_STEP = window.LIRYA_CONFIG.CAROUSEL_SCROLL_STEP;
+    
     let currentBtn = null;
     let pendingBtn = null;
+    let currentAudioSrc = null;  // ✅ NUEVO: track qué audio está en proceso
     let loadingTimeoutId = null;
   
     function clearLoadingTimeout(){
@@ -2333,12 +2408,13 @@ once("lirya_pageview_home", () => {
       } catch(_) {}
     }
   
-    function stopAll(){
+   function stopAll(){
       clearLoadingTimeout();
       hardResetAudio();
       clearStates();
       currentBtn = null;
       pendingBtn = null;
+      currentAudioSrc = null;  // ✅ NUEVO: limpia el track
     }
   
     // ✅ Validación URL: solo relativo o mismo origen
@@ -2368,9 +2444,10 @@ once("lirya_pageview_home", () => {
         return;
       }
   
-      stopAll();
-  
+     stopAll();
+
       pendingBtn = btn;
+      currentAudioSrc = safe;  // ✅ NUEVO: guarda qué audio vamos a cargar
       const container = containerOf(btn);
   
       container.classList.add('loading');
@@ -2406,10 +2483,11 @@ once("lirya_pageview_home", () => {
       playForButton(btn);
     });
   
-    // ✅ AudioExamplePlay SOLO cuando empieza de verdad (playing)
     player.addEventListener('playing', () => {
       clearLoadingTimeout();
-      if (!pendingBtn) return;
+      
+      // ✅ NUEVO: verifica que el audio que está sonando es el que esperábamos
+      if (!pendingBtn || currentAudioSrc !== player.src) return;
   
       clearStates();
   
@@ -2420,8 +2498,8 @@ once("lirya_pageview_home", () => {
       ? "estilos"
       : "ejemplos-reales";
   
-    const audioSrc = (currentBtn.dataset.audio || "").trim();
-    const label = (currentBtn.getAttribute("aria-label") || "").trim();
+    const audioSrc = window.LIRYA_UTILS.sanitize(currentBtn.dataset.audio);
+    const label = window.LIRYA_UTILS.sanitize(currentBtn.getAttribute("aria-label"));
   
    const firstTime = !currentBtn.__lirya_audio_example_fired;
 currentBtn.__lirya_audio_example_fired = true;
@@ -2771,7 +2849,7 @@ if (firstTime) {
       if (!entry.isIntersecting) return;
 
       const idx = parseInt(entry.target.getAttribute('data-how-index') || '0', 10);
-      setTimeout(() => entry.target.classList.add('is-visible'), Math.max(0, idx) * 150);
+      setTimeout(() => entry.target.classList.add('is-visible'), Math.max(0, idx) * window.LIRYA_CONFIG.ANIMATION_STAGGER_DELAY);
 
       obs.unobserve(entry.target);
     });
@@ -3478,10 +3556,19 @@ if (firstTime) {
   const root = document.getElementById("formulario-lirya");
   if (!root) return;
 
-  const form = root.querySelector("#lirya-form");
+const form = root.querySelector("#lirya-form");
   const steps = Array.from(root.querySelectorAll(".step"));
   const progress = root.querySelector("#progress");
   const live = root.querySelector("#lirya-live");
+
+  // ✅ NUEVO: Cache de elementos del formulario
+  const elements = {
+    tarifaHidden: root.querySelector("#tarifa-hidden"),
+    relationshipHidden: root.querySelector("#relationship-hidden"),
+    emailInput: root.querySelector("#email"),
+    phoneInput: root.querySelector("#phone"),
+    elements.telefonoBox: root.querySelector("#telefono-box")
+  };
 
   let i = 0;
     // ===== META: helpers dedupe (Lead) =====
@@ -3493,10 +3580,7 @@ if (firstTime) {
     fn();
   };
 
-  const newEventId = () => {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-  };
+  const newEventId = window.LIRYA_UTILS.newEventId;;
 
   function fireLeadStep1(){
     onceSession("lirya_lead_step1_fired", () => {
@@ -3507,12 +3591,12 @@ if (firstTime) {
         try { sessionStorage.setItem("lirya_lead_event_id", leadEventId); } catch(_) {}
       }
 
-      if (typeof window.LIRYA_TRACK === "function") {
+     if (typeof window.LIRYA_TRACK === "function") {
         window.LIRYA_TRACK("Lead", {
           content_name: "Paso 1 completado",
           step: 1,
-          plan: (root.querySelector("#tarifa-hidden")?.value || "").trim() || undefined,
-          relationship: (root.querySelector("#relationship-hidden")?.value || "").trim() || undefined
+          plan: window.LIRYA_UTILS.sanitize(elements.tarifaHidden?.value) || undefined,
+          relationship: window.LIRYA_UTILS.sanitize(elements.relationshipHidden?.value) || undefined
         }, { eventId: leadEventId });
       }
     });
@@ -3524,9 +3608,6 @@ if (firstTime) {
     if (x === 0) s.classList.add("active");
     progress.appendChild(s);
   });
-
-  const telefonoBox = root.querySelector("#telefono-box");
-  const phone = root.querySelector("#phone");
 
   function announce(msg){
     if (!live) return;
@@ -3576,8 +3657,35 @@ if (firstTime) {
     }
   }
 
-  function validateEmail(val){
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(val || "").trim());
+ function validateEmail(val){
+    const email = String(val || "").trim().toLowerCase();
+    
+    // Validación básica de estructura
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return false;
+    
+    // Validación mejorada: mínimo 3 caracteres antes del @
+    // y dominio con al menos 2 caracteres antes y después del punto
+    const emailRegex = /^[a-z0-9._%+-]{3,}@[a-z0-9.-]{2,}\.[a-z]{2,}$/i;
+    if (!emailRegex.test(email)) return false;
+    
+    // Rechazar patrones sospechosos comunes
+    const suspiciousPatterns = [
+      /^test@/i,           // test@...
+      /^admin@/i,          // admin@...
+      /^noreply@/i,        // noreply@...
+      /^no-reply@/i,       // no-reply@...
+      /@test\./i,          // ...@test.com
+      /@example\./i,       // ...@example.com
+      /@localhost/i,       // ...@localhost
+      /\.\.+/,             // puntos consecutivos
+      /^\.|\.$|@\./        // punto al inicio, final, o después de @
+    ];
+    
+    for (let pattern of suspiciousPatterns) {
+      if (pattern.test(email)) return false;
+    }
+    
+    return true;
   }
 
   function hiddenForDropdown(btn){
@@ -3614,8 +3722,8 @@ if (firstTime) {
       }
     });
 
-    if (step.contains(telefonoBox) && telefonoBox.style.display !== "none") {
-      const v = (phone.value || "").trim();
+      if (step.contains(elements.telefonoBox) && elements.telefonoBox.style.display !== "none") {
+      const v = (elements.phoneInput.value || "").trim();
       if (!v) {
         ok = false;
         if (showUI) setFieldError(step, "phone", "Introduce tu teléfono.");
@@ -3754,11 +3862,11 @@ if (firstTime) {
 
       if (it.dataset.whatsapp) {
         const wants = it.dataset.whatsapp === "si";
-        telefonoBox.style.display = wants ? "block" : "none";
-        if (wants) phone.setAttribute("required", "required");
+        elements.telefonoBox.style.display = wants ? "block" : "none";
+        if (wants) elements.phoneInput.setAttribute("required", "required");
         else {
-          phone.removeAttribute("required");
-          phone.value = "";
+          elements.phoneInput.setAttribute("required");
+          elements.phoneInput.value = "";
         }
       }
 
@@ -3813,10 +3921,7 @@ if (firstTime) {
 
     let processingPayment = false;
 
-    const newEventId = () => {
-      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-      return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-    };
+   const newEventId = window.LIRYA_UTILS.newEventId;
 
     const readCookie = (name) => {
       const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
@@ -3923,6 +4028,10 @@ if (firstTime) {
       const originalText = submitBtn.textContent;
       submitBtn.textContent = "Redirigiendo a pago seguro…";
 
+          // ✅ NUEVO: Controller para timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), window.LIRYA_CONFIG.PAYMENT_TIMEOUT);      
+
       // InitiateCheckout (NO BLOQUEA)
       await onceAsync("lirya_initiatecheckout_" + checkoutEventId, async () => {
         try {
@@ -3979,12 +4088,20 @@ if (firstTime) {
         event_source_url: window.location.origin + window.location.pathname,
       };
 
-      try {
+    try {
         const r = await fetch("/api/payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
+          signal: controller.signal,  // ✅ NUEVO: conecta el timeout
         });
+
+        clearTimeout(timeoutId);  // ✅ NUEVO: si llega respuesta, cancela timeout
+
+        // ✅ NUEVO: Log de performance (solo en desarrollo con ?debug=1)
+        if (new URLSearchParams(location.search).get("debug") === "1") {
+          console.log("[LIRYA PAY] ✅ Respuesta recibida del servidor");
+        }
 
         const text = await r.text();
         let j = {};
@@ -3994,14 +4111,22 @@ if (firstTime) {
         if (!j.url) throw new Error("Stripe no devolvió URL");
 
         window.location.href = j.url;
-      } catch (err) {
+   } catch (err) {
+        clearTimeout(timeoutId);  // ✅ NUEVO: limpia timeout también en error
+
         console.error("❌ Error iniciando pago:", err);
+
+        // ✅ NUEVO: mensaje específico si fue timeout
+        let errorMsg = "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.";
+        if (err.name === 'AbortError') {
+          errorMsg = "El servidor tardó demasiado en responder. Por favor, verifica tu conexión a internet e inténtalo de nuevo.";
+        }
 
         safeGoToStep(6);
         const step6 = root.querySelector('.step[data-step="6"]') || null;
         if (step6) {
           safeClearErrors(step6);
-          safeShowStepError(step6, "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.");
+          safeShowStepError(step6, errorMsg);  // ✅ NUEVO: usa el mensaje dinámico
         }
 
         submitBtn.disabled = false;
@@ -4018,11 +4143,11 @@ if (firstTime) {
   document.addEventListener("DOMContentLoaded", () => {
     if (initPayment()) return;
 
-    let tries = 0;
+   let tries = 0;
     const t = setInterval(() => {
       tries++;
-      if (initPayment() || tries >= 30) clearInterval(t);
-    }, 250);
+      if (initPayment() || tries >= window.LIRYA_CONFIG.FORM_MAX_RETRIES) clearInterval(t);
+    }, window.LIRYA_CONFIG.FORM_RETRY_INTERVAL);
   });
 })();
 </script>
@@ -4658,6 +4783,10 @@ if (firstTime) {
 
 <script>
 (() => {
+  // ✅ NUEVO: Evita inicializar múltiples veces
+  if (window.__lirya_reactions_init) return;
+  window.__lirya_reactions_init = true;
+
   const section = document.getElementById('reacciones');
   if (!section) return;
 
@@ -4667,13 +4796,7 @@ if (firstTime) {
   const prev = section.querySelector('[data-carousel-prev]');
   const next = section.querySelector('[data-carousel-next]');
 
-  const onceSession = (key, fn) => {
-    try {
-      if (sessionStorage.getItem(key)) return;
-      sessionStorage.setItem(key, "1");
-    } catch(_) {}
-    fn();
-  };
+  const onceSession = window.LIRYA_UTILS.onceSession;
 
   const getStep = () => {
     const firstCard = carousel.querySelector('.reaction-card');
@@ -4711,8 +4834,8 @@ if (firstTime) {
       href = u.pathname;
     } catch(_) {}
 
-    const persona = (a.getAttribute('data-persona') || '').trim();
-    const label = (a.getAttribute('aria-label') || '').trim();
+    const persona = window.LIRYA_UTILS.sanitize(a.getAttribute('data-persona'));
+    const label = window.LIRYA_UTILS.sanitize(a.getAttribute('aria-label'));
 
     if (typeof window.LIRYA_TRACK === 'function') {
       const dedupeKey = "lirya_vc_reaction_" + href;
@@ -5230,6 +5353,7 @@ if (firstTime) {
 </section>
 </body>
 </html>
+
 
 
 
