@@ -520,23 +520,43 @@
     // =========================================================
     // 0) PAGEVIEW al CARGAR la PÁGINA
     // =========================================================
-    once("lirya_pageview_" + PERSONA, () => {
-      track("PageView", {});
-    });
+   once("lirya_pageview_" + PERSONA, () => {
+  if (hasFbq) {
+    try { window.fbq("track", "PageView"); } catch(_) {}
+  }
+});
 
-    // =========================================================
-    // 1) VIEWCONTENT al CARGAR la PÁGINA (lo que tú querías)
-    // =========================================================
-    once("lirya_viewcontent_" + PERSONA, () => {
-      track("ViewContent", {
-        content_name: CONTENT_NAME,
-        content_category: "Video testimonial",
-        content_type: "video_page",
-        page_type: PAGE_TYPE,
-        persona: PERSONA,
-        source_page: window.location.pathname
-      });
+
+ // =========================================================
+// 1) VIEWCONTENT al CARGAR la PÁGINA
+//    ✅ PERO: si ya lo disparó el carrusel (sección C), NO duplicamos
+// =========================================================
+(function fireViewContentOnce(){
+  // clave que usa el carrusel (sección C): "lirya_vc_reaction_" + href
+  const vcFromCarouselKey = "lirya_vc_reaction_" + window.location.pathname;
+
+  let cameFromCarousel = false;
+  try {
+    cameFromCarousel = !!sessionStorage.getItem(vcFromCarouselKey);
+  } catch(_) {}
+
+  // Si ya existe, NO disparamos ViewContent aquí (evitamos doble conteo)
+  if (cameFromCarousel) {
+    log("Skip ViewContent: ya disparado desde carrusel");
+    return;
+  }
+
+  once("lirya_viewcontent_" + PERSONA, () => {
+    track("ViewContent", {
+      content_name: CONTENT_NAME,
+      content_category: "Video testimonial",
+      content_type: "video_page",
+      page_type: PAGE_TYPE,
+      persona: PERSONA,
+      source_page: window.location.pathname
     });
+  });
+})();
 
     // =========================================================
     // 2) VIDEOPLAY SOLO cuando le dan PLAY al video (evento estándar)
