@@ -339,7 +339,13 @@
   opacity:.78;
   font-style:italic;
 }
-
+    
+@media (max-width:900px){
+  .hero-title-main{
+    font-size: 1.1em;  /* <--- Esto hará más grande solo "El único regalo..." */
+    display: block;
+  }
+}
 @media (max-width:900px){
   .hero-note--stack{ display:none; }
 }
@@ -1055,10 +1061,10 @@
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-    <h2 class="h2-like-h1">
-  El único regalo<br>
+   <h2 class="h2-like-h1">
+  <span class="hero-title-main">El único regalo<br>
   que hará llorar<br>
-  a tu pareja este<br>
+  a tu pareja este</span><br>
   <span class="hero-title-sv">SAN VALENTÍN</span>
 </h2>
 
