@@ -4411,6 +4411,11 @@ const form = root.querySelector("#lirya-form");
   font-style:italic;
 }
 
+/* Contador animado */
+.rating-counter{
+  display:inline-block;
+}
+
 /* ===== WRAPPER ===== */
 .lirya-reactions-wrap{
   position:relative;
@@ -4555,30 +4560,6 @@ const form = root.querySelector("#lirya-form");
   pointer-events:none;
 }
 
-.tap-pill{
-  position:absolute;
-  left:14px;
-  bottom:14px;
-  z-index:3;
-  padding:10px 12px;
-  border-radius:999px;
-  background:rgba(0,0,0,0.38);
-  color:rgba(255,255,255,0.95);
-  font-size:12.5px;
-  font-family:"Playfair Display", serif;
-  letter-spacing:.1px;
-  backdrop-filter: blur(3px);
-  pointer-events:none;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.tap-pill::before{
-  content:"▶";
-  font-size:11px;
-  opacity:.95;
-}
-
 /* ===== CONTENIDO ===== */
 .reaction-content{
   background:#fff;
@@ -4667,10 +4648,11 @@ const form = root.querySelector("#lirya-form");
   outline-offset:4px;
 }
 .cta-note{
-  margin-top:14px;
-  font-size:13px;
-  opacity:0.7;
+  margin-top:12px;
+  font-size:12.5px;
+  opacity:0.75;
   font-style:italic;
+  color:#1a1a1a;
 }
 
 /* ===== MÓVIL ===== */
@@ -4681,11 +4663,6 @@ const form = root.querySelector("#lirya-form");
 
   .reaction-media{
     height:420px;
-  }
-  
-   .tap-pill{
-    font-size:13px;
-    padding:11px 14px;
   }
 
   .carousel-nav{
@@ -4706,6 +4683,7 @@ const form = root.querySelector("#lirya-form");
 @media (prefers-reduced-motion: reduce){
   .reaction-card{ transition:none !important; }
   .lirya-reactions-carousel{ scroll-behavior:auto; }
+  .rating-counter{ animation:none !important; }
 }
 </style>
 
@@ -4713,7 +4691,7 @@ const form = root.querySelector("#lirya-form");
 
   <div class="lirya-reactions-header">
     <h2 class="lirya-reactions-title" id="lirya-reactions-title">
-      Así reaccionan cuando escuchan su canción por primera vez
+      Así reaccionan cuando reciben este regalo
     </h2>
 
     <p class="lirya-reactions-subtitle">
@@ -4723,7 +4701,7 @@ const form = root.querySelector("#lirya-form");
     <div class="lirya-rating" role="img" aria-label="Valoración 5 de 5 estrellas basada en 800+ experiencias reales">
       <div class="rating-stars" aria-hidden="true">★★★★★</div>
       <span class="rating-note">
-        Basado en 800+ experiencias reales de clientes (sin actores, sin guion).
+        Basado en <span class="rating-counter" id="reactions-counter">800</span>+ experiencias reales de clientes (sin actores, sin guion).
       </span>
     </div>
   </div>
@@ -4746,26 +4724,26 @@ const form = root.querySelector("#lirya-form");
   aria-label="Carrusel de reacciones reales"
   data-carousel
 >
-<a class="reaction-card" href="/reacciones/yolanda.html"
-         aria-label="Ver reacción completa de Yolanda"
-         data-cta="reaccion" data-persona="yolanda">
+      <!-- CARLOS (antes 4ta, ahora 1ra) -->
+      <a class="reaction-card" href="/reacciones/carlos.html"
+         aria-label="Ver reacción completa de Carlos"
+         data-cta="reaccion" data-persona="carlos">
         <div class="reaction-media">
           <img
-            src="/video1.jpg"
-            alt="Reacción real de Yolanda al escuchar su canción por primera vez"
+            src="/video4.jpg"
+            alt="Reacción real de Carlos al escuchar su canción por primera vez"
             loading="lazy"
             decoding="async"
             fetchpriority="low"
             width="1080"
             height="1920"
-            >
-          <div class="play-badge" aria-hidden="true"></div>
-          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+          >
+            <div class="play-badge" aria-hidden="true"></div>
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">"No sabía que una canción podía decir tanto."</p>
-          <div class="reaction-name">✔ Yolanda J.</div>
+          <p class="reaction-text">"Lloramos al escucharla por primera vez."</p>
+          <div class="reaction-name">✔ Carlos M.</div>
         </div>
       </a>
 
@@ -4783,7 +4761,6 @@ const form = root.querySelector("#lirya-form");
             height="1920"
           >
             <div class="play-badge" aria-hidden="true"></div>
-          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
@@ -4806,7 +4783,6 @@ const form = root.querySelector("#lirya-form");
             height="1920"
             >
             <div class="play-badge" aria-hidden="true"></div>
-          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
@@ -4815,26 +4791,26 @@ const form = root.querySelector("#lirya-form");
         </div>
       </a>
 
-      <a class="reaction-card" href="/reacciones/carlos.html"
-         aria-label="Ver reacción completa de Carlos"
-         data-cta="reaccion" data-persona="carlos">
+      <!-- YOLANDA (antes 1ra, ahora 4ta) -->
+      <a class="reaction-card" href="/reacciones/yolanda.html"
+         aria-label="Ver reacción completa de Yolanda"
+         data-cta="reaccion" data-persona="yolanda">
         <div class="reaction-media">
           <img
-            src="/video4.jpg"
-            alt="Reacción real de Carlos al escuchar su canción por primera vez"
+            src="/video1.jpg"
+            alt="Reacción real de Yolanda al escuchar su canción por primera vez"
             loading="lazy"
             decoding="async"
             fetchpriority="low"
             width="1080"
             height="1920"
-          >
-            <div class="play-badge" aria-hidden="true"></div>
-          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
+            >
+          <div class="play-badge" aria-hidden="true"></div>
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">"Lloramos al escucharla por primera vez."</p>
-          <div class="reaction-name">✔ Carlos M.</div>
+          <p class="reaction-text">"No sabía que una canción podía decir tanto."</p>
+          <div class="reaction-name">✔ Yolanda J.</div>
         </div>
       </a>
 
@@ -4852,7 +4828,6 @@ const form = root.querySelector("#lirya-form");
             height="1920"
           >
             <div class="play-badge" aria-hidden="true"></div>
-          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
@@ -4875,7 +4850,6 @@ const form = root.querySelector("#lirya-form");
             height="1920"
           >
             <div class="play-badge" aria-hidden="true"></div>
-          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
@@ -4898,7 +4872,6 @@ const form = root.querySelector("#lirya-form");
             height="1920"
           >
             <div class="play-badge" aria-hidden="true"></div>
-          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
@@ -4921,7 +4894,6 @@ const form = root.querySelector("#lirya-form");
             height="1920"
           >
             <div class="play-badge" aria-hidden="true"></div>
-          <div class="tap-pill" aria-hidden="true">Ver reacción completa</div>
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
@@ -4951,12 +4923,12 @@ const form = root.querySelector("#lirya-form");
       Tú también puedes regalar una reacción así.
     </p>
 
-    <a href="#formulario-lirya" class="cta-button" aria-label="Crear mi canción ahora">
-      Crear mi canción ahora
+    <a href="#formulario-lirya" class="cta-button" aria-label="Crear mi canción para San Valentín">
+      Crear mi canción para San Valentín
     </a>
 
     <p class="cta-note">
-      La opción recomendada es la más elegida por quienes buscan el mejor equilibrio entre emoción y detalle.
+      Entrega garantizada antes del 14 de febrero
     </p>
   </div>
 
@@ -5029,9 +5001,52 @@ const form = root.querySelector("#lirya-form");
       });
     }
   }, true);
+
+  // ===== CONTADOR ANIMADO 0 a 800 =====
+  (function animateReactionsCounter() {
+    const counter = document.getElementById('reactions-counter');
+    if (!counter) return;
+
+    function animateCounter(element, target, duration) {
+      let start = 0;
+      const startTime = performance.now();
+      
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const current = Math.floor(start + (target - start) * easeOutQuart);
+        
+        element.textContent = current;
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          element.textContent = target;
+        }
+      }
+      
+      requestAnimationFrame(update);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !counter.__animated) {
+          counter.__animated = true;
+          animateCounter(counter, 800, 2000);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    observer.observe(counter);
+  })();
 })();
 </script>
-
+  
  <!-- ===== GARANTÍA + MINI FAQ ===== -->
 <style>
 .lirya-guarantee{
