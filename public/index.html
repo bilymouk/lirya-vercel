@@ -2879,8 +2879,8 @@ if (firstTime) {
 })();
 </script>
 
-<!-- ================== FORMULARIO LIRYA (PREMIUM PRO, ROBUSTO, SIN ROMPER STRIPE) ================== -->
-<section id="formulario-lirya">
+<!-- ================== FORMULARIO LIRYA ================== -->
+<section id="formulario-lirya" aria-labelledby="form-main-title">
 <style>
   /* Scope total */
 #formulario-lirya, 
@@ -3204,55 +3204,51 @@ if (firstTime) {
   #formulario-lirya .submit:hover{box-shadow: 0 14px 30px rgba(0,0,0,.30)}
 
   #formulario-lirya #telefono-box{display:none}
-
-/* H1 style para versión mobile */
-.h1-style {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.55rem;
-  line-height: 1.12;
-  margin-bottom: 18px;
-}
 </style>
 
 <div class="wrapper">
-  <h2>Cuéntanos vuestra historia</h2>
+  <h2 id="form-main-title">Cuéntanos vuestra historia</h2>
   <div class="subtitle">
     No hace falta escribir bonito. Nosotros transformamos tus palabras en una canción emocional.
   </div>
   <div class="micro-safety">✔ No hay respuestas largas · Solo lo esencial</div>
 
-  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="progress" id="progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="6" aria-label="Progreso del formulario"></div>
 
-  <div class="sr-live" id="lirya-live" aria-live="polite"></div>
+  <div class="sr-live" id="lirya-live" role="status" aria-live="polite" aria-atomic="true"></div>
 
-  <form class="card" id="lirya-form" novalidate>
+  <!-- Contenedor de errores globales -->
+  <div id="form-errors" role="alert" aria-live="polite" aria-atomic="true" style="display: none;"></div>
+
+  <form class="card" id="lirya-form" novalidate role="form">
 
     <!-- PASO 1 -->
-    <div class="step active" data-step="1">
-      <div class="step-title">Paso 1 de 6 — Personas y tarifa</div>
-      <div class="step-errors" aria-live="polite"></div>
+    <div class="step active" data-step="1" role="group" aria-labelledby="step-1-title">
+      <h3 class="step-title" id="step-1-title">Paso 1 de 6 — Personas y tarifa</h3>
+      <div class="step-errors" role="alert" aria-live="polite"></div>
 
       <div class="question">
-        <label for="recipient_name">Nombre de quien recibirá la canción *</label>
-        <input id="recipient_name" name="recipient_name" autocomplete="name" required placeholder="Ej. Laura">
+        <label for="recipient_name">Nombre de quien recibirá la canción <span aria-label="requerido">*</span></label>
+        <input id="recipient_name" name="recipient_name" autocomplete="name" required aria-required="true" placeholder="Ej. Laura">
         <div class="field-error-msg" data-error-for="recipient_name">Completa este campo.</div>
       </div>
 
       <div class="question">
-        <label for="your_name">Tu nombre (quien regala) *</label>
-        <input id="your_name" name="your_name" autocomplete="name" required placeholder="Ej. Marcos">
+        <label for="your_name">Tu nombre (quien regala) <span aria-label="requerido">*</span></label>
+        <input id="your_name" name="your_name" autocomplete="name" required aria-required="true" placeholder="Ej. Marcos">
         <div class="field-error-msg" data-error-for="your_name">Completa este campo.</div>
       </div>
 
       <div class="question">
-        <label>Tipo de relación *</label>
+        <label id="relationship-label">Tipo de relación <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="relationship" type="button"
             data-required data-placeholder="1" data-hidden="relationship-hidden"
+            aria-labelledby="relationship-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="relationship-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="relationship-menu" role="listbox">
+          <div class="dropdown-menu" id="relationship-menu" role="listbox" aria-labelledby="relationship-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Pareja">Pareja</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Matrimonio">Matrimonio</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Ex pareja (reconciliación)">Ex pareja (reconciliación)</div>
@@ -3261,26 +3257,27 @@ if (firstTime) {
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Amistad especial">Amistad especial</div>
           </div>
         </div>
-        <input type="hidden" id="relationship-hidden" name="relationship" required>
-        <div class="field-error-msg" data-error-for="relationship-hidden">Elige una opción.</div>
+        <input type="hidden" id="relationship-hidden" name="relationship" required aria-required="true">
+        <div class="field-error-msg" data-error-for="relationship-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="question">
-        <label>Tarifa elegida *</label>
+        <label id="tarifa-label">Tarifa elegida <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="tarifa-btn" type="button"
             data-required data-placeholder="1" data-hidden="tarifa-hidden"
+            aria-labelledby="tarifa-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="tarifa-menu">
             <span class="dd-value" id="tarifa-dd-value">Selecciona una tarifa</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="tarifa-menu" role="listbox">
+          <div class="dropdown-menu" id="tarifa-menu" role="listbox" aria-labelledby="tarifa-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="39" data-tarifa="39">39€ — Estándar</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="59" data-tarifa="59">59€ — Emocional</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="79" data-tarifa="79">79€ — Prioritaria</div>
           </div>
         </div>
-        <input type="hidden" id="tarifa-hidden" name="tarifa" required>
-        <div class="field-error-msg" data-error-for="tarifa-hidden">Selecciona una tarifa.</div>
+        <input type="hidden" id="tarifa-hidden" name="tarifa" required aria-required="true">
+        <div class="field-error-msg" data-error-for="tarifa-hidden" role="alert">Selecciona una tarifa.</div>
       </div>
 
       <div class="nav">
@@ -3290,34 +3287,35 @@ if (firstTime) {
     </div>
 
     <!-- PASO 2 -->
-    <div class="step" data-step="2">
-      <div class="step-title">Paso 2 de 6 — Historia</div>
+    <div class="step" data-step="2" role="group" aria-labelledby="step-2-title">
+      <h3 class="step-title" id="step-2-title">Paso 2 de 6 — Historia</h3>
       <div class="step-helper">Escribe con naturalidad. No buscamos perfección, sino verdad.</div>
-      <div class="step-errors" aria-live="polite"></div>
+      <div class="step-errors" role="alert" aria-live="polite"></div>
 
       <div class="question">
-        <label for="how_met">¿Cómo os conocisteis? *</label>
-        <textarea id="how_met" name="how_met" required placeholder="Ej. Fue en una cafetería..."></textarea>
-        <div class="helper-text">Ejemplo: dónde fue, qué sentiste, por qué lo recuerdas.</div>
-        <div class="field-error-msg" data-error-for="how_met">Completa este campo.</div>
+        <label for="how_met">¿Cómo os conocisteis? <span aria-label="requerido">*</span></label>
+        <textarea id="how_met" name="how_met" required aria-required="true" placeholder="Ej. Fue en una cafetería..."></textarea>
+        <div class="helper-text" id="how-met-help">Ejemplo: dónde fue, qué sentiste, por qué lo recuerdas.</div>
+        <div class="field-error-msg" data-error-for="how_met" role="alert">Completa este campo.</div>
       </div>
 
       <div class="question">
-        <label for="special_moment">Un momento que lo cambió todo *</label>
-        <textarea id="special_moment" name="special_moment" required placeholder="Ej. El día que me esperó bajo la lluvia..."></textarea>
-        <div class="helper-text">Una conversación, una despedida, una promesa, un reencuentro…</div>
-        <div class="field-error-msg" data-error-for="special_moment">Completa este campo.</div>
+        <label for="special_moment">Un momento que lo cambió todo <span aria-label="requerido">*</span></label>
+        <textarea id="special_moment" name="special_moment" required aria-required="true" placeholder="Ej. El día que me esperó bajo la lluvia..."></textarea>
+        <div class="helper-text" id="special-moment-help">Una conversación, una despedida, una promesa, un reencuentro…</div>
+        <div class="field-error-msg" data-error-for="special_moment" role="alert">Completa este campo.</div>
       </div>
 
       <div class="question">
-        <label>¿Por qué esta canción es importante ahora? *</label>
+        <label id="reason-now-label">¿Por qué esta canción es importante ahora? <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="reason_now" type="button"
             data-required data-placeholder="1" data-hidden="reason_now-hidden"
+            aria-labelledby="reason-now-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="reason-now-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="reason-now-menu" role="listbox">
+          <div class="dropdown-menu" id="reason-now-menu" role="listbox" aria-labelledby="reason-now-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Aniversario">Aniversario</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Cumpleaños">Cumpleaños</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Reconciliación">Reconciliación</div>
@@ -3326,8 +3324,8 @@ if (firstTime) {
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Otro">Otro</div>
           </div>
         </div>
-        <input type="hidden" id="reason_now-hidden" name="reason_now" required>
-        <div class="field-error-msg" data-error-for="reason_now-hidden">Elige una opción.</div>
+        <input type="hidden" id="reason_now-hidden" name="reason_now" required aria-required="true">
+        <div class="field-error-msg" data-error-for="reason_now-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="nav">
@@ -3339,33 +3337,34 @@ if (firstTime) {
     </div>
 
     <!-- PASO 3 -->
-    <div class="step" data-step="3">
-      <div class="step-title">Paso 3 de 6 — Emoción y personalidad</div>
-      <div class="step-errors" aria-live="polite"></div>
+    <div class="step" data-step="3" role="group" aria-labelledby="step-3-title">
+      <h3 class="step-title" id="step-3-title">Paso 3 de 6 — Emoción y personalidad</h3>
+      <div class="step-errors" role="alert" aria-live="polite"></div>
 
       <div class="question">
-        <label for="three_words">Tres palabras que definan a esa persona *</label>
-        <input id="three_words" name="three_words" required placeholder="Ej. valiente, dulce, luminosa">
-        <div class="helper-text">Ejemplo: sensible, fuerte, divertida.</div>
-        <div class="field-error-msg" data-error-for="three_words">Completa este campo.</div>
+        <label for="three_words">Tres palabras que definan a esa persona <span aria-label="requerido">*</span></label>
+        <input id="three_words" name="three_words" required aria-required="true" placeholder="Ej. valiente, dulce, luminosa">
+        <div class="helper-text" id="three-words-help">Ejemplo: sensible, fuerte, divertida.</div>
+        <div class="field-error-msg" data-error-for="three_words" role="alert">Completa este campo.</div>
       </div>
 
       <div class="question">
-        <label for="dedication">Una frase que te gustaría decirle *</label>
-        <textarea id="dedication" name="dedication" required placeholder="Ej. Gracias por elegirme cada día..."></textarea>
-        <div class="helper-text">Puede ser simple. Nosotros la convertimos en letra.</div>
-        <div class="field-error-msg" data-error-for="dedication">Completa este campo.</div>
+        <label for="dedication">Una frase que te gustaría decirle <span aria-label="requerido">*</span></label>
+        <textarea id="dedication" name="dedication" required aria-required="true" placeholder="Ej. Gracias por elegirme cada día..."></textarea>
+        <div class="helper-text" id="dedication-help">Puede ser simple. Nosotros la convertimos en letra.</div>
+        <div class="field-error-msg" data-error-for="dedication" role="alert">Completa este campo.</div>
       </div>
 
       <div class="question">
-        <label>¿Qué emoción debe sentir? *</label>
+        <label id="emotion-label">¿Qué emoción debe sentir? <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="emotion" type="button"
             data-required data-placeholder="1" data-hidden="emotion-hidden"
+            aria-labelledby="emotion-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="emotion-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="emotion-menu" role="listbox">
+          <div class="dropdown-menu" id="emotion-menu" role="listbox" aria-labelledby="emotion-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Amor profundo">Amor profundo</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Nostalgia">Nostalgia</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Alegría">Alegría</div>
@@ -3373,8 +3372,8 @@ if (firstTime) {
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Calma y ternura">Calma y ternura</div>
           </div>
         </div>
-        <input type="hidden" id="emotion-hidden" name="emotion" required>
-        <div class="field-error-msg" data-error-for="emotion-hidden">Elige una opción.</div>
+        <input type="hidden" id="emotion-hidden" name="emotion" required aria-required="true">
+        <div class="field-error-msg" data-error-for="emotion-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="nav">
@@ -3385,19 +3384,20 @@ if (firstTime) {
     </div>
 
     <!-- PASO 4 -->
-    <div class="step" data-step="4">
-      <div class="step-title">Paso 4 de 6 — Música</div>
-      <div class="step-errors" aria-live="polite"></div>
+    <div class="step" data-step="4" role="group" aria-labelledby="step-4-title">
+      <h3 class="step-title" id="step-4-title">Paso 4 de 6 — Música</h3>
+      <div class="step-errors" role="alert" aria-live="polite"></div>
 
       <div class="question">
-        <label>Estilo musical principal *</label>
+        <label id="song-style-label">Estilo musical principal <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="song_style" type="button"
             data-required data-placeholder="1" data-hidden="song_style-hidden"
+            aria-labelledby="song-style-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="song-style-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="song-style-menu" role="listbox">
+          <div class="dropdown-menu" id="song-style-menu" role="listbox" aria-labelledby="song-style-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Balada romántica">Balada romántica</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Pop emocional">Pop emocional</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Indie acústico">Indie acústico</div>
@@ -3413,64 +3413,67 @@ if (firstTime) {
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Cinematográfico">Cinematográfico</div>
           </div>
         </div>
-        <input type="hidden" id="song_style-hidden" name="song_style" required>
-        <div class="field-error-msg" data-error-for="song_style-hidden">Elige una opción.</div>
+        <input type="hidden" id="song_style-hidden" name="song_style" required aria-required="true">
+        <div class="field-error-msg" data-error-for="song_style-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="question">
-        <label>Ritmo *</label>
+        <label id="rhythm-label">Ritmo <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="rhythm" type="button"
             data-required data-placeholder="1" data-hidden="rhythm-hidden"
+            aria-labelledby="rhythm-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="rhythm-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="rhythm-menu" role="listbox">
+          <div class="dropdown-menu" id="rhythm-menu" role="listbox" aria-labelledby="rhythm-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Lento">Lento</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Medio">Medio</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Progresivo">Progresivo</div>
           </div>
         </div>
-        <input type="hidden" id="rhythm-hidden" name="rhythm" required>
-        <div class="field-error-msg" data-error-for="rhythm-hidden">Elige una opción.</div>
+        <input type="hidden" id="rhythm-hidden" name="rhythm" required aria-required="true">
+        <div class="field-error-msg" data-error-for="rhythm-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="question">
-        <label>Tipo de voz *</label>
+        <label id="voice-type-label">Tipo de voz <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="voice_type" type="button"
             data-required data-placeholder="1" data-hidden="voice_type-hidden"
+            aria-labelledby="voice-type-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="voice-type-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="voice-type-menu" role="listbox">
+          <div class="dropdown-menu" id="voice-type-menu" role="listbox" aria-labelledby="voice-type-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Masculina">Masculina</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Femenina">Femenina</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Dúo">Dúo</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Me da igual">Me da igual</div>
           </div>
         </div>
-        <input type="hidden" id="voice_type-hidden" name="voice_type" required>
-        <div class="field-error-msg" data-error-for="voice_type-hidden">Elige una opción.</div>
+        <input type="hidden" id="voice_type-hidden" name="voice_type" required aria-required="true">
+        <div class="field-error-msg" data-error-for="voice_type-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="question">
-        <label>Idioma *</label>
+        <label id="language-label">Idioma <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="language" type="button"
             data-required data-placeholder="1" data-hidden="language-hidden"
+            aria-labelledby="language-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="language-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="language-menu" role="listbox">
+          <div class="dropdown-menu" id="language-menu" role="listbox" aria-labelledby="language-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Español">Español</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Inglés">Inglés</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Spanglish">Spanglish</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Catalán">Catalán</div>
           </div>
         </div>
-        <input type="hidden" id="language-hidden" name="language" required>
-        <div class="field-error-msg" data-error-for="language-hidden">Elige una opción.</div>
+        <input type="hidden" id="language-hidden" name="language" required aria-required="true">
+        <div class="field-error-msg" data-error-for="language-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="nav">
@@ -3481,49 +3484,51 @@ if (firstTime) {
     </div>
 
     <!-- PASO 5 -->
-    <div class="step" data-step="5">
-      <div class="step-title">Paso 5 de 6 — Detalles finales</div>
-      <div class="step-errors" aria-live="polite"></div>
+    <div class="step" data-step="5" role="group" aria-labelledby="step-5-title">
+      <h3 class="step-title" id="step-5-title">Paso 5 de 6 — Detalles finales</h3>
+      <div class="step-errors" role="alert" aria-live="polite"></div>
 
       <div class="question">
-        <label>¿Quieres que aparezca su nombre? *</label>
+        <label id="include-name-label">¿Quieres que aparezca su nombre? <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="include_name" type="button"
             data-required data-placeholder="1" data-hidden="include_name-hidden"
+            aria-labelledby="include-name-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="include-name-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="include-name-menu" role="listbox">
+          <div class="dropdown-menu" id="include-name-menu" role="listbox" aria-labelledby="include-name-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Sí">Sí</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="No">No</div>
           </div>
         </div>
-        <input type="hidden" id="include_name-hidden" name="include_name" required>
-        <div class="field-error-msg" data-error-for="include_name-hidden">Elige una opción.</div>
+        <input type="hidden" id="include_name-hidden" name="include_name" required aria-required="true">
+        <div class="field-error-msg" data-error-for="include_name-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="question">
         <label for="dont_mention">Anécdota o algo que quieras añadir</label>
         <textarea id="dont_mention" name="dont_mention" placeholder="Opcional. Un detalle pequeño puede hacerlo enorme…"></textarea>
-        <div class="helper-text">Opcional. Cualquier detalle ayuda.</div>
+        <div class="helper-text" id="dont-mention-help">Opcional. Cualquier detalle ayuda.</div>
       </div>
 
       <div class="question">
-        <label>Intensidad emocional *</label>
+        <label id="intensity-label">Intensidad emocional <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="intensity" type="button"
             data-required data-placeholder="1" data-hidden="intensity-hidden"
+            aria-labelledby="intensity-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="intensity-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="intensity-menu" role="listbox">
+          <div class="dropdown-menu" id="intensity-menu" role="listbox" aria-labelledby="intensity-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Suave">Suave</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Emotiva">Emotiva</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Muy intensa">Muy intensa</div>
           </div>
         </div>
-        <input type="hidden" id="intensity-hidden" name="intensity" required>
-        <div class="field-error-msg" data-error-for="intensity-hidden">Elige una opción.</div>
+        <input type="hidden" id="intensity-hidden" name="intensity" required aria-required="true">
+        <div class="field-error-msg" data-error-for="intensity-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="nav">
@@ -3534,38 +3539,39 @@ if (firstTime) {
     </div>
 
     <!-- PASO 6 -->
-    <div class="step" data-step="6">
-      <div class="step-title">Paso 6 de 6 — Entrega y pago</div>
+    <div class="step" data-step="6" role="group" aria-labelledby="step-6-title">
+      <h3 class="step-title" id="step-6-title">Paso 6 de 6 — Entrega y pago</h3>
       <div class="step-helper">Recibirás un email de confirmación inmediato tras completar el pago.</div>
-      <div class="step-errors" aria-live="polite"></div>
+      <div class="step-errors" role="alert" aria-live="polite"></div>
 
       <div class="question">
-        <label for="email">Email *</label>
-        <input id="email" name="email" type="email" autocomplete="email" required placeholder="tu@email.com">
-        <div class="field-error-msg" data-error-for="email">Introduce un email válido.</div>
+        <label for="email">Email <span aria-label="requerido">*</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" placeholder="tu@email.com">
+        <div class="field-error-msg" data-error-for="email" role="alert">Introduce un email válido.</div>
       </div>
 
       <div class="question">
-        <label>¿También por WhatsApp? *</label>
+        <label id="whatsapp-label">¿También por WhatsApp? <span aria-label="requerido">*</span></label>
         <div class="dropdown">
           <button class="dropdown-btn" id="whatsapp" type="button"
             data-required data-placeholder="1" data-hidden="whatsapp-hidden"
+            aria-labelledby="whatsapp-label"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="whatsapp-menu">
             <span class="dd-value">Elige una opción</span><span class="dd-caret" aria-hidden="true">▾</span>
           </button>
-          <div class="dropdown-menu" id="whatsapp-menu" role="listbox">
+          <div class="dropdown-menu" id="whatsapp-menu" role="listbox" aria-labelledby="whatsapp-label">
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="Sí" data-whatsapp="si">Sí</div>
             <div class="dropdown-item" role="option" tabindex="-1" aria-selected="false" data-value="No" data-whatsapp="no">No</div>
           </div>
         </div>
-        <input type="hidden" id="whatsapp-hidden" name="whatsapp" required>
-        <div class="field-error-msg" data-error-for="whatsapp-hidden">Elige una opción.</div>
+        <input type="hidden" id="whatsapp-hidden" name="whatsapp" required aria-required="true">
+        <div class="field-error-msg" data-error-for="whatsapp-hidden" role="alert">Elige una opción.</div>
       </div>
 
       <div class="question" id="telefono-box">
-        <label for="phone">Número de teléfono *</label>
-        <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+34 600 000 000">
-        <div class="field-error-msg" data-error-for="phone">Introduce tu teléfono.</div>
+        <label for="phone">Número de teléfono <span aria-label="requerido">*</span></label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" aria-required="false" placeholder="+34 600 000 000">
+        <div class="field-error-msg" data-error-for="phone" role="alert">Introduce tu teléfono.</div>
       </div>
 
       <div class="nav">
@@ -3589,17 +3595,15 @@ const form = root.querySelector("#lirya-form");
   const progress = root.querySelector("#progress");
   const live = root.querySelector("#lirya-live");
 
-  // ✅ NUEVO: Cache de elementos del formulario
   const elements = {
     tarifaHidden: root.querySelector("#tarifa-hidden"),
     relationshipHidden: root.querySelector("#relationship-hidden"),
     emailInput: root.querySelector("#email"),
     phoneInput: root.querySelector("#phone"),
-    telefonoBox: root.querySelector("#telefono-box")  // ✅ CORRECTO: sin "elements."
+    telefonoBox: root.querySelector("#telefono-box")
   };
 
   let i = 0;
-    // ===== META: helpers dedupe (Lead) =====
   const onceSession = window.LIRYA_UTILS.onceSession;
 
   const newEventId = window.LIRYA_UTILS.newEventId;
@@ -3670,35 +3674,39 @@ const form = root.querySelector("#lirya-form");
 
   function setFieldError(step, id, msg){
     const field = root.querySelector("#" + CSS.escape(id));
-    if (field) field.classList.add("field-error");
+    if (field) {
+      field.classList.add("field-error");
+      field.setAttribute("aria-invalid", "true");
+    }
 
     const err = step.querySelector('.field-error-msg[data-error-for="' + id + '"]');
     if (err) {
       if (msg) err.textContent = msg;
       err.classList.add("show");
     }
+    
+    // Track form error
+    if (typeof window.trackFormError === 'function') {
+      window.trackFormError('validation_' + id, id);
+    }
   }
 
  function validateEmail(val){
     const email = String(val || "").trim().toLowerCase();
     
-    // Validación básica de estructura
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return false;
     
-    // Validación mejorada: mínimo 3 caracteres antes del @
-    // y dominio con al menos 2 caracteres antes y después del punto
     const emailRegex = /^[a-z0-9._%+-]{3,}@[a-z0-9.-]{2,}\.[a-z]{2,}$/i;
     if (!emailRegex.test(email)) return false;
     
-    // Rechazar patrones sospechosos comunes
     const suspiciousPatterns = [
-      /^noreply@/i,        // noreply@...
-      /^no-reply@/i,       // no-reply@...
-      /@test\./i,          // ...@test.com
-      /@example\./i,       // ...@example.com
-      /@localhost/i,       // ...@localhost
-      /\.\.+/,             // puntos consecutivos
-      /^\.|\.$|@\./        // punto al inicio, final, o después de @
+      /^noreply@/i,
+      /^no-reply@/i,
+      /@test\./i,
+      /@example\./i,
+      /@localhost/i,
+      /\.\.+/,
+      /^\.|\.$|@\./
     ];
     
     for (let pattern of suspiciousPatterns) {
@@ -3730,6 +3738,8 @@ const form = root.querySelector("#lirya-form");
       if (el.id === "email" && !validateEmail(v)) {
         ok = false;
         if (showUI) setFieldError(step, "email", "Introduce un email válido.");
+      } else if (el.hasAttribute("aria-invalid")) {
+        el.removeAttribute("aria-invalid");
       }
     });
 
@@ -3756,6 +3766,11 @@ const form = root.querySelector("#lirya-form");
       showStepError(step, "Te falta completar algún campo marcado para poder continuar.");
       const firstErr = step.querySelector(".field-error");
       if (firstErr && typeof firstErr.focus === "function") firstErr.focus({ preventScroll: false });
+    }
+    
+    // Update progress aria-valuenow
+    if (progress) {
+      progress.setAttribute("aria-valuenow", String(i + 1));
     }
 
     return ok;
@@ -3806,7 +3821,6 @@ const form = root.querySelector("#lirya-form");
     return;
   }
 
-  // Validación final antes de avanzar
   if (!validateStep(true)) return;
 
      const prevStepIndex = i;
@@ -3816,7 +3830,6 @@ const form = root.querySelector("#lirya-form");
     render(); 
   }
 
-  // ✅ LEAD REAL: solo si acabas de avanzar desde el paso 1 -> paso 2
   if (prevStepIndex === 0 && i === 1) {
     fireLeadStep1();
   }
@@ -3883,9 +3896,12 @@ const form = root.querySelector("#lirya-form");
       if (it.dataset.whatsapp) {
         const wants = it.dataset.whatsapp === "si";
         elements.telefonoBox.style.display = wants ? "block" : "none";
-        if (wants) elements.phoneInput.setAttribute("required", "required");
-        else {
+        if (wants) {
+          elements.phoneInput.setAttribute("required", "required");
+          elements.phoneInput.setAttribute("aria-required", "true");
+        } else {
           elements.phoneInput.removeAttribute("required");
+          elements.phoneInput.setAttribute("aria-required", "false");
           elements.phoneInput.value = "";
         }
       }
@@ -3912,7 +3928,6 @@ const form = root.querySelector("#lirya-form");
     if (!e.target.closest(".dropdown")) closeAllMenus();
   });
 
-    // Exponer helpers para otros scripts (pago, etc.)
   window.validateStep = validateStep;
   window.goToStep = goToStep;
   window.clearErrors = clearErrors;
@@ -3923,7 +3938,7 @@ const form = root.querySelector("#lirya-form");
 </script>
 
 <script>
-/* ===================== PAGO (STRIPE) — ROBUSTO (builder-proof) ===================== */
+/* ===================== PAGO (STRIPE) ===================== */
 (function () {
   if (window.__liryaPaymentInit) return;
   window.__liryaPaymentInit = true;
@@ -3935,7 +3950,6 @@ const form = root.querySelector("#lirya-form");
     const submitBtn = root.querySelector(".submit");
     if (!submitBtn) return false;
 
-    // Evita duplicar listener
     if (submitBtn.__liryaBound) return true;
     submitBtn.__liryaBound = true;
 
@@ -4007,12 +4021,10 @@ const form = root.querySelector("#lirya-form");
     submitBtn.addEventListener("click", async () => {
       if (processingPayment) return;
 
-      // Validación
       if (!safeValidateStep(true)) return;
 
       processingPayment = true;
 
-      // event_id estable por sesión de checkout
       let checkoutEventId = "";
       try { checkoutEventId = sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch (_) {}
       if (!checkoutEventId) checkoutEventId = window.__lirya_checkout_event_id || "";
@@ -4022,14 +4034,12 @@ const form = root.querySelector("#lirya-form");
         try { sessionStorage.setItem("lirya_checkout_event_id", checkoutEventId); } catch (_) {}
       }
 
-      // Hash email (si se puede)
       const emailRaw = (val("email") || "").trim().toLowerCase();
       let emailHash = "";
       try {
         if (emailRaw && window.crypto?.subtle) emailHash = await sha256Hex(emailRaw);
       } catch (_) {}
 
-      // Tarifa 39/59/79
       const tarifa = Number(val("tarifa-hidden") || 0);
       if (!tarifa || ![39, 59, 79].includes(tarifa)) {
         console.warn("Tarifa inválida:", tarifa);
@@ -4040,20 +4050,16 @@ const form = root.querySelector("#lirya-form");
         return;
       }
 
-      // Cookies Meta
       const fbpCookie = readCookie("_fbp");
       const fbcCookie = readCookie("_fbc");
 
-      // UI
       submitBtn.disabled = true;
       const originalText = submitBtn.textContent;
       submitBtn.textContent = "Redirigiendo a pago seguro…";
 
-          // ✅ NUEVO: Controller para timeout
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), window.LIRYA_CONFIG.PAYMENT_TIMEOUT);      
+      const timeoutId = setTimeout(() => controller.abort(), window.LIRYA_CONFIG.PAYMENT_TIMEOUT);
 
-      // InitiateCheckout (NO BLOQUEA)
       await onceAsync("lirya_initiatecheckout_" + checkoutEventId, async () => {
         try {
           if (typeof window.LIRYA_TRACK === "function") {
@@ -4075,7 +4081,6 @@ const form = root.querySelector("#lirya-form");
         }
       });
 
-      // Pago (SIEMPRE)
       const data = {
         recipient_name: val("recipient_name"),
         your_name: val("your_name"),
@@ -4114,12 +4119,11 @@ const form = root.querySelector("#lirya-form");
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
-          signal: controller.signal,  // ✅ NUEVO: conecta el timeout
+          signal: controller.signal,
         });
 
-        clearTimeout(timeoutId);  // ✅ NUEVO: si llega respuesta, cancela timeout
+        clearTimeout(timeoutId);
 
-        // ✅ NUEVO: Log de performance (solo en desarrollo con ?debug=1)
         if (new URLSearchParams(location.search).get("debug") === "1") {
           console.log("[LIRYA PAY] ✅ Respuesta recibida del servidor");
         }
@@ -4133,11 +4137,18 @@ const form = root.querySelector("#lirya-form");
 
         window.location.href = j.url;
    } catch (err) {
-        clearTimeout(timeoutId);  // ✅ NUEVO: limpia timeout también en error
+        clearTimeout(timeoutId);
 
         console.error("❌ Error iniciando pago:", err);
+        
+        // Track payment error
+        if (typeof window.trackPaymentError === 'function') {
+          window.trackPaymentError(
+            err.name === 'AbortError' ? 'timeout' : 'request_failed',
+            err.message
+          );
+        }
 
-        // ✅ NUEVO: mensaje específico si fue timeout
         let errorMsg = "No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.";
         if (err.name === 'AbortError') {
           errorMsg = "El servidor tardó demasiado en responder. Por favor, verifica tu conexión a internet e inténtalo de nuevo.";
@@ -4147,7 +4158,7 @@ const form = root.querySelector("#lirya-form");
         const step6 = root.querySelector('.step[data-step="6"]') || null;
         if (step6) {
           safeClearErrors(step6);
-          safeShowStepError(step6, errorMsg);  // ✅ NUEVO: usa el mensaje dinámico
+          safeShowStepError(step6, errorMsg);
         }
 
         submitBtn.disabled = false;
@@ -4177,11 +4188,6 @@ const form = root.querySelector("#lirya-form");
 
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
-     (Landing ligera: SOLO IMAGEN + link a reacción completa)
-     ✅ Sin <video> en el carrusel
-     ✅ Con flechas (accesibilidad/UX)
-     ✅ Sin overlays raros del theme
-     ✅ Mejor CLS: width/height en img
 ================================ -->
 
 <style>
@@ -4200,7 +4206,7 @@ const form = root.querySelector("#lirya-form");
   font-family:"Playfair Display", serif;
   font-size:38px;
   font-weight:600;
-  color:#d4b483;
+  color:var(--gold);
   margin-bottom:18px;
   line-height:1.2;
 }
@@ -4233,14 +4239,13 @@ const form = root.querySelector("#lirya-form");
   font-style:italic;
 }
 
-/* ===== WRAPPER (fade + botones) ===== */
+/* ===== WRAPPER ===== */
 .lirya-reactions-wrap{
   position:relative;
   max-width:1100px;
   margin:0 auto;
 }
 
-/* Fades laterales para indicar scroll */
 .lirya-reactions-wrap::before,
 .lirya-reactions-wrap::after{
   content:"";
@@ -4266,7 +4271,7 @@ const form = root.querySelector("#lirya-form");
   gap:24px;
   overflow-x:auto;
   scroll-snap-type:x mandatory;
-  padding:10px 56px; /* espacio para botones */
+  padding:10px 56px;
   -webkit-overflow-scrolling:touch;
   scroll-behavior:smooth;
 }
@@ -4303,7 +4308,7 @@ const form = root.querySelector("#lirya-form");
   border-radius:26px;
 }
 
-/* ===== MEDIA (ALTA, NO CUADRADA) ===== */
+/* ===== MEDIA ===== */
 .reaction-media{
   position:relative;
   height:360px;
@@ -4316,7 +4321,6 @@ const form = root.querySelector("#lirya-form");
   z-index:1;
 }
 
-/* Imagen */
 .reaction-media img{
   width:100%;
   height:100%;
@@ -4324,7 +4328,7 @@ const form = root.querySelector("#lirya-form");
   object-fit:cover;
   object-position:center;
 }
-  /* ===== PLAY ICON centrado (decorativo, no accionable) ===== */
+
 .play-badge{
   position:absolute;
   left:50%;
@@ -4334,11 +4338,10 @@ const form = root.querySelector("#lirya-form");
   height:64px;
   border-radius:999px;
 
-  /* elegante, sin “botón raro” */
   background:rgba(0,0,0,0.18);
   backdrop-filter: blur(2px);
 
-  pointer-events:none;     /* ✅ IMPORTANTÍSIMO: no intercepta clicks */
+  pointer-events:none;
   z-index:2;
 
   display:flex;
@@ -4346,7 +4349,6 @@ const form = root.querySelector("#lirya-form");
   justify-content:center;
 }
 
-/* Triángulo play blanco, fino y elegante */
 .play-badge::before{
   content:"";
   display:block;
@@ -4357,11 +4359,10 @@ const form = root.querySelector("#lirya-form");
   border-top:10px solid transparent;
   border-bottom:10px solid transparent;
 
-  margin-left:3px; /* centra ópticamente */
+  margin-left:3px;
   filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
 }
 
-/* Un pelín más grande en móvil (se ve mejor) */
 @media (max-width:768px){
   .play-badge{
     width:74px;
@@ -4374,7 +4375,6 @@ const form = root.querySelector("#lirya-form");
   }
 }
 
-/* Degradado controlado (YA NO se rompe) */
 .lirya-reactions .reaction-media::after{
   content:"";
   position:absolute;
@@ -4383,7 +4383,6 @@ const form = root.querySelector("#lirya-form");
   pointer-events:none;
 }
 
-/* Etiqueta discreta */
 .tap-pill{
   position:absolute;
   left:14px;
@@ -4397,7 +4396,7 @@ const form = root.querySelector("#lirya-form");
   font-family:"Playfair Display", serif;
   letter-spacing:.1px;
   backdrop-filter: blur(3px);
-  pointer-events:none; /* ✅ no intercepta click */
+  pointer-events:none;
   display:flex;
   align-items:center;
   gap:8px;
@@ -4464,7 +4463,6 @@ const form = root.querySelector("#lirya-form");
   }
 }
 
-/* Hint */
 .carousel-hint{
   margin-top:10px;
   font-size:12.5px;
@@ -4505,7 +4503,6 @@ const form = root.querySelector("#lirya-form");
 
 /* ===== MÓVIL ===== */
 @media (max-width:768px){
-
   .lirya-reactions-title{
     font-size:32px;
   }
@@ -4523,12 +4520,10 @@ const form = root.querySelector("#lirya-form");
     display:none;
   }
 
-  /* Quitamos espacio reservado a flechas */
   .lirya-reactions-carousel{
     padding:10px 18px;
   }
 
-  /* Fade lateral más sutil */
   .lirya-reactions-wrap::before,
   .lirya-reactions-wrap::after{
     width:34px;
@@ -4539,14 +4534,6 @@ const form = root.querySelector("#lirya-form");
 @media (prefers-reduced-motion: reduce){
   .reaction-card{ transition:none !important; }
   .lirya-reactions-carousel{ scroll-behavior:auto; }
-}
-
-/* H1 style para versión mobile */
-.h1-style {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.55rem;
-  line-height: 1.12;
-  margin-bottom: 18px;
 }
 </style>
 
@@ -4561,7 +4548,7 @@ const form = root.querySelector("#lirya-form");
       Reacciones reales de personas escuchando por primera vez una canción creada con su historia.
     </p>
 
-    <div class="lirya-rating" aria-label="Valoración de clientes">
+    <div class="lirya-rating" role="img" aria-label="Valoración 5 de 5 estrellas basada en 800+ experiencias reales">
       <div class="rating-stars" aria-hidden="true">★★★★★</div>
       <span class="rating-note">
         Basado en 800+ experiencias reales de clientes (sin actores, sin guion).
@@ -4569,10 +4556,8 @@ const form = root.querySelector("#lirya-form");
     </div>
   </div>
 
-  <!-- ===== CARRUSEL WRAPPER (para fade y botones) ===== -->
   <div class="lirya-reactions-wrap">
 
-    <!-- Botón anterior -->
     <button
       class="carousel-nav carousel-prev"
       type="button"
@@ -4582,7 +4567,6 @@ const form = root.querySelector("#lirya-form");
       ‹
     </button>
 
-    <!-- ===== CARRUSEL ===== -->
     <div
   class="lirya-reactions-carousel"
   role="region"
@@ -4608,7 +4592,7 @@ const form = root.querySelector("#lirya-form");
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">“No sabía que una canción podía decir tanto.”</p>
+          <p class="reaction-text">"No sabía que una canción podía decir tanto."</p>
           <div class="reaction-name">✔ Yolanda J.</div>
         </div>
       </a>
@@ -4631,7 +4615,7 @@ const form = root.querySelector("#lirya-form");
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">“Se nos puso la piel de gallina desde el primer segundo.”</p>
+          <p class="reaction-text">"Se nos puso la piel de gallina desde el primer segundo."</p>
           <div class="reaction-name">✔ Laura M.</div>
         </div>
       </a>
@@ -4654,7 +4638,7 @@ const form = root.querySelector("#lirya-form");
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">“Fue el regalo más bonito que he hecho nunca.”</p>
+          <p class="reaction-text">"Fue el regalo más bonito que he hecho nunca."</p>
           <div class="reaction-name">✔ Andrea R.</div>
         </div>
       </a>
@@ -4677,7 +4661,7 @@ const form = root.querySelector("#lirya-form");
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">“Lloramos al escucharla por primera vez.”</p>
+          <p class="reaction-text">"Lloramos al escucharla por primera vez."</p>
           <div class="reaction-name">✔ Carlos M.</div>
         </div>
       </a>
@@ -4700,7 +4684,7 @@ const form = root.querySelector("#lirya-form");
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">“No esperábamos algo tan personal y tan bonito.”</p>
+          <p class="reaction-text">"No esperábamos algo tan personal y tan bonito."</p>
           <div class="reaction-name">✔ Juan M.</div>
         </div>
       </a>
@@ -4723,7 +4707,7 @@ const form = root.querySelector("#lirya-form");
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">“Escucharla fue como revivir nuestra historia.”</p>
+          <p class="reaction-text">"Escucharla fue como revivir nuestra historia."</p>
           <div class="reaction-name">✔ Teresa S.</div>
         </div>
       </a>
@@ -4746,7 +4730,7 @@ const form = root.querySelector("#lirya-form");
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">“Nos encantó, fue muy especial.”</p>
+          <p class="reaction-text">"Nos encantó, fue muy especial."</p>
           <div class="reaction-name">✔ Sara M.</div>
         </div>
       </a>
@@ -4769,14 +4753,13 @@ const form = root.querySelector("#lirya-form");
         </div>
         <div class="reaction-content">
           <div class="stars" aria-hidden="true">★★★★★</div>
-          <p class="reaction-text">“Consiguió decir justo lo que yo no sabía expresar.”</p>
+          <p class="reaction-text">"Consiguió decir justo lo que yo no sabía expresar."</p>
           <div class="reaction-name">✔ María T.</div>
         </div>
       </a>
 
     </div>
 
-    <!-- Botón siguiente -->
     <button
       class="carousel-nav carousel-next"
       type="button"
@@ -4786,19 +4769,17 @@ const form = root.querySelector("#lirya-form");
       ›
     </button>
 
-    <!-- Hint móvil/descubribilidad -->
     <div class="carousel-hint" aria-hidden="true">
       Desliza para ver más →
     </div>
   </div>
 
-  <!-- ===== PUENTE PSICOLÓGICO + CTA ===== -->
   <div class="lirya-reactions-cta">
     <p class="cta-text">
       Tú también puedes regalar una reacción así.
     </p>
 
-    <a href="#formulario-lirya" class="cta-button" data-cta="crear-cancion" aria-label="Crear mi canción ahora">
+    <a href="#formulario-lirya" class="cta-button" aria-label="Crear mi canción ahora">
       Crear mi canción ahora
     </a>
 
@@ -4811,7 +4792,6 @@ const form = root.querySelector("#lirya-form");
 
 <script>
 (() => {
-  // ✅ NUEVO: Evita inicializar múltiples veces
   if (window.__lirya_reactions_init) return;
   window.__lirya_reactions_init = true;
 
@@ -4845,7 +4825,6 @@ const form = root.querySelector("#lirya-form");
     if (e.key === 'ArrowRight'){ e.preventDefault(); scrollByStep(1); }
   });
 
-  // ViewContent al click en una reacción
   section.addEventListener('click', (e) => {
     const a = (e.target && e.target.closest)
       ? e.target.closest('a.reaction-card[href]')
@@ -4856,7 +4835,6 @@ const form = root.querySelector("#lirya-form");
     let href = (a.getAttribute('href') || '').trim();
     if (!href || href.startsWith('#formulario-lirya')) return;
 
-    // normaliza href para dedupe (evita duplicar por querys)
     try {
       const u = new URL(href, window.location.href);
       href = u.pathname;
@@ -4882,7 +4860,7 @@ const form = root.querySelector("#lirya-form");
 })();
 </script>
 
- <!-- ===== GARANTÍA + MINI FAQ (CARDS + CARRUSEL MÓVIL) ===== -->
+ <!-- ===== GARANTÍA + MINI FAQ ===== -->
 <style>
 .lirya-guarantee{
   position:relative;
@@ -4892,7 +4870,6 @@ const form = root.querySelector("#lirya-form");
   overflow:hidden;
 }
 
-/* Capa oscura */
 .lirya-guarantee::before{
   content:"";
   position:absolute;
@@ -4911,7 +4888,7 @@ const form = root.querySelector("#lirya-form");
   font-family:"Playfair Display", serif;
   font-size:34px;
   font-weight:800;
-  color:#c7b58a;
+  color:var(--gold);
   margin:0 0 10px;
 }
 .lirya-guarantee-sub{
@@ -4926,7 +4903,7 @@ const form = root.querySelector("#lirya-form");
 .lirya-guarantee-divider{
   width:72px;
   height:2px;
-  background:linear-gradient(to right, transparent, #c7b58a, transparent);
+  background:linear-gradient(to right, transparent, var(--gold), transparent);
   margin:18px auto 28px;
 }
 
@@ -4977,7 +4954,7 @@ const form = root.querySelector("#lirya-form");
   font-family:"Playfair Display", serif;
   font-weight:800;
   font-size:18px;
-  color:#c7b58a;
+  color:var(--gold);
 }
 
 .lirya-guarantee-card p{
@@ -4998,7 +4975,7 @@ const form = root.querySelector("#lirya-form");
 .lirya-guarantee-faq-title{
   font-family:"Playfair Display", serif;
   font-size:22px;
-  color:#c7b58a;
+  color:var(--gold);
   margin:0 0 14px;
   text-align:center;
 }
@@ -5027,7 +5004,7 @@ const form = root.querySelector("#lirya-form");
 .lirya-faq-item summary::after{
   content:"+";
   float:right;
-  color:#c7b58a;
+  color:var(--gold);
   font-size:18px;
 }
 
@@ -5072,19 +5049,10 @@ const form = root.querySelector("#lirya-form");
   }
 }
 
-/* Hero note secondary — ocultar en móvil */
 @media (max-width:900px){
   .hero-note--secondary{
     display:none;
   }
-}
-
-/* H1 style para versión mobile */
-.h1-style {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.55rem;
-  line-height: 1.12;
-  margin-bottom: 18px;
 }
 </style>
 
@@ -5095,7 +5063,7 @@ const form = root.querySelector("#lirya-form");
     Revisión incluida según la tarifa. No entregamos la canción hasta que represente vuestra historia.
   </p>
 
-  <div class="lirya-guarantee-divider"></div>
+  <div class="lirya-guarantee-divider" aria-hidden="true"></div>
 
   <div class="lirya-guarantee-cards">
     <article class="lirya-guarantee-card">
@@ -5112,12 +5080,11 @@ const form = root.querySelector("#lirya-form");
 
     <article class="lirya-guarantee-card">
       <div class="lirya-guarantee-kicker">Que emocione de verdad</div>
-      <h3>No buscamos “que suene bonita”</h3>
+      <h3>No buscamos "que suene bonita"</h3>
       <p>Buscamos que la canción se sienta personal y auténtica.</p>
     </article>
   </div>
 
-  <!-- MINI FAQ -->
   <div class="lirya-guarantee-faq">
     <h3 class="lirya-guarantee-faq-title">Dudas rápidas antes de crear la tuya</h3>
 
@@ -5162,7 +5129,7 @@ const form = root.querySelector("#lirya-form");
   </a>
 </section>
 
-<!-- ===== CIERRE FINAL / CONTACTO (MEJORADO + LEGAL) ===== -->
+<!-- ===== CIERRE FINAL / CONTACTO ===== -->
 <style>
 .lirya-final-section{
   background:#fcfaf7;
@@ -5176,7 +5143,7 @@ const form = root.querySelector("#lirya-form");
   font-family:"Playfair Display", serif;
   font-size:38px;
   font-weight:600;
-  color:#c7b58a;
+  color:var(--gold);
   margin:0 0 14px;
 }
 
@@ -5189,7 +5156,6 @@ const form = root.querySelector("#lirya-form");
   max-width:820px;
 }
 
-/* Pills de confianza */
 .lirya-final-trust{
   display:flex;
   gap:10px;
@@ -5210,7 +5176,6 @@ const form = root.querySelector("#lirya-form");
   color:rgba(26,26,26,0.72);
 }
 
-/* CTA final */
 .lirya-final-cta{
   display:flex;
   gap:12px;
@@ -5237,11 +5202,10 @@ const form = root.querySelector("#lirya-form");
 }
 .lirya-final-btn-ghost{
   background:#fff;
-  color:#c7b58a;
+  color:var(--gold);
   border:1px solid rgba(199,181,138,0.45);
 }
 
-/* Caja contacto */
 .lirya-contact-box{
   max-width:560px;
   margin:0 auto 36px;
@@ -5256,7 +5220,7 @@ const form = root.querySelector("#lirya-form");
   font-family:"Playfair Display", serif;
   font-size:26px;
   font-weight:600;
-  color:#c7b58a;
+  color:var(--gold);
   margin:0 0 12px;
 }
 
@@ -5276,7 +5240,7 @@ const form = root.querySelector("#lirya-form");
 .lirya-contact-whatsapp{
   font-size:16px;
   font-weight:600;
-  color:#c7b58a;
+  color:var(--gold);
   text-decoration:none;
 }
 
@@ -5298,7 +5262,6 @@ const form = root.querySelector("#lirya-form");
   font-style:italic;
 }
 
-/* Legal */
 .lirya-footer-legal{
   font-size:13px;
   color:rgba(26,26,26,0.45);
@@ -5335,14 +5298,6 @@ const form = root.querySelector("#lirya-form");
   outline-offset:3px;
   border-radius:6px;
 }
-
-/* H1 style para versión mobile */
-.h1-style {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.55rem;
-  line-height: 1.12;
-  margin-bottom: 18px;
-}
 </style>
 
 <section class="lirya-final-section" aria-labelledby="lirya-final-title">
@@ -5352,10 +5307,10 @@ const form = root.querySelector("#lirya-form");
     Entrega rápida · Revisiones incluidas · Acompañamiento real
   </p>
 
-  <div class="lirya-final-trust" aria-label="Ventajas principales">
-    <div class="lirya-final-pill">✅ Revisiones según tarifa</div>
-    <div class="lirya-final-pill">🔒 Pago seguro</div>
-    <div class="lirya-final-pill">🎧 Listo para regalar</div>
+  <div class="lirya-final-trust" role="list" aria-label="Ventajas principales">
+    <div class="lirya-final-pill" role="listitem">✅ Revisiones según tarifa</div>
+    <div class="lirya-final-pill" role="listitem">🔒 Pago seguro</div>
+    <div class="lirya-final-pill" role="listitem">🎧 Listo para regalar</div>
   </div>
 
   <div class="lirya-final-cta">
@@ -5372,11 +5327,11 @@ const form = root.querySelector("#lirya-form");
     <p>Escríbenos y te ayudamos a elegir la mejor opción para tu caso.</p>
 
     <div class="lirya-contact-methods">
-      <a href="/cdn-cgi/l/email-protection#0e6f777b6a6f4e62677c776f207d7a7b6a6761" class="lirya-contact-email">
-        ✉️ <span class="__cf_email__" data-cfemail="7b1a020e1f1a3b171209021a55080f0e1f1214">[email&#160;protected]</span>
+      <a href="mailto:hola@lirya.studio" class="lirya-contact-email">
+        ✉️ hola@lirya.studio
       </a>
 
-      <a
+      
         href="https://wa.me/34613745470?text=Hola%2C%20tengo%20una%20duda%20sobre%20mi%20canci%C3%B3n"
         target="_blank"
         rel="noopener noreferrer"
@@ -5397,9 +5352,9 @@ const form = root.querySelector("#lirya-form");
   <a class="lirya-legal-link" href="/privacidad.html" target="_blank" rel="noopener">Privacidad</a> ·
   <a class="lirya-legal-link" href="/cookies.html" target="_blank" rel="noopener">Cookies</a>
 </div>
-  </div>
 </section>
+
   <!-- Enhanced Tracking & Engagement -->
   <script src="/lirya-enhanced-tracking.js" defer></script>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</body>
 </html>
