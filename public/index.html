@@ -1162,11 +1162,23 @@
     document.getElementById('counter-cta-mobile')
   ].filter(Boolean);
 
-  if (counters.length > 0) {
-    counters.forEach(counter => {
-      animateCounter(counter, 800, 2000);
+  if (counters.length === 0) return;
+
+  // Usar Intersection Observer para animar cuando sea visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.__animated) {
+        entry.target.__animated = true;
+        animateCounter(entry.target, 800, 2000);
+      }
     });
-  }
+  }, {
+    threshold: 0.5  // Se activa cuando el 50% del elemento es visible
+  });
+
+  counters.forEach(counter => {
+    observer.observe(counter);
+  });
 })();
 
 /* ===== AUDIO + URGENCY ===== */
