@@ -126,6 +126,7 @@
       --orange:#ff8a2a;
       --orange-hover:#f07818;
       --focus:#1a1a1a;
+      --san-valentin:#ff69b4;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
@@ -419,6 +420,15 @@
       -webkit-user-drag:none;
     }
 
+    /* DALE AL PLAY */
+    .hero-play-hint{
+      font-style:italic;
+      color:rgba(255,255,255,.75);
+      font-size:.95rem;
+      margin-bottom:8px;
+      display:block;
+    }
+
     /* BOTON OVERLAY */
     .play-overlay{
       position:absolute;
@@ -540,37 +550,21 @@
 }
 
 .hero-title-sv{
-  font-size: 1.22em;
+  font-size: 1.75em;
   display:inline-block;
   line-height: 1;
-  color:#ffd27a;
+  color:var(--san-valentin);
   text-shadow:
-    0 0 10px rgba(255,210,122,.45),
-    0 0 22px rgba(255,210,122,.35);
-}
-.hero-title-song{
-  font-size: 1.6em;
-  font-weight: 800;
-  color:#ffd27a;
-  display:inline-block;
-  line-height:1;
-  text-shadow:
-    0 0 12px rgba(255,210,122,.55),
-    0 0 26px rgba(255,210,122,.4);
+    0 0 12px rgba(255,105,180,.55),
+    0 0 26px rgba(255,105,180,.4);
 }
 
   @media (max-width:900px){
   .hero-title-sv{
-    font-size: 1.26em;
+    font-size: 1.75em;
     text-shadow:
-      0 0 9px rgba(255,210,122,.42),
-      0 0 20px rgba(255,210,122,.32);
-  }
-      .hero-title-song{
-    font-size: 1.60em;
-    text-shadow:
-      0 0 10px rgba(255,210,122,.5),
-      0 0 22px rgba(255,210,122,.38);
+      0 0 10px rgba(255,105,180,.5),
+      0 0 22px rgba(255,105,180,.38);
   }
 }
 
@@ -610,6 +604,13 @@
       .hero-mobile-benefits li{
         font-size:.92rem;
         line-height:1.2;
+      }
+    }
+
+    /* TITULO MOBILE 4 LINEAS */
+    @media (max-width:900px){
+      .hero-mobile .h2-like-h1{
+        font-size:2.2rem;
       }
     }
 
@@ -761,7 +762,7 @@
   gap:6px;
   padding:0 12px;
 
-  background:rgba(0,0,0,.82);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-bottom:1px solid rgba(255,255,255,.08);
 
   font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -924,7 +925,7 @@
   <span class="top-strip__dot top-strip--desktop" aria-hidden="true"></span>
   <span class="top-strip__item top-strip--desktop top-strip__highlight">Regalo único</span>
   <span class="top-strip__sep top-strip--desktop">·</span>
-  <span class="top-strip__item top-strip--desktop">800+ canciones entregadas</span>
+  <span class="top-strip__item top-strip--desktop"><span id="counter-desktop">800</span>+ canciones entregadas</span>
   <span class="top-strip__sep top-strip--desktop">·</span>
   <span class="top-strip__item top-strip--desktop">Pago seguro</span>
   <span class="top-strip__sep top-strip--desktop">·</span>
@@ -935,7 +936,7 @@
   <span class="top-strip__item top-strip--mobile">Regalo único</span>
   <span class="top-strip__sep top-strip--mobile">·</span>
   <span class="top-strip__dot top-strip--mobile" aria-hidden="true"></span>
-  <span class="top-strip__item top-strip--mobile top-strip__highlight">800+ canciones entregadas</span>
+  <span class="top-strip__item top-strip--mobile top-strip__highlight"><span id="counter-mobile">800</span>+ canciones entregadas</span>
   <span class="top-strip__sep top-strip--mobile">·</span>
   <span class="top-strip__item top-strip--mobile">Pago seguro</span>
 </div>
@@ -954,15 +955,15 @@
 
     <div class="urgency-content">
       <div class="urgency-title">Alta demanda antes de San Valentín</div>
-      <div class="urgency-sub">Producción limitada para garantizar la entrega.</div>
+      <div class="urgency-sub">Para garantizar la entrega antes del 14 limitamos pedidos diarios para garantizar calidad.</div>
 
       <div class="urgency-check">
         <span aria-hidden="true">✔</span>
-        <span><b>Pedidos realizados ahora</b> llegan antes del 14 de febrero. Tiempo restante hoy: <span class="urgency-timer">--:--:--</span></span>
+        <span>Los pedidos de hoy aún llegan a tiempo en todas las tarifas</span>
       </div>
 
       <div class="urgency-actions">
-        <a class="urgency-cta" href="#formulario-lirya" id="urgency-cta">Crear mi canción</a>
+        <a class="urgency-cta" href="#formulario-lirya" id="urgency-cta">Crear mi canción ahora</a>
       </div>
     </div>
 
@@ -1001,17 +1002,16 @@
     <div class="hero-desktop">
       <div class="hero-text">
     <h1>
-  Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
-  lista para regalar en <span class="hero-title-sv">San Valentín</span>
+  <span class="hero-title-rest">El único regalo que hará llorar a tu pareja este</span> <span class="hero-title-sv">SAN VALENTÍN</span>
 </h1>
 
 <p class="hero-subline hero-subline--emphasis">
-  Escrita con vuestra historia, para emocionarle de verdad.
+  Letra escrita desde cero con vuestra historia. Nada genérico. Nada automático.
 </p>
 
         <a href="#formulario-lirya" class="hero-btn hero-btn--stack">
-  <span class="hero-btn__main">Crear mi canción personalizada</span>
-  <span class="hero-btn__sub"><span class="hero-btn__star" aria-hidden="true">⭐</span> 800+ personas ya lo hicieron</span>
+  <span class="hero-btn__main">Crear mi canción para San Valentín</span>
+  <span class="hero-btn__sub"><span class="hero-btn__star" aria-hidden="true">⭐</span> <span id="counter-cta">800</span>+ personas ya lo hicieron</span>
 </a>
 
         <span class="hero-note">Empieza ahora · Tardarás menos de 3 minutos</span>
@@ -1047,13 +1047,17 @@
     <!-- MOBILE -->
     <div class="hero-mobile">
     <h2 class="h2-like-h1">
-  Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
-  para regalar en <span class="hero-title-sv">San Valentín</span>
+  El único regalo<br>
+  que hará llorar<br>
+  a tu pareja este<br>
+  <span class="hero-title-sv">SAN VALENTÍN</span>
 </h2>
 
 <p class="hero-subline hero-subline--emphasis">
-  Escrita con vuestra historia, para emocionarle de verdad.
+  Letra escrita desde cero con vuestra historia. Nada genérico. Nada automático.
 </p>
+
+      <span class="hero-play-hint">Dale al play</span>
 
       <div class="hero-phone-wrap hero-phone-wrap--mobile">
         <img
@@ -1085,8 +1089,8 @@
       </ul>
 
       <a href="#formulario-lirya" class="hero-btn hero-btn--stack">
-  <span class="hero-btn__main">Crear mi canción personalizada</span>
-  <span class="hero-btn__sub"><span class="hero-btn__star" aria-hidden="true">★</span> 800+ personas ya lo hicieron</span>
+  <span class="hero-btn__main">Crear mi canción para San Valentín</span>
+  <span class="hero-btn__sub"><span class="hero-btn__star" aria-hidden="true">★</span> <span id="counter-cta-mobile">800</span>+ personas ya lo hicieron</span>
 </a>
 
       <span class="hero-note">Empieza ahora · Menos de 3 minutos</span>
@@ -1096,6 +1100,48 @@
 </section>
 
 <script>
+/* ===== CONTADOR ANIMADO 0 a 800 ===== */
+(function() {
+  if (window.__lirya_counter_animated) return;
+  window.__lirya_counter_animated = true;
+
+  function animateCounter(element, target, duration) {
+    let start = 0;
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const current = Math.floor(start + (target - start) * easeOutQuart);
+      
+      element.textContent = current;
+      
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = target;
+      }
+    }
+    
+    requestAnimationFrame(update);
+  }
+
+  const counters = [
+    document.getElementById('counter-desktop'),
+    document.getElementById('counter-mobile'),
+    document.getElementById('counter-cta'),
+    document.getElementById('counter-cta-mobile')
+  ].filter(Boolean);
+
+  if (counters.length > 0) {
+    counters.forEach(counter => {
+      animateCounter(counter, 800, 2000);
+    });
+  }
+})();
+
 /* ===== AUDIO + URGENCY ===== */
 (function () {
   if (window.__lirya_hero_audio_init) return;
@@ -1485,7 +1531,9 @@ once("lirya_pageview_home", () => {
   }, true);
 })();
 </script>
-  
+
+</body>
+</html>
 <!-- =================================
    POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
    (MISMOS ESTILOS QUE "CÓMO FUNCIONA" + TODAS IGUALES)
