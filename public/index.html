@@ -5047,7 +5047,7 @@ const form = root.querySelector("#lirya-form");
 })();
 </script>
   
- <!-- ===== GARANTÍA + MINI FAQ ===== -->
+<!-- ===== GARANTÍA + MINI FAQ ===== -->
 <style>
 .lirya-guarantee{
   position:relative;
@@ -5097,9 +5097,9 @@ const form = root.querySelector("#lirya-form");
 /* ===== CARDS ===== */
 .lirya-guarantee-cards{
   display:grid;
-  grid-template-columns:repeat(3, minmax(0, 1fr));
+  grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:18px;
-  max-width:1100px;
+  max-width:800px;
   margin:0 auto 22px;
 }
 
@@ -5128,7 +5128,7 @@ const form = root.querySelector("#lirya-form");
   font-family:"Playfair Display", serif;
   font-weight:700;
   font-size:13px;
-  color:rgba(255,255,255,0.9);
+  color:#fff;
   background:rgba(255,255,255,0.10);
   border:1px solid rgba(255,255,255,0.14);
   padding:8px 10px;
@@ -5226,13 +5226,11 @@ const form = root.querySelector("#lirya-form");
   .lirya-guarantee{ padding:75px 18px; }
   .lirya-guarantee-cards{
     display:flex;
-    overflow-x:auto;
+    flex-direction:column;
     gap:16px;
-    scroll-snap-type:x mandatory;
   }
   .lirya-guarantee-card{
-    min-width:78%;
-    scroll-snap-align:center;
+    width:100%;
   }
 }
 
@@ -5255,19 +5253,13 @@ const form = root.querySelector("#lirya-form");
   <div class="lirya-guarantee-cards">
     <article class="lirya-guarantee-card">
       <div class="lirya-guarantee-kicker">Revisión incluida</div>
-      <h3>Ajustamos lo que haga falta</h3>
-      <p>Si al recibirla quieres cambiar una frase, el tono o un matiz, la revisamos contigo.</p>
-    </article>
-
-    <article class="lirya-guarantee-card">
-      <div class="lirya-guarantee-kicker">Según tu tarifa</div>
-      <h3>Revisiones según la opción</h3>
-      <p>Las revisiones están incluidas según la opción que elijas.</p>
+      <h3>Ajustamos contigo</h3>
+      <p>Cambiamos letra, tono, o matices hasta que represente vuestra historia.</p>
     </article>
 
     <article class="lirya-guarantee-card">
       <div class="lirya-guarantee-kicker">Que emocione de verdad</div>
-      <h3>No buscamos "que suene bonita"</h3>
+      <h3>No buscamos que suene bonito</h3>
       <p>Buscamos que la canción se sienta personal y auténtica.</p>
     </article>
   </div>
@@ -5485,6 +5477,102 @@ const form = root.querySelector("#lirya-form");
   outline-offset:3px;
   border-radius:6px;
 }
+
+/* ===== POPUP WHATSAPP ===== */
+.lirya-whatsapp-popup{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  z-index:9999;
+  width:min(360px, calc(100vw - 48px));
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 18px 60px rgba(0,0,0,0.25);
+  padding:20px;
+  
+  visibility:hidden;
+  pointer-events:none;
+  transform:translateY(14px);
+  opacity:0;
+  transition:transform .3s ease, opacity .3s ease, visibility 0s linear .3s;
+}
+
+.lirya-whatsapp-popup.is-visible{
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateY(0);
+  opacity:1;
+  transition:transform .3s ease, opacity .3s ease, visibility 0s;
+}
+
+.lirya-whatsapp-popup-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(26,26,26,0.5);
+  transition:background .2s ease, color .2s ease;
+}
+
+.lirya-whatsapp-popup-close:hover{
+  background:rgba(0,0,0,0.05);
+  color:rgba(26,26,26,0.75);
+}
+
+.lirya-whatsapp-popup h4{
+  font-family:"Playfair Display", serif;
+  font-size:20px;
+  font-weight:700;
+  color:var(--gold);
+  margin:0 0 8px;
+  padding-right:24px;
+}
+
+.lirya-whatsapp-popup p{
+  font-size:14.5px;
+  color:rgba(26,26,26,0.75);
+  margin:0 0 16px;
+  line-height:1.5;
+}
+
+.lirya-whatsapp-popup-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  padding:14px 20px;
+  border-radius:999px;
+  background:linear-gradient(135deg, #25D366, #128C7E);
+  color:#fff;
+  font-family:"Playfair Display", serif;
+  font-weight:600;
+  font-size:15px;
+  text-decoration:none;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.lirya-whatsapp-popup-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(37,211,102,0.35);
+}
+
+@media (max-width:768px){
+  .lirya-whatsapp-popup{
+    bottom:16px;
+    right:16px;
+    left:16px;
+    width:auto;
+  }
+}
 </style>
 
 <section class="lirya-final-section" aria-labelledby="lirya-final-title">
@@ -5540,6 +5628,74 @@ const form = root.querySelector("#lirya-form");
   <a class="lirya-legal-link" href="/cookies.html" target="_blank" rel="noopener">Cookies</a>
 </div>
 </section>
+
+<!-- ===== POPUP WHATSAPP ===== -->
+<aside class="lirya-whatsapp-popup" id="lirya-whatsapp-popup" aria-live="polite" aria-label="Mensaje de ayuda por WhatsApp">
+  <button class="lirya-whatsapp-popup-close" type="button" id="lirya-whatsapp-close" aria-label="Cerrar mensaje">
+    ✕
+  </button>
+  
+  <h4>¿Tienes alguna duda?</h4>
+  <p>Te ayudamos a elegir la mejor opción para tu canción personalizada. Respuesta rápida por WhatsApp.</p>
+  
+  <a
+    href="https://wa.me/34613745470?text=Hola%2C%20tengo%20una%20duda%20sobre%20mi%20canci%C3%B3n"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="lirya-whatsapp-popup-btn"
+  >
+    💬 Abrir WhatsApp
+  </a>
+</aside>
+
+<script>
+/* ===== POPUP WHATSAPP (1 minuto, una vez por carga) ===== */
+(function () {
+  if (window.__lirya_whatsapp_popup_init) return;
+  window.__lirya_whatsapp_popup_init = true;
+
+  const popup = document.getElementById("lirya-whatsapp-popup");
+  const closeBtn = document.getElementById("lirya-whatsapp-close");
+  
+  if (!popup || !closeBtn) return;
+
+  let shown = false;
+  let closed = false;
+
+  function showPopup() {
+    if (shown || closed) return;
+    shown = true;
+    popup.classList.add("is-visible");
+  }
+
+  function hidePopup() {
+    closed = true;
+    popup.classList.remove("is-visible");
+  }
+
+  // Mostrar después de 1 minuto (60000ms)
+  setTimeout(() => {
+    if (!closed) showPopup();
+  }, 60000);
+
+  // Cerrar al hacer clic en X
+  closeBtn.addEventListener("click", hidePopup);
+
+  // Cerrar al hacer clic fuera del popup
+  document.addEventListener("click", (e) => {
+    if (popup.classList.contains("is-visible") && !popup.contains(e.target)) {
+      hidePopup();
+    }
+  });
+
+  // Cerrar con tecla Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && popup.classList.contains("is-visible")) {
+      hidePopup();
+    }
+  });
+})();
+</script>
 
   <!-- Enhanced Tracking & Engagement -->
   <script src="/lirya-enhanced-tracking.js" defer></script>
