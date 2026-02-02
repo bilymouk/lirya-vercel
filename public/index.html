@@ -122,6 +122,7 @@
   <style>
     :root{
       --gold:#b89968;
+      --gold-dark:#9a7d4f;
       --orange:#ff8a2a;
       --orange-hover:#f07818;
       --focus:#1a1a1a;
@@ -237,7 +238,7 @@
     }
 .hero-text h1{
   font-family:'Playfair Display',serif;
-  font-size:3.15rem; /* ⬇️ más pequeño */
+  font-size:3.15rem;
   line-height:1.12;
   margin-bottom:16px;
 }
@@ -257,7 +258,7 @@
     }
 @media (min-width:901px){
   .hero-desktop .hero-subline--emphasis{
-    font-size: 1.75rem; /* ⬇️ más pequeña, jerarquía correcta */
+    font-size: 1.75rem;
     line-height: 1.25;
     white-space: normal;
     max-width: 520px;
@@ -295,12 +296,11 @@
 .hero-btn.hero-btn--stack{
   flex-direction:column;
   gap:6px;
-  /* NO cambiamos el padding original del botón para no tocar layout */
   text-align:center;
 }
 
 .hero-btn__main{
-  font-weight:800;         /* más gordo */
+  font-weight:800;
   line-height:1.05;
 }
 
@@ -311,7 +311,7 @@
   gap:6px;
 
   font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size:.74rem;        /* más pequeño */
+  font-size:.74rem;
   font-weight:500;
   letter-spacing:.15px;
 
@@ -319,7 +319,7 @@
 }
 
 .hero-btn__star{
-  color:#f2c98a;     /* dorado del logo */
+  color:#f2c98a;
   text-shadow:
     0 0 6px rgba(212,180,131,.35),
     0 0 14px rgba(212,180,131,.25);
@@ -333,18 +333,15 @@
       font-style:italic;
       opacity:.86;
     }
-/* Desktop: notas pegadas debajo de "Empieza ahora..." */
 .hero-note--stack{
-  margin-top:0;      /* sin margen entre líneas */
-  opacity:.78;       /* mismo feeling que secondary */
+  margin-top:0;
+  opacity:.78;
   font-style:italic;
 }
 
-/* Móvil: no mostrar estas 2 líneas (ya están en hero-mobile-benefits) */
 @media (max-width:900px){
   .hero-note--stack{ display:none; }
 }
-    /* Resaltar entrega garantizada con el mismo color que "canción" */
 .hero-note--highlight{
   color:#ffd27a;
   text-shadow:
@@ -388,9 +385,9 @@
     /* MOBILE */
     .hero-mobile{ display:none; text-align:center; }
 
-  .hero-mobile h1{
+  .hero-mobile .h2-like-h1{
   font-family:'Playfair Display',serif;
-  font-size:2.55rem; /* ⬇️ móvil más compacto */
+  font-size:2.55rem;
   line-height:1.12;
   margin-bottom:18px;
 }
@@ -529,12 +526,12 @@
       }
 
   .hero-mobile .hero-btn{
-    margin-top:18px !important; /* ⬇️ aún más compacto */
-    margin-bottom:2px;          /* ⬇️ casi pegado */
+    margin-top:18px !important;
+    margin-bottom:2px;
   }
 
   .hero-mobile-benefits{
-    margin-top:0;               /* ⬇️ elimina hueco superior */
+    margin-top:0;
   }
 
   .hero-mobile-benefits li{
@@ -542,9 +539,8 @@
   }
 }
 
-    /* ===== CAMBIO MÍNIMO SOLO PARA AGRANDAR "San Valentín" EN EL H1 ===== */
-  .hero-title-sv{
-  font-size: 1.22em; /* ⬆️ mantiene impacto */
+.hero-title-sv{
+  font-size: 1.22em;
   display:inline-block;
   line-height: 1;
   color:#ffd27a;
@@ -552,7 +548,6 @@
     0 0 10px rgba(255,210,122,.45),
     0 0 22px rgba(255,210,122,.35);
 }
-    /* ===== HERO TITLE: PALABRA "CANCIÓN" MÁS GRANDE ===== */
 .hero-title-song{
   font-size: 1.6em;
   font-weight: 800;
@@ -566,7 +561,7 @@
 
   @media (max-width:900px){
   .hero-title-sv{
-    font-size: 1.26em; /* ⬆️ mantiene jerarquía */
+    font-size: 1.26em;
     text-shadow:
       0 0 9px rgba(255,210,122,.42),
       0 0 20px rgba(255,210,122,.32);
@@ -579,13 +574,11 @@
   }
 }
 
-    /* 1) En móvil: "que no olvidará" 5% más pequeño */
     .hero-title-rest{ display:inline; }
     @media (max-width:900px){
       .hero-title-rest{ font-size: .95em; }
     }
 
-    /* 2) En móvil: subline +5% (respecto a 1.42rem) + "alguien especial" 10% más grande */
     @media (max-width:900px){
       .hero-mobile .hero-subline--emphasis{
         font-size: 1.491rem;
@@ -597,7 +590,6 @@
       }
     }
 
-    /* 4) Frase "Producción limitada..." justo encima del CTA (desktop + móvil) */
     .hero-quality{
       font-family:'Playfair Display',serif;
       font-size:1.02rem;
@@ -759,7 +751,6 @@
         border-radius:18px;
       }
     }
-/* ===== TOP STRIP (dark, 1 línea) ===== */
 .top-strip{
   position:relative;
   z-index:1100;
@@ -808,21 +799,11 @@
   .top-strip--desktop{ display:none; }
   .top-strip--mobile{ display:inline-flex; }
 }
-
-
-/* H1 style para versión mobile */
-.h1-style {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.55rem;
-  line-height: 1.12;
-  margin-bottom: 18px;
-}
   </style>
 
-    <!-- Resource hints para mejor performance -->
   <link rel="dns-prefetch" href="https://www.facebook.com">
 
-  <!-- ===== META PIXEL (NO PageView aquí: lo disparamos con eventID en el script de abajo para dedupe con CAPI) ===== -->
+  <!-- ===== META PIXEL ===== -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -840,9 +821,8 @@
     <img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=893462606511287&ev=PageView&noscript=1"/>
   </noscript>
-  <!-- ===== END META PIXEL ===== -->
 
-  <!-- FAQ Schema — rich snippets en Google -->
+  <!-- FAQ Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -900,39 +880,29 @@
   <!-- Skip Navigation -->
   <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-<!-- ===== LIRYA GLOBAL UTILITIES (evita duplicación) ===== -->
+<!-- ===== LIRYA GLOBAL UTILITIES ===== -->
 <script>
 (function() {
   if (window.LIRYA_UTILS) return;
 
-  // ✅ NUEVO: Constantes de configuración centralizadas
   window.LIRYA_CONFIG = {
-    // Tiempos (ms)
-    URGENCY_DELAY: 15000,           // 15 segundos antes de mostrar urgency card
-    URGENCY_SCROLL_THRESHOLD: 0.5,  // 50% de scroll
-    URGENCY_HIDE_DURATION: 43200000, // 12 horas (12 * 60 * 60 * 1000)
-    
-    AUDIO_FAILSAFE_TIMEOUT: 12000,  // 12 segundos timeout carga audio
-    
-    PAYMENT_TIMEOUT: 25000,         // 25 segundos timeout Stripe
-    
-    FORM_RETRY_INTERVAL: 250,       // 250ms entre reintentos de init
-    FORM_MAX_RETRIES: 30,           // máximo 30 reintentos
-    
-    ANIMATION_STAGGER_DELAY: 150,   // 150ms entre animaciones escalera
-    
-    // Carousel
-    CAROUSEL_SCROLL_STEP: 340       // píxeles por scroll en carruseles
+    URGENCY_DELAY: 15000,
+    URGENCY_SCROLL_THRESHOLD: 0.5,
+    URGENCY_HIDE_DURATION: 43200000,
+    AUDIO_FAILSAFE_TIMEOUT: 12000,
+    PAYMENT_TIMEOUT: 25000,
+    FORM_RETRY_INTERVAL: 250,
+    FORM_MAX_RETRIES: 30,
+    ANIMATION_STAGGER_DELAY: 150,
+    CAROUSEL_SCROLL_STEP: 340
   };
 
   window.LIRYA_UTILS = {
-    // Genera event_id único
     newEventId: function() {
       if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
       return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
     },
 
-    // Ejecuta función solo una vez por sesión
     onceSession: function(key, fn) {
       try {
         if (sessionStorage.getItem(key)) return;
@@ -941,7 +911,6 @@
       fn();
     },
 
-    // Sanitiza string para evitar XSS en tracking
     sanitize: function(str) {
       return String(str || "").replace(/[<>"']/g, "");
     }
@@ -952,8 +921,6 @@
   
 <!-- ===== TOP STRIP ===== -->
 <div class="top-strip" role="status" aria-live="polite">
-
-  <!-- DESKTOP -->
   <span class="top-strip__dot top-strip--desktop" aria-hidden="true"></span>
   <span class="top-strip__item top-strip--desktop top-strip__highlight">Regalo único</span>
   <span class="top-strip__sep top-strip--desktop">·</span>
@@ -965,16 +932,12 @@
   <span class="top-strip__sep top-strip--desktop">·</span>
   <span class="top-strip__item top-strip--desktop">Revisión incluida</span>
 
-  <!-- MÓVIL -->
   <span class="top-strip__item top-strip--mobile">Regalo único</span>
   <span class="top-strip__sep top-strip--mobile">·</span>
-
   <span class="top-strip__dot top-strip--mobile" aria-hidden="true"></span>
   <span class="top-strip__item top-strip--mobile top-strip__highlight">800+ canciones entregadas</span>
-
   <span class="top-strip__sep top-strip--mobile">·</span>
   <span class="top-strip__item top-strip--mobile">Pago seguro</span>
-
 </div>
 
 <header>
@@ -1028,6 +991,7 @@
   preload="none"
   data-lirya-audio-example="1"
   data-audio-placement="hero"
+  aria-label="Ejemplo de canción personalizada"
 >
   <source src="/audio/amor.mp3" type="audio/mpeg" />
 </audio>
@@ -1063,7 +1027,6 @@
           class="hero-phone"
           alt="Interfaz móvil mostrando una canción personalizada en reproducción con controles de audio"
           id="mockup-audio-trigger-desktop"
-          alt="Ejemplo de canción personalizada"
           width="420"
           height="840"
           decoding="async"
@@ -1073,7 +1036,7 @@
           class="play-overlay"
           id="mockup-audio-overlay-desktop"
           type="button"
-          aria-label="Reproducir o pausar ejemplo"
+          aria-label="Reproducir o pausar ejemplo de canción"
           aria-pressed="false"
         >
           <img src="/boton.png" alt="" aria-hidden="true" width="120" height="120">
@@ -1083,10 +1046,10 @@
 
     <!-- MOBILE -->
     <div class="hero-mobile">
-    <h1 aria-hidden="true">
+    <h2 class="h2-like-h1">
   Convierte vuestra historia en una <span class="hero-title-song">canción</span><br>
   para regalar en <span class="hero-title-sv">San Valentín</span>
-</h1>
+</h2>
 
 <p class="hero-subline hero-subline--emphasis">
   Escrita con vuestra historia, para emocionarle de verdad.
@@ -1098,7 +1061,6 @@
   class="hero-mobile-image"
   alt="Interfaz móvil mostrando una canción personalizada en reproducción"
   id="mockup-audio-trigger-mobile"
-  alt="Ejemplo de canción personalizada"
   width="360"
   height="720"
   decoding="async"
@@ -1110,7 +1072,7 @@
           class="play-overlay"
           id="mockup-audio-overlay-mobile"
           type="button"
-          aria-label="Reproducir o pausar ejemplo"
+          aria-label="Reproducir o pausar ejemplo de canción"
           aria-pressed="false"
         >
           <img src="/boton.png" alt="" aria-hidden="true" width="120" height="120">
@@ -1134,9 +1096,8 @@
 </section>
 
 <script>
-/* ===== AUDIO + URGENCY (igual que tenías) ===== */
+/* ===== AUDIO + URGENCY ===== */
 (function () {
-  // ✅ NUEVO: Evita inicializar múltiples veces
   if (window.__lirya_hero_audio_init) return;
   window.__lirya_hero_audio_init = true;
 
@@ -1161,7 +1122,7 @@ function isActuallyVisible(el){
 
 function toggleAudioFromOverlay(e){
   const btn = e?.currentTarget;
-  if (btn && !isActuallyVisible(btn)) return; // evita overlay oculto/control fantasma
+  if (btn && !isActuallyVisible(btn)) return;
 
   if (audio.paused) {
     audio.play().then(() => setOverlayState(true)).catch(() => setOverlayState(false));
@@ -1198,15 +1159,11 @@ const SESSION_KEY = "lirya_urgency_shown_session";
 const TWELVE_HOURS_MS = window.LIRYA_CONFIG.URGENCY_HIDE_DURATION;
 
 function canShowCard(){
-  // 1) si hay bloqueo por 12h en localStorage, no mostrar
   try{
     const until = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
     if (until && Date.now() <= until) return false;
-  }catch(_e){
-    // localStorage puede fallar (Safari privado). No hacemos return true aquí.
-  }
+  }catch(_e){}
 
-  // 2) fallback: si ya se mostró esta sesión, no mostrar
   try{
     if (sessionStorage.getItem(SESSION_KEY)) return false;
   }catch(_e2){}
@@ -1223,7 +1180,6 @@ function canShowCard(){
  function showCard(){
   if (!card) return;
 
-  // marcamos mostrado en sesión (para Safari privado / bloqueos)
   try{ sessionStorage.setItem(SESSION_KEY, "1"); }catch(_e){}
 
   card.classList.add("is-visible");
@@ -1237,12 +1193,10 @@ function canShowCard(){
 
   if (closeBtn) closeBtn.addEventListener("click", hideCard);
 
- // ===== Mostrar urgencia SOLO si: han pasado 15s Y scroll >= 50% =====
 let timeOk = false;
 let scrollOk = false;
 let shown = false;
 
-// 1) Condición tiempo (15s)
 document.addEventListener("DOMContentLoaded", () => {
  setTimeout(() => {
     timeOk = true;
@@ -1250,7 +1204,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }, window.LIRYA_CONFIG.URGENCY_DELAY);
 });
 
-// 2) Condición scroll (>= 50%)
 function updateScrollOk(){
   const doc = document.documentElement;
   const scrollTop = window.pageYOffset || doc.scrollTop || 0;
@@ -1258,7 +1211,7 @@ function updateScrollOk(){
   const clientHeight = doc.clientHeight || 0;
 
   const maxScroll = Math.max(1, scrollHeight - clientHeight);
-  const progress = scrollTop / maxScroll; // 0..1
+  const progress = scrollTop / maxScroll;
 
   scrollOk = progress >= window.LIRYA_CONFIG.URGENCY_SCROLL_THRESHOLD;
 }
@@ -1280,7 +1233,6 @@ function onScroll(){
   maybeShow();
 }
 
-// Inicializa estado y escucha scroll
 const passiveScrollOpts = { passive: true };
 updateScrollOk();
 window.addEventListener("scroll", onScroll, passiveScrollOpts);
@@ -1297,8 +1249,7 @@ window.addEventListener("scroll", onScroll, passiveScrollOpts);
 </script>
 
 <script>
-/* ===== PIXEL + CAPI (LIMPIO, SIN DUPLICADOS, SAFARI FRIENDLY) =====
-*/
+/* ===== PIXEL + CAPI ===== */
 (function () {
   const hasFbq = () => typeof window.fbq === "function";
 
@@ -1316,7 +1267,6 @@ try{
   const FORM_HASH = "#formulario-lirya";
   const FORM_ID = "formulario-lirya";
 
-  // ========= helpers =========
 const once = (key, fn) => {
   try {
     if (sessionStorage.getItem(key)) return;
@@ -1338,7 +1288,6 @@ const once = (key, fn) => {
 
  const newEventId = window.LIRYA_UTILS.newEventId;
 
-  // ========= cookies ITP (Safari) =========
   function ensureFbp() {
     let fbp = getCookie("_fbp");
     if (fbp) return fbp;
@@ -1366,12 +1315,10 @@ const once = (key, fn) => {
   const FBP = ensureFbp();
   const FBC = ensureFbc();
 
-  // ========= CAPI =========
   async function sendCapiEvent(body) {
   const url = "/api/meta-capi";
   const payload = JSON.stringify(body);
 
-  // 1) Prefer beacon (mejor en cierres / iOS / Safari)
   try {
     if (navigator.sendBeacon) {
       const blob = new Blob([payload], { type: "application/json" });
@@ -1385,7 +1332,6 @@ const once = (key, fn) => {
     log("CAPI sendBeacon error", e);
   }
 
-  // 2) fallback fetch
   try {
     const res = await fetch(url, {
       method: "POST",
@@ -1408,25 +1354,21 @@ function trackEvent(eventName, customData = {}, opts = {}) {
   opts = opts || {};
   customData = customData || {};
 
-  // event_id único/estable (si lo pasas desde fuera)
   const eventId =
     opts.eventId ||
     opts.event_id ||
     customData.event_id ||
     newEventId();
 
-  // event_source_url limpio (sin query/hash)
   const event_source_url =
     opts.event_source_url ||
     (window.location.origin + window.location.pathname);
 
-  // user_data real: viene en opts.user_data o en customData.user_data (si lo mandas)
   const mergedUserData = {
     ...(customData.user_data || {}),
     ...(opts.user_data || {}),
   };
 
-  // custom_data no debe llevar user_data dentro
   const cleanCustomData = { ...customData };
   delete cleanCustomData.user_data;
 
@@ -1457,7 +1399,6 @@ function trackEvent(eventName, customData = {}, opts = {}) {
     log("Pixel NO disponible (Safari puede bloquearlo)");
   }
 
-  // CAPI
   const capiBody = {
     event_name: eventName,
     event_time: Math.floor(Date.now() / 1000),
@@ -1484,7 +1425,6 @@ function trackEvent(eventName, customData = {}, opts = {}) {
   return trackEvent(eventName, customData || {}, opts || {});
 };
 
-// ========= EVENTO CUSTOM: reproducción de ejemplos de audio =========
 (function bindAudioExamplePlays(){
   document.querySelectorAll('audio[data-lirya-audio-example="1"]').forEach((audio, idx) => {
     audio.addEventListener("play", () => {
@@ -1506,7 +1446,6 @@ window.LIRYA_PURCHASE = function(data){
     return;
   }
 
-  // ✅ clave única por compra
   const key = "lirya_purchase_fired_" + String(data.event_id || data.session_id || data.value || "x");
 
   once(key, () => {
@@ -1517,13 +1456,11 @@ window.LIRYA_PURCHASE = function(data){
       content_type: "product",
       plan: data.plan || undefined,
     }, {
-      // ✅ si nos pasan event_id, lo usamos como eventID para dedupe
       eventId: data.event_id || undefined
     });
   });
 };
 
-// ========= 0) PAGEVIEW =========
 once("lirya_pageview_home", () => {
   trackEvent("PageView", {});
 });
@@ -1534,7 +1471,6 @@ once("lirya_pageview_home", () => {
 <script>
 /* Pausa todos los <audio> excepto el que se está reproduciendo */
 (function () {
-  // ✅ NUEVO: Evita registrar el listener múltiples veces
   if (window.__lirya_audio_pause_init) return;
   window.__lirya_audio_pause_init = true;
 
@@ -1549,7 +1485,7 @@ once("lirya_pageview_home", () => {
   }, true);
 })();
 </script>
-
+  
 <!-- =================================
    POR QUÉ ESTO NO ES UNA CANCIÓN GENÉRICA
    (MISMOS ESTILOS QUE "CÓMO FUNCIONA" + TODAS IGUALES)
