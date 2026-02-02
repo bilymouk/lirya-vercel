@@ -1177,7 +1177,8 @@
       }
     });
   }, {
-    threshold: 0.5  // Se activa cuando el 50% del elemento es visible
+    threshold: 0.1,  // ✅ Cambiado a 0.1 (10% visible)
+    rootMargin: '0px 0px -50px 0px'  // ✅ Se activa un poco antes
   });
 
   counters.forEach(counter => {
