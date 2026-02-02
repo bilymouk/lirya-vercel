@@ -1893,7 +1893,7 @@ once("lirya_pageview_home", () => {
   
   /* Un poco más de aire al final */
   .examples{
-    padding-bottom: 56px;
+    padding-bottom: 0px;
   }
   
     /* TÍTULOS */
@@ -1923,14 +1923,26 @@ once("lirya_pageview_home", () => {
       font-style: italic;
       opacity: 0.8;
       margin-bottom: 26px;
+      animation: pulseSizeNote 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseSizeNote {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
     }
   
     /* GRID TARIFAS */
     .examples-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      gap: 32px;
       align-items: stretch;
+    }
+    
+    @media (min-width: 901px) {
+      .examples-grid {
+        gap: 40px;
+      }
     }
   
     /* TARJETA BASE */
@@ -2146,6 +2158,12 @@ once("lirya_pageview_home", () => {
       font-size: 14px;
       opacity: 0.9;
     }
+    
+    @media (min-width: 901px) {
+      .tarifa-segura {
+        margin-bottom: 18px;
+      }
+    }
   
     /* CTA (link real) */
     .tarifa-cta {
@@ -2191,17 +2209,19 @@ once("lirya_pageview_home", () => {
   
     /* TEXTO INTERMEDIO */
     .styles-note {
-      margin: 46px auto 16px;
+      margin: 46px auto 0px;
       max-width: 680px;
       text-align: center;
       font-size: 13px;
       font-style: italic;
       opacity: 0.8;
+      animation: pulseSizeNote 2s ease-in-out infinite;
     }
   
     /* ===== CARRUSEL ===== */
     .styles-wrapper {
       position: relative;
+      margin-top: 0;
     }
   
     .styles-carousel {
@@ -2209,14 +2229,14 @@ once("lirya_pageview_home", () => {
       gap: 24px;
       overflow-x: auto;
       scroll-behavior: smooth;
-      padding: 2px 32px 0px 8px;
+      padding: 0px 32px 0px 8px;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
     }
   
     .styles-carousel::-webkit-scrollbar { display: none; }
   
-    /* VIÑETAS: BUTTON reales */
+    /* VIÑETAS: BUTTON reales - TODAS DEL MISMO TAMAÑO */
     .style-card {
       min-width: 280px;
       width: 280px;
@@ -2231,6 +2251,11 @@ once("lirya_pageview_home", () => {
       background: transparent;
       padding: 0;
       margin: 0;
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
   
     /* Bloquea selección también aquí */
@@ -2251,6 +2276,8 @@ once("lirya_pageview_home", () => {
       border-radius: 22px;
       transition: transform .25s ease;
       display: block;
+      margin: 0;
+      padding: 0;
     }
   
     @media (hover:hover) and (pointer:fine) {
@@ -2295,6 +2322,10 @@ once("lirya_pageview_home", () => {
       .style-card.playing img{
         animation: none !important;
       }
+      .examples-note,
+      .styles-note{
+        animation: none !important;
+      }
     }
 
 /* H1 style para versión mobile */
@@ -2320,7 +2351,7 @@ once("lirya_pageview_home", () => {
       </p>
   
       <p class="examples-note">
-        Toca una tarjeta para escuchar un ejemplo real ▶
+        Toca una tarjeta para escuchar un ejemplo real
       </p>
   
       <div class="examples-grid">
@@ -2393,7 +2424,7 @@ once("lirya_pageview_home", () => {
       </div>
   
       <p class="styles-note">
-        También puedes escuchar ejemplos de distintos estilos musicales que adaptamos a tu historia ▶
+        También puedes escuchar ejemplos de distintos estilos musicales que adaptamos a tu historia
       </p>
   
       <div class="styles-wrapper">
@@ -2793,7 +2824,6 @@ if (firstTime) {
     window.addEventListener("hashchange", applyStored);
   })();
   </script>
-  
 <!-- =================================
    CÓMO FUNCIONA
    (FINAL - SIN CONFLICTOS + ROBUSTO)
