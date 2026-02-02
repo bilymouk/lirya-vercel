@@ -1,0 +1,246 @@
+/**
+ * LIRYA - Accessibility Improvements
+ * Incluye: Skip navigation, mejor contraste, focus visible mejorado
+ */
+
+/* ===== SKIP NAVIGATION ===== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #1a1a1a;
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 100000;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0 0 4px 0;
+  transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid #ff8a2a;
+  outline-offset: 2px;
+}
+
+/* ===== IMPROVED COLOR CONTRAST ===== */
+:root {
+  /* Color dorado mejorado para WCAG AA (4.5:1 en textos pequeños) */
+  --gold: #b89968; /* Antes: #d4b483 - Ratio mejorado */
+  --gold-dark: #9a7d4f; /* Para textos muy pequeños o críticos */
+  --gold-light: #d4b483; /* Para fondos o elementos grandes */
+}
+
+/* Aplicar mejor contraste en textos dorados */
+.logo,
+.lirya-final-title,
+.lirya-contact-box h3,
+.lirya-guarantee-kicker,
+h2[style*="color:#c7b58a"],
+h3[style*="color:#c7b58a"] {
+  color: var(--gold) !important;
+}
+
+/* Textos dorados pequeños usan el tono más oscuro */
+.hero-badge,
+small.gold-text,
+.footer-text.gold {
+  color: var(--gold-dark) !important;
+}
+
+/* Enlaces dorados mantienen buen contraste */
+a.lirya-contact-email,
+a.lirya-legal-link {
+  color: var(--gold-dark);
+}
+
+a.lirya-contact-email:hover,
+a.lirya-legal-link:hover {
+  color: #7a5d38; /* Aún más oscuro en hover */
+}
+
+/* ===== TRUST BADGES ===== */
+.trust-badges {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 24px 0;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgba(199, 181, 138, 0.2);
+}
+
+.trust-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.trust-badge-icon {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trust-badge-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  line-height: 1.3;
+}
+
+/* Iconos específicos de badges */
+.badge-ssl { color: #22c55e; }
+.badge-stripe { color: #635bff; }
+.badge-gdpr { color: #3b82f6; }
+.badge-secure { color: #f59e0b; }
+
+/* ===== ENHANCED FOCUS VISIBLE ===== */
+*:focus-visible {
+  outline: 2px solid #ff8a2a;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #ff8a2a;
+  outline-offset: 3px;
+}
+
+/* Focus especial para botones principales */
+.cta-header:focus-visible,
+.hero-btn:focus-visible,
+.urgency-cta:focus-visible {
+  outline: 3px solid #1a1a1a;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px rgba(255, 138, 42, 0.2);
+}
+
+/* ===== VIDEO ACCESSIBILITY ===== */
+video {
+  outline: none;
+}
+
+video:focus-visible {
+  outline: 3px solid #ff8a2a;
+  outline-offset: 4px;
+}
+
+/* Subtítulos/captions styling */
+video::cue {
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+/* ===== FORM ARIA IMPROVEMENTS ===== */
+[role="alert"] {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+[role="alert"]::before {
+  content: "⚠️ ";
+  margin-right: 6px;
+}
+
+[aria-invalid="true"] {
+  border-color: #ef4444 !important;
+  background: #fef2f2 !important;
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .skip-link {
+    transition: none;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  :root {
+    --gold: #8a6d3b; /* Aún más oscuro para alto contraste */
+    --gold-dark: #6d5429;
+  }
+  
+  .hero-btn,
+  .cta-header {
+    border: 2px solid #000;
+  }
+}
+
+/* ===== SCREEN READER ONLY ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ===== RESPONSIVE TRUST BADGES ===== */
+@media (max-width: 768px) {
+  .trust-badges {
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .trust-badge {
+    min-width: 80px;
+    padding: 8px 12px;
+  }
+  
+  .trust-badge-icon {
+    font-size: 28px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .trust-badge-text {
+    font-size: 11px;
+  }
+}
