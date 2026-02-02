@@ -206,8 +206,8 @@
   pointer-events:none; 
   background:
     linear-gradient(
-      rgba(0,0,0,.40),
-      rgba(0,0,0,.38)
+      rgba(0,0,0,.62),
+      rgba(0,0,0,.60)
     );
 }
 
@@ -728,6 +728,12 @@
       color:#0f7a2a;
       font-weight:700;
     }
+    
+    .urgency-green{
+     color:#0f7a2a;  /* verde */
+     font-weight:800;
+     }
+
 
     .urgency-actions{
       margin-top:12px;
@@ -990,8 +996,8 @@
       <div class="urgency-sub">Para garantizar la entrega antes del 14 limitamos pedidos diarios para garantizar calidad.</div>
 
       <div class="urgency-check">
-        <span aria-hidden="true">✔</span>
-        <span>Los pedidos de hoy aún llegan a tiempo en todas las tarifas</span>
+      <span aria-hidden="true">✔</span>
+      <span><span class="urgency-green">Los pedidos de hoy</span> aún llegan a tiempo en todas las tarifas</span>
       </div>
 
       <div class="urgency-actions">
