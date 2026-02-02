@@ -1684,6 +1684,16 @@ once("lirya_pageview_home", () => {
   margin:0 auto;
 }
 
+  /* NOTA PEQUEÑA EN CURSIVA */
+  .lirya-cf-note{
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size:13px;
+    font-style:italic;
+    color:rgba(26,26,26,0.65);
+    margin-top:10px;
+    display:block;
+  }
+
   /* ===== MÓVIL ===== */
   @media (max-width: 900px){
     .lirya-cf-section{ padding:80px 20px; }
@@ -1737,10 +1747,9 @@ once("lirya_pageview_home", () => {
   <div class="lirya-cf-grid">
     <div class="lirya-cf-card" data-cf-index="0">
       <div class="lirya-cf-step" aria-hidden="true">1</div>
-      <h3>Escrita con vuestra historia real</h3>
+      <h3>No usamos plantilla.<br>Usamos vuestra historia real</h3>
       <p>
-        Construimos la letra desde cero con vuestra historia real, cuidando el tono, el ritmo y la forma de contarla
-        para que suene natural y sincera. <strong>Nada de letras genéricas.</strong>
+        Cada frase habla de vosotros. De momentos reales. De lo que vosotros entendéis. <strong>Nada de letras genéricas.</strong>
       </p>
     </div>
 
@@ -1748,9 +1757,9 @@ once("lirya_pageview_home", () => {
       <div class="lirya-cf-step" aria-hidden="true">2</div>
       <h3>Revisión incluida</h3>
       <p>
-        Incluye <strong>1 revisión</strong> para ajustar una frase, el enfoque o el tono y que encaje de verdad.
-        <strong>(Si necesitas más ajustes, Premium lo incluye.)</strong>
+        Si algo no suena exactamente como lo sientes, lo ajustamos.
       </p>
+      <span class="lirya-cf-note">1 revisión incluida · Premium incluye más ajustes</span>
     </div>
 
     <div class="lirya-cf-card" data-cf-index="2">
@@ -1832,7 +1841,7 @@ once("lirya_pageview_home", () => {
   }
 })();
 </script>
-
+  
   <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (OPCIÓN B PRO + 6 MEJORAS) ===== -->
   <style>
    .examples{
