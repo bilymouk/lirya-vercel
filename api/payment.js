@@ -194,7 +194,6 @@ module.exports = async (req, res) => {
       your_name: "Tu nombre",
       relationship: "Relación",
       how_met: "Cómo se conocieron",
-      special_moment: "Momento especial",
       song_style: "Estilo de canción",
     };
 
@@ -202,7 +201,7 @@ module.exports = async (req, res) => {
     for (const [field, label] of Object.entries(requiredFields)) {
       const val = f[field];
       // como ya normalizamos espacios, "   a" -> "a", "   " -> ""
-      if (!val || String(val).length < 2) {
+      if (!val || String(val).length < 1) {
         missingFields.push(label);
       }
     }
