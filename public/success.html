@@ -256,7 +256,7 @@
     })();
   </script>
 
-  <!-- ✅ META PIXEL (INIT) — antes de cualquier posible track -->
+  <!-- ✅ META PIXEL (INIT) — no trackeamos nada aquí -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -271,12 +271,11 @@
   fbq('set', 'autoConfig', 'false', '893462606511287');
   </script>
 
-  <!-- ✅ Verificación real del pago -->
+  <!-- ✅ Verificación real del pago (sin Purchase client-side) -->
   <script>
   (function () {
     const qs = new URLSearchParams(location.search);
-    const sid = qs.get("session_id") || "";
-    const eventId = qs.get("event_id") || "";
+    const sid = (qs.get("session_id") || "").trim();
 
     const titleEl = document.getElementById("paymentTitle");
     const msgEl = document.getElementById("paymentMsg");
@@ -287,7 +286,23 @@
         "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
     }
 
+    function setPaidState() {
+      if (titleEl) titleEl.textContent = "Pago confirmado";
+      if (msgEl) msgEl.innerHTML =
+        `Gracias por confiar en <strong>Lirya</strong>.
+         Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.`;
+    }
+
     if (!sid) { setReviewState(); return; }
+
+    // ✅ Dedupe de verificación: si ya confirmamos este sid en esta sesión, no hacemos fetch otra vez
+    try {
+      const cached = sessionStorage.getItem("lirya_paid_" + sid);
+      if (cached === "1") {
+        setPaidState();
+        return;
+      }
+    } catch (_) {}
 
     fetch(`/api/checkout-session?session_id=${encodeURIComponent(sid)}`, {
       method: "GET",
@@ -301,54 +316,9 @@
         const paid = String(data.payment_status || "").toLowerCase() === "paid";
         if (!paid) { setReviewState(); return; }
 
-        // ✅ Confirmado de verdad
-        if (titleEl) titleEl.textContent = "Pago confirmado";
-        if (msgEl) msgEl.innerHTML =
-          `Gracias por confiar en <strong>Lirya</strong>.
-           Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.`;
+        setPaidState();
 
-        // 🚫 Purchase en navegador DESACTIVADO (evitar duplicados)
-        // Purchase queda SOLO en webhook (server-side).
-        // El webhook ya envía Purchase con el mismo event_id, Meta lo deduplica automáticamente.
-        
-        /* 
-        // ✅ SI QUIERES ACTIVAR Purchase browser-side en el futuro (con dedupe correcto):
-        
-        const hasFbq = typeof window.fbq === "function";
-        const getCookie = (name) => {
-          const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
-          return m ? decodeURIComponent(m[1]) : "";
-        };
-        
-        const FBP = getCookie("_fbp");
-        const FBC = getCookie("_fbc");
-        
-        // Pixel
-        if (hasFbq && eventId) {
-          fbq('track', 'Purchase', {
-            value: data.value,
-            currency: data.currency
-          }, { eventID: eventId }); // ← MISMO eventId que webhook
-        }
-        
-        // CAPI (opcional, si quieres refuerzo)
-        if (eventId) {
-          fetch("/api/meta-capi", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            keepalive: true,
-            body: JSON.stringify({
-              event_name: "Purchase",
-              event_id: eventId, // ← MISMO que webhook
-              event_time: Math.floor(Date.now() / 1000),
-              event_source_url: window.location.origin + window.location.pathname,
-              action_source: "website",
-              user_data: { fbp: FBP, fbc: FBC },
-              custom_data: { value: data.value, currency: data.currency }
-            })
-          });
-        }
-        */
+        try { sessionStorage.setItem("lirya_paid_" + sid, "1"); } catch (_) {}
       })
       .catch(() => { setReviewState(); });
   })();
@@ -365,16 +335,19 @@
       sessionStorage.setItem(key, "1");
     } catch (_) {}
 
+    // Limpia tracking core
+    try { sessionStorage.removeItem("lirya_initiate_checkout"); } catch(_) {}
+    try { sessionStorage.removeItem("lirya_lead"); } catch(_) {}
+    try {
+      Object.keys(sessionStorage).forEach((k) => {
+        if (k.startsWith("lirya_viewcontent_")) sessionStorage.removeItem(k);
+      });
+    } catch(_) {}
+
+    // Limpia otros posibles
     try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
     try { sessionStorage.removeItem("lirya_purchase_value"); } catch(_) {}
     try { sessionStorage.removeItem("lirya_purchase_plan"); } catch(_) {}
-
-    try {
-      Object.keys(sessionStorage).forEach((k) => {
-        if (k.startsWith("lirya_initiatecheckout_")) sessionStorage.removeItem(k);
-        if (k.startsWith("lirya_vc_")) sessionStorage.removeItem(k);
-      });
-    } catch(_) {}
   })();
   </script>
 
