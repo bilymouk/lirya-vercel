@@ -1,386 +1,344 @@
-const Stripe = require("stripe");
+// /api/meta-capi.js (Vercel Serverless - CommonJS)
+
 const crypto = require("crypto");
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const ALLOWED_ORIGINS = [
+  "https://lirya.studio",
+  "https://www.lirya.studio",
+];
 
-module.exports.config = {
-  api: { bodyParser: false },
-};
+// ✅ Lista blanca REDUCIDA a lo que vas a usar de verdad
+const ALLOWED_EVENT_NAMES = new Set([
+  "PageView",
+  "ViewContent",
+  "InitiateCheckout",
+  "Purchase",
+  "Lead",
+  "CancelCheckout",
+  "PaymentError",
+]);
 
-// ===== helpers =====
+// ===== RATE LIMITING =====
+const rateLimiter = new Map();
+const RATE_LIMIT = 30; // requests per window
+const RATE_WINDOW = 60000; // 1 minute
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const key = ip || "unknown";
+  const record = rateLimiter.get(key) || { count: 0, resetTime: now + RATE_WINDOW };
+
+  if (now > record.resetTime) {
+    record.count = 1;
+    record.resetTime = now + RATE_WINDOW;
+  } else {
+    record.count++;
+  }
+
+  rateLimiter.set(key, record);
+
+  // Cleanup old entries
+  if (rateLimiter.size > 1000) {
+    for (const [k, v] of rateLimiter.entries()) {
+      if (now > v.resetTime) rateLimiter.delete(k);
+    }
+  }
+
+  return record.count <= RATE_LIMIT;
+}
+
+// ===== HELPERS =====
 function sha256(input) {
   return crypto.createHash("sha256").update(String(input || "")).digest("hex");
 }
-function normalizeEmail(email) {
+
+function normEmail(email) {
   return String(email || "").trim().toLowerCase();
 }
-function normalizePhone(ph) {
+
+function normPhone(ph) {
   return String(ph || "").replace(/[^\d+]/g, "").trim();
 }
-function normalizeName(name) {
+
+function normName(name) {
   return String(name || "")
     .trim()
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .replace(/[\u0300-\u036f]/g, ""); // Remove accents
 }
-function normalizeCity(city) {
+
+function normCity(city) {
   return String(city || "")
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, "");
 }
-function normalizeZip(zip) {
+
+function normZip(zip) {
   return String(zip || "")
     .trim()
     .replace(/[^0-9]/g, "")
     .slice(0, 10);
 }
-function safeNumber(n, fallback = 0) {
-  const x = Number(n);
-  return Number.isFinite(x) ? x : fallback;
-}
-function buildBaseUrl(req) {
-  const envUrl = (process.env.SITE_URL || "").trim();
 
-  const proto = (req.headers["x-forwarded-proto"] || "https")
-    .toString()
-    .split(",")[0]
-    .trim();
-
-  const host = (req.headers["x-forwarded-host"] || req.headers.host || "")
-    .toString()
-    .split(",")[0]
-    .trim();
-
-  if (envUrl) return envUrl.startsWith("http") ? envUrl : `https://${envUrl}`;
-  if (host) return `${proto}://${host}`;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return "";
-}
-
-async function readRawBody(req) {
-  return await new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on("data", (chunk) =>
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
-    );
-    req.on("end", () => resolve(Buffer.concat(chunks)));
-    req.on("error", reject);
-  });
-}
-
-// ===== IDEMPOTENCY =====
-const processedEvents = new Set();
-const MAX_CACHE_SIZE = 1000;
-
-// ===== RETRY LOGIC FOR META CAPI =====
-async function sendMetaCapiWithRetry(payload, url, maxRetries = 3) {
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-      const r = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      const meta = await r.json().catch(() => ({}));
-
-      if (r.ok && !meta?.error) {
-        console.log(`✅ Meta CAPI Purchase OK (attempt ${attempt})`);
-        return { success: true, meta };
-      }
-
-      console.warn(`⚠️ Meta CAPI attempt ${attempt} failed:`, meta);
-      
-      if (attempt < maxRetries) {
-        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
-      }
-    } catch (e) {
-      console.error(`❌ Meta CAPI attempt ${attempt} error:`, e.message);
-      
-      if (attempt < maxRetries) {
-        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
-      }
-    }
-  }
-  
-  return { success: false };
+function clampStr(s, max = 2000) {
+  const x = String(s || "");
+  return x.length > max ? x.slice(0, max) : x;
 }
 
 module.exports = async (req, res) => {
+  // ===== CORS =====
+  const origin = req.headers.origin;
+
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, X-CSRF-Token");
   res.setHeader("Cache-Control", "no-store");
 
+  if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") {
-    res.statusCode = 405;
-    return res.end("Method Not Allowed");
+    return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
-  const sig = req.headers["stripe-signature"];
-  if (!sig) {
-    res.statusCode = 400;
-    return res.end("Missing Stripe signature");
+  // ===== RATE LIMITING =====
+  const ip =
+    (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim() ||
+    (req.socket && req.socket.remoteAddress ? String(req.socket.remoteAddress) : "");
+
+  if (!checkRateLimit(ip)) {
+    console.warn(`⚠️ Rate limit exceeded for IP: ${ip}`);
+    return res.status(200).json({
+      ok: false,
+      warning: "Rate limit exceeded",
+    });
   }
 
-  let event;
+  const PIXEL_ID = process.env.META_PIXEL_ID;
+  const ACCESS_TOKEN = process.env.META_CAPI_TOKEN;
+
+  if (!PIXEL_ID || !ACCESS_TOKEN) {
+    return res.status(200).json({
+      ok: false,
+      warning: "Missing META_PIXEL_ID or META_CAPI_TOKEN env vars",
+    });
+  }
+
+  const body = req.body || {};
+
+  let {
+    event_name,
+    event_id,
+    event_time,
+    custom_data = {},
+    event_source_url,
+    fbp,
+    fbc,
+    user_data = {},
+    action_source,
+    test_event_code,
+  } = body;
+
+  event_name = clampStr(event_name, 80).trim();
+  event_id = clampStr(event_id, 120).trim();
+  event_source_url = clampStr(event_source_url, 2000).trim();
+  test_event_code = clampStr(test_event_code, 120).trim();
+
+  if (!event_name) {
+    return res.status(200).json({
+      ok: false,
+      warning: "Missing event_name",
+      received: { event_name, event_id },
+    });
+  }
+
+  if (!ALLOWED_EVENT_NAMES.has(event_name)) {
+    return res.status(200).json({
+      ok: false,
+      warning: "event_name not allowed",
+      received: { event_name, event_id },
+    });
+  }
+
+  const ua = (req.headers["user-agent"] || "").toString();
+
+  // ===== IMPROVED USER MATCHING =====
+  const finalFbp = (user_data && user_data.fbp) || fbp || undefined;
+  const finalFbc = (user_data && user_data.fbc) || fbc || undefined;
+
+  // Email hashing
+  let em = user_data && user_data.em;
+  if (!em) {
+    const maybe =
+      (body && body.email_hash) ||
+      (custom_data && custom_data.email_hash) ||
+      (user_data && user_data.email_hash);
+
+    if (maybe && typeof maybe === "string") {
+      const h = maybe.trim().toLowerCase();
+      if (/^[a-f0-9]{64}$/.test(h)) em = h;
+    }
+  }
+  if (!em && user_data && user_data.email) {
+    const e = normEmail(user_data.email);
+    em = e ? sha256(e) : undefined;
+  }
+
+  // Phone hashing
+  let ph = user_data && user_data.ph;
+  if (!ph && user_data && user_data.phone) {
+    const p = normPhone(user_data.phone);
+    ph = p ? sha256(p) : undefined;
+  }
+
+  // Name hashing (first name, last name)
+  let fn, ln;
+  if (user_data && user_data.first_name) {
+    const f = normName(user_data.first_name);
+    fn = f ? sha256(f) : undefined;
+  }
+  if (user_data && user_data.last_name) {
+    const l = normName(user_data.last_name);
+    ln = l ? sha256(l) : undefined;
+  }
+
+  // Location hashing (city, state, zip, country)
+  let ct, st, zp, country;
+
+  if (user_data && user_data.city) {
+    const c = normCity(user_data.city);
+    ct = c ? sha256(c) : undefined;
+  }
+
+  if (user_data && user_data.state) {
+    const s = normCity(user_data.state);
+    st = s ? sha256(s) : undefined;
+  }
+
+  if (user_data && user_data.zip) {
+    const z = normZip(user_data.zip);
+    zp = z ? sha256(z) : undefined;
+  }
+
+  // ✅ country en CAPI: ISO 2 letras (NO hash)
+  if (user_data && user_data.country) {
+    country = String(user_data.country).trim().toLowerCase().slice(0, 2);
+  }
+
+  // event_source_url: mejor no vacío
+  const finalEventSourceUrl =
+    event_source_url ||
+    (req.headers.referer ? String(req.headers.referer) : "") ||
+    (req.headers.origin ? String(req.headers.origin) : "");
+
+  // Sanitiza custom_data
+  if (custom_data && typeof custom_data === "object") {
+    const safe = {};
+    const entries = Object.entries(custom_data).slice(0, 50);
+    for (const [k, v] of entries) {
+      const kk = clampStr(k, 80);
+      if (!kk) continue;
+      if (typeof v === "string") safe[kk] = clampStr(v, 500);
+      else if (typeof v === "number" || typeof v === "boolean") safe[kk] = v;
+      else if (v == null) continue;
+      else safe[kk] = clampStr(JSON.stringify(v), 500);
+    }
+    custom_data = safe;
+  } else {
+    custom_data = {};
+  }
+
+  // Validate event_time
+  const now = Math.floor(Date.now() / 1000);
+  let finalEventTime = Number.isFinite(Number(event_time)) ? Number(event_time) : now;
+
+  // No puede ser del futuro (max 1 hora adelante)
+  if (finalEventTime > now + 3600) {
+    finalEventTime = now;
+  }
+
+  // No puede ser muy antiguo (max 7 días atrás)
+  if (finalEventTime < now - 604800) {
+    finalEventTime = now;
+  }
+
+  // ===== BUILD PAYLOAD WITH ENHANCED MATCHING =====
+  const payload = {
+    data: [
+      {
+        event_name,
+        event_time: finalEventTime,
+
+        ...(event_id ? { event_id: String(event_id) } : {}),
+
+        action_source: action_source || "website",
+        ...(finalEventSourceUrl ? { event_source_url: finalEventSourceUrl } : {}),
+
+        user_data: {
+          ...(ip ? { client_ip_address: ip } : {}),
+          ...(ua ? { client_user_agent: ua } : {}),
+          ...(finalFbp ? { fbp: finalFbp } : {}),
+          ...(finalFbc ? { fbc: finalFbc } : {}),
+          ...(em ? { em } : {}),
+          ...(ph ? { ph } : {}),
+          ...(fn ? { fn } : {}),
+          ...(ln ? { ln } : {}),
+          ...(ct ? { ct } : {}),
+          ...(st ? { st } : {}),
+          ...(zp ? { zp } : {}),
+          ...(country ? { country } : {}),
+        },
+
+        custom_data: { ...custom_data },
+      },
+    ],
+    ...(test_event_code ? { test_event_code: String(test_event_code) } : {}),
+  };
+
+  const url = `https://graph.facebook.com/v22.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
+
+  // Timeout wrapper
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
 
   try {
-    const rawBody = await readRawBody(req);
-    event = stripe.webhooks.constructEvent(
-      rawBody,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
-  } catch (err) {
-    console.error("❌ Webhook signature error:", err?.message || err);
-    res.statusCode = 400;
-    return res.end(`Webhook Error: ${err?.message || err}`);
-  }
-
-  // Idempotency check
-  if (processedEvents.has(event.id)) {
-    console.log("⚠️ Duplicate webhook ignored:", event.id);
-    res.statusCode = 200;
-    return res.end(JSON.stringify({ received: true, duplicate: true }));
-  }
-
-  processedEvents.add(event.id);
-
-  // Cleanup cache if too large
-  if (processedEvents.size > MAX_CACHE_SIZE) {
-    const entries = Array.from(processedEvents);
-    processedEvents.clear();
-    entries.slice(-500).forEach(id => processedEvents.add(id));
-  }
-
-  // Filtro de evento
-  const HANDLED_EVENTS = new Set([
-    'checkout.session.completed',
-    'checkout.session.expired',
-  ]);
-
-  if (!HANDLED_EVENTS.has(event.type)) {
-    res.statusCode = 200;
-    return res.end(JSON.stringify({ received: true, ignored: event.type }));
-  }
-
-  const session = event.data.object;
-
-  try {
-    // Handle different event types
-    if (event.type === 'checkout.session.expired') {
-      console.log("⏰ Session expired:", session.id);
-      
-      // Opcional: avisar a Make que se canceló
-      try {
-        const MAKE_WEBHOOK_URL = process.env.MAKE_WEBHOOK_CONFIRMED_URL || 
-                                 process.env.MAKE_WEBHOOK_URL;
-        
-        if (MAKE_WEBHOOK_URL && typeof fetch === "function") {
-          await fetch(MAKE_WEBHOOK_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              stripe_event_id: event.id,
-              stripe_session_id: session.id,
-              estado_pago: "EXPIRADO",
-            }),
-          });
-        }
-      } catch (e) {
-        console.error("⚠️ Make error (expired):", e);
-      }
-
-      res.statusCode = 200;
-      return res.end(JSON.stringify({ received: true, expired: true }));
-    }
-
-    // checkout.session.completed
-    if (session.payment_status && session.payment_status !== "paid") {
-      console.log("⚠️ completed pero NO paid:", session.payment_status);
-      res.statusCode = 200;
-      return res.end(JSON.stringify({ received: true, not_paid: true }));
-    }
-
-    const baseUrl = buildBaseUrl(req);
-    const metadata = session.metadata || {};
-
-    // Importes
-    const amountTotal = safeNumber(session.amount_total, 0);
-    const value = amountTotal / 100;
-    const currency = String(session.currency || "eur").toLowerCase(); // ✅ FIX: lowercase
-
-    // event_id estable para dedupe Meta
-    const eventId = String(
-      metadata.event_id ||
-        session.client_reference_id ||
-        `purchase_${session.id}`
-    );
-
-    // Email robusto
-    const email = normalizeEmail(
-      session.customer_email || session.customer_details?.email
-    );
-    const em = email ? sha256(email) : undefined;
-
-    // Phone (si está en metadata)
-    const phone = metadata.phone || session.customer_details?.phone;
-    const ph = phone ? sha256(normalizePhone(phone)) : undefined;
-
-    // Nombres
-    const yourName = metadata.your_name;
-    const fn = yourName ? sha256(normalizeName(yourName)) : undefined;
-
-    // Location desde billing_address
-    const address = session.customer_details?.address || {};
-    const ct = address.city ? sha256(normalizeCity(address.city)) : undefined;
-    const zp = address.postal_code ? sha256(normalizeZip(address.postal_code)) : undefined;
-    
-    // ✅ FIX: Hash country properly
-    const rawCountry = address.country ? String(address.country).trim().toLowerCase().slice(0, 2) : null;
-    const country = rawCountry ? sha256(rawCountry) : undefined;
-
-    const fbp = metadata.fbp || undefined;
-    const fbc = metadata.fbc || undefined;
-
-    const eventSourceUrl =
-      String(metadata.event_source_url || "").trim() ||
-      (baseUrl ? `${baseUrl}/` : undefined);
-
-    const tarifa = metadata.tarifa || null;
-
-    console.log("💰 PURCHASE EVENT:", {
-      session_id: session.id,
-      event_id: eventId,
-      email: email ? email.slice(0, 5) + "***" : "none",
-      amount: value,
-      currency,
-      tarifa,
-      has_fbp: !!fbp,
-      has_fbc: !!fbc,
-      has_phone: !!ph,
-      has_name: !!fn,
-      has_city: !!ct,
-      has_country: !!country,
-      timestamp: new Date(event.created * 1000).toISOString(),
+    const r = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
     });
 
-    // ===== (A) Enviar a Make (opcional) =====
-    try {
-      const MAKE_WEBHOOK_URL = 
-        process.env.MAKE_WEBHOOK_CONFIRMED_URL ||
-        "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
+    clearTimeout(timeoutId);
 
-      if (typeof fetch !== "function") {
-        console.warn("⚠️ fetch no disponible en este runtime. Saltando Make.");
-      } else {
-        const makeResponse = await fetch(MAKE_WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            stripe_event_id: event.id,
-            stripe_session_id: session.id,
-            email: email || (session.customer_email || ""),
-            amount_total: session.amount_total,
-            currency: session.currency,
-            tarifa,
-            metadata: session.metadata,
-            estado_pago: "PAGADO",
-          }),
-        });
+    const meta = await r.json().catch(() => ({}));
 
-        if (!makeResponse.ok) {
-          console.error("⚠️ Make webhook failed:", {
-            status: makeResponse.status,
-            statusText: makeResponse.statusText,
-            session_id: session.id,
-          });
-        } else {
-          console.log("✅ Enviado a Make");
-        }
-      }
-    } catch (e) {
-      console.error("❌ Make error:", {
-        error: e.message,
-        session_id: session.id,
+    if (!r.ok || meta.error) {
+      console.error("❌ Meta CAPI failed:", meta);
+      return res.status(200).json({ ok: false, meta });
+    }
+
+    return res.status(200).json({ ok: true, meta });
+  } catch (err) {
+    clearTimeout(timeoutId);
+
+    if (err.name === "AbortError") {
+      console.error("⏱️ Meta CAPI timeout");
+      return res.status(200).json({
+        ok: false,
+        error: "Meta CAPI timeout",
       });
     }
 
-    // ===== (B) META CAPI Purchase (SERVER-SIDE) =====
-    try {
-      const PIXEL_ID = process.env.META_PIXEL_ID;
-      const ACCESS_TOKEN = process.env.META_CAPI_TOKEN;
-
-      if (!PIXEL_ID || !ACCESS_TOKEN) {
-        console.warn("⚠️ Falta META_PIXEL_ID o META_CAPI_TOKEN");
-      } else if (typeof fetch !== "function") {
-        console.warn("⚠️ fetch no disponible en este runtime. Saltando Meta CAPI.");
-      } else {
-        const payload = {
-          data: [
-            {
-              event_name: "Purchase",
-              event_time: Number.isFinite(Number(event.created))
-                ? Number(event.created)
-                : Math.floor(Date.now() / 1000),
-
-              event_id: eventId,
-              action_source: "website",
-              event_source_url: eventSourceUrl,
-
-              user_data: {
-                ...(em ? { em } : {}),
-                ...(ph ? { ph } : {}),
-                ...(fn ? { fn } : {}),
-                ...(ct ? { ct } : {}),
-                ...(zp ? { zp } : {}),
-                ...(country ? { country } : {}),
-                ...(fbp ? { fbp } : {}),
-                ...(fbc ? { fbc } : {}),
-              },
-
-              custom_data: {
-                currency,
-                value,
-                order_id: session.id,
-                content_name: "Canción personalizada",
-                content_type: "product",
-                content_ids: [tarifa || 'default'],
-                num_items: 1,
-                plan: tarifa ? String(tarifa) : undefined,
-                recipient_name: metadata.recipient_name || undefined,
-                song_style: metadata.song_style || undefined,
-                relationship: metadata.relationship || undefined,
-                payment_method: session.payment_method_types?.[0] || 'card',
-              },
-            },
-          ],
-        };
-
-        const url = `https://graph.facebook.com/v22.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
-
-        const result = await sendMetaCapiWithRetry(payload, url);
-        
-        if (!result.success) {
-          console.error("❌ Meta CAPI failed after 3 attempts");
-        }
-      }
-    } catch (e) {
-      console.error("❌ CAPI error:", e);
-    }
-
-    res.statusCode = 200;
-    return res.end(JSON.stringify({ received: true }));
-  } catch (e) {
-    console.error("❌ Webhook handler error:", e);
-
-    res.statusCode = 500;
-    return res.end(JSON.stringify({ received: true, warning: "handler_error" }));
+    console.error("❌ Server error calling Meta CAPI:", err);
+    return res.status(200).json({
+      ok: false,
+      error: "Server error calling Meta CAPI",
+      details: String(err && err.message ? err.message : err),
+    });
   }
 };
