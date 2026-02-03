@@ -1,224 +1,273 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pago no completado – Lirya</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pago no completado — Lirya</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body{
-      font-family:'Montserrat',sans-serif;
-      color:#e0e0e0;
-      background:#0a0a0a;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #e0e0e0;
+      background: #0a0a0a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    header{
-      background:#fff;
-      padding:.4rem 2rem;
-      border-bottom:1px solid rgba(212,165,116,.15);
+    header {
+      background: #ffffff;
+      padding: 0.4rem 2rem;
+      border-bottom: 1px solid rgba(212,165,116,.15);
     }
 
-    .header-content{
-      max-width:1400px;
-      margin:0 auto;
-      display:flex;
-      align-items:center;
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
     }
 
-    .logo{
-      font-family:'Playfair Display',serif;
-      font-size:1.8rem;
-      font-weight:700;
-      letter-spacing:2px;
-      text-transform:uppercase;
-      background:linear-gradient(135deg,#d4a574,#e8c896,#d4a574);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #d4a574, #e8c896, #d4a574);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    main{
-      flex:1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:2rem;
-      position:relative;
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
     }
 
-    .background-animation{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      overflow:hidden;
+    .background-animation {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
     }
 
-    .wave{
-      position:absolute;
-      width:200%;
-      height:200%;
-      background:radial-gradient(circle,rgba(212,165,116,.035) 1px,transparent 1px);
-      background-size:50px 50px;
-      animation:wave 22s linear infinite;
+    .wave {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212,165,116,.035) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: wave 22s linear infinite;
     }
 
-    @keyframes wave{
-      from{transform:translate(0,0)}
-      to{transform:translate(-50%,-50%)}
+    @keyframes wave {
+      from { transform: translate(0,0); }
+      to { transform: translate(-50%,-50%); }
     }
 
-    .cancel-container{
-      position:relative;
-      z-index:1;
-      max-width:620px;
-      width:100%;
-      background:rgba(20,20,20,.96);
-      border:1px solid rgba(212,165,116,.25);
-      border-radius:14px;
-      padding:3rem 2.5rem;
-      text-align:center;
-      box-shadow:0 15px 50px rgba(0,0,0,.6);
+    .cancel-container {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      width: 100%;
+      background: rgba(20,20,20,.96);
+      border: 1px solid rgba(212,165,116,.25);
+      border-radius: 14px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(0,0,0,.6);
     }
 
-    .cancel-icon{
-      width:78px;
-      height:78px;
-      margin:0 auto 1.8rem;
-      background:linear-gradient(135deg,#ef4444,#dc2626);
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      animation:pop .5s ease-out;
+    .cancel-icon {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 1.8rem;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pop .5s ease-out;
     }
 
-    @keyframes pop{
-      0%{transform:scale(0)}
-      70%{transform:scale(1.1)}
-      100%{transform:scale(1)}
+    @keyframes pop {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
-    .cancel-icon svg{
-      width:44px;
-      height:44px;
-      stroke:#fff;
-      stroke-width:3;
-      fill:none;
-      stroke-linecap:round;
+    .cancel-icon svg {
+      width: 44px;
+      height: 44px;
+      stroke: #fff;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
     }
 
-    h1{
-      font-family:'Playfair Display',serif;
-      font-size:2.4rem;
-      margin-bottom:1rem;
-      background:linear-gradient(135deg,#d4a574,#e8c896,#d4a574);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #d4a574, #e8c896, #d4a574);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .cancel-message{
-      font-size:1.1rem;
-      color:#b8b8b8;
-      line-height:1.8;
-      margin-bottom:2.2rem;
+    .cancel-message {
+      font-size: 1.1rem;
+      color: #b8b8b8;
+      line-height: 1.8;
+      margin-bottom: 2.2rem;
     }
 
-    .info-box{
-      background:rgba(212,165,116,.06);
-      border:1px solid rgba(212,165,116,.25);
-      border-radius:10px;
-      padding:1.6rem;
-      margin-bottom:2rem;
-      text-align:left;
+    .info-box {
+      background: rgba(212,165,116,.06);
+      border: 1px solid rgba(212,165,116,.25);
+      border-radius: 10px;
+      padding: 1.6rem;
+      margin-bottom: 2rem;
+      text-align: left;
     }
 
-    .info-box h3{
-      font-family:'Playfair Display',serif;
-      color:#d4a574;
-      margin-bottom:1rem;
-      font-size:1.25rem;
+    .info-box h3 {
+      font-family: 'Playfair Display', serif;
+      color: #d4a574;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
     }
 
-    .info-box ul{
-      list-style:none;
-      margin-top:1rem;
+    .info-box ul {
+      list-style: none;
+      margin-top: 1rem;
     }
 
-    .info-box li{
-      margin-bottom:.6rem;
-      display:flex;
-      align-items:flex-start;
-      color:#b0b0b0;
+    .info-box li {
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: flex-start;
+      color: #b0b0b0;
     }
 
-    .info-box li::before{
-      content:"•";
-      color:#d4a574;
-      margin-right:.8rem;
-      font-weight:bold;
+    .info-box li::before {
+      content: "•";
+      color: #d4a574;
+      margin-right: .8rem;
+      font-weight: bold;
     }
 
-    .button-group{
-      display:flex;
-      gap:1rem;
-      justify-content:center;
-      flex-wrap:wrap;
+    .reassurance-box {
+      background: rgba(74, 222, 128, .08);
+      border: 1px solid rgba(74, 222, 128, .25);
+      border-radius: 10px;
+      padding: 1.2rem;
+      margin-bottom: 2rem;
+      text-align: center;
     }
 
-    .btn{
-      padding:1rem 2.4rem;
-      border-radius:8px;
-      font-weight:700;
-      text-decoration:none;
-      transition:.3s;
-      font-size:1rem;
-      text-align:center;
+    .reassurance-box p {
+      color: #86efac;
+      font-size: .95rem;
+      margin: 0;
     }
 
-    .btn-primary{
-      background:linear-gradient(135deg,#ff6b35,#ff8c42);
-      color:#fff;
-      box-shadow:0 6px 20px rgba(255,107,53,.35);
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    .btn-primary:hover{
-      transform:translateY(-2px);
-      box-shadow:0 8px 26px rgba(255,107,53,.45);
+    .btn {
+      padding: 1rem 2.4rem;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: .3s;
+      font-size: 1rem;
+      text-align: center;
+      cursor: pointer;
     }
 
-    .btn-secondary{
-      border:1px solid #d4a574;
-      color:#d4a574;
-      background:transparent;
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6b35, #ff8c42);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(255,107,53,.35);
     }
 
-    .btn-secondary:hover{
-      background:rgba(212,165,116,.1);
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(255,107,53,.45);
     }
 
-    footer{
-      padding:1.5rem;
-      text-align:center;
-      color:#808080;
-      font-size:.9rem;
-      border-top:1px solid rgba(212,165,116,.15);
+    .btn-secondary {
+      border: 1px solid #d4a574;
+      color: #d4a574;
+      background: transparent;
     }
 
-    @media(max-width:768px){
-      h1{font-size:2rem}
-      .cancel-container{padding:2.2rem 1.6rem}
-      .button-group{flex-direction:column}
-      .btn{width:100%}
+    .btn-secondary:hover {
+      background: rgba(212,165,116,.1);
+    }
+
+    .support-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(212,165,116,.15);
+    }
+
+    .support-section p {
+      font-size: .9rem;
+      color: #999;
+      margin-bottom: .8rem;
+    }
+
+    .support-links {
+      display: flex;
+      gap: .8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .support-link {
+      font-size: .85rem;
+      color: #d4a574;
+      text-decoration: none;
+      padding: .4rem .8rem;
+      border-radius: 6px;
+      background: rgba(212,165,116,.08);
+      transition: .2s;
+    }
+
+    .support-link:hover {
+      background: rgba(212,165,116,.15);
+    }
+
+    footer {
+      padding: 1.5rem;
+      text-align: center;
+      color: #808080;
+      font-size: .9rem;
+      border-top: 1px solid rgba(212,165,116,.15);
+    }
+
+    @media(max-width:768px) {
+      h1 { font-size: 2rem; }
+      .cancel-container { padding: 2.2rem 1.6rem; }
+      .button-group { flex-direction: column; }
+      .btn { width: 100%; }
     }
   </style>
 
-  <!-- ===== META PIXEL (solo init, sin PageView) ===== -->
+  <!-- ===== META PIXEL (solo init) ===== -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -260,12 +309,16 @@
       No se ha realizado ningún cargo y puedes volver a intentarlo cuando quieras.
     </p>
 
+    <div class="reassurance-box">
+      <p>✓ No se ha realizado ningún cargo en tu tarjeta</p>
+    </div>
+
     <div class="info-box">
       <h3>¿Qué puedes hacer ahora?</h3>
       <ul>
         <li>Volver a intentar el pago cuando estés listo</li>
-        <li>Revisar tranquilamente tu pedido</li>
-        <li>Contactarnos si has tenido cualquier duda</li>
+        <li>Revisar tranquilamente tu pedido antes de continuar</li>
+        <li>Contactarnos si has tenido cualquier duda o problema técnico</li>
       </ul>
     </div>
 
@@ -273,23 +326,32 @@
       <a href="/#formulario-lirya" class="btn btn-primary">Intentar de nuevo</a>
       <a href="/" class="btn btn-secondary">Volver al inicio</a>
     </div>
+
+    <div class="support-section">
+      <p>¿Necesitas ayuda?</p>
+      <div class="support-links">
+        <a href="mailto:hola@lirya.studio" class="support-link">✉️ Email</a>
+        <a href="https://wa.me/34613745470?text=Hola%2C%20he%20tenido%20un%20problema%20con%20el%20pago" target="_blank" rel="noopener noreferrer" class="support-link">💬 WhatsApp</a>
+      </div>
+    </div>
   </div>
 </main>
 
 <footer>
-  © 2025–2026 Lirya · Todos los derechos reservados
+  © 2025—2026 Lirya · Todos los derechos reservados
 </footer>
 
+<!-- ✅ TRACKING: CancelCheckout (Pixel + CAPI) + Cleanup -->
 <script>
-/* ===== Cancel: track custom event + CAPI + cleanup (SIN duplicar) ===== */
 (function () {
   const hasFbq = typeof window.fbq === "function";
 
   const urlParams = new URLSearchParams(location.search);
   const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
   const DEBUG = urlParams.get("debug_meta") === "1";
-  const log = (...args) => { if (DEBUG) console.log("[META][CANCEL]", ...args); };
+  const log = (...args) => { if (DEBUG) console.log("[META CANCEL]", ...args); };
 
+  // Anti-duplicados
   const once = (key, fn) => {
     try {
       if (sessionStorage.getItem(key)) return;
@@ -298,6 +360,7 @@
     fn();
   };
 
+  // Cookies
   const getCookie = (name) => {
     const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
     return m ? decodeURIComponent(m[1]) : "";
@@ -306,16 +369,17 @@
   const FBP = getCookie("_fbp");
   const FBC = getCookie("_fbc");
 
+  // Event ID con sufijo "_cancel" para dedupe correcto
   function getCheckoutEventId() {
     try { return sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) { return ""; }
   }
 
-  // ✅ Dedupe correcto: NO uses el mismo event_id exacto del checkout para cancel
   const checkoutEventId = getCheckoutEventId();
-  const eventId =
-    checkoutEventId ? (checkoutEventId + "_cancel") : ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
+  const eventId = checkoutEventId 
+    ? (checkoutEventId + "_cancel") 
+    : ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
 
-  // ✅ Mejor atribución: URL completa (sin hash)
+  // URL limpia (sin hash)
   const event_source_url = (function(){
     try {
       const u = new URL(window.location.href);
@@ -326,18 +390,24 @@
     }
   })();
 
+  // CAPI sender
   async function sendCapiEvent(body) {
     const url = "/api/meta-capi";
     const payload = JSON.stringify(body);
 
-    // beacon
+    // sendBeacon primero (mejor para iOS/Safari)
     try {
       if (navigator.sendBeacon) {
         const blob = new Blob([payload], { type: "application/json" });
         const ok = navigator.sendBeacon(url, blob);
-        if (ok) return true;
+        if (ok) {
+          log("CAPI sendBeacon OK");
+          return true;
+        }
       }
-    } catch (e) {}
+    } catch (e) {
+      log("CAPI beacon error", e);
+    }
 
     // fetch fallback
     try {
@@ -347,18 +417,21 @@
         keepalive: true,
         body: payload,
       });
+
       if (DEBUG) {
         const txt = await res.text().catch(() => "");
         log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 200));
       }
       return res.ok;
     } catch (e) {
+      log("CAPI fetch error", e);
       return false;
     }
   }
 
-  once("lirya_cancel_fired_" + eventId, () => {
-    // Pixel: custom
+  // Disparar CancelCheckout una sola vez
+  once("lirya_cancel_" + eventId, () => {
+    // Pixel: custom event
     if (hasFbq) {
       try {
         window.fbq("trackCustom", "CancelCheckout", {}, { eventID: eventId });
@@ -378,15 +451,23 @@
       user_data: {
         ...(FBP ? { fbp: FBP } : {}),
         ...(FBC ? { fbc: FBC } : {}),
+        client_user_agent: navigator.userAgent || undefined,
       },
       ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
     };
 
     sendCapiEvent(capiBody);
+    log("CancelCheckout enviado", eventId);
   });
 
-  // ✅ Limpieza para reintento limpio
-  try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+  // Limpieza para reintento limpio
+  try {
+    sessionStorage.removeItem("lirya_checkout_event_id");
+    sessionStorage.removeItem("lirya_purchase_value");
+    sessionStorage.removeItem("lirya_purchase_plan");
+  } catch(_) {}
+
+  log("Cancel page loaded, cleaned session");
 })();
 </script>
 
