@@ -5230,28 +5230,33 @@ const form = root.querySelector("#lirya-form");
 
 /* ===== MÓVIL ===== */
 @media (max-width:900px){
+  .lirya-guarantee-card{
+    display:flex;
+    flex-direction:column;
+  }
+  .lirya-guarantee-card p{
+    flex-grow:1;
+  }
+}
+
+  @media (max-width:900px){
   .lirya-guarantee{ padding:75px 18px; }
+
   .lirya-guarantee-cards{
     display:flex;
     overflow-x:auto;
-    gap:16px;
+    gap:14px;
     scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch;
+    padding:0 10px;              /* aire lateral para que no “pegue” */
   }
-  .lirya-guarantee-card{
-  min-width:68%;          /* ⬅️ menos ancho */
-  min-height:190px;       /* ⬅️ fuerza forma más cuadrada */
-  scroll-snap-align:center;
-  flex-shrink:0;
 
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-}
-  
-.lirya-guarantee-card p{
-  flex-grow:1;
-}
+  .lirya-guarantee-card{
+    flex:0 0 72%;                /* ⬅️ ancho real del slide (menos ancho) */
+    max-width:320px;             /* ⬅️ límite para que NO se vea enorme */
+    scroll-snap-align:center;
+    min-height:190px;            /* ⬅️ más “cuadrada” */
+  }
 
   .lirya-guarantee-cards::-webkit-scrollbar{
     display:none;
