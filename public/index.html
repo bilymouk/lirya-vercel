@@ -5055,6 +5055,31 @@ const form = root.querySelector("#lirya-form");
   
 <!-- ===== GARANTÍA + MINI FAQ ===== -->
 <style>
+/* ===== AJUSTES: kicker blanco + contenido centrado en cards ===== */
+
+/* 1) Kicker (Revisión incluida / Que emocione de verdad) en blanco */
+.lirya-guarantee-kicker{
+  color:#fff !important;
+}
+
+/* 2) Centrar todo el contenido dentro de cada viñeta */
+.lirya-guarantee-card{
+  text-align:center;            /* centra textos */
+  display:flex;                 /* centra estructura */
+  flex-direction:column;
+  align-items:center;           /* centra elementos (kicker) */
+}
+
+/* Para que el “pill” quede centrado perfecto */
+.lirya-guarantee-kicker{
+  justify-content:center;
+}
+
+/* Opcional: mejora estética del párrafo centrado */
+.lirya-guarantee-card p{
+  text-align:center;
+}
+
 .lirya-guarantee{
   position:relative;
   background:url('/ondas-neon.jpg') center/cover no-repeat;
