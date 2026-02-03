@@ -524,234 +524,186 @@
        - VideoPlay SOLO al darle play al vídeo (Pixel + CAPI)
        - ❌ NO Lead aquí (Lead SOLO existe en el Paso 1 del formulario al darle "Siguiente")
   -->
-  <script>
-  (function () {
-    const hasFbq = typeof window.fbq === "function";
-    const urlParams = new URLSearchParams(location.search);
+<script>
+(function () {
+  const hasFbq = typeof window.fbq === "function";
+  const urlParams = new URLSearchParams(location.search);
 
-    // ✅ conserva test_event_code al navegar entre páginas
-    let TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
-    try{
-      if (TEST_EVENT_CODE) sessionStorage.setItem("lirya_test_event_code", TEST_EVENT_CODE);
-      else TEST_EVENT_CODE = sessionStorage.getItem("lirya_test_event_code") || "";
-    }catch(_){}
+  // ✅ conserva test_event_code
+  let TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
+  try {
+    if (TEST_EVENT_CODE) sessionStorage.setItem("lirya_test_event_code", TEST_EVENT_CODE);
+    else TEST_EVENT_CODE = sessionStorage.getItem("lirya_test_event_code") || "";
+  } catch (_) {}
 
-    const DEBUG = urlParams.get("debug_meta") === "1";
-    const log = (...args) => { if (DEBUG) console.log("[META REACCION:CARLOS]", ...args); };
+  const DEBUG = urlParams.get("debug_meta") === "1";
+  const log = (...args) => { if (DEBUG) console.log("[META REACCION:CARLOS]", ...args); };
 
-    const PERSONA = "carlos";
-    const PAGE_TYPE = "reacciones";
-    const CONTENT_NAME = "Reacción - Carlos (página)";
+  const PERSONA = "carlos";
+  const PAGE_TYPE = "reacciones";
+  const CONTENT_NAME = "Reacción - Carlos (página)";
+  const CONTENT_KEY = window.location.pathname; // ✅ contenido = URL
 
-    // ===== anti-duplicados por sesión =====
-    const once = (key, fn) => {
-      try {
-        if (sessionStorage.getItem(key)) return;
-        sessionStorage.setItem(key, "1");
-      } catch(_) {}
-      fn();
-    };
+  // ===== anti-duplicados por sesión (para VC) =====
+  const onceSession = (key, fn) => {
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch(_) {}
+    fn();
+  };
 
-    // ===== cookies (Safari-friendly / ITP) =====
-    const getCookie = (name) => {
-      const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-      return m ? decodeURIComponent(m[2]) : null;
-    };
+  // ===== cookies (ITP friendly) =====
+  const getCookie = (name) => {
+    const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
+    return m ? decodeURIComponent(m[1]) : "";
+  };
 
-    const setCookie = (name, value, days) => {
-      const maxAge = days * 24 * 60 * 60;
-      document.cookie =
-        `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
-    };
+  const setCookie = (name, value, days) => {
+    const maxAge = days * 24 * 60 * 60;
+    document.cookie =
+      `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax; Secure`;
+  };
 
-    function ensureFbp() {
-      let fbp = getCookie("_fbp");
-      if (fbp) return fbp;
-      const ts = Date.now();
-      const rnd = Math.floor(Math.random() * 1e10);
-      fbp = `fb.1.${ts}.${rnd}`;
-      setCookie("_fbp", fbp, 90);
-      return fbp;
+  function ensureFbp() {
+    let fbp = getCookie("_fbp");
+    if (fbp) return fbp;
+    const ts = Date.now();
+    const rnd = Math.floor(Math.random() * 1e10);
+    fbp = `fb.1.${ts}.${rnd}`;
+    setCookie("_fbp", fbp, 90);
+    return fbp;
+  }
+
+  function ensureFbc() {
+    const existing = getCookie("_fbc");
+    if (existing) return existing;
+    const fbclid = urlParams.get("fbclid");
+    if (!fbclid) return "";
+    const ts = Date.now();
+    const fbc = `fb.1.${ts}.${fbclid}`;
+    setCookie("_fbc", fbc, 90);
+    return fbc;
+  }
+
+  const FBP = ensureFbp();
+  const FBC = ensureFbc();
+
+  const newEventId = () => {
+    try {
+      if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+    } catch(_) {}
+    return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+  };
+
+  // URL limpia (sin query/hash)
+  const event_source_url = window.location.origin + window.location.pathname;
+
+  // ===== CAPI sender =====
+  async function sendCapiEvent(body) {
+    const url = "/api/meta-capi";
+    const payload = JSON.stringify(body);
+
+    // beacon first (mejor iOS/Safari)
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: "application/json" });
+        const ok = navigator.sendBeacon(url, blob);
+        if (ok) {
+          log("CAPI sendBeacon OK");
+          return true;
+        }
+      }
+    } catch (e) {
+      log("CAPI beacon error", e);
     }
 
-    function ensureFbc() {
-      const existing = getCookie("_fbc");
-      if (existing) return existing;
-      const fbclid = urlParams.get("fbclid");
-      if (!fbclid) return null;
-      const ts = Date.now();
-      const fbc = `fb.1.${ts}.${fbclid}`;
-      setCookie("_fbc", fbc, 90);
-      return fbc;
-    }
-
-    const FBP = ensureFbp();
-    const FBC = ensureFbc();
-
-    const newEventId = () => {
-      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-      return "ev_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-    };
-
-    // URL limpia (sin query/hash)
-    const event_source_url = window.location.origin + window.location.pathname;
-
-    // ===== CAPI sender =====
-    async function sendCapiEvent(body) {
-      const url = "/api/meta-capi";
-      const payload = JSON.stringify(body);
-
-      // beacon first (mejor iOS/Safari)
-      try {
-        if (navigator.sendBeacon) {
-          const blob = new Blob([payload], { type: "application/json" });
-          const ok = navigator.sendBeacon(url, blob);
-          if (ok) {
-            log("CAPI sendBeacon OK");
-            return true;
-          }
-        }
-      } catch (e) {
-        log("CAPI beacon error", e);
-      }
-
-      // fetch fallback
-      try {
-        const res = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          keepalive: true,
-          body: payload,
-        });
-
-        if (DEBUG) {
-          const txt = await res.text().catch(() => "");
-          log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
-        }
-        return res.ok;
-      } catch (e) {
-        log("CAPI fetch error", e);
-        return false;
-      }
-    }
-
-    // ===== track unified (Pixel + CAPI) =====
-    function track(eventName, customData = {}, opts = {}) {
-      const eventId = opts.eventId || newEventId();
-
-      // Pixel (estándar)
-      if (hasFbq) {
-        try {
-          window.fbq("track", eventName, customData, { eventID: eventId });
-          log("Pixel", eventName, eventId);
-        } catch (e) {
-          log("Pixel error", e);
-        }
-      } else {
-        log("Pixel NO disponible (bloqueado / Safari)");
-      }
-
-      // CAPI (mismo event_id para dedupe)
-      sendCapiEvent({
-        event_name: eventName,
-        event_time: Math.floor(Date.now() / 1000),
-        event_id: eventId,
-        event_source_url,
-        action_source: "website",
-
-        // compat: si tu endpoint acepta fbp/fbc en raíz
-        fbp: FBP || undefined,
-        fbc: FBC || undefined,
-
-        user_data: {
-          fbp: FBP || undefined,
-          fbc: FBC || undefined,
-          client_user_agent: navigator.userAgent || undefined,
-        },
-
-        custom_data: customData,
-        ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+    // fetch fallback
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: payload,
       });
 
-      return eventId;
+      if (DEBUG) {
+        const txt = await res.text().catch(() => "");
+        log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 300));
+      }
+      return res.ok;
+    } catch (e) {
+      log("CAPI fetch error", e);
+      return false;
+    }
+  }
+
+  // ===== track unified (Pixel + CAPI) =====
+  function track(eventName, customData = {}, opts = {}) {
+    const eventId = opts.eventId || newEventId();
+
+    // Pixel
+    if (hasFbq) {
+      try {
+        window.fbq("track", eventName, customData, { eventID: eventId });
+        log("Pixel", eventName, eventId);
+      } catch (e) {
+        log("Pixel error", e);
+      }
+    } else {
+      log("Pixel NO disponible (bloqueado / Safari)");
     }
 
-    // =========================================================
-    // 0) PAGEVIEW al CARGAR la PÁGINA
-    // =========================================================
-   once("lirya_pageview_" + PERSONA, () => {
-  if (hasFbq) {
-    try { window.fbq("track", "PageView"); } catch(_) {}
-  }
-});
+    // CAPI (mismo event_id para dedupe)
+    sendCapiEvent({
+      event_name: eventName,
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: eventId,
+      event_source_url,
+      action_source: "website",
+      user_data: {
+        ...(FBP ? { fbp: FBP } : {}),
+        ...(FBC ? { fbc: FBC } : {}),
+        client_user_agent: navigator.userAgent || undefined,
+      },
+      custom_data: customData,
+      ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+    });
 
-
- // =========================================================
-// 1) VIEWCONTENT al CARGAR la PÁGINA
-//    ✅ PERO: si ya lo disparó el carrusel (sección C), NO duplicamos
-// =========================================================
-(function fireViewContentOnce(){
-  // clave que usa el carrusel (sección C): "lirya_vc_reaction_" + href
-  const vcFromCarouselKey = "lirya_vc_reaction_" + window.location.pathname;
-
-  let cameFromCarousel = false;
-  try {
-    cameFromCarousel = !!sessionStorage.getItem(vcFromCarouselKey);
-  } catch(_) {}
-
-  // Si ya existe, NO disparamos ViewContent aquí (evitamos doble conteo)
-  if (cameFromCarousel) {
-    log("Skip ViewContent: ya disparado desde carrusel");
-    return;
+    return eventId;
   }
 
-  once("lirya_viewcontent_" + PERSONA, () => {
+  // =========================================================
+  // 0) PAGEVIEW — 1 por LOAD (no por sesión)
+  //    Anti doble firing en la misma carga
+  // =========================================================
+  (function firePageViewOncePerLoad(){
+    if (window.__lirya_pageview_fired) return;
+    window.__lirya_pageview_fired = true;
+
+    track("PageView", { page_type: PAGE_TYPE });
+  })();
+
+  // =========================================================
+  // 1) VIEWCONTENT — Opción A: 1 por contenido por sesión
+  // =========================================================
+  onceSession("lirya_viewcontent_" + CONTENT_KEY, () => {
     track("ViewContent", {
       content_name: CONTENT_NAME,
       content_category: "Video testimonial",
       content_type: "video_page",
       page_type: PAGE_TYPE,
       persona: PERSONA,
-      source_page: window.location.pathname
+      content_key: CONTENT_KEY
     });
   });
+
+  // =========================================================
+  // ❌ NO VideoPlay (lo quitamos)
+  // =========================================================
 })();
+</script>
 
-    // =========================================================
-    // 2) VIDEOPLAY SOLO cuando le dan PLAY al video (evento estándar)
-    //    ❌ NO custom event
-    // =========================================================
-    (function bindVideoPlay(){
-      const video = document.querySelector("video");
-      if (!video) return;
-
-      const key = "lirya_videoplay_" + PERSONA;
-
-      const fire = () => {
-        once(key, () => {
-          track("VideoPlay", {
-            content_name: "Reacción Carlos",
-            content_category: "Reacciones",
-            content_type: "video_testimonial",
-            page_type: PAGE_TYPE,
-            persona: PERSONA,
-            source_page: window.location.pathname
-          });
-        });
-      };
-
-      video.addEventListener("play", fire, { passive: true });
-      // iOS: a veces el primer gesto es touch
-      video.addEventListener("touchstart", fire, { passive: true });
-    })();
-
-    // =========================================================
-    // ❌ NO LEAD AQUÍ
-    // Lead SOLO se dispara en el formulario, al dar "Siguiente" en el Paso 1.
-    // =========================================================
-
-  })();
-  </script>
 
 </body>
 </html>
