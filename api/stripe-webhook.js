@@ -214,7 +214,7 @@ module.exports = async (req, res) => {
     // Importes
     const amountTotal = safeNumber(session.amount_total, 0);
     const value = amountTotal / 100;
-    const currency = String(session.currency || "eur").toUpperCase();
+    const currency = String(session.currency || "eur").toLowerCase(); // ✅ FIX: lowercase
 
     // event_id estable para dedupe Meta
     const eventId = String(
@@ -241,7 +241,10 @@ module.exports = async (req, res) => {
     const address = session.customer_details?.address || {};
     const ct = address.city ? sha256(normalizeCity(address.city)) : undefined;
     const zp = address.postal_code ? sha256(normalizeZip(address.postal_code)) : undefined;
-    const country = address.country ? String(address.country).trim().toLowerCase() : undefined;
+    
+    // ✅ FIX: Hash country properly
+    const rawCountry = address.country ? String(address.country).trim().toLowerCase().slice(0, 2) : null;
+    const country = rawCountry ? sha256(rawCountry) : undefined;
 
     const fbp = metadata.fbp || undefined;
     const fbc = metadata.fbc || undefined;
@@ -264,6 +267,7 @@ module.exports = async (req, res) => {
       has_phone: !!ph,
       has_name: !!fn,
       has_city: !!ct,
+      has_country: !!country,
       timestamp: new Date(event.created * 1000).toISOString(),
     });
 
