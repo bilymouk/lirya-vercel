@@ -1,16 +1,18 @@
 /**
- * /api/payment.js  — FINAL (corregido y robusto)
+ * /api/payment.js — FINAL (corregido y robusto)
  *
  * Qué corrige específicamente:
- * ✅ Espacios antes de la primera letra: se aceptan (se hace trim y normalización).
+ * ✅ Importa crypto (antes podía romper requestId).
+ * ✅ Espacios antes de la primera letra: se aceptan (trim + normalización).
  * ✅ Si un intento falla por validación (400), NO te “bloquea” el siguiente intento.
- * ✅ El rate limit SOLO se aplica cuando el payload ya es válido (evita el “esperar un rato”).
- * ✅ Respuestas con `code` para que el frontend no muestre “error de conexión” cuando es 400/429.
+ * ✅ Rate limit SOLO cuando el payload ya es válido.
+ * ✅ Respuestas con `code` para que el frontend distinga 400/429/500.
  * ✅ Logs útiles (requestId) para depurar en Vercel.
- * ✅ (Muy importante) Corrige tarifa 39€: amount = 3900 (no 100).
+ * ✅ Corrige tarifa 39€: amount = 3900.
  */
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const crypto = require("crypto"); // ✅ FIX: faltaba
 
 const ALLOWED_ORIGINS = [
   "https://lirya.studio",
@@ -60,7 +62,6 @@ function sanitizeString(str, maxLength = 500) {
 
 function normalizeSpaces(str) {
   // Colapsa espacios/saltos múltiples: "hola   mundo" -> "hola mundo"
-  // IMPORTANTE: se aplica después de trim para que "   a" -> "a"
   return String(str).replace(/\s+/g, " ").trim();
 }
 
@@ -111,9 +112,7 @@ function sanitizeFormPayload(f) {
     const v = f[k];
     if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
       const limit = MAX[k] || 5000;
-      // sanitizeString ya hace trim
       out[k] = sanitizeString(v, limit);
-      // normaliza espacios para evitar "   hola" o "hola   mundo"
       if (typeof out[k] === "string") out[k] = normalizeSpaces(out[k]);
     }
   }
@@ -140,9 +139,11 @@ function json(res, status, payload) {
 }
 
 module.exports = async (req, res) => {
-  const requestId = (globalThis.crypto && crypto.randomUUID)
-    ? crypto.randomUUID()
-    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  // ✅ requestId robusto
+  const requestId =
+    typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
   // --- 1) CORS ---
   const origin = req.headers.origin;
@@ -152,7 +153,7 @@ module.exports = async (req, res) => {
   }
   res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-CSRF-Token");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-CSRF-Token, Accept");
   res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
 
   if (req.method === "OPTIONS") return res.status(200).end();
@@ -162,7 +163,6 @@ module.exports = async (req, res) => {
 
   const ip = getClientIp(req);
 
-  // Log mínimo de entrada (para que NUNCA salga “vacío” en Vercel)
   console.log("[payment] start", {
     requestId,
     hasBody: !!req.body,
@@ -200,7 +200,6 @@ module.exports = async (req, res) => {
     const missingFields = [];
     for (const [field, label] of Object.entries(requiredFields)) {
       const val = f[field];
-      // como ya normalizamos espacios, "   a" -> "a", "   " -> ""
       if (!val || String(val).length < 1) {
         missingFields.push(label);
       }
@@ -219,8 +218,7 @@ module.exports = async (req, res) => {
     const tarifa = String(f.tarifa || "").trim();
     let amount;
 
-    // ✅ CORREGIDO: 39€ = 3900 (antes estaba 100)
-    if (tarifa === "39") amount = 3900;
+    if (tarifa === "39") amount = 3900; // ✅
     else if (tarifa === "59") amount = 5900;
     else if (tarifa === "79") amount = 7900;
     else {
@@ -231,7 +229,6 @@ module.exports = async (req, res) => {
     const recipientName = sanitizeString(f.recipient_name, 100);
 
     // --- 3) RATE LIMITING (DESPUÉS de validar) ---
-    // Así, los errores de formulario NO “banean” al usuario y NO obliga a esperar.
     const rateKey = ip || "unknown";
     if (!checkRateLimit(rateKey)) {
       console.warn("[payment] rate_limited", { requestId, ip: rateKey });
@@ -311,6 +308,7 @@ module.exports = async (req, res) => {
         billing_address_collection: "required",
         customer_creation: "always",
 
+        // ✅ esto ayuda a relacionar cosas, aunque el webhook ya usa session.id
         client_reference_id: eventId,
 
         line_items: [
@@ -330,11 +328,11 @@ module.exports = async (req, res) => {
           },
         ],
 
-        success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&event_id=${encodeURIComponent(
-          eventId
-        )}`,
+        // ✅ Nota: success NO debe disparar Purchase client-side; ya lo hace el webhook
+        success_url: `${BASE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}&event_id=${encodeURIComponent(eventId)}`,
         cancel_url: `${BASE_URL}/cancel.html?event_id=${encodeURIComponent(eventId)}`,
 
+        // ✅ Doble metadata: session + payment_intent (bien)
         payment_intent_data: {
           metadata: {
             request_id: requestId,
@@ -348,10 +346,12 @@ module.exports = async (req, res) => {
             voice_type: sanitizeString(f.voice_type, 40),
             language: sanitizeString(f.language, 40),
             emotion: sanitizeString(f.emotion, 80),
+
             event_id: eventId,
             fbp: sanitizeString(f.fbp, 200),
             fbc: sanitizeString(f.fbc, 200),
             event_source_url: safeEventSourceUrl,
+
             order_date: new Date().toISOString(),
             campaign_source: "san_valentin_2026",
           },
@@ -369,10 +369,12 @@ module.exports = async (req, res) => {
           voice_type: sanitizeString(f.voice_type, 40),
           language: sanitizeString(f.language, 40),
           emotion: sanitizeString(f.emotion, 80),
+
           event_id: eventId,
           fbp: sanitizeString(f.fbp, 200),
           fbc: sanitizeString(f.fbc, 200),
           event_source_url: safeEventSourceUrl,
+
           order_date: new Date().toISOString(),
           campaign_source: "san_valentin_2026",
         },
