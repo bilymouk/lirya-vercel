@@ -1,3 +1,15 @@
+/**
+ * /api/payment.js  — FINAL (corregido y robusto)
+ *
+ * Qué corrige específicamente:
+ * ✅ Espacios antes de la primera letra: se aceptan (se hace trim y normalización).
+ * ✅ Si un intento falla por validación (400), NO te “bloquea” el siguiente intento.
+ * ✅ El rate limit SOLO se aplica cuando el payload ya es válido (evita el “esperar un rato”).
+ * ✅ Respuestas con `code` para que el frontend no muestre “error de conexión” cuando es 400/429.
+ * ✅ Logs útiles (requestId) para depurar en Vercel.
+ * ✅ (Muy importante) Corrige tarifa 39€: amount = 3900 (no 100).
+ */
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const ALLOWED_ORIGINS = [
@@ -6,14 +18,16 @@ const ALLOWED_ORIGINS = [
 ];
 
 // ===== RATE LIMITING =====
+// Nota: En serverless, este Map puede persistir entre invocaciones (warm) y resetearse en cold starts.
+// Aún así, sirve para evitar abusos básicos sin romper UX.
 const rateLimiter = new Map();
 const RATE_LIMIT = 10; // requests per window
-const RATE_WINDOW = 60000; // 1 minute
+const RATE_WINDOW = 60_000; // 1 minute
 
-function checkRateLimit(ip) {
+function checkRateLimit(key) {
   const now = Date.now();
-  const key = ip || "unknown";
-  const record = rateLimiter.get(key) || { count: 0, resetTime: now + RATE_WINDOW };
+  const k = key || "unknown";
+  const record = rateLimiter.get(k) || { count: 0, resetTime: now + RATE_WINDOW };
 
   if (now > record.resetTime) {
     record.count = 1;
@@ -22,12 +36,12 @@ function checkRateLimit(ip) {
     record.count++;
   }
 
-  rateLimiter.set(key, record);
+  rateLimiter.set(k, record);
 
   // Cleanup old entries
   if (rateLimiter.size > 1000) {
-    for (const [k, v] of rateLimiter.entries()) {
-      if (now > v.resetTime) rateLimiter.delete(k);
+    for (const [rk, rv] of rateLimiter.entries()) {
+      if (now > rv.resetTime) rateLimiter.delete(rk);
     }
   }
 
@@ -42,6 +56,12 @@ function sanitizeString(str, maxLength = 500) {
     .replace(/[<>'"]/g, "") // Remove dangerous chars
     .trim()
     .slice(0, maxLength);
+}
+
+function normalizeSpaces(str) {
+  // Colapsa espacios/saltos múltiples: "hola   mundo" -> "hola mundo"
+  // IMPORTANTE: se aplica después de trim para que "   a" -> "a"
+  return String(str).replace(/\s+/g, " ").trim();
 }
 
 function sanitizeEmail(email) {
@@ -91,7 +111,10 @@ function sanitizeFormPayload(f) {
     const v = f[k];
     if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
       const limit = MAX[k] || 5000;
+      // sanitizeString ya hace trim
       out[k] = sanitizeString(v, limit);
+      // normaliza espacios para evitar "   hola" o "hola   mundo"
+      if (typeof out[k] === "string") out[k] = normalizeSpaces(out[k]);
     }
   }
 
@@ -104,97 +127,134 @@ function sanitizeFormPayload(f) {
   return out;
 }
 
+function getClientIp(req) {
+  return (
+    (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim() ||
+    (req.socket && req.socket.remoteAddress ? String(req.socket.remoteAddress) : "") ||
+    ""
+  );
+}
+
+function json(res, status, payload) {
+  return res.status(status).json(payload);
+}
+
 module.exports = async (req, res) => {
+  const requestId = (globalThis.crypto && crypto.randomUUID)
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
   // --- 1) CORS ---
   const origin = req.headers.origin;
 
   if (ALLOWED_ORIGINS.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
-
   res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-CSRF-Token");
-  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Método no permitido" });
+    return json(res, 405, { code: "METHOD_NOT_ALLOWED", error: "Método no permitido", requestId });
   }
 
-  // --- 2) RATE LIMITING ---
-  const ip =
-    (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim() ||
-    (req.socket && req.socket.remoteAddress ? String(req.socket.remoteAddress) : "");
+  const ip = getClientIp(req);
 
-  if (!checkRateLimit(ip)) {
-    console.warn(`⚠️ Rate limit exceeded for IP: ${ip}`);
-    return res.status(429).json({
-      error: "Demasiadas solicitudes. Intenta de nuevo en un minuto.",
-    });
-  }
+  // Log mínimo de entrada (para que NUNCA salga “vacío” en Vercel)
+  console.log("[payment] start", {
+    requestId,
+    hasBody: !!req.body,
+    origin: origin || "",
+    ip: ip ? ip.slice(0, 15) + "..." : "",
+    ts: new Date().toISOString(),
+  });
 
   try {
     const raw = req.body || {};
     const f = sanitizeFormPayload(raw);
 
+    // --- 2) VALIDACIONES (ANTES del rate limit) ---
     const eventId = sanitizeString(f.event_id, 120);
-    if (!eventId) return res.status(400).json({ error: "Falta event_id" });
+    if (!eventId) {
+      console.warn("[payment] validation_error: missing_event_id", { requestId });
+      return json(res, 400, { code: "VALIDATION_ERROR", error: "Falta event_id", requestId });
+    }
 
     const email = sanitizeEmail(f.email);
     if (!email || !email.includes("@") || email.length < 5) {
-      console.warn(`⚠️ Email inválido recibido: ${raw.email}`);
-      return res.status(400).json({ error: "Email no válido" });
+      console.warn("[payment] validation_error: invalid_email", { requestId, rawEmail: raw.email || "" });
+      return json(res, 400, { code: "VALIDATION_ERROR", error: "Email no válido", requestId });
     }
 
-    // --- VALIDAR CAMPOS OBLIGATORIOS ---
+    // Validar campos obligatorios
     const requiredFields = {
-      recipient_name: 'Nombre del destinatario',
-      your_name: 'Tu nombre',
-      relationship: 'Relación',
-      how_met: 'Cómo se conocieron',
-      special_moment: 'Momento especial',
-      song_style: 'Estilo de canción',
+      recipient_name: "Nombre del destinatario",
+      your_name: "Tu nombre",
+      relationship: "Relación",
+      how_met: "Cómo se conocieron",
+      special_moment: "Momento especial",
+      song_style: "Estilo de canción",
     };
 
     const missingFields = [];
     for (const [field, label] of Object.entries(requiredFields)) {
-      if (!f[field] || f[field].length < 2) {
+      const val = f[field];
+      // como ya normalizamos espacios, "   a" -> "a", "   " -> ""
+      if (!val || String(val).length < 2) {
         missingFields.push(label);
       }
     }
 
     if (missingFields.length > 0) {
-      return res.status(400).json({ 
-        error: `Campos obligatorios faltantes: ${missingFields.join(', ')}` 
+      console.warn("[payment] validation_error: missing_fields", { requestId, missingFields });
+      return json(res, 400, {
+        code: "VALIDATION_ERROR",
+        error: `Campos obligatorios faltantes: ${missingFields.join(", ")}`,
+        requestId,
       });
+    }
+
+    // Tarifa y amount (antes del rate limit)
+    const tarifa = String(f.tarifa || "").trim();
+    let amount;
+
+    // ✅ CORREGIDO: 39€ = 3900 (antes estaba 100)
+    if (tarifa === "39") amount = 3900;
+    else if (tarifa === "59") amount = 5900;
+    else if (tarifa === "79") amount = 7900;
+    else {
+      console.warn("[payment] validation_error: invalid_tarifa", { requestId, tarifa });
+      return json(res, 400, { code: "VALIDATION_ERROR", error: "Tarifa no válida", requestId });
     }
 
     const recipientName = sanitizeString(f.recipient_name, 100);
 
-    console.log("🔥 PAYMENT REQUEST:", {
+    // --- 3) RATE LIMITING (DESPUÉS de validar) ---
+    // Así, los errores de formulario NO “banean” al usuario y NO obliga a esperar.
+    const rateKey = ip || "unknown";
+    if (!checkRateLimit(rateKey)) {
+      console.warn("[payment] rate_limited", { requestId, ip: rateKey });
+      return json(res, 429, {
+        code: "RATE_LIMIT",
+        error: "Demasiadas solicitudes. Intenta de nuevo en un minuto.",
+        requestId,
+      });
+    }
+
+    console.log("[payment] validated_payload", {
+      requestId,
       email,
-      tarifa: f.tarifa,
+      tarifa,
       recipient_name: recipientName,
       song_style: f.song_style,
       event_id: eventId,
-      ip: ip.slice(0, 15) + "...",
+      ip: rateKey ? rateKey.slice(0, 15) + "..." : "",
       timestamp: new Date().toISOString(),
     });
 
-    // --- 4) PRECIO SEGÚN TARIFA ---
-    let amount;
-    const tarifa = String(f.tarifa || "").trim();
-
-    if (tarifa === "39") amount = 100;
-    else if (tarifa === "59") amount = 5900;
-    else if (tarifa === "79") amount = 7900;
-    else {
-      console.warn(`⚠️ Tarifa inválida: ${tarifa}`);
-      return res.status(400).json({ error: "Tarifa no válida" });
-    }
-
-    // --- 5) BASE_URL INFALIBLE ---
+    // --- 4) BASE_URL INFALIBLE ---
     const envUrl = (process.env.SITE_URL || "").trim();
 
     const proto = (req.headers["x-forwarded-proto"] || "https")
@@ -217,8 +277,8 @@ module.exports = async (req, res) => {
     }
 
     if (!BASE_URL.startsWith("http")) {
-      console.error("❌ BASE_URL inválida:", BASE_URL);
-      return res.status(500).json({ error: "BASE_URL inválida" });
+      console.error("[payment] base_url_invalid", { requestId, BASE_URL });
+      return json(res, 500, { code: "SERVER_ERROR", error: "BASE_URL inválida", requestId });
     }
 
     let safeEventSourceUrl = sanitizeString(f.event_source_url, 2000);
@@ -233,18 +293,15 @@ module.exports = async (req, res) => {
       safeEventSourceUrl = `${BASE_URL}/`;
     }
 
-    // --- 6) CREAR SESIÓN DE STRIPE ---
-    let session;
-    
-    const createSessionWithTimeout = (sessionData, timeout = 10000) => {
+    // --- 5) CREAR SESIÓN DE STRIPE ---
+    const createSessionWithTimeout = (sessionData, timeout = 10_000) => {
       return Promise.race([
         stripe.checkout.sessions.create(sessionData),
-        new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Stripe timeout')), timeout)
-        )
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Stripe timeout")), timeout)),
       ]);
     };
 
+    let session;
     try {
       session = await createSessionWithTimeout({
         payment_method_types: ["card"],
@@ -264,7 +321,7 @@ module.exports = async (req, res) => {
               product_data: {
                 name: "Canción Personalizada - San Valentín 2026",
                 description: recipientName
-                  ? `Para ${recipientName} | ${f.song_style || 'Estilo personalizado'} | Plan ${tarifa}€`
+                  ? `Para ${recipientName} | ${f.song_style || "Estilo personalizado"} | Plan ${tarifa}€`
                   : `Canción personalizada | Plan ${tarifa}€`,
                 images: ["https://lirya.studio/og.jpg"],
               },
@@ -281,6 +338,7 @@ module.exports = async (req, res) => {
 
         payment_intent_data: {
           metadata: {
+            request_id: requestId,
             email,
             tarifa,
             recipient_name: recipientName,
@@ -296,11 +354,12 @@ module.exports = async (req, res) => {
             fbc: sanitizeString(f.fbc, 200),
             event_source_url: safeEventSourceUrl,
             order_date: new Date().toISOString(),
-            campaign_source: 'san_valentin_2026',
+            campaign_source: "san_valentin_2026",
           },
         },
 
         metadata: {
+          request_id: requestId,
           email,
           tarifa,
           recipient_name: recipientName,
@@ -316,94 +375,112 @@ module.exports = async (req, res) => {
           fbc: sanitizeString(f.fbc, 200),
           event_source_url: safeEventSourceUrl,
           order_date: new Date().toISOString(),
-          campaign_source: 'san_valentin_2026',
+          campaign_source: "san_valentin_2026",
         },
       });
     } catch (stripeErr) {
-      if (stripeErr.message === 'Stripe timeout') {
-        console.error("⏱️ Stripe timeout");
-        return res.status(504).json({
+      if (stripeErr && stripeErr.message === "Stripe timeout") {
+        console.error("[payment] stripe_timeout", { requestId });
+        return json(res, 504, {
+          code: "STRIPE_TIMEOUT",
           error: "El servidor de pago tardó demasiado. Intenta de nuevo.",
+          requestId,
         });
       }
 
-      console.error("❌ STRIPE ERROR:", stripeErr);
-      return res.status(500).json({
+      console.error("[payment] stripe_error", {
+        requestId,
+        message: stripeErr && stripeErr.message ? stripeErr.message : String(stripeErr),
+      });
+
+      return json(res, 500, {
+        code: "STRIPE_ERROR",
         error: "Error al crear sesión de pago (Stripe)",
         details: stripeErr && stripeErr.message ? stripeErr.message : String(stripeErr),
+        requestId,
       });
     }
 
-    console.log("✅ STRIPE SESSION CREADA:", session.id);
+    console.log("[payment] stripe_session_created", { requestId, sessionId: session.id });
 
     // Track descuento si lo aplicó
     if (session.total_details?.amount_discount > 0) {
-      console.log("🎁 Descuento aplicado:", {
+      console.log("[payment] discount_applied", {
+        requestId,
         session_id: session.id,
         discount: session.total_details.amount_discount / 100,
         final_amount: session.amount_total / 100,
       });
     }
 
-    // --- 7) ENVIAR DATOS A MAKE (pre-pago) ---
+    // --- 6) ENVIAR DATOS A MAKE (pre-pago) ---
     try {
       const MAKE_WEBHOOK_URL =
         process.env.MAKE_WEBHOOK_URL ||
         "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe";
 
-      // Validar URL
-      if (!MAKE_WEBHOOK_URL || !MAKE_WEBHOOK_URL.startsWith('https://hook.')) {
-        console.error("❌ MAKE_WEBHOOK_URL inválida o no configurada");
-      }
-
-      const doFetch = typeof fetch === "function" ? fetch : null;
-
-      if (!doFetch) {
-        console.warn("⚠️ fetch no disponible en este runtime. Saltando Make.");
+      if (!MAKE_WEBHOOK_URL || !MAKE_WEBHOOK_URL.startsWith("https://hook.")) {
+        console.error("[payment] make_webhook_invalid", { requestId });
       } else {
-        const payloadToMake = {
-          ...f,
-          email,
-          recipient_name: recipientName,
-          tarifa,
-          stripe_session_id: session.id,
-          id_de_pago: session.id,
-          estado_pago: "Pendiente",
-          meta_event_id: eventId,
-          event_source_url: safeEventSourceUrl,
-        };
+        const doFetch = typeof fetch === "function" ? fetch : null;
 
-        const makeResponse = await doFetch(MAKE_WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payloadToMake),
-        });
-
-        if (!makeResponse.ok) {
-          console.error("⚠️ Make webhook failed:", {
-            status: makeResponse.status,
-            statusText: makeResponse.statusText,
-            session_id: session.id,
-          });
+        if (!doFetch) {
+          console.warn("[payment] fetch_not_available_skip_make", { requestId });
         } else {
-          console.log("✅ Pedido enviado a Make con formulario completo");
+          const payloadToMake = {
+            ...f,
+            email,
+            recipient_name: recipientName,
+            tarifa,
+            stripe_session_id: session.id,
+            id_de_pago: session.id,
+            estado_pago: "Pendiente",
+            meta_event_id: eventId,
+            event_source_url: safeEventSourceUrl,
+            request_id: requestId,
+          };
+
+          const makeResponse = await doFetch(MAKE_WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payloadToMake),
+          });
+
+          if (!makeResponse.ok) {
+            console.error("[payment] make_webhook_failed", {
+              requestId,
+              status: makeResponse.status,
+              statusText: makeResponse.statusText,
+              session_id: session.id,
+            });
+          } else {
+            console.log("[payment] make_webhook_ok", { requestId, session_id: session.id });
+          }
         }
       }
     } catch (makeError) {
-      console.error("❌ Error enviando a Make:", {
-        error: makeError.message,
+      console.error("[payment] make_error", {
+        requestId,
+        error: makeError && makeError.message ? makeError.message : String(makeError),
         session_id: session.id,
         email,
       });
+      // No bloqueamos el pago por un fallo de Make.
     }
 
-    // --- 8) DEVOLVER URL PARA REDIRIGIR A STRIPE ---
-    return res.status(200).json({ url: session.url });
+    // --- 7) DEVOLVER URL PARA REDIRIGIR A STRIPE ---
+    return json(res, 200, { url: session.url, requestId });
   } catch (error) {
-    console.error("❌ ERROR PAYMENT:", error);
-    return res.status(500).json({
+    console.error("[payment] unhandled_error", {
+      requestId,
+      message: error && error.message ? error.message : String(error),
+    });
+
+    return json(res, 500, {
+      code: "SERVER_ERROR",
       error: "Error al crear sesión de pago",
       details: error && error.message ? error.message : String(error),
+      requestId,
     });
   }
 };
