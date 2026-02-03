@@ -3789,6 +3789,34 @@ const form = root.querySelector("#lirya-form");
 
   const newEventId = window.LIRYA_UTILS.newEventId;
 
+  function focusFormCard(){
+  // Cierra teclado (móvil)
+  if (document.activeElement && typeof document.activeElement.blur === "function") {
+    document.activeElement.blur();
+  }
+
+  // Scroll SOLO a la card del formulario
+  if (form && typeof form.scrollIntoView === "function") {
+    form.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  // Foco accesible al título del paso (sin mover scroll)
+  const step = steps[i];
+  const title = step && step.querySelector(".step-title");
+  if (title) {
+    if (!title.hasAttribute("tabindex")) {
+      title.setAttribute("tabindex", "-1");
+    }
+    setTimeout(() => {
+      title.focus({ preventScroll: true });
+    }, 250);
+  }
+}
+
+
   function fireLeadStep1(){
     onceSession("lirya_lead_step1_fired", () => {
       let leadEventId = "";
@@ -4007,9 +4035,11 @@ const form = root.querySelector("#lirya-form");
      const prevStepIndex = i;
 
   if (i < steps.length - 1) { 
-    i++; 
-    render(); 
-  }
+  i++; 
+  render(); 
+  focusFormCard(); // 👈 AÑADIDO
+}
+
 
   if (prevStepIndex === 0 && i === 1) {
     fireLeadStep1();
@@ -4019,7 +4049,11 @@ const form = root.querySelector("#lirya-form");
 }
 
     if (backBtn) {
-      if (i > 0) { i--; render(); }
+      if (i > 0) { 
+  i--; 
+  render(); 
+  focusFormCard(); // 👈 AÑADIDO
+}
       return;
     }
   });
