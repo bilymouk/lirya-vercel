@@ -531,21 +531,21 @@
 
   // ✅ conserva test_event_code
   let TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
-  try{
+  try {
     if (TEST_EVENT_CODE) sessionStorage.setItem("lirya_test_event_code", TEST_EVENT_CODE);
     else TEST_EVENT_CODE = sessionStorage.getItem("lirya_test_event_code") || "";
-  }catch(_){}
+  } catch (_) {}
 
   const DEBUG = urlParams.get("debug_meta") === "1";
-  const log = (...args) => { if (DEBUG) console.log("[META REACCION]", ...args); };
+  const log = (...args) => { if (DEBUG) console.log("[META REACCION:YOLANDA]", ...args); };
 
   const PERSONA = "yolanda";
   const PAGE_TYPE = "reacciones";
   const CONTENT_NAME = "Reacción - Yolanda (página)";
   const CONTENT_KEY = window.location.pathname; // ✅ contenido = URL
 
-  // ===== anti-duplicados por sesión =====
-  const once = (key, fn) => {
+  // ===== anti-duplicados por sesión (para VC) =====
+  const onceSession = (key, fn) => {
     try {
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, "1");
@@ -604,6 +604,7 @@
     const url = "/api/meta-capi";
     const payload = JSON.stringify(body);
 
+    // beacon first (mejor iOS/Safari)
     try {
       if (navigator.sendBeacon) {
         const blob = new Blob([payload], { type: "application/json" });
@@ -617,6 +618,7 @@
       log("CAPI beacon error", e);
     }
 
+    // fetch fallback
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -672,16 +674,20 @@
   }
 
   // =========================================================
-  // 0) PAGEVIEW — 1 por sesión (site-wide)
+  // 0) PAGEVIEW — 1 por LOAD (no por sesión)
+  //    Anti doble firing en la misma carga
   // =========================================================
-  once("lirya_pageview_session", () => {
+  (function firePageViewOncePerLoad(){
+    if (window.__lirya_pageview_fired) return;
+    window.__lirya_pageview_fired = true;
+
     track("PageView", { page_type: PAGE_TYPE });
-  });
+  })();
 
   // =========================================================
   // 1) VIEWCONTENT — Opción A: 1 por contenido por sesión
   // =========================================================
-  once("lirya_viewcontent_" + CONTENT_KEY, () => {
+  onceSession("lirya_viewcontent_" + CONTENT_KEY, () => {
     track("ViewContent", {
       content_name: CONTENT_NAME,
       content_category: "Video testimonial",
@@ -693,7 +699,7 @@
   });
 
   // =========================================================
-  // ❌ NO VideoPlay (eliminado por decisión)
+  // ❌ NO VideoPlay (lo quitamos)
   // =========================================================
 })();
 </script>
