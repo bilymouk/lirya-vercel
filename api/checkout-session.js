@@ -71,11 +71,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "session_id requerido" });
     }
 
-    // Validación mejorada: cs_test_ o cs_live_
-    if (
-      !session_id.startsWith('cs_test_') && 
-      !session_id.startsWith('cs_live_')
-    ) {
+    // Validación: cs_test_ o cs_live_
+    if (!session_id.startsWith("cs_test_") && !session_id.startsWith("cs_live_")) {
       return res.status(400).json({ error: "session_id inválido" });
     }
 
@@ -84,46 +81,44 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "session_id longitud inválida" });
     }
 
-    console.log(`📋 Retrieving checkout session: ${session_id.slice(0, 20)}...`);
+    console.log(`📋 Retrieving checkout session: ${session_id.slice(0, 24)}...`);
 
     // Timeout wrapper
     const retrieveWithTimeout = (sessionId, timeout = 8000) => {
       return Promise.race([
         stripe.checkout.sessions.retrieve(sessionId, {
-          expand: ['line_items', 'line_items.data.price.product'],
+          expand: ["line_items", "line_items.data.price.product"],
         }),
-        new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Timeout')), timeout)
-        )
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), timeout)),
       ]);
     };
 
     const session = await retrieveWithTimeout(session_id);
 
     // Verificar si expiró
-    if (session.status === 'expired') {
-      return res.status(410).json({ 
+    if (session.status === "expired") {
+      return res.status(410).json({
         error: "La sesión ha expirado",
-        expired: true 
+        expired: true,
       });
     }
 
     const amount_total = Number(session.amount_total || 0);
     const value = amount_total / 100;
+
     const currency = String(session.currency || "eur").toUpperCase();
     const payment_status = String(session.payment_status || "");
 
-    // Extraer info del producto
+    // Productos
     const lineItems = session.line_items?.data || [];
-    const products = lineItems.map(item => ({
-      name: item.price?.product?.name || item.description,
-      quantity: item.quantity,
-      amount: item.amount_total / 100,
+    const products = lineItems.map((item) => ({
+      name: item.price?.product?.name || item.description || "",
+      quantity: Number(item.quantity || 1),
+      amount: Number(item.amount_total || 0) / 100,
     }));
 
     console.log(`✅ Session retrieved: ${payment_status} | ${value} ${currency}`);
 
-    // Respuesta completa
     return res.status(200).json({
       session_id: session.id,
       payment_status,
@@ -137,16 +132,16 @@ export default async function handler(req, res) {
       products,
     });
   } catch (err) {
-    if (err.message === 'Timeout') {
+    if (err?.message === "Timeout") {
       console.error("⏱️ Timeout retrieving session");
-      return res.status(504).json({ 
-        error: "Timeout al recuperar la sesión" 
+      return res.status(504).json({
+        error: "Timeout al recuperar la sesión",
       });
     }
 
     console.error("❌ checkout-session error:", {
-      error: err.message,
-      statusCode: err.statusCode,
+      error: err?.message,
+      statusCode: err?.statusCode,
     });
 
     const status = Number(err?.statusCode || 500);
