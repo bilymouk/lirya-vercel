@@ -5229,34 +5229,35 @@ const form = root.querySelector("#lirya-form");
 }
 
 /* ===== MÓVIL ===== */
-/* ===== MÓVIL (2 VIÑETAS IGUALES Y PROPORCIONADAS) ===== */
 @media (max-width:900px){
   .lirya-guarantee{ padding:75px 18px; }
-
   .lirya-guarantee-cards{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:14px;
-  }
-
-  .lirya-guarantee-card{
     display:flex;
-    flex-direction:column;
-    height:100%;
+    overflow-x:auto;
+    gap:16px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
   }
-}
+  .lirya-guarantee-card{
+  min-width:68%;          /* ⬅️ menos ancho */
+  min-height:190px;       /* ⬅️ fuerza forma más cuadrada */
+  scroll-snap-align:center;
+  flex-shrink:0;
 
-@media (max-width:520px){
-  .lirya-guarantee-cards{
-    grid-template-columns:1fr;
-  }
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
 }
   
-@media (max-width:900px){
-  .hero-note--secondary{
+.lirya-guarantee-card p{
+  flex-grow:1;
+}
+
+  .lirya-guarantee-cards::-webkit-scrollbar{
     display:none;
   }
 }
+
 </style>
 
 <section class="lirya-guarantee" aria-labelledby="lirya-guarantee-title">
