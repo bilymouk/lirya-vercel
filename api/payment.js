@@ -49,10 +49,6 @@ function sanitizeEmail(email) {
   return String(email).toLowerCase().trim().slice(0, 254);
 }
 
-/**
- * Sanitiza un objeto plano (key: value) con límites por campo.
- * Ojo: no convierte objetos anidados (Stripe/Make no los necesitas aquí).
- */
 function sanitizeFormPayload(f) {
   const MAX = {
     recipient_name: 100,
@@ -85,7 +81,6 @@ function sanitizeFormPayload(f) {
     fbc: 200,
     event_source_url: 2000,
 
-    // compat / legacy (por si algún día mandaste esto)
     historia: 5000,
     genero_musical: 120,
     idioma: 40,
@@ -94,23 +89,17 @@ function sanitizeFormPayload(f) {
   const out = {};
   for (const k of Object.keys(f || {})) {
     const v = f[k];
-    // solo valores primitivos
     if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
       const limit = MAX[k] || 5000;
       out[k] = sanitizeString(v, limit);
     }
   }
 
-  // email aparte (con su sanitización)
   if (f && f.email) out.email = sanitizeEmail(f.email);
 
-  // Normalización de alias para evitar mismatch:
-  // si llega "idioma" pero no "language", lo copiamos
+  // Normalización de alias
   if (!out.language && out.idioma) out.language = out.idioma;
-  // si llega "genero_musical" pero no "song_style", lo copiamos
   if (!out.song_style && out.genero_musical) out.song_style = out.genero_musical;
-  // si llega "historia" pero faltan campos, lo dejamos como extra
-  // (no rompe Make, simplemente añade campo)
 
   return out;
 }
@@ -146,7 +135,6 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // 3) Body original + sanitizado
     const raw = req.body || {};
     const f = sanitizeFormPayload(raw);
 
@@ -159,9 +147,40 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "Email no válido" });
     }
 
+    // --- VALIDAR CAMPOS OBLIGATORIOS ---
+    const requiredFields = {
+      recipient_name: 'Nombre del destinatario',
+      your_name: 'Tu nombre',
+      relationship: 'Relación',
+      how_met: 'Cómo se conocieron',
+      special_moment: 'Momento especial',
+      song_style: 'Estilo de canción',
+    };
+
+    const missingFields = [];
+    for (const [field, label] of Object.entries(requiredFields)) {
+      if (!f[field] || f[field].length < 2) {
+        missingFields.push(label);
+      }
+    }
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({ 
+        error: `Campos obligatorios faltantes: ${missingFields.join(', ')}` 
+      });
+    }
+
     const recipientName = sanitizeString(f.recipient_name, 100);
 
-    console.log("📥 FORM DATA RECIBIDO - Email:", email, "Tarifa:", f.tarifa);
+    console.log("🔥 PAYMENT REQUEST:", {
+      email,
+      tarifa: f.tarifa,
+      recipient_name: recipientName,
+      song_style: f.song_style,
+      event_id: eventId,
+      ip: ip.slice(0, 15) + "...",
+      timestamp: new Date().toISOString(),
+    });
 
     // --- 4) PRECIO SEGÚN TARIFA ---
     let amount;
@@ -202,7 +221,6 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: "BASE_URL inválida" });
     }
 
-    // ✅ Event source URL limpio
     let safeEventSourceUrl = sanitizeString(f.event_source_url, 2000);
     if (safeEventSourceUrl) {
       try {
@@ -217,8 +235,18 @@ module.exports = async (req, res) => {
 
     // --- 6) CREAR SESIÓN DE STRIPE ---
     let session;
+    
+    const createSessionWithTimeout = (sessionData, timeout = 10000) => {
+      return Promise.race([
+        stripe.checkout.sessions.create(sessionData),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Stripe timeout')), timeout)
+        )
+      ]);
+    };
+
     try {
-      session = await stripe.checkout.sessions.create({
+      session = await createSessionWithTimeout({
         payment_method_types: ["card"],
         mode: "payment",
         allow_promotion_codes: true,
@@ -234,10 +262,11 @@ module.exports = async (req, res) => {
             price_data: {
               currency: "eur",
               product_data: {
-                name: "Canción Personalizada Lirya",
+                name: "Canción Personalizada - San Valentín 2026",
                 description: recipientName
-                  ? `Para ${recipientName} (Plan ${tarifa}€)`
-                  : `Plan ${tarifa}€`,
+                  ? `Para ${recipientName} | ${f.song_style || 'Estilo personalizado'} | Plan ${tarifa}€`
+                  : `Canción personalizada | Plan ${tarifa}€`,
+                images: ["https://lirya.studio/og.jpg"],
               },
               unit_amount: amount,
             },
@@ -255,10 +284,19 @@ module.exports = async (req, res) => {
             email,
             tarifa,
             recipient_name: recipientName,
+            your_name: sanitizeString(f.your_name, 100),
+            relationship: sanitizeString(f.relationship, 80),
+            song_style: sanitizeString(f.song_style, 120),
+            rhythm: sanitizeString(f.rhythm, 40),
+            voice_type: sanitizeString(f.voice_type, 40),
+            language: sanitizeString(f.language, 40),
+            emotion: sanitizeString(f.emotion, 80),
             event_id: eventId,
             fbp: sanitizeString(f.fbp, 200),
             fbc: sanitizeString(f.fbc, 200),
             event_source_url: safeEventSourceUrl,
+            order_date: new Date().toISOString(),
+            campaign_source: 'san_valentin_2026',
           },
         },
 
@@ -266,13 +304,29 @@ module.exports = async (req, res) => {
           email,
           tarifa,
           recipient_name: recipientName,
+          your_name: sanitizeString(f.your_name, 100),
+          relationship: sanitizeString(f.relationship, 80),
+          song_style: sanitizeString(f.song_style, 120),
+          rhythm: sanitizeString(f.rhythm, 40),
+          voice_type: sanitizeString(f.voice_type, 40),
+          language: sanitizeString(f.language, 40),
+          emotion: sanitizeString(f.emotion, 80),
           event_id: eventId,
           fbp: sanitizeString(f.fbp, 200),
           fbc: sanitizeString(f.fbc, 200),
           event_source_url: safeEventSourceUrl,
+          order_date: new Date().toISOString(),
+          campaign_source: 'san_valentin_2026',
         },
       });
     } catch (stripeErr) {
+      if (stripeErr.message === 'Stripe timeout') {
+        console.error("⏱️ Stripe timeout");
+        return res.status(504).json({
+          error: "El servidor de pago tardó demasiado. Intenta de nuevo.",
+        });
+      }
+
       console.error("❌ STRIPE ERROR:", stripeErr);
       return res.status(500).json({
         error: "Error al crear sesión de pago (Stripe)",
@@ -282,12 +336,25 @@ module.exports = async (req, res) => {
 
     console.log("✅ STRIPE SESSION CREADA:", session.id);
 
+    // Track descuento si lo aplicó
+    if (session.total_details?.amount_discount > 0) {
+      console.log("🎁 Descuento aplicado:", {
+        session_id: session.id,
+        discount: session.total_details.amount_discount / 100,
+        final_amount: session.amount_total / 100,
+      });
+    }
+
     // --- 7) ENVIAR DATOS A MAKE (pre-pago) ---
-    // ✅ Aquí está el arreglo: enviamos TODO el formulario (f) + datos de Stripe
     try {
       const MAKE_WEBHOOK_URL =
         process.env.MAKE_WEBHOOK_URL ||
         "https://hook.eu1.make.com/313f6hmo9rsa3olwmebih2ryn4fkfdoe";
+
+      // Validar URL
+      if (!MAKE_WEBHOOK_URL || !MAKE_WEBHOOK_URL.startsWith('https://hook.')) {
+        console.error("❌ MAKE_WEBHOOK_URL inválida o no configurada");
+      }
 
       const doFetch = typeof fetch === "function" ? fetch : null;
 
@@ -295,30 +362,39 @@ module.exports = async (req, res) => {
         console.warn("⚠️ fetch no disponible en este runtime. Saltando Make.");
       } else {
         const payloadToMake = {
-          ...f, // ✅ TODO: how_met, dedication, song_style, etc.
-          email, // asegurado
-          recipient_name: recipientName, // asegurado
-          tarifa, // asegurado
-
+          ...f,
+          email,
+          recipient_name: recipientName,
+          tarifa,
           stripe_session_id: session.id,
           id_de_pago: session.id,
           estado_pago: "Pendiente",
           meta_event_id: eventId,
-
-          // si Make/airtable usa este campo, lo pasamos normalizado también:
           event_source_url: safeEventSourceUrl,
         };
 
-        await doFetch(MAKE_WEBHOOK_URL, {
+        const makeResponse = await doFetch(MAKE_WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payloadToMake),
         });
 
-        console.log("✅ Pedido enviado a Make con formulario completo");
+        if (!makeResponse.ok) {
+          console.error("⚠️ Make webhook failed:", {
+            status: makeResponse.status,
+            statusText: makeResponse.statusText,
+            session_id: session.id,
+          });
+        } else {
+          console.log("✅ Pedido enviado a Make con formulario completo");
+        }
       }
     } catch (makeError) {
-      console.error("⚠️ Error enviando a Make (seguimos igual):", makeError);
+      console.error("❌ Error enviando a Make:", {
+        error: makeError.message,
+        session_id: session.id,
+        email,
+      });
     }
 
     // --- 8) DEVOLVER URL PARA REDIRIGIR A STRIPE ---
