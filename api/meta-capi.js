@@ -12,22 +12,12 @@ const ALLOWED_EVENT_NAMES = new Set([
   "PageView",
   "ViewContent",
   "InitiateCheckout",
-  "AddPaymentInfo",
   "Purchase",
   "Lead",
-  "CompleteRegistration",
-  "Contact",
   "CancelCheckout",
-  "AudioExamplePlay",
-  "VideoPlay",
-  "ScrollDepth25",
-  "ScrollDepth50",
-  "ScrollDepth75",
-  "FormError",
   "PaymentError",
-  "ExitIntent",
-  "WhatsAppClick",
 ]);
+
 
 // ===== RATE LIMITING =====
 const rateLimiter = new Map();
