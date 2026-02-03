@@ -14,6 +14,28 @@ function sha256(input) {
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
 }
+function normalizePhone(ph) {
+  return String(ph || "").replace(/[^\d+]/g, "").trim();
+}
+function normalizeName(name) {
+  return String(name || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+function normalizeCity(city) {
+  return String(city || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "");
+}
+function normalizeZip(zip) {
+  return String(zip || "")
+    .trim()
+    .replace(/[^0-9]/g, "")
+    .slice(0, 10);
+}
 function safeNumber(n, fallback = 0) {
   const x = Number(n);
   return Number.isFinite(x) ? x : fallback;
@@ -37,7 +59,6 @@ function buildBaseUrl(req) {
   return "";
 }
 
-// ✅ CRÍTICO: raw body como Buffer (firma Stripe correcta)
 async function readRawBody(req) {
   return await new Promise((resolve, reject) => {
     const chunks = [];
@@ -47,6 +68,50 @@ async function readRawBody(req) {
     req.on("end", () => resolve(Buffer.concat(chunks)));
     req.on("error", reject);
   });
+}
+
+// ===== IDEMPOTENCY =====
+const processedEvents = new Set();
+const MAX_CACHE_SIZE = 1000;
+
+// ===== RETRY LOGIC FOR META CAPI =====
+async function sendMetaCapiWithRetry(payload, url, maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+      const r = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      const meta = await r.json().catch(() => ({}));
+
+      if (r.ok && !meta?.error) {
+        console.log(`✅ Meta CAPI Purchase OK (attempt ${attempt})`);
+        return { success: true, meta };
+      }
+
+      console.warn(`⚠️ Meta CAPI attempt ${attempt} failed:`, meta);
+      
+      if (attempt < maxRetries) {
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+      }
+    } catch (e) {
+      console.error(`❌ Meta CAPI attempt ${attempt} error:`, e.message);
+      
+      if (attempt < maxRetries) {
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+      }
+    }
+  }
+  
+  return { success: false };
 }
 
 module.exports = async (req, res) => {
@@ -78,17 +143,65 @@ module.exports = async (req, res) => {
     return res.end(`Webhook Error: ${err?.message || err}`);
   }
 
-  // 🔐 FILTRO DE EVENTO
-  if (event.type !== "checkout.session.completed") {
+  // Idempotency check
+  if (processedEvents.has(event.id)) {
+    console.log("⚠️ Duplicate webhook ignored:", event.id);
+    res.statusCode = 200;
+    return res.end(JSON.stringify({ received: true, duplicate: true }));
+  }
+
+  processedEvents.add(event.id);
+
+  // Cleanup cache if too large
+  if (processedEvents.size > MAX_CACHE_SIZE) {
+    const entries = Array.from(processedEvents);
+    processedEvents.clear();
+    entries.slice(-500).forEach(id => processedEvents.add(id));
+  }
+
+  // Filtro de evento
+  const HANDLED_EVENTS = new Set([
+    'checkout.session.completed',
+    'checkout.session.expired',
+  ]);
+
+  if (!HANDLED_EVENTS.has(event.type)) {
     res.statusCode = 200;
     return res.end(JSON.stringify({ received: true, ignored: event.type }));
   }
 
-  // ✅ YA ES checkout.session.completed → definimos session
   const session = event.data.object;
 
   try {
-    // ✅ Seguridad: solo si está pagado
+    // Handle different event types
+    if (event.type === 'checkout.session.expired') {
+      console.log("⏰ Session expired:", session.id);
+      
+      // Opcional: avisar a Make que se canceló
+      try {
+        const MAKE_WEBHOOK_URL = process.env.MAKE_WEBHOOK_CONFIRMED_URL || 
+                                 process.env.MAKE_WEBHOOK_URL;
+        
+        if (MAKE_WEBHOOK_URL && typeof fetch === "function") {
+          await fetch(MAKE_WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              stripe_event_id: event.id,
+              stripe_session_id: session.id,
+              estado_pago: "EXPIRADO",
+            }),
+          });
+        }
+      } catch (e) {
+        console.error("⚠️ Make error (expired):", e);
+      }
+
+      res.statusCode = 200;
+      return res.end(JSON.stringify({ received: true, expired: true }));
+    }
+
+    // checkout.session.completed
     if (session.payment_status && session.payment_status !== "paid") {
       console.log("⚠️ completed pero NO paid:", session.payment_status);
       res.statusCode = 200;
@@ -96,47 +209,78 @@ module.exports = async (req, res) => {
     }
 
     const baseUrl = buildBaseUrl(req);
+    const metadata = session.metadata || {};
 
     // Importes
     const amountTotal = safeNumber(session.amount_total, 0);
     const value = amountTotal / 100;
     const currency = String(session.currency || "eur").toUpperCase();
 
-    // ✅ event_id estable para dedupe Meta
+    // event_id estable para dedupe Meta
     const eventId = String(
-      session.metadata?.event_id ||
+      metadata.event_id ||
         session.client_reference_id ||
         `purchase_${session.id}`
     );
 
-    // ✅ Email robusto
+    // Email robusto
     const email = normalizeEmail(
       session.customer_email || session.customer_details?.email
     );
     const em = email ? sha256(email) : undefined;
 
-    const fbp = session.metadata?.fbp || undefined;
-    const fbc = session.metadata?.fbc || undefined;
+    // Phone (si está en metadata)
+    const phone = metadata.phone || session.customer_details?.phone;
+    const ph = phone ? sha256(normalizePhone(phone)) : undefined;
+
+    // Nombres
+    const yourName = metadata.your_name;
+    const fn = yourName ? sha256(normalizeName(yourName)) : undefined;
+
+    // Location desde billing_address
+    const address = session.customer_details?.address || {};
+    const ct = address.city ? sha256(normalizeCity(address.city)) : undefined;
+    const zp = address.postal_code ? sha256(normalizeZip(address.postal_code)) : undefined;
+    const country = address.country ? String(address.country).trim().toLowerCase() : undefined;
+
+    const fbp = metadata.fbp || undefined;
+    const fbc = metadata.fbc || undefined;
 
     const eventSourceUrl =
-      String(session.metadata?.event_source_url || "").trim() ||
+      String(metadata.event_source_url || "").trim() ||
       (baseUrl ? `${baseUrl}/` : undefined);
 
-    const tarifa = session.metadata?.tarifa || null;
+    const tarifa = metadata.tarifa || null;
+
+    console.log("💰 PURCHASE EVENT:", {
+      session_id: session.id,
+      event_id: eventId,
+      email: email ? email.slice(0, 5) + "***" : "none",
+      amount: value,
+      currency,
+      tarifa,
+      has_fbp: !!fbp,
+      has_fbc: !!fbc,
+      has_phone: !!ph,
+      has_name: !!fn,
+      has_city: !!ct,
+      timestamp: new Date(event.created * 1000).toISOString(),
+    });
 
     // ===== (A) Enviar a Make (opcional) =====
     try {
-      const MAKE_WEBHOOK_URL =
+      const MAKE_WEBHOOK_URL = 
+        process.env.MAKE_WEBHOOK_CONFIRMED_URL ||
         "https://hook.eu1.make.com/nz979m4h4wfout74pxgnlhf4ofqfgjhc";
 
       if (typeof fetch !== "function") {
         console.warn("⚠️ fetch no disponible en este runtime. Saltando Make.");
       } else {
-        await fetch(MAKE_WEBHOOK_URL, {
+        const makeResponse = await fetch(MAKE_WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            stripe_event_id: event.id, // ✅ dedupe en Make
+            stripe_event_id: event.id,
             stripe_session_id: session.id,
             email: email || (session.customer_email || ""),
             amount_total: session.amount_total,
@@ -147,10 +291,21 @@ module.exports = async (req, res) => {
           }),
         });
 
-        console.log("✅ Enviado a Make");
+        if (!makeResponse.ok) {
+          console.error("⚠️ Make webhook failed:", {
+            status: makeResponse.status,
+            statusText: makeResponse.statusText,
+            session_id: session.id,
+          });
+        } else {
+          console.log("✅ Enviado a Make");
+        }
       }
     } catch (e) {
-      console.error("⚠️ Make error (no rompemos):", e);
+      console.error("❌ Make error:", {
+        error: e.message,
+        session_id: session.id,
+      });
     }
 
     // ===== (B) META CAPI Purchase (SERVER-SIDE) =====
@@ -177,6 +332,11 @@ module.exports = async (req, res) => {
 
               user_data: {
                 ...(em ? { em } : {}),
+                ...(ph ? { ph } : {}),
+                ...(fn ? { fn } : {}),
+                ...(ct ? { ct } : {}),
+                ...(zp ? { zp } : {}),
+                ...(country ? { country } : {}),
                 ...(fbp ? { fbp } : {}),
                 ...(fbc ? { fbc } : {}),
               },
@@ -187,26 +347,24 @@ module.exports = async (req, res) => {
                 order_id: session.id,
                 content_name: "Canción personalizada",
                 content_type: "product",
+                content_ids: [tarifa || 'default'],
+                num_items: 1,
                 plan: tarifa ? String(tarifa) : undefined,
+                recipient_name: metadata.recipient_name || undefined,
+                song_style: metadata.song_style || undefined,
+                relationship: metadata.relationship || undefined,
+                payment_method: session.payment_method_types?.[0] || 'card',
               },
             },
           ],
         };
 
-        const url = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
+        const url = `https://graph.facebook.com/v22.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
 
-        const r = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        const meta = await r.json().catch(() => ({}));
-
-        if (!r.ok || meta?.error) {
-          console.error("❌ Meta CAPI Purchase falló:", meta);
-        } else {
-          console.log("✅ Meta CAPI Purchase OK:", meta);
+        const result = await sendMetaCapiWithRetry(payload, url);
+        
+        if (!result.success) {
+          console.error("❌ Meta CAPI failed after 3 attempts");
         }
       }
     } catch (e) {
@@ -218,7 +376,6 @@ module.exports = async (req, res) => {
   } catch (e) {
     console.error("❌ Webhook handler error:", e);
 
-    // ✅ Si quieres que Stripe reintente cuando tu lógica falla:
     res.statusCode = 500;
     return res.end(JSON.stringify({ received: true, warning: "handler_error" }));
   }
