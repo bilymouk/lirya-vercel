@@ -341,18 +341,20 @@
   © 2025—2026 Lirya · Todos los derechos reservados
 </footer>
 
-<!-- ✅ TRACKING: CancelCheckout (Pixel + CAPI) + Cleanup -->
+<!-- ✅ TRACKING: CancelCheckout (Pixel + CAPI) -->
 <script>
 (function () {
-  const hasFbq = typeof window.fbq === "function";
+  function hasFbq() {
+    return typeof window.fbq === "function";
+  }
 
   const urlParams = new URLSearchParams(location.search);
   const TEST_EVENT_CODE = urlParams.get("test_event_code") || "";
   const DEBUG = urlParams.get("debug_meta") === "1";
   const log = (...args) => { if (DEBUG) console.log("[META CANCEL]", ...args); };
 
-  // Anti-duplicados
-  const once = (key, fn) => {
+  // ✅ Dedupe real: 1 vez por sesión
+  const onceSession = (key, fn) => {
     try {
       if (sessionStorage.getItem(key)) return;
       sessionStorage.setItem(key, "1");
@@ -369,15 +371,21 @@
   const FBP = getCookie("_fbp");
   const FBC = getCookie("_fbc");
 
-  // Event ID con sufijo "_cancel" para dedupe correcto
-  function getCheckoutEventId() {
-    try { return sessionStorage.getItem("lirya_checkout_event_id") || ""; } catch(_) { return ""; }
+  // ✅ Event ID: preferimos el event_id que viene en URL (lo ponemos desde /api/payment.js)
+  // Si no viene, intentamos usar uno guardado en sessionStorage (si lo implementas).
+  function resolveEventId() {
+    const fromUrl = (urlParams.get("event_id") || "").trim();
+    if (fromUrl) return fromUrl + "_cancel";
+
+    try {
+      const stored = (sessionStorage.getItem("lirya_checkout_event_id") || "").trim();
+      if (stored) return stored + "_cancel";
+    } catch(_) {}
+
+    return "cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2);
   }
 
-  const checkoutEventId = getCheckoutEventId();
-  const eventId = checkoutEventId 
-    ? (checkoutEventId + "_cancel") 
-    : ("cancel_" + Date.now() + "_" + Math.random().toString(16).slice(2));
+  const eventId = resolveEventId();
 
   // URL limpia (sin hash)
   const event_source_url = (function(){
@@ -390,12 +398,10 @@
     }
   })();
 
-  // CAPI sender
   async function sendCapiEvent(body) {
     const url = "/api/meta-capi";
     const payload = JSON.stringify(body);
 
-    // sendBeacon primero (mejor para iOS/Safari)
     try {
       if (navigator.sendBeacon) {
         const blob = new Blob([payload], { type: "application/json" });
@@ -409,7 +415,6 @@
       log("CAPI beacon error", e);
     }
 
-    // fetch fallback
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -429,10 +434,9 @@
     }
   }
 
-  // Disparar CancelCheckout una sola vez
-  once("lirya_cancel_" + eventId, () => {
-    // Pixel: custom event
-    if (hasFbq) {
+  // ✅ Disparar CancelCheckout solo 1 vez por sesión
+  onceSession("lirya_cancelcheckout", () => {
+    if (hasFbq()) {
       try {
         window.fbq("trackCustom", "CancelCheckout", {}, { eventID: eventId });
         log("Pixel CancelCheckout", eventId);
@@ -441,7 +445,6 @@
       }
     }
 
-    // CAPI
     const capiBody = {
       event_name: "CancelCheckout",
       event_time: Math.floor(Date.now() / 1000),
@@ -460,14 +463,14 @@
     log("CancelCheckout enviado", eventId);
   });
 
-  // Limpieza para reintento limpio
+  // Limpieza para reintento limpio (no afecta al dedupe de CancelCheckout)
   try {
     sessionStorage.removeItem("lirya_checkout_event_id");
     sessionStorage.removeItem("lirya_purchase_value");
     sessionStorage.removeItem("lirya_purchase_plan");
   } catch(_) {}
 
-  log("Cancel page loaded, cleaned session");
+  log("Cancel page loaded");
 })();
 </script>
 
