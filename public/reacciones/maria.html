@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <!-- SEO -->
-  <title>Valoración real de Maria sobre una canción personalizada | LIRYA</title>
-  <meta name="description" content="Vídeo completo y valoración real de Maria tras regalar una canción personalizada creada con una historia real. Un regalo emocional y único con entrega rápida." />
+  <title>Valoración real de Maria sobre su canción personalizada | LIRYA</title>
+  <meta name="description" content="Vídeo completo y valoración real de Maria tras regalar una canción personalizada a su marido para expresar lo que no sabía cómo decirle. Un regalo emocional y real." />
   <link rel="canonical" href="https://www.lirya.studio/reacciones/maria.html" />
   <meta name="robots" content="index,follow" />
 
@@ -14,7 +14,7 @@
   <meta property="og:site_name" content="LIRYA" />
   <meta property="og:type" content="video.other" />
   <meta property="og:title" content="Valoración real — Maria | LIRYA" />
-  <meta property="og:description" content="Vídeo completo y valoración real de Maria tras regalar una canción personalizada creada con una historia real." />
+  <meta property="og:description" content="Vídeo completo y valoración real de Maria tras regalar una canción personalizada a su marido para expresar lo que no sabía cómo decirle." />
   <meta property="og:url" content="https://www.lirya.studio/reacciones/maria.html" />
   <meta property="og:image" content="https://www.lirya.studio/video8.jpg" />
   <meta property="og:video" content="https://www.lirya.studio/video8.mp4" />
@@ -23,7 +23,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Valoración real — Maria | LIRYA" />
-  <meta name="twitter:description" content="Vídeo completo y valoración real tras regalar una canción personalizada creada con una historia real." />
+  <meta name="twitter:description" content="Vídeo completo y valoración real tras regalar una canción personalizada a su marido para expresar lo que no sabía cómo decirle." />
   <meta name="twitter:image" content="https://www.lirya.studio/video8.jpg" />
 
   <!-- Tipografía -->
@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- JSON-LD: WebPage + VideoObject -->
+  <!-- JSON-LD: WebPage + VideoObject + Review -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -54,18 +54,36 @@
     },
     "video":{
       "@type":"VideoObject",
-      "name":"Valoración real de Maria tras regalar una canción personalizada",
-      "description":"Vídeo completo y valoración real de Maria tras regalar una canción personalizada creada con una historia real.",
+      "name":"Valoración real de Maria tras regalar una canción personalizada a su marido",
+      "description":"Vídeo completo y valoración real de Maria tras regalar una canción personalizada a su marido para expresar lo que no sabía cómo decirle. Una historia real convertida en letra, sin artificios.",
       "thumbnailUrl":[
         "https://www.lirya.studio/video8.jpg"
       ],
       "contentUrl":"https://www.lirya.studio/video8.mp4",
       "embedUrl":"https://www.lirya.studio/reacciones/maria.html",
       "inLanguage":"es",
+      "uploadDate":"2025-08-18",
       "publisher":{
         "@type":"Organization",
         "name":"LIRYA",
         "url":"https://www.lirya.studio/"
+      }
+    },
+    "review": {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Maria"
+      },
+      "reviewBody": "Yo no soy de hablar de sentimientos y no encontraba la forma. Cuando escuchó la canción se le humedecieron los ojos y me dijo: “por fin te entiendo”. Fue precioso.",
+      "itemReviewed": {
+        "@type": "Service",
+        "name": "Canción Personalizada LIRYA"
       }
     }
   }
@@ -81,6 +99,7 @@
       --card2:rgba(255,255,255,.10);
       --text:rgba(255,255,255,.92);
       --muted:rgba(255,255,255,.78);
+      --verified:#22c55e;
     }
 
     body{
@@ -95,26 +114,75 @@
 
     .top{
       display:flex;
-      gap:12px;
+      gap:16px;
       flex-wrap:wrap;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
-      margin-bottom:12px;
+      margin-bottom:20px;
+    }
+
+    .testimonio-header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      flex:1;
+    }
+
+    .avatar{
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      object-fit:cover;
+      border:3px solid var(--gold);
+      flex-shrink:0;
+    }
+
+    .header-info{
+      flex:1;
     }
 
     h1{
       color:var(--gold);
-      margin:0;
+      margin:0 0 6px;
       font-family:"Playfair Display",Georgia,serif;
       font-weight:800;
       letter-spacing:.2px;
       line-height:1.12;
+      font-size:28px;
     }
 
     .sub{
       color:var(--muted);
-      line-height:1.65;
-      margin:8px 0 0;
+      line-height:1.5;
+      margin:0 0 8px;
+      font-size:15px;
+    }
+
+    .badges{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:8px;
+    }
+
+    .badge-verified{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(34,197,94,.15);
+      border:1px solid rgba(34,197,94,.35);
+      color:var(--verified);
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .badge-verified::before{
+      content:"✓";
+      font-weight:bold;
+      font-size:15px;
     }
 
     .cta{display:flex;gap:10px;flex-wrap:wrap}
@@ -138,6 +206,37 @@
     .btn-primary{background:linear-gradient(135deg,var(--orange1),var(--orange2))}
     .btn-ghost{background:rgba(255,255,255,.14)}
     .btn-soft{background:rgba(255,255,255,.10)}
+
+    .highlight-quote{
+      background:var(--card);
+      border-left:4px solid var(--gold);
+      border-radius:12px;
+      padding:20px 24px;
+      margin:20px 0;
+      font-family:"Playfair Display",Georgia,serif;
+      font-size:18px;
+      font-style:italic;
+      line-height:1.6;
+      color:var(--text);
+    }
+
+    .highlight-quote::before{
+      content:"""; /* comillas grandes */
+      font-size:48px;
+      color:var(--gold);
+      opacity:.5;
+      line-height:0;
+      margin-right:8px;
+    }
+
+    .highlight-quote cite{
+      display:block;
+      margin-top:12px;
+      font-size:14px;
+      font-style:normal;
+      color:var(--muted);
+      opacity:.85;
+    }
 
     .card{
       background:var(--card);
@@ -189,7 +288,42 @@
       opacity:.92;
     }
 
+    .pill-tarifa{
+      background:rgba(255,159,63,.15);
+      border:1px solid rgba(255,159,63,.35);
+      color:var(--orange1);
+      font-weight:600;
+    }
+
+    .pill-fecha{
+      background:rgba(242,201,138,.10);
+      border:1px solid rgba(242,201,138,.25);
+      color:var(--gold);
+    }
+
     .stars{color:var(--orange1);letter-spacing:2px}
+
+    .context-box{
+      background:rgba(242,201,138,.08);
+      border:1px solid rgba(242,201,138,.25);
+      border-radius:12px;
+      padding:16px 20px;
+      margin:16px 0;
+    }
+
+    .context-box h3{
+      margin:0 0 8px;
+      font-family:"Playfair Display",Georgia,serif;
+      color:var(--gold);
+      font-size:16px;
+    }
+
+    .context-box p{
+      margin:0;
+      color:var(--text);
+      line-height:1.6;
+      font-size:14px;
+    }
 
     .after{
       margin-top:14px;
@@ -254,10 +388,28 @@
     .small-link:hover{opacity:1;transform:translateY(-1px)}
     .small-link:focus-visible{outline:3px solid rgba(255,159,63,.55);outline-offset:4px}
 
+    @media (max-width:768px){
+      .testimonio-header{
+        flex-direction:column;
+        text-align:center;
+      }
+      .avatar{
+        width:100px;
+        height:100px;
+      }
+      h1{font-size:24px}
+      .badges{
+        justify-content:center;
+      }
+    }
+
     @media (max-width:520px){
       body{padding:16px}
-      h1{font-size:24px}
       video{max-height:none;}
+      .highlight-quote{
+        font-size:16px;
+        padding:16px 18px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -287,39 +439,57 @@
 </head>
 
 <body>
+
   <div class="wrap">
 
     <div class="top">
-      <h1>Valoración real — Maria</h1>
+      <div class="testimonio-header">
+        <img src="/avatars/maria.webp" alt="Maria" class="avatar">
+        <div class="header-info">
+          <h1>Maria</h1>
+          <p class="sub">Bilbao · 60 años</p>
+          <div class="badges">
+            <span class="badge-verified">Compra verificada</span>
+            <span class="pill pill-tarifa">Tarifa Básica · 39€</span>
+            <span class="pill pill-fecha">📅 Agosto 2025</span>
+          </div>
+        </div>
+      </div>
+
       <div class="cta">
         <a class="btn btn-primary" href="/#formulario-lirya">Crear mi canción</a>
-        <a class="btn btn-ghost" href="/#reacciones">Volver a reacciones</a>
+        <a class="btn btn-ghost" href="/reacciones/juan.html">Siguiente: Juan →</a>
       </div>
     </div>
 
-    <p class="sub">
-      <strong>Importante:</strong> Maria es quien <strong>regaló</strong> la canción y dejó esta valoración.
-      El vídeo muestra la reacción real al escucharla por primera vez.
-      Si quieres regalar un momento que se recuerde, esto es lo que suele pasar cuando la letra encaja de verdad.
-    </p>
+    <div class="context-box">
+      <h3>Contexto del regalo</h3>
+      <p>
+        Maria llevaba tiempo con cosas dentro que no encontraba la manera de decir sin sonar “rara” o sin romper el momento.
+        Quería agradecer, pedir perdón por tonterías, y recordar lo importante… pero de forma bonita.
+        En vez de escribir un texto eterno, lo convirtió en una canción: sencilla, directa y con frases de su vida real.
+        Cuando su marido la escuchó, entendió todo sin que ella tuviera que explicar nada más.
+      </p>
+    </div>
+
+    <blockquote class="highlight-quote">
+      "Yo no sabía cómo decírselo sin ponerme nerviosa. Con la canción fue distinto: lo escuchó, me miró y me abrazó. Nunca había visto una reacción así."
+      <cite>— Maria</cite>
+    </blockquote>
 
     <div class="card">
-      <div class="meta">
-        <span class="pill"><span class="stars" aria-hidden="true">★★★★★</span> Valoración real</span>
-        <span class="pill">🎧 Consejo: ponte auriculares</span>
-      </div>
+      <div class="stars" aria-label="Valoración: 5 de 5 estrellas">⭐⭐⭐⭐⭐</div>
 
       <div class="video-wrap">
-        <video controls playsinline preload="metadata" poster="/video8.jpg">
+        <video controls preload="metadata" poster="/video8.jpg" aria-label="Vídeo de valoración de Maria">
           <source src="/video8.mp4" type="video/mp4">
-          Tu navegador no soporta vídeo HTML5.
+          Tu navegador no soporta vídeos HTML5.
         </video>
       </div>
 
       <div class="meta">
-        <span class="pill">🕒 Vídeo completo</span>
-        <a class="btn btn-soft" href="/#formulario-lirya">Quiero la mía</a>
-        <a class="btn btn-ghost" href="/reacciones/sara.html">← Anterior: Sara</a>
+        <span class="pill">🎵 Estilo: Emotivo (sorpresa)</span>
+        <span class="pill">⏱️ Entrega: 5 días</span>
       </div>
     </div>
 
@@ -352,7 +522,12 @@
 
   </div>
 
-  <!-- ✅ TRACKING CORRECTO (igual que yolanda.html) -->
+  <!-- ✅ TRACKING FINAL (igual que yolanda.html):
+       - PageView al cargar (Pixel + CAPI)
+       - ViewContent al cargar (Pixel + CAPI)
+       - VideoPlay SOLO al darle play al vídeo (Pixel + CAPI)
+       - ❌ NO Lead aquí (Lead SOLO existe en el Paso 1 del formulario al darle "Siguiente")
+  -->
   <script>
   (function () {
     const hasFbq = typeof window.fbq === "function";
