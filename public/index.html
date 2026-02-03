@@ -5229,22 +5229,26 @@ const form = root.querySelector("#lirya-form");
 }
 
 /* ===== MÓVIL ===== */
+/* ===== MÓVIL (2 VIÑETAS IGUALES Y PROPORCIONADAS) ===== */
 @media (max-width:900px){
   .lirya-guarantee{ padding:75px 18px; }
+
   .lirya-guarantee-cards{
-    display:flex;
-    overflow-x:auto;
-    gap:16px;
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:14px;
   }
+
   .lirya-guarantee-card{
-    min-width:78%;
-    scroll-snap-align:center;
-    flex-shrink:0;
+    display:flex;
+    flex-direction:column;
+    height:100%;
   }
-  .lirya-guarantee-cards::-webkit-scrollbar{
-    display:none;
+}
+
+@media (max-width:520px){
+  .lirya-guarantee-cards{
+    grid-template-columns:1fr;
   }
 }
   
