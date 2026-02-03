@@ -7,7 +7,7 @@ const ALLOWED_ORIGINS = [
   "https://www.lirya.studio",
 ];
 
-// Lista blanca de eventos permitidos
+// ✅ Lista blanca REDUCIDA a lo que vas a usar de verdad
 const ALLOWED_EVENT_NAMES = new Set([
   "PageView",
   "ViewContent",
@@ -18,7 +18,6 @@ const ALLOWED_EVENT_NAMES = new Set([
   "PaymentError",
 ]);
 
-
 // ===== RATE LIMITING =====
 const rateLimiter = new Map();
 const RATE_LIMIT = 30; // requests per window
@@ -28,23 +27,23 @@ function checkRateLimit(ip) {
   const now = Date.now();
   const key = ip || "unknown";
   const record = rateLimiter.get(key) || { count: 0, resetTime: now + RATE_WINDOW };
-  
+
   if (now > record.resetTime) {
     record.count = 1;
     record.resetTime = now + RATE_WINDOW;
   } else {
     record.count++;
   }
-  
+
   rateLimiter.set(key, record);
-  
+
   // Cleanup old entries
   if (rateLimiter.size > 1000) {
     for (const [k, v] of rateLimiter.entries()) {
       if (now > v.resetTime) rateLimiter.delete(k);
     }
   }
-  
+
   return record.count <= RATE_LIMIT;
 }
 
@@ -110,12 +109,12 @@ module.exports = async (req, res) => {
   const ip =
     (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim() ||
     (req.socket && req.socket.remoteAddress ? String(req.socket.remoteAddress) : "");
-  
+
   if (!checkRateLimit(ip)) {
     console.warn(`⚠️ Rate limit exceeded for IP: ${ip}`);
-    return res.status(200).json({ 
-      ok: false, 
-      warning: "Rate limit exceeded" 
+    return res.status(200).json({
+      ok: false,
+      warning: "Rate limit exceeded",
     });
   }
 
@@ -209,24 +208,25 @@ module.exports = async (req, res) => {
 
   // Location hashing (city, state, zip, country)
   let ct, st, zp, country;
-  
+
   if (user_data && user_data.city) {
     const c = normCity(user_data.city);
     ct = c ? sha256(c) : undefined;
   }
-  
+
   if (user_data && user_data.state) {
     const s = normCity(user_data.state);
     st = s ? sha256(s) : undefined;
   }
-  
+
   if (user_data && user_data.zip) {
     const z = normZip(user_data.zip);
     zp = z ? sha256(z) : undefined;
   }
-  
+
+  // ✅ country en CAPI: ISO 2 letras (NO hash)
   if (user_data && user_data.country) {
-    country = String(user_data.country).trim().toLowerCase().slice(0, 2); // ISO code
+    country = String(user_data.country).trim().toLowerCase().slice(0, 2);
   }
 
   // event_source_url: mejor no vacío
@@ -254,9 +254,7 @@ module.exports = async (req, res) => {
 
   // Validate event_time
   const now = Math.floor(Date.now() / 1000);
-  let finalEventTime = Number.isFinite(Number(event_time)) 
-    ? Number(event_time) 
-    : now;
+  let finalEventTime = Number.isFinite(Number(event_time)) ? Number(event_time) : now;
 
   // No puede ser del futuro (max 1 hora adelante)
   if (finalEventTime > now + 3600) {
@@ -301,16 +299,6 @@ module.exports = async (req, res) => {
     ...(test_event_code ? { test_event_code: String(test_event_code) } : {}),
   };
 
-  // Log for debugging
-  console.log(`📤 Sending CAPI event: ${event_name}`, {
-    event_id,
-    has_email: !!em,
-    has_phone: !!ph,
-    has_fbp: !!finalFbp,
-    has_fbc: !!finalFbc,
-    ip: ip ? ip.slice(0, 10) + '...' : 'none',
-  });
-
   const url = `https://graph.facebook.com/v22.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
 
   // Timeout wrapper
@@ -334,13 +322,11 @@ module.exports = async (req, res) => {
       return res.status(200).json({ ok: false, meta });
     }
 
-    console.log(`✅ Meta CAPI ${event_name} sent successfully`);
     return res.status(200).json({ ok: true, meta });
-    
   } catch (err) {
     clearTimeout(timeoutId);
 
-    if (err.name === 'AbortError') {
+    if (err.name === "AbortError") {
       console.error("⏱️ Meta CAPI timeout");
       return res.status(200).json({
         ok: false,
