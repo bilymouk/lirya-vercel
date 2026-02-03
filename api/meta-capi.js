@@ -25,6 +25,8 @@ const ALLOWED_EVENT_NAMES = new Set([
   "ScrollDepth75",
   "FormError",
   "PaymentError",
+  "ExitIntent",
+  "WhatsAppClick",
 ]);
 
 // ===== RATE LIMITING =====
@@ -260,14 +262,28 @@ module.exports = async (req, res) => {
     custom_data = {};
   }
 
+  // Validate event_time
+  const now = Math.floor(Date.now() / 1000);
+  let finalEventTime = Number.isFinite(Number(event_time)) 
+    ? Number(event_time) 
+    : now;
+
+  // No puede ser del futuro (max 1 hora adelante)
+  if (finalEventTime > now + 3600) {
+    finalEventTime = now;
+  }
+
+  // No puede ser muy antiguo (max 7 días atrás)
+  if (finalEventTime < now - 604800) {
+    finalEventTime = now;
+  }
+
   // ===== BUILD PAYLOAD WITH ENHANCED MATCHING =====
   const payload = {
     data: [
       {
         event_name,
-        event_time: Number.isFinite(Number(event_time))
-          ? Number(event_time)
-          : Math.floor(Date.now() / 1000),
+        event_time: finalEventTime,
 
         ...(event_id ? { event_id: String(event_id) } : {}),
 
@@ -295,14 +311,31 @@ module.exports = async (req, res) => {
     ...(test_event_code ? { test_event_code: String(test_event_code) } : {}),
   };
 
-  const url = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
+  // Log for debugging
+  console.log(`📤 Sending CAPI event: ${event_name}`, {
+    event_id,
+    has_email: !!em,
+    has_phone: !!ph,
+    has_fbp: !!finalFbp,
+    has_fbc: !!finalFbc,
+    ip: ip ? ip.slice(0, 10) + '...' : 'none',
+  });
+
+  const url = `https://graph.facebook.com/v22.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`;
+
+  // Timeout wrapper
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
 
   try {
     const r = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     const meta = await r.json().catch(() => ({}));
 
@@ -315,6 +348,16 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true, meta });
     
   } catch (err) {
+    clearTimeout(timeoutId);
+
+    if (err.name === 'AbortError') {
+      console.error("⏱️ Meta CAPI timeout");
+      return res.status(200).json({
+        ok: false,
+        error: "Meta CAPI timeout",
+      });
+    }
+
     console.error("❌ Server error calling Meta CAPI:", err);
     return res.status(200).json({
       ok: false,
