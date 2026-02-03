@@ -138,6 +138,12 @@
       fbq('trackCustom', 'ExitIntent', {}, { eventID: eventId });
     }
 
+    sendCapiEvent({
+      event_name: 'ExitIntent',
+      event_id: eventId,
+      custom_data: { source: 'mouse_leave' }
+    });
+
     // Create modal
     const modal = document.createElement('div');
     modal.id = 'exit-intent-modal';
@@ -201,6 +207,7 @@
         <a href="https://wa.me/34613745470?text=Hola%2C%20tengo%20una%20duda%20sobre%20mi%20canci%C3%B3n"
            target="_blank"
            rel="noopener noreferrer"
+           onclick="window.trackWhatsAppClick && window.trackWhatsAppClick('exit_intent')"
            style="
              display: inline-block;
              background: linear-gradient(135deg, #ff9f3f, #e58b2a);
@@ -270,33 +277,92 @@
         showExitIntentPopup();
       }
     });
+  } else {
+    // Mobile: show after 30 seconds of inactivity
+    setTimeout(function() {
+      if (!exitIntentShown) {
+        showExitIntentPopup();
+      }
+    }, 30000);
   }
 
-  // ===== 5. COUNTDOWN TIMER (for urgency banner) =====
+  // ===== 5. WHATSAPP CLICK TRACKING =====
+  window.trackWhatsAppClick = function(source) {
+    const eventId = `whatsapp_click_${Date.now()}`;
+    
+    if (hasFbq) {
+      fbq('track', 'Contact', {}, { eventID: eventId });
+    }
+    
+    sendCapiEvent({
+      event_name: 'Contact',
+      event_id: eventId,
+      custom_data: { source: source || 'unknown' }
+    });
+  };
+
+  // ===== 6. CTA TRACKING =====
+  document.addEventListener('DOMContentLoaded', function() {
+    // Track "Crear Mi Canción" buttons
+    const ctaButtons = document.querySelectorAll('[href*="#formulario"], .cta-header, .hero-btn, .urgency-cta');
+    
+    ctaButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const eventId = `initiate_checkout_${Date.now()}`;
+        
+        if (hasFbq) {
+          fbq('track', 'InitiateCheckout', {
+            content_name: 'Canción Personalizada San Valentín',
+            currency: 'EUR'
+          }, { eventID: eventId });
+        }
+        
+        sendCapiEvent({
+          event_name: 'InitiateCheckout',
+          event_id: eventId,
+          custom_data: {
+            content_name: 'Canción Personalizada San Valentín',
+            currency: 'EUR'
+          }
+        });
+      });
+    });
+  });
+
+  // ===== 7. COUNTDOWN TIMER =====
   function initCountdownTimer() {
     const timerElement = document.querySelector('.urgency-timer');
     if (!timerElement) return;
 
     function updateTimer() {
       const now = new Date();
-      const endOfDay = new Date();
-      endOfDay.setHours(23, 59, 59, 999);
+      const valentine = new Date('2026-02-14T23:59:59');
       
-      const diff = endOfDay - now;
-      const hours = Math.floor(diff / 3600000);
+      const diff = valentine - now;
+      
+      if (diff < 0) {
+        timerElement.textContent = '¡Última oportunidad!';
+        return;
+      }
+      
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
       const mins = Math.floor((diff % 3600000) / 60000);
-      const secs = Math.floor((diff % 60000) / 1000);
       
-      timerElement.textContent = `${hours}h ${mins}m ${secs}s`;
+      if (days > 0) {
+        timerElement.textContent = `${days}d ${hours}h ${mins}m`;
+      } else {
+        timerElement.textContent = `${hours}h ${mins}m`;
+      }
     }
 
     updateTimer();
-    setInterval(updateTimer, 1000);
+    setInterval(updateTimer, 60000); // Update cada minuto
   }
 
   document.addEventListener('DOMContentLoaded', initCountdownTimer);
 
-  // ===== 6. CAPI HELPER =====
+  // ===== 8. CAPI HELPER =====
   async function sendCapiEvent(data) {
     const payload = {
       event_name: data.event_name,
@@ -306,7 +372,8 @@
       action_source: 'website',
       user_data: {
         ...(FBP ? { fbp: FBP } : {}),
-        ...(FBC ? { fbc: FBC } : {})
+        ...(FBC ? { fbc: FBC } : {}),
+        client_user_agent: navigator.userAgent
       },
       custom_data: data.custom_data || {}
     };
@@ -331,8 +398,7 @@
     }
   }
 
-  // ===== 7. PAYMENT ERROR TRACKING =====
-  // This will be called from the payment form if Stripe fails
+  // ===== 9. PAYMENT ERROR TRACKING =====
   window.trackPaymentError = function(errorCode, errorMessage) {
     const eventId = `payment_error_${Date.now()}`;
     
