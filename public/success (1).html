@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pago confirmado — Lirya</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #e0e0e0;
+      background: #0a0a0a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #ffffff;
+      padding: 0.4rem 2rem;
+      border-bottom: 1px solid rgba(212,165,116,.15);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg,#d4a574,#e8c896,#d4a574);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .background-animation {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .wave {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212,165,116,.035) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: wave 22s linear infinite;
+    }
+
+    @keyframes wave {
+      from { transform: translate(0,0); }
+      to { transform: translate(-50%,-50%); }
+    }
+
+    .success-container {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      width: 100%;
+      background: rgba(20,20,20,.96);
+      border: 1px solid rgba(212,165,116,.25);
+      border-radius: 14px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(0,0,0,.6);
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.8rem;
+      background: linear-gradient(135deg,#4ade80,#22c55e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pop .5s ease-out;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .success-icon svg {
+      width: 46px;
+      height: 46px;
+      stroke: #fff;
+      stroke-width: 3;
+      fill: none;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg,#d4a574,#e8c896,#d4a574);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .success-message {
+      font-size: 1.1rem;
+      color: #b8b8b8;
+      line-height: 1.8;
+      margin-bottom: 2.2rem;
+    }
+
+    .info-box {
+      background: rgba(212,165,116,.06);
+      border: 1px solid rgba(212,165,116,.25);
+      border-radius: 10px;
+      padding: 1.6rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .info-box h3 {
+      font-family: 'Playfair Display', serif;
+      color: #d4a574;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+
+    .info-box li {
+      list-style: none;
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: flex-start;
+      color: #b0b0b0;
+    }
+
+    .info-box li::before {
+      content: "✓";
+      color: #4ade80;
+      margin-right: .8rem;
+      font-weight: bold;
+    }
+
+    .session-id {
+      font-size: .85rem;
+      color: #7a7a7a;
+      margin-bottom: 2rem;
+      font-family: monospace;
+      word-break: break-all;
+    }
+
+    .btn-home {
+      display: inline-block;
+      padding: 1rem 2.6rem;
+      border-radius: 8px;
+      background: linear-gradient(135deg,#ff6b35,#ff8c42);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      transition: .3s;
+      box-shadow: 0 6px 20px rgba(255,107,53,.35);
+    }
+
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(255,107,53,.45);
+    }
+
+    footer {
+      padding: 1.5rem;
+      text-align: center;
+      color: #808080;
+      font-size: .9rem;
+      border-top: 1px solid rgba(212,165,116,.15);
+    }
+
+    @media(max-width:768px){
+      h1{font-size:2rem}
+      .success-container{padding:2.2rem 1.6rem}
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="background-animation"><div class="wave"></div></div>
+
+  <header>
+    <div class="header-content">
+      <div class="logo">LIRYA</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="success-container">
+      <div class="success-icon">
+        <svg viewBox="0 0 52 52"><polyline points="14 27 22 35 38 19"/></svg>
+      </div>
+
+      <h1 id="paymentTitle">Estamos confirmando tu pago…</h1>
+
+      <p class="success-message" id="paymentMsg">
+        Gracias por confiar en <strong>Lirya</strong>.
+        Estamos verificando el pago y confirmando tu pedido.
+      </p>
+
+      <div class="info-box">
+        <h3>¿Qué ocurre ahora?</h3>
+        <ul>
+          <li>Revisamos tu historia y emociones con cuidado</li>
+          <li>Creamos una letra única pensada solo para ti</li>
+          <li>Producimos tu canción según el estilo elegido</li>
+          <li>Te avisaremos en cuanto esté lista</li>
+        </ul>
+      </div>
+
+      <p class="success-message" id="deliveryNote">
+        El tiempo de entrega depende de la tarifa seleccionada.
+        Si necesitas cualquier cosa, puedes responder al email de confirmación.
+      </p>
+
+      <p class="session-id" id="sessionId"></p>
+
+      <a href="/" class="btn-home">Volver al inicio</a>
+    </div>
+  </main>
+
+  <footer>
+    © 2025—2026 Lirya · Todos los derechos reservados
+  </footer>
+
+  <script>
+    // Mostrar session_id (solo informativo)
+    (function () {
+      const sid = new URLSearchParams(location.search).get("session_id");
+      const el = document.getElementById("sessionId");
+      if (sid && el) el.textContent = "ID de sesión: " + sid;
+    })();
+  </script>
+
+
+  <!-- ✅ META PIXEL (INIT) -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', '893462606511287');
+  fbq('set', 'autoConfig', 'false', '893462606511287');
+  </script>
+
+  <!-- ✅ VERIFICACIÓN Y TRACKING DE PURCHASE -->
+  <script>
+  (function () {
+    function hasFbq() {
+      return typeof window.fbq === "function";
+    }
+
+    // Cookies para user matching
+    const getCookie = (name) => {
+      const m = document.cookie.match(new RegExp("(?:^|;\\s*)" + name + "=([^;]+)"));
+      return m ? decodeURIComponent(m[1]) : "";
+    };
+
+    const FBP = getCookie("_fbp");
+    const FBC = getCookie("_fbc");
+
+    const qs = new URLSearchParams(location.search);
+    const sid = (qs.get("session_id") || "").trim();
+    const eventId = (qs.get("event_id") || "").trim() || sid;
+
+    const titleEl = document.getElementById("paymentTitle");
+    const msgEl = document.getElementById("paymentMsg");
+
+    const DEBUG = qs.get("debug_meta") === "1";
+    const TEST_EVENT_CODE = qs.get("test_event_code") || "";
+    const log = (...args) => { if (DEBUG) console.log("[META SUCCESS]", ...args); };
+
+    function setReviewState() {
+      if (titleEl) titleEl.textContent = "Pago en revisión";
+      if (msgEl) msgEl.textContent =
+        "Estamos verificando el pago. Si en unos minutos no recibes el email, escríbenos.";
+    }
+
+    function setPaidState() {
+      if (titleEl) titleEl.textContent = "Pago confirmado";
+      if (msgEl) msgEl.innerHTML =
+        `Gracias por confiar en <strong>Lirya</strong>.
+         Hemos recibido tu pedido correctamente y tu historia ya está en manos de nuestro equipo creativo.`;
+    }
+
+    // ✅ Enviar a CAPI (backup por si el Pixel está bloqueado)
+    async function sendCapiEvent(body) {
+      const url = "/api/meta-capi";
+      const payload = JSON.stringify(body);
+
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: "application/json" });
+          const ok = navigator.sendBeacon(url, blob);
+          if (ok) {
+            log("CAPI sendBeacon OK");
+            return true;
+          }
+        }
+      } catch (e) {
+        log("CAPI beacon error", e);
+      }
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          keepalive: true,
+          body: payload,
+        });
+
+        if (DEBUG) {
+          const txt = await res.text().catch(() => "");
+          log("CAPI", res.ok ? "OK" : "FAIL", res.status, txt.slice(0, 200));
+        }
+        return res.ok;
+      } catch (e) {
+        log("CAPI fetch error", e);
+        return false;
+      }
+    }
+
+    if (!sid) { 
+      setReviewState(); 
+      log("No session_id in URL");
+      return; 
+    }
+
+    // ✅ Dedupe: solo disparar Purchase 1 vez por session_id
+    const purchaseKey = "lirya_purchase_tracked_" + sid;
+    try {
+      if (sessionStorage.getItem(purchaseKey)) {
+        log("Purchase already tracked for this session");
+        setPaidState();
+        return;
+      }
+    } catch (_) {}
+
+    // ✅ Obtener detalles del pago
+    fetch(`/api/checkout-session?session_id=${encodeURIComponent(sid)}`, {
+      method: "GET",
+      headers: { "Accept": "application/json" },
+      cache: "no-store",
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (!data || data.error) { 
+          setReviewState(); 
+          log("Checkout session error or not found");
+          return; 
+        }
+
+        const paid = String(data.payment_status || "").toLowerCase() === "paid";
+        if (!paid) { 
+          setReviewState(); 
+          log("Payment not completed:", data.payment_status);
+          return; 
+        }
+
+        setPaidState();
+
+        // ✅ Marcar como tracked ANTES de disparar (evita race conditions)
+        try { sessionStorage.setItem(purchaseKey, "1"); } catch (_) {}
+        try { sessionStorage.setItem("lirya_paid_" + sid, "1"); } catch (_) {}
+
+        // ✅ DISPARAR PURCHASE VIA PIXEL
+        const purchaseData = {
+          currency: data.currency || "EUR",
+          value: Number(data.value) || 0,
+          content_name: "Canción personalizada",
+          content_type: "product",
+          num_items: 1
+        };
+
+        if (hasFbq()) {
+          try {
+            window.fbq("track", "Purchase", purchaseData, { 
+              eventID: eventId 
+            });
+            log("✅ Pixel Purchase tracked", eventId, purchaseData);
+          } catch (e) {
+            log("Pixel error", e);
+          }
+        } else {
+          log("⚠️ fbq not available (blocked or not loaded)");
+        }
+
+        // ✅ ENVIAR A CAPI (backup + deduplicación con webhook)
+        const event_source_url = (function(){
+          try {
+            const u = new URL(window.location.href);
+            u.hash = "";
+            return u.toString();
+          } catch(_) {
+            return window.location.origin + window.location.pathname;
+          }
+        })();
+
+        const capiBody = {
+          event_name: "Purchase",
+          event_time: Math.floor(Date.now() / 1000),
+          event_id: eventId,  // ✅ Mismo event_id que webhook = deduplicación
+          event_source_url,
+          action_source: "website",
+          user_data: {
+            ...(FBP ? { fbp: FBP } : {}),
+            ...(FBC ? { fbc: FBC } : {}),
+            client_user_agent: navigator.userAgent || undefined,
+          },
+          custom_data: purchaseData,
+          ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+        };
+
+        sendCapiEvent(capiBody);
+        log("✅ CAPI Purchase sent", eventId);
+      })
+      .catch((err) => { 
+        setReviewState(); 
+        log("Fetch error:", err);
+      });
+  })();
+  </script>
+
+
+  <!-- ✅ Limpieza post-compra (anti duplicados) -->
+  <script>
+  (function () {
+    const sid = new URLSearchParams(location.search).get("session_id") || "";
+    const key = "lirya_success_cleaned_" + (sid || "no_sid");
+
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch (_) {}
+
+    // Limpia tracking core
+    try { sessionStorage.removeItem("lirya_initiate_checkout"); } catch(_) {}
+    try { sessionStorage.removeItem("lirya_lead"); } catch(_) {}
+    try {
+      Object.keys(sessionStorage).forEach((k) => {
+        if (k.startsWith("lirya_viewcontent_")) sessionStorage.removeItem(k);
+      });
+    } catch(_) {}
+
+    // Limpia otros posibles
+    try { sessionStorage.removeItem("lirya_checkout_event_id"); } catch(_) {}
+    try { sessionStorage.removeItem("lirya_purchase_value"); } catch(_) {}
+    try { sessionStorage.removeItem("lirya_purchase_plan"); } catch(_) {}
+  })();
+  </script>
+
+</body>
+</html>
