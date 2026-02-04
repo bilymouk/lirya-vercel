@@ -5387,7 +5387,7 @@ const form = root.querySelector("#lirya-form");
 })();
 </script>
 
-<!-- ===== GARANTÍA + MINI FAQ ===== -->
+  <!-- ===== GARANTÍA + MINI FAQ ===== -->
 <style>
 /* ===== AJUSTES: kicker blanco + contenido centrado en cards ===== */
 
@@ -5398,13 +5398,13 @@ const form = root.querySelector("#lirya-form");
 
 /* 2) Centrar todo el contenido dentro de cada viñeta */
 .lirya-guarantee-card{
-  text-align:center;            /* centra textos */
-  display:flex;                 /* centra estructura */
+  text-align:center;
+  display:flex;
   flex-direction:column;
-  align-items:center;           /* centra elementos (kicker) */
+  align-items:center;
 }
 
-/* Para que el “pill” quede centrado perfecto */
+/* Para que el "pill" quede centrado perfecto */
 .lirya-guarantee-kicker{
   justify-content:center;
 }
@@ -5434,7 +5434,6 @@ const form = root.querySelector("#lirya-form");
   );
   z-index:1;
 }
-
 
 .lirya-guarantee > *{ position:relative; z-index:2; }
 
@@ -5589,6 +5588,15 @@ const form = root.querySelector("#lirya-form");
   margin-top:18px;
 }
 
+.lirya-guarantee-cta:focus-visible{
+  outline:3px solid rgba(255,159,63,.55);
+  outline-offset:4px;
+}
+
+.lirya-guarantee-cta:hover{
+  transform:translateY(-1px);
+}
+
 /* ===== MÓVIL ===== */
 @media (max-width:900px){
   .lirya-guarantee-card{
@@ -5600,7 +5608,7 @@ const form = root.querySelector("#lirya-form");
   }
 }
 
-  @media (max-width:900px){
+@media (max-width:900px){
   .lirya-guarantee{ padding:75px 18px; }
 
   .lirya-guarantee-cards{
@@ -5609,21 +5617,20 @@ const form = root.querySelector("#lirya-form");
     gap:14px;
     scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch;
-    padding:0 10px;              /* aire lateral para que no “pegue” */
+    padding:0 10px;
   }
 
   .lirya-guarantee-card{
-    flex:0 0 72%;                /* ⬅️ ancho real del slide (menos ancho) */
-    max-width:320px;             /* ⬅️ límite para que NO se vea enorme */
+    flex:0 0 72%;
+    max-width:320px;
     scroll-snap-align:center;
-    min-height:190px;            /* ⬅️ más “cuadrada” */
+    min-height:190px;
   }
 
   .lirya-guarantee-cards::-webkit-scrollbar{
     display:none;
   }
 }
-
 </style>
 
 <section class="lirya-guarantee" aria-labelledby="lirya-guarantee-title">
@@ -5688,12 +5695,12 @@ const form = root.querySelector("#lirya-form");
     </details>
   </div>
 
-  <a href="#formulario-lirya" class="lirya-guarantee-cta">
+  <a href="#formulario-lirya" class="lirya-guarantee-cta" data-no-lead>
     Crear mi canción con tranquilidad
   </a>
 </section>
 
-  <script>
+<script>
 (() => {
   if (window.__lirya_guarantee_firewall) return;
   window.__lirya_guarantee_firewall = true;
@@ -5718,6 +5725,7 @@ const form = root.querySelector("#lirya-form");
   }, true);
 })();
 </script>
+
 <!-- ===== CIERRE FINAL / CONTACTO ===== -->
 <style>
 .lirya-final-section{
@@ -5752,6 +5760,7 @@ const form = root.querySelector("#lirya-form");
   flex-wrap:wrap;
   margin:0 0 34px;
 }
+
 .lirya-final-pill{
   display:inline-flex;
   align-items:center;
@@ -5772,6 +5781,7 @@ const form = root.querySelector("#lirya-form");
   justify-content:center;
   margin:0 0 22px;
 }
+
 .lirya-final-btn{
   display:inline-block;
   text-decoration:none;
@@ -5782,13 +5792,22 @@ const form = root.querySelector("#lirya-form");
   letter-spacing:.2px;
   transition:transform .2s ease, opacity .2s ease, box-shadow .2s ease;
 }
-.lirya-final-btn:hover{transform:translateY(-1px)}
-.lirya-final-btn:focus-visible{outline:3px solid rgba(255,159,63,.55);outline-offset:4px}
+
+.lirya-final-btn:hover{
+  transform:translateY(-1px);
+}
+
+.lirya-final-btn:focus-visible{
+  outline:3px solid rgba(255,159,63,.55);
+  outline-offset:4px;
+}
+
 .lirya-final-btn-primary{
   background:linear-gradient(135deg,#ff9f3f,#e58b2a);
   color:#fff;
   box-shadow:0 12px 30px rgba(255,159,63,0.28);
 }
+
 .lirya-final-btn-ghost{
   background:#fff;
   color:var(--gold);
@@ -5840,6 +5859,11 @@ const form = root.querySelector("#lirya-form");
   color:#e58b2a;
 }
 
+.lirya-contact-email:focus-visible{
+  outline:3px solid rgba(255,159,63,.55);
+  outline-offset:4px;
+}
+
 .lirya-contact-whatsapp{
   font-size:16px;
   font-weight:600;
@@ -5859,6 +5883,11 @@ const form = root.querySelector("#lirya-form");
 .lirya-contact-whatsapp:hover{
   transform:translateY(-1px);
   background:rgba(199,181,138,0.15);
+}
+
+.lirya-contact-whatsapp:focus-visible{
+  outline:3px solid rgba(255,159,63,.55);
+  outline-offset:4px;
 }
 
 .lirya-contact-response-time{
@@ -5925,7 +5954,7 @@ const form = root.querySelector("#lirya-form");
   </div>
 
   <div class="lirya-final-cta">
-    <a class="lirya-final-btn lirya-final-btn-primary" href="#formulario-lirya">
+    <a class="lirya-final-btn lirya-final-btn-primary" href="#formulario-lirya" data-no-lead>
       Crear mi canción ahora
     </a>
     <a class="lirya-final-btn lirya-final-btn-ghost" href="#reacciones">
@@ -5938,14 +5967,13 @@ const form = root.querySelector("#lirya-form");
     <p>Escríbenos y te ayudamos a elegir la mejor opción para tu caso.</p>
 
     <div class="lirya-contact-methods">
-      <a href="mailto:hola@lirya.studio" class="lirya-contact-email">
+      <a href="mailto:hola@lirya.studio" class="lirya-contact-email" target="_blank" rel="noopener noreferrer">
         ✉️ hola@lirya.studio
       </a>
 
       <a href="https://wa.me/34613745470?text=Hola%2C%20tengo%20una%20duda%20sobre%20mi%20canci%C3%B3n" target="_blank" rel="noopener noreferrer" class="lirya-contact-whatsapp">
-  💬 WhatsApp (respuesta rápida)
-</a>
-      
+        💬 WhatsApp (respuesta rápida)
+      </a>
 
       <div class="lirya-contact-response-time">
         ⏱️ Respondemos lo antes posible (normalmente el mismo día)
