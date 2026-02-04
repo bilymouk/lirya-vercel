@@ -1,39 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- Página principal -->
   <url>
     <loc>https://www.lirya.studio/</loc>
-    <lastmod>2026-02-03</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+  
+  <!-- Reacciones (CRÍTICO PARA SEO) -->
+  <url>
+    <loc>https://www.lirya.studio/reacciones/carlos.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://www.lirya.studio/video4.jpg</video:thumbnail_loc>
+      <video:title>Valoración real de Carlos - Canción personalizada LIRYA</video:title>
+      <video:description>Reacción real de Carlos al escuchar por primera vez su canción personalizada para su madre Carmen</video:description>
+      <video:content_loc>https://www.lirya.studio/video4.mp4</video:content_loc>
+      <video:player_loc>https://www.lirya.studio/reacciones/carlos.html</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://www.lirya.studio">LIRYA</video:uploader>
+    </video:video>
+  </url>
+  
+  <url>
+    <loc>https://www.lirya.studio/reacciones/laura.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://www.lirya.studio/video2.jpg</video:thumbnail_loc>
+      <video:title>Valoración real de Laura - Canción personalizada LIRYA</video:title>
+      <video:description>Reacción real de Laura tras regalar una canción personalizada a su marido Víctor</video:description>
+      <video:content_loc>https://www.lirya.studio/video2.mp4</video:content_loc>
+      <video:player_loc>https://www.lirya.studio/reacciones/laura.html</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://www.lirya.studio">LIRYA</video:uploader>
+    </video:video>
+  </url>
+  
+  <url>
+    <loc>https://www.lirya.studio/reacciones/andrea.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://www.lirya.studio/video3.jpg</video:thumbnail_loc>
+      <video:title>Valoración real de Andrea - Canción personalizada LIRYA</video:title>
+      <video:description>Reacción real de Andrea tras regalar una canción personalizada</video:description>
+      <video:content_loc>https://www.lirya.studio/video3.mp4</video:content_loc>
+      <video:player_loc>https://www.lirya.studio/reacciones/andrea.html</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://www.lirya.studio">LIRYA</video:uploader>
+    </video:video>
+  </url>
+  
+  <url>
+    <loc>https://www.lirya.studio/reacciones/yolanda.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://www.lirya.studio/video1.jpg</video:thumbnail_loc>
+      <video:title>Valoración real de Yolanda - Canción personalizada LIRYA</video:title>
+      <video:description>Reacción real de Yolanda al escuchar su canción personalizada</video:description>
+      <video:content_loc>https://www.lirya.studio/video1.mp4</video:content_loc>
+      <video:player_loc>https://www.lirya.studio/reacciones/yolanda.html</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://www.lirya.studio">LIRYA</video:uploader>
+    </video:video>
+  </url>
+  
+  <url>
+    <loc>https://www.lirya.studio/reacciones/juan.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://www.lirya.studio/video5.jpg</video:thumbnail_loc>
+      <video:title>Valoración real de Juan - Canción personalizada LIRYA</video:title>
+      <video:description>Reacción real de Juan al escuchar su canción personalizada</video:description>
+      <video:content_loc>https://www.lirya.studio/video5.mp4</video:content_loc>
+      <video:player_loc>https://www.lirya.studio/reacciones/juan.html</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://www.lirya.studio">LIRYA</video:uploader>
+    </video:video>
+  </url>
+  
+  <url>
+    <loc>https://www.lirya.studio/reacciones/teresa.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://www.lirya.studio/video6.jpg</video:thumbnail_loc>
+      <video:title>Valoración real de Teresa - Canción personalizada LIRYA</video:title>
+      <video:description>Reacción real de Teresa al escuchar su canción personalizada</video:description>
+      <video:content_loc>https://www.lirya.studio/video6.mp4</video:content_loc>
+      <video:player_loc>https://www.lirya.studio/reacciones/teresa.html</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://www.lirya.studio">LIRYA</video:uploader>
+    </video:video>
+  </url>
+  
+  <url>
+    <loc>https://www.lirya.studio/reacciones/sara.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://www.lirya.studio/video7.jpg</video:thumbnail_loc>
+      <video:title>Valoración real de Sara - Canción personalizada LIRYA</video:title>
+      <video:description>Reacción real de Sara al escuchar su canción personalizada</video:description>
+      <video:content_loc>https://www.lirya.studio/video7.mp4</video:content_loc>
+      <video:player_loc>https://www.lirya.studio/reacciones/sara.html</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://www.lirya.studio">LIRYA</video:uploader>
+    </video:video>
+  </url>
+  
+  <url>
+    <loc>https://www.lirya.studio/reacciones/maria.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <video:video>
+      <video:thumbnail_loc>https://www.lirya.studio/video8.jpg</video:thumbnail_loc>
+      <video:title>Valoración real de María - Canción personalizada LIRYA</video:title>
+      <video:description>Reacción real de María al escuchar su canción personalizada</video:description>
+      <video:content_loc>https://www.lirya.studio/video8.mp4</video:content_loc>
+      <video:player_loc>https://www.lirya.studio/reacciones/maria.html</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:uploader info="https://www.lirya.studio">LIRYA</video:uploader>
+    </video:video>
+  </url>
+  
+  <!-- Páginas legales -->
   <url>
     <loc>https://www.lirya.studio/aviso-legal.html</loc>
     <lastmod>2026-02-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
+  
   <url>
     <loc>https://www.lirya.studio/privacidad.html</loc>
     <lastmod>2026-02-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
+  
   <url>
     <loc>https://www.lirya.studio/cookies.html</loc>
     <lastmod>2026-02-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://www.lirya.studio/success.html</loc>
-    <lastmod>2026-02-03</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
+    <priority>0.2</priority>
   </url>
-  <url>
-    <loc>https://www.lirya.studio/cancel.html</loc>
-    <lastmod>2026-02-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
-  </url>
+  
 </urlset>
