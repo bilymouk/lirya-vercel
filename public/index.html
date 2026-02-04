@@ -5568,7 +5568,6 @@ const form = root.querySelector("#lirya-form");
   }, true);
 })();
 </script>
-
 <!-- ===== CIERRE FINAL / CONTACTO ===== -->
 <style>
 .lirya-final-section{
@@ -5676,15 +5675,26 @@ const form = root.querySelector("#lirya-form");
   gap:12px;
 }
 
-.lirya-contact-email,
+.lirya-contact-email{
+  font-size:16px;
+  font-weight:600;
+  color:var(--gold);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  justify-content:center;
+}
+
+.lirya-contact-email:hover{
+  color:#e58b2a;
+}
+
 .lirya-contact-whatsapp{
   font-size:16px;
   font-weight:600;
   color:var(--gold);
   text-decoration:none;
-}
-
-.lirya-contact-whatsapp{
   display:inline-flex;
   justify-content:center;
   align-items:center;
@@ -5693,6 +5703,12 @@ const form = root.querySelector("#lirya-form");
   border-radius:999px;
   background:rgba(199,181,138,0.10);
   border:1px solid rgba(199,181,138,0.25);
+  transition:transform .2s ease, background .2s ease;
+}
+
+.lirya-contact-whatsapp:hover{
+  transform:translateY(-1px);
+  background:rgba(199,181,138,0.15);
 }
 
 .lirya-contact-response-time{
@@ -5723,20 +5739,25 @@ const form = root.querySelector("#lirya-form");
   text-decoration:underline;
 }
 
-@media (max-width:768px){
-  .lirya-final-title{font-size:32px}
-  .lirya-final-subtitle{font-size:16px}
+.lirya-legal-link{
+  color:rgba(26,26,26,0.55);
+  text-decoration:none;
+  border-bottom:1px dotted rgba(199,181,138,0.6);
 }
-  .lirya-legal-link{
-  color: rgba(26,26,26,0.55);
-  text-decoration: none;
-  border-bottom: 1px dotted rgba(199,181,138,0.6);
+
+.lirya-legal-link:hover{
+  color:rgba(26,26,26,0.75);
 }
-.lirya-legal-link:hover{ color: rgba(26,26,26,0.75); }
+
 .lirya-legal-link:focus-visible{
   outline:3px solid rgba(255,159,63,.45);
   outline-offset:3px;
   border-radius:6px;
+}
+
+@media (max-width:768px){
+  .lirya-final-title{font-size:32px}
+  .lirya-final-subtitle{font-size:16px}
 }
 </style>
 
@@ -5767,18 +5788,18 @@ const form = root.querySelector("#lirya-form");
     <p>Escríbenos y te ayudamos a elegir la mejor opción para tu caso.</p>
 
     <div class="lirya-contact-methods">
-     <a href="/cdn-cgi/l/email-protection#01696e6d60416d687378602f626e6c" class="lirya-contact-email">
-  ✉️ <span class="__cf_email__" data-cfemail="462e292a27062a2f343f276825292b">[email&#160;protected]</span>
-</a>
+      <a href="mailto:hola@lirya.studio" class="lirya-contact-email">
+        ✉️ hola@lirya.studio
+      </a>
 
-    <a
-  href="https://wa.me/34613745470?text=Hola%2C%20tengo%20una%20duda%20sobre%20mi%20canci%C3%B3n"
-  target="_blank"
-  rel="noopener noreferrer"
-  class="lirya-contact-whatsapp"
->
-  💬 WhatsApp (respuesta rápida)
-</a>
+      
+        href="https://wa.me/34613745470?text=Hola%2C%20tengo%20una%20duda%20sobre%20mi%20canci%C3%B3n"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="lirya-contact-whatsapp"
+      >
+        💬 WhatsApp (respuesta rápida)
+      </a>
 
       <div class="lirya-contact-response-time">
         ⏱️ Respondemos lo antes posible (normalmente el mismo día)
@@ -5786,14 +5807,15 @@ const form = root.querySelector("#lirya-form");
     </div>
   </div>
 
- <div class="lirya-footer-legal">
-  © 2025–2026 Lirya. Todos los derechos reservados. ·
-  <a class="lirya-legal-link" href="https://lirya.studio/aviso-legal.html" target="_blank" rel="noopener">Aviso legal</a> ·
-  <a class="lirya-legal-link" href="https://lirya.studio/privacidad.html" target="_blank" rel="noopener">Privacidad</a> ·
-  <a class="lirya-legal-link" href="https://lirya.studio/cookies.html" target="_blank" rel="noopener">Cookies</a>
-</div>
+  <div class="lirya-footer-legal">
+    © 2025–2026 Lirya. Todos los derechos reservados. ·
+    <a class="lirya-legal-link" href="https://lirya.studio/aviso-legal.html" target="_blank" rel="noopener">Aviso legal</a> ·
+    <a class="lirya-legal-link" href="https://lirya.studio/privacidad.html" target="_blank" rel="noopener">Privacidad</a> ·
+    <a class="lirya-legal-link" href="https://lirya.studio/cookies.html" target="_blank" rel="noopener">Cookies</a>
+  </div>
 </section>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+<script>
 (() => {
   if (window.__lirya_final_firewall) return;
   window.__lirya_final_firewall = true;
@@ -5807,4 +5829,14 @@ const form = root.querySelector("#lirya-form");
 
     const href = (a.getAttribute("href") || "").trim();
     const goesToForm =
-      href === "#formulario
+      href === "#formulario-lirya" ||
+      href === "/#formulario-lirya" ||
+      href.endsWith("/#formulario-lirya");
+
+    if (!goesToForm) return;
+
+    e.__lirya_no_lead = true;
+    e.stopImmediatePropagation();
+  }, true);
+})();
+</script>
