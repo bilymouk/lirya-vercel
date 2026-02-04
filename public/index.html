@@ -1529,13 +1529,7 @@ function trackEvent(eventName, customData = {}, opts = {}) {
 
       const placement = audio.getAttribute("data-audio-placement") || "unknown";
 
-      trackEvent("AudioExamplePlay", {
-        placement: placement
-      });
-    }, { passive: true });
-  });
-})();
-
+      
 window.LIRYA_PURCHASE = function(data){
   if (!data || !data.value) {
     log("Purchase NO disparado: falta value");
@@ -1557,10 +1551,15 @@ window.LIRYA_PURCHASE = function(data){
   });
 };
 
-once("lirya_pageview_home", () => {
-  trackEvent("PageView", {});
-});
-  
+// ✅ PageView: 1 por LOAD real (no por sesión)
+// Evita duplicado si el script se ejecuta 2 veces en el mismo load
+(function firePageViewOncePerLoad(){
+  if (window.__lirya_pageview_fired) return;
+  window.__lirya_pageview_fired = true;
+
+  trackEvent("PageView", { page_type: "home" });
+})();
+
 })();
 </script>
 
