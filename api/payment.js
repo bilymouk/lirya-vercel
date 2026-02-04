@@ -218,7 +218,7 @@ module.exports = async (req, res) => {
     const tarifa = String(f.tarifa || "").trim();
     let amount;
 
-    if (tarifa === "39") amount = 3900; // ✅
+    if (tarifa === "39") amount = 100; // ✅
     else if (tarifa === "59") amount = 5900;
     else if (tarifa === "79") amount = 7900;
     else {
