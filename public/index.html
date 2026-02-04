@@ -1028,7 +1028,6 @@
    <audio
   id="lirya-audio"
   preload="none"
-  data-lirya-audio-example="1"
   data-audio-placement="hero"
   aria-label="Ejemplo de canción personalizada"
 >
@@ -2663,38 +2662,7 @@ window.LIRYA_PURCHASE = function(data){
       clearStates();
   
       currentBtn = pendingBtn;
-  
-        // ===== TRACK: AudioExamplePlay / Replay =====
-    const placement = currentBtn.classList.contains("style-card")
-      ? "estilos"
-      : "ejemplos-reales";
-  
-    const audioSrc = window.LIRYA_UTILS.sanitize(currentBtn.dataset.audio);
-    const label = window.LIRYA_UTILS.sanitize(currentBtn.getAttribute("aria-label"));
-  
-   const firstTime = !currentBtn.__lirya_audio_example_fired;
-currentBtn.__lirya_audio_example_fired = true;
-
-if (firstTime) {
-  // ✅ Primer play → Pixel + CAPI
-  if (typeof window.LIRYA_TRACK === "function") {
-    window.LIRYA_TRACK("AudioExamplePlay", {
-      placement,
-      audio_src: audioSrc,
-      label
-    });
-  }
-} else {
-  // 🔁 Replay → SOLO Pixel (no CAPI)
-  if (typeof window.fbq === "function") {
-    window.fbq("trackCustom", "AudioExampleReplay", {
-      placement,
-      audio_src: audioSrc,
-      label
-    });
-  }
-}
-    
+             
       const container = containerOf(currentBtn);
   
       container.classList.add('playing');
@@ -2743,28 +2711,29 @@ if (firstTime) {
     updateArrows();
   
     // =========================================================
-    // 🔥 FIREWALL ANTI-LEAD dentro de Ejemplos
-    // Si tienes un listener global que dispara Lead al clickar a #formulario-lirya,
-    // aquí lo neutralizamos SOLO en esta sección.
-    // =========================================================
-    root.addEventListener("click", (e) => {
-      const a = e.target.closest ? e.target.closest('a[href]') : null;
-      if (!a) return;
-  
-      const href = (a.getAttribute("href") || "").trim();
-      const goesToForm =
-        href === "#formulario-lirya" ||
-        href === "/#formulario-lirya" ||
-        href.endsWith("/#formulario-lirya");
-  
-      if (!goesToForm) return;
-  
-      // Marcamos flag en el evento para que el listener global pueda respetarlo
-      // (y además evitamos burbujeo hacia listeners que estén en capture/bubble)
-      e.__lirya_no_lead = true;
-  // no cortamos propagación; el listener global debe respetar el flag
-  
-    }, true);
+// 🔥 FIREWALL ANTI-LEAD (REAL) dentro de Ejemplos
+// Bloquea cualquier listener global que dispare Lead por clicks
+// a #formulario-lirya desde ESTA sección.
+// =========================================================
+root.addEventListener("click", (e) => {
+  const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+  if (!a) return;
+
+  const href = (a.getAttribute("href") || "").trim();
+  const goesToForm =
+    href === "#formulario-lirya" ||
+    href === "/#formulario-lirya" ||
+    href.endsWith("/#formulario-lirya");
+
+  if (!goesToForm) return;
+
+  // ✅ Marca flag (por compatibilidad si tu global lo respeta)
+  e.__lirya_no_lead = true;
+
+  // ✅ Y además: evitamos que el click llegue a listeners globales
+  // (pero NO cancelamos el comportamiento del anchor)
+  e.stopImmediatePropagation();
+}, true);
   
   })();
   </script>
@@ -2807,6 +2776,9 @@ if (firstTime) {
     document.addEventListener("click", function (e) {
       const a = e.target.closest && e.target.closest("a.tarifa-cta[data-tarifa]");
       if (!a) return;
+
+      e.__lirya_no_lead = true;
+     e.stopImmediatePropagation();
   
       const tarifa = (a.getAttribute("data-tarifa") || "").trim();
       if (!tarifa) return;
@@ -4990,8 +4962,6 @@ const form = root.querySelector("#lirya-form");
   const prev = section.querySelector('[data-carousel-prev]');
   const next = section.querySelector('[data-carousel-next]');
 
-  const onceSession = window.LIRYA_UTILS.onceSession;
-
   const getStep = () => {
     const firstCard = carousel.querySelector('.reaction-card');
     if (!firstCard) return 320;
@@ -5011,37 +4981,25 @@ const form = root.querySelector("#lirya-form");
     if (e.key === 'ArrowRight'){ e.preventDefault(); scrollByStep(1); }
   });
 
-  section.addEventListener('click', (e) => {
-    const a = (e.target && e.target.closest)
-      ? e.target.closest('a.reaction-card[href]')
-      : null;
+  // =========================================================
+  // 🔥 FIREWALL ANTI-LEAD dentro de Reacciones
+  // Bloquea cualquier listener global que dispare Lead por clicks
+  // a #formulario-lirya desde ESTA sección.
+  // =========================================================
+  section.addEventListener("click", (e) => {
+    const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
 
-    if (!a || !section.contains(a)) return;
+    const href = (a.getAttribute("href") || "").trim();
+    const goesToForm =
+      href === "#formulario-lirya" ||
+      href === "/#formulario-lirya" ||
+      href.endsWith("/#formulario-lirya");
 
-    let href = (a.getAttribute('href') || '').trim();
-    if (!href || href.startsWith('#formulario-lirya')) return;
+    if (!goesToForm) return;
 
-    try {
-      const u = new URL(href, window.location.href);
-      href = u.pathname;
-    } catch(_) {}
-
-    const persona = window.LIRYA_UTILS.sanitize(a.getAttribute('data-persona'));
-    const label = window.LIRYA_UTILS.sanitize(a.getAttribute('aria-label'));
-
-    if (typeof window.LIRYA_TRACK === 'function') {
-      const dedupeKey = "lirya_vc_reaction_" + href;
-
-      onceSession(dedupeKey, () => {
-        window.LIRYA_TRACK('ViewContent', {
-          content_name: label || (persona ? `Reacción ${persona}` : 'Reacción real'),
-          content_category: 'Reacciones',
-          content_type: 'video_page',
-          persona: persona || undefined,
-          destination: href
-        });
-      });
-    }
+    e.__lirya_no_lead = true;
+    e.stopImmediatePropagation(); // corta listeners globales
   }, true);
 
   // ===== CONTADOR ANIMADO 0 a 800 =====
@@ -5050,25 +5008,21 @@ const form = root.querySelector("#lirya-form");
     if (!counter) return;
 
     function animateCounter(element, target, duration) {
-      let start = 0;
       const startTime = performance.now();
-      
+
       function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-        const current = Math.floor(start + (target - start) * easeOutQuart);
-        
+        const current = Math.floor(target * easeOutQuart);
+
         element.textContent = current;
-        
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        } else {
-          element.textContent = target;
-        }
+
+        if (progress < 1) requestAnimationFrame(update);
+        else element.textContent = target;
       }
-      
+
       requestAnimationFrame(update);
     }
 
@@ -5088,6 +5042,7 @@ const form = root.querySelector("#lirya-form");
   })();
 })();
 </script>
+
 
 <!-- ===== GARANTÍA + MINI FAQ ===== -->
 <style>
@@ -5173,7 +5128,7 @@ const form = root.querySelector("#lirya-form");
 }
 
 .lirya-guarantee-card{
-  text-align:left;
+  text-align:center;
   padding:18px 18px 20px;
   border-radius:18px;
   background:rgba(255,255,255,0.08);
@@ -5395,6 +5350,32 @@ const form = root.querySelector("#lirya-form");
   </a>
 </section>
 
+  <script>
+(() => {
+  if (window.__lirya_guarantee_firewall) return;
+  window.__lirya_guarantee_firewall = true;
+
+  const section = document.querySelector('.lirya-guarantee');
+  if (!section) return;
+
+  section.addEventListener("click", (e) => {
+    const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+
+    const href = (a.getAttribute("href") || "").trim();
+    const goesToForm =
+      href === "#formulario-lirya" ||
+      href === "/#formulario-lirya" ||
+      href.endsWith("/#formulario-lirya");
+
+    if (!goesToForm) return;
+
+    e.__lirya_no_lead = true;
+    e.stopImmediatePropagation();
+  }, true);
+})();
+</script>
+
 <!-- ===== CIERRE FINAL / CONTACTO ===== -->
 <style>
 .lirya-final-section{
@@ -5614,11 +5595,36 @@ const form = root.querySelector("#lirya-form");
 
  <div class="lirya-footer-legal">
   © 2025–2026 Lirya. Todos los derechos reservados. ·
-  <a class="lirya-legal-link" href="href="https://lirya.studio/aviso-legal.html" target="_blank" rel="noopener">Aviso legal</a> ·
-  <a class="lirya-legal-link" href="href="https://lirya.studio/privacidad.html" target="_blank" rel="noopener">Privacidad</a> ·
+  <a class="lirya-legal-link" href="https://lirya.studio/aviso-legal.html" target="_blank" rel="noopener">Aviso legal</a> ·
+  <a class="lirya-legal-link" href="https://lirya.studio/privacidad.html" target="_blank" rel="noopener">Privacidad</a> ·
   <a class="lirya-legal-link" href="https://lirya.studio/cookies.html" target="_blank" rel="noopener">Cookies</a>
 </div>
 </section>
+<script>
+(() => {
+  if (window.__lirya_final_firewall) return;
+  window.__lirya_final_firewall = true;
+
+  const section = document.querySelector('.lirya-final-section');
+  if (!section) return;
+
+  section.addEventListener("click", (e) => {
+    const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+
+    const href = (a.getAttribute("href") || "").trim();
+    const goesToForm =
+      href === "#formulario-lirya" ||
+      href === "/#formulario-lirya" ||
+      href.endsWith("/#formulario-lirya");
+
+    if (!goesToForm) return;
+
+    e.__lirya_no_lead = true;
+    e.stopImmediatePropagation();
+  }, true);
+})();
+</script>
 
 </body>
 </html>
