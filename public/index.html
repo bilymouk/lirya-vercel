@@ -756,7 +756,7 @@
       }
 
   .hero-mobile .hero-btn{
-    margin-top:18px !important;
+    margin-top:8px !important;
     margin-bottom:2px;
   }
 
@@ -849,11 +849,17 @@
       }
     }
 
--width:340px;
-  background:linear-gradient(135deg, rgba(184,153,104,.12) 0%, rgba(255,138,42,.08) 100%);
-  border:1px solid rgba(184,153,104,.25);
-  border-radius:14px;
-  backdrop-filter:blur(8px);
+/* ===== COUNTDOWN TIMER (solo móvil) ===== */
+.countdown-timer{
+  display:none;
+  margin:16px auto 18px;
+  padding:20px 24px;
+  max-width:340px;
+  background:linear-gradient(135deg, rgba(184,153,104,.14) 0%, rgba(255,138,42,.09) 100%);
+  border:1.5px solid rgba(184,153,104,.3);
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
 }
 
 @media (max-width:900px){
@@ -865,56 +871,57 @@
 .countdown-timer__header{
   display:flex;
   align-items:center;
-  justify-content:center;
   gap:10px;
-  margin-bottom:8px;
+  margin-bottom:14px;
 }
 
 .countdown-timer__icon{
-  font-size:1.4rem;
-  filter:drop-shadow(0 0 8px rgba(184,153,104,.45));
+  font-size:1.5rem;
+  filter:drop-shadow(0 0 10px rgba(184,153,104,.5));
 }
 
 .countdown-timer__title{
   font-family:'Playfair Display',serif;
-  font-size:1.05rem;
+  font-size:1.1rem;
   font-weight:700;
-  letter-spacing:.3px;
-  color:rgba(255,255,255,.95);
-  text-shadow:0 1px 3px rgba(0,0,0,.3);
+  letter-spacing:.4px;
+  color:rgba(255,255,255,.96);
+  text-shadow:0 1px 4px rgba(0,0,0,.35);
 }
 
 .countdown-timer__label{
   font-family:'Inter', sans-serif;
-  font-size:.85rem;
-  font-weight:600;
-  color:rgba(255,255,255,.85);
-  margin-bottom:6px;
+  font-size:.78rem;
+  font-weight:700;
+  color:rgba(255,255,255,.75);
+  margin-bottom:8px;
   text-transform:uppercase;
-  letter-spacing:.8px;
+  letter-spacing:1.2px;
   text-shadow:0 1px 2px rgba(0,0,0,.25);
+  text-align:left;
 }
 
 .countdown-timer__display{
   font-family:'Playfair Display',serif;
-  font-size:1.85rem;
+  font-size:2.2rem;
   font-weight:800;
-  letter-spacing:1.5px;
-  text-align:center;
+  letter-spacing:2px;
+  text-align:left;
   color:#ffd27a;
   text-shadow:
-    0 0 12px rgba(255,210,122,.6),
-    0 0 24px rgba(255,210,122,.4),
-    0 2px 4px rgba(0,0,0,.3);
-  margin-bottom:10px;
+    0 0 14px rgba(255,210,122,.65),
+    0 0 28px rgba(255,210,122,.45),
+    0 2px 5px rgba(0,0,0,.35);
+  margin-bottom:16px;
+  line-height:1;
 }
 
 .countdown-timer__footer{
   font-family:'Inter', sans-serif;
-  font-size:.82rem;
-  line-height:1.35;
-  color:rgba(255,255,255,.8);
-  text-align:center;
+  font-size:.83rem;
+  line-height:1.6;
+  color:rgba(255,255,255,.82);
+  text-align:left;
   text-shadow:0 1px 2px rgba(0,0,0,.25);
 }
 
@@ -923,12 +930,29 @@
   font-weight:700;
 }
 
+.countdown-timer__line{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  margin-bottom:6px;
+}
+
+.countdown-timer__line:last-child{
+  margin-bottom:0;
+}
+
 .countdown-timer__cross{
   color:#ff4757;
+  font-size:1.05em;
+  flex-shrink:0;
+  filter:drop-shadow(0 0 4px rgba(255,71,87,.4));
 }
 
 .countdown-timer__check{
   color:#2ed573;
+  font-size:1.05em;
+  flex-shrink:0;
+  filter:drop-shadow(0 0 4px rgba(46,213,115,.4));
 }
 
     /* ===== URGENCY FLOATING CARD ===== */
@@ -1332,9 +1356,15 @@
     --:--:--
   </div>
   <div class="countdown-timer__footer">
-    Producción limitada diaria para garantizar entrega antes del <strong>14 de febrero</strong><br>
-    <span class="countdown-timer__cross">❌</span> Después ya no podrás pedir la tarifa básica<br>
-    <span class="countdown-timer__check">✔️</span> Solo Media y Premium disponibles
+    <div>Producción limitada diaria para garantizar entrega antes del <strong>14 de febrero</strong></div>
+    <div class="countdown-timer__line">
+      <span class="countdown-timer__cross" aria-hidden="true">❌</span>
+      <span>Después ya no podrás pedir la tarifa básica</span>
+    </div>
+    <div class="countdown-timer__line">
+      <span class="countdown-timer__check" aria-hidden="true">✔️</span>
+      <span>Solo Media y Premium disponibles</span>
+    </div>
   </div>
 </div>
 
