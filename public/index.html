@@ -2206,7 +2206,7 @@ window.LIRYA_PURCHASE = function(data) {
 })();
 </script>
   
- <!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (OPCIÓN B PRO + 6 MEJORAS) ===== -->
+<!-- ===== EJEMPLOS REALES + TARIFAS + ESTILOS MUSICALES (OPCIÓN B PRO + 6 MEJORAS) ===== -->
   <style>
    .examples{
     --lirya-gold: #d4b483;
@@ -2709,6 +2709,87 @@ window.LIRYA_PURCHASE = function(data) {
   line-height: 1.12;
   margin-bottom: 18px;
 }
+
+/* ===== COUNTDOWN EN TARIFA 39€ (solo desktop) ===== */
+.countdown-timer--desktop-only {
+  display: none;
+  margin: 18px auto 0;
+  padding: 13px 16px;
+  max-width: 221px;
+  background: linear-gradient(135deg, rgba(184,153,104,.14) 0%, rgba(255,138,42,.09) 100%);
+  border: 1.5px solid rgba(184,153,104,.3);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0,0,0,.15);
+}
+
+@media (min-width: 901px) {
+  .countdown-timer--desktop-only {
+    display: block;
+  }
+}
+
+.countdown-timer--desktop-only .countdown-timer__header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 9px;
+}
+
+.countdown-timer--desktop-only .countdown-timer__icon {
+  font-size: 0.98rem;
+  filter: drop-shadow(0 0 10px rgba(184,153,104,.5));
+}
+
+.countdown-timer--desktop-only .countdown-timer__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: .3px;
+  color: rgba(255,255,255,.96);
+  text-shadow: 0 1px 4px rgba(0,0,0,.35);
+}
+
+.countdown-timer--desktop-only .countdown-timer__label {
+  font-family: 'Inter', sans-serif;
+  font-size: .51rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.75);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-shadow: 0 1px 2px rgba(0,0,0,.25);
+  text-align: left;
+}
+
+.countdown-timer--desktop-only .countdown-timer__display {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.43rem;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  text-align: left;
+  color: #ffd27a;
+  text-shadow:
+    0 0 14px rgba(255,210,122,.65),
+    0 0 28px rgba(255,210,122,.45),
+    0 2px 5px rgba(0,0,0,.35);
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.countdown-timer--desktop-only .countdown-timer__footer {
+  font-family: 'Inter', sans-serif;
+  font-size: .54rem;
+  line-height: 1.5;
+  color: rgba(255,255,255,.82);
+  text-align: left;
+  text-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+
+.countdown-timer--desktop-only .countdown-timer__footer strong {
+  color: rgba(255,255,255,.95);
+  font-weight: 700;
+}
   </style>
   
  <section class="examples" id="ejemplos" aria-labelledby="examples-title">
@@ -2748,6 +2829,21 @@ window.LIRYA_PURCHASE = function(data) {
             </div>
             <div class="tarifa-segura"><em>Ideal si buscas un detalle bonito y sencillo</em></div>
             <a class="tarifa-cta" href="#formulario-lirya" data-tarifa="39">Quiero un detalle bonito</a>
+            
+            <!-- COUNTDOWN solo desktop -->
+            <div class="countdown-timer countdown-timer--desktop-only">
+              <div class="countdown-timer__header">
+                <span class="countdown-timer__icon" aria-hidden="true">⏳</span>
+                <span class="countdown-timer__title">Tarifa Básica · 39€</span>
+              </div>
+              <div class="countdown-timer__label">CIERRE DE PEDIDOS EN:</div>
+              <div class="countdown-timer__display" id="countdown-display-desktop" aria-live="polite">
+                --:--:--
+              </div>
+              <div class="countdown-timer__footer">
+                Para garantizar la entrega antes del <strong>14 de febrero</strong>, la tarifa básica cierra al finalizar el contador.
+              </div>
+            </div>
           </div>
         </article>
   
@@ -3171,6 +3267,36 @@ root.addEventListener("click", (e) => {
     window.addEventListener("hashchange", applyStored);
   })();
   </script>
+  <script>
+/* ===== CONTADOR REGRESIVO DESKTOP (EJEMPLOS) ===== */
+(function() {
+  const displayDesktop = document.getElementById('countdown-display-desktop');
+  if (!displayDesktop) return;
+
+  function updateCountdown() {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    
+    const diff = midnight - now;
+    
+    if (diff <= 0) {
+      displayDesktop.textContent = '00:00:00';
+      return;
+    }
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    const pad = (n) => String(n).padStart(2, '0');
+    displayDesktop.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+  }
+  
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+})();
+</script>
   
 <!-- =================================
    CÓMO FUNCIONA
