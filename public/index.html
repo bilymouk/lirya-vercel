@@ -849,12 +849,7 @@
       }
     }
 
-/* ===== COUNTDOWN TIMER (solo móvil) ===== */
-.countdown-timer{
-  display:none;
-  margin:16px auto 18px;
-  padding:14px 20px;
-  max-width:340px;
+-width:340px;
   background:linear-gradient(135deg, rgba(184,153,104,.12) 0%, rgba(255,138,42,.08) 100%);
   border:1px solid rgba(184,153,104,.25);
   border-radius:14px;
@@ -926,6 +921,14 @@
 .countdown-timer__footer strong{
   color:rgba(255,255,255,.95);
   font-weight:700;
+}
+
+.countdown-timer__cross{
+  color:#ff4757;
+}
+
+.countdown-timer__check{
+  color:#2ed573;
 }
 
     /* ===== URGENCY FLOATING CARD ===== */
@@ -1322,16 +1325,16 @@
 <div class="countdown-timer">
   <div class="countdown-timer__header">
     <span class="countdown-timer__icon" aria-hidden="true">⏳</span>
-    <span class="countdown-timer__title">Tarifa Básica (39€)</span>
+    <span class="countdown-timer__title">Tarifa Básica · 39€</span>
   </div>
-  <div class="countdown-timer__label">Cierre de pedidos en:</div>
+  <div class="countdown-timer__label">CIERRE DE PEDIDOS EN:</div>
   <div class="countdown-timer__display" id="countdown-display" aria-live="polite">
     --:--:--
   </div>
   <div class="countdown-timer__footer">
-    Producción limitada diaraia para garantizar la entrega antes del <strong>14 de febrero</strong>.<br>
-    ❌ Después ya no podrás pedir la tarifa basica para San Valentin.
-    ✔︎ Solo Media y Premium disponibles.
+    Producción limitada diaria para garantizar entrega antes del <strong>14 de febrero</strong><br>
+    <span class="countdown-timer__cross">❌</span> Después ya no podrás pedir la tarifa básica<br>
+    <span class="countdown-timer__check">✔️</span> Solo Media y Premium disponibles
   </div>
 </div>
 
