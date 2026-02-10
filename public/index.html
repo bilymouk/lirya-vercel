@@ -4967,13 +4967,6 @@ const form = root.querySelector("#lirya-form");
       const wantExampleCheckbox = root.querySelector("#want-example");
       const wantsExample = wantExampleCheckbox && wantExampleCheckbox.checked;
 
-      if (wantsExample) {
-        const phoneNumber = "34613745470";
-        const message = encodeURIComponent("Hola, acabo de rellenar el formulario de LIRYA y me gustaría escuchar un ejemplo real del estilo musical antes de confirmar el pago para asegurarme de que encaja perfectamente con lo que busco. ¡Gracias!");
-        const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
-        window.open(whatsappURL, "_blank");
-      }
-
     try {
         const r = await fetch("/api/payment", {
           method: "POST",
@@ -4995,7 +4988,23 @@ const form = root.querySelector("#lirya-form");
         if (!r.ok) throw new Error("Server " + r.status + " — " + (j?.details || j?.error || text || "sin detalles"));
         if (!j.url) throw new Error("Stripe no devolvió URL");
 
-        window.location.href = j.url;
+        // Si quiere ejemplo, abrir WhatsApp ANTES de redirigir
+        if (wantsExample) {
+          const phoneNumber = "34613745470";
+          const message = encodeURIComponent("Hola, acabo de rellenar el formulario de LIRYA y me gustaría escuchar un ejemplo real del estilo musical antes de confirmar el pago para asegurarme de que encaja perfectamente con lo que busco. ¡Gracias!");
+          const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+          
+          // Abrir WhatsApp
+          window.location.href = whatsappURL;
+          
+          // Esperar un momento y luego redirigir a Stripe
+          setTimeout(() => {
+            window.location.href = j.url;
+          }, 1500);
+        } else {
+          // Si no quiere ejemplo, ir directo a Stripe
+          window.location.href = j.url;
+        }
    } catch (err) {
         clearTimeout(timeoutId);
 
