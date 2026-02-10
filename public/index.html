@@ -3827,6 +3827,127 @@ root.addEventListener("click", (e) => {
     height: 14px;
     flex-shrink: 0;
   }
+
+/* ===== RESUMEN DEL PEDIDO ===== */
+.order-summary {
+  background: rgba(242, 201, 138, 0.08);
+  border: 1px solid rgba(242, 201, 138, 0.25);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.order-summary__title {
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f2c98a;
+  margin-bottom: 14px;
+  letter-spacing: .2px;
+}
+
+.order-summary__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.order-summary__item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.order-summary__label {
+  color: rgba(255, 255, 255, 0.75);
+  font-family: "Inter", sans-serif;
+}
+
+.order-summary__value {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 600;
+  font-family: "Playfair Display", serif;
+}
+
+.order-summary__value--highlight {
+  color: #f2c98a;
+  font-size: 20px;
+}
+
+/* ===== CHECKBOX WHATSAPP EJEMPLO ===== */
+.whatsapp-example {
+  margin-bottom: 18px;
+}
+
+.whatsapp-example__checkbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(37, 211, 102, 0.08);
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.whatsapp-example__checkbox-wrapper:hover {
+  background: rgba(37, 211, 102, 0.12);
+  border-color: rgba(37, 211, 102, 0.35);
+}
+
+.whatsapp-example__checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  margin: 2px 0 0 0;
+  cursor: pointer;
+  accent-color: #25d366;
+}
+
+.whatsapp-example__label {
+  flex: 1;
+  cursor: pointer;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.whatsapp-example__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.whatsapp-example__text {
+  font-family: "Inter", sans-serif;
+}
+
+/* ===== BOTÓN SEGURIDAD DEBAJO ===== */
+.payment-security-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  opacity: 0.85;
+  font-family: "Inter", sans-serif;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.payment-security-bottom svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #25d366;
+}
 </style>
 
 <div class="wrapper">
@@ -4162,6 +4283,23 @@ root.addEventListener("click", (e) => {
       <div class="step-helper">Recibirás un email de confirmación inmediato tras completar el pago.</div>
       <div class="step-errors" role="alert" aria-live="polite"></div>
 
+      <!-- RESUMEN DEL PEDIDO -->
+      <div class="order-summary">
+        <div class="order-summary__title">Resumen de tu pedido</div>
+        <div class="order-summary__item">
+          <span class="order-summary__label">Estilo musical:</span>
+          <span class="order-summary__value" id="summary-style">Balada romántica</span>
+        </div>
+        <div class="order-summary__item">
+          <span class="order-summary__label">Tarifa:</span>
+          <span class="order-summary__value order-summary__value--highlight" id="summary-tarifa">—</span>
+        </div>
+        <div class="order-summary__item">
+          <span class="order-summary__label">Entrega estimada:</span>
+          <span class="order-summary__value" id="summary-delivery">—</span>
+        </div>
+      </div>
+
       <div class="question">
         <label for="email">Email <span aria-label="requerido">*</span></label>
         <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" placeholder="tu@email.com">
@@ -4192,16 +4330,35 @@ root.addEventListener("click", (e) => {
         <div class="field-error-msg" data-error-for="phone" role="alert">Introduce tu teléfono.</div>
       </div>
 
+      <!-- CHECKBOX WHATSAPP EJEMPLO -->
+      <div class="whatsapp-example">
+        <label class="whatsapp-example__checkbox-wrapper" for="want-example">
+          <input 
+            type="checkbox" 
+            id="want-example" 
+            name="want_example" 
+            class="whatsapp-example__checkbox"
+            value="yes"
+          >
+          <span class="whatsapp-example__label">
+            <svg class="whatsapp-example__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <span class="whatsapp-example__text">Quiero escuchar un ejemplo real del estilo por WhatsApp antes de pagar</span>
+          </span>
+        </label>
+      </div>
+
       <div class="nav">
         <button class="back" type="button">← Atrás</button>
-        <button class="submit" type="button">Pagar y enviar</button>
+        <button class="submit" type="button">Crear mi canción</button>
       </div>
       
-      <div class="payment-security">
+      <div class="payment-security-bottom">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
         </svg>
-        <span>Pago seguro · Entrega garantizada antes del 14 de febrero</span>
+        <span>Pago seguro</span>
       </div>
     </div>
 
@@ -4225,7 +4382,11 @@ const form = root.querySelector("#lirya-form");
     relationshipHidden: root.querySelector("#relationship-hidden"),
     emailInput: root.querySelector("#email"),
     phoneInput: root.querySelector("#phone"),
-    telefonoBox: root.querySelector("#telefono-box")
+    telefonoBox: root.querySelector("#telefono-box"),
+    songStyleHidden: root.querySelector("#song_style-hidden"),
+    summaryStyle: root.querySelector("#summary-style"),
+    summaryTarifa: root.querySelector("#summary-tarifa"),
+    summaryDelivery: root.querySelector("#summary-delivery")
   };
 
   let i = 0;
@@ -4259,6 +4420,30 @@ const form = root.querySelector("#lirya-form");
     }, 250);
   }
 }
+
+  // Actualizar resumen del pedido
+  function updateOrderSummary() {
+    if (!elements.summaryStyle || !elements.summaryTarifa || !elements.summaryDelivery) return;
+
+    const style = elements.songStyleHidden?.value || "Balada romántica";
+    const tarifa = elements.tarifaHidden?.value || "";
+
+    elements.summaryStyle.textContent = style;
+
+    if (tarifa === "39") {
+      elements.summaryTarifa.textContent = "39€ — Estándar";
+      elements.summaryDelivery.textContent = "4–5 días";
+    } else if (tarifa === "59") {
+      elements.summaryTarifa.textContent = "59€ — Emocional";
+      elements.summaryDelivery.textContent = "2–3 días";
+    } else if (tarifa === "79") {
+      elements.summaryTarifa.textContent = "79€ — Prioritaria";
+      elements.summaryDelivery.textContent = "Entrega prioritaria";
+    } else {
+      elements.summaryTarifa.textContent = "—";
+      elements.summaryDelivery.textContent = "—";
+    }
+  }
 
 
   function fireLeadStep1(){
@@ -4440,10 +4625,14 @@ const form = root.querySelector("#lirya-form");
     steps.forEach((s, x) => s.classList.toggle("active", x === i));
     Array.from(progress.children).forEach((p, x) => p.classList.toggle("active", x <= i));
     validateStep(false);
+    updateOrderSummary();
     announce("Paso " + (i+1) + " de " + steps.length);
   }
 
-  form.addEventListener("input", () => validateStep(false));
+  form.addEventListener("input", () => {
+    validateStep(false);
+    updateOrderSummary();
+  });
 
   form.addEventListener("keydown", (e) => {
     const step = getStep();
@@ -4481,7 +4670,7 @@ const form = root.querySelector("#lirya-form");
   if (i < steps.length - 1) { 
   i++; 
   render(); 
-  focusFormCard(); // 👈 AÑADIDO
+  focusFormCard();
 }
 
 
@@ -4496,7 +4685,7 @@ const form = root.querySelector("#lirya-form");
       if (i > 0) { 
   i--; 
   render(); 
-  focusFormCard(); // 👈 AÑADIDO
+  focusFormCard();
 }
       return;
     }
@@ -4567,6 +4756,7 @@ const form = root.querySelector("#lirya-form");
 
       closeMenu();
       validateStep(false);
+      updateOrderSummary();
       btn.focus({ preventScroll: true });
     }
 
@@ -4772,6 +4962,17 @@ const form = root.querySelector("#lirya-form");
         fbc: fbcCookie,
         event_source_url: window.location.origin + window.location.pathname,
       };
+
+      // Comprobar si quiere ejemplo por WhatsApp
+      const wantExampleCheckbox = root.querySelector("#want-example");
+      const wantsExample = wantExampleCheckbox && wantExampleCheckbox.checked;
+
+      if (wantsExample) {
+        const phoneNumber = "34613745470";
+        const message = encodeURIComponent("Hola, acabo de rellenar el formulario de LIRYA y me gustaría escuchar un ejemplo real del estilo musical antes de confirmar el pago para asegurarme de que encaja perfectamente con lo que busco. ¡Gracias!");
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+        window.open(whatsappURL, "_blank");
+      }
 
     try {
         const r = await fetch("/api/payment", {
