@@ -3594,7 +3594,7 @@ root.addEventListener("click", (e) => {
 
   #formulario-lirya .question{margin-bottom:18px;text-align:left}
 
-  #formulario-lirya label{
+  #formulario-lirya label:not(.whatsapp-example__checkbox-wrapper){
     display:block;
     margin-bottom:8px;
     font-size:13.5px;
@@ -3972,6 +3972,29 @@ root.addEventListener("click", (e) => {
   height: 16px;
   flex-shrink: 0;
   color: #25d366;
+}
+
+/* ===== FIX CHECKBOX: Override de especificidad ===== */
+/* Este label debe ser flex (la regla global #formulario-lirya label lo estaba rompiendo) */
+#formulario-lirya label.whatsapp-example__checkbox-wrapper{
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px;
+  text-align: left;
+  margin-bottom: 0;
+  flex-wrap: nowrap;
+}
+
+/* Asegura que el checkbox no herede estilos globales */
+#formulario-lirya input.whatsapp-example__checkbox{
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  padding: 0 !important;
+  margin: 3px 0 0 0 !important;
+  flex: 0 0 18px;
+  display: block;
 }
 
 /* ===== MODAL WHATSAPP ===== */
@@ -5253,7 +5276,7 @@ const form = root.querySelector("#lirya-form");
 </script>
 
 </section>
-  
+
 <!-- ===============================
      REACCIONES REALES · EMOCIONES REALES
 ================================ -->
