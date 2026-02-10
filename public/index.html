@@ -3602,7 +3602,8 @@ root.addEventListener("click", (e) => {
     color: rgba(255,255,255,.92);
   }
 
-  #formulario-lirya input,
+  /* SOLO inputs de texto (evita que afecte a checkbox) */
+  #formulario-lirya input:not([type="checkbox"]):not([type="radio"]),
   #formulario-lirya textarea{
     width:100%;
     padding: 14px 16px;
@@ -3617,6 +3618,15 @@ root.addEventListener("click", (e) => {
 
     outline: none;
     transition: box-shadow .2s ease, border-color .2s ease;
+  }
+
+  /* Override extra: checkbox/radio nunca debe tener width/padding global */
+  #formulario-lirya input[type="checkbox"],
+  #formulario-lirya input[type="radio"]{
+    width: auto !important;
+    padding: 0 !important;
+    border-radius: 0;
+    background: transparent;
   }
 
   #formulario-lirya input::placeholder,
@@ -3884,6 +3894,7 @@ root.addEventListener("click", (e) => {
 .whatsapp-example__checkbox-wrapper {
   display: flex;
   align-items: flex-start;
+  text-align: left;
   gap: 12px;
   padding: 14px 16px;
   background: rgba(37, 211, 102, 0.08);
@@ -3899,14 +3910,15 @@ root.addEventListener("click", (e) => {
 }
 
 .whatsapp-example__checkbox {
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-  margin: 2px 0 0 0;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  margin: 3px 0 0 0;
   padding: 0;
   cursor: pointer;
   accent-color: #25d366;
-  flex-shrink: 0;
+  flex: 0 0 auto;
 }
 
 .whatsapp-example__text-wrapper {
