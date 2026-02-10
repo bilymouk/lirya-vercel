@@ -4812,11 +4812,6 @@ const form = root.querySelector("#lirya-form");
   focusFormCard();
 }
 
-
-  if (prevStepIndex === 0 && i === 1) {
-    fireLeadStep1();
-  }
-
   return;
 }
 
@@ -5010,6 +5005,26 @@ const form = root.querySelector("#lirya-form");
       if (processingPayment) return;
 
       if (!safeValidateStep(true)) return;
+
+      // ✅ DISPARAR LEAD AQUÍ (Paso 6 - Botón "Crear mi canción")
+      const leadEventId = newEventId();
+      try { sessionStorage.setItem("lirya_lead_event_id", leadEventId); } catch(_) {}
+      
+      const tarifaValue = (val("tarifa-hidden") || "").trim();
+      const relationshipValue = (val("relationship-hidden") || "").trim();
+      
+      if (typeof window.LIRYA_TRACK === "function") {
+        try {
+          window.LIRYA_TRACK("Lead", {
+            content_name: "Formulario completo - Click en Crear mi canción",
+            step: 6,
+            plan: tarifaValue || undefined,
+            relationship: relationshipValue || undefined
+          }, { eventId: leadEventId });
+        } catch(e) {
+          console.warn("Lead tracking error:", e);
+        }
+      }
 
       processingPayment = true;
 
