@@ -218,9 +218,9 @@ module.exports = async (req, res) => {
     const tarifa = String(f.tarifa || "").trim();
     let amount;
 
-    if (tarifa === "39") amount = 3900; // ✅
-    else if (tarifa === "59") amount = 5900;
-    else if (tarifa === "79") amount = 7900;
+    if (tarifa === "24.99") amount = 2499; // ✅
+    else if (tarifa === "39.99") amount = 3999;
+    else if (tarifa === "59.99") amount = 5999;
     else {
       console.warn("[payment] validation_error: invalid_tarifa", { requestId, tarifa });
       return json(res, 400, { code: "VALIDATION_ERROR", error: "Tarifa no válida", requestId });
